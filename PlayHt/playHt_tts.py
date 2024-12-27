@@ -3,10 +3,10 @@
 import os
 import sys
 import pandas as pd
-import requests
 import logging
 import time
 import numpy as np
+import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
 

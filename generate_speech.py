@@ -6,6 +6,7 @@ from PlayHt import playHt_tts
 import pandas as pd
 import os
 import numpy as np
+import sys
 import csv
 import shutil
 import urllib
@@ -35,7 +36,7 @@ master_file_path = "translation_master.csv"
 # so use a webURL
 #### Switch to audio-generation repo once there is a real Crowdin account
 #    with permission to write to it
-webURL = "https://raw.githubusercontent.com/digital-pro/levante-audio/translated.csv"
+webURL = "https://raw.githubusercontent.com/digital-pro/levante-audio/l10n_main2/translated.csv"
 
 # Turn into dataframe so we can do any needed edits
 translationData = pd.read_csv(webURL)
@@ -138,8 +139,21 @@ output_file_path (str, optional): The path for the output CSV files to create an
 audio_dir (str, optional): The directory to store the audio files. Defaults to "audio_files/{lang_code}/".
 
 """
-playHt_tts.main(input_file_path = diff_file_name, lang_code = lang_code,
-             master_file_path=master_file_path, voice=voice, audio_base_dir = audio_base_dir)
+playHt_tts.main(
+    input_file_path = diff_file_name, 
+    lang_code = lang_code,
+    master_file_path=master_file_path, 
+    voice=voice, 
+    audio_base_dir = audio_base_dir)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 
+
+def main(
+    lang_code: str,
+    voice: str,
+    #user_id: str = None,
+    #api_key: str = None,
+):
+    if __name__ == "__main__":
+        main(*sys.argv[1:])
