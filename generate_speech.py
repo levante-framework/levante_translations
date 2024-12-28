@@ -80,14 +80,26 @@ else:
     # Create baseline masterData
 
 # Currently used play.ht voices for reference
-# es-CO -- es-CO-SalomeNeural
-# de -- VickiNeural
-# en-US -- en-US-AriaNeural
-
 # Hard-coded as a test 
 # should get these as parameters
-voice = 'es-CO-SalomeNeural'
-lang_code = 'es-CO'
+
+#voice = 'es-CO-SalomeNeural'
+#lang_code = 'es-CO'
+#retry_seconds = .5
+
+#voice = 'VickiNeural'
+#lang_code = 'de'
+#retry_seconds = 5
+
+voice = 'en-US-AriaNeural'
+lang_code = 'en'
+retry_seconds = .5
+
+# We can check for filler columns if they the same as English??
+# But sometimes they are the same??
+# Or maybe generate unless we get an error (then what?)
+source_lang_code = 'en'
+
 
 # Now we have masterData & translationData
 # We want to compare the appropriate column to see if we need to generate
@@ -111,21 +123,24 @@ for index, ourRow in translationData.iterrows():
     if translationCurrent == translationNeeded:
         continue
 
-    # We have something to generate
-    new_row = pd.DataFrame(ourRow)
-
-    # separate for the Nan case and the tuple case
     try:
-        # is this ever a series anymore?
-        foo = len(diffData)
-        if type(translationCurrent) != 'pandas.core.series.Series':
-            diffData.loc[len(diffData)] = ourRow
-        elif (translationNeeded != translationCurrent[0]):
-            diffData.loc[len(diffData)] = ourRow
+        if isinstance(diffData, pd.DataFrame):
 
-        # Do something with the value
+            ##### This Still doesn't work:)
+            diffData.loc[len(diffData)] = ourRow
+        else:
+            print("The variable 'diffData' exists but is not a DataFrame")
     except NameError:
-        diffData = translationData.iloc[[index],:]     
+        # seed diffData with ourRow
+        # There _has_ to be a more flexible way!!
+        starterRow = {'item_id' : ourRow['item_id'],
+                      'en'      : ourRow['en'],
+                      'es-CO'   : ourRow['es-CO'],
+                      'de'      : ourRow['de'],
+                      'labels'  : ourRow['labels']
+                      }
+        diffData = pd.DataFrame(starterRow, index=[0])
+
 diffData.to_csv(diff_file_name)
 
 """
@@ -144,6 +159,7 @@ playHt_tts.main(
     lang_code = lang_code,
     master_file_path=master_file_path, 
     voice=voice, 
+    retry_seconds = retry_seconds,
     audio_base_dir = audio_base_dir)
 
 # IF we're happy with the output then

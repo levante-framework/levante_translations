@@ -24,6 +24,7 @@ def main(
         master_file_path: str,
         lang_code: str,
         voice: str,
+        retry_seconds: float,
         user_id: str = None,
         api_key: str = None,
         output_file_path: str = None,
@@ -38,6 +39,7 @@ def main(
         input_file_path (str): The path of the input CSV file where details of text and of past tts transactions are extracted.
         lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
         voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
+        retry_seconds (float64): How many seconds to wait to retry translation
         user_id (str, optional): The user ID for authentication. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_USER_ID'.
         api_key (str, optional): The api key authenticating our API calls. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_API_KEY'.
         item_id_column (str, optional): column name in the input file for stable and unique item ID. Defaults to 'item_id'.
@@ -121,6 +123,10 @@ def main(
                 status_params = {"transcriptionId": transcription_id}
                 status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
                 status_data = status_response.json()
+                if 'error' in status_data:
+                    if status_data['error'] == True:
+                        print(f'Error translating {ourRow['item_id']}')
+                        break
 
                 if status_data["converted"] == True:
                     print(f"Conversion for {ourRow['item_id']} completed successfully!")
@@ -155,7 +161,7 @@ def main(
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
                     # currently most tasks complet in about 1 second, so .5 seconds
                     # seems like a good tradeoff between "over-polling" and "over-waiting"
-                    time.sleep(.5)  # Wait before checking again
+                    time.sleep(retry_seconds)  # Wait before checking again
     
 
 if __name__ == "__main__":
