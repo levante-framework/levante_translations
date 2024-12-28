@@ -83,13 +83,13 @@ else:
 # Hard-coded as a test 
 # should get these as parameters
 
-voice = 'es-CO-SalomeNeural'
-lang_code = 'es-CO'
-retry_seconds = .5
+#voice = 'es-CO-SalomeNeural'
+#lang_code = 'es-CO'
+#retry_seconds = .5
 
-#voice = 'VickiNeural'
-#lang_code = 'de'
-#retry_seconds = 5
+voice = 'VickiNeural'
+lang_code = 'de'
+retry_seconds = 1
 
 #voice = 'en-US-AriaNeural'
 #lang_code = 'en'
@@ -99,7 +99,6 @@ retry_seconds = .5
 # But sometimes they are the same??
 # Or maybe generate unless we get an error (then what?)
 source_lang_code = 'en'
-
 
 # Now we have masterData & translationData
 # We want to compare the appropriate column to see if we need to generate
