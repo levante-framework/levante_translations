@@ -92,7 +92,7 @@ def main(
 
         # we should potentially filter these out when we generate diffs
         if not (type(ourRow['labels']) == type('str')):
-            print("Item {ourRow['item_id']} doesn't have task assigned")
+            print(f"Item {ourRow['item_id']} doesn't have task assigned")
             continue
         data = {
             # content needs to be an array, even if we only do one at a time

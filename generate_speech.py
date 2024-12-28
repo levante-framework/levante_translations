@@ -83,17 +83,17 @@ else:
 # Hard-coded as a test 
 # should get these as parameters
 
-#voice = 'es-CO-SalomeNeural'
-#lang_code = 'es-CO'
-#retry_seconds = .5
+voice = 'es-CO-SalomeNeural'
+lang_code = 'es-CO'
+retry_seconds = .5
 
 #voice = 'VickiNeural'
 #lang_code = 'de'
 #retry_seconds = 5
 
-voice = 'en-US-AriaNeural'
-lang_code = 'en'
-retry_seconds = .5
+#voice = 'en-US-AriaNeural'
+#lang_code = 'en'
+#retry_seconds = .5
 
 # We can check for filler columns if they the same as English??
 # But sometimes they are the same??
