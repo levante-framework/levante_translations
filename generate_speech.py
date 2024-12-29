@@ -26,25 +26,25 @@ def generate_audio(lang_code, voice):
 #    with permission to write to it
     webURL = "https://raw.githubusercontent.com/digital-pro/levante-audio/l10n_main2/translated.csv"
 
-# Turn into dataframe so we can do any needed edits
+    # Turn into dataframe so we can do any needed edits
     translationData = pd.read_csv(webURL)
 
-# Trying to get save files co-erced into our desired path
+    # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
 
-# Current export from Crowdin has columns of
-# identifier -> item_id
-# labels -> task
-# text -> en-US
+    # Current export from Crowdin has columns of
+    # identifier -> item_id
+    # labels -> task
+    # text -> en
     translationData = translationData.rename(columns={'identifier': 'item_id'})
     translationData = translationData.rename(columns={'text': 'en'})
-#translationData = translationData.rename(columns={'labels': 'task'})
+    #translationData = translationData.rename(columns={'labels': 'task'})
 
-# All data that we need to make sure is or has been generated
+    # All data that we need to make sure is or has been generated
     translationData.to_csv(input_file_name)
 
-# The "master file" of already generated strings
-# There is/may also be an existing .csv file (translation_master.csv)
+    # The "master file" of already generated strings
+    # There is/may also be an existing .csv file (translation_master.csv)
     if os.path.exists("translation_master.csv"):
         masterData = pd.read_csv(master_file_path)
     else:
@@ -57,20 +57,20 @@ def generate_audio(lang_code, voice):
         masterData.to_csv(master_file_path)
         # Create baseline masterData
 
-# Now we have masterData & translationData
-# We want to compare the appropriate column to see if we need to generate
+    # Now we have masterData & translationData
+    # We want to compare the appropriate column to see if we need to generate
 
-# translationData is the exported csv from Crowdin
-# masterData is our state of generated audio files
+    # translationData is the exported csv from Crowdin
+    # masterData is our state of generated audio files
 
     for index, ourRow in translationData.iterrows():
         print(f'Our lang: {lang_code} our row lang: {ourRow["en"]}')
-    # check to see if our lang_code is already matched 
-    # this is the language phrase we need to see if we have generated
+        # check to see if our lang_code is already matched 
+        # this is the language phrase we need to see if we have generated
         translationNeeded = ourRow[lang_code]
         item_id = ourRow['item_id']
 
-    # Find what we have generated for that phrase currently
+        # Find what we have generated for that phrase currently
         try:
             translationCurrent = masterData.loc[masterData['item_id'] == item_id, lang_code].iloc[0]
         except:
@@ -81,14 +81,12 @@ def generate_audio(lang_code, voice):
 
         try:
             if isinstance(diffData, pd.DataFrame):
-
-            ##### This Still doesn't work:)
                 diffData.loc[len(diffData)] = ourRow
             else:
                 print("The variable 'diffData' exists but is not a DataFrame")
         except NameError:
-        # seed diffData with ourRow
-        # There _has_ to be a more flexible way!!
+            # seed diffData with ourRow
+            # There _has_ to be a more flexible way!!
             starterRow = {'item_id' : ourRow['item_id'],
                       'en'      : ourRow['en'],
                       'es-CO'   : ourRow['es-CO'],
@@ -117,8 +115,6 @@ def generate_audio(lang_code, voice):
     """
 
 
-# IF we're happy with the output then
-# gsutil rsync -d -r <src> gs://<bucket> 
 
 def main(
     lang_code: str,
@@ -126,8 +122,10 @@ def main(
     user_id: str = None,
     api_key: str = None
 ):
-    print(f'About to generate audio')
-    generate_audio(lang_code, voice)
+    generate_audio(lang_code=lang_code, voice=voice)
         
 if __name__ == "__main__":
     main(*sys.argv[1:])
+
+# IF we're happy with the output then
+# gsutil rsync -d -r <src> gs://<bucket> 
