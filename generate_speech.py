@@ -9,7 +9,7 @@ import numpy as np
 import sys
 
 # Experimental
-from filter_tags import filter_HTML, filter_SSML
+from filtering.filter_tags import filter_HTML, filter_SSML
 
 def generate_audio(lang_code, voice): 
 # Retrieve translations.csv from the repo
