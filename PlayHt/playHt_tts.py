@@ -86,7 +86,7 @@ def processRow(index, ourRow, lang_code, voice, \
                 if 'error' in status_data:
                     if status_data['error'] == True: # and \
                         #status_data['message'] != 'Transcription still in progress':
-                        print(f'Error translating {ourRow['item_id']}')
+                        print(f'Error translating {ourRow["item_id"]}')
                         restartRequest = True
                         errorCount = errorCount+1
                         continue # we want to start the loop over

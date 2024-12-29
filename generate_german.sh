@@ -1,0 +1,1 @@
+python generate_speech.py --lang_code 'de' --voice 'VickiNeural'
