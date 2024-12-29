@@ -31,7 +31,7 @@ class App(ctk.CTk):
 
     def create_table(self, parent):
         # Create a treeview widget for the table
-        columns = ("Item", "English", "Translated", "Audio")
+        columns = ("Item", "Task", "English", "Translated", "Audio")
         self.tree = ttk.Treeview(parent, columns=columns, show="headings")
 
         # Define column headings
@@ -39,16 +39,12 @@ class App(ctk.CTk):
             self.tree.heading(col, text=col)
             self.tree.column(col, width=150)
 
-        # Add sample data
-#        data = [
-#            ("John Doe", "30", "New York"),
-#        ]
-
         ## Hack file name!
         ourData = pd.read_csv("c:/levante/audio-generation/item_bank_translations.csv")
         # Insert DataFrame rows into the Treeview
         for index, row in ourData.iterrows():
-            self.tree.insert("", "end", values=list(row))
+            values = [row['item_id'], row['labels'], row['en'], row['es-CO']]
+            self.tree.insert("", "end", values=values)
 
             self.tree.pack(expand=True, fill="both")
 
