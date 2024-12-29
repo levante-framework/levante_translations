@@ -64,7 +64,7 @@ def processRow(index, ourRow, lang_code, voice, \
         else:
             logging.error(f"convert_tts: no response for item={ourRow['item_id']}: status code={response.status_code}")
             # sometimes a retry works after no response
-            errorCount = errorCount+1
+            errorCount += 1
             continue
 
         # status is a little awkward to parse. Some errors aren't exactly errors
@@ -88,7 +88,7 @@ def processRow(index, ourRow, lang_code, voice, \
                         #status_data['message'] != 'Transcription still in progress':
                         print(f'Error translating {ourRow["item_id"]}')
                         restartRequest = True
-                        errorCount = errorCount+1
+                        errorCount += 1
                         continue # we want to start the loop over
                         
                 if status_data["converted"] == True:
