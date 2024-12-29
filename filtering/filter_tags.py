@@ -2,9 +2,10 @@
 from bs4 import BeautifulSoup
 
 # Params:
-#   tagtype, 
-#   inputstring,
-#   outputstring
+#   inputstring
+#
+# Returns:
+#   filtered string
 
 def filter_HTML(input_string):
 

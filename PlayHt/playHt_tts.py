@@ -14,14 +14,15 @@ from datetime import datetime
 API_URL = "https://api.play.ht/api/v1/convert"
 STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 
+# wrapper so trying to create a directory that exists doesn't fail
 def create_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
     return path
-    # find the full path for an audio file to write
-    # we want to echo the repo & GCP heirarchy to save re-doing later
-    # e.g. <base>/task/language/shared/<item>.mp3
 
+# find the full path for an audio file to write
+# we want to echo the repo & GCP heirarchy to save re-doing later
+# e.g. <base>/task/language/shared/<item>.mp3
 def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
     full_file_folder = \
         os.path.join(audio_base_dir, task_name, lang_code, "shared")
@@ -30,31 +31,39 @@ def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
     full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
     return full_file_path
 
+# Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, \
                masterData, audio_base_dir, headers):
 
-    # reset error count for new row
+    # reset local error count for new row
     errorCount = 0
-    retrySeconds = 2
+    retrySeconds = 1 # sort of arbitrary backoff to recheck status
 
     # we should potentially filter these out when we generate diffs
+    # instead of waiting until now. But at some point we might
+    # want to generate them as part of an "unassigned" task or something
     if not (type(ourRow['labels']) == type('str')):
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
+
+    # Assemble data packet to pass to PlayHT
+    # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
     data = {
         # content needs to be an array, even if we only do one at a time
         "content" : [ourRow[lang_code]],
         "voice": voice,
-        "title": "Individual Audio",
+        "title": "Levante Audio", # not sure where this matters?
         "trimSilence": True
     }
 
-    restartRequest = False
 
     ## Use a While loop so we can retry odd failure cases
-    # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
     while True and errorCount < 5:
         response = requests.post(API_URL, headers=headers, json=data) 
+
+        # In some cases we get an odd error that appears to suggest the
+        # transcription is still in progress, but it never finishes
+        # to handle that case, we abandon that transaction & start a new one
         restartRequest = False
         # 201 means that we got a response of some kind
         if response.status_code == 201:
@@ -73,7 +82,7 @@ def processRow(index, ourRow, lang_code, voice, \
         if "transcriptionId" in json_status:
             # This means that we've successfully started the transcription
             transcription_id = json_status["transcriptionId"]
-            print(f"Conversion initiated. Transcription ID: {transcription_id}")
+            print(f"Conversion initiated for: {ourRow['item_id']}")
         
             # Poll the status until completion or we get 5 error returns
             while True and errorCount < 5 and restartRequest == False:
@@ -90,10 +99,11 @@ def processRow(index, ourRow, lang_code, voice, \
                         restartRequest = True
                         errorCount += 1
                         continue # we want to start the loop over
-                        
+
+                # Our transcription is successful                        
                 if status_data["converted"] == True:
                     print(f"Conversion for {ourRow['item_id']} completed successfully!")
-                    print(f"Audio URL: {status_data['audioUrl']}")
+                    #print(f"Audio URL: {status_data['audioUrl']}")
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
 
@@ -109,18 +119,16 @@ def processRow(index, ourRow, lang_code, voice, \
                         with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
                                 audio_base_dir, lang_code), "wb") as file:
                             file.write(audioData.content)
-                            # Write label ourRow in PD as translated?
-                            # write content to masterData
-                            
-                            # this doesn't work right!! Extra Column already added
+
+                            # Update our "cache" of successful transcriptions                            
                             masterData[lang_code] = \
                                 np.where(masterData["item_id"] == ourRow["item_id"], \
                                 ourRow[lang_code], masterData[lang_code])
 
-                                # write as we go, so erroring out doesn't lose progress
-                                # Translated, so we can save it to a master sheet
+                            # write as we go, so erroring out doesn't lose progress
+                            # Translated, so we can save it to a master sheet
                             masterData.to_csv("translation_master.csv")
-                    # finished with the if statement        
+                            # finished with the if statement        
                             return 'Success'    
                 else:
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
