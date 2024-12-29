@@ -9,27 +9,12 @@ import numpy as np
 import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
+import utilities as u
 
 # Constants for API, in this case for Play.Ht, maybe
 API_URL = "https://api.play.ht/api/v1/convert"
 STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 
-# wrapper so trying to create a directory that exists doesn't fail
-def create_directory(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
-
-# find the full path for an audio file to write
-# we want to echo the repo & GCP heirarchy to save re-doing later
-# e.g. <base>/task/language/shared/<item>.mp3
-def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
-    full_file_folder = \
-        os.path.join(audio_base_dir, task_name, lang_code, "shared")
-    if not os.path.exists(full_file_folder):
-        os.makedirs(full_file_folder, exist_ok=True)
-    full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
-    return full_file_path
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, \
@@ -116,7 +101,7 @@ def processRow(index, ourRow, lang_code, voice, \
                     if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
                         restartRequest = False
                         errorCount = 0
-                        with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
+                        with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
                                 audio_base_dir, lang_code), "wb") as file:
                             file.write(audioData.content)
 
