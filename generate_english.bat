@@ -1,1 +1,1 @@
-python generate_speech.py --lang_code 'en' --voice 'en-US-AriaNeural'
+python generate_speech.py "en" "en-US-AriaNeural"
