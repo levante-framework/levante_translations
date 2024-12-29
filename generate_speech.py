@@ -8,30 +8,22 @@ import os
 import numpy as np
 import sys
 
-# Experimental
-from filtering.filter_tags import filter_HTML, filter_SSML
-
-## driver routine that does all the work
 def generate_audio(lang_code, voice): 
 # Retrieve translations.csv from the repo
 # NOTE: If special characters get munged, will need to
 #       arrange for an export/download directly from Crowdin
 #
-    # full database of current translations (typically from Crowdin)
+# For testing don't co-host with Text Translation repo
     input_file_name = "item_bank_translations.csv"
-
-    # Here is where we put the items that need transcription
     diff_file_name = "needed_item_bank_translations.csv"
-
-    # This is our "cache" of completed transcriptions
     master_file_path = "translation_master.csv"
 
-    # Raw Github URL for translations uploaded from Crowdin
-    # for debugging use the service branch, later change to main
-    # Right now this is our repo, but it might wind up somewhere else,
-    # so use a webURL
-    #### Switch to audio-generation repo once there is a real Crowdin account
-    #    with permission to write to it
+# Raw Github URL for translations uploaded from Crowdin
+# for debugging use the service branch, later change to main
+# Right now this is our repo, but it might wind up somewhere else,
+# so use a webURL
+#### Switch to audio-generation repo once there is a real Crowdin account
+#    with permission to write to it
     webURL = "https://raw.githubusercontent.com/digital-pro/levante-audio/l10n_main2/translated.csv"
 
     # Turn into dataframe so we can do any needed edits
@@ -114,12 +106,16 @@ def generate_audio(lang_code, voice):
         audio_base_dir = audio_base_dir)
 
 """
+
     Args:
         
         lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
         voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
 
-"""
+    """
+
+
+
 def main(
     lang_code: str,
     voice: str,
@@ -130,8 +126,6 @@ def main(
         
 if __name__ == "__main__":
     main(*sys.argv[1:])
-# for debugging
-#    main("en", "en-US-AriaNeural")
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 
