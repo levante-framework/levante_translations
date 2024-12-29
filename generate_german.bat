@@ -1,1 +1,1 @@
-python generate_speech.py --lang_code "de" --voice "VickiNeural"
+python generate_speech.py "de" "VickiNeural"

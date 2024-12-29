@@ -129,6 +129,8 @@ def main(
         
 if __name__ == "__main__":
     main(*sys.argv[1:])
+# for debugging
+#    main("en", "en-US-AriaNeural")
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 
