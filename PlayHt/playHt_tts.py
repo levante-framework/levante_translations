@@ -40,7 +40,7 @@ def processRow(index, ourRow, lang_code, voice, \
     # we should potentially filter these out when we generate diffs
     if not (type(ourRow['labels']) == type('str')):
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
-        return 'Error'
+        return 'NoTask'
     data = {
         # content needs to be an array, even if we only do one at a time
         "content" : [ourRow[lang_code]],
@@ -121,7 +121,7 @@ def processRow(index, ourRow, lang_code, voice, \
                                 # Translated, so we can save it to a master sheet
                             masterData.to_csv("translation_master.csv")
                     # finished with the if statement        
-                            return True    
+                            return 'Success'    
                 else:
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
                     # currently most tasks complet in about 1 second, so .5 seconds
@@ -131,8 +131,22 @@ def processRow(index, ourRow, lang_code, voice, \
                 continue
     else:
         # we've tried several times
-        return False
+        return 'Error'
     
+    """
+    The main function to process the transcription jobs.
+    NOTE: Not all arguments are impleented!
+    Args:
+        input_file_path (str): The path of the input CSV file where details of text and of past tts transactions are extracted.
+        lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
+        voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
+        retry_seconds (float64): How many seconds to wait to retry translation
+        user_id (str, optional): The user ID for authentication. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_USER_ID'.
+        api_key (str, optional): The api key authenticating our API calls. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_API_KEY'.
+        item_id_column (str, optional): column name in the input file for stable and unique item ID. Defaults to 'item_id'.
+        audio_dir (str, optional): The directory to store the audio files. Defaults to "audio_files/{lang_code}/".
+    """
+
 def main(
         input_file_path: str,
         master_file_path: str,
@@ -145,19 +159,6 @@ def main(
         item_id_column: str = 'item_id',
         audio_base_dir: str = None
         ):
-    """
-    The main function to process the transcription jobs.
-
-    Args:
-        input_file_path (str): The path of the input CSV file where details of text and of past tts transactions are extracted.
-        lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
-        voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
-        retry_seconds (float64): How many seconds to wait to retry translation
-        user_id (str, optional): The user ID for authentication. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_USER_ID'.
-        api_key (str, optional): The api key authenticating our API calls. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_API_KEY'.
-        item_id_column (str, optional): column name in the input file for stable and unique item ID. Defaults to 'item_id'.
-        audio_dir (str, optional): The directory to store the audio files. Defaults to "audio_files/{lang_code}/".
-    """
         
 
     if user_id is None:
@@ -186,11 +187,23 @@ def main(
         'Content-Type': 'application/json'
     }
     
+    stats = {'Errors': 0, 'Processed' : 0, 'NoTask': 0}
     for index, ourRow in inputData.iterrows():
 
         result = processRow(index, ourRow, lang_code=lang_code, voice=voice, \
                             audio_base_dir=audio_base_dir, masterData=masterData, \
                             headers=headers)
+        
+        # replace with match once we are past python 3.10
+        if result == 'Error':
+            stats['Errors']+= 1
+        elif result == 'NoTask':
+            stats['NoTask']+= 1
+        elif result == 'Success':
+            stats['Processed']+= 1
+
+    print(f"Processed: {stats['Processed']}, Errors: {stats['Errors']}, \
+          No Task: {stats['NoTask']}")
 
 if __name__ == "__main__":
     main(*sys.argv[1:])
