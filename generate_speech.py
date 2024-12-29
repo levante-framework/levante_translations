@@ -80,15 +80,14 @@ else:
     # Create baseline masterData
 
 # Currently used play.ht voices for reference
-# Hard-coded as a test 
-# should get these as parameters
 
-#voice = 'es-CO-SalomeNeural'
-#lang_code = 'es-CO'
+voice = 'es-CO-SalomeNeural'
+lang_code = 'es-CO'
+print(f'Called with: {lang_code} and: {voice}')
 #retry_seconds = .5
 
-voice = 'VickiNeural'
-lang_code = 'de'
+#voice = 'VickiNeural'
+#lang_code = 'de'
 retry_seconds = 1
 
 #voice = 'en-US-AriaNeural'
@@ -166,9 +165,11 @@ playHt_tts.main(
 
 def main(
     lang_code: str,
-    voice: str,
+    voice: str
     #user_id: str = None,
     #api_key: str = None,
 ):
+    
+    
     if __name__ == "__main__":
         main(*sys.argv[1:])
