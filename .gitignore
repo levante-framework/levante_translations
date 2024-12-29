@@ -1,7 +1,13 @@
 .DS_Store
 
+# Local additions
 audio_files/**
 snapshots_*/**
+
+# These get imported & regenerated, so not sure they need to be put in the repo
+item_bank_translations.csv
+needed_item_bank_translations.csv
+
 # avoid exposing secrets via debug configuration
 .vscode
 
