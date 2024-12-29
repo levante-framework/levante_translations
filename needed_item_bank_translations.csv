@@ -1,63 +1,583 @@
 ,item_id,en,es-CO,de,labels
-0,shared-intro-devices,"You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.","You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.","You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.",trog
-1,TeacherNice,Is your teacher nice to you?,¿Te trata bien tu profesor?,Ist dein Lehrer nett zu dir?,survey
-2,ToM-scene7-instruct1,"Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.","Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.","Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.",
-3,ToM-scene7-instruct2,"But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.","But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.","But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.",
-4,ToM-scene7-instruct3,So now it’s playtime and Diana wants her toy.,So now it’s playtime and Diana wants her toy.,So now it’s playtime and Diana wants her toy.,
-5,ToM-scene7-q1-false_belief,Where will Diana look for her toy?,Where will Diana look for her toy?,Where will Diana look for her toy?,
-6,ToM-scene7-q2-reality_check,And where is her toy really?,And where is her toy really?,And where is her toy really?,
-7,ToM-scene8-instruct1,"This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.","This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.","This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.",
-8,ToM-scene8-instruct2,"And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?","And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?","And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?",
-9,ToM-scene8-instruct3,"Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.","Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.","Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.",
-10,ToM-scene8-q1-false_belief,"Now, when Allie comes in from outside, where will she look first for her pencil?","Now, when Allie comes in from outside, where will she look first for her pencil?","Now, when Allie comes in from outside, where will she look first for her pencil?",
-11,top,On top of the backpack shelf,On top of the backpack shelf,On top of the backpack shelf,
-12,behind,Behind the backpack shelf,Behind the backpack shelf,Behind the backpack shelf,
-13,ToM-scene-8-instruct4,"Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!","Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!","Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!",
-14,ToM-scene-8-q2-emotion_reasoning,How do you think Mike feels about Allie reaching for that pencil?,How do you think Mike feels about Allie reaching for that pencil?,How do you think Mike feels about Allie reaching for that pencil?,
-15,ToM-scene-8-q3-emotion_reasoning,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,
-16,ToM-scene-8-q4-false_belief,Is Allie being mean and naughty for taking Mike’s pencil?,Is Allie being mean and naughty for taking Mike’s pencil?,Is Allie being mean and naughty for taking Mike’s pencil?,
-17,ToM-scene-8-q5-false_belief,Should Allie get in trouble with the teacher for taking Mike’s pencil?,Should Allie get in trouble with the teacher for taking Mike’s pencil?,Should Allie get in trouble with the teacher for taking Mike’s pencil?,
-18,ToM-scene-8-q6-reality_check,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,
-19,ToM-scene-8-q7-reality_check,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,
-20,ToM-scene-9-instruct1,"This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.","This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.","This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.",
-21,ToM-scene-9-instruct2,"Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!","Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!","Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!",
-22,ToM-scene-9-q1-reality_check,What did Mark mean to draw?,What did Mark mean to draw?,What did Mark mean to draw?,
-23,hill,A hill,A hill,A hill,
-24,cup,A cup,A cup,A cup,
-25,ToM-scene-9-q2-false_belief,"When Mom sees the picture, what book will she give Mark? ","When Mom sees the picture, what book will she give Mark? ","When Mom sees the picture, what book will she give Mark? ",
-26,ToM-scene-9-q3-reality_check,What book does Mark really want? ,What book does Mark really want? ,What book does Mark really want? ,
-27,hillsbook,The book about hills,The book about hills,The book about hills,
-28,cupbook,The book about cups,The book about cups,The book about cups,
-29,ToM-scene-9-q4-emotion_reasoning,"Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?","Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?","Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?",
-30,ToM-scene-10-instruct1,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,
-31,ToM-scene-10-instruct2,"Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.","Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.","Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.",
-32,ToM-scene-10-q1-emotion_reasoning,How does Megan feel about being the only child without a storybook?,How does Megan feel about being the only child without a storybook?,How does Megan feel about being the only child without a storybook?,
-33,ToM-scene-10-q2-emotion_reasoning,How would Megan feel if she received a book?,How would Megan feel if she received a book?,How would Megan feel if she received a book?,
-34,ToM-scene-10-instruct3,"Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”",
-35,ToM-scene-10-q3-reality_check,Is Brian lying?,Is Brian lying?,Is Brian lying?,
-36,ToM-scene-10-q4-reality_check,"Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?",
-37,ToM-scene-10-instruct4,"Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”","Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”","Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”",
-38,ToM-scene-10-q5-false_belief,Is Teacher Sarah lying?,Is Teacher Sarah lying?,Is Teacher Sarah lying?,
-39,ToM-scene-10-q6-reality_check,"Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?",
-40,ToM-scene-11-instruct1,"This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.","This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.","This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.",
-41,ToM-scene-11-instruct2,"Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”",
-42,ToM-scene-11-q1-reference,Which ball will mom get for Josh?,Which ball will mom get for Josh?,Which ball will mom get for Josh?,
-43,ToM-scene-11-q2-reality_check,Which ball does Josh want?,Which ball does Josh want?,Which ball does Josh want?,
-44,baseball,The baseball,The baseball,The baseball,
-45,soccerball,The soccer ball,The soccer ball,The soccer ball,
-46,basketball,The basketball,The basketball,The basketball,
-47,ToM-scene-11-q3-emotion_reasoning,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,
-48,ToM-scene-11-q4-emotion_reasoning,How do you think Josh would feel if he had received the correct toy?,How do you think Josh would feel if he had received the correct toy?,How do you think Josh would feel if he had received the correct toy?,
-49,ToM-scene-12-instruct1,"This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.",
-50,ToM-scene-12-instruct2,"Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.","Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.","Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.",
-51,ToM-scene-12-q1-false_belief,Which toy does Dad think Emma wants to bring to school?,Which toy does Dad think Emma wants to bring to school?,Which toy does Dad think Emma wants to bring to school?,
-52,ToM-scene-12-instruct3,"Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.",
-53,ToM-scene-12-q2-false_belief,Does Emma know that Dad packed the purple ball?,Does Emma know that Dad packed the purple ball?,Does Emma know that Dad packed the purple ball?,
-54,ToM-scene-12-q3-false_belief,Which ball does Emma think Dad packed?,Which ball does Emma think Dad packed?,Which ball does Emma think Dad packed?,
-55,greenball,The green ball,The green ball,The green ball,
-56,redball,The red ball,The red ball,The red ball,
-57,purpleball,The purple ball,The purple ball,The purple ball,
-58,ToM-scene-12-instruct4,"On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.","On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.","On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.",
-59,ToM-scene-12-q4-reality_check,What toy does Emma want?,What toy does Emma want?,What toy does Emma want?,
-60,ToM-scene-12-q5-reality_check,What toy did Dad pack for Emma?,What toy did Dad pack for Emma?,What toy did Dad pack for Emma?,
-61,ToM-scene-12-instruct5,Emma is very happy to play with her ball.,Emma is very happy to play with her ball.,Emma is very happy to play with her ball.,
+0,addition-prompt1,Add the numbers and choose the correct answer.,Suma los números y elige la respuesta correcta.,Addiere die Zahlen und wähle die richtige Antwort.,"math, addition"
+1,addition-prompt2,Add the numbers.,Suma los números.,Addiere die Zahlen. ,"math, addition"
+2,subtraction-prompt1,Subtract the numbers and choose the correct answer.,Resta los números y elige la respuesta correcta.,Ziehe die Zahlen ab und wähle die richtige Antwort.,"math, subtraction"
+3,subtraction-prompt2,Subtract the numbers.,Resta los números.,Ziehe die Zahlen ab. ,"math, subtraction"
+4,multiplication-prompt1,Multiply the numbers and choose the correct answer.,Multiplica los números y elige la respuesta correcta.,Multipliziere die Zahlen und wähle die richtige Antwort.,"math, multiplication"
+5,multiplication-prompt2,Multiply the numbers.,Multiplica los números.,Multipliziere die Zahlen. ,"math, multiplication"
+6,number-line-instruct1,Here is a number line. You can move the red line forward and backward along the black line. Move the red line so it is in the right place to show where the number would fit. Make sure you look at the numbers at each end when deciding where to move the red line.,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.,"Hier ist eine Zahlenreihe. Du kannst die rote Linie vorwärts und rückwärts entlang der schwarzen Linie verschieben. Verschiebe die rote Linie so, dass sie sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du die rote Linie verschiebst.",math
+7,number-line-prompt1,Choose the number that is marked on the number line.,Elige el número que está marcado en la línea recta de números.,"Wähle die Zahl, die auf der Zahlenreihe markiert ist.","math, number-line-4AFC"
+8,number-line-slider-prompt1,Move the red line to mark the number.,Pon la barra roja sobre la linea recta en el lugar del número indicado.,Bewege den Schieberegler auf die angegebene Zahl.,math
+9,number-identification-1,Choose the number 1.,Elige el número 1.,Wähle die Zahl 1.,"math, number-identification"
+10,number-identification-2,Choose the 2.,Elige el 2.,Wähle die 2.,"math, number-identification"
+11,number-identification-3,Choose the 9.,Elige el 9.,Wähle die 9.,"math, number-identification"
+12,number-identification-4,Choose the 0.,Elige el 0.,Wähle die 0.,"math, number-identification"
+13,number-identification-5,Choose the 12.,Elige el 12.,Wähle die 12.,"math, number-identification"
+14,number-identification-6,Choose the 30.,Elige el 30.,Wähle die 30.,"math, number-identification"
+15,number-identification-7,Choose the 22.,Elige el 22.,Wähle die 22.,"math, number-identification"
+16,number-identification-8,Choose the 45.,Elige el 45.,Wähle die 45.,"math, number-identification"
+17,number-identification-9,Choose the 39.,Elige el 39.,Wähle die 39.,"math, number-identification"
+18,number-identification-10,Choose the 23.,Elige el 23.,Wähle die 23.,"math, number-identification"
+19,number-identification-11,Choose the 48.,Elige el 48.,Wähle die 48.,"math, number-identification"
+20,number-identification-12,Choose the 91.,Elige el 91.,Wähle die 91.,"math, number-identification"
+21,number-identification-13,Choose the 33.,Elige el 33.,Wähle die 33.,"math, number-identification"
+22,number-identification-14,Choose the 74.,Elige el 74.,Wähle die 74.,"math, number-identification"
+23,number-identification-15,Choose the 87.,Elige el 87.,Wähle die 87.,"math, number-identification"
+24,number-identification-16,Choose the 65.,Elige el 65.,Wähle die 65.,"math, number-identification"
+25,number-identification-17,Choose the 108.,Elige el 108.,Wähle die 108.,"math, number-identification"
+26,number-identification-18,Choose the 245.,Elige el 245.,Wähle die 245.,"math, number-identification"
+27,number-identification-19,Choose the 587.,Elige el 587.,Wähle die 587.,"math, number-identification"
+28,number-identification-20,Choose the 731.,Elige el 731.,Wähle die 731.,"math, number-identification"
+29,number-identification-21,Choose the 989.,Elige el 989. ,Wähle die 989.,"math, number-identification"
+30,trog-instruct1,"Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started!","Ahora, ¡vamos a hacer un juego de asociación! Yo diré palabras y tú tocarás la imagen que va con las palabras que yo diga. ¡Empecemos!","Jetzt werden wir ein Zuordnungsspiel spielen! Ich sage ein paar Worte, und du berührst das Bild, das zu dem passt, was ich sage. Bist du bereit?",trog
+31,trog-prompt1,Choose the picture of the...,Elige la imagen del...,Berühre das Bild mit dem/der/den...,trog
+32,trog-prompt2,Choose the picture of...,Elige la imagen de...,Berühre das Bild mit...,trog
+33,trog-prompt3,Choose the picture that shows...,Elige la imagen que muestra...,Berühre das Bild was folgendes zeigt:,trog
+34,trog-item-1,Choose the picture of the shoe.,Elige la imagen del zapato.,Wähle das Bild mit dem Schuh.,trog
+35,trog-item-2,Choose the picture of the bird.,Elige la imagen del pájaro.,Wähle das Bild mit dem Vogel.,trog
+36,trog-item-3,Choose the picture of the comb.,Elige la imagen del peine.,Wähle das Bild mit dem Kamm.,trog
+37,trog-item-4,Choose the picture of the apple.,Elige la imagen de la manzana.,Wähle das Bild mit dem Apfel.,trog
+38,trog-item-5,Choose the picture that shows eating.,Elige la imagen que muestra comiendo.,"Wähle das Bild aus, das zeigt, wie jemand isst.",trog
+39,trog-item-6,Choose the picture that shows picking.,Elige la imagen que muestra recogiendo.,"Wähle das Bild aus, das zeigt, wie jemand pflückt.",trog
+40,trog-item-7,Choose the picture that shows sitting.,Elige la imagen que muestra sentado.,"Wähle das Bild aus, das zeigt, wie jemand sitzt.",trog
+41,trog-item-8,Choose the picture that shows running.,Elige la imagen que muestra corriendo.,"Wähle das Bild aus, das zeigt, wie jemand läuft.",trog
+42,trog-item-9,Choose the picture that shows long.,Elige la imagen que muestra largo.,"Wähle das Bild aus, das etwas langes zeigt.",trog
+43,trog-item-10,Choose the picture that shows tall.,Elige la imagen que muestra alto.,"Wähle das Bild aus, das etwas großes zeigt.",trog
+44,trog-item-11,Choose the picture that shows red.,Elige la imagen que muestra el rojo.,"Wähle das Bild aus, das etwas rotes zeigt.",trog
+45,trog-item-12,Choose the picture that shows black.,Elige la imagen que muestra el negro.,"Wähle das Bild aus, das etwas schwarzes zeigt.",trog
+46,trog-item-13,the boy is running,el niño está corriendo,der Junge rennt.,trog
+47,trog-item-14,the big cup,la taza grande,die große Tasse.,trog
+48,trog-item-15,the dog is sitting,el perro está sentado,der Hund sitzt.,trog
+49,trog-item-16,the red ball,la pelota roja,der rote Ball.,trog
+50,trog-item-17,the boy is not running,el niño no está corriendo,der Junge rennt nicht.,trog
+51,trog-item-18,the dog is not drinking,el perro no está bebiendo,der Hund trinkt nicht.,trog
+52,trog-item-19,the girl is not jumping,la niña no está saltando,das Mädchen hüpft nicht.,trog
+53,trog-item-20,the dog is not sitting,el perro no está sentado,der Hund sitzt nicht.,trog
+54,trog-item-21,the boy is jumping over the box,el niño salta por encima de la caja,der Junge springt über den Kasten. ,trog
+55,trog-item-22,the girl is sitting on the table,la niña está sentada encima de la mesa,das Mädchen sitzt auf dem Tisch.,trog
+56,trog-item-23,the man is eating the apple,el hombre se está comiendo una manzana,der Mann ißt einen Apfel.,trog
+57,trog-item-24,the lady is carrying the bag,la señora está llevando la bolsa,die Frau trägt eine Tasche.,trog
+58,trog-item-25,they are sitting on the table,están sentadas encima de la mesa,sie sitzen auf dem Tisch.,trog
+59,trog-item-26,the cow is looking at them,la vaca está mirándolas,die Kuh sieht sie an.,trog
+60,trog-item-27,they are jumping over the wall,están saltando por encima de la pared,sie springen über die Mauer.,trog
+61,trog-item-28,the elephant is carrying them,el elefante está llevandolos,der Elefant trägt sie,trog
+62,trog-item-29,the girl is pushing the horse,la niña está empujando al caballo,das Mädchen schiebt das Pferd,trog
+63,trog-item-30,the boy is chasing the sheep,el niño persigue a la oveja,der Junge jagt das Schaf,trog
+64,trog-item-31,the man is chasing the dog,el hombre persigue al perro,der Mann jagt den Hund,trog
+65,trog-item-32,the cow is pushing the lady,la vaca está empujando a la señora,die Kuh schiebt die Dame,trog
+66,trog-item-33,she is sitting on the chair,ella está sentada en la silla,sie sitzt auf dem Stuhl.,trog
+67,trog-item-34,the lady is carrying him,la señora lo está cargando,die Dame trägt ihn,trog
+68,trog-item-35,he is sitting in the tree,él está sentado en el árbol,er sitzt auf dem Baum,trog
+69,trog-item-36,the horse is looking at her,el caballo la está mirando,das Pferd sieht sie an,trog
+70,trog-item-37,the cats look at the ball,los gatos miran la pelota,die Katzen schauen auf den Ball,trog
+71,trog-item-38,the boy stands on the chairs,el niño se para encima de las sillas,der Junge steht auf den Stühlen,trog
+72,trog-item-39,the boys pick the apples,los niños recogen las manzanas,die Jungen pflücken die Äpfel,trog
+73,trog-item-40,the girl drops the cups,la niña deja caer las tazas,das Mädchen lässt die Tassen fallen,trog
+74,trog-item-41,the fork is longer than the pencil,el tenedor es más largo que el lápiz,die Gabel ist länger als der Bleistift,trog
+75,trog-item-42,the box is bigger than the cup,la caja es más grande que la taza,die Schchtel ist größer als die Tasse,trog
+76,trog-item-43,the shoe is bigger than the bird,el zapato es más grande que el pájaro,der Schuh ist größer als der Vogel,trog
+77,trog-item-44,the horse is taller than the wall,el caballo es más alto que la pared,das Pferd ist größer als die Mauer,trog
+78,trog-item-45,the girl is chased by the horse,la niña es perseguida por el caballo,das Mädchen wird vom Pferd gejagt,trog
+79,trog-item-46,the elephant is pushed by the boy,el elefante es empujado por el niño,der Elefant wird von dem Jungen geschoben,trog
+80,trog-item-47,the horse is chased by the man,el caballo es perseguido por el hombre,das Pferd wird von dem Mann gejagt,trog
+81,trog-item-48,the cow is pushed by the man,la vaca es empujada por el hombre,die Kuh wird von dem Mann geschoben,trog
+82,trog-item-49,the cup is in the box,la taza está en la caja,die Tasse ist in der Schachtel,trog
+83,trog-item-50,the pencil is on the box,el lápiz está encima de la caja,der Bleistift ist auf der Schachtel,trog
+84,trog-item-51,the circle is in the star,el círculo está en la estrella,der Kreis ist im Stern,trog
+85,trog-item-52,the fork is on the shoe,el tenedor está encima del zapato,die Gabel ist auf dem Schuh,trog
+86,trog-item-53,the boy chasing the horse is tall,el niño que persigue al caballo es alto,"der Junge, der das Pferd jagt, ist groß",trog
+87,trog-item-54,the pencil on the shoe is blue,el lápiz encima del zapato es azul,der Bleistift auf dem Schuh ist blau,trog
+88,trog-item-55,the cow chasing the cat is brown,la vaca que persigue al gato es marrón,"die Kuh, die die Katze jagt, ist braun",trog
+89,trog-item-56,the circle in the star is yellow,el círculo en la estrella es amarillo,der Kreis im Stern ist gelb,trog
+90,trog-item-57,the box but not the chair is red,"la caja es roja, pero no la silla","die Schachtel, aber nicht der Stuhl ist rot",trog
+91,trog-item-58,the cat is big but not black,el gato es grande pero no negro,"die Katze ist groß, aber nicht schwarz",trog
+92,trog-item-59,the horse but not the boy is standing,"el caballo está parado, pero no el niño","das Pferd, aber nicht der Junge, steht",trog
+93,trog-item-60,the boy is sitting but not eating,"el niño está sentado, pero no está comiendo","der Junge sitzt, aber er isst nicht",trog
+94,trog-item-61,the pencil is above the flower,el lápiz está arriba de la flor,der Bleistift ist über der Blume,trog
+95,trog-item-62,the comb is below the spoon,el peine está debajo de la cuchara,der Kamm ist unter dem Löffel,trog
+96,trog-item-63,the star is above the circle,la estrella está encima del círculo,der Stern ist über dem Kreis,trog
+97,trog-item-64,the square is below the star,el cuadrado está debajo de la estrella,das Quadrat ist unter dem Stern,trog
+98,trog-item-65,not only the bird but also the flower is blue,"no sólo el pájaro, también la flor es azul.","nicht nur der Vogel, sondern auch die Blume ist blau",trog
+99,trog-item-66,the box is not only big but also blue,"la caja no sólo es grande, sino también azul","die Box ist nicht nur groß, sondern auch blau",trog
+100,trog-item-67,not only the girl but also the cat is sitting,"no sólo la niña, también el gato está sentado.","nicht nur das Mädchen, sondern auch die Katze sitzt",trog
+101,trog-item-68,the girl has not only food but also a drink,"la niña no solo tiene comida, sino también bebida","das Mädchen hat nicht nur Essen, sondern auch ein Getränk",trog
+102,trog-item-69,the pencil is on the book that is yellow,el lápiz está encima del libro que es amarillo,"der Bleistift ist auf dem Buch, das gelb ist",trog
+103,trog-item-70,the girl chases the dog that is big,la niña persigue al perro que es grande,"das Mädchen jagt den Hund, der groß ist",trog
+104,trog-item-71,the square is in the star that is blue,el cuadrado está en la estrella que es azul,"das Quadrat ist in dem Stern, der blau ist",trog
+105,trog-item-72,the dog chases the horse that is brown,el perro persigue al caballo que es marrón,"der Hund jagt das Pferd, das braun ist",trog
+106,trog-item-73,neither the dog nor the ball is brown,ni el perro ni la pelota son marrones,weder der Hund noch der Ball sind braun,trog
+107,trog-item-74,the pencil is neither long nor red,el lápiz no es largo ni rojo,der Bleistift ist weder lang noch rot,trog
+108,trog-item-75,neither the boy nor the horse is running,ni el niño ni el caballo están corriendo,weder der Junge noch das Pferd rennt,trog
+109,trog-item-76,the boy has neither hat nor shoes,el niño no tiene ni sombrero ni zapatos,der Junge hat weder Hut noch Schuhe,trog
+110,trog-item-77,the book the pencil is on is red,"el libro, sobre el que está el lápiz, es rojo","das Buch, auf dem der Bleistift liegt, ist rot",trog
+111,trog-item-78,the cat the cow chases is black,el gato que la vaca persigue es negro,"die Katze, die die Kuh jagt, ist schwarz",trog
+112,trog-item-79,the circle the star is in is red,"el círculo, en el que está la estrella, es rojo","der Kreis, in dem sich der Stern befindet, ist rot",trog
+113,trog-item-80,the boy the dog chases is big,el niño que el perro persigue es grande,"der Junge, den der Hund jagt, ist groß",trog
+114,trog-item-81,the horse drank water by the barn and the sheep ate grass by the fence,"el caballo bebe agua junto al granero, y la oveja come pasto junto a la cerca",das Pferd trank Wasser bei der Scheune und die Schafe fraßen Gras am Zaun,trog
+115,trog-item-82,the student opened the notebook and drew a tree,el estudiante abre el cuaderno y dibuja un árbol,der Schüler öffnete das Heft und zeichnete einen Baum,trog
+116,trog-item-83,we will have a picnic in the park if it is sunny,"Si hace sol, haremos un picnic en el parque","Wenn es sonnig ist, werden wir im Park ein Picknick machen.",trog
+117,trog-item-84,he found his keys under the couch with the pillows,encontró sus llaves debajo del sofá con cojines,er fand seine Schlüssel unter der Couch mit den Kissen,trog
+118,trog-item-85,she is the gardener who wears the hat that has a flower,ella es la jardinera que usa un sombrero que tiene una flor,"sie ist die Gärtnerin, die den Hut mit einer Blume trägt",trog
+119,trog-item-86,She tripped on a rock and dropped her books.,Ella tropezó con una piedra y dejo caer sus libros.,Sie stolperte über einen Stein und ließ ihre Bücher fallen.,trog
+120,trog-item-87,The teacher will give the students cake if they stand in a line.,"La maestra dará pastel a los estudiantes, si se ponen en fila.","Der Lehrer gibt den Schülern Kuchen, wenn sie in einer Reihe stehen.",trog
+121,trog-item-88,We will dance together if there is music playing.,"Si hay música sonando, bailaremos todos juntos.","Wir tanzen zusammen, wenn Musik läuft.",trog
+122,trog-item-89,"Although it is hot outside, I am wearing a jacket with a hood.","Aunque hace calor afuera, estoy usando una chaqueta con capucha.","Obwohl es draußen heiß ist, trage ich eine Jacke mit Kapuze.",trog
+123,trog-item-90,"He likes swimming. However, he chose to play soccer with his friends.","Le gusta nadar. Sin embargo, elijió jugar fútbol con sus amigos.","Er schwimmt gerne, aber er hat sich entschieden, mit seinen Freunden Fußball zu spielen.",trog
+124,trog-item-91,"Despite the noise in the classroom, she focused on reading her notebook.","A pesar del ruido en el salón, ella se concentró en leer su cuaderno.",Trotz des Lärms im Klassenzimmer konzentrierte sie sich auf das Lesen ihres Heftes.,trog
+125,trog-item-92,He wore the clown's hat despite its large size.,Él usó el sombrero de payaso a pesar de su gran tamaño.,Er trug die Clownsmütze trotz ihrer großen Größe.,trog
+126,trog-item-93,The duck following the turtle is walking across the bridge.,El pato que seguía a la tortuga está caminando por el puente.,"Die Ente, die der Schildkröte folgt, geht über die Brücke.",trog
+127,trog-item-94,Bumping the table with my foot caused a book to fall.,"Al tropezar la mesa con mi pie, tumbé un libro.",Beim Anstoßen des Tisches mit meinem Fuß ist ein Buch heruntergefallen.,trog
+128,trog-item-95,The person chases the dog that is big.,La persona persigue al perro que es grande.,The person chases the dog that is big.,trog
+129,trog-item-96,The girl wearing a backpack was shown a flower by her friend.,A la niña que llevaba el morral su amiga le mostró una flor.,"Dem Mädchen, das einen Rucksack trägt, wurde von seiner Freundin eine Blume gezeigt.",trog
+130,trog-item-97,"The kids cleaned the room, but forgot to put away the train.","Los niños limpiaron la habitación, pero se olvidaron de guardar el tren.","The kids cleaned the room, but forgot to put away the train.",trog
+131,trog-item-98,The monkey neither ate the banana nor swung on the vine.,El mono no se comió el plátano ni se columpió en la liana.,Der Affe hat weder die Banane gegessen noch sich an der Liane geschwungen.,trog
+132,trog-item-99,"Her mom said it would be sunny. However, it rained heavily.","Su madre dijo que haría sol. Sin embargo, llovió a cántaros.","Her mom said it would be sunny. However, it rained heavily.",trog
+133,trog-item-100,The plane that is gray is above the clouds.,El avión que es gris está por encima de las nubes.,The plane that is gray is above the clouds.,trog
+134,trog-item-101,The fish swim beneath a whale and a sea turtle.,Los peces nadan bajo una ballena y una tortuga marina.,The fish swim beneath a whale and a sea turtle.,trog
+135,trog-item-102,The car that the truck followed is driving toward the tunnel.,El coche que siguió el camión va hacia el túnel.,The car that the truck followed is driving toward the tunnel.,trog
+136,trog-item-103,Instead of doing homework she did a puzzle in her room.,"En vez de hacer los deberes, hizo un puzzle en su habitación.",Instead of doing homework she did a puzzle in her room.,trog
+137,yes,yes,sí,ja,theory-of-mind
+138,no,no,no,nein,theory-of-mind
+139,happy,happy,feliz,glücklich,theory-of-mind
+140,sad,sad,triste,traurig,theory-of-mind
+141,angry,angry,enojado,wütend,theory-of-mind
+142,scared,scared,asustado,ängstlich,theory-of-mind
+143,calm,calm,tranquilo,ruhig,theory-of-mind
+144,proud,proud,orgulloso,stolz,theory-of-mind
+145,disgusted,disgusted,asqueado,angeekelt,theory-of-mind
+146,surprised,surprised,sorprendido,überrascht,theory-of-mind
+147,ToM-intro,"This is the Stories Game. In this game, you will listen to some stories. Then you will answer questions about the stories.",Este es el Juego de las historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias.,Das ist das Geschichten-Spiel. In diesem Spiel wirst du Geschichten hören und dann kannst du ein paar Fragen dazu beantworten.,theory-of-mind
+148,ToM-transition,Nice work! Here is a new story.,¡Bien hecho! Ahora vamos con una nueva historia.,Sehr gut! Hier ist eine neue Geschichte.,theory-of-mind
+149,ToM-scene1-instruct1,"Here is Madison. This morning, Madison put her book behind the chair, because she didn’t want anyone to find it. ","Ella es Marisol. Esta mañana, Marisol puso su libro detrás de la silla, porque no quería que nadie lo encontrara.","Das ist Petra. Heute Morgen hat Petra ihr Buch hinter den Stuhl gelegt, weil sie nicht wollte, dass es jemand findet. ",theory-of-mind
+150,ToM-scene1-instruct2,"But when Madison was outside playing, someone did find it! And hid it under the rug. ","Pero, cuando Marisol estaba afuera jugando, ¡alguien lo encontró! Y lo escondió debajo de la alfombra.","Aber als Petra draußen gespielt hat, hat es jemand gefunden! Und hat es unter dem Teppich versteckt. ",theory-of-mind
+151,ToM-scene1-instruct3,So now it’s reading time and Madison wants her book.,"Ahora, es el momento de leer y Marisol quiere su libro.",Jetzt ist also Lesezeit und Petra möchte ihr Buch.,theory-of-mind
+152,ToM-scene1-q1-false_belief,Where will Madison look first for her book?,¿Dónde buscará Marisol su libro primero?,Wo wird Laura zuerst nach ihrem Buch suchen? ,theory-of-mind
+153,chair,Behind the chair,Detrás de la silla,Hinter dem Stuhl,theory-of-mind
+154,rug,Under the rug,Debajo de la alfombra,Unter dem Teppich,theory-of-mind
+155,ToM-scene1-q2-reality_check,And where is her book really?,¿Y dónde está realmente su libro?,Und wo ist ihr Buch wirklich?,theory-of-mind
+156,ToM-scene2-instruct1,"This morning when he came to school, Ethan put his book on the shelf above the coat hooks. Ethan’s book is blue! ","Esta mañana, cuando vino a la escuela, Elián puso su libro sobre la repisa encima de los colgaderos de abrigos. El libro de Elián es azul.","Heute Morgen, als er in die Schule kam, hat Justus sein Buch auf die Garderobe über den Mänteln gelegt. Das Buch von Justus ist blau! ",theory-of-mind
+157,ToM-scene2-instruct2,"And then he went outside to play, see? Here’s Ethan playing outside. And while he was outside playing, Ethan’s book fell down from above the coat hooks onto the floor under the coats, see? ","Y luego salió a jugar, ¿ves? Aquí está Elián jugando afuera. Mientras Elián estaba afuera jugando, su libro se cayó de la repisa y quedó en el piso, debajo de los abrigos, ¿ves?","Und dann ist er nach draußen gegangen, um zu spielen, siehst du? Hier ist Justus beim Spielen draußen. Und während er draußen spielte, fiel das Buch von Justus von der Garderobe auf den Boden unter die Mäntel, siehst du? ",theory-of-mind
+158,ToM-scene2-instruct3,"Then Hannah comes in and Hannah puts her book up above the coat hooks. Hannah's book is also blue! Ethan is still outside playing, so he didn't see what Hannah was doing.","Luego entró Ana y puso su libro sobre la repisa encima de los colgaderos. ¡El libro de Ana también es azul! Como Elián todavía está afuera jugando, no vio lo que hizo Ana.","Dann kommt Hannah herein und legt ihr Buch auf die Garderobe über den Mänteln. Hannahs Buch ist auch blau! Justus ist noch draußen und spielt, deshalb hat er nicht gesehen, was Hannah gemacht hat.",theory-of-mind
+159,ToM-scene2-q1-false_belief,"Now, when Ethan comes in from outside, where will he look first for his book?","Entonces, cuando Elián regrese, ¿dónde buscará primero su libro?","Wenn Justus nun von draußen hereinkommt, wo wird er zuerst nach seinem Buch suchen?",theory-of-mind
+160,shelf,On the shelf,Sobre la repisa,Oben im Regal,theory-of-mind
+161,coats,Under the coats,Debajo de los abrigos,Unter den Mänteln,theory-of-mind
+162,ToM-scene2-instruct4,"Let’s see what he does. Oh look, here is Ethan reaching for this book up on the shelf. And now Hannah sees Ethan reaching for that book... the book that is Hannah's!","Veamos lo que Elián hace. Oh, mira, Elián está cogiendo el libro que está sobre la repisa. Y ahora Ana ve a Elián cogiendo ese libro... ¡el libro que es de Ana!","Mal sehen, was er macht. Oh, sieh mal, da ist Justus. Er greift nach dem Buch oben im Regal. Und jetzt sieht Hannah, wie Justus nach dem Buch greift... dem Buch, das Hannah gehört!",theory-of-mind
+163,ToM-scene2-q2-emotion_reasoning,How do you think Hannah feels about Ethan reaching for that book? ,¿Cómo crees que se siente Ana cuando Elián coge ese libro?,"Was glaubst du, was Hannah davon hält, dass Justus nach dem Buch greift? ",theory-of-mind
+164,ToM-scene2-q7-emotion_reasoning,How do you think Hannah would feel if she had not seen Ethan reaching for the book?,¿Cómo crees que se sentiría Ana si no hubiera visto a Elián coger el libro?,"Wie würde sich Hannah wohl fühlen, wenn sie nicht gesehen hätte, wie Justus nach dem Buch greift?",theory-of-mind
+165,ToM-scene2-q3-false_belief,Is Ethan being mean and naughty for taking Hannah's book?,¿Elián está siendo malo y travieso al tomar el libro de Ana?,"Ist es gemein und frech von Justus, dass er Hannahs Buch genommen hat?",theory-of-mind
+166,ToM-scene2-q4-false_belief,Should Ethan get in trouble with the teacher for taking Hannah's book?,¿Debería Elián estar en problemas con el maestro por tomar el libro de Ana?,"Sollte Justus Ärger mit der Lehrerin bekommen, weil er Hannahs Buch genommen hat?",theory-of-mind
+167,ToM-scene2-q5-reality_check,Can you help Hannah find her book? Is it on the shelf or under the coats?,¿Puedes ayudar a Ana a encontrar su libro? ¿Está sobre la repisa o debajo de los abrigos?,"Kannst du Hannah helfen, ihr Buch zu finden? Ist es auf dem Regal oder unter den Mänteln?",theory-of-mind
+168,ToM-scene2-q6-reality_check,Can you help Ethan find his book? Is it on the shelf or under the coats?,¿Puedes ayudar a Elián a encontrar su libro? ¿Está sobre la repisa o debajo de los abrigos?,"Kannst du Justus helfen, sein Buch zu finden? Ist es auf dem Regal oder unter den Mänteln?",theory-of-mind
+169,ToM-scene3-instruct1,"Joshua, Isabel, and Ivan are playing a game. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. ","Johan, Isabel e Iván están jugando. El juego es el siguiente: Uno de los niños se esconde, pero debe dibujar una pista en la arena que permita a los otros niños encontrarlo.","Johann, Isabelle und Jens spielen ein Spiel. Das Spiel geht so: Ein Kind versteckt sich: Ein Kind versteckt sich, malt aber einen Hinweis in den Sandkasten, damit die anderen Kinder es finden können. ",theory-of-mind
+170,ToM-scene3-instruct2,"So Ivan is going first. He draws this clue in the sandbox, and then he goes to hide. ","Entonces, Iván va primero. Dibuja esta pista en la arena y se esconde.",Jens geht also als Erster. Er malt diesen Hinweis in den Sandkasten und versteckt sich dann. ,theory-of-mind
+171,ToM-scene3-instruct3,"Now it's Joshua's turn to leave a clue, and hide. Isabel and Ivan will then try to use the clue to find him.",Ahora le toca a Johan dejar una pista y esconderse. Isabel e Iván intentarán utilizar la pista para encontrarle.,"Jetzt ist Johann an der Reihe, einen Hinweis zu hinterlassen und sich zu verstecken. Isabelle und Jens werden dann versuchen, den Hinweis zu nutzen, um ihn zu finden.",theory-of-mind
+172,ToM-scene3-instruct4,"Joshua decides to hide behind the fountain. He draws a clue in the sand. He tries to draw the fountain, with the bottom part and the water coming out of it. But the drawing looks like a tree instead! Then Joshua goes and hides behind the fountain.","Johan decide esconderse detrás de la fuente. Él dibuja una pista en la arena. Él intenta dibujar la parte inferior de la fuente y el agua que sale de ella, ¡pero el dibujo que hace parece un árbol! Ahora, Johan se esconde detrás de la fuente.","Johann beschließt, sich hinter dem Springbrunnen zu verstecken. Er zeichnet einen Hinweis in den Sand. Er versucht, den Springbrunnen zu zeichnen, mit dem unteren Teil und dem Wasser, das aus ihm herauskommt. Aber die Zeichnung sieht stattdessen wie ein Baum aus! Dann versteckt sich Johann hinter dem Springbrunnen.",theory-of-mind
+173,ToM-scene3-q1,What did Joshua mean to draw?,¿Qué quería dibujar Johan?,Was wollte Johann zeichnen?,theory-of-mind
+174,fountain,A fountain,Una fuente,Einen Springbrunnen,theory-of-mind
+175,tree,A tree,Un árbol,Einen Baum,theory-of-mind
+176,ToM-scene3-q2-false_belief,"When Isabel and Ivan see this clue, where will they look first for Joshua? ","Cuando Isabel e Iván vean esta pista, ¿dónde buscarán primero a Johan?","Sobald Lisa und Max diesen Hinweis sehen, wo werden sie zuerst nach Johann suchen? ",theory-of-mind
+177,ToM-scene3-q2-reality_check,Can you help them find where Joshua really is?,¿Puedes ayudarles a encontrar dónde está realmente Johan?,"Kannst du ihnen helfen, herauszufinden, wo Johann wirklich ist?",theory-of-mind
+178,behind-fountain,Behind the fountain,Detrás de la fuente,Hinter dem Springbrunnen,theory-of-mind
+179,behind-tree,Behind the tree,Detrás del árbol,Hinter dem Baum,theory-of-mind
+180,ToM-scene3-q3-emotion_reasoning,"Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game?","¡Mira, Isabel e Iván encontraron a Joshua y ganaron el juego! ¿Cómo crees que se siente Isabel por ganar el juego?","Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game?",theory-of-mind
+181,ToM-scene4-instruct1,"Now the games are over, and it's almost time to go home. Mother tells the kids to find all of their toys. ",Ya se acabaron los juegos y es la hora de volver a casa. Mamá les dice a los niños que busquen todos sus juguetes.,"Jetzt sind die Spiele vorbei, und es ist fast Zeit, nach Hause zu gehen. Die Mutter sagt den Kindern, sie sollen alle ihre Spielsachen finden. ",theory-of-mind
+182,ToM-scene4-instruct2,"Joshua brought his toy truck with him to the park, but now he can't find it. He's looking everywhere but he can't find it. ","Johan trajo su camión de juguete al parque, pero ahora no lo encuentra. Lo busca por todas partes, pero no puede encontrarlo.","Johann hat seinen Spielzeuglaster mit in den Park genommen, aber jetzt kann er ihn nicht mehr finden. Er sucht überall, aber er kann ihn nicht finden. ",theory-of-mind
+183,ToM-scene4-q1-emotion_reasoning,How does Joshua feel about losing his truck?,¿Cómo se siente Joshua al perder su camioneta?,How does Joshua feel about losing his truck?,theory-of-mind
+184,ToM-scene4-q8-emotion_reasoning,How would Joshua feel if he found his truck?,¿Cómo se sentiría Johan si encontrara su camión?,"Wie würde sich Johann fühlen, wenn er seinen Lastwagen finden würde?",theory-of-mind
+185,ToM-scene4-instruct3,"Joshua can't find his truck because earlier in the day, when no one was looking, Isabel took the toy truck and buried it in the sandbox. ","Johan no encuentra su camión porque antes, cuando nadie miraba, Isabel cogió el camión de juguete y lo enterró en la arena.","Johann kann seinen Lastwagen nicht finden, weil Lisa vorhin, als niemand hinsah, den Spielzeuglastwagen genommen und im Sandkasten vergraben hat. ",theory-of-mind
+186,ToM-scene4-instruct4,"So Joshua looks everywhere and he can't find his toy truck. Mother gets mad at Joshua, because he lost his truck.","Por eso, Johan mira por todas partes y no encuentra su camión de juguete. Su Mamá se enoja con él porque perdió el camión.","Deshalb sucht Johann überall, aber er kann seinen Spielzeuglaster nicht finden. Die Mutter ist böse auf Johann, weil er seinen Spielzeuglaster verloren hat.",theory-of-mind
+187,ToM-scene4-q2,Is it fair that Mother is mad at Joshua for losing his truck?,¿Es justo que Mamá se enoje con Johan por haber perdido su camión?,"Ist es fair, dass Mutter böse auf Johann ist, weil er seinen Spielzeuglaster verloren hat? ",theory-of-mind
+188,ToM-scene4-q3,Is Mother mad at Isabel? ,¿Mamá está enojada con Isabel? ,Ist Mutter böse auf Lisa? ,theory-of-mind
+189,ToM-scene4-q4-false_belief,Is Joshua mad at Isabel? ,¿Johan está enojado con Isabel? ,Ist Johann böse auf Lisa? ,theory-of-mind
+190,ToM-scene4-instruct5,"When Isabel sees that Mother is mad at Joshua, she goes to the sandbox and digs up the toy truck, and gives it back to Joshua.","Cuando Isabel se da cuenta de que la mamá está enojada con Johan, va al patio de arena, saca el juguete de la arena y se lo devuelve a Johan.","Als Isabelle sieht, dass die Mutter böse auf Johann ist, geht sie zum Sandkasten, gräbt den Spielzeuglaster aus und gibt ihn Johann zurück.",theory-of-mind
+191,ToM-scene4-q5,Is Mother mad at Joshua now?,¿Ahora Mamá está enojada con Johan?,Ist Mutter jetzt böse auf Johann?,theory-of-mind
+192,ToM-scene4-q6,Is Mother mad at Isabel now?,¿Ahora Mamá está enojada con Isabel?,Ist Mutter jetzt böse auf Lisa?,theory-of-mind
+193,ToM-scene4-q7,Is Joshua mad at Isabel now?,¿Ahora Johan está enojado con Isabel?,Ist Johann jetzt böse auf Lisa?,theory-of-mind
+194,ToM-scene4-instruct6,"Isabel tells Joshua that she’s very sorry, and she gives him a big hug. Joshua gives her a big hug back, and Mother joins in.","Isabel le ofrece disculpas a Johan y le da un fuerte abrazo. Johan le devuelve el abrazo, y la mamá se une a ellos.","Isabelle sagt Johann, dass es ihr sehr leid tut, und sie gibt ihm eine große Umarmung. Johann erwidert die Umarmung, und auch die Mutter schließt sich ihr an.",theory-of-mind
+195,ToM-scene5-instruct1,"This is Katie. Earlier today, Katie's mom was cleaning the house, while Katie watched. Mom left three cups in the kitchen. There is a small cup on the counter, a medium sized cup on the table, and a big cup that she put away up high, on the shelf. ","Ella es Carla. Hace un rato, la mamá de María limpiaba la casa mientras María observaba. La mamá dejó tres tazas en la cocina: hay una taza pequeña en la barra, una taza mediana en la mesa y una taza grande en un estante que está muy alto. ","Das ist Katie. Heute früh hat die Mama von Katie das Haus geputzt, während Katie zugesehen hat. Mama hat drei Tassen in der Küche stehen lassen. Da ist eine kleine Tasse auf dem Tresen, eine mittelgroße Tasse auf dem Tisch und eine große Tasse, die sie ganz oben auf das Regal gestellt hat. ",theory-of-mind
+196,ToM-scene5-instruct2,"Katie and Dad just walked in and Katie asks her dad to get her a cup. Katie tells her Dad, “I want the big cup!”","Carla y Papá acaban de entrar y Carla le pide a su papá que le de una taza. Carla le dice a su papá ""¡quiero la taza grande!"".","Katie und Vater kommen in die Küche und Katie bittet ihren Vater, ihr eine Tasse zu geben. Katie sagt zu ihrem Vater: ""Ich möchte die große Tasse!""",theory-of-mind
+197,ToM-scene5-q1,Which cup will Dad give Katie?,¿Cuál taza le dará el Papá a Carla?,Welche Tasse wird Papa Katie geben?,theory-of-mind
+198,ToM-scene5-q2-reality_check,Which cup does Katie want?,¿Cuál taza quiere Carla?,Welche Tasse möchte Katie haben?,theory-of-mind
+199,small_cup,The small cup,La taza pequeña,Die kleine Tasse,theory-of-mind
+200,medium_cup,The medium sized cup,La taza mediana,Die mittelgroße Tasse,theory-of-mind
+201,large_cup,The big cup,La taza grande,Die große Tasse,theory-of-mind
+202,ToM-scene5-q3-emotion_reasoning,How does Katie feel about not getting the cup she wanted?,¿Cómo se siente Carla por no recibir la taza que quería?,"Wie fühlt sich Katie, wenn sie nicht die Tasse bekommt, die sie wollte?",theory-of-mind
+203,ToM-scene5-q4-emotion_reasoning,How would Katie feel if she had received the cup she wanted?,¿Cómo se sentiría Carla si hubiera recibido la taza que quería?,"Wie würde sich Katie fühlen, wenn sie die Tasse bekommen hätte, die sie sich gewünscht hat?",theory-of-mind
+204,ToM-scene6-instruct1,"Sam and Maria are playing together. They look outside and see a new shop across the street. Maria tells Sam: “I am going to buy new shirts for us there,” and she walks away.","Sam y María están jugando juntos. Cuando miran hacia afuera ven una tienda nueva al otro lado de la calle. María le dice a Sam: ""voy a ir a comprar camisetas nuevas para nosotros"" y se va.","Sam and Maria are playing together. They look outside and see a new shop across the street. Maria tells Sam: “I am going to buy new shirts for us there,” and she walks away.",theory-of-mind
+205,ToM-scene6-instruct2,"Mom comes home and she tells Sam that she just walked by the shop. “Are they selling shirts?” Sam asks. “No,” Mom says, “They are only selling shoes”. “Maria will probably now get shoes at the shop,” Sam says.","        
+Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. ""¿Venden camisetas?"" pregunta Sam. ""No"", dice Mamá, ""solo venden zapatos"". ""Probablemente ahora María va a comprar zapatos en la tienda"", dice Sam.","Mama kommt nach Hause und erzählt Sam, dass sie gerade an dem Laden vorbeigelaufen ist. ""Verkaufen sie T-shirts?"" fragt Sam. ""Nein"", sagt Mama, ""sie verkaufen nur Schuhe"". ""Maria wird jetzt wahrscheinlich Schuhe im Laden kaufen"", sagt Sam.",theory-of-mind
+206,ToM-scene6-q1,Does Maria know that they are selling shoes in the shop?,"	
+¿María sabe que en la tienda venden zapatos?",Does Maria know that they are selling shoes in the shop?,theory-of-mind
+207,ToM-scene6-instruct3,"Maria has arrived at the shop. “I would like to buy shirts,” she says. “All we have left are socks,” says the shopkeeper. Since Maria also needs socks, she decides to get some socks.","María llega a la tienda y dice ""me gustaría comprar camisas."" La vendedora responde ""Sólo nos quedan medias."" Como María también necesita medias, decide comprar algunos pares.","Maria has arrived at the shop. “I would like to buy shirts,” she says. “All we have left are socks,” says the shopkeeper. Since Maria also needs socks, she decides to get some socks.",theory-of-mind
+208,ToM-scene6-q2,Does Sam know that Maria bought some socks?,¿Sam sabe que María ha comprado medias?,Does Sam know that Maria bought some socks?,theory-of-mind
+209,ToM-scene6-q3,What does Sam think they are selling at the shop?,¿Qué cree Sam que venden en la tienda?,What does Sam think they are selling at the shop?,theory-of-mind
+210,shoes,Shoes,Zapatos,Schuhe,theory-of-mind
+211,socks,Socks,Medias,Socken,theory-of-mind
+212,shirts,Shirts,Camisetas,T-Shirts,theory-of-mind
+213,ToM-scene6-instruct4,"On her way back, Maria meets her dad. She tells her dad: “I have just bought some socks. I am going to share them with my brother Sam. It is a surprise.”
+“That is nice of you,” says Dad. Then he asks Maria: “Does Sam know what you bought him?”","Caminando de regreso, María se encuentra con su padre. Ella le dice ""acabo de comprar unas medias. Voy a compartirlas con mi hermano Sam. Es una sorpresa"".
+""Es muy amable de tu parte"", dice Papá. Luego le pregunta a María: ""¿Sam sabe qué le has comprado?"".","Auf dem Rückweg trifft Maria ihren Vater. Sie erzählt ihrem Vater: ""Ich habe gerade ein paar Socken gekauft. Ich werde sie mit meinem Bruder Sam teilen. Es ist eine Überraschung.""
+""Das ist nett von dir"", sagt Papa. Dann fragt er Maria: ""Weiß Sam, was du ihm gekauft hast?""",theory-of-mind
+214,ToM-scene6-q4,What does Maria tell Dad?,¿Qué le dice María a Papá?,Was sagt Maria zu Papa?,theory-of-mind
+215,ToM-scene6-instruct5,Then Dad asks: “What does Sam think they are selling at the shop?”,"Entonces Papá pregunta: ""¿Qué cree Sam que venden en la tienda?"".","Dann fragt Papa: ""Was glaubt Sam, was sie in dem Laden verkaufen?""",theory-of-mind
+216,ToM-scene6-q5,What does Maria tell Dad?,¿Qué le dice María a Papá?,Was sagt Maria zu Papa?,theory-of-mind
+217,ToM-scene6-q6,What does Sam think they are selling at the shop?,¿Qué cree Sam que venden en la tienda?,What does Sam think they are selling at the shop?,theory-of-mind
+218,ToM-scene6-instruct6,Sam is very happy to get his new socks.,Sam está muy feliz por recibir sus medias nuevas.,Sam freut sich sehr über seine neuen Socken.,theory-of-mind
+219,hostile-attribution-scene1-instruct1,Imagine that you are walking to school and you’re wearing your new shoes. You really like your new shoes and this is the first day you have worn them.,Imagina que vas camino a la escuela y llevas puestos tus zapatos nuevos. Te gustan mucho tus zapatos nuevos y es la primera vez que los usas.,"Stell dir vor, du gehst zur Schule und trägst deine neuen Schuhe. Du magst deine neuen Schuhe sehr und heute ist der erste Tag, an dem du sie trägst.",hostile-attribution
+220,hostile-attribution-scene1-instruct2,"Suddenly, you are bumped from behind by a boy. You stumble and fall into a mud puddle and your new shoes get muddy.","De repente, un chico te golpea por detrás. Tropiezas y caes en un charco de barro y tus zapatos nuevos se ensucian de barro.",Plötzlich wirst du von einem Jungen von hinten angerempelt. Du stolperst und fällst in eine Schlammpfütze und deine neuen Schuhe sind schlammig.,hostile-attribution
+221,hostile-attribution-scene1-q1,Do you think that the boy bumped you on purpose or by accident?,¿Crees que el chico te golpeó a propósito o por accidente?,"Glaubst du, dass der Junge dich absichtlich oder aus Versehen angerempelt hat?",hostile-attribution
+222,hostile-attribution-scene1-q2,Now pick one of the three choices as the one you would do:,Elige una de las tres opciones que tú harías:,"Wähle nun eine der drei Möglichkeiten aus, die du tun würdest:",hostile-attribution
+223,hostile-attribution-scene1-q2-ans1,clean up my shoes,limpiar mis zapatos,meine Schuhe sauber machen,hostile-attribution
+224,hostile-attribution-scene1-q2-ans2,walk away from the boy,alejarme del chico,sich von dem Jungen entfernen,hostile-attribution
+225,hostile-attribution-scene1-q2-ans3,push the boy in the mud,empujar al chico al barro,den Jungen in den Schlamm stoßen,hostile-attribution
+226,hostile-attribution-scene2-instruct1,"Imagine that you are on the playground. You and some other kids are having a race. A boy is standing on the side, bouncing a basketball.","Imagina que estás en el patio de recreo. Tú y otros niños están haciendo una carrera. Un niño está parado a un lado, haciendo rebotar una pelota de baloncesto.","Stell dir vor, du bist auf einem Spielplatz. Du und einige andere Kinder liefern sich ein Rennen. Ein Junge steht am Rand und wirft einen Basketball.",hostile-attribution
+227,hostile-attribution-scene2-instruct2,"The next thing you know, the boy has bounced the ball and it has rolled under your feet, making you fall. You skin your knee and someone else wins the race.","De repente, el chico hace rebotar la pelota y rueda bajo tus pies, haciéndote caer. Te raspas la rodilla, y alguien más gana la carrera.",Dann rollt der Ball von dem Jungen unter deine Füße und du fällst hin. Du schürfst dir das Knie auf und ein anderer gewinnt das Rennen.,hostile-attribution
+228,hostile-attribution-scene2-q1,Do you think that the boy made you fall on purpose or by accident?,¿Crees que el chico te hizo caer a propósito o por accidente?,"Glaubst du, dass der Junge dich mit Absicht oder aus Versehen zu Boden gestoßen hat?",hostile-attribution
+229,hostile-attribution-scene2-q2,Now pick one of the three choices as the one you would do:,Elige una de las tres opciones que tú harías:,"Wähle nun eine der drei Möglichkeiten aus, die du tun würdest:",hostile-attribution
+230,hostile-attribution-scene2-q2-ans1,go to another area of the playground,ir a otra zona del patio de recreo,in einen anderen Bereich des Spielplatzes gehen,hostile-attribution
+231,hostile-attribution-scene2-q2-ans2,say something mean to him,insultar al niño,etwas Gemeines zu ihm sagen,hostile-attribution
+232,hostile-attribution-scene2-q2-ans3,take care of my knee,curar mi rodilla,mich um mein Knie kümmern,hostile-attribution
+233,hostile-attribution-scene3-instruct1,Imagine that you are working on an assignment at your desk. ,Imagina que estás trabajando en una tarea en tu escritorio.,"Stell dir vor, du arbeitest an deinem Schreibtisch an einer Aufgabe. ",hostile-attribution
+234,hostile-attribution-scene3-instruct2,"You go to sharpen your pencil, and as you walk back to your desk there is a boy walking just in front of you. The boy passes your desk before you get there. ","Te levantas para sacarle punta a tu lápiz y, de regreso a tu escritorio, vas detrás de un niño que camina justo delante de ti. El niño pasa por tu escritorio antes de que tú llegues.","Du gehst deinen Bleistift anspitzen, und als du zu deinem Schreibtisch zurückgehst, läuft ein Junge direkt vor dir. Der Junge geht an deinem Schreibtisch vorbei, bevor du ihn erreichst. ",hostile-attribution
+235,hostile-attribution-scene3-instruct3,"The next thing you know, the boy has knocked all of your papers off of your desk, and they are all over the floor.","De repente, el chico tira todos los papeles que estaban en tu escritorio y ahora están regados en el suelo.","Das nächste ist, dass der Junge alle deine Papiere von deinem Schreibtisch geworfen hat und sie überall auf dem Boden liegen.",hostile-attribution
+236,hostile-attribution-scene3-q1,Do you think the boy knocked your papers onto the floor on purpose or by accident?,¿Crees que el chico tiró tus papeles al suelo a propósito o por accidente?,"Glaubst du, der Junge hat deine Papiere absichtlich oder aus Versehen auf den Boden geworfen?",hostile-attribution
+237,hostile-attribution-scene3-q2,Now pick one of the three choices as the one you would do:,Elige una de las tres opciones que tú harías:,"Wähle nun eine der drei Möglichkeiten aus, die du tun würdest:",hostile-attribution
+238,hostile-attribution-scene3-q2-ans1,call him a name,insultar al niño,ihn beleidigen,hostile-attribution
+239,hostile-attribution-scene3-q2-ans2,pick up the papers,recoger los papeles,die Papiere aufsammeln,hostile-attribution
+240,hostile-attribution-scene3-q2-ans3,do nothing,no hacer nada,nichts tun,hostile-attribution
+241,hostile-attribution-scene1-by-accident,by accident,por accidente,aus Versehen,theory-of-mind
+242,hostile-attribution-scene1-on-purpose,on purpose,a propósito,absichtlich,theory-of-mind
+243,hostile-attribution-scene2-by-accident,by accident,por accidente,aus Versehen,theory-of-mind
+244,hostile-attribution-scene2-on-purpose,on purpose,a propósito,absichtlich,theory-of-mind
+245,hostile-attribution-scene3-by-accident,by accident,por accidente,aus Versehen,theory-of-mind
+246,hostile-attribution-scene3-on-purpose,on purpose,a propósito,absichtlich,theory-of-mind
+247,am,"This is the matching game. In this game, you're going to choose sets of cards that match in some way. First, let's look at some of the cards you are going to see.","Este es el juego de parejas. En este juego, vas a elegir conjuntos de cartas que se parecen de alguna manera. Primero, veamos algunas de las cartas que vas a ver.","Jetzt spielen wir ein Spiel, bei dem es darum geht, Karten auszuwählen, die auf irgendeine Art zusammenpassen. Lass uns mal schauen, wie die Karten aussehen, die du in dem Spiel sehen wirst. ",same-different-selection
+248,same-different-selection-touch-circle,Choose the card with a circle.,Escoge la carta que tiene un círculo.,Wähle die Karte mit einem Kreis.,same-different-selection
+249,same-different-selection-touch-square,Choose the card with a square.,Escoge la carta que tiene un cuadrado.,Wähle die Karte mit einem Quadrat. ,same-different-selection
+250,same-different-selection-touch-triangle,Choose the card with a triangle.,Escoge la carta que tiene un triángulo.,Wähle die Karte mit einem Dreieck.,same-different-selection
+251,same-different-selection-touch-star,Choose the card with a star.,Escoge la carta que tiene una estrella.,Wähle die Karte mit einem Stern.,same-different-selection
+252,same-different-selection-touch-green,Choose the card with a green shape.,Escoge la carta que tiene una figura verde.,Wähle die Karte mit einer grünen Form.,same-different-selection
+253,same-different-selection-touch-red,Choose the card with a red shape.,Escoge la carta que tiene una figura roja.,Wähle die Karte mit einer roten Form.,same-different-selection
+254,same-different-selection-touch-blue,Choose the card with a blue shape.,Escoge la carta que tiene una figura azul.,Wähle die Karte mit einer blauen Form.,same-different-selection
+255,same-different-selection-touch-yellow,Choose the card with a yellow shape.,Escoge la carta que tiene una figura amarilla.,Wähle die Karte mit einer gelben Form.,same-different-selection
+256,same-different-selection-touch-small,Choose the card with a small shape.,Escoge la carta que tiene una figura pequeña.,Wähle die Karte mit einer kleinen Form.,same-different-selection
+257,same-different-selection-touch-medium,Choose the card with a medium-sized shape.,Escoge la carta que tiene una figura mediana.,Wähle die Karte mit einer mittelgroßen Form.,same-different-selection
+258,same-different-selection-touch-large,Choose the card with a large shape.,Escoge la carta que tiene una figura grande.,Wähle die Karte mit einer großen Form.,same-different-selection
+259,same-different-selection-touch-white,Choose the star on the white card.,Escoge la estrella en la carta blanca.,Wähle den Stern auf der weißen Karte.,same-different-selection
+260,same-different-selection-touch-gray,Choose the star on the gray card.,Escoge la estrella en la carta gris.,Wähle den Stern auf der grauen Karte.,same-different-selection
+261,same-different-selection-touch-black,Choose the star on the black card.,Escoge la estrella en la carta negra.,Wähle den Stern auf der schwarzen Karte.,same-different-selection
+262,same-different-selection-touch-striped,Choose the star on the striped card.,Escoge la estrella en la carta con rayas.,Wähle den Stern auf der gestreiften Karte.,same-different-selection
+263,same-different-selection-touch-1,Choose the card with 1 star.,Escoge la carta con 1 estrella.,Wähle die Karte mit einem Stern.,same-different-selection
+264,same-different-selection-touch-2,Choose the card with 2 stars.,Escoge la carta con 2 estrellas.,Wähle die Karte mit zwei Sternen.,same-different-selection
+265,same-different-selection-touch-3,Choose the card with 3 stars.,Escoge la carta con 3 estrellas.,Wähle die Karte mit drei Sternen.,same-different-selection
+266,same-different-selection-touch-4,Choose the card with 4 stars.,Escoge la carta con 4 estrellas.,Wähle die Karte mit vier Sternen.,same-different-selection
+267,same-different-selection-instruct2,Now you're going to see two cards that are the same in one way. Then you will see a new card that is similar to one of those cards. Your job is to choose the card that is similar to the new card.,Ahora vas a ver dos cartas que son iguales de alguna manera. Luego vas a ver una nueva carta que se parece a una de esas cartas. Tu trabajo es elegir la carta que se parece en algo a esa nueva carta.,"Jetzt siehst du zwei Karten, die in einer Hinsicht gleich sind. Dann siehst du eine neue Karte, die einer der ersten beiden Karten ähnlich ist. Deine Aufgabe ist es, die Karte zu wählen, die der neuen Karte ähnlich ist.",same-different-selection
+268,same-different-selection-instruct3,"Now you're going to see three cards, and you're going to choose two that are the same in some way. Then you're going to see the same cards again, and pick two cards that are the same in a different way.","Ahora vas a ver tres cartas y debes escoger dos que sean iguales de alguna manera. Luego vas a ver las mismas tres cartas, pero  vas a escoger otras dos cartas que sean iguales de alguna otra manera.","Jetzt siehst du drei Karten und wählst zwei aus, die auf irgendeine Weise gleich sind. Dann siehst du dieselben Karten noch einmal und wählst zwei Karten aus, die auf eine andere Weise gleich sind.",same-different-selection
+269,same-different-selection-both-circles,Here are two cards. Something's the same. They both have circles.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen círculos.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen Kreise.,same-different-selection
+270,same-different-selection-both-squares,Here are two cards. Something's the same. They both have squares.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen cuadrados.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen Quadrate.,same-different-selection
+271,same-different-selection-both-triangles,Here are two cards. Something's the same. They both have triangles.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen triángulos.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen Dreiecke.,same-different-selection
+272,same-different-selection-both-red,Here are two cards. Something's the same. They both have red shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras rojas.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen Formen.,same-different-selection
+273,same-different-selection-both-green,Here are two cards. Something's the same. They both have green shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras verdes.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen grüne Formen.,same-different-selection
+274,same-different-selection-both-yellow,Here are two cards. Something's the same. They both have yellow shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras amarillas.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen gelbe Formen.,same-different-selection
+275,same-different-selection-both-blue,Here are two cards. Something's the same. They both have blue shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras azules.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen blaue Formen.,same-different-selection
+276,same-different-selection-both-small,Here are two cards. Something's the same. They both have small shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras pequeñas.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen kleine Formen.,same-different-selection
+277,same-different-selection-both-medium,Here are two cards. Something's the same. They both have medium-sized shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras medianas.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen mittelgroße Formen.,same-different-selection
+278,same-different-selection-both-large,Here are two cards. Something's the same. They both have large shapes.,Aquí hay dos cartas. Son iguales en algo. Ambas tienen figuras grandes.,Hier sind zwei Karten. Sie haben etwas gemeinsam. Beide zeigen große Formen.,same-different-selection
+279,sds-prompt3,Here is another card. Which of these is similar to this one?,Aquí hay otra carta. ¿Cuál de estas tiene algo que es igual a esta?,Hier ist eine weitere Karte. Welche Karte sieht dieser ähnlich? ,same-different-selection
+280,sds-3match-prompt2,Here is the same set of cards again. Choose two cards that are the same in a different way.,Aquí están otra vez las mismas cartas. Ahora debe escoger dos cartas que sean pareja porque son iguales en algo diferente.,"Hier siehst du die gleichen Karten nochmal. Wähle zwei Bilder aus, die auf unterschiedliche Art und Weise gleich sind.",same-different-selection
+281,sds-2match-prompt1,Here is a new set of cards. Choose two cards that are the same in some way.,Aquí hay un nuevo grupo de cartas. Escoge dos cartas que sean iguales en algún aspecto. ,"Hier sind neue Karten. Wähle zwei Karten aus, die in irgendeiner Weise gleich sind.",same-different-selection
+282,sds-2match-prompt2,Choose two cards that are the same in a different way.,Escoge dos cartas que sean pareja porque son iguales en algo diferente. ,"Wähle zwei Karten, die auf unterschiedliche Weise gleich sind.",same-different-selection
+283,sds-3unique-prompt1,Choose three cards that are the same in only one way.,Escoge tres cartas que sean iguales en un solo aspecto. ,"Wähle drei Karten aus, die in irgendeiner Weise gleich sind.",same-different-selection
+284,sds-3unique-prompt2,Choose another three cards that are the same in only one way.,Escoge otras tres cartas que sean iguales en un solo aspecto.,"Wähle drei weitere Karten aus, die auf unterschiedliche Art und Weise gleich sind.",same-different-selection
+285,memory-game-display,Watch the squares light up.,Observa cómo se iluminan los cuadrados.,Watch the squares light up.,memory-game
+286,memory-game-input,Touch the squares in the same order.,Selecciona los cuadrados en el orden en que fueron destacados.,Touch the squares in the same order.,memory-game
+287,memory-game-instruct1,This is the memory game. Here's how you play it.,Este es el juego de la memoria. Las reglas son las siguientes.,This is the memory game. Here's how you play it.,memory-game
+288,memory-game-instruct2,You will see squares light up.,Verás que los cuadrados se iluminan.,You will see squares light up.,memory-game
+289,memory-game-instruct3,You're going to touch the squares in the same order.,Vas a tocar los cuadrados en el mismo orden.,You're going to touch the squares in the same order.,memory-game
+290,memory-game-instruct4,Watch carefully! Try to remember the order.,¡Observa con atención! Intenta recordar el orden.,Watch carefully! Try to remember the order.,memory-game
+291,memory-game-forward-prompt,Choose the squares in the same order.,Escoge los cuadrados en el mismo orden.,Choose the squares in the same order.,memory-game
+292,memory-game-forward-try-again,That's not right. Try again. Choose the squares in the same order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en el mismo orden.,Das ist nicht richtig. Versuch es noch einmal. Wähle die Quadrate in der gleichen Reihenfolge.,memory-game
+293,memory-game-instruct5,This time the game won't tell you if you're right or wrong. Let’s start playing the memory game!,Esta vez el juego no te dirá si la respuesta es correcta o no. ¡Empecemos a jugar al juego de memoria!,"Dieses Mal wird dir das Spiel nicht sagen, ob du richtig oder falsch liegst. Los geht's mit dem Memory-Spiel!",memory-game
+294,memory-game-instruct7,Let’s start playing the memory game!,¡Empecemos a jugar al juego de memoria!,Let’s start playing the memory game!,memory-game
+295,memory-game-backward-prompt,Choose the squares in the backward order.,Escoge los cuadrados siguiendo el orden inverso a la secuencia.,Choose the squares in the backward order.,memory-game
+296,memory-game-backward-try-again,That's not right. Try again. Choose the squares in the backward order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en orden inverso.,Das ist nicht richtig. Versuch es noch einmal. Wähle die Quadrate in der umgekehrten Reihenfolge.,memory-game
+297,heart-instruct1,This is the heart game. Here's how you play it.,Este es el juego del corazón. Las reglas son las siguientes.,This is the heart game. Here's how you play it.,hearts-and-flowers
+298,heart-instruct2,"When you see a heart, press the button on the same side.","Cuando veas un corazón, presiona el botón del mismo lado.","Wenn du ein Herz siehst, drücke den Knopf auf der gleichen Seite.",hearts-and-flowers
+299,hearts-and-flowers-try-again,That's not right. Try again.,Eso no está bien. Inténtalo de nuevo.,That's not right. Try again.,hearts-and-flowers
+300,heart-practice-feedback1,The heart is on the right side. Press the right button.,El corazón está en el lado derecho. Presiona el botón derecho.,The heart is on the right side. Press the right button.,hearts-and-flowers
+301,hearts-and-flowers-practice-time,Time to practice!,¡Es hora de practicar!,Time to practice!,hearts-and-flowers
+302,heart-practice-feedback2,"Remember! When you see a HEART, press the button on the SAME side.","¡Recuerda! Cuando veas un CORAZÓN, presiona el botón del MISMO lado.","Remember! When you see a HEART, press the button on the SAME side.",hearts-and-flowers
+303,hearts-and-flowers-instruct1,This time the game will go faster. It won't tell you if you are right or wrong. Try to keep up!,Esta vez el juego irá más rápido. No te dirá si la respuesta es correcta o no. ¡Trata de seguir el ritmo!,"Jetzt spielen wir das Spiel schneller. Es wird dir nicht sagen, ob du richtig oder falsch liegst. Versuch hinterherzukommen!",hearts-and-flowers
+304,hearts-and-flowers-instruct2,"Try to answer as fast as you can without making mistakes. If you make a mistake, just keep going!","Intenta responder lo más rápido que puedas sin cometer errores. Si cometes un error, ¡sigue adelante!","Versuche, so schnell wie möglich zu antworten, ohne Fehler zu machen. Wenn du einen Fehler machst, mach einfach weiter!",hearts-and-flowers
+305,hearts-and-flowers-play-time,Time to play!,¡Hora de jugar!,Time to play!,hearts-and-flowers
+306,flower-instruct1,This is the flower game. Here's how you play it.,Este es el juego de las flores. Las reglas son las siguientes.,Das ist das Blumenspiel. Ich erkläre dir jetzt wie das Blumenspiel funktioniert.,hearts-and-flowers
+307,flower-instruct2,"When you see a flower, press the button on the opposite side.","Cuando veas una flor, presiona el botón del lado opuesto.","When you see a flower, press the button on the opposite side.",hearts-and-flowers
+308,flower-practice-feedback1,The flower is on the left side. Press the right button.,La flor está en el lado izquierdo. Presione el botón derecho.,The flower is on the left side. Press the right button.,hearts-and-flowers
+309,flower-practice-feedback2,"When you see a FLOWER, press the button on the OPPOSITE side.","Cuando veas una FLOR, presiona el botón en el lado OPUESTO.","When you see a FLOWER, press the button on the OPPOSITE side.",hearts-and-flowers
+310,hearts-and-flowers-instruct3,"Now, we're going to play a game with hearts and flowers.","Ahora, vamos a jugar un juego con corazones y flores.","Now, we're going to play a game with hearts and flowers.",hearts-and-flowers
+311,hearts-and-flowers-encourage1,Try to keep up!,¡Trata de seguir el ritmo!,Try to keep up!,hearts-and-flowers
+312,hearts-and-flowers-encourage2,"If you make a mistake, just keep going!","Si cometes un error, ¡sigue adelante!","If you make a mistake, just keep going!",hearts-and-flowers
+313,hearts-and-flowers-end,Great job! You completed the game!,"¡Bien hecho, has terminado el juego!",Gut gemacht! Dieses Spiel ist jetzt zu Ende.,hearts-and-flowers
+314,vocab-item-001,the acorn,la bellota,die eichel,vocab
+315,vocab-item-002,the aloe,el áloe,die aloe,vocab
+316,vocab-item-003,the antenna,la antena,die antenne,vocab
+317,vocab-item-004,the artichoke,la alcachofa,die artischocke,vocab
+318,vocab-item-005,the bamboo,el bambú,der bambus,vocab
+319,vocab-item-006,the barrel,el barril,das fass,vocab
+320,vocab-item-007,the blender,la licuadora,der mixer,vocab
+321,vocab-item-008,the blower,el soplador,das gebläse,vocab
+322,vocab-item-009,the bouquet,el ramo,der blumenstrauß,vocab
+323,vocab-item-010,the buffet,el bufé,das buffet,vocab
+324,vocab-item-011,the bulldozer,la excavadora,die planierraupe,vocab
+325,vocab-item-012,the cake,el pastel,der kuchen,vocab
+326,vocab-item-013,the caramel,el caramelo,das karamell,vocab
+327,vocab-item-014,the carousel,el carrusel,das karussell,vocab
+328,vocab-item-015,the carrot,la zanahoria,die karotte,vocab
+329,vocab-item-016,the cassette,el casete,die kassette,vocab
+330,vocab-item-017,the cheese,el queso,der käse,vocab
+331,vocab-item-018,the cloak,la capucha,der mantel,vocab
+332,vocab-item-019,the clothespin,la pinza para la ropa,die wäscheklammer,vocab
+333,vocab-item-020,the coaster,el portavasos,der untersetzer,vocab
+334,vocab-item-021,the cork,el corcho,der korken,vocab
+335,vocab-item-022,the cornbread,el pan de maíz,das maisbrot,vocab
+336,vocab-item-023,the corset,el corsé,das korsett,vocab
+337,vocab-item-024,the dumpling,el dumpling,der Teigtaschen,vocab
+338,vocab-item-025,the elbow,el codo,der ellbogen,vocab
+339,vocab-item-026,the fan,el ventilador,der ventilator,vocab
+340,vocab-item-027,the foam,la espuma,der schaumstoff,vocab
+341,vocab-item-028,the footbath,la lavapiés,das fußbad,vocab
+342,vocab-item-029,the fruitcake,el pastel de frutas,der obstkuchen,vocab
+343,vocab-item-030,the gutter,la canaleta,die dachrinne,vocab
+344,vocab-item-031,the hamster,el hámster,der hamster,vocab
+345,vocab-item-032,the hedgehog,el erizo,der igel,vocab
+346,vocab-item-033,the hoe,la azadilla,die hacke,vocab
+347,vocab-item-034,the hopscotch,la golosa,Himmel und Hölle,vocab
+348,vocab-item-035,the kimono,el kimono,der kimono,vocab
+349,vocab-item-036,the latch,el cerrojo,der riegel,vocab
+350,vocab-item-037,the locker,el casillero,das schließfach,vocab
+351,vocab-item-038,the lollipop,la chupeta,der lollipop,vocab
+352,vocab-item-039,the map,el mapa,die karte,vocab
+353,vocab-item-040,the marshmallow,el malvavisco,der marshmallow,vocab
+354,vocab-item-041,the net,la malla,das netz,vocab
+355,vocab-item-042,the oil,el aceite,das öl,vocab
+356,vocab-item-043,the omelet,la tortilla,das omelett,vocab
+357,vocab-item-044,the pie,la tarta,der kuchen,vocab
+358,vocab-item-045,the pistachio,el pistacho,die pistazien,vocab
+359,vocab-item-046,the pitcher,la jarra,der krug,vocab
+360,vocab-item-047,the potato,la papa,die kartoffel,vocab
+361,vocab-item-048,the prism,el prisma,das prisma,vocab
+362,vocab-item-049,the puddle,el charco,die pfütze,vocab
+363,vocab-item-050,the pump,la bomba de agua,die pumpe,vocab
+364,vocab-item-051,the rice,el arroz,der reis,vocab
+365,vocab-item-052,the saddle,la silla de montar,der sattel,vocab
+366,vocab-item-053,the sandbag,el saco de arena,der sandsack,vocab
+367,vocab-item-054,the scaffolding,el andamio,das gerüst,vocab
+368,vocab-item-055,the scoop,el cucharón,die schaufel,vocab
+369,vocab-item-056,the seagull,la gaviota,die möwe,vocab
+370,vocab-item-057,the ship,el barco,das schiff,vocab
+371,vocab-item-058,the shower,la ducha,die dusche,vocab
+372,vocab-item-059,the silverware,los cubiertos,der tafelsilber,vocab
+373,vocab-item-060,the sink,el lavabo,das waschbecken,vocab
+374,vocab-item-061,the ski,el esquí,der ski,vocab
+375,vocab-item-062,the sloth,el oso perozoso,das faultier,vocab
+376,vocab-item-063,the snail,el caracol,die schnecke,vocab
+377,vocab-item-064,the sorbet,el sorbete,das sorbet,vocab
+378,vocab-item-065,the spatula,la espátula,der Pfannenwender,vocab
+379,vocab-item-066,the sprinkler,el aspersor,der sprinkler,vocab
+380,vocab-item-067,the squash,la calabaza,der kürbis,vocab
+381,vocab-item-068,the squirrel,la ardilla,das eichhörnchen,vocab
+382,vocab-item-069,the stew,el guiso,der Eintopf,vocab
+383,vocab-item-070,the rubber band,la banda elástica,das Gummiband,vocab
+384,vocab-item-071,the stump,el tocón,der baumstumpf,vocab
+385,vocab-item-072,the sunflower,el girasol,die sonnenblume,vocab
+386,vocab-item-073,the swordfish,el pez espada,der schwertfisch,vocab
+387,vocab-item-074,the tapestry,el tapiz,der wandteppich,vocab
+388,vocab-item-075,the teabag,la bolsa de té,der teebeutel,vocab
+389,vocab-item-076,the telescope,el telescopio,der teleskop,vocab
+390,vocab-item-077,the thermos,el termo,die thermoskanne,vocab
+391,vocab-item-078,the treasure,el tesoro,der schatz,vocab
+392,vocab-item-079,the trumpet,la trompeta,die trompete,vocab
+393,vocab-item-080,the tulip,el tulipán,die tulpe,vocab
+394,vocab-item-081,the turbine,la turbina,die turbine,vocab
+395,vocab-item-082,the turkey,el pavo,der truthahn,vocab
+396,vocab-item-083,the turtle,la tortuga,die schildkröte,vocab
+397,vocab-item-084,the typewriter,la máquina de escribir,die schreibmaschine,vocab
+398,vocab-item-085,the watermelon,la sandía,die wassermelone,vocab
+399,vocab-item-086,the waterwheel,la rueda hidráulica,das wasserrad,vocab
+400,vocab-item-087,the ant,la hormiga,die ameise,vocab
+401,vocab-item-088,the ball,la pelota,der kugel,vocab
+402,vocab-item-089,the bear,el oso,der bär,vocab
+403,vocab-item-090,the duck,el pato,die ente,vocab
+404,vocab-item-091,the fork,el tenedor,die gabel,vocab
+405,vocab-item-092,the kitten,el gatito,das kätzchen,vocab
+406,vocab-item-093,the knee,la rodilla,das knie,vocab
+407,vocab-item-094,the milkshake,la malteada,der milchshake,vocab
+408,vocab-item-095,the skin,la piel,der haut,vocab
+409,vocab-item-096,the wall,el muro,die wand,vocab
+410,vocab-item-097,the wheel,la rueda,das rad,vocab
+411,vocab-item-098,the farm,la granja,der bauernhof,vocab
+412,vocab-item-099,juggling,malabarismo,juggling,vocab
+413,vocab-item-100,the dressing,el aderezo,der Dressing,vocab
+414,vocab-item-101,the roof,el techo,das dach,vocab
+415,vocab-item-102,peeking,espiando,peeking,vocab
+416,vocab-item-103,the ruler,la regla,das lineal,vocab
+417,vocab-item-104,the tunnel,el túnel,der tunnel,vocab
+418,vocab-item-105,the envelope,el sobre,der umschlag,vocab
+419,vocab-item-106,the diamond,el diamante,der diamant,vocab
+420,vocab-item-107,the calendar,el calendario,der kalender,vocab
+421,vocab-item-108,the panda,el panda,der panda,vocab
+422,vocab-item-109,the arrow,la flecha,der pfeil,vocab
+423,vocab-item-110,picking,cosecha,picking,vocab
+424,vocab-item-111,dripping,goteo,dripping,vocab
+425,vocab-item-112,the knight,el caballero,der ritter,vocab
+426,vocab-item-113,delivering,entregando,delivering,vocab
+427,vocab-item-114,the dentist,la dentista,der zahnarzt,vocab
+428,vocab-item-115,the claw,la garra,der Klauenhammer,vocab
+429,vocab-item-116,the uniform,el uniforme,die uniform,vocab
+430,vocab-item-117,furry,peludo,furry,vocab
+431,vocab-item-118,the cormorant,el cormorán,der kormoran,vocab
+432,vocab-item-119,fetch,traer,fetch,vocab
+433,vocab-item-120,the arcade,la arcada,die arkade,vocab
+434,vocab-item-121,the artifact,el artefacto,das artefakt,vocab
+435,vocab-item-122,aversion,aversión,aversion,vocab
+436,vocab-item-123,the beret,la boina,die baskenmütze,vocab
+437,vocab-item-124,applaud,aplaudir,applaud,vocab
+438,vocab-item-125,timid,tímido,timid,vocab
+439,vocab-item-126,the camp,el campamento,das lager,vocab
+440,vocab-item-127,tumble,caída,tumble,vocab
+441,vocab-item-128,concentric,concéntrico,concentric,vocab
+442,vocab-item-129,the confectionery,la confitería,der Süßigkeiten,vocab
+443,vocab-item-130,the couturier,el costurero,der Schneider,vocab
+444,vocab-item-131,degression,disminución,degression,vocab
+445,vocab-item-132,the divan,el diván,die Ottomane,vocab
+446,vocab-item-133,the wetland,el humedal,das feuchtgebiet,vocab
+447,vocab-item-134,the baywindow,la ventana salediza,das erkerfenster,vocab
+448,vocab-item-135,the aesthete,el esteta,der ästhetik,vocab
+449,vocab-item-136,ecstatic,extático,ecstatic,vocab
+450,vocab-item-137,rickety,desvencijado,rickety,vocab
+451,vocab-item-138,gourmet,gourmet,gourmet,vocab
+452,vocab-item-139,gesticulate,gesticular,gesticulate,vocab
+453,vocab-item-140,the facade,la fachada,die fassade,vocab
+454,vocab-item-141,the slope,la pendiente,der hang,vocab
+455,vocab-item-142,the habit,el hábito,die Angewohnheit,vocab
+456,vocab-item-143,the intersection,la intersección,die kreuzung,vocab
+457,vocab-item-144,the irrigation,la irrigación,die bewässerung,vocab
+458,vocab-item-145,the kazoo,el kazoo,der kazoo,vocab
+459,vocab-item-146,chat,conversar,chat,vocab
+460,vocab-item-147,the colony,la colonia,die kolonie,vocab
+461,vocab-item-148,preserve,preservar,preserve,vocab
+462,vocab-item-149,the awning,el toldo,der sonnensegel,vocab
+463,vocab-item-150,mammalogy,mamalogía,mammalogy,vocab
+464,vocab-item-151,the metronome,el metrónomo,das metronom,vocab
+465,vocab-item-152,the paleontologist,el paleontólogo,der paläontologe,vocab
+466,vocab-item-153,the percussion,la percusión,die perkussion,vocab
+467,vocab-item-154,the posterior,la posterior,der hinten,vocab
+468,vocab-item-155,precarious,precario,precarious,vocab
+469,vocab-item-156,the arbor,el quiosco,der Pavillon,vocab
+470,vocab-item-157,resuscitation,resucitación,resuscitation,vocab
+471,vocab-item-158,the rosette,el rosetón,die rosette,vocab
+472,vocab-item-159,the saffron,el azafrán,der safran,vocab
+473,vocab-item-160,mischievous,travieso,mischievous,vocab
+474,vocab-item-161,the skimmer,la desnatadora,der abschäumer,vocab
+475,vocab-item-162,sedentary,sedentario,sedentary,vocab
+476,vocab-item-163,the suede,la gamuza,das wildleder,vocab
+477,vocab-item-164,the turnstile,el torniquete,das Drehkreuz,vocab
+478,vocab-item-165,the triad,la tríada,die triade,vocab
+479,vocab-item-166,dredging,dragado,dredging,vocab
+480,vocab-item-167,urban,urbano,urban,vocab
+481,vocab-item-168,the steam,el vapor,der dampf,vocab
+482,vocab-item-169,the vertebra,la vértebra,der wirbel,vocab
+483,vocab-item-170,the bandage,el vendaje,der verband,vocab
+484,vocab-instruct-1,"In this game, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word!","En este juego, escucharás palabras y observarás diferentes imágenes. ¡Tu tarea es elegir la imagen que coincida con la palabra!","In this game, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word!",vocab
+485,vocab-practice-1,"You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word!","A continuación, verás algunas imágenes, por ejemplo, una imagen de una manzana y una imagen de una zanahoria. Luego, escucharás la palabra que identifica una de las imágenes. ¡Asegúrate de elegir la imagen que coincida con la palabra!","You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word!",vocab
+486,vocab-instruct-2,"Some words are hard, and that's okay. If you're not sure, just give your best guess!","Algunas palabras son difíciles, pero no te preocupes, si tienes dudas, ¡haz tu mejor intento!","Some words are hard, and that's okay. If you're not sure, just give your best guess!",vocab
+487,vocab-instruct-3,"If you need to hear the word again, press the speaker button.","Si necesitas escuchar la palabra otra vez, presiona el botón del altavoz.","If you need to hear the word again, press the speaker button.",vocab
+488,shared-intro-devices,"You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.","You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.","You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.",trog
+489,shared-choose-picture-press-arrow,"To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.","To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.","To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.",trog
+490,shared-intro-replay,You can press the replay button to hear things again. Try it now.,You can press the replay button to hear things again. Try it now.,You can press the replay button to hear things again. Try it now.,trog
+491,trog-instr1-matching,"This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.","This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.","This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.",trog
+492,ChildSurveyIntro,"These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time. The first two are for practice.","Estas preguntas se refieren a cómo te sientes en la escuela, y a algunas de las cosas que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. Las dos primeras preguntas son de práctica.","In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst. Nein, nie; Ja, manchmal; Ja, meistens; Ja, immer. Die ersten beiden Fragen sind zum Üben.",survey
+493,Example1Comic,Do you like to read comic books?,¿Te gusta leer historietas (comics)?,Liest du gerne Comics?,survey
+494,Example2Neat,Are you neat and tidy at school?,¿Eres limpio y ordenado en el colegio?,Bist du in der Schule ordentlich?,survey
+495,TeacherNice,Is your teacher nice to you?,¿Te trata bien tu profesor?,Ist dein Lehrer nett zu dir?,survey
+496,TeacherLike,Does your teacher like you?,¿Le caes bien a tu profesor?,Mag dich dein Lehrer?,survey
+497,TeacherListen,Does your teacher listen to you?,¿Te escucha tu profesor?,Hört dein Lehrer dir zu?,survey
+498,SchoolFun,Is school fun?,¿Te diviertes en el colegio?,Macht die Schule Spaß?,survey
+499,SchoolEnjoy,Do you enjoy school?,¿Te gusta la escuela?,"Magst du es, in die Schule zu gehen?",survey
+500,SchoolHappy,Are you happy at school?,¿Te sientes feliz en la escuela?,Bist du glücklich in der Schule?,survey
+501,SchoolSafe,Do you feel safe at school?,¿Te sientes seguro o segura en el colegio?,Fühlst du dich in der Schule sicher?,survey
+502,ClassFriends,Do you have friends in your class?,¿Tienes amigos o amigas en tu clase?,Hast du Freunde in deiner Klasse?,survey
+503,ClassHelp,Do the kids in your class help you when you need it?,¿Te ayudan los niños y las niñas de tu clase cuando lo necesitas?,"Helfen dir die Kinder in deiner Klasse, wenn du Hilfe brauchst?",survey
+504,ClassPlay,Do the kids in your class play with you?,¿Los niños y las niñas de tu clase juegan contigo?,Spielen die Kinder in deiner Klasse mit dir?,survey
+505,ClassNice,Are the kids in your class nice to you?,¿Los niños y las niñas de tu clase son amables contigo?,Sind die Kinder in deiner Klasse nett zu dir?,survey
+506,LonelySchool,Do you feel lonely at school?,¿Te sientes solo o sola en el colegio?,Fühlst du dich in der Schule einsam?,survey
+507,LearningGood,Are you good at learning things in school?,¿Te queda fácil aprender en el colegio?,"Bist du gut darin, in der Schule etwas zu lernen?",survey
+508,SchoolGiveUp,"When schoolwork is hard, do you give up right away?","Cuando las tareas escolares son difíciles, ¿te rindes enseguida?","Gibst du sofort auf, wenn dir die Schularbeit schwer fällt?",survey
+509,ReadingEnjoy,Do you enjoy doing reading activities at school?,¿Te gusta hacer actividades de lectura en el colegio?,Macht es dir Spaß in der Schule zu lesen? ,survey
+510,MathEnjoy,Do you enjoy doing math activities at school?,¿Te gusta hacer actividades de matemáticas en el colegio?,Hast du Spaß am Fach Mathe?,survey
+511,ReadingGood,Are you good at reading?,¿Eres bueno o buena para la lectura?,Bist du gut im Lesen?,survey
+512,MathGood,Are you good at math?,¿Eres bueno o buena para las matemáticas?,Bist du gut in Mathe?,survey
+513,GrowthMindSmart,Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?,Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?,"Manche Kinder glauben, dass sie schlauer werden können, wenn sie sich anstrengen. Bist du auch der Meinung, dass du schlauer werden kannst, wenn du dich anstrengst?",survey
+514,GrowthMindRead,Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?,Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?,"Manche Kinder glauben, dass sie besser lesen können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass du besser lesen kannst, wenn du dich richtig anstrengst?",survey
+515,GrowthMindMath,Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?,Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?,"Manche Kinder glauben, dass sie in Mathematik besser werden können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass man in Mathe besser wird, wenn man sich richtig anstrengt?",survey
+516,ChildSurveyRespoonses,"No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time","No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre","Nein, nie; Ja, manchmal; Ja, meistens; Ja, immer",survey
+517,ToM-scene7-instruct1,"Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.","Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.","Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.",
+518,ToM-scene7-instruct2,"But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.","But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.","But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.",
+519,ToM-scene7-instruct3,So now it’s playtime and Diana wants her toy.,So now it’s playtime and Diana wants her toy.,So now it’s playtime and Diana wants her toy.,
+520,ToM-scene7-q1-false_belief,Where will Diana look for her toy?,Where will Diana look for her toy?,Where will Diana look for her toy?,
+521,ToM-scene7-q2-reality_check,And where is her toy really?,And where is her toy really?,And where is her toy really?,
+522,ToM-scene8-instruct1,"This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.","This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.","This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.",
+523,ToM-scene8-instruct2,"And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?","And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?","And then she went outside to play - see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the backpack shelf to behind the backpack shelf, see?",
+524,ToM-scene8-instruct3,"Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.","Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.","Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.",
+525,ToM-scene8-q1-false_belief,"Now, when Allie comes in from outside, where will she look first for her pencil?","Now, when Allie comes in from outside, where will she look first for her pencil?","Now, when Allie comes in from outside, where will she look first for her pencil?",
+526,top,On top of the backpack shelf,On top of the backpack shelf,On top of the backpack shelf,
+527,behind,Behind the backpack shelf,Behind the backpack shelf,Behind the backpack shelf,
+528,ToM-scene-8-instruct4,"Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!","Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!","Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!",
+529,ToM-scene-8-q2-emotion_reasoning,How do you think Mike feels about Allie reaching for that pencil?,How do you think Mike feels about Allie reaching for that pencil?,How do you think Mike feels about Allie reaching for that pencil?,
+530,ToM-scene-8-q3-emotion_reasoning,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,
+531,ToM-scene-8-q4-false_belief,Is Allie being mean and naughty for taking Mike’s pencil?,Is Allie being mean and naughty for taking Mike’s pencil?,Is Allie being mean and naughty for taking Mike’s pencil?,
+532,ToM-scene-8-q5-false_belief,Should Allie get in trouble with the teacher for taking Mike’s pencil?,Should Allie get in trouble with the teacher for taking Mike’s pencil?,Should Allie get in trouble with the teacher for taking Mike’s pencil?,
+533,ToM-scene-8-q6-reality_check,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,
+534,ToM-scene-8-q7-reality_check,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,
+535,ToM-scene-9-instruct1,"This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.","This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.","This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark’s drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books - a book about cups and a book about hills.",
+536,ToM-scene-9-instruct2,"Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!","Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!","Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!",
+537,ToM-scene-9-q1-reality_check,What did Mark mean to draw?,What did Mark mean to draw?,What did Mark mean to draw?,
+538,hill,A hill,A hill,A hill,
+539,cup,A cup,A cup,A cup,
+540,ToM-scene-9-q2-false_belief,"When Mom sees the picture, what book will she give Mark? ","When Mom sees the picture, what book will she give Mark? ","When Mom sees the picture, what book will she give Mark? ",
+541,ToM-scene-9-q3-reality_check,What book does Mark really want? ,What book does Mark really want? ,What book does Mark really want? ,
+542,hillsbook,The book about hills,The book about hills,The book about hills,
+543,cupbook,The book about cups,The book about cups,The book about cups,
+544,ToM-scene-9-q4-emotion_reasoning,"Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?","Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?","Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?",
+545,ToM-scene-10-instruct1,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought - there is one storybook for every kid.,
+546,ToM-scene-10-instruct2,"Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.","Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.","Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.",
+547,ToM-scene-10-q1-emotion_reasoning,How does Megan feel about being the only child without a storybook?,How does Megan feel about being the only child without a storybook?,How does Megan feel about being the only child without a storybook?,
+548,ToM-scene-10-q2-emotion_reasoning,How would Megan feel if she received a book?,How would Megan feel if she received a book?,How would Megan feel if she received a book?,
+549,ToM-scene-10-instruct3,"Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah “No, there is no storybook left - they are all being used right now.”",
+550,ToM-scene-10-q3-reality_check,Is Brian lying?,Is Brian lying?,Is Brian lying?,
+551,ToM-scene-10-q4-reality_check,"Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?",
+552,ToM-scene-10-instruct4,"Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”","Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”","Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah - is there an extra storybook for me? And Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”",
+553,ToM-scene-10-q5-false_belief,Is Teacher Sarah lying?,Is Teacher Sarah lying?,Is Teacher Sarah lying?,
+554,ToM-scene-10-q6-reality_check,"Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?","Is there still a storybook left, that isn’t being used right now?",
+555,ToM-scene-11-instruct1,"This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.","This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.","This is Josh. And earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.",
+556,ToM-scene-11-instruct2,"Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”",
+557,ToM-scene-11-q1-reference,Which ball will mom get for Josh?,Which ball will mom get for Josh?,Which ball will mom get for Josh?,
+558,ToM-scene-11-q2-reality_check,Which ball does Josh want?,Which ball does Josh want?,Which ball does Josh want?,
+559,baseball,The baseball,The baseball,The baseball,
+560,soccerball,The soccer ball,The soccer ball,The soccer ball,
+561,basketball,The basketball,The basketball,The basketball,
+562,ToM-scene-11-q3-emotion_reasoning,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,
+563,ToM-scene-11-q4-emotion_reasoning,How do you think Josh would feel if he had received the correct toy?,How do you think Josh would feel if he had received the correct toy?,How do you think Josh would feel if he had received the correct toy?,
+564,ToM-scene-12-instruct1,"This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.",
+565,ToM-scene-12-instruct2,"Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.","Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.","Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.",
+566,ToM-scene-12-q1-false_belief,Which toy does Dad think Emma wants to bring to school?,Which toy does Dad think Emma wants to bring to school?,Which toy does Dad think Emma wants to bring to school?,
+567,ToM-scene-12-instruct3,"Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.",
+568,ToM-scene-12-q2-false_belief,Does Emma know that Dad packed the purple ball?,Does Emma know that Dad packed the purple ball?,Does Emma know that Dad packed the purple ball?,
+569,ToM-scene-12-q3-false_belief,Which ball does Emma think Dad packed?,Which ball does Emma think Dad packed?,Which ball does Emma think Dad packed?,
+570,greenball,The green ball,The green ball,The green ball,
+571,redball,The red ball,The red ball,The red ball,
+572,purpleball,The purple ball,The purple ball,The purple ball,
+573,ToM-scene-12-instruct4,"On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.","On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.","On the way to school, Dad tells Emma, “I’m so sorry - I couldn’t pack the toy that you wanted because I couldn’t find it”.",
+574,ToM-scene-12-q4-reality_check,What toy does Emma want?,What toy does Emma want?,What toy does Emma want?,
+575,ToM-scene-12-q5-reality_check,What toy did Dad pack for Emma?,What toy did Dad pack for Emma?,What toy did Dad pack for Emma?,
+576,ToM-scene-12-instruct5,Emma is very happy to play with her ball.,Emma is very happy to play with her ball.,Emma is very happy to play with her ball.,

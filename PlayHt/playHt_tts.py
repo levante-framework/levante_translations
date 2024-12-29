@@ -49,12 +49,13 @@ def processRow(index, ourRow, lang_code, voice, \
         "trimSilence": True
     }
 
+    restartRequest = False
+
     ## Use a While loop so we can retry odd failure cases
     # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
     while True and errorCount < 5:
-
         response = requests.post(API_URL, headers=headers, json=data) 
-
+        restartRequest = False
         # 201 means that we got a response of some kind
         if response.status_code == 201:
             # results are packed into a json object
@@ -75,7 +76,7 @@ def processRow(index, ourRow, lang_code, voice, \
             print(f"Conversion initiated. Transcription ID: {transcription_id}")
         
             # Poll the status until completion or we get 5 error returns
-            while True and errorCount < 5:
+            while True and errorCount < 5 and restartRequest == False:
                 downloadURL = None # clear each time
                 status_params = {"transcriptionId": transcription_id}
                 status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
@@ -86,9 +87,8 @@ def processRow(index, ourRow, lang_code, voice, \
                     if status_data['error'] == True: # and \
                         #status_data['message'] != 'Transcription still in progress':
                         print(f'Error translating {ourRow['item_id']}')
+                        restartRequest = True
                         errorCount = errorCount+1
-                        ## Currently we only retry the STATUS call
-                        #  We should retry the entire call!
                         continue # we want to start the loop over
                         
                 if status_data["converted"] == True:
@@ -104,8 +104,10 @@ def processRow(index, ourRow, lang_code, voice, \
                     # open file for writing
                     # Download the MP3 file
                     if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
+                        restartRequest = False
+                        errorCount = 0
                         with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
-                                lang_code, audio_base_dir), "wb") as file:
+                                audio_base_dir, lang_code), "wb") as file:
                             file.write(audioData.content)
                             # Write label ourRow in PD as translated?
                             # write content to masterData
@@ -118,18 +120,15 @@ def processRow(index, ourRow, lang_code, voice, \
                                 # write as we go, so erroring out doesn't lose progress
                                 # Translated, so we can save it to a master sheet
                             masterData.to_csv("translation_master.csv")
-                            errorCount = 0
-                        break
-                    else:
-                        print("Failed to download the MP3 file")
-                        break
+                    # finished with the if statement        
+                            return True    
                 else:
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
                     # currently most tasks complet in about 1 second, so .5 seconds
                     # seems like a good tradeoff between "over-polling" and "over-waiting"
                     time.sleep(retrySeconds)  # Wait before checking again
             else:
-                break
+                continue
     else:
         # we've tried several times
         return False
