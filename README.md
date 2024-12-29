@@ -14,13 +14,13 @@
 4. Optionally push/merge the audio files to the asset repo, and/or
     sync them to the appropriate google bucket using 'gsutil rsync -r <src> <bucket>'
 
-Flow:
+## Code Flow:
 
 Batch/Shell files call generate_speech.py with the appropriate language code and voice.
 
-CURRENTLY only PlayHt is supported.
+(CURRENTLY only PlayHt is supported.)
 
-generate_speech.py compares the desired audio with its persistent cache of what
+_generate_speech.py_ compares the desired audio with its persistent cache of what
 it has already translated. If a string is new or changed, it is placed in
 'needed_item_bank_translation.csv'
 
@@ -35,11 +35,22 @@ As needed, the module will wait for a status of completed.
 It also restarts the request if it receives an error. Currently it will
 do that 5 times before giving up.
 
-NOTE: Errors aren't a problem for English and Spanish, but happen for German.
+## Error Handling
+
+Errors aren't a problem for English and Spanish, but happen for German.
 There doesn't seem to be a pattern, but it means that sometimes the batch/shell
 file has to be re-run. After a couple/few runs, everything gets translated.
 
 There is a helper script count_audio.[bat|sh] that counts the number of
 audio files generated for each language, as a sanity check.
+
+## Resetting audio transcriptions
+
+To change to a new voice or if for some other reason you want to redo
+transcriptions for a specific language, simple set the appropriate
+language column to None. You can do this by importing as a DataFrame
+and then just using a column operation. [At some point we should make this a function]
+
+
 
 
