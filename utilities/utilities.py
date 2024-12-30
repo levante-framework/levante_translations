@@ -1,5 +1,6 @@
 # wrapper so trying to create a directory that exists doesn't fail
 import os
+import textwrap
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -16,3 +17,6 @@ def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
         os.makedirs(full_file_folder, exist_ok=True)
     full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
     return full_file_path
+
+def wrap_text(text, width=40):
+    return "\n".join(textwrap.wrap(text, width=width))

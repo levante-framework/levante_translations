@@ -3,6 +3,7 @@ from tkinter import ttk
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
+import textwrap
 
 import math
 class App(ctk.CTk):
@@ -11,7 +12,7 @@ class App(ctk.CTk):
         super().__init__()
 
         self.title("Levante Translation Dashboard")
-        self.geometry("800x600")
+        self.geometry("1000x600")
 
         # Top frame with buttons
         self.top_frame = ctk.CTkFrame(self)
@@ -28,7 +29,6 @@ class App(ctk.CTk):
         # Add scrollable frame to Tab 1
         self.scrollable_frame = ctk.CTkScrollableFrame(self.tab1)
         self.scrollable_frame.pack(expand=True, fill="both", padx=10, pady=10)
-
 
         self.create_table(self.scrollable_frame)
 
@@ -52,10 +52,10 @@ class App(ctk.CTk):
                 # Get the text of the selected item
                 item_text = event.widget.item(item, "text")
         
-                print(f"Selected item: {item}")
-                print(f"Selected column: {column}")
-                print(f"Item text: {item_text}")
-                print(f"Item values: {item_values}")
+#                print(f"Selected item: {item}")
+#                print(f"Selected column: {column}")
+#                print(f"Item text: {item_text}")
+#                print(f"Item values: {item_values}")
 
                 # play audio
                 # should go by column name...
@@ -66,13 +66,20 @@ class App(ctk.CTk):
 
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
-        self.tree = ttk.Treeview(parent, columns=columns, show="headings")
+        style = ttk.Style()
+        style.configure("Treeview", rowheight=80, \
+                        font=('TkDefaultFont', 16))
+
+        self.tree = ttk.Treeview(parent, columns=columns, show="headings", style='Treeview')
         self.tree.bind("<<TreeviewSelect>>", on_tree_select)
 
         # Define column headings
         for col in columns:
             self.tree.heading(col, text=col)
-            self.tree.column(col, width=150)
+            if col == 'Item' or col == 'Task' or col == 'Audio':
+                self.tree.column(col, width=15)
+            else:
+                self.tree.column(col, width=200)
 
         ## Hack file name!
         ourData = pd.read_csv("c:/levante/audio-generation/item_bank_translations.csv")
@@ -83,6 +90,11 @@ class App(ctk.CTk):
             if type(row['labels']) == type('str'):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
+
+                # Hack for column numbers
+                values[2] = u.wrap_text(values[2])
+                values[3] = u.wrap_text(values[3])
+
                 self.tree.insert("", "end", values=values)
 
                 self.tree.pack(expand=True, fill="both")
