@@ -2,7 +2,7 @@ import customtkinter as ctk
 from tkinter import ttk
 import pandas as pd
 from utilities import utilities as u
-
+import math
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -32,6 +32,8 @@ class App(ctk.CTk):
 
     def create_table(self, parent):
 
+        # hard-wire for now:
+        lang_code = 'es-CO'
 
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
@@ -46,11 +48,14 @@ class App(ctk.CTk):
         ourData = pd.read_csv("c:/levante/audio-generation/item_bank_translations.csv")
         # Insert DataFrame rows into the Treeview
         for index, row in ourData.iterrows():
-            audio_file_name = u.audio_file_path(row['item_id'], base, row['es-CO'])
-            values = [row['item_id'], row['labels'], row['en'], row['es-CO'], audio_file_name]
-            self.tree.insert("", "end", values=values)
+            base = "audio_files"
 
-            self.tree.pack(expand=True, fill="both")
+            if not type(row['labels']) and not math.isnan(row['labels']):
+                audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
+                values = [row['item_id'], row['en'], row[lang_code], audio_file_name]
+                self.tree.insert("", "end", values=values)
+
+                self.tree.pack(expand=True, fill="both")
 
     def button_click(self):
         print("Button clicked!")
