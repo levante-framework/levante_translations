@@ -22,13 +22,16 @@ class App(ctk.CTk):
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # First row
-        self.generatedEnglish = ctk.CTkLabel(self.top_frame, text="English Audio: ###")
+        generated_english = u.count_audio_files('en')
+        self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
         self.generatedEnglish.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
-        self.generatedSpanish = ctk.CTkLabel(self.top_frame, text="Spanish Audio: ###")
+        generated_spanish = u.count_audio_files('es-CO')
+        self.generatedSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Audio: {generated_spanish}')
         self.generatedSpanish.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-        self.generatedGerman = ctk.CTkLabel(self.top_frame, text="German Audio: ###")
+        generated_german = u.count_audio_files('de')
+        self.generatedGerman = ctk.CTkLabel(self.top_frame, text=f'German Audio: {generated_german}')
         self.generatedGerman.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
         # Second row
@@ -56,18 +59,25 @@ class App(ctk.CTk):
         self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
 
         # Create tabs
+        self.tabEnglish = self.tabview.add("English")
         self.tabSpanish = self.tabview.add("Spanish")
         self.tabGerman = self.tabview.add("German")
 
-        # Add scrollable frame to Tab 1
+        # Add scrollable frames
+        self.englishFrame = ctk.CTkScrollableFrame(self.tabEnglish)
+        self.englishFrame.pack(expand=True, fill="both", padx=10, pady=10)
+
         self.spanishFrame = ctk.CTkScrollableFrame(self.tabSpanish)
         self.spanishFrame.pack(expand=True, fill="both", padx=10, pady=10)
+      
+        self.germanFrame = ctk.CTkScrollableFrame(self.tabGerman)
+        self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        self.create_table(self.spanishFrame)
+        self.create_table(self.englishFrame, 'en')
+        self.create_table(self.spanishFrame, 'es-CO')
+        self.create_table(self.germanFrame, 'de')
 
-
-
-    def create_table(self, parent):
+    def create_table(self, parent, lang_code):
 
         def on_tree_select(event):
             # Get the ID of the selected item
@@ -85,18 +95,10 @@ class App(ctk.CTk):
                 # Get the text of the selected item
                 item_text = event.widget.item(item, "text")
         
-#                print(f"Selected item: {item}")
-#                print(f"Selected column: {column}")
-#                print(f"Item text: {item_text}")
-#                print(f"Item values: {item_values}")
-
                 # play audio
                 # should go by column name...
                 playsound(item_values[4])
 
-        # hard-wire for now:
-        lang_code_spanish = 'es-CO'
-        lang_code_german = 'de'
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
         style = ttk.Style()
@@ -121,8 +123,8 @@ class App(ctk.CTk):
             base = "audio_files"
 
             if type(row['labels']) == type('str'):
-                audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code_spanish)
-                values = [row['item_id'], row['labels'], row['en'], row[lang_code_spanish], audio_file_name]
+                audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
+                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
                 values[2] = u.wrap_text(values[2])
