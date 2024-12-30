@@ -9,7 +9,7 @@ import numpy as np
 import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
-import utilities as u
+import utilities.utilities as u
 
 # Constants for API, in this case for Play.Ht, maybe
 API_URL = "https://api.play.ht/api/v1/convert"
