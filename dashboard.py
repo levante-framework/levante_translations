@@ -4,6 +4,7 @@ import pandas as pd
 from utilities import utilities as u
 import math
 class App(ctk.CTk):
+
     def __init__(self):
         super().__init__()
 
@@ -13,7 +14,6 @@ class App(ctk.CTk):
         # Top frame with buttons
         self.top_frame = ctk.CTkFrame(self)
         self.top_frame.pack(side="top", fill="x", padx=10, pady=10)
-
 
         # Tabbed frame
         self.tabview = ctk.CTkTabview(self)
@@ -27,17 +27,42 @@ class App(ctk.CTk):
         self.scrollable_frame = ctk.CTkScrollableFrame(self.tab1)
         self.scrollable_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        # Create a table in the scrollable frame
+
         self.create_table(self.scrollable_frame)
+
+
 
     def create_table(self, parent):
 
-        # hard-wire for now:
+        def on_tree_select(event):
+            # Get the ID of the selected item
+            selected_items = event.widget.selection()
+    
+            if selected_items:  # Check if any item is selected
+                item = selected_items[0]  # Get the first selected item
+        
+             # Get the column ID (if needed)
+                column = event.widget.identify_column(event.widget.winfo_pointerx() - event.widget.winfo_rootx())
+        
+                # Get the values of the selected item
+                item_values = event.widget.item(item, "values")
+        
+                # Get the text of the selected item
+                item_text = event.widget.item(item, "text")
+        
+                print(f"Selected item: {item}")
+                print(f"Selected column: {column}")
+                print(f"Item text: {item_text}")
+                print(f"Item values: {item_values}")
+
+
+           # hard-wire for now:
         lang_code = 'es-CO'
 
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
         self.tree = ttk.Treeview(parent, columns=columns, show="headings")
+        self.tree.bind("<<TreeviewSelect>>", on_tree_select)
 
         # Define column headings
         for col in columns:
@@ -57,8 +82,12 @@ class App(ctk.CTk):
 
                 self.tree.pack(expand=True, fill="both")
 
-    def button_click(self):
-        print("Button clicked!")
+
+
+
+
+    
+
 
 if __name__ == "__main__":
     app = App()
