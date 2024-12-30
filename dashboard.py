@@ -52,7 +52,7 @@ class App(ctk.CTk):
 
             if type(row['labels']) == type('str'):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
-                values = [row['item_id'], row['en'], row[lang_code], audio_file_name]
+                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
                 self.tree.insert("", "end", values=values)
 
                 self.tree.pack(expand=True, fill="both")
