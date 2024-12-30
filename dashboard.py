@@ -18,16 +18,39 @@ class App(ctk.CTk):
         self.top_frame = ctk.CTkFrame(self)
         self.top_frame.pack(side="top", fill="x", padx=10, pady=10)
 
+       # Configure the grid layout
+        self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+        # First row
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text="English Audio: ###")
+        self.generatedEnglish.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
         self.generatedSpanish = ctk.CTkLabel(self.top_frame, text="Spanish Audio: ###")
+        self.generatedSpanish.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
         self.generatedGerman = ctk.CTkLabel(self.top_frame, text="German Audio: ###")
+        self.generatedGerman.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
-        # Position the labels within the top frame
-        self.generatedEnglish.pack(pady=5)
-        self.generatedSpanish.pack(pady=5)
-        self.generatedGerman.pack(pady=5)
+        # Second row
+        self.errorsEnglish = ctk.CTkLabel(self.top_frame, text="English Errors: ###")
+        self.errorsEnglish.grid(row=1, column=0, padx=5, pady=5, sticky="w")
 
+        self.errorsSpanish = ctk.CTkLabel(self.top_frame, text="Spanish Errors: ###")
+        self.errorsSpanish.grid(row=1, column=1, padx=5, pady=5, sticky="w")
 
+        self.errorsGerman = ctk.CTkLabel(self.top_frame, text="German Errors: ###")
+        self.errorsGerman.grid(row=1, column=2, padx=5, pady=5, sticky="w")
+
+        # Third row
+        self.notaskEnglish = ctk.CTkLabel(self.top_frame, text="English No Task: ###")
+        self.notaskEnglish.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+
+        self.notaskSpanish = ctk.CTkLabel(self.top_frame, text="Spanish No Task: ###")
+        self.notaskSpanish.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.notaskGerman = ctk.CTkLabel(self.top_frame, text="German No Task: ###")
+        self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")
+        
         # Tabbed frame
         self.tabview = ctk.CTkTabview(self)
         self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
@@ -114,14 +137,3 @@ if __name__ == "__main__":
     app = App()
     app.mainloop()
 
-# Spare stuff
-"""
-        self.button1 = ctk.CTkButton(self.top_frame, text="Button 1", command=self.button_click)
-        self.button1.pack(side="left", padx=5)
-
-        self.button2 = ctk.CTkButton(self.top_frame, text="Button 2", command=self.button_click)
-        self.button2.pack(side="left", padx=5)
-
-        self.button3 = ctk.CTkButton(self.top_frame, text="Button 3", command=self.button_click)
-        self.button3.pack(side="left", padx=5)
-"""
