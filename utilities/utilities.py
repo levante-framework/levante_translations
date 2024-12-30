@@ -4,6 +4,8 @@ import textwrap
 import subprocess
 import pandas as pd
 
+stats_file_path = 'stats.csv'
+
 def create_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -34,8 +36,8 @@ def count_audio_files(lang_code):
 
 def store_stats(lang_code, errors, notask):
 
-    # first initialize our statistics data
     stats_file_path = 'stats.csv'
+    # first initialize our statistics data
     if os.path.exists(stats_file_path):
         statsData = pd.read_csv(stats_file_path)
     else:
@@ -63,7 +65,16 @@ def store_stats(lang_code, errors, notask):
     # Correct way to update values
     statsData.loc[statsData['Language'] == language, ['Errors', 'No Task']] = [errors, notask]
 
-    statsData.to_csv(stats_file_path)
+    statsData.to_csv(stats_file_path, index=False)
 
-# test code
+def get_stats():
+    if not os.path.exists(stats_file_path):
+        return(False)
+    else:
+        statsData = pd.read_csv(stats_file_path)
+    print(f'Stats: {statsData}')
+    return(statsData)
+
+# for debugging
 store_stats('en', 0, 60)
+get_stats()

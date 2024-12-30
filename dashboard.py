@@ -21,6 +21,22 @@ class App(ctk.CTk):
        # Configure the grid layout
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
+        # get error and no task stats
+        statsData = u.get_stats()
+
+        # This could almost certainly be done with less code
+        englishStats = statsData.loc[statsData['Language'] == 'English']
+        englishErrors = englishStats['Errors']
+        englishNoTask = englishStats['No Task']
+
+        spanishStats = statsData.loc[statsData['Language'] == 'Spanish']
+        spanishErrors = englishStats['Errors']
+        spanishNoTask = englishStats['No Task']
+
+        germanStats = statsData.loc[statsData['Language'] == 'German']
+        germanErrors = englishStats['Errors']
+        germanNoTask = englishStats['No Task']
+
         # First row
         generated_english = u.count_audio_files('en')
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
@@ -35,23 +51,23 @@ class App(ctk.CTk):
         self.generatedGerman.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
         # Second row
-        self.errorsEnglish = ctk.CTkLabel(self.top_frame, text="English Errors: ###")
+        self.errorsEnglish = ctk.CTkLabel(self.top_frame, text=f'English Errors: {englishErrors}')
         self.errorsEnglish.grid(row=1, column=0, padx=5, pady=5, sticky="w")
 
-        self.errorsSpanish = ctk.CTkLabel(self.top_frame, text="Spanish Errors: ###")
+        self.errorsSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Errors: {spanishErrors}')
         self.errorsSpanish.grid(row=1, column=1, padx=5, pady=5, sticky="w")
 
-        self.errorsGerman = ctk.CTkLabel(self.top_frame, text="German Errors: ###")
+        self.errorsGerman = ctk.CTkLabel(self.top_frame, text=f'German Errors: {germanErrors}')
         self.errorsGerman.grid(row=1, column=2, padx=5, pady=5, sticky="w")
 
         # Third row
-        self.notaskEnglish = ctk.CTkLabel(self.top_frame, text="English No Task: ###")
+        self.notaskEnglish = ctk.CTkLabel(self.top_frame, text=f'English No Task: {englishNoTask}')
         self.notaskEnglish.grid(row=2, column=0, padx=5, pady=5, sticky="w")
 
-        self.notaskSpanish = ctk.CTkLabel(self.top_frame, text="Spanish No Task: ###")
+        self.notaskSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish No Task: {spanishNoTask}')
         self.notaskSpanish.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        self.notaskGerman = ctk.CTkLabel(self.top_frame, text="German No Task: ###")
+        self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")
         
         # Tabbed frame
