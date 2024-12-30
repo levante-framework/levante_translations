@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import ttk
 import pandas as pd
+from utilities import utilities as u
 
 class App(ctk.CTk):
     def __init__(self):
@@ -30,6 +31,8 @@ class App(ctk.CTk):
         self.create_table(self.scrollable_frame)
 
     def create_table(self, parent):
+
+
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
         self.tree = ttk.Treeview(parent, columns=columns, show="headings")
@@ -43,7 +46,8 @@ class App(ctk.CTk):
         ourData = pd.read_csv("c:/levante/audio-generation/item_bank_translations.csv")
         # Insert DataFrame rows into the Treeview
         for index, row in ourData.iterrows():
-            values = [row['item_id'], row['labels'], row['en'], row['es-CO']]
+            audio_file_name = u.audio_file_path(row['item_id'], base, row['es-CO'])
+            values = [row['item_id'], row['labels'], row['en'], row['es-CO'], audio_file_name]
             self.tree.insert("", "end", values=values)
 
             self.tree.pack(expand=True, fill="both")
