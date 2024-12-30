@@ -59,7 +59,7 @@ class App(ctk.CTk):
 
                 # play audio
                 # should go by column name...
-                playsound(item_values[5])
+                playsound(item_values[4])
 
         # hard-wire for now:
         lang_code = 'es-CO'
