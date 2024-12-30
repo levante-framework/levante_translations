@@ -1,6 +1,7 @@
 # wrapper so trying to create a directory that exists doesn't fail
 import os
 import textwrap
+import subprocess
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -20,3 +21,12 @@ def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
 
 def wrap_text(text, width=40):
     return "\n".join(textwrap.wrap(text, width=width))
+
+def count_audio_files(lang_code):
+# Execute the command and capture the output
+    raw_result = subprocess.run(f'ls audio_files/*/{lang_code}/shared/* | wc -l', shell=True, capture_output=True, text=True)
+    return raw_result.stdout.strip()
+
+# debug/test code
+# foo = count_audio_files('en')
+# print(f'Audio: {foo}')
