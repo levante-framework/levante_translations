@@ -2,6 +2,8 @@ import customtkinter as ctk
 from tkinter import ttk
 import pandas as pd
 from utilities import utilities as u
+from playsound import playsound
+
 import math
 class App(ctk.CTk):
 
@@ -55,8 +57,11 @@ class App(ctk.CTk):
                 print(f"Item text: {item_text}")
                 print(f"Item values: {item_values}")
 
+                # play audio
+                # should go by column name...
+                playsound(item_values[5])
 
-           # hard-wire for now:
+        # hard-wire for now:
         lang_code = 'es-CO'
 
         # Create a treeview widget for the table

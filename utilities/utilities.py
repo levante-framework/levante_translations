@@ -11,7 +11,7 @@ def create_directory(path):
 # e.g. <base>/task/language/shared/<item>.mp3
 def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
     full_file_folder = \
-        os.path.join(task_name, item_name, audio_base_dir, lang_code, "shared")
+        os.path.join(audio_base_dir, task_name, lang_code, "shared")
     if not os.path.exists(full_file_folder):
         os.makedirs(full_file_folder, exist_ok=True)
     full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
