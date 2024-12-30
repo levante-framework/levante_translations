@@ -14,23 +14,33 @@ class App(ctk.CTk):
         self.title("Levante Translation Dashboard")
         self.geometry("1000x600")
 
-        # Top frame with buttons
+        # Top frame with labels
         self.top_frame = ctk.CTkFrame(self)
         self.top_frame.pack(side="top", fill="x", padx=10, pady=10)
+
+        self.generatedEnglish = ctk.CTkLabel(self.top_frame, text="English Audio: ###")
+        self.generatedSpanish = ctk.CTkLabel(self.top_frame, text="Spanish Audio: ###")
+        self.generatedGerman = ctk.CTkLabel(self.top_frame, text="German Audio: ###")
+
+        # Position the labels within the top frame
+        self.generatedEnglish.pack(pady=5)
+        self.generatedSpanish.pack(pady=5)
+        self.generatedGerman.pack(pady=5)
+
 
         # Tabbed frame
         self.tabview = ctk.CTkTabview(self)
         self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
 
         # Create tabs
-        self.tab1 = self.tabview.add("Spanish")
-        self.tab2 = self.tabview.add("German")
+        self.tabSpanish = self.tabview.add("Spanish")
+        self.tabGerman = self.tabview.add("German")
 
         # Add scrollable frame to Tab 1
-        self.scrollable_frame = ctk.CTkScrollableFrame(self.tab1)
-        self.scrollable_frame.pack(expand=True, fill="both", padx=10, pady=10)
+        self.spanishFrame = ctk.CTkScrollableFrame(self.tabSpanish)
+        self.spanishFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        self.create_table(self.scrollable_frame)
+        self.create_table(self.spanishFrame)
 
 
 
@@ -62,8 +72,8 @@ class App(ctk.CTk):
                 playsound(item_values[4])
 
         # hard-wire for now:
-        lang_code = 'es-CO'
-
+        lang_code_spanish = 'es-CO'
+        lang_code_german = 'de'
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
         style = ttk.Style()
@@ -88,8 +98,8 @@ class App(ctk.CTk):
             base = "audio_files"
 
             if type(row['labels']) == type('str'):
-                audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
-                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
+                audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code_spanish)
+                values = [row['item_id'], row['labels'], row['en'], row[lang_code_spanish], audio_file_name]
 
                 # Hack for column numbers
                 values[2] = u.wrap_text(values[2])
@@ -98,12 +108,6 @@ class App(ctk.CTk):
                 self.tree.insert("", "end", values=values)
 
                 self.tree.pack(expand=True, fill="both")
-
-
-
-
-
-    
 
 
 if __name__ == "__main__":
