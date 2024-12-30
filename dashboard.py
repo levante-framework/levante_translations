@@ -50,7 +50,7 @@ class App(ctk.CTk):
         for index, row in ourData.iterrows():
             base = "audio_files"
 
-            if not type(row['labels']) and not math.isnan(row['labels']):
+            if type(row['labels']) == type('str'):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 values = [row['item_id'], row['en'], row[lang_code], audio_file_name]
                 self.tree.insert("", "end", values=values)
