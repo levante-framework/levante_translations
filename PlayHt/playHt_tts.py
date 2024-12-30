@@ -194,6 +194,9 @@ def main(
             stats['NoTask']+= 1
         elif result == 'Success':
             stats['Processed']+= 1
+    
+    # Store stats for retrieval by dashboard
+    u.store_stats(lang_code, stats['Errors'], stats['NoTask'])
 
     print(f"Processed: {stats['Processed']}, Errors: {stats['Errors']}, \
           No Task: {stats['NoTask']}")

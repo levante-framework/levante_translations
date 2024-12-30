@@ -2,6 +2,7 @@
 import os
 import textwrap
 import subprocess
+import pandas as pd
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -30,3 +31,39 @@ def count_audio_files(lang_code):
 # debug/test code
 # foo = count_audio_files('en')
 # print(f'Audio: {foo}')
+
+def store_stats(lang_code, errors, notask):
+
+    # first initialize our statistics data
+    stats_file_path = 'stats.csv'
+    if os.path.exists(stats_file_path):
+        statsData = pd.read_csv(stats_file_path)
+    else:
+        # create a new dataframe
+        statsData = pd.DataFrame(columns=['Language', 'Errors', 'No Task'])
+        new_rows = [
+            ['English', 0, 0],
+            ['Spanish', 0, 0],
+            ['German', 0, 0]
+        ]
+    
+        for row in new_rows:
+            statsData.loc[len(statsData)] = row
+        
+    if lang_code == 'en':
+        language = 'English'
+    elif lang_code == 'es-CO':
+        language = 'Spanish'
+    elif lang_code == 'de':
+        language = 'German'
+    else:
+        return()
+            
+    # now that we have a DataFrame with rows modify our stats
+    # Correct way to update values
+    statsData.loc[statsData['Language'] == language, ['Errors', 'No Task']] = [errors, notask]
+
+    statsData.to_csv(stats_file_path)
+
+# test code
+store_stats('en', 0, 60)
