@@ -20,7 +20,7 @@ class App(ctk.CTk):
         self.top_frame = ctk.CTkFrame(self)
         self.top_frame.pack(side="top", fill="x", padx=10, pady=10)
 
-       # Configure the grid layout
+        # Configure the grid layout
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # get error and no task stats
@@ -98,28 +98,32 @@ class App(ctk.CTk):
 
         self.searchFrameEnglish = ctk.CTkFrame(self.englishFrame)
         self.searchFrameEnglish.pack(side='top')
+        self.create_search_frame(self.searchFrameEnglish)
 
-        # Create a label
-        label = ctk.CTkLabel(self.searchFrameEnglish, text="Search for task: ")
-        label.pack(side='left', pady=(10, 0))
-
-        # Now create the search box
-        self.search_var = tk.StringVar()
-        self.search_entry_english = ctk.CTkEntry(self.searchFrameEnglish, textvariable=self.search_var)
-        self.search_entry_english.pack(side='left', pady=10)
-
-        #self.search_var.trace("w", self.search_treeview)
-        self.search_entry_english.bind("<Return>", self.search_treeview)
-
-        self.search_entry_spanish = ctk.CTkEntry(self.spanishFrame, textvariable=self.search_var, placeholder_text="Search...")
-        self.search_entry_spanish.pack(padx=10, pady=10)
-
-        self.search_entry_german = ctk.CTkEntry(self.germanFrame, textvariable=self.search_var, placeholder_text="Search...")
-        self.search_entry_german.pack(padx=10, pady=10)
+        self.searchFrameSpanish = ctk.CTkFrame(self.spanishFrame)
+        self.searchFrameSpanish.pack(side='top')
+        self.create_search_frame(self.searchFrameSpanish)
+        
+        self.searchFrameGerman = ctk.CTkFrame(self.germanFrame)
+        self.searchFrameGerman.pack(side='top')
+        self.create_search_frame(self.searchFrameGerman)
 
         self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
         self.germanTree = self.create_table(self.germanFrame, 'de')
+
+    def create_search_frame(self, parentFrame):
+                # Create a label
+        label = ctk.CTkLabel(parentFrame, text="Search for task: ")
+        label.pack(side='left', pady=(10, 0))
+
+        # Now create the search boxes for each language
+        parentFrame.search_var = tk.StringVar()
+        parentFrame.search_entry = ctk.CTkEntry(parentFrame, textvariable=parentFrame.search_var)
+        parentFrame.search_entry.pack(side='left', pady=10)
+
+        #self.search_var.trace("w", self.search_treeview)
+        parentFrame.search_entry.bind("<Return>", self.search_treeview)
 
     def create_table(self, parent, lang_code):
 
