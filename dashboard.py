@@ -95,9 +95,17 @@ class App(ctk.CTk):
 
         # Create search (try for just english for now)
         ### NOTE: This needs to become multi-lingual
+
+        # First make a label
+        # Create a label
+        label = ctk.CTkLabel(self.englishFrame, text="Search for task: ")
+        label.pack(pady=(10, 0))
+
+        # Now create the search box
         self.search_var = tk.StringVar()
         self.search_entry_english = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var)
-        self.search_entry_english.pack()
+        self.search_entry_english.pack(pady=10)
+
         #self.search_var.trace("w", self.search_treeview)
         self.search_entry_english.bind("<Return>", self.search_treeview)
 
