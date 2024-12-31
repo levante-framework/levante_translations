@@ -74,7 +74,3 @@ def get_stats():
         statsData = pd.read_csv(stats_file_path)
     print(f'Stats: {statsData}')
     return(statsData)
-
-# for debugging
-store_stats('en', 0, 60)
-get_stats()
