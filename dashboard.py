@@ -94,11 +94,13 @@ class App(ctk.CTk):
         self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
         # Create search (try for just english for now)
+        ### NOTE: This needs to become multi-lingual
         self.search_var = tk.StringVar()
-        self.search_var.trace("w", self.search_treeview)
+        self.search_entry_english = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var)
+        self.search_entry_english.pack()
+        #self.search_var.trace("w", self.search_treeview)
+        self.search_entry_english.bind("<Return>", self.search_treeview)
 
-        self.search_entry_english = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var, placeholder_text="Search...")
-        self.search_entry_english.pack(padx=10, pady=10)
 
         self.search_entry_spanish = ctk.CTkEntry(self.spanishFrame, textvariable=self.search_var, placeholder_text="Search...")
         self.search_entry_spanish.pack(padx=10, pady=10)
