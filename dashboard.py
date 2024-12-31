@@ -26,16 +26,16 @@ class App(ctk.CTk):
 
         # This could almost certainly be done with less code
         englishStats = statsData.loc[statsData['Language'] == 'English']
-        englishErrors = englishStats['Errors']
-        englishNoTask = englishStats['No Task']
+        englishErrors = englishStats['Errors'][0]
+        englishNoTask = englishStats['No Task'][0]
 
         spanishStats = statsData.loc[statsData['Language'] == 'Spanish']
-        spanishErrors = englishStats['Errors']
-        spanishNoTask = englishStats['No Task']
+        spanishErrors = englishStats['Errors'][0]
+        spanishNoTask = englishStats['No Task'][0]
 
         germanStats = statsData.loc[statsData['Language'] == 'German']
-        germanErrors = englishStats['Errors']
-        germanNoTask = englishStats['No Task']
+        germanErrors = englishStats['Errors'][0]
+        germanNoTask = englishStats['No Task'][0]
 
         # First row
         generated_english = u.count_audio_files('en')
