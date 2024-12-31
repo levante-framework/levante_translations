@@ -3,9 +3,7 @@ from tkinter import ttk
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
-import textwrap
 
-import math
 class App(ctk.CTk):
 
     def __init__(self):
