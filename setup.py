@@ -6,7 +6,7 @@ setup(
     packages=find_packages(include=['your_package_name', 'your_package_name.*']),
     install_requires=[
         # List your project dependencies here
-        beautifulsoup4==4.12.3
+        beautifulsoup4==4.12.3,
         bs4==0.0.2,
         certifi==2024.12.14,
         charset-normalizer==3.4.1,
