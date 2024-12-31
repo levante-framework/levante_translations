@@ -10,6 +10,9 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
+        ## Hack file name!
+        self.ourData = pd.read_csv("item_bank_translations.csv")
+
         self.title("Levante Translation Dashboard")
         self.geometry("1000x600")
 
@@ -84,21 +87,26 @@ class App(ctk.CTk):
         self.englishFrame = ctk.CTkFrame(self.tabEnglish)
         self.englishFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        self.spanishFrame = ctk.CTkScrollableFrame(self.tabSpanish)
+        self.spanishFrame = ctk.CTkFrame(self.tabSpanish)
         self.spanishFrame.pack(expand=True, fill="both", padx=10, pady=10)
       
-        self.germanFrame = ctk.CTkScrollableFrame(self.tabGerman)
+        self.germanFrame = ctk.CTkFrame(self.tabGerman)
         self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
         # Create search (try for just english for now)
         self.search_var = tk.StringVar()
         self.search_var.trace("w", self.search_treeview)
 
-        self.search_entry = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var, placeholder_text="Search...")
-        self.search_entry.pack(padx=10, pady=10)
+        self.search_entry_english = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var, placeholder_text="Search...")
+        self.search_entry_english.pack(padx=10, pady=10)
 
-        self.englishTree = self.create_table(self.englishFrame, 'en')
-        
+        self.search_entry_spanish = ctk.CTkEntry(self.spanishFrame, textvariable=self.search_var, placeholder_text="Search...")
+        self.search_entry_spanish.pack(padx=10, pady=10)
+
+        self.search_entry_german = ctk.CTkEntry(self.germanFrame, textvariable=self.search_var, placeholder_text="Search...")
+        self.search_entry_german.pack(padx=10, pady=10)
+
+        self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
         self.germanTree = self.create_table(self.germanFrame, 'de')
 
@@ -149,10 +157,8 @@ class App(ctk.CTk):
             else:
                 ourTree.column(col, width=200)
 
-        ## Hack file name!
-        ourData = pd.read_csv("item_bank_translations.csv")
         # Insert DataFrame rows into the Treeview
-        for index, row in ourData.iterrows():
+        for index, row in self.ourData.iterrows():
             base = "audio_files"
 
             if type(row['labels']) == type('str'):
