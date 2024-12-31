@@ -1,5 +1,6 @@
-import customtkinter as ctk
+import tkinter as tk
 from tkinter import ttk
+import customtkinter as ctk
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
@@ -78,7 +79,9 @@ class App(ctk.CTk):
         self.tabGerman = self.tabview.add("German")
 
         # Add scrollable frames
-        self.englishFrame = ctk.CTkScrollableFrame(self.tabEnglish)
+        # Or frames with scrollbars?
+        #self.englishFrame = ctk.CTkScrollableFrame(self.tabEnglish)
+        self.englishFrame = ctk.CTkFrame(self.tabEnglish)
         self.englishFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
         self.spanishFrame = ctk.CTkScrollableFrame(self.tabSpanish)
@@ -87,9 +90,17 @@ class App(ctk.CTk):
         self.germanFrame = ctk.CTkScrollableFrame(self.tabGerman)
         self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        self.create_table(self.englishFrame, 'en')
-        self.create_table(self.spanishFrame, 'es-CO')
-        self.create_table(self.germanFrame, 'de')
+        # Create search (try for just english for now)
+        self.search_var = tk.StringVar()
+        self.search_var.trace("w", self.search_treeview)
+
+        self.search_entry = ctk.CTkEntry(self.englishFrame, textvariable=self.search_var, placeholder_text="Search...")
+        self.search_entry.pack(padx=10, pady=10)
+
+        self.englishTree = self.create_table(self.englishFrame, 'en')
+        
+        self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
+        self.germanTree = self.create_table(self.germanFrame, 'de')
 
     def create_table(self, parent, lang_code):
 
@@ -119,16 +130,24 @@ class App(ctk.CTk):
         style.configure("Treeview", rowheight=80, \
                         font=('TkDefaultFont', 16))
 
-        self.tree = ttk.Treeview(parent, columns=columns, show="headings", style='Treeview')
-        self.tree.bind("<<TreeviewSelect>>", on_tree_select)
+        ourTree = ttk.Treeview(parent, columns=columns, show="headings", style='Treeview')
+        ourTree.bind("<<TreeviewSelect>>", on_tree_select)
+
+        vsb = ctk.CTkScrollbar(parent, orientation="vertical", command=ourTree.yview)
+        hsb = ctk.CTkScrollbar(parent, orientation="horizontal", command=ourTree.xview)
+
+        ourTree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+
+        vsb.pack(side="right", fill="y")
+        hsb.pack(side="bottom", fill="x")
 
         # Define column headings
         for col in columns:
-            self.tree.heading(col, text=col)
+            ourTree.heading(col, text=col)
             if col == 'Item' or col == 'Task' or col == 'Audio':
-                self.tree.column(col, width=15)
+                ourTree.column(col, width=15)
             else:
-                self.tree.column(col, width=200)
+                ourTree.column(col, width=200)
 
         ## Hack file name!
         ourData = pd.read_csv("item_bank_translations.csv")
@@ -144,10 +163,28 @@ class App(ctk.CTk):
                 values[2] = u.wrap_text(values[2])
                 values[3] = u.wrap_text(values[3])
 
-                self.tree.insert("", "end", values=values)
+                ourTree.insert("", "end", values=values)
 
-                self.tree.pack(expand=True, fill="both")
+                ourTree.pack(expand=True, fill="both")
+        return ourTree
 
+    def search_treeview(self, *args):
+        # should switch between trees!
+        tree = self.englishTree
+        query = self.search_var.get()
+        for item_index in tree.get_children():
+            # column 0 is the task name
+            if query in tree.item(item_index, 'values')[0]:
+                tree.focus_set()
+                tree.focus(item_index)
+                tree.selection_set(item_index)
+                tree.see(item_index)
+                # add a break to only pick one
+                break
+            else:
+                tree.selection_remove(item_index)
+
+    
 
 if __name__ == "__main__":
     app = App()
