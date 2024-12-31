@@ -131,7 +131,7 @@ class App(ctk.CTk):
                 self.tree.column(col, width=200)
 
         ## Hack file name!
-        ourData = pd.read_csv("c:/levante/audio-generation/item_bank_translations.csv")
+        ourData = pd.read_csv("item_bank_translations.csv")
         # Insert DataFrame rows into the Treeview
         for index, row in ourData.iterrows():
             base = "audio_files"
