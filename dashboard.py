@@ -32,12 +32,12 @@ class App(ctk.CTk):
         englishNoTask = englishStats['No Task'][0]
 
         spanishStats = statsData.loc[statsData['Language'] == 'Spanish']
-        spanishErrors = englishStats['Errors'][0]
-        spanishNoTask = englishStats['No Task'][0]
+        spanishErrors = spanishStats['Errors'][1]
+        spanishNoTask = spanishStats['No Task'][1]
 
         germanStats = statsData.loc[statsData['Language'] == 'German']
-        germanErrors = englishStats['Errors'][0]
-        germanNoTask = englishStats['No Task'][0]
+        germanErrors = germanStats['Errors'][2]
+        germanNoTask = germanStats['No Task'][2]
 
         # First row
         generated_english = u.count_audio_files('en')
