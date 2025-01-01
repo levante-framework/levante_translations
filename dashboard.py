@@ -10,10 +10,10 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        ## Hack file name!
+        ## default file name!
         self.ourData = pd.read_csv("item_bank_translations.csv")
 
-        self.title("Levante Translation Dashboard")
+        self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
 
         # Top frame with labels
@@ -23,10 +23,10 @@ class App(ctk.CTk):
         # Configure the grid layout
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        # get error and no task stats
+        # get error and 'no task' stats
         statsData = u.get_stats()
 
-        # This could almost certainly be done with less code
+        # Need to refactor into a language-specific function
         englishStats = statsData.loc[statsData['Language'] == 'English']
         englishErrors = englishStats['Errors'][0]
         englishNoTask = englishStats['No Task'][0]
@@ -38,6 +38,8 @@ class App(ctk.CTk):
         germanStats = statsData.loc[statsData['Language'] == 'German']
         germanErrors = germanStats['Errors'][2]
         germanNoTask = germanStats['No Task'][2]
+
+        ## Might be good to add a voice row here
 
         # First row
         generated_english = u.count_audio_files('en')
@@ -72,18 +74,16 @@ class App(ctk.CTk):
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")
         
-        # Tabbed frame
+        # Tabbed frame for each language
         self.tabview = ctk.CTkTabview(self)
         self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
 
-        # Create tabs
+        # Create tabs -- should be enumeration of languages
         self.tabEnglish = self.tabview.add("English")
         self.tabSpanish = self.tabview.add("Spanish")
         self.tabGerman = self.tabview.add("German")
 
         # Add scrollable frames
-        # Or frames with scrollbars?
-        #self.englishFrame = ctk.CTkScrollableFrame(self.tabEnglish)
         self.englishFrame = ctk.CTkFrame(self.tabEnglish)
         self.englishFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
@@ -93,24 +93,11 @@ class App(ctk.CTk):
         self.germanFrame = ctk.CTkFrame(self.tabGerman)
         self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
 
-        # Create search (try for just english for now)
-        ### NOTE: This needs to become multi-lingual
-
-        self.searchFrameEnglish = ctk.CTkFrame(self.englishFrame)
-        self.searchFrameEnglish.pack(side='top')
-        self.create_search_frame(self.searchFrameEnglish)
-
-        self.searchFrameSpanish = ctk.CTkFrame(self.spanishFrame)
-        self.searchFrameSpanish.pack(side='top')
-        self.create_search_frame(self.searchFrameSpanish)
-        
-        self.searchFrameGerman = ctk.CTkFrame(self.germanFrame)
-        self.searchFrameGerman.pack(side='top')
-        self.create_search_frame(self.searchFrameGerman)
 
         self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
         self.germanTree = self.create_table(self.germanFrame, 'de')
+
 
     def create_search_frame(self, parentFrame):
                 # Create a label
@@ -123,7 +110,12 @@ class App(ctk.CTk):
         parentFrame.search_entry.pack(side='left', pady=10)
 
         #self.search_var.trace("w", self.search_treeview)
-        parentFrame.search_entry.bind("<Return>", self.search_treeview)
+        parentFrame.search_entry.bind("<Return>", self.search_treeview(parentFrame, "en"))
+
+        ## Start with hard-coded for english!!
+        parentFrame.search_entry.bind('<Return>', \
+            lambda event: self.tree_search(event, "en"))
+
 
     def create_table(self, parent, lang_code):
 
@@ -189,10 +181,19 @@ class App(ctk.CTk):
                 ourTree.pack(expand=True, fill="both")
         return ourTree
 
-    def search_treeview(self, *args):
-        # should switch between trees!
-        tree = self.englishTree
-        query = self.search_var.get()
+    def search_treeview(self, parentFrame, lang_code, *args):
+
+        query = parentFrame.search_var.get()
+        if lang_code == 'en':
+            tree = self.englishTree
+        elif lang_code == 'es-CO':
+            tree = self.spanishTree
+        elif lang_code == 'de':
+            tree = self.germanTree
+        else:
+            print ("NO LANGUAGE")
+            exit()
+
         for item_index in tree.get_children():
             # column 0 is the task name
             if query in tree.item(item_index, 'values')[0]:
