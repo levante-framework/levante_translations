@@ -30,10 +30,14 @@ class App(ctk.CTk):
 
         # Top frame with labels
         self.top_frame = ctk.CTkFrame(self.fullFrame)
-        self.top_frame.grid(row=0, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
+        self.top_frame.grid(row=0, column=0, columnspan=3, sticky="nsew", padx=10, pady=10)
 
         # Configure the grid layout for top_frame
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+        number_of_rows = 3 # for now
+        for i in range(number_of_rows):
+            self.top_frame.grid_rowconfigure(i, weight=1)
 
         # Show statistics per language in top frame
         self.display_stats()
@@ -127,21 +131,26 @@ class App(ctk.CTk):
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")           
 
     def create_search_frame(self, parent):
-        search_frame = ctk.CTkFrame(parent) 
+        search_frame = ctk.CTkFrame(parent)
         search_frame.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
-        # Add your search widgets to the search_frame here
 
-        label = ctk.CTkLabel(parent, text="Search for task: ")
-        #label.pack(side='top', pady=(10, 0))
+        # Configure the grid layout for search_frame
+        search_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
-        # Now create the search boxes for each language
+        # Add label to the search_frame
+        label = ctk.CTkLabel(search_frame, text="Search for task: ")
+        label.grid(row=0, column=0, padx=(5,2), pady=5, sticky="w")
+
+        # Create the search box and add it to search_frame
         parent.search_var = tk.StringVar()
-        parent.search_entry = ctk.CTkEntry(parent, textvariable=parent.search_var)
-        #parentFrame.search_entry.pack(side='top', pady=10)
+        parent.search_entry = ctk.CTkEntry(search_frame, textvariable=parent.search_var)
+        parent.search_entry.grid(row=0, column=1, padx=(2,5), pady=5, sticky="ew")
 
-        #self.search_var.trace("w", self.search_treeview)
-        #parentFrame.search_entry.bind("<Return>", self.search_treeview(parentFrame, "en"))
+        # Optionally, you can add the event bindings here
+        # parent.search_var.trace("w", self.search_treeview)
+        # parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent, "en"))
 
+        return search_frame  # Return the frame in case you need to reference it later
 
     def create_table(self, parent, lang_code):
 
