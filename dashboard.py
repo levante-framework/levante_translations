@@ -27,17 +27,18 @@ class App(ctk.CTk):
         # Configure the grid layout for fullFrame
         self.fullFrame.grid_columnconfigure((0, 1, 2), weight=1)
         self.fullFrame.grid_rowconfigure(0, weight=1)
+        self.fullFrame.rowconfigure(0, weight=1)
 
         # Top frame with labels
-        self.top_frame = ctk.CTkFrame(self.fullFrame)
-        self.top_frame.grid(row=0, column=0, columnspan=3, sticky="nsew", padx=10, pady=10)
-
-        # Configure the grid layout for top_frame
-        self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
+        self.top_frame = ctk.CTkFrame(self.fullFrame, height=400)
+        self.top_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky="nsew")
 
         number_of_rows = 3 # for now
         for i in range(number_of_rows):
-            self.top_frame.grid_rowconfigure(i, minsize=50, weight=1)
+            self.top_frame.grid_rowconfigure(i, weight=1)
+
+        # Configure the grid layout for top_frame
+        self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Show statistics per language in top frame
         self.display_stats()
@@ -100,35 +101,35 @@ class App(ctk.CTk):
         # First row
         generated_english = u.count_audio_files('en')
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
-        self.generatedEnglish.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        self.generatedEnglish.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
         generated_spanish = u.count_audio_files('es-CO')
         self.generatedSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Audio: {generated_spanish}')
-        self.generatedSpanish.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+        self.generatedSpanish.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
         generated_german = u.count_audio_files('de')
         self.generatedGerman = ctk.CTkLabel(self.top_frame, text=f'German Audio: {generated_german}')
-        self.generatedGerman.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+        self.generatedGerman.grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
 
         # Second row
         self.errorsEnglish = ctk.CTkLabel(self.top_frame, text=f'English Errors: {englishErrors}')
-        self.errorsEnglish.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.errorsEnglish.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
         self.errorsSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Errors: {spanishErrors}')
-        self.errorsSpanish.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.errorsSpanish.grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
 
         self.errorsGerman = ctk.CTkLabel(self.top_frame, text=f'German Errors: {germanErrors}')
-        self.errorsGerman.grid(row=1, column=2, padx=5, pady=5, sticky="w")
+        self.errorsGerman.grid(row=1, column=2, padx=5, pady=5, sticky="nsew")
 
         # Third row
         self.notaskEnglish = ctk.CTkLabel(self.top_frame, text=f'English No Task: {englishNoTask}')
-        self.notaskEnglish.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        self.notaskEnglish.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
 
         self.notaskSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish No Task: {spanishNoTask}')
-        self.notaskSpanish.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+        self.notaskSpanish.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
 
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
-        self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")           
+        self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")           
 
     def create_search_frame(self, parent):
         search_frame = ctk.CTkFrame(parent)
