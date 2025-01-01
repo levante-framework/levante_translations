@@ -16,46 +16,56 @@ class App(ctk.CTk):
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
 
-        # Top frame with labels
-        self.top_frame = ctk.CTkFrame(self)
-        self.top_frame.pack(side="top", fill="x", padx=10, pady=10)
+        # Create and place the full frame
+        self.fullFrame = ctk.CTkFrame(self)
+        self.fullFrame.grid(row=0, column=0, sticky="nsew")
 
-        # Configure the grid layout
+        # Configure the grid layout for the main window
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        # Configure the grid layout for fullFrame
+        self.fullFrame.grid_columnconfigure((0, 1, 2), weight=1)
+        self.fullFrame.grid_rowconfigure(0, weight=1)
+
+        # Top frame with labels
+        self.top_frame = ctk.CTkFrame(self.fullFrame)
+        self.top_frame.grid(row=0, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
+
+        # Configure the grid layout for top_frame
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Show statistics per language in top frame
         self.display_stats()
 
-        # Configure the grid layout
-        self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
-
 ### -- Now the lower frame -- Tabbed frame for each language
 
         self.language_frame = ctk.CTkFrame(self)
-        self.language_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+        #self.language_frame.pack(side="bottom", fill="x", padx=10, pady=10)
 
         # Try setting up a 2 row x 1 column grid
         self.language_frame.grid_columnconfigure((0), weight=1)
-        #self.language_frame.grid_rowconfigure((0,1))
 
-        self.tabview = ctk.CTkTabview(self.language_frame)
+        self.create_search_frame(self.language_frame)
+        
+        tabview = ctk.CTkTabview(self.language_frame)
         #self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
-        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        tabview.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
-        self.tabEnglish = self.tabview.add("English")
-        self.tabSpanish = self.tabview.add("Spanish")
-        self.tabGerman = self.tabview.add("German")
+        tabEnglish = tabview.add("English")
+        tabSpanish = tabview.add("Spanish")
+        tabGerman = tabview.add("German")
 
         # Add scrollable frames
-        self.englishFrame = ctk.CTkFrame(self.tabEnglish)
-        self.englishFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+        self.englishFrame = ctk.CTkFrame(tabEnglish)
+        self.englishFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
 
-        self.spanishFrame = ctk.CTkFrame(self.tabSpanish)
-        self.spanishFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+        self.spanishFrame = ctk.CTkFrame(tabSpanish)
+        self.spanishFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
       
-        self.germanFrame = ctk.CTkFrame(self.tabGerman)
-        self.germanFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+        self.germanFrame = ctk.CTkFrame(tabGerman)
+        self.germanFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
 
         self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
@@ -117,19 +127,15 @@ class App(ctk.CTk):
     def create_search_frame(self, parentFrame):
                 # Create a label
         label = ctk.CTkLabel(parentFrame, text="Search for task: ")
-        label.pack(side='top', pady=(10, 0))
+        #label.pack(side='top', pady=(10, 0))
 
         # Now create the search boxes for each language
         parentFrame.search_var = tk.StringVar()
         parentFrame.search_entry = ctk.CTkEntry(parentFrame, textvariable=parentFrame.search_var)
-        parentFrame.search_entry.pack(side='top', pady=10)
+        #parentFrame.search_entry.pack(side='top', pady=10)
 
         #self.search_var.trace("w", self.search_treeview)
-        parentFrame.search_entry.bind("<Return>", self.search_treeview(parentFrame, "en"))
-
-        ## Start with hard-coded for english!!
-        parentFrame.search_entry.bind('<Return>', \
-            lambda event: self.tree_search(event, "en"))
+        #parentFrame.search_entry.bind("<Return>", self.search_treeview(parentFrame, "en"))
 
 
     def create_table(self, parent, lang_code):
