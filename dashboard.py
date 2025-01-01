@@ -23,10 +23,50 @@ class App(ctk.CTk):
         # Configure the grid layout
         self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
+        # Show statistics per language in top frame
+        self.display_stats()
+
+        # Configure the grid layout
+        self.top_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+### -- Now the lower frame -- Tabbed frame for each language
+
+        self.language_frame = ctk.CTkFrame(self)
+        self.language_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+
+        # Try setting up a 2 row x 1 column grid
+        self.language_frame.grid_columnconfigure((0), weight=1)
+        #self.language_frame.grid_rowconfigure((0,1))
+
+        self.tabview = ctk.CTkTabview(self.language_frame)
+        #self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
+        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+
+        # Create tabs -- should be enumeration of languages
+        self.tabEnglish = self.tabview.add("English")
+        self.tabSpanish = self.tabview.add("Spanish")
+        self.tabGerman = self.tabview.add("German")
+
+        # Add scrollable frames
+        self.englishFrame = ctk.CTkFrame(self.tabEnglish)
+        self.englishFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+
+        self.spanishFrame = ctk.CTkFrame(self.tabSpanish)
+        self.spanishFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+      
+        self.germanFrame = ctk.CTkFrame(self.tabGerman)
+        self.germanFrame.pack(side="bottom", expand=True, fill="both", padx=10, pady=10)
+
+        self.englishTree = self.create_table(self.englishFrame, 'en')     
+        self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
+        self.germanTree = self.create_table(self.germanFrame, 'de')
+
+    def display_stats(self):
+        # Need to refactor into a language-specific function
+
         # get error and 'no task' stats
         statsData = u.get_stats()
 
-        # Need to refactor into a language-specific function
         englishStats = statsData.loc[statsData['Language'] == 'English']
         englishErrors = englishStats['Errors'][0]
         englishNoTask = englishStats['No Task'][0]
@@ -73,41 +113,16 @@ class App(ctk.CTk):
 
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")
-        
-        # Tabbed frame for each language
-        self.tabview = ctk.CTkTabview(self)
-        self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
-
-        # Create tabs -- should be enumeration of languages
-        self.tabEnglish = self.tabview.add("English")
-        self.tabSpanish = self.tabview.add("Spanish")
-        self.tabGerman = self.tabview.add("German")
-
-        # Add scrollable frames
-        self.englishFrame = ctk.CTkFrame(self.tabEnglish)
-        self.englishFrame.pack(expand=True, fill="both", padx=10, pady=10)
-
-        self.spanishFrame = ctk.CTkFrame(self.tabSpanish)
-        self.spanishFrame.pack(expand=True, fill="both", padx=10, pady=10)
-      
-        self.germanFrame = ctk.CTkFrame(self.tabGerman)
-        self.germanFrame.pack(expand=True, fill="both", padx=10, pady=10)
-
-
-        self.englishTree = self.create_table(self.englishFrame, 'en')     
-        self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
-        self.germanTree = self.create_table(self.germanFrame, 'de')
-
 
     def create_search_frame(self, parentFrame):
                 # Create a label
         label = ctk.CTkLabel(parentFrame, text="Search for task: ")
-        label.pack(side='left', pady=(10, 0))
+        label.pack(side='top', pady=(10, 0))
 
         # Now create the search boxes for each language
         parentFrame.search_var = tk.StringVar()
         parentFrame.search_entry = ctk.CTkEntry(parentFrame, textvariable=parentFrame.search_var)
-        parentFrame.search_entry.pack(side='left', pady=10)
+        parentFrame.search_entry.pack(side='top', pady=10)
 
         #self.search_var.trace("w", self.search_treeview)
         parentFrame.search_entry.bind("<Return>", self.search_treeview(parentFrame, "en"))
@@ -184,6 +199,8 @@ class App(ctk.CTk):
     def search_treeview(self, parentFrame, lang_code, *args):
 
         query = parentFrame.search_var.get()
+
+        ## This shouldn't be needed if we can sort out the ParentFrame
         if lang_code == 'en':
             tree = self.englishTree
         elif lang_code == 'es-CO':
