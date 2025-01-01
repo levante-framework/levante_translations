@@ -40,7 +40,7 @@ class App(ctk.CTk):
 
         self.tabview = ctk.CTkTabview(self.language_frame)
         #self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
-        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
         self.tabEnglish = self.tabview.add("English")
