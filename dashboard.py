@@ -41,15 +41,17 @@ class App(ctk.CTk):
 ### -- Now the lower frame -- Tabbed frame for each language
 
         self.language_frame = ctk.CTkFrame(self)
-        #self.language_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+        self.language_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        # Try setting up a 2 row x 1 column grid
-        self.language_frame.grid_columnconfigure((0), weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        self.language_frame.grid_columnconfigure(0, weight=1)
+        self.language_frame.grid_rowconfigure(0, weight=1)
 
         self.create_search_frame(self.language_frame)
         
         tabview = ctk.CTkTabview(self.language_frame)
-        #self.tabview.pack(expand=True, fill="both", padx=10, pady=10)
         tabview.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
@@ -122,16 +124,19 @@ class App(ctk.CTk):
         self.notaskSpanish.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
-        self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")
+        self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="w")           
 
-    def create_search_frame(self, parentFrame):
-                # Create a label
-        label = ctk.CTkLabel(parentFrame, text="Search for task: ")
+    def create_search_frame(self, parent):
+        search_frame = ctk.CTkFrame(parent) 
+        search_frame.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+        # Add your search widgets to the search_frame here
+
+        label = ctk.CTkLabel(parent, text="Search for task: ")
         #label.pack(side='top', pady=(10, 0))
 
         # Now create the search boxes for each language
-        parentFrame.search_var = tk.StringVar()
-        parentFrame.search_entry = ctk.CTkEntry(parentFrame, textvariable=parentFrame.search_var)
+        parent.search_var = tk.StringVar()
+        parent.search_entry = ctk.CTkEntry(parent, textvariable=parent.search_var)
         #parentFrame.search_entry.pack(side='top', pady=10)
 
         #self.search_var.trace("w", self.search_treeview)
