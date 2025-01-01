@@ -37,7 +37,7 @@ class App(ctk.CTk):
 
         number_of_rows = 3 # for now
         for i in range(number_of_rows):
-            self.top_frame.grid_rowconfigure(i, weight=1)
+            self.top_frame.grid_rowconfigure(i, minsize=50, weight=1)
 
         # Show statistics per language in top frame
         self.display_stats()
