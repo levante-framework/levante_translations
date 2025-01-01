@@ -56,13 +56,13 @@ class App(ctk.CTk):
 
         self.create_search_frame(self.language_frame)
         
-        tabview = ctk.CTkTabview(self.language_frame)
-        tabview.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        self.tabview = ctk.CTkTabview(self.language_frame)
+        self.tabview.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
-        tabEnglish = tabview.add("English")
-        tabSpanish = tabview.add("Spanish")
-        tabGerman = tabview.add("German")
+        tabEnglish = self.tabview.add("English")
+        tabSpanish = self.tabview.add("Spanish")
+        tabGerman = self.tabview.add("German")
 
         # Add scrollable frames
         self.englishFrame = ctk.CTkFrame(tabEnglish)
@@ -147,9 +147,8 @@ class App(ctk.CTk):
         parent.search_entry = ctk.CTkEntry(search_frame, textvariable=parent.search_var)
         parent.search_entry.grid(row=0, column=1, padx=(2,5), pady=5, sticky="ew")
 
-        # Optionally, you can add the event bindings here
-        # parent.search_var.trace("w", self.search_treeview)
-        # parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent, "en"))
+        # bind to current language / code for displaying results
+        parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent))
 
         return search_frame  # Return the frame in case you need to reference it later
 
@@ -217,16 +216,18 @@ class App(ctk.CTk):
                 ourTree.pack(expand=True, fill="both")
         return ourTree
 
-    def search_treeview(self, parentFrame, lang_code, *args):
+    def search_treeview(self, parentFrame, *args):
 
         query = parentFrame.search_var.get()
 
         ## This shouldn't be needed if we can sort out the ParentFrame
-        if lang_code == 'en':
+        active_tab = self.tabview.get()
+
+        if active_tab == "English":
             tree = self.englishTree
-        elif lang_code == 'es-CO':
+        elif active_tab == "Spanish":
             tree = self.spanishTree
-        elif lang_code == 'de':
+        elif active_tab == "German":
             tree = self.germanTree
         else:
             print ("NO LANGUAGE")
