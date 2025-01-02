@@ -31,9 +31,9 @@ class App(ctk.CTk):
 
         # Top frame with labels
         self.top_frame = ctk.CTkFrame(self.fullFrame, height=400)
-        self.top_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky="nsew")
+        self.top_frame.grid(row=0, column=0, rowspan=4, columnspan=3, sticky="nsew")
 
-        number_of_rows = 3 # for now
+        number_of_rows = 4 # for now
         for i in range(number_of_rows):
             self.top_frame.grid_rowconfigure(i, weight=1)
 
@@ -87,14 +87,17 @@ class App(ctk.CTk):
         englishStats = statsData.loc[statsData['Language'] == 'English']
         englishErrors = englishStats['Errors'][0]
         englishNoTask = englishStats['No Task'][0]
+        englishVoice = englishStats['Voice'][0]
 
         spanishStats = statsData.loc[statsData['Language'] == 'Spanish']
         spanishErrors = spanishStats['Errors'][1]
         spanishNoTask = spanishStats['No Task'][1]
+        spanishVoice = spanishStats['Voice'][1]
 
         germanStats = statsData.loc[statsData['Language'] == 'German']
         germanErrors = germanStats['Errors'][2]
         germanNoTask = germanStats['No Task'][2]
+        germanVoice = germanStats['Voice'][2]
 
         # First row
         generated_english = u.count_audio_files('en')
@@ -129,7 +132,15 @@ class App(ctk.CTk):
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")           
 
-        ## Might be good to add a voice row here
+        ## Voice row here
+        self.voiceEnglish = ctk.CTkLabel(self.top_frame, text=f'Voice: {englishVoice}')
+        self.voiceEnglish.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+
+        self.voiceSpanish = ctk.CTkLabel(self.top_frame, text=f'Voice: {spanishVoice}')
+        self.voiceSpanish.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
+
+        self.voiceGerman = ctk.CTkLabel(self.top_frame, text=f'Voice: {germanVoice}')
+        self.voiceGerman.grid(row=3, column=2, padx=5, pady=5, sticky="nsew")
 
     def create_search_frame(self, parent):
         search_frame = ctk.CTkFrame(parent)
