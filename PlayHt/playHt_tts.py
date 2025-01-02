@@ -195,8 +195,11 @@ def main(
         elif result == 'Success':
             stats['Processed']+= 1
     
+    # start tracking voice
+    stats['Voice'] = voice
+
     # Store stats for retrieval by dashboard
-    u.store_stats(lang_code, stats['Errors'], stats['NoTask'])
+    u.store_stats(lang_code, stats['Errors'], stats['NoTask'], stats['Voice'])
 
     print(f"Processed: {stats['Processed']}, Errors: {stats['Errors']}, \
           No Task: {stats['NoTask']}")

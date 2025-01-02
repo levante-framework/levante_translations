@@ -96,8 +96,6 @@ class App(ctk.CTk):
         germanErrors = germanStats['Errors'][2]
         germanNoTask = germanStats['No Task'][2]
 
-        ## Might be good to add a voice row here
-
         # First row
         generated_english = u.count_audio_files('en')
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
@@ -130,6 +128,8 @@ class App(ctk.CTk):
 
         self.notaskGerman = ctk.CTkLabel(self.top_frame, text=f'German No Task: {germanNoTask}')
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")           
+
+        ## Might be good to add a voice row here
 
     def create_search_frame(self, parent):
         search_frame = ctk.CTkFrame(parent)
