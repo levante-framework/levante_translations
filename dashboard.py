@@ -322,7 +322,14 @@ class App(ctk.CTk):
 
         # We want to find the selected item (if any) and render
         # it with the selected voice, and the current language
-        
+        if self.englishTree.selection():
+            print(self.englishTree.selection())
+        elif self.spanishTree.selection():
+            print(self.spanishTree.selection())
+        elif self.germanTree.selection():
+            print(self.germanTree.selection())
+        else:
+            print("Nothing Selected")
 
 if __name__ == "__main__":
     app = App()
