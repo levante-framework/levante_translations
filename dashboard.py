@@ -43,7 +43,7 @@ class App(ctk.CTk):
         # Show statistics per language in top frame
         self.display_stats()
 
-### -- Now the lower frame -- Tabbed frame for each language
+        ### -- Now the lower frame -- Tabbed frame for each language
 
         self.language_frame = ctk.CTkFrame(self)
         self.language_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
@@ -52,12 +52,12 @@ class App(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
 
         self.language_frame.grid_columnconfigure(0, weight=1)
-        self.language_frame.grid_rowconfigure(0, weight=1)
+        self.language_frame.grid_rowconfigure(1, weight=1)
 
         self.create_search_frame(self.language_frame)
         
         self.tabview = ctk.CTkTabview(self.language_frame)
-        self.tabview.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
         tabEnglish = self.tabview.add("English")
@@ -144,7 +144,7 @@ class App(ctk.CTk):
 
     def create_search_frame(self, parent):
         search_frame = ctk.CTkFrame(parent)
-        search_frame.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+        search_frame.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
         # Configure the grid layout for search_frame
         search_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
