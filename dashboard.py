@@ -317,19 +317,34 @@ class App(ctk.CTk):
         return voices    
 
     def voice_compare_callback(self, chosen_voice):   
+        # trees don't seem to have named columns?
+        TRANSLATION_COLUMN = 3
+
         # for debugging
-        print("combobox dropdown clicked:", chosen_voice)
+        #print("combobox dropdown clicked:", chosen_voice)
 
         # We want to find the selected item (if any) and render
         # it with the selected voice, and the current language
         if self.englishTree.selection():
-            print(self.englishTree.selection())
+            useTree = self.englishTree
+            lang_code = 'en'
         elif self.spanishTree.selection():
-            print(self.spanishTree.selection())
+            useTree = self.spanishTree
+            lang_code = 'es-CO'
         elif self.germanTree.selection():
-            print(self.germanTree.selection())
+            useTree = self.germanTree
+            lang_code = 'de'
         else:
             print("Nothing Selected")
+            return
+        
+        selected_item = useTree.selection()[0]
+        selected_row = useTree.item(selected_item)
+        
+        column_values = selected_row['values']
+        translated_text = column_values[TRANSLATION_COLUMN]
+
+        # play translated text in selected language and voice
 
 if __name__ == "__main__":
     app = App()
