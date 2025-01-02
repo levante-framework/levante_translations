@@ -34,7 +34,7 @@ def count_audio_files(lang_code):
 # foo = count_audio_files('en')
 # print(f'Audio: {foo}')
 
-def store_stats(lang_code, errors, notask):
+def store_stats(lang_code, errors, notask, voice):
 
     stats_file_path = 'stats.csv'
     # first initialize our statistics data
@@ -42,11 +42,11 @@ def store_stats(lang_code, errors, notask):
         statsData = pd.read_csv(stats_file_path)
     else:
         # create a new dataframe
-        statsData = pd.DataFrame(columns=['Language', 'Errors', 'No Task'])
+        statsData = pd.DataFrame(columns=['Language', 'Errors', 'No Task', 'Voice'])
         new_rows = [
-            ['English', 0, 0],
-            ['Spanish', 0, 0],
-            ['German', 0, 0]
+            ['English', 0, 0 ,''],
+            ['Spanish', 0, 0, ''],
+            ['German', 0, 0, '']
         ]
     
         for row in new_rows:
@@ -63,7 +63,7 @@ def store_stats(lang_code, errors, notask):
             
     # now that we have a DataFrame with rows modify our stats
     # Correct way to update values
-    statsData.loc[statsData['Language'] == language, ['Errors', 'No Task']] = [errors, notask]
+    statsData.loc[statsData['Language'] == language, ['Errors', 'No Task', 'Voice']] = [errors, notask, voice]
 
     statsData.to_csv(stats_file_path, index=False)
 

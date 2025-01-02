@@ -106,15 +106,11 @@ def generate_audio(lang_code, voice):
         audio_base_dir = audio_base_dir)
 
 """
-
     Args:
         
         lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
         voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
-
     """
-
-
 
 def main(
     lang_code: str,
