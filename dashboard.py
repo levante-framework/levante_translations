@@ -5,7 +5,7 @@ import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
 from typing import Final
-from PlayHt import playHt_list_voices
+from PlayHt import playHt_utilities
 
 class App(ctk.CTk):
 
@@ -310,7 +310,7 @@ class App(ctk.CTk):
             # assume we will show english when created
             lang_code = 'en'
 
-        voice_list = playHt_list_voices.list_voices(lang_code)
+        voice_list = playHt_utilities.list_voices(lang_code)
         voices = []
         for voice in voice_list:
             voices.append(voice.get('name'))
