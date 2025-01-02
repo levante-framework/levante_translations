@@ -5,6 +5,7 @@ import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
 from typing import Final
+from PlayHt import playHt_list_voices
 
 class App(ctk.CTk):
 
@@ -184,6 +185,12 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(voice_frame, text="Compare Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
+        voice_combobox = ctk.CTkComboBox(voice_frame, values=["Select a voice"])
+
+        values = self.get_language_list()
+        voice_combobox.configure(values)
+        voice_combobox.set("Select a voice")
+
         return voice_frame  # Return the frame in case you need to reference it later
 
     def create_table(self, parent, lang_code):
@@ -279,7 +286,33 @@ class App(ctk.CTk):
             else:
                 tree.selection_remove(item_index)
 
-    
+    def get_language_list(self):
+
+        # we get called before there is a tab view
+        # so in that case we default to English
+        # (a little lame:))
+        try:
+            if self.tabview.winfo_exists():
+                active_tab = self.tabview.get()
+
+            if active_tab == "English":
+                lang_code = 'en'
+            elif active_tab == "Spanish":
+                lang_code = 'es-CO'
+            elif active_tab == "German":
+                lang_code = 'de'
+            else:
+                print ("NO LANGUAGE")
+                exit()
+        except:
+            # assume we will show english when created
+            lang_code = 'en'
+
+        voice_list = playHt_list_voices.list_voices(lang_code)
+        voices = []
+        for voice in voice_list:
+            voices = [voices, voice.get('name')]
+        return voices    
 
 if __name__ == "__main__":
     app = App()
