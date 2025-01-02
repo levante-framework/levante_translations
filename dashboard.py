@@ -186,6 +186,7 @@ class App(ctk.CTk):
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         voice_combobox = ctk.CTkComboBox(voice_frame, values=["Select a voice"])
+        voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
 
         values = self.get_language_list()
         voice_combobox.configure(values)
