@@ -190,7 +190,6 @@ class App(ctk.CTk):
 
         values = self.get_language_list()
         voice_combobox.configure(values)
-        voice_combobox.set("Select a voice")
 
         return voice_frame  # Return the frame in case you need to reference it later
 
