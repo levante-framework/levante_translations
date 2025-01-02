@@ -185,11 +185,13 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(voice_frame, text="Compare Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        voice_combobox = ctk.CTkComboBox(voice_frame, values=["Select a voice"])
-        voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
+        voice_values = self.get_language_list()
 
-        values = self.get_language_list()
-        voice_combobox.configure(values)
+        voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
+                                         command=self.voice_compare_callback)
+        voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
+        voice_combobox.set("Select a Voice")
+
 
         return voice_frame  # Return the frame in case you need to reference it later
 
@@ -311,8 +313,16 @@ class App(ctk.CTk):
         voice_list = playHt_list_voices.list_voices(lang_code)
         voices = []
         for voice in voice_list:
-            voices = [voices, voice.get('name')]
+            voices.append(voice.get('name'))
         return voices    
+
+    def voice_compare_callback(self, chosen_voice):   
+        # for debugging
+        print("combobox dropdown clicked:", chosen_voice)
+
+        # We want to find the selected item (if any) and render
+        # it with the selected voice, and the current language
+        
 
 if __name__ == "__main__":
     app = App()
