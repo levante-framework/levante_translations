@@ -4,8 +4,10 @@ import customtkinter as ctk
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
+from typing import Final
 
 class App(ctk.CTk):
+
 
     def __init__(self):
         super().__init__()
@@ -44,20 +46,28 @@ class App(ctk.CTk):
         self.display_stats()
 
         ### -- Now the lower frame -- Tabbed frame for each language
+        # Row assignments
+        SEARCH_ROW: Final[int] = 0
+        VOICE_ROW: Final[int] = 1
+        TABLE_ROW: Final[int] = 2
 
         self.language_frame = ctk.CTkFrame(self)
-        self.language_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        self.language_frame.grid(row=1, column=0, padx=2, pady=2, sticky="nsew")
 
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         self.language_frame.grid_columnconfigure(0, weight=1)
-        self.language_frame.grid_rowconfigure(1, weight=1)
+        self.language_frame.grid_rowconfigure(TABLE_ROW, weight=1)
 
-        self.create_search_frame(self.language_frame)
-        
+        # search field for item names
+        self.create_search_frame(self.language_frame, SEARCH_ROW)
+
+        # fields for comparing voices
+        self.create_voice_frame(self.language_frame, VOICE_ROW)
+
         self.tabview = ctk.CTkTabview(self.language_frame)
-        self.tabview.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        self.tabview.grid(row=TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
         tabEnglish = self.tabview.add("English")
@@ -66,13 +76,13 @@ class App(ctk.CTk):
 
         # Add scrollable frames
         self.englishFrame = ctk.CTkFrame(tabEnglish)
-        self.englishFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
+        self.englishFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
 
         self.spanishFrame = ctk.CTkFrame(tabSpanish)
-        self.spanishFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
+        self.spanishFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
       
         self.germanFrame = ctk.CTkFrame(tabGerman)
-        self.germanFrame.pack(side="top", expand=True, fill="both", padx=10, pady=10)
+        self.germanFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
 
         self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
@@ -142,26 +152,39 @@ class App(ctk.CTk):
         self.voiceGerman = ctk.CTkLabel(self.top_frame, text=f'Voice: {germanVoice}')
         self.voiceGerman.grid(row=3, column=2, padx=5, pady=5, sticky="nsew")
 
-    def create_search_frame(self, parent):
+    def create_search_frame(self, parent, row):
         search_frame = ctk.CTkFrame(parent)
-        search_frame.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        search_frame.grid(row=row, column=0, padx=2, pady=2, sticky="ew")
 
         # Configure the grid layout for search_frame
         search_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add label to the search_frame
         label = ctk.CTkLabel(search_frame, text="Search for task: ")
-        label.grid(row=0, column=0, padx=(5,2), pady=5, sticky="w")
+        label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         # Create the search box and add it to search_frame
         parent.search_var = tk.StringVar()
         parent.search_entry = ctk.CTkEntry(search_frame, textvariable=parent.search_var)
-        parent.search_entry.grid(row=0, column=1, padx=(2,5), pady=5, sticky="ew")
+        parent.search_entry.grid(row=0, column=1, padx=(5,5), pady=2, sticky="ew")
 
         # bind to current language / code for displaying results
         parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent))
 
         return search_frame  # Return the frame in case you need to reference it later
+
+    def create_voice_frame(self, parent, row):
+        voice_frame = ctk.CTkFrame(parent)
+        voice_frame.grid(row=row, column=0, padx=5, pady=2, sticky="ew")
+
+        # Configure the grid layout for search_frame
+        voice_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
+
+        # Add label to the search_frame
+        label = ctk.CTkLabel(voice_frame, text="Compare Voice: ")
+        label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
+
+        return voice_frame  # Return the frame in case you need to reference it later
 
     def create_table(self, parent, lang_code):
 
