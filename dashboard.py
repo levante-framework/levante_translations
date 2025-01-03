@@ -14,8 +14,10 @@ class App(ctk.CTk):
         super().__init__()
 
         # when tab is selected, change values for voices
+        # should probably cache them at some point
         def on_tab_change():
-            print(f"Tab changed to: {self.tabview.get()}")
+            voice_list = self.get_language_list()
+            self.voice_combobox['values'] = voice_list
 
         ## default file name!
         self.ourData = pd.read_csv("item_bank_translations.csv")
@@ -317,7 +319,7 @@ class App(ctk.CTk):
         voice_list = playHt_utilities.list_voices(lang_code)
         voices = []
         for voice in voice_list:
-            voices.append(voice.get('name'))
+            voices.append(voice.get('value'))
         return voices    
 
     def voice_compare_callback(self, chosen_voice):   
@@ -345,8 +347,6 @@ class App(ctk.CTk):
         column_values = selected_row['values']
         translated_text = column_values[TRANSLATION_COLUMN]
 
-        # play translated text in selected language and voice
-        # DEBUGGING
         playHt_utilities.get_audio(translated_text, voice)
         playsound("voice_comparison.mp3")
 
