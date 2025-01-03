@@ -11,7 +11,7 @@ STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 
 headers = {
     "Authorization": os.environ["PLAY_DOT_HT_API_KEY"],
-    "X-User-ID": os.environ["PLAY_DOT_HT_USER_ID"],
+    "X-USER-ID": os.environ["PLAY_DOT_HT_USER_ID"],
     'Accept': 'application/json',
     "Content-Type": "application/json"
 }
