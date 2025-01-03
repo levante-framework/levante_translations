@@ -352,11 +352,11 @@ class App(ctk.CTk):
 
         # We want to find the selected item (if any) and render
         # it with the selected voice, and the current language
-        if self.englishTree.selection():
+        if self.tabview.get() == "English":
             useTree = self.englishTree
-        elif self.spanishTree.selection():
+        elif self.tabview.get() == "Spanish":
             useTree = self.spanishTree
-        elif self.germanTree.selection():
+        elif self.tabview.get() == "German":
             useTree = self.germanTree
         else:
             print("Nothing Selected")
