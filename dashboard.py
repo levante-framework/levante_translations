@@ -98,17 +98,17 @@ class App(ctk.CTk):
         englishStats = statsData.loc[statsData['Language'] == 'English']
         englishErrors = englishStats['Errors'][0]
         englishNoTask = englishStats['No Task'][0]
-        englishVoice = englishStats['Voice'][0]
+        self.englishVoice = englishStats['Voice'][0]
 
         spanishStats = statsData.loc[statsData['Language'] == 'Spanish']
         spanishErrors = spanishStats['Errors'][1]
         spanishNoTask = spanishStats['No Task'][1]
-        spanishVoice = spanishStats['Voice'][1]
+        self.spanishVoice = spanishStats['Voice'][1]
 
         germanStats = statsData.loc[statsData['Language'] == 'German']
         germanErrors = germanStats['Errors'][2]
         germanNoTask = germanStats['No Task'][2]
-        germanVoice = germanStats['Voice'][2]
+        self.germanVoice = germanStats['Voice'][2]
 
         # First row
         generated_english = u.count_audio_files('en')
@@ -144,13 +144,13 @@ class App(ctk.CTk):
         self.notaskGerman.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")           
 
         ## Voice row here
-        self.voiceEnglish = ctk.CTkLabel(self.top_frame, text=f'Voice: {englishVoice}')
+        self.voiceEnglish = ctk.CTkLabel(self.top_frame, text=f'Voice: {self.englishVoice}')
         self.voiceEnglish.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.voiceSpanish = ctk.CTkLabel(self.top_frame, text=f'Voice: {spanishVoice}')
+        self.voiceSpanish = ctk.CTkLabel(self.top_frame, text=f'Voice: {self.spanishVoice}')
         self.voiceSpanish.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
 
-        self.voiceGerman = ctk.CTkLabel(self.top_frame, text=f'Voice: {germanVoice}')
+        self.voiceGerman = ctk.CTkLabel(self.top_frame, text=f'Voice: {self.germanVoice}')
         self.voiceGerman.grid(row=3, column=2, padx=5, pady=5, sticky="nsew")
 
     def create_search_frame(self, parent, row):
@@ -187,11 +187,10 @@ class App(ctk.CTk):
 
         voice_values = self.get_language_list()
 
-        voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
+        self.voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
                                          command=self.voice_compare_callback)
-        voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
-        voice_combobox.set("Select a Voice")
-
+        self.voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
+        self.voice_combobox.set("Select a Voice")
 
         return voice_frame  # Return the frame in case you need to reference it later
 
@@ -317,27 +316,23 @@ class App(ctk.CTk):
         return voices    
 
     def voice_compare_callback(self, chosen_voice):   
+
         # trees don't seem to have named columns?
         TRANSLATION_COLUMN = 3
-
-        # for debugging
-        #print("combobox dropdown clicked:", chosen_voice)
 
         # We want to find the selected item (if any) and render
         # it with the selected voice, and the current language
         if self.englishTree.selection():
             useTree = self.englishTree
-            lang_code = 'en'
         elif self.spanishTree.selection():
             useTree = self.spanishTree
-            lang_code = 'es-CO'
         elif self.germanTree.selection():
             useTree = self.germanTree
-            lang_code = 'de'
         else:
             print("Nothing Selected")
             return
-        
+
+        voice = chosen_voice        
         selected_item = useTree.selection()[0]
         selected_row = useTree.item(selected_item)
         
@@ -345,6 +340,7 @@ class App(ctk.CTk):
         translated_text = column_values[TRANSLATION_COLUMN]
 
         # play translated text in selected language and voice
+        playHt_utilities.play_audio(translated_text, voice)
 
 if __name__ == "__main__":
     app = App()

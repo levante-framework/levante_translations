@@ -1,6 +1,18 @@
 # Utility to list voices
 import requests
 import os
+import json
+from playsound import playsound 
+import logging
+from pyht import Client
+from pyht.client import TTSOptions
+import asyncio
+from pyht import AsyncClient
+
+
+# Constants for API, in this case for Play.Ht, maybe
+API_URL = "https://api.play.ht/api/v1/convert"
+STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 
 headers = {
     "Authorization": os.environ["PLAY_DOT_HT_API_KEY"],
@@ -53,5 +65,24 @@ def list_voices(lang_code):
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
+
+def play_audio(text, voice):
+
+    client = Client(
+        api_key = os.environ["PLAY_DOT_HT_API_KEY"],
+        user_id = os.environ["PLAY_DOT_HT_USER_ID"],
+    )
+
+    options = TTSOptions(voice="s3://voice-cloning-zero-shot/775ae416-49bb-4fb6-bd45-740f205d20a1/jennifersaad/manifest.json")
+
+    # Open a file to save the audio
+    audio_filename = "voice_comparison.mp3"
+    with open(audio_filename, "wb") as audio_file:
+        for chunk in client.tts(text, options, voice_engine = 'PlayDialog-http'):
+            # Write the audio chunk to the file
+            audio_file.write(chunk)
+        audio_file.close
+    #print("Audio saved")
+    playsound(audio_filename)
 
 
