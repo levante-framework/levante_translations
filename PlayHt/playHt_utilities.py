@@ -1,13 +1,10 @@
 # Utility to list voices
 import requests
 import os
-import json
-from playsound import playsound 
-import logging
 from pyht import Client
 from pyht.client import TTSOptions
-import asyncio
-from pyht import AsyncClient
+import pygame
+import time
 
 
 # Constants for API, in this case for Play.Ht, maybe
@@ -76,13 +73,20 @@ def play_audio(text, voice):
     options = TTSOptions(voice="s3://voice-cloning-zero-shot/775ae416-49bb-4fb6-bd45-740f205d20a1/jennifersaad/manifest.json")
 
     # Open a file to save the audio
-    audio_filename = "voice_comparison.mp3"
+    audio_filename = "voice_comparison.wav"
     with open(audio_filename, "wb") as audio_file:
         for chunk in client.tts(text, options, voice_engine = 'PlayDialog-http'):
             # Write the audio chunk to the file
             audio_file.write(chunk)
-        audio_file.close
+        audio_file.close()
     #print("Audio saved")
-    playsound(audio_filename)
 
+    
+    # Play audio using pygame
+    pygame.mixer.init()
+    pygame.mixer.music.load("voice_comparison.wav")
+    pygame.mixer.music.play()
 
+    # Wait for the audio to finish playing
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
