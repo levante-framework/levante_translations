@@ -113,6 +113,8 @@ def get_audio(text, voice):
                         #status_data['message'] != 'Transcription still in progress':
                         restartRequest = True
                         errorCount += 1
+                        # might still be in progress
+                        time.sleep(1)
                         continue # we want to start the loop over
 
                 # Our transcription is successful                        
