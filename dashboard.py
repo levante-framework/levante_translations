@@ -16,8 +16,12 @@ class App(ctk.CTk):
         # when tab is selected, change values for voices
         # should probably cache them at some point
         def on_tab_change():
+            self.after(100, update_combobox)
+
+        def update_combobox():
             voice_list = self.get_language_list()
-            self.voice_combobox['values'] = voice_list
+            self.voice_combobox.configure(values=voice_list)
+            self.voice_combobox.set(voice_list[0] if voice_list else "")
 
         ## default file name!
         self.ourData = pd.read_csv("item_bank_translations.csv")
@@ -296,6 +300,10 @@ class App(ctk.CTk):
 
     def get_language_list(self):
 
+        global english_voice_list
+        global spanish_voice_list
+        global german_voice_list
+
         # we get called before there is a tab view
         # so in that case we default to English
         # (a little lame:))
@@ -305,10 +313,16 @@ class App(ctk.CTk):
 
             if active_tab == "English":
                 lang_code = 'en'
+                if 'english_voice_list' in globals():
+                    return english_voice_list
             elif active_tab == "Spanish":
                 lang_code = 'es-CO'
+                if 'spanish_voice_list' in globals():
+                    return spanish_voice_list
             elif active_tab == "German":
                 lang_code = 'de'
+                if 'german_voice_list' in globals():
+                    return german_voice_list
             else:
                 print ("NO LANGUAGE")
                 exit()
@@ -320,6 +334,13 @@ class App(ctk.CTk):
         voices = []
         for voice in voice_list:
             voices.append(voice.get('value'))
+
+        if lang_code == 'en':
+            english_voice_list = voices
+        elif lang_code == 'es-CO':
+            spanish_voice_list = voices
+        elif lang_code == 'de':
+            german_voice_list = voices
         return voices    
 
     def voice_compare_callback(self, chosen_voice):   
