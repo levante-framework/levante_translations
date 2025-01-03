@@ -13,6 +13,10 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
+        # when tab is selected, change values for voices
+        def on_tab_change():
+            print(f"Tab changed to: {self.tabview.get()}")
+
         ## default file name!
         self.ourData = pd.read_csv("item_bank_translations.csv")
 
@@ -67,7 +71,8 @@ class App(ctk.CTk):
         # fields for comparing voices
         self.create_voice_frame(self.language_frame, VOICE_ROW)
 
-        self.tabview = ctk.CTkTabview(self.language_frame)
+        self.tabview = ctk.CTkTabview(self.language_frame, 
+                                      command=on_tab_change)
         self.tabview.grid(row=TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
@@ -344,6 +349,7 @@ class App(ctk.CTk):
         # DEBUGGING
         playHt_utilities.get_audio(translated_text, voice)
         playsound("voice_comparison.mp3")
+
 
 if __name__ == "__main__":
     app = App()
