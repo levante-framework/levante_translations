@@ -118,7 +118,7 @@ def get_audio(text, voice):
                         continue # we want to start the loop over
 
                 # Our transcription is successful                        
-                if status_data["converted"] == True:
+                if "audioUrl" in status_data:
                     #print(f"Audio URL: {status_data['audioUrl']}")
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
