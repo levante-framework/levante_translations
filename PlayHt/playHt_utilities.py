@@ -131,11 +131,12 @@ def get_audio(text, voice):
                         restartRequest = False
                         errorCount = 0
 
-                        output_file = 'voice_comparison.mp3'
-                        with open(output_file, "wb") as file:
-                            file.write(audioData.content)
-                            file.close
-                            return 'Success'    
+                        #output_file = 'voice_comparison.mp3'
+                        #with open(output_file, "wb") as file:
+                        #    file.write(audioData.content)
+                        #    file.close
+                        #    return 'Success'
+                        return(audioData.content)    
                 else:
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
                     # currently most tasks complet in about 1 second, so .5 seconds
@@ -145,4 +146,4 @@ def get_audio(text, voice):
                 continue
     else:
         # we've tried several times
-        return 'Error'
+        return ''

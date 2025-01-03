@@ -1,9 +1,11 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
+import tempfile
 from typing import Final
 from PlayHt import playHt_utilities
 
@@ -368,8 +370,29 @@ class App(ctk.CTk):
         column_values = selected_row['values']
         translated_text = column_values[TRANSLATION_COLUMN]
 
-        playHt_utilities.get_audio(translated_text, voice)
-        playsound("voice_comparison.mp3")
+        translated_audio = playHt_utilities.get_audio(translated_text, voice)
+
+        if len(translated_audio) == 0:
+            return
+
+        self.play_data_object(translated_audio)
+
+    def play_data_object(self, audio_data):
+        # Create a temporary file
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        temp_filename = temp_file.name
+    
+        try:
+        # Write the audio data to the temporary file
+            temp_file.write(audio_data)
+            temp_file.close()
+        
+            # Play the temporary file
+            playsound(temp_filename)
+        finally:
+            # Clean up the temporary file
+            os.unlink(temp_filename)
+
 
 
 if __name__ == "__main__":
