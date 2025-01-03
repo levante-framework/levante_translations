@@ -1,14 +1,9 @@
 # Utility to list voices
 import requests
 import os
-import json
 from playsound import playsound 
-import logging
 from pyht import Client
-from pyht.client import TTSOptions
-import asyncio
-from pyht import AsyncClient
-
+import time
 
 # Constants for API, in this case for Play.Ht, maybe
 API_URL = "https://api.play.ht/api/v1/convert"
@@ -17,6 +12,7 @@ STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 headers = {
     "Authorization": os.environ["PLAY_DOT_HT_API_KEY"],
     "X-User-ID": os.environ["PLAY_DOT_HT_USER_ID"],
+    'Accept': 'application/json',
     "Content-Type": "application/json"
 }
 
@@ -65,24 +61,93 @@ def list_voices(lang_code):
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
-
-def play_audio(text, voice):
+# Borrowed from playHt_tts!!
+# could return file name or error, etc.
+def get_audio(text, voice):
 
     client = Client(
         api_key = os.environ["PLAY_DOT_HT_API_KEY"],
         user_id = os.environ["PLAY_DOT_HT_USER_ID"],
     )
 
-    options = TTSOptions(voice="s3://voice-cloning-zero-shot/775ae416-49bb-4fb6-bd45-740f205d20a1/jennifersaad/manifest.json")
+    retrySeconds = .5
+    errorCount = 0
 
-    # Open a file to save the audio
-    audio_filename = "voice_comparison.mp3"
-    with open(audio_filename, "wb") as audio_file:
-        for chunk in client.tts(text, options, voice_engine = 'PlayDialog-http'):
-            # Write the audio chunk to the file
-            audio_file.write(chunk)
-        audio_file.close
-    #print("Audio saved")
-    playsound(audio_filename)
+    data = {
+        # content needs to be an array, even if we only do one at a time
+        "content" : text,
+        "voice": voice,
+        "title": "Comparison Audio", # not sure where this matters?
+        "trimSilence": True
+    }
 
+    ## Use a While loop so we can retry odd failure cases
+    while True and errorCount < 5:
+        response = requests.post(API_URL, headers=headers, json=data) 
 
+        # In some cases we get an odd error that appears to suggest the
+        # transcription is still in progress, but it never finishes
+        # to handle that case, we abandon that transaction & start a new one
+        restartRequest = False
+        # 201 means that we got a response of some kind
+        if response.status_code == 201:
+            # results are packed into a json object
+            result = response.json()
+        else:
+            # sometimes a retry works after no response
+            errorCount += 1
+            continue
+
+        # status is a little awkward to parse. Some errors aren't exactly errors
+        json_status = response.json()
+
+        if "transcriptionId" in json_status:
+            # This means that we've successfully started the transcription
+            transcription_id = json_status["transcriptionId"]
+        
+            # Poll the status until completion or we get 5 error returns
+            while True and errorCount < 5 and restartRequest == False:
+                downloadURL = None # clear each time
+                status_params = {"transcriptionId": transcription_id}
+                status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
+                status_data = status_response.json()
+
+                # Some errors are "fatal", some just mean a retry is needed
+                if 'error' in status_data:
+                    if status_data['error'] == True: # and \
+                        #status_data['message'] != 'Transcription still in progress':
+                        restartRequest = True
+                        errorCount += 1
+                        continue # we want to start the loop over
+
+                # Our transcription is successful                        
+                if status_data["converted"] == True:
+                    #print(f"Audio URL: {status_data['audioUrl']}")
+                    # set the download URL for retrieval or get it right here?
+                    downloadURL = status_data['audioUrl']
+
+                    # At this point we should have an "audioURL" that we can retrieve
+                    # and then write out to the appropriate directory
+                    audioData = requests.get(downloadURL)
+
+                    # open file for writing
+                    # Download the MP3 file
+                    if audioData.status_code == 200:
+                        restartRequest = False
+                        errorCount = 0
+
+                        output_file = 'voice_comparison.mp3'
+                        with open(output_file, "wb") as file:
+                            file.write(audioData.content)
+                            file.close
+                            return 'Success'    
+                else:
+                    # print(f"Conversion in progress. Status: {status_data['converted']}")
+                    # currently most tasks complet in about 1 second, so .5 seconds
+                    # seems like a good tradeoff between "over-polling" and "over-waiting"
+                    time.sleep(retrySeconds)  # Wait before checking again
+            else:
+                continue
+    else:
+        # we've tried several times
+        return 'Error'

@@ -333,6 +333,7 @@ class App(ctk.CTk):
             return
 
         voice = chosen_voice        
+
         selected_item = useTree.selection()[0]
         selected_row = useTree.item(selected_item)
         
@@ -340,7 +341,10 @@ class App(ctk.CTk):
         translated_text = column_values[TRANSLATION_COLUMN]
 
         # play translated text in selected language and voice
-        playHt_utilities.play_audio(translated_text, voice)
+        # DEBUGGING
+        voice = 'VickiNeural'
+        playHt_utilities.get_audio(translated_text, voice)
+        playsound("voice_comparison.mp3")
 
 if __name__ == "__main__":
     app = App()
