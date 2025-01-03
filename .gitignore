@@ -5,6 +5,7 @@ snapshots_*/**
 
 # These get imported & regenerated, so not sure they need to be put in the repo
 needed_item_bank_translations.csv
+voice_comparison.mp3
 
 # avoid exposing secrets via debug configuration
 .vscode

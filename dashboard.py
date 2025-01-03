@@ -342,7 +342,6 @@ class App(ctk.CTk):
 
         # play translated text in selected language and voice
         # DEBUGGING
-        voice = 'VickiNeural'
         playHt_utilities.get_audio(translated_text, voice)
         playsound("voice_comparison.mp3")
 
