@@ -65,17 +65,12 @@ def list_voices(lang_code):
 # could return file name or error, etc.
 def get_audio(text, voice):
 
-    client = Client(
-        api_key = os.environ["PLAY_DOT_HT_API_KEY"],
-        user_id = os.environ["PLAY_DOT_HT_USER_ID"],
-    )
-
     retrySeconds = .5
     errorCount = 0
 
     data = {
         # content needs to be an array, even if we only do one at a time
-        "content" : text,
+        "content" : [text],
         "voice": voice,
         "title": "Comparison Audio", # not sure where this matters?
         "trimSilence": True
