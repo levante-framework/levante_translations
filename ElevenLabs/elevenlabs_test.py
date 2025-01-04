@@ -3,9 +3,7 @@ from elevenlabs.client import ElevenLabs
 
 client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
 
-voices_response = client.voices.get_all()
-
-print(f"Type of voices_response: {type(voices_response)}")
+voices_response = client.voices.get_all(include_premade=True)
 
 # Check if the response has a 'voices' attribute
 if hasattr(voices_response, 'voices'):
