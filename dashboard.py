@@ -340,6 +340,10 @@ class App(ctk.CTk):
         global eleven_spanish_voice_list
         global eleven_german_voice_list
 
+        global eleven_english_voice_dict
+        global eleven_spanish_voice_dict
+        goobal eleven_german_voice_dict
+
         # we get called before there is a tab view
         # so in that case we default to English
         # (a little lame:))
@@ -385,19 +389,33 @@ class App(ctk.CTk):
             voices = []
             for voice in voice_list:
                 voices.append(voice.get('value'))
+            if lang_code == 'en':
+                ht_english_voice_list = voices
+            elif lang_code == 'es-CO':
+                ht_spanish_voice_list = voices
+            elif lang_code == 'de':
+                ht_german_voice_list = voices
+            return voices    
+
         elif service == 'ElevenLabs':
             voice_dict = elevenlabs_utilities.list_voices(lang_code)
             voices = list(voice_dict.keys())
+
+            # We need to find a way to retrieve voice_ids later
+            # And we have 3 (for now) voice dictionaries
             voice_ids = list(voice_dict.values())
+            if lang_code == 'en':
+                eleven_english_voice_dict = voice_dict
+                eleven_english_voice_list = voices
+            elif lang_code == 'es-CO':
+                eleven_spanish_voice_dict = voice_dict
+                eleven_spanish_voice_list = voices
+            elif lang_code == 'de':
+                eleven_german_voice_dict = voice_dict
+                eleven_german_voice_list = voices
+            return voices    
             
 ### Needs to support both services
-        if lang_code == 'en':
-            english_voice_list = voices
-        elif lang_code == 'es-CO':
-            spanish_voice_list = voices
-        elif lang_code == 'de':
-            german_voice_list = voices
-        return voices    
 
     def voice_compare_callback(self, chosen_voice, service):   
 
