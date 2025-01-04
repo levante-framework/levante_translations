@@ -387,8 +387,10 @@ class App(ctk.CTk):
                 voices.append(voice.get('value'))
         elif service == 'ElevenLabs':
             voice_list = elevenlabs_utilities.list_voices(lang_code)
-            voices = []
-            voices = [voice.name for voice in voice_list]
+            voice_names = []
+            voice_ids = []
+            voice_names = [voice.name for voice in voice_list]
+            voice_ids = [voice.voice_id for voice in voice_list]
             
 ### Needs to support both services
         if lang_code == 'en':
