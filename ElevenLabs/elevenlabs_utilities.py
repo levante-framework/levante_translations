@@ -28,10 +28,15 @@ def list_voices(lang_code):
         sort=None       # Optional sorting criteria
     )
     voice_list = response.voices
-    return voice_list
+
+    # Create a dictionary with voice names as keys and voice IDs as values
+    voice_dict = {voice.name: voice.voice_id for voice in voice_list}
+    return voice_dict
 
 def play_audio(text, voice):
     # Generate audio from text
+    # The tricky part is that we need the voice_id, not the voice name!
+    # we could build a dictionary?
     audio = client.generate(text=text, voice=voice)
 
     # Play the generated audio
