@@ -8,25 +8,32 @@ from utilities import utilities as u
 from playsound import playsound
 import tempfile
 from typing import Final
+
+# Service specific code
 from PlayHt import playHt_utilities
+from ElevenLabs import elevenlabs_utilities
 
 class App(ctk.CTk):
-
 
     def __init__(self):
         super().__init__()
 
-        # when tab is selected, change values for voices
-        # should probably cache them at some point
-        def on_tab_change():
-            self.after(100, update_combobox)
 
-        def update_combobox():
-            voice_list = self.get_language_list()
-            self.voice_combobox.configure(values=voice_list)
-            self.voice_combobox.set(voice_list[0] if voice_list else "")
+        def update_comboboxes():
+            # get_language_list used current tab to derive lang_code
+            ht_voice_list = self.get_voice_list('PlayHt')
+            eleven_voice_list = self.get_voice_list('ElevenLabs')
 
-        ## default file name!
+            # update combo boxes for both services
+            self.ht_voice_combobox.configure(values=ht_voice_list)
+            self.ht_voice_combobox.set(ht_voice_list[0] if ht_voice_list else "")
+
+            self.eleven_voice_combobox.configure(values=eleven_voice_list)
+            self.eleven_voice_combobox.set(eleven_voice_list[0] if eleven_voice_list else "")
+
+### --- Here is where the actual code start --- ###
+
+        ## Uses our default file name
         self.ourData = pd.read_csv("item_bank_translations.csv")
 
         self.title("Levante Translation and Audio Generation Dashboard")
@@ -63,7 +70,7 @@ class App(ctk.CTk):
         # Row assignments
         SEARCH_ROW: Final[int] = 0
         VOICE_ROW: Final[int] = 1
-        TABLE_ROW: Final[int] = 2
+        self.TABLE_ROW: Final[int] = 2
 
         self.language_frame = ctk.CTkFrame(self)
         self.language_frame.grid(row=1, column=0, padx=2, pady=2, sticky="nsew")
@@ -72,7 +79,7 @@ class App(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
 
         self.language_frame.grid_columnconfigure(0, weight=1)
-        self.language_frame.grid_rowconfigure(TABLE_ROW, weight=1)
+        self.language_frame.grid_rowconfigure(self.TABLE_ROW, weight=1)
 
         # search field for item names
         self.create_search_frame(self.language_frame, SEARCH_ROW)
@@ -80,14 +87,22 @@ class App(ctk.CTk):
         # fields for comparing voices
         self.create_voice_frame(self.language_frame, VOICE_ROW)
 
-        self.tabview = ctk.CTkTabview(self.language_frame, 
-                                      command=on_tab_change)
-        self.tabview.grid(row=TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
+        self.tabview = self.create_tabview()
+
+        # when tab is selected, change values for voices
+        # should probably cache them at some point
+    def on_tab_change(self):
+        self.after(100, self.update_comboboxes)
+
+    def create_tabview(self):
+        tabview = ctk.CTkTabview(self.language_frame, 
+                                      command=self.on_tab_change)
+        tabview.grid(row=self.TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
-        tabEnglish = self.tabview.add("English")
-        tabSpanish = self.tabview.add("Spanish")
-        tabGerman = self.tabview.add("German")
+        tabEnglish = tabview.add("English")
+        tabSpanish = tabview.add("Spanish")
+        tabGerman = tabview.add("German")
 
         # Add scrollable frames
         self.englishFrame = ctk.CTkFrame(tabEnglish)
@@ -102,6 +117,8 @@ class App(ctk.CTk):
         self.englishTree = self.create_table(self.englishFrame, 'en')     
         self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
         self.germanTree = self.create_table(self.germanFrame, 'de')
+
+        return tabview
 
     def display_stats(self):
         # Need to refactor into a language-specific function
@@ -192,16 +209,16 @@ class App(ctk.CTk):
         voice_frame = ctk.CTkFrame(parent)
         voice_frame.grid(row=row, column=0, padx=5, pady=2, sticky="ew")
 
-        # Configure the grid layout for search_frame
+        # Configure the grid layout for the voice frame
         voice_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
-        # Add label to the voice frame
+        # Add PlayHt elements
         label = ctk.CTkLabel(voice_frame, text="Compare PlayHt Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        voice_values = self.get_language_list()
-
         service = 'PlayHt'
+        voice_values = self.get_voice_list(service)
+
         self.ht_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
             command=lambda choice: self.voice_compare_callback(choice, service))
         self.ht_voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
@@ -210,15 +227,13 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(voice_frame, text="Compare ElevenLabs Voice: ")
         label.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
 
-        voice_values = self.get_language_list()
-
         service = 'ElevenLabs'
+        voice_values = self.get_voice_list(service)
+
         self.eleven_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
             command=lambda choice: self.voice_compare_callback(choice, service))
         self.eleven_voice_combobox.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
         self.eleven_voice_combobox.set("Select an ElevenLabs Voice")
-
-
 
         return voice_frame  # Return the frame in case you need to reference it later
 
@@ -315,11 +330,15 @@ class App(ctk.CTk):
             else:
                 tree.selection_remove(item_index)
 
-    def get_language_list(self):
+    def get_voice_list(self, service):
 
-        global english_voice_list
-        global spanish_voice_list
-        global german_voice_list
+        global ht_english_voice_list
+        global ht_spanish_voice_list
+        global ht_german_voice_list
+
+        global eleven_english_voice_list
+        global eleven_spanish_voice_list
+        global eleven_german_voice_list
 
         # we get called before there is a tab view
         # so in that case we default to English
@@ -328,18 +347,31 @@ class App(ctk.CTk):
             if self.tabview.winfo_exists():
                 active_tab = self.tabview.get()
 
+            # Needs refactoring:)!
             if active_tab == "English":
                 lang_code = 'en'
-                if 'english_voice_list' in globals():
-                    return english_voice_list
+                if service == 'PlayHt':
+                    if 'ht_english_voice_list' in globals():
+                        return ht_english_voice_list
+                elif service == 'ElevenLabs':
+                    if 'eleven_english_voice_list' in globals():
+                        return eleven_english_voice_list
             elif active_tab == "Spanish":
                 lang_code = 'es-CO'
-                if 'spanish_voice_list' in globals():
-                    return spanish_voice_list
+                if service == 'PlayHt':
+                    if 'ht_spanish_voice_list' in globals():
+                        return ht_spanish_voice_list
+                elif service == 'ElevenLabs':
+                    if 'eleven_spanish_voice_list' in globals():
+                        return eleven_spanish_voice_list
             elif active_tab == "German":
                 lang_code = 'de'
-                if 'german_voice_list' in globals():
-                    return german_voice_list
+                if service == 'PlayHt':
+                    if 'ht_german_voice_list' in globals():
+                        return ht_german_voice_list
+                elif service == 'ElevenLabs':
+                    if 'eleven_german_voice_list' in globals():
+                        return eleven_german_voice_list
             else:
                 print ("NO LANGUAGE")
                 exit()
@@ -347,11 +379,18 @@ class App(ctk.CTk):
             # assume we will show english when created
             lang_code = 'en'
 
-        voice_list = playHt_utilities.list_voices(lang_code)
-        voices = []
-        for voice in voice_list:
-            voices.append(voice.get('value'))
-
+        # voice list not found
+        if service == 'PlayHt':
+            voice_list = playHt_utilities.list_voices(lang_code)
+            voices = []
+            for voice in voice_list:
+                voices.append(voice.get('value'))
+        elif service == 'ElevenLabs':
+            voice_list = elevenlabs_utilities.list_voices(lang_code)
+            voices = []
+            voices = [voice.name for voice in voice_list]
+            
+### Needs to support both services
         if lang_code == 'en':
             english_voice_list = voices
         elif lang_code == 'es-CO':
@@ -385,12 +424,13 @@ class App(ctk.CTk):
         column_values = selected_row['values']
         translated_text = column_values[TRANSLATION_COLUMN]
 
-        translated_audio = playHt_utilities.get_audio(translated_text, voice)
-
-        if len(translated_audio) == 0:
-            return
-
-        self.play_data_object(translated_audio)
+        if service == 'PlayHt':
+            translated_audio = playHt_utilities.get_audio(translated_text, voice)
+            if len(translated_audio) == 0:
+                return
+            self.play_data_object(translated_audio)
+        elif service == 'ElevenLabs':
+            elevenlabs_utilities.play_audio(translated_text, voice)
 
     def play_data_object(self, audio_data):
         # Create a temporary file
