@@ -1,33 +1,39 @@
 import os
-from elevenlabs.client import ElevenLabs
+from elevenlabs import play
+from elevenlabs.client import ElevenLabs 
+import pprint 
 
-client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
+client = ElevenLabs( 
+    api_key=os.getenv('elevenlabs_test'),  # enter your API key here 
+) 
 
-voices_response = client.voices.get_all(include_premade=True)
+response = client.voices.get_shared(
+    page_size=100,  # Adjust as needed, max 100
+    category='professional',  # Optional filter
+    gender=None,    # Optional filter
+    age=None,       # Optional filter
+    accent=None,    # Optional filter
+    language='es', #None,  # Optional filter
+    search=None,    # Optional search term
+    use_cases='conversational',  # Optional filter
+    featured=None,  # Optional filter
+    sort=None       # Optional sorting criteria
+)
 
-# Check if the response has a 'voices' attribute
-if hasattr(voices_response, 'voices'):
-    voices = voices_response.voices
-    print(f"Number of voices: {len(voices)}")
+formatted_voices = pprint.pformat(response.voices) 
 
-    # Function to safely get language
-    def get_language(voice):
-        if hasattr(voice, 'labels') and isinstance(voice.labels, dict):
-            return voice.labels.get('language', 'Unknown')
-        return 'Unknown'
+with open("voices.txt", "w", encoding="utf-8") as file: 
+    file.write(formatted_voices) 
+print("Voice information has been written to voices.txt") 
+print(f"Number of voices: {len(response.voices)}") 
 
-    # Filter voices by language
-    def filter_voices_by_language(voices, language):
-        return [voice for voice in voices if language.lower() in get_language(voice).lower()]
+# Generate audio from text
+audio = client.generate(
+    text="Hello, this is a test phrase using ElevenLabs.",
+    voice="Rachel"  # You can change this to any available voice
+)
 
-    # Example: List all Korean voices
-    korean_voices = filter_voices_by_language(voices, "korean")
+# Play the generated audio
+play(audio)
 
-    for voice in korean_voices:
-        print(f"Name: {getattr(voice, 'name', 'Unknown')}")
-        print(f"Voice ID: {getattr(voice, 'voice_id', 'Unknown')}")
-        print(f"Language: {get_language(voice)}")
-        print("---")
-else:
-    print("Unexpected response structure. Printing available attributes:")
-    print(dir(voices_response))
+
