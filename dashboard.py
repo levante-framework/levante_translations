@@ -195,16 +195,30 @@ class App(ctk.CTk):
         # Configure the grid layout for search_frame
         voice_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
-        # Add label to the search_frame
-        label = ctk.CTkLabel(voice_frame, text="Compare Voice: ")
+        # Add label to the voice frame
+        label = ctk.CTkLabel(voice_frame, text="Compare PlayHt Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         voice_values = self.get_language_list()
 
-        self.voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
-                                         command=self.voice_compare_callback)
-        self.voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
-        self.voice_combobox.set("Select a Voice")
+        service = 'PlayHt'
+        self.ht_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
+            command=lambda choice: self.voice_compare_callback(choice, service))
+        self.ht_voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
+        self.ht_voice_combobox.set("Select a PlayHt Voice")
+
+        label = ctk.CTkLabel(voice_frame, text="Compare ElevenLabs Voice: ")
+        label.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
+
+        voice_values = self.get_language_list()
+
+        service = 'ElevenLabs'
+        self.eleven_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
+            command=lambda choice: self.voice_compare_callback(choice, service))
+        self.eleven_voice_combobox.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
+        self.eleven_voice_combobox.set("Select an ElevenLabs Voice")
+
+
 
         return voice_frame  # Return the frame in case you need to reference it later
 
@@ -346,7 +360,7 @@ class App(ctk.CTk):
             german_voice_list = voices
         return voices    
 
-    def voice_compare_callback(self, chosen_voice):   
+    def voice_compare_callback(self, chosen_voice, service):   
 
         # trees don't seem to have named columns?
         TRANSLATION_COLUMN = 3
