@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
+from CTkToolTip import *
 import pandas as pd
 from utilities import utilities as u
 from playsound import playsound
@@ -184,7 +185,7 @@ class App(ctk.CTk):
 
         # bind to current language / code for displaying results
         parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent))
-
+        CTkToolTip(parent.search_entry, message="Type a task id and then <Return> to navigate to the item and play the text.")
         return search_frame  # Return the frame in case you need to reference it later
 
     def create_voice_frame(self, parent, row):
