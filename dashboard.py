@@ -342,7 +342,7 @@ class App(ctk.CTk):
 
         global eleven_english_voice_dict
         global eleven_spanish_voice_dict
-        goobal eleven_german_voice_dict
+        global eleven_german_voice_dict
 
         # we get called before there is a tab view
         # so in that case we default to English
@@ -426,10 +426,13 @@ class App(ctk.CTk):
         # it with the selected voice, and the current language
         if self.tabview.get() == "English":
             useTree = self.englishTree
+            use_voicedict = eleven_english_voice_dict
         elif self.tabview.get() == "Spanish":
             useTree = self.spanishTree
+            use_voicedict = eleven_spanish_voice_dict
         elif self.tabview.get() == "German":
             useTree = self.germanTree
+            use_voicedict = eleven_german_voice_list
         else:
             print("Nothing Selected")
             return
@@ -448,6 +451,8 @@ class App(ctk.CTk):
                 return
             self.play_data_object(translated_audio)
         elif service == 'ElevenLabs':
+            # we need to look up the voice id (or not!)
+            #voice_id = use_voicedict[voice]
             elevenlabs_utilities.play_audio(translated_text, voice)
 
     def play_data_object(self, audio_data):
