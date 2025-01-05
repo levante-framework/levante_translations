@@ -18,14 +18,15 @@ def list_voices(lang_code):
     response = client.voices.get_shared(
         page_size=100,  # Adjust as needed, max 100
         category='professional',  # Optional filter
-        gender=None,    # Optional filter
+        gender='Female',    # Optional filter
         age=None,       # Optional filter
         accent=None,    # Optional filter
         language=modified_language_code, 
         search=None,    # Optional search term
         use_cases='conversational',  # Optional filter
         featured=None,  # Optional filter
-        sort=None       # Optional sorting criteria
+        sort=None,       # Optional sorting criteria
+        #model="eleven_multilingual_v2",
     )
     voice_list = response.voices
 
@@ -33,16 +34,18 @@ def list_voices(lang_code):
     voice_dict = {voice.name: voice.voice_id for voice in voice_list}
     return voice_dict
 
-def play_audio(text, voice):
+def play_audio(text): #, voice):
     # Generate audio from text
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
-    audio = client.generate(text=text, voice='MK8') # voice=voice)
+    audio = client.generate(text=text, voice='v3V1d2rk6528UrLKRuy8') # voice=voice)
+    #audio = client.generate(text=text, voice='Susi') # voice=voice)
 
     # Play the generated audio
     play(audio)
 
-#formatted_voices = pprint.pformat(response.voices) 
+voice_dict = list_voices('de')
+play_audio("Ouch")
 
 #with open("voices.txt", "w", encoding="utf-8") as file: 
 #    file.write(formatted_voices) 
