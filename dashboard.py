@@ -18,19 +18,6 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-
-        def update_comboboxes():
-            # get_language_list used current tab to derive lang_code
-            ht_voice_list = self.get_voice_list('PlayHt')
-            eleven_voice_list = self.get_voice_list('ElevenLabs')
-
-            # update combo boxes for both services
-            self.ht_voice_combobox.configure(values=ht_voice_list)
-            self.ht_voice_combobox.set(ht_voice_list[0] if ht_voice_list else "")
-
-            self.eleven_voice_combobox.configure(values=eleven_voice_list)
-            self.eleven_voice_combobox.set(eleven_voice_list[0] if eleven_voice_list else "")
-
 ### --- Here is where the actual code start --- ###
 
         ## Uses our default file name
@@ -330,6 +317,18 @@ class App(ctk.CTk):
             else:
                 tree.selection_remove(item_index)
 
+    def update_comboboxes(self):
+        # get_language_list used current tab to derive lang_code
+        ht_voice_list = self.get_voice_list('PlayHt')
+        eleven_voice_list = self.get_voice_list('ElevenLabs')
+
+        # update combo boxes for both services
+        self.ht_voice_combobox.configure(values=ht_voice_list)
+        self.ht_voice_combobox.set(ht_voice_list[0] if ht_voice_list else "")
+
+        self.eleven_voice_combobox.configure(values=eleven_voice_list)
+        self.eleven_voice_combobox.set(eleven_voice_list[0] if eleven_voice_list else "")
+
     def get_voice_list(self, service):
 
         global ht_english_voice_list
@@ -426,13 +425,13 @@ class App(ctk.CTk):
         # it with the selected voice, and the current language
         if self.tabview.get() == "English":
             useTree = self.englishTree
-            use_voicedict = eleven_english_voice_dict
+            #use_voicedict = eleven_english_voice_dict
         elif self.tabview.get() == "Spanish":
             useTree = self.spanishTree
-            use_voicedict = eleven_spanish_voice_dict
+            #use_voicedict = eleven_spanish_voice_dict
         elif self.tabview.get() == "German":
             useTree = self.germanTree
-            use_voicedict = eleven_german_voice_list
+            #use_voicedict = eleven_german_voice_dict
         else:
             print("Nothing Selected")
             return
