@@ -37,8 +37,8 @@ def processRow(index, ourRow, lang_code, voice, \
     # we want to begin to support SSML, so convert to that format:
     ssmlText = u.html_to_ssml(ourRow[lang_code])
     data = {
-        # content needs to be an array, even if we only do one at a time
-        "content" : ssmlText,
+        # content needs to be a list, even if we only do one at a time
+        "content" : [ssmlText],
         "voice": voice,
         "title": "Levante Audio", # not sure where this matters?
         "trimSilence": True
