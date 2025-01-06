@@ -3,10 +3,12 @@
 
 def get_languages(): 
 
-    language_dict = {\
-        'English': ['en', 'en-US-AriaNeural'],
-        'Spanish': ['es-CO', 'es-CO-SalomeNeural'],
-        'German': ['de', 'VickiNeural'],
+    language_list = {\
+        'English': {'lang_code':'en', 'voice': 'en-US-AriaNeural'},
+        'Spanish': {'lang_code': 'es-CO', 'voice': 'es-CO-SalomeNeural'},
+        'German': {'lang_code': 'de', 'voice' :'VickiNeural'},
         }
     
-    return language_dict       
+    # Later we can add HT voices and Eleven voices to each of these
+    
+    return language_list       
