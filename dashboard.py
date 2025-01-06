@@ -5,6 +5,7 @@ import customtkinter as ctk
 from CTkToolTip import *
 import pandas as pd
 from utilities import utilities as u
+from utilities import config as conf
 from playsound import playsound
 import tempfile
 from typing import Final
@@ -18,7 +19,8 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-### --- Here is where the actual code start --- ###
+        # Get list of languages and voices
+        self.language_dict = conf.get_languages()
 
         ## Uses our default file name
         self.ourData = pd.read_csv("item_bank_translations.csv")
@@ -87,6 +89,18 @@ class App(ctk.CTk):
         tabview.grid(row=self.TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
 
         # Create tabs -- should be enumeration of languages
+        # tabList = []
+        # for language in language_dict['keys']:
+        # tabList = concat(tabList, tabview.add(language))
+        #
+        # Add the frame and tree at the same time
+        # Can we use tabList(end) or something?
+        # how do we keep track of frames? Another list?
+        # [frame] = ctk.CTkFrame(tabList(end))
+        # ... pack frame ...
+        # Add tree using create_table()
+
+        # Current code has languages hard-wired:
         tabEnglish = tabview.add("English")
         tabSpanish = tabview.add("Spanish")
         tabGerman = tabview.add("German")
@@ -330,6 +344,9 @@ class App(ctk.CTk):
         self.eleven_voice_combobox.set(eleven_voice_list[0] if eleven_voice_list else "")
 
     def get_voice_list(self, service):
+
+        # to be language extensible:
+        # List of lists or dict of lists
 
         global ht_english_voice_list
         global ht_spanish_voice_list
