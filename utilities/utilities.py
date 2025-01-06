@@ -3,6 +3,7 @@ import os
 import textwrap
 import subprocess
 import pandas as pd
+import re
 
 stats_file_path = 'stats.csv'
 
@@ -10,6 +11,29 @@ def create_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
     return path
+
+
+def html_to_ssml(html):
+    def convert_tags(html):
+        # Convert <bold> tags to <emphasis> tags
+        ssml = re.sub(r'<\s*bold\s*>', '<emphasis>', html)
+        ssml = re.sub(r'<\s*/\s*bold\s*>', '</emphasis>', ssml)
+
+        # Convert <br> and <p> tags to <break> tags
+        ssml = re.sub(r'<\s*br\s*/?>', '<break/>', ssml)
+        ssml = re.sub(r'<\s*p\s*/?>', '<break/>', ssml)
+
+        return ssml
+
+    def wrap_ssml(content):
+        # Wrap the content in a properly formatted SSML string
+        return f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">{content}</speak>'
+
+    converted_content = convert_tags(html)
+    ssml_output = wrap_ssml(converted_content)
+    
+    return ssml_output
+
 
 # find the full path for an audio file to write
 # we want to echo the repo & GCP heirarchy to save re-doing later
