@@ -254,7 +254,7 @@ class App(ctk.CTk):
 
         ssml_input = ctk.CTkTextbox(ssml_frame)
         ssml_input.insert("0.0", "Text goes here here...")
-        ssml_input.grid(row=1, column=1, padx=(5,5), pady=2, sticky="w")
+        ssml_input.grid(row=1, column=2, padx=(5,5), pady=2, sticky="w")
        
 
         return ssml_frame  # Return the frame in case you need to reference it later
