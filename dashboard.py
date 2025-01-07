@@ -86,6 +86,9 @@ class App(ctk.CTk):
     def on_tab_change(self):
         self.after(100, self.update_comboboxes)
 
+    def on_ssml_change(self):
+        print('tbd')
+
     def create_tabview(self):
         tabview = ctk.CTkTabview(self.language_frame, 
                                       command=self.on_tab_change)
@@ -255,6 +258,10 @@ class App(ctk.CTk):
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
         self.ssml_input.insert("0.0", "Text goes here here...")
         self.ssml_input.grid(row=0, column=1, columnspan=2, padx=(5,5), pady=2, sticky="w")
+
+        self.ssml_play = ctk.CTkButton(ssml_frame, \
+                text="Play SSML",   # This sets the label
+                command=self.on_ssml_play)  
 
         return ssml_frame  # Return the frame in case you need to reference it later
 
