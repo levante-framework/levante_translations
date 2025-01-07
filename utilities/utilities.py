@@ -27,7 +27,9 @@ def html_to_ssml(html):
 
     def wrap_ssml(content):
         # Wrap the content in a properly formatted SSML string
-        return f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">{content}</speak>'
+        # PlayHt doesn't require the xml header
+        #return f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">{content}</speak>'
+        return f"<speak>{content}</speak>"
 
     converted_content = convert_tags(html)
     ssml_output = wrap_ssml(converted_content)
