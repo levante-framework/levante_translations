@@ -44,10 +44,6 @@ def list_voices(lang_code):
                     and voice.get('gender') == 'Female' \
                     and voice.get('voiceType') == 'Neural']
 
-        # debug language
-        #filtered_voices = [voice for voice in voices]
-
-        # Do we want to return the entire dictionary? 
         return(filtered_voices)
 
 # Print voice details for debugging
