@@ -59,7 +59,8 @@ class App(ctk.CTk):
         # Row assignments
         SEARCH_ROW: Final[int] = 0
         VOICE_ROW: Final[int] = 1
-        self.TABLE_ROW: Final[int] = 2
+        SSML_ROW: Final[int] = 2
+        self.TABLE_ROW: Final[int] = 3
 
         self.language_frame = ctk.CTkFrame(self)
         self.language_frame.grid(row=1, column=0, padx=2, pady=2, sticky="nsew")
@@ -75,6 +76,8 @@ class App(ctk.CTk):
 
         # fields for comparing voices
         self.create_voice_frame(self.language_frame, VOICE_ROW)
+
+        self.create_ssml_frame(self.language_frame, SSML_ROW)
 
         self.tabview = self.create_tabview()
 
@@ -237,6 +240,24 @@ class App(ctk.CTk):
         self.eleven_voice_combobox.set("Select an ElevenLabs Voice")
 
         return voice_frame  # Return the frame in case you need to reference it later
+
+    def create_ssml_frame(self, parent, row):
+        ssml_frame = ctk.CTkFrame(parent)
+        ssml_frame.grid(row=row, column=0, padx=5, pady=2, sticky="ew")
+
+        # Configure the grid layout for the voice frame
+        ssml_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
+
+        # Add PlayHt elements
+        label = ctk.CTkLabel(ssml_frame, text="Paste SSML Text: ")
+        label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
+
+        ssml_input = ctk.CTkTextbox(ssml_frame)
+        ssml_input.insert("0.0", "Text goes here here...")
+        ssml_input.grid(row=1, column=1, padx=(5,5), pady=2, sticky="w")
+       
+
+        return ssml_frame  # Return the frame in case you need to reference it later
 
     def create_table(self, parent, lang_code):
 
