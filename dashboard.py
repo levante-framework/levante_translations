@@ -252,10 +252,9 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(ssml_frame, text="Paste SSML Text: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        ssml_input = ctk.CTkTextbox(ssml_frame)
-        ssml_input.insert("0.0", "Text goes here here...")
-        ssml_input.grid(row=1, column=2, padx=(5,5), pady=2, sticky="w")
-       
+        self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
+        self.ssml_input.insert("0.0", "Text goes here here...")
+        self.ssml_input.grid(row=0, column=1, columnspan=2, padx=(5,5), pady=2, sticky="w")
 
         return ssml_frame  # Return the frame in case you need to reference it later
 
@@ -277,9 +276,14 @@ class App(ctk.CTk):
                 # Get the text of the selected item
                 item_text = event.widget.item(item, "text")
         
-                # play audio
+
                 # should go by column name...
-                playsound(item_values[4])
+
+                translation_text = item_values[3]
+                self.ssml_input.insert("0.0", translation_text)
+
+                audio_file = item_values[4]
+                playsound(audio_file)
 
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
