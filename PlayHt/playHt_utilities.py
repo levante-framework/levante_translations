@@ -39,7 +39,10 @@ def list_voices(lang_code):
             return("Error")
 
         # Filter voices by the specified language
-        filtered_voices = [voice for voice in voices if voice.get('language') == target_language]
+        filtered_voices = [voice for voice in voices if \
+                           voice.get('language') == target_language \
+                    and voice.get('gender') == 'Female' \
+                    and voice.get('voiceType') == 'Neural']
 
         # debug language
         #filtered_voices = [voice for voice in voices]
