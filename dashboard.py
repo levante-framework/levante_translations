@@ -261,7 +261,7 @@ class App(ctk.CTk):
 
         self.ssml_play = ctk.CTkButton(ssml_frame, \
                 text="Play SSML",   # This sets the label
-                command=self.on_ssml_play)  
+                command=self.on_ssml_change)  
 
         return ssml_frame  # Return the frame in case you need to reference it later
 
