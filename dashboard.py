@@ -248,20 +248,22 @@ class App(ctk.CTk):
         ssml_frame = ctk.CTkFrame(parent)
         ssml_frame.grid(row=row, column=0, padx=5, pady=2, sticky="ew")
 
-        # Configure the grid layout for the voice frame
+        # Configure the grid layout for the ssml frame
         ssml_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add PlayHt elements
         label = ctk.CTkLabel(ssml_frame, text="Paste SSML Text: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
-        self.ssml_input.insert("0.0", "Text goes here here...")
-        self.ssml_input.grid(row=0, column=1, columnspan=2, padx=(5,5), pady=2, sticky="w")
-
         self.ssml_play = ctk.CTkButton(ssml_frame, \
                 text="Play SSML",   # This sets the label
                 command=self.on_ssml_change)  
+        self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
+
+        self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
+        self.ssml_input.insert("0.0", "Text goes here here...")
+        self.ssml_input.grid(row=0, column=1, rowspan=2, columnspan=2, padx=(5,5), pady=2, sticky="w")
+
 
         return ssml_frame  # Return the frame in case you need to reference it later
 
