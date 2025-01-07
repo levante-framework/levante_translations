@@ -16,6 +16,11 @@ def get_languages():
     # e.g. language_list['English']['ht_voices' : ht_english_voice_list]
     return language_list       
 
+def get_default_voice(language):
+    language_index = get_languages()
+    language_dict = language_index[language]
+    return( language_dict['voice'])
+
 def add_voice_list(language, service, voice_list):
     print('put add voice list here')
 

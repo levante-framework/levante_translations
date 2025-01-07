@@ -86,7 +86,38 @@ class App(ctk.CTk):
     def on_tab_change(self):
         self.after(100, self.update_comboboxes)
 
-    def on_ssml_change(self):
+    def on_ssml_play(self):
+        # We want to play the current text in ssml_input through
+        # the current (language specific) voice
+        play_text = self.ssml_input.get("0.0", "end")
+
+        # get the correct voice
+        voice = ''
+        try:
+            if self.tabview.winfo_exists():
+                active_tab = self.tabview.get()
+
+            # ASSUMES PlayHt for now
+            if active_tab == "English":
+                lang_code = 'en'
+                voice = conf.get_default_voice('English')
+                
+            elif active_tab == "Spanish":
+                lang_code = 'es-CO'
+                voice = conf.get_default_voice('Spanish')
+                
+            elif active_tab == "German":
+                lang_code = 'de'
+                voice = conf.get_default_voice('German')
+            else:
+                print ("NO LANGUAGE")
+                exit()
+        except:
+            # assume we will show english when created
+            lang_code = 'en'
+
+        # Now transcribe text & play using selected voice
+        
         print('tbd')
 
     def create_tabview(self):
@@ -257,7 +288,7 @@ class App(ctk.CTk):
 
         self.ssml_play = ctk.CTkButton(ssml_frame, \
                 text="Play SSML",   # This sets the label
-                command=self.on_ssml_change)  
+                command=self.on_ssml_play)  
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
