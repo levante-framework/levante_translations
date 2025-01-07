@@ -56,9 +56,6 @@ def count_audio_files(lang_code):
     raw_result = subprocess.run(f'ls audio_files/*/{lang_code}/shared/* | wc -l', shell=True, capture_output=True, text=True)
     return raw_result.stdout.strip()
 
-# debug/test code
-# foo = count_audio_files('en')
-# print(f'Audio: {foo}')
 
 def store_stats(lang_code, errors, notask, voice):
 
