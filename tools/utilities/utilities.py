@@ -6,7 +6,7 @@ import pandas as pd
 import re
 import tempfile
 import playsound
-#import audio-generation.PlayHt
+from PlayHt import playHt_utilities
 
 stats_file_path = 'stats.csv'
 
@@ -61,14 +61,15 @@ def count_audio_files(lang_code):
 
 def play_audio_from_text(service, voice, text ):
     if service == 'PlayHt':
-        translated_audio = playHt_utilities.get_audio(text, voice)
+        translated_audio = get_audio(text, voice)
         if len(translated_audio) == 0:
             return
         play_data_object(translated_audio)
     elif service == 'ElevenLabs':
         # we need to look up the voice id (or not!)
         #voice_id = use_voicedict[voice]
-        elevenlabs_utilities.play_audio(text, voice)
+        #elevenlabs_utilities.play_audio(text, voice)
+        print("NOT IMPLEMENTED")
 
 def store_stats(lang_code, errors, notask, voice):
 
