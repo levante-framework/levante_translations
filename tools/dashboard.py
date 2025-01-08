@@ -88,7 +88,8 @@ class App(ctk.CTk):
     def on_ssml_play(self):
         # We want to play the current text in ssml_input through
         # the current (language specific) voice
-        play_text = self.ssml_input.get("0.0", "end")
+        play_text_html = self.ssml_input.get("0.0", "end")
+        play_text = u.html_to_ssml(play_text_html)
 
         # get the correct voice
         voice = ''
