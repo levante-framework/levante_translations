@@ -89,7 +89,7 @@ class App(ctk.CTk):
         # We want to play the current text in ssml_input through
         # the current (language specific) voice
         play_text_html = self.ssml_input.get("0.0", "end")
-        play_text = u.html_to_ssml(play_text_html)
+        play_text_ssml = u.html_to_ssml(play_text_html)
 
         # get the correct voice
         voice = ''
@@ -117,7 +117,7 @@ class App(ctk.CTk):
             lang_code = 'en'
 
         # Now transcribe text & play using selected voice
-        u.play_audio_from_text('PlayHt', voice, play_text)
+        u.play_audio_from_text('PlayHt', voice, play_text_ssml)
         #print('tbd')
 
     def create_tabview(self):
@@ -292,7 +292,7 @@ class App(ctk.CTk):
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
-        self.ssml_input.insert("0.0", "Text goes here here...")
+        self.ssml_input.insert("0.0", 'Text goes <break time="2000ms"/> here...')
         self.ssml_input.grid(row=0, column=1, rowspan=2, columnspan=2, padx=(5,5), pady=2, sticky="w")
 
 
