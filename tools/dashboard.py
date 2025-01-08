@@ -116,8 +116,8 @@ class App(ctk.CTk):
             lang_code = 'en'
 
         # Now transcribe text & play using selected voice
-        
-        print('tbd')
+        u.play_audio_from_text('PlayHt', voice, play_text)
+        #print('tbd')
 
     def create_tabview(self):
         tabview = ctk.CTkTabview(self.language_frame, 

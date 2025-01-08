@@ -61,7 +61,7 @@ def count_audio_files(lang_code):
 
 def play_audio_from_text(service, voice, text ):
     if service == 'PlayHt':
-        translated_audio = get_audio(text, voice)
+        translated_audio = playHt_utilities.get_audio(text, voice)
         if len(translated_audio) == 0:
             return
         play_data_object(translated_audio)
@@ -112,7 +112,7 @@ def get_stats():
     print(f'Stats: {statsData}')
     return(statsData)
 
-def play_data_object(self, audio_data):
+def play_data_object(audio_data):
     # Create a temporary file
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
     temp_filename = temp_file.name
@@ -123,7 +123,7 @@ def play_data_object(self, audio_data):
         temp_file.close()
     
         # Play the temporary file
-        playsound(temp_filename)
+        playsound.playsound(temp_filename)
     finally:
         # Clean up the temporary file
         os.unlink(temp_filename)
