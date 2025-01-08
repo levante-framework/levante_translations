@@ -2,6 +2,7 @@
 import requests
 import os
 from playsound import playsound 
+from utilities import utilities as u
 from pyht import Client
 import time
 
@@ -60,18 +61,21 @@ def list_voices(lang_code):
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
-# Borrowed from playHt_tts!!
+# Borrowed from playHt_tts (should refactor)
 # could return file name or error, etc.
 def get_audio(text, voice):
 
     retrySeconds = .5
     errorCount = 0
 
+    # for now we are getting passed ssml already
+    ssml_text = u.html_to_ssml(text)
     data = {
-        # content needs to be an array, even if we only do one at a time
-        "content" : [text],
+        "ssml": [ssml_text],
+        "output_format": "mp3",
+        "quality": "high",
         "voice": voice,
-        "title": "Comparison Audio", # not sure where this matters?
+        "title": "Levante Audio", # not sure where this matters?
         "trimSilence": True
     }
 
@@ -113,7 +117,7 @@ def get_audio(text, voice):
                         restartRequest = True
                         errorCount += 1
                         # might still be in progress
-                        time.sleep(1)
+                        time.sleep(retrySeconds)
                         continue # we want to start the loop over
 
                 # Our transcription is successful                        
