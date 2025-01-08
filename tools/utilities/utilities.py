@@ -23,8 +23,9 @@ def html_to_ssml(html):
         ssml = re.sub(r'<\s*/\s*bold\s*>', '</emphasis>', ssml)
 
         # Convert <br> and <p> tags to <break> tags
-        ssml = re.sub(r'<\s*br\s*/?>', '<break/>', ssml)
-        ssml = re.sub(r'<\s*p\s*/?>', '<break/>', ssml)
+        # time is arbitrary
+        ssml = re.sub(r'<\s*br\s*/?>', '<break time="400ms"/>', ssml)
+        ssml = re.sub(r'<\s*p\s*/?>', '<break time="400ms"/>', ssml)
 
         return ssml
 
