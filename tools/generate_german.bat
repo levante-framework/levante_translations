@@ -1,0 +1,1 @@
+python generate_speech.py "de" "VickiNeural"
