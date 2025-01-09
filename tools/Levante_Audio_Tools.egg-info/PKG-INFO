@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: Levante-Audio-Tools
+Version: 0.1.0
+Summary: Scripts to help generate accurate audio
+Author: David Cardinal
+Author-email: david81@stanford.edu
+License-File: LICENSE
+Requires-Dist: beautifulsoup4==4.12.3
+Requires-Dist: bs4==0.0.2
+Requires-Dist: certifi==2024.12.14
+Requires-Dist: charset-normalizer==3.4.1
+Requires-Dist: ctk==0.1
+Requires-Dist: customtkinter==5.2.2
+Requires-Dist: darkdetect==0.8.0
+Requires-Dist: docopt==0.6.2
+Requires-Dist: idna==3.10
+Requires-Dist: numpy==2.2.1
+Requires-Dist: packaging==24.2
+Requires-Dist: pandas==2.2.3
+Requires-Dist: pipreqs==0.4.13
+Requires-Dist: playsound==1.2.2
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pytz==2024.2
+Requires-Dist: requests==2.32.3
+Requires-Dist: setuptools==75.6.0
+Requires-Dist: six==1.17.0
+Requires-Dist: soupsieve==2.6
+Requires-Dist: tzdata==2024.2
+Requires-Dist: urllib3==2.3.0
+Requires-Dist: wheel==0.45.1
+Requires-Dist: yarg==0.1.10
