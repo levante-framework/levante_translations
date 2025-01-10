@@ -1,4 +1,32 @@
 
+### Installing Levante-Audio-Tools
+
+Open a terminal:
+
+Create a directory to use for your levante projects
+
+Then:
+git clone https://github.com/levante-framework/audio-generation.git
+
+[Change into the folder with the project:]
+cd audio-generation
+
+[Checkout the Dev branch that has the SSML support:]
+git checkout dev
+
+[Go to the Tools sub-folder:]
+cd tools
+
+[Install all the needed packages:]
+pip (or pip3) install . --user
+
+[Add PlayHt credentials to your enviornment]
+[For Levante team, credentials are in Slack]
+
+[Hopefully the Dashboard will now run:]
+python (or py) dashboard.py
+
+
 ### Generating Audio Files
 
 1. Create/Update item_bank_translations.csv with the translations you'd like to use
