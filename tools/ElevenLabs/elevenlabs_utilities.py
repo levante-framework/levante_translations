@@ -3,9 +3,11 @@ from elevenlabs import play, voices
 from elevenlabs.client import ElevenLabs 
 import pprint 
 
-client = ElevenLabs( 
-    api_key=os.getenv('elevenlabs_test'),  # enter your API key here 
-) 
+try:
+    api_key=os.getenv('elevenlabs_test')  # enter your API key here 
+    client = ElevenLabs(api_key=api_key)
+except:
+    print("No Eleven Labs API Key")
 
 def list_voices(lang_code):
 

@@ -8,6 +8,8 @@ Create a directory to use for your levante projects
 Then:
 git clone https://github.com/levante-framework/audio-generation.git
 
+[If you've already cloned it, use "git pull"]
+
 [Change into the folder with the project:]
 cd audio-generation
 
@@ -22,6 +24,11 @@ pip (or pip3) install . --user
 
 [Add PlayHt credentials to your enviornment]
 [For Levante team, credentials are in Slack]
+
+For Mac, edit ~/.zshrc and use:
+export PLAY_DOT_HT_API_KEY=<API_KEY>
+export PLAY_DOT_HT_USER_ID=<USER_ID>
+[then exit the editor and do "source ~/.zshrc"]
 
 [Hopefully the Dashboard will now run:]
 python (or py) dashboard.py
