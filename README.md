@@ -1,4 +1,8 @@
 
+### Current home for text translations
+
+Per language & overall .csv files exported from Crowdin synced to /text
+
 ### Generating Audio Files
 
 1. Create/Update item_bank_translations.csv with the translations you'd like to use
