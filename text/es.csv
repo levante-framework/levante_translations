@@ -1,80 +1,91 @@
 Identifier,Labels,Translation
-matrix-reasoning-instruct1,matrix-reasoning,Vamos a mostrarte un rompecabezas. Tu tarea es elegir la mejor pieza para completarlo. ¡Empecemos!
-matrix-reasoning-instruct2,matrix-reasoning,¿Ves este gran rompecabezas? Le falta una pieza. ¿Cuál pieza va en el rompecabezas?
-mental-rotation-instruct1,mental-rotation,Do you see these two shadows? One goes with this shape. Let’s see which one goes with the shape.
-mental-rotation-training-instruct2,mental-rotation,Let's see if this shape goes with the shadow. This shape doesn’t go with the shadow.
-mental-rotation-training-instruct3,mental-rotation,Let's see if this shape goes with the shadow. This shape does go with the shadow.
-mental-rotation-test-instruct4,mental-rotation,Now you try! Can you find the shape that goes with the shadow?
+general-intro1,general,¡Hola! ¡Estamos encantados de que juegues hoy con nosotros!
+general-intro2,general,"En primer lugar, tienes que elegir a un amigo para que juegue contigo. A medida que completes los diferentes juegos, podrás elegir un accesorio como un sombrero o unas gafas para decorar a tu amigo."
+pick-buddy,general,¡Escoge un amigo para jugar!
+general-intro3,general,"Ahora que ya tienes a tu amigo, queremos explicarte cómo funcionan los juegos."
+general-intro4,general,"Durante los juegos tendrás que escuchar las instrucciones, así que asegúrate de que los altavoces están encendidos y el volumen está a tu gusto. Si necesitas volver a escuchar las instrucciones, presiona el botón del altavoz situado en la esquina superior de la pantalla."
+general-intro5,general,"Puedes elegir tus respuestas de diferentes maneras dependiendo del tipo de tableta u ordenador que estés utilizando. Puedes utilizar un ratón o un panel táctil para hacer clic en tu elección, puedes utilizar las teclas de flecha del teclado o puedes tocar la pantalla si utilizas una tableta. Puedes elegir la forma que más te convenga.
+
+Si tienes alguna duda o necesitas ayuda para empezar, pide ayuda al adulto que esté cerca."
+task-finished,general,Has completado el juego. ¡Gracias!
+continue-button-text,general,OK
+close-button-text,general,Cerrar
+general-footer,general,Haz clic en el botón abajo o presiona <b>CUALQUIER TECLA</b> para continuar
+instructions,general,instrucciones
+general-encourage,general,¡Continúa!
+feedbackCorrect,general,¡Genial! Eso es correcto.
 feedback-try-again,general,¡Inténtalo de nuevo!
 feedback-good-job,general,¡Bien hecho!
 feedback-nice-work,general,¡Muy bien!
-general-intro1,general,Hello! Today we're going to solve some puzzles. Are you ready? Press the OK button!
-pick-buddy,general,¡Escoge un amigo para jugar!
-replay-button,general,Press the replay button if you want the question repeated.
+replay-button,general,Presiona el botón del altavoz si deseas que se repita la pregunta.
 general-fullscreen,general,Cambiar al modo de pantalla completa
+general-repeat-instructions,general,¡Parece que esto es un poco complicado! Repasemos las instrucciones.
+general-keyboard-instructions,general,"Si quieres usar el teclado para responder una pregunta, haz click en la flecha que ves al lado de la opción que quieres seleccionar."
+intro-finished,general,Has terminado las instrucciones. ¡Gracias!
 general-exit,general,Salir
 task-completion,general,Has terminado este juego. ¡Gracias!
+matrix-reasoning-instruct1,matrix-reasoning,Vamos a mostrarte un rompecabezas. Tu tarea es elegir la mejor pieza para completarlo. ¡Empecemos!
+matrix-reasoning-instruct2,matrix-reasoning,¿Ves este gran rompecabezas? Le falta una pieza. ¿Cuál pieza va en el rompecabezas?
 matrix-reasoning-prompt1,matrix-reasoning,Escoge el mejor patrón para llenar el espacio en blanco.
+mental-rotation,mental-rotation,¿Ves estas dos siluetas? Una va con esta figura. Veamos cuál va con la figura.
+mental-rotation-training-instruct2,mental-rotation,Veamos si esta figura va con la silueta. Esta figura no va con la silueta.
+mental-rotation-training-instruct3,mental-rotation,Veamos si esta figura va con la silueta. Esta figura sí va con la silueta.
+mental-rotation-test-instruct4,mental-rotation,"¡Ahora, inténtalo tú! ¿Puedes encontrar la figura que va con la silueta?"
+mental-rotation-instruct-3D,mental-rotation,Ahora verás imágenes que muestran bloques con tres lados. Tu tarea es elegir la imagen que coincide.
 mental-rotation-prompt2,mental-rotation,Escoge la imagen que coincida con esta.
 mental-rotation-prompt1,mental-rotation,Escoge la imagen que coincide.
-math-instructions1,math,We are going to play some counting games and some number games. Let's get started!
+math-instructions1,math,"En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Esfuérzate al máximo y tómate tu tiempo. La mayoría de las preguntas tienen cuatro opciones. Eliges la que consideres correcta. ¡Empecemos!"
 number-comparison-prompt1,"math, number-comparison",¿Cuál número es mayor?
 number-comparison-prompt2,"math, number-comparison",¿Cuál es mayor?
 number-identification-prompt1,"math, number-identification",Escoge el número cuando lo escuches.
 missing-number-prompt1,"math, missing-number",¿Cuál número va en el espacio en blanco?
 missing-number-prompt2,"math, missing-number",¿Cuál número va aquí?
-addition-prompt1,"math, addition",Suma los números y elige la respuesta correcta.
+addition-prompt1,"math, addition",Suma los números y escoge la respuesta correcta.
 addition-prompt2,"math, addition",Suma los números.
-subtraction-prompt1,"math, subtraction",Resta los números y elige la respuesta correcta.
+subtraction-prompt1,"math, subtraction",Resta los números y escoge la respuesta correcta.
 subtraction-prompt2,"math, subtraction",Resta los números.
-multiplication-prompt1,"math, multiplication",Multiplica los números y elige la respuesta correcta.
+multiplication-prompt1,"math, multiplication",Multiplica los números y escoge la respuesta correcta.
 multiplication-prompt2,"math, multiplication",Multiplica los números.
-number-line-prompt1,"math, number-line-4AFC",Elige el número que está marcado en la línea recta de números.
-number-line-slider-prompt1,number-line-slider,Move the slider to the indicated number.
-number-identification-1,"math, number-identification",Elige el número 1.
-number-identification-2,"math, number-identification",Elige el 2.
-number-identification-3,"math, number-identification",Elige el 9.
-number-identification-4,"math, number-identification",Elige el 0.
-number-identification-5,"math, number-identification",Elige el 12.
-number-identification-6,"math, number-identification",Elige el 30.
-number-identification-7,"math, number-identification",Elige el 22.
-number-identification-8,"math, number-identification",Elige el 45.
-number-identification-9,"math, number-identification",Elige el 39.
-number-identification-10,"math, number-identification",Elige el 23.
-number-identification-11,"math, number-identification",Elige el 48.
-number-identification-12,"math, number-identification",Elige el 91.
-number-identification-13,"math, number-identification",Elige el 33.
-number-identification-14,"math, number-identification",Elige el 74.
-number-identification-15,"math, number-identification",Elige el 87.
-number-identification-16,"math, number-identification",Elige el 65.
-number-identification-17,"math, number-identification",Elige el 108.
-number-identification-18,"math, number-identification",Elige el 245.
-number-identification-19,"math, number-identification",Elige el 587.
-number-identification-20,"math, number-identification",Elige el 731.
-number-identification-21,"math, number-identification",Elige el 989. 
-trog-instruct1,trog,"Ahora, ¡vamos a hacer un juego de asociación! Yo diré palabras y tú tocarás la imagen que va con las palabras que yo diga. ¡Empecemos!"
-trog-prompt1,trog,Elige la imagen del...
-trog-prompt2,trog,Elige la imagen de...
-trog-prompt3,trog,Elige la imagen que muestra...
-same-different-selection-prompt1,same-different-selection,Here is another picture. Which of these is the same as this one?
-same-different-selection-prompt2,same-different-selection,Choose two pictures that are the same.
-same-different-selection-prompt3,same-different-selection,Choose two pictures that are the same in a different way.
-shared-intro-devices,trog,"You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now."
-shared-choose-picture-press-arrow,trog,"To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture."
-shared-intro-replay,trog,You can press the replay button to hear things again. Try it now.
-trog-instr1-matching,trog,"This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear."
-trog-item-1,trog,Elige la imagen del zapato.
-trog-item-2,trog,Elige la imagen del pájaro.
-trog-item-3,trog,Elige la imagen del peine.
-trog-item-4,trog,Elige la imagen de la manzana.
-trog-item-5,trog,Elige la imagen que muestra comiendo.
-trog-item-6,trog,Elige la imagen que muestra recogiendo.
-trog-item-7,trog,Elige la imagen que muestra sentado.
-trog-item-8,trog,Elige la imagen que muestra corriendo.
-trog-item-9,trog,Elige la imagen que muestra largo.
-trog-item-10,trog,Elige la imagen que muestra alto.
-trog-item-11,trog,Elige la imagen que muestra el rojo.
-trog-item-12,trog,Elige la imagen que muestra el negro.
+number-line-instruct1,math,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.
+number-line-prompt1,"math, number-line-4AFC",Esocoge el número que está marcado en la recta numérica.
+number-line-slider-prompt1,math,Pon la barra roja sobre la linea recta en el lugar del número indicado.
+number-identification-1,"math, number-identification",Escoge el número 1.
+number-identification-2,"math, number-identification",Escoge el 2.
+number-identification-3,"math, number-identification",Escoge el 9.
+number-identification-4,"math, number-identification",Escoge el 0.
+number-identification-5,"math, number-identification",Escoge el 12.
+number-identification-6,"math, number-identification",Escoge el 30.
+number-identification-7,"math, number-identification",Escoge el 22.
+number-identification-8,"math, number-identification",Escoge el 45.
+number-identification-9,"math, number-identification",Escoge el 39.
+number-identification-10,"math, number-identification",Escoge el 23.
+number-identification-11,"math, number-identification",Escoge el 48.
+number-identification-12,"math, number-identification",Escoge el 91.
+number-identification-13,"math, number-identification",Escoge el 33.
+number-identification-14,"math, number-identification",Escoge el 74.
+number-identification-15,"math, number-identification",Escoge el 87.
+number-identification-16,"math, number-identification",Escoge el 65.
+number-identification-17,"math, number-identification",Escoge el 108.
+number-identification-18,"math, number-identification",Escoge el 245.
+number-identification-19,"math, number-identification",Escoge el 587.
+number-identification-20,"math, number-identification",Escoge el 731.
+number-identification-21,"math, number-identification",Escoge el 989. 
+trog-instruct1,trog,"Ahora, ¡vamos a hacer un juego de asociación! Yo diré palabras y tú eliges la imagen que va con las palabras que yo diga. ¡Empecemos!"
+trog-prompt1,trog,Escoge la imagen del...
+trog-prompt2,trog,Escoge la imagen de...
+trog-prompt3,trog,Escoge la imagen que muestra...
+trog-item-1,trog,Escoge la imagen del zapato.
+trog-item-2,trog,Escoge la imagen del pájaro.
+trog-item-3,trog,Escoge la imagen del peine.
+trog-item-4,trog,Escoge la imagen de la manzana.
+trog-item-5,trog,Escoge la imagen que muestra comiendo.
+trog-item-6,trog,Escoge la imagen que muestra recogiendo.
+trog-item-7,trog,Escoge la imagen que muestra sentado.
+trog-item-8,trog,Escoge la imagen que muestra corriendo.
+trog-item-9,trog,Escoge la imagen que muestra largo.
+trog-item-10,trog,Escoge la imagen que muestra alto.
+trog-item-11,trog,Escoge la imagen que muestra el rojo.
+trog-item-12,trog,Escoge la imagen que muestra el negro.
 trog-item-13,trog,el niño está corriendo
 trog-item-14,trog,la taza grande
 trog-item-15,trog,el perro está sentado
@@ -125,7 +136,7 @@ trog-item-59,trog,"el caballo está parado, pero no el niño"
 trog-item-60,trog,"el niño está sentado, pero no está comiendo"
 trog-item-61,trog,el lápiz está arriba de la flor
 trog-item-62,trog,el peine está debajo de la cuchara
-trog-item-63,trog,la estrella está encima del círculo
+trog-item-63,trog,la estrella está arriba del círculo
 trog-item-64,trog,el cuadrado está debajo de la estrella
 trog-item-65,trog,"no sólo el pájaro, también la flor es azul."
 trog-item-66,trog,"la caja no sólo es grande, sino también azul"
@@ -139,545 +150,33 @@ trog-item-73,trog,ni el perro ni la pelota son marrones
 trog-item-74,trog,el lápiz no es largo ni rojo
 trog-item-75,trog,ni el niño ni el caballo están corriendo
 trog-item-76,trog,el niño no tiene ni sombrero ni zapatos
-trog-item-77,trog,"el libro, sobre el que está el lápiz, es rojo"
+trog-item-77,trog,el libro que el lapiz esta encima de es rojo
 trog-item-78,trog,el gato que la vaca persigue es negro
 trog-item-79,trog,"el círculo, en el que está la estrella, es rojo"
 trog-item-80,trog,el niño que el perro persigue es grande
-trog-item-81,trog,"el caballo bebe agua junto al granero, y la oveja come pasto junto a la cerca"
-trog-item-82,trog,el estudiante abre el cuaderno y dibuja un árbol
-trog-item-83,trog,"Si hace sol, haremos un picnic en el parque"
+trog-item-81,trog,"el caballo bebía agua junto al granero, y la oveja comía pasto junto a la cerca"
+trog-item-82,trog,el estudiante abrió el cuaderno y dibujó un árbol
+trog-item-83,trog,haremos un picnic en el parque si hace sol
 trog-item-84,trog,encontró sus llaves debajo del sofá con cojines
 trog-item-85,trog,ella es la jardinera que usa un sombrero que tiene una flor
 trog-item-86,trog,Ella tropezó con una piedra y dejo caer sus libros.
 trog-item-87,trog,"La maestra dará pastel a los estudiantes, si se ponen en fila."
-trog-item-88,trog,"Si hay música sonando, bailaremos todos juntos."
+trog-item-88,trog,Bailaremos juntos si hay música sonando.
 trog-item-89,trog,"Aunque hace calor afuera, estoy usando una chaqueta con capucha."
-trog-item-90,trog,"He likes swimming, however, he chose to play soccer with his friends."
+trog-item-90,trog,"Le gusta nadar. Sin embargo, elijió jugar fútbol con sus amigos."
 trog-item-91,trog,"A pesar del ruido en el salón, ella se concentró en leer su cuaderno."
 trog-item-92,trog,Él usó el sombrero de payaso a pesar de su gran tamaño.
-trog-item-93,trog,El pato que seguía a la tortuga está caminando por el puente.
-trog-item-94,trog,"Al tropezar la mesa con mi pie, tumbé un libro."
+trog-item-93,trog,El pato que sigue a la tortuga está caminando por el puente.
+trog-item-94,trog,Al golpear la mesa con mi pié hizo que se cayera un libro
 trog-item-95,trog,La persona persigue al perro que es grande.
-trog-item-96,trog,The girl wearing a backpack was given a pen by her friend.
-trog-item-97,trog,"Los niños limpiaron la habitación, pero se olvidaron de guardar el tren."
-trog-item-98,trog,The monkey neither ate the spotted banana nor swung on the vine.
-trog-item-99,trog,"Su madre dijo que haría sol. Sin embargo, llovió a cántaros."
-trog-item-100,trog,El avión que es gris está por encima de las nubes.
-trog-item-101,trog,Los peces nadan bajo una ballena y una tortuga marina.
-trog-item-102,trog,El coche que siguió el camión va hacia el túnel.
-trog-item-103,trog,"En vez de hacer los deberes, hizo un puzzle en su habitación."
-ToM-scene1-instruct1,theory-of-mind,"Ella es Marisol. Esta mañana, Marisol puso su libro detrás de la silla, porque no quería que nadie lo encontrara."
-ToM-scene1-instruct2,theory-of-mind,"Pero, cuando Marisol estaba afuera jugando, ¡alguien lo encontró! Y lo escondió debajo de la alfombra."
-ToM-scene1-instruct3,theory-of-mind,"Ahora, es el momento de leer y Marisol quiere su libro."
-ToM-scene1-q1-false_belief,theory-of-mind,Where will Madison look first for her book? Behind the chair or under the rug?
-ToM-scene1-q2-reality_check,theory-of-mind,And where is her book really? Is it behind the chair or under the rug?
-ToM-scene1-q3-emotion_reasoning,theory-of-mind,"Look, Madison found her book! How do you think she feels about finding her book?"
-ToM-scene2-instruct1,theory-of-mind,"This morning when he came to school, Ethan put his book above the coat hooks. Ethan’s book is blue! "
-ToM-scene2-instruct2,theory-of-mind,"And then he went outside to play, see? Here’s Ethan playing outside. And while he was outside playing, Ethan’s book fell down from above the coat hooks to behind the coats, see? "
-ToM-scene2-instruct3,theory-of-mind,"Then Paul comes in and Paul puts his book up here, above the coat hooks. Paul’s book is also blue! Ethan is still outside playing, so he didn't see what Paul was doing."
-ToM-scene2-q1-false_belief,theory-of-mind,"Now, when Ethan comes in from outside, where will he look first for his book: up on the shelf, or behind the coats?"
-ToM-scene2-instruct4,theory-of-mind,"Let’s see what he does. Oh look, here is Ethan reaching for this book up on the shelf. And now Paul sees Ethan reaching for that book--the book that Paul thinks is his!"
-shelf,theory-of-mind,up on the shelf
-coats,theory-of-mind,behind the coats
-ToM-scene2-q2-emotion_reasoning,theory-of-mind,How do you think Paul feels about Ethan reaching for that book? 
-ToM-scene2-q3-false_belief,theory-of-mind,Is Ethan being mean and naughty for taking Paul's book?
-ToM-scene2-q4-false_belief,theory-of-mind,Should Ethan get in trouble with the teacher for taking Paul's book?
-ToM-scene2-q5-reality_check,theory-of-mind,Can you help Paul find his book? Is it on the shelf or behind the coats?
-ToM-scene2-q6-reality_check,theory-of-mind,Can you help Ethan find his book? Is it on the shelf or behind the coats?
-ToM-scene3-instruct1,theory-of-mind,"Johan, Isabel e Iván están jugando. El juego es el siguiente: Uno de los niños se esconde, pero debe dibujar una pista en la arena que permita a los otros niños encontrarlo."
-ToM-scene3-instruct2,theory-of-mind,"Entonces, Iván va primero. Dibuja esta pista en la arena y se esconde."
-ToM-scene3-instruct3,theory-of-mind,Ahora le toca a Johan dejar una pista y esconderse. Isabel e Iván intentarán utilizar la pista para encontrarle.
-ToM-scene3-instruct4,theory-of-mind,"Joshua decides to hide behind the drinking fountain. So he draws a clue like this: here is the bottom metal part of the fountain, and here is lots of water coming out of it. Then Joshua goes to hide behind the fountain."
-ToM-scene3-q1,theory-of-mind,What did Joshua mean to draw? A fountain or a tree?
-ToM-scene3-q2-false_belief,theory-of-mind,"When Isabel and Ivan see this clue, where will they look first for Joshua? Behind the fountain or behind the tree?"
-ToM-scene3-q2-reality_check,theory-of-mind,Can you help them find where Joshua really is? Behind the fountain or behind the tree?
-ToM-scene3-q3-emotion_reasoning,theory-of-mind,"¡Mira, Isabel e Iván encontraron a Joshua y ganaron el juego! ¿Cómo crees que se siente Isabel por ganar el juego?"
-ToM-scene4-instruct1,theory-of-mind,Ya se acabaron los juegos y es la hora de volver a casa. Mamá les dice a los niños que busquen todos sus juguetes.
-ToM-scene4-instruct2,theory-of-mind,"Johan trajo su camión de juguete al parque, pero ahora no lo encuentra. Lo busca por todas partes, pero no puede encontrarlo."
-ToM-scene4-q1-emotion_reasoning,theory-of-mind,¿Cómo se siente Joshua al perder su camioneta?
-ToM-scene4-instruct3,theory-of-mind,"And that’s because earlier in the day, when no one was looking, Isabel took the toy truck and buried it in the sandbox. "
-ToM-scene4-instruct4,theory-of-mind,"Por eso, Johan mira por todas partes y no encuentra su camión de juguete. Su Mamá se enoja con él porque perdió el camión."
-ToM-scene4-q2,theory-of-mind,Is it fair that Mother is mad at Joshua for losing his truck? Yes or no?
-ToM-scene4-q3,theory-of-mind,Is Mother mad at Isabel? Yes or no?
-ToM-scene4-q4-false_belief,theory-of-mind,Is Joshua mad at Isabel? Yes or no?
-ToM-scene4-instruct5,theory-of-mind,"Cuando Isabel se da cuenta de que la mamá está enojada con Johan, va al patio de arena, saca el juguete de la arena y se lo devuelve a Johan."
-ToM-scene4-q5,theory-of-mind,Is Mother mad at Joshua now? Yes or no?
-ToM-scene4-q6,theory-of-mind,Is Mother mad at Isabel now? Yes or no?
-ToM-scene4-q7,theory-of-mind,Is Joshua mad at Isabel now? Yes or no?
-ToM-scene4-instruct6,theory-of-mind,"Isabel le ofrece disculpas a Johan y le da un fuerte abrazo. Johan le devuelve el abrazo, y la mamá se une a ellos."
-ToM-scene5-instruct1,theory-of-mind,"This is Marie. And earlier today, Marie’s mom was cleaning the house, while Marie watched. Mom left three cups in the kitchen."
-ToM-scene5-instruct2,theory-of-mind,"There is this small cup on the counter, this medium sized cup on this table, and this big cup down here, on this shelf. So Marie and Dad just walked in and Marie asks her dad to get her a cup. And Marie tells her Dad, “I want the big cup!”"
-ToM-scene5-q1,theory-of-mind,Which cup will Dad give Marie?
-ToM-scene5-q2-reality_check,theory-of-mind,Which cup does Marie want?
-ToM-scene6-instruct1,theory-of-mind,"Sam y María están jugando juntos. Cuando miran hacia afuera ven una tienda nueva al otro lado de la calle. María le dice a Sam: ""voy a ir a comprar camisetas nuevas para nosotros"" y se va."
-ToM-scene6-instruct2,theory-of-mind,"Mom comes home and she tells Sam that she just walked by the shop. “Are they selling shirts?” Sam asks. “No,” mom says, “They are only selling shoes”. “Maria will probably now get shoes at the shop,” Sam says."
-ToM-scene6-q1,theory-of-mind,"	
-¿María sabe que en la tienda venden zapatos?"
-ToM-scene6-instruct3,theory-of-mind,"María llega a la tienda y dice ""me gustaría comprar camisas."" La vendedora responde ""Sólo nos quedan medias."" Como María también necesita medias, decide comprar algunos pares."
-ToM-scene6-q2,theory-of-mind,¿Sam sabe que María ha comprado medias?
-ToM-scene6-q3,theory-of-mind,¿Qué cree Sam que venden en la tienda?
-ToM-scene6-instruct4,theory-of-mind,"On her way back, Maria meets her dad. She tells her dad: “I have just bought some socks. I am going to share them with my brother Sam. It is a surprise.”
-“That is nice of you,” says dad. Then he asks Maria: “Does Sam know what you bought him?”"
-ToM-scene6-q4,theory-of-mind,What does Maria tell dad?
-ToM-scene6-instruct5,theory-of-mind,Then dad asks: “What does Sam think they are selling at the shop?”
-ToM-scene6-q5,theory-of-mind,What does Maria tell dad?
-ToM-scene6-q6,theory-of-mind,¿Qué cree Sam que venden en la tienda?
-hostile-attribution-scene1-instruct1,hostile-attribution,Imagina que vas camino a la escuela y llevas puestos tus zapatos nuevos. Te gustan mucho tus zapatos nuevos y es la primera vez que los usas.
-hostile-attribution-scene1-instruct2,hostile-attribution,"De repente, un chico te golpea por detrás. Tropiezas y caes en un charco de barro y tus zapatos nuevos se ensucian de barro."
-hostile-attribution-scene1-q1,hostile-attribution,¿Crees que el chico te golpeó a propósito o por accidente?
-hostile-attribution-scene1-q2,hostile-attribution,Elige una de las tres opciones que tú harías:
-hostile-attribution-scene1-q2-ans1,hostile-attribution,limpiar mis zapatos
-hostile-attribution-scene1-q2-ans2,hostile-attribution,alejarme del chico
-hostile-attribution-scene1-q2-ans3,hostile-attribution,empujar al chico al barro
-hostile-attribution-scene2-instruct1,hostile-attribution,"Imagina que estás en el patio de recreo. Tú y otros niños están haciendo una carrera. Un niño está parado a un lado, haciendo rebotar una pelota de baloncesto."
-hostile-attribution-scene2-instruct2,hostile-attribution,"The next thing you know is that the boy has bounced the ball and it has rolled under your feet, making you fall. You skin your knee and someone else wins the race."
-hostile-attribution-scene2-q1,hostile-attribution,¿Crees que el chico te hizo caer a propósito o por accidente?
-hostile-attribution-scene2-q2,hostile-attribution,Elige una de las tres opciones que tú harías:
-hostile-attribution-scene2-q2-ans1,hostile-attribution,ir a otra zona del patio de recreo
-hostile-attribution-scene2-q2-ans2,hostile-attribution,insultar al niño
-hostile-attribution-scene2-q2-ans3,hostile-attribution,curar mi rodilla
-hostile-attribution-scene3-instruct1,hostile-attribution,Imagina que estás trabajando en una tarea en tu escritorio.
-hostile-attribution-scene3-instruct2,hostile-attribution,"Te levantas para sacarle punta a tu lápiz y, de regreso a tu escritorio, vas detrás de un niño que camina justo delante de ti. El niño pasa por tu escritorio antes de que tú llegues."
-hostile-attribution-scene3-instruct3,hostile-attribution,"De repente, el chico tira todos los papeles que estaban en tu escritorio y ahora están regados en el suelo."
-hostile-attribution-scene3-q1,hostile-attribution,¿Crees que el chico tiró tus papeles al suelo a propósito o por accidente?
-hostile-attribution-scene3-q2,hostile-attribution,Elige una de las tres opciones que tú harías:
-hostile-attribution-scene3-q2-ans1,hostile-attribution,insultar al niño
-hostile-attribution-scene3-q2-ans2,hostile-attribution,recoger los papeles
-hostile-attribution-scene3-q2-ans3,hostile-attribution,no hacer nada
-same-different-selection-touch-circle,same-different-selection,Choose the picture with a circle.
-same-different-selection-touch-square,same-different-selection,Choose the picture with a square.
-same-different-selection-touch-triangle,same-different-selection,Choose the picture with a triangle.
-same-different-selection-touch-green,same-different-selection,Choose the picture with a green shape.
-same-different-selection-touch-red,same-different-selection,Choose the picture with a red shape.
-same-different-selection-touch-blue,same-different-selection,Choose the picture with a blue shape.
-same-different-selection-touch-small,same-different-selection,Choose the picture with a small shape.
-same-different-selection-touch-medium,same-different-selection,Choose the picture with a medium-sized shape.
-same-different-selection-touch-large,same-different-selection,Choose the picture with a large shape.
-same-different-selection-both-circles,same-different-selection,Here are two shapes. Something's the same. They are both circles.
-same-different-selection-both-squares,same-different-selection,Here are two shapes. Something's the same. They are both squares.
-same-different-selection-both-triangles,same-different-selection,Here are two shapes. Something's the same. They are both triangles.
-same-different-selection-both-red,same-different-selection,Here are two shapes. Something's the same. They are both red.
-same-different-selection-both-green,same-different-selection,Here are two shapes. Something's the same. They are both green.
-same-different-selection-both-blue,same-different-selection,Here are two shapes. Something's the same. They are both blue.
-same-different-selection-both-small,same-different-selection,Here are two shapes. Something's the same. They are both small.
-same-different-selection-both-medium,same-different-selection,Here are two shapes. Something's the same. They are both medium-sized.
-same-different-selection-both-large,same-different-selection,Here are two pictures. Something's the same. They are both large.
-sds-prompt3,same-different-selection,Here is another picture. Which of these is the same as this one?
-sds-2match-prompt1,same-different-selection,Choose two pictures that are the same.
-sds-2match-prompt2,same-different-selection,Choose two pictures that are the same in a different way.
-sds-3match-prompt1,same-different-selection,Choose three pictures that are the same.
-sds-3match-prompt2,same-different-selection,Choose three pictures that are the same in a different way.
-sds-3unique-prompt1,same-different-selection,Choose three pictures that are the same in only one way.
-sds-3unique-prompt2,same-different-selection,Choose another three pictures that are the same in only one way.
-memory-game-instruct1,memory-game,Este es el juego de la memoria. Las reglas son las siguientes.
-memory-game-instruct2,memory-game,Verás que los cuadrados se iluminan.
-memory-game-instruct3,memory-game,Vas a tocar los cuadrados en el mismo orden.
-memory-game-instruct4,memory-game,¡Observa con atención! Intenta recordar el orden.
-memory-game-prompt1,memory-game,Time to watch!
-memory-game-forward-prompt,memory-game,Escoge los cuadrados en el mismo orden.
-memory-game-instruct5,memory-game,This time the game won't tell you if you're right or wrong.
-memory-game-instruct6,memory-game,"If you make a mistake, just keep going!"
-memory-game-instruct7,memory-game,¡Empecemos a jugar al juego de memoria!
-memory-game-backward-prompt,memory-game,Escoge los cuadrados siguiendo el orden inverso a la secuencia.
-heart-instruct1,hearts-and-flowers,Este es el juego del corazón. Las reglas son las siguientes.
-heart-instruct2,hearts-and-flowers,"When you see a <b>heart</b>, press the button on the <b>same</b> side."
-hearts-and-flowers-try-again,hearts-and-flowers,Eso no está bien. Inténtalo de nuevo.
-heart-practice-feedback1,hearts-and-flowers,El corazón está en el lado derecho. Presiona el botón derecho.
-hearts-and-flowers-practice-time,hearts-and-flowers,¡Es hora de practicar!
-heart-practice-feedback2,hearts-and-flowers,"¡Recuerda! Cuando veas un CORAZÓN, presiona el botón del MISMO lado."
-hearts-and-flowers-instruct1,hearts-and-flowers,This time the game will go faster. It won't tell you if you are right or wrong.
-hearts-and-flowers-instruct2,hearts-and-flowers,Try to answer as fast as you can without making mistakes.
-hearts-and-flowers-play-time,hearts-and-flowers,¡Hora de jugar!
-flower-instruct1,hearts-and-flowers,This is the flower game. Here's how you play.
-flower-instruct2,hearts-and-flowers,"Cuando veas una flor, presiona el botón del lado opuesto."
-flower-practice-feedback1,hearts-and-flowers,La flor está en el lado izquierdo. Presione el botón derecho.
-flower-practice-feedback2,hearts-and-flowers,"Cuando veas una FLOR, presiona el botón en el lado OPUESTO."
-hearts-and-flowers-instruct3,hearts-and-flowers,"Ahora, vamos a jugar un juego con corazones y flores."
-continue-button-text,general,OK
-close-button-text,general,Cerrar
-hearts-and-flowers-encourage1,hearts-and-flowers,¡Trata de seguir el ritmo!
-hearts-and-flowers-encourage2,hearts-and-flowers,"Si cometes un error, ¡sigue adelante!"
-hearts-and-flowers-end,hearts-and-flowers,Great job! You completed the game!.
-vocab-item-001,vocab,acorn
-vocab-item-002,vocab,aloe
-vocab-item-003,vocab,antenna
-vocab-item-004,vocab,artichoke
-vocab-item-005,vocab,bamboo
-vocab-item-006,vocab,barrel
-vocab-item-007,vocab,blender
-vocab-item-008,vocab,blower
-vocab-item-009,vocab,bouquet
-vocab-item-010,vocab,buffet
-vocab-item-011,vocab,bulldozer
-vocab-item-012,vocab,cake
-vocab-item-013,vocab,caramel
-vocab-item-014,vocab,carousel
-vocab-item-015,vocab,carrot
-vocab-item-016,vocab,cassette
-vocab-item-017,vocab,cheese
-vocab-item-018,vocab,cloak
-vocab-item-019,vocab,clothespin
-vocab-item-020,vocab,coaster
-vocab-item-021,vocab,cork
-vocab-item-022,vocab,cornbread
-vocab-item-023,vocab,corset
-vocab-item-024,vocab,dumpling
-vocab-item-025,vocab,elbow
-vocab-item-026,vocab,fan
-vocab-item-027,vocab,foam
-vocab-item-028,vocab,footbath
-vocab-item-029,vocab,fruitcake
-vocab-item-030,vocab,gutter
-vocab-item-031,vocab,hamster
-vocab-item-032,vocab,hedgehog
-vocab-item-033,vocab,hoe
-vocab-item-034,vocab,hopscotch
-vocab-item-035,vocab,kimono
-vocab-item-036,vocab,latch
-vocab-item-037,vocab,locker
-vocab-item-038,vocab,lollipop
-vocab-item-039,vocab,map
-vocab-item-040,vocab,marshmallow
-vocab-item-041,vocab,net
-vocab-item-042,vocab,oil
-vocab-item-043,vocab,omelet
-vocab-item-044,vocab,pie
-vocab-item-045,vocab,pistachio
-vocab-item-046,vocab,pitcher
-vocab-item-047,vocab,potato
-vocab-item-048,vocab,prism
-vocab-item-049,vocab,puddle
-vocab-item-050,vocab,pump
-vocab-item-051,vocab,rice
-vocab-item-052,vocab,saddle
-vocab-item-053,vocab,sandbag
-vocab-item-054,vocab,scaffolding
-vocab-item-055,vocab,scoop
-vocab-item-056,vocab,seagull
-vocab-item-057,vocab,ship
-vocab-item-058,vocab,shower
-vocab-item-059,vocab,silverware
-vocab-item-060,vocab,sink
-vocab-item-061,vocab,ski
-vocab-item-062,vocab,sloth
-vocab-item-063,vocab,snail
-vocab-item-064,vocab,sorbet
-vocab-item-065,vocab,spatula
-vocab-item-066,vocab,sprinkler
-vocab-item-067,vocab,squash
-vocab-item-068,vocab,squirrel
-vocab-item-069,vocab,stew
-vocab-item-070,vocab,stretcher
-vocab-item-071,vocab,stump
-vocab-item-072,vocab,sunflower
-vocab-item-073,vocab,swordfish
-vocab-item-074,vocab,tapestry
-vocab-item-075,vocab,teabag
-vocab-item-076,vocab,telescope
-vocab-item-077,vocab,thermos
-vocab-item-078,vocab,treasure
-vocab-item-079,vocab,trumpet
-vocab-item-080,vocab,tulip
-vocab-item-081,vocab,turbine
-vocab-item-082,vocab,turkey
-vocab-item-083,vocab,turtle
-vocab-item-084,vocab,typewriter
-vocab-item-085,vocab,watermelon
-vocab-item-086,vocab,waterwheel
-vocab-item-087,vocab,ant
-vocab-item-088,vocab,ball
-vocab-item-089,vocab,bear
-vocab-item-090,vocab,duck
-vocab-item-091,vocab,fork
-vocab-item-092,vocab,kitten
-vocab-item-093,vocab,knee
-vocab-item-094,vocab,milkshake
-vocab-item-095,vocab,skin
-vocab-item-096,vocab,wall
-vocab-item-097,vocab,wheel
-vocab-item-098,vocab,farm
-vocab-item-099,vocab,malabarismo
-vocab-item-100,vocab,dressing
-vocab-item-101,vocab,roof
-vocab-item-102,vocab,espiando
-vocab-item-103,vocab,ruler
-vocab-item-104,vocab,tunnel
-vocab-item-105,vocab,envelope
-vocab-item-106,vocab,diamond
-vocab-item-107,vocab,calendar
-vocab-item-108,vocab,panda
-vocab-item-109,vocab,arrow
-vocab-item-110,vocab,cosecha
-vocab-item-111,vocab,goteo
-vocab-item-112,vocab,knight
-vocab-item-113,vocab,entregando
-vocab-item-114,vocab,dentist
-vocab-item-115,vocab,claw
-vocab-item-116,vocab,uniform
-vocab-item-117,vocab,peludo
-vocab-item-118,vocab,cormorant
-vocab-item-119,vocab,traer
-vocab-item-120,vocab,arcade
-vocab-item-121,vocab,artifact
-vocab-item-122,vocab,aversión
-vocab-item-123,vocab,beret
-vocab-item-124,vocab,aplaudir
-vocab-item-125,vocab,tímido
-vocab-item-126,vocab,camp
-vocab-item-127,vocab,caída
-vocab-item-128,vocab,concéntrico
-vocab-item-129,vocab,confectionery
-vocab-item-130,vocab,couturier
-vocab-item-131,vocab,disminución
-vocab-item-132,vocab,divan
-vocab-item-133,vocab,wetland
-vocab-item-134,vocab,baywindow
-vocab-item-135,vocab,aesthete
-vocab-item-136,vocab,extático
-vocab-item-137,vocab,desvencijado
-vocab-item-138,vocab,gourmet
-vocab-item-139,vocab,gesticular
-vocab-item-140,vocab,facade
-vocab-item-141,vocab,slope
-vocab-item-142,vocab,habit
-vocab-item-143,vocab,intersection
-vocab-item-144,vocab,irrigation
-vocab-item-145,vocab,kazoo
-vocab-item-146,vocab,conversar
-vocab-item-147,vocab,colony
-vocab-item-148,vocab,preservar
-vocab-item-149,vocab,awning
-vocab-item-150,vocab,mamalogía
-vocab-item-151,vocab,metronome
-vocab-item-152,vocab,paleontologist
-vocab-item-153,vocab,percussion
-vocab-item-154,vocab,posterior
-vocab-item-155,vocab,precario
-vocab-item-156,vocab,arbor
-vocab-item-157,vocab,resucitación
-vocab-item-158,vocab,rosette
-vocab-item-159,vocab,saffron
-vocab-item-160,vocab,travieso
-vocab-item-161,vocab,skimmer
-vocab-item-162,vocab,sedentario
-vocab-item-163,vocab,suede
-vocab-item-164,vocab,tourniquet
-vocab-item-165,vocab,triad
-vocab-item-166,vocab,dragado
-vocab-item-167,vocab,urbano
-vocab-item-168,vocab,steam
-vocab-item-169,vocab,vertebra
-vocab-item-170,vocab,bandage
-vocab-instruct-1,vocab,"En este juego, escucharás palabras y observarás diferentes imágenes. ¡Tu tarea es elegir la imagen que coincida con la palabra!"
-vocab-practice-1,vocab,"A continuación, verás algunas imágenes, por ejemplo, una imagen de una manzana y una imagen de una zanahoria. Luego, escucharás la palabra que identifica una de las imágenes. ¡Asegúrate de elegir la imagen que coincida con la palabra!"
-vocab-instruct-2,vocab,"Algunas palabras son difíciles, pero no te preocupes, si tienes dudas, ¡haz tu mejor intento!"
-vocab-instruct-3,vocab,"Si necesitas escuchar la palabra otra vez, presiona el botón del altavoz."
-01_intro,vocab,"Welcome to a new planet we just discovered with friendly aliens called Zorps. Zorps are interested in learning more about the kinds of things we have on Earth. As you help them learn, they're going to take us on a tour of their planet. Can you help? Which alien do you want to journey with? Choose one alien for your journey."
-02_intro_t,vocab,"Great! They're going to show us some different pictures. For example, a picture of an apple, and a picture of a carrot. Then, you'll hear a word for one of the pictures. Your job is to pick the picture that matches the word!"
-03_intro_1,vocab,"Try to do your best. Some words are hard, and that's okay. If you're not sure, just give your best guess. If you need to hear the word again, press the speaker button."
-03_intro_t,vocab,"When you teach the aliens the words, they are so happy that they light up some stars in the sky. Click to continue."
-06_ready_t,vocab,Awesome! Are you ready to begin the journey? Click to start.
-07_mid1_t,vocab,Thanks for helping out. You've reached a Zogga outpost on your journey. You meet a new Zorp who shows you a cool new machine they've invented. Wow! Let's go!
-08_mid2_t,vocab," After a few days of exploring the planet with your new friends, you come across a lake. There you meet another friendly Zorp, Sellick, who studies the animals who live near the water. Click to continue."
-09_final_t,vocab,We've all learned so much. Thanks for helping! You've made it to the space station where you can get on a space ship to go back to Earth. Let's come back soon! Click to finish the game.
-break1_ns,vocab,Great job! You're one third of the way through. Feel free to take a short break and continue whenever you are ready.
-break2_ns,vocab,Great job! You're two thirds of the way through. Feel free to take a short break and continue whenever you are ready.
-end_ns,vocab,Thank you for completing the vocabulary activity.
-intro1_ns,vocab,"Welcome to the vocabulary activity! In this activity, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word!"
-intro2_ns,vocab,"You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word!"
-intro3_ns,vocab,"Try to do your best. Some words are hard, and that's okay. If you're not sure, just give your best guess. If you need to hear the word again, press the speaker button."
-ready_ns,vocab,Awesome! Let's start the real activity now.
-task-finished,general,Has completado el juego. ¡Gracias!
-math-adult-instructions-1,math,"In this task, you will be given a series of math problems that are appropriate for school-aged children, including simple addition, subtraction, multiplication, and other types of problems. Please take your time to answer the questions correctly. Most of the questions are multiple choice, and you can either use the keyboard arrows or your mouse to select the answer."
-general-footer,general,Haz clic en el botón abajo o presiona <b>CUALQUIER TECLA</b> para continuar
-instructions,general,instrucciones
-math-adult-instructions-2,math,"There will also be some number line problems that require you to drag a slider to the indicated position. Finally, some questions require listening to audio, so please be sure your speakers are on and volume is adjusted. The audio can be repeated by clicking on the button with the speaker icon in the top right corner. Thank you for your participation!"
-math-post-practice,math,"Now that you know what to expect, let's begin. Thank you for your participation!"
-mental-rotation-adult-instructions1,mental-rotation,"In this task, you will be shown a series of images (e.g., a rabbit), and asked which of two silhouettes (outlines) the image matches, if it were rotated (*not* flipped). Please try to answer accurately, but also quickly. Thank you for your participation!"
-feedbackCorrect,general,¡Genial! Eso es correcto.
-memory-game-display,memory-game,Observa cómo se iluminan los cuadrados.
-memory-game-input,memory-game,Selecciona los cuadrados en el orden en que fueron destacados.
-general-encourage,general,¡Sigue adelante!
-ToM-by-accident,theory-of-mind,by accident
-ToM-on-purpose,theory-of-mind,on purpose
-general-intro1,general,¡Hola! ¡Estamos encantados de que juegues hoy con nosotros!
-general-intro2,general,"En primer lugar, tienes que elegir a un amigo para que juegue contigo. A medida que completes los diferentes juegos, podrás elegir un accesorio como un sombrero o unas gafas para decorar a tu amigo."
-pick-buddy,general,Pick a buddy to play with!
-general-intro3,general,"Ahora que ya tienes a tu amigo, queremos explicarte cómo funcionan los juegos."
-general-intro4,general,"Durante los juegos tendrás que escuchar las instrucciones, así que asegúrate de que los altavoces están encendidos y el volumen está a tu gusto. Si necesitas volver a escuchar las instrucciones, presiona el botón del altavoz situado en la esquina superior de la pantalla."
-general-intro5,general,"Puedes elegir tus respuestas de diferentes maneras dependiendo del tipo de tableta u ordenador que estés utilizando. Puedes utilizar un ratón o un panel táctil para hacer clic en tu elección, puedes utilizar las teclas de flecha del teclado o puedes tocar la pantalla si utilizas una tableta. Puedes elegir la forma que más te convenga.
-
-Si tienes alguna duda o necesitas ayuda para empezar, pide ayuda al adulto que esté cerca."
-task-finished,general,You've completed the game. Thank you!
-continue-button-text,general,OK
-close-button-text,general,Close
-general-footer,general,Click the button below or press <b>ANY KEY</b> to continue
-instructions,general,instructions
-general-encourage,general,Keep Going!
-feedbackCorrect,general,Great! That's right.
-feedback-try-again,general,Please try again!
-feedback-good-job,general,Good job!
-feedback-nice-work,general,Nice work!
-replay-button,general,Presiona el botón del altavoz si deseas que se repita la pregunta.
-general-fullscreen,general,Switch to full screen mode
-general-repeat-instructions,general,¡Parece que esto es un poco complicado! Repasemos las instrucciones.
-general-keyboard-instructions,general,"Si quieres usar el teclado para responder una pregunta, haz click en la flecha que ves al lado de la opción que quieres seleccionar."
-intro-finished,general,Has terminado las instrucciones. ¡Gracias!
-general-exit,general,Exit
-task-completion,general,You've finished this game. Thank you!
-matrix-reasoning-instruct1,matrix-reasoning,"We’re going to show you a puzzle, and your job is to pick the best piece to complete the puzzle. Let's get started!"
-matrix-reasoning-instruct2,matrix-reasoning,See this big puzzle? It's missing a piece! Which piece goes in the puzzle?
-matrix-reasoning-prompt1,matrix-reasoning,Choose the best pattern to fill in the blank.
-mental-rotation,mental-rotation,¿Ves estas dos siluetas? Una va con esta figura. Veamos cuál va con la figura.
-mental-rotation-training-instruct2,mental-rotation,Veamos si esta figura va con la silueta. Esta figura no va con la silueta.
-mental-rotation-training-instruct3,mental-rotation,Veamos si esta figura va con la silueta. Esta figura sí va con la silueta.
-mental-rotation-test-instruct4,mental-rotation,"¡Ahora, inténtalo tú! ¿Puedes encontrar la figura que va con la silueta?"
-mental-rotation-instruct-3D,mental-rotation,Ahora verás imágenes que muestran bloques con tres lados. Tu tarea es elegir la imagen que coincide.
-mental-rotation-prompt2,mental-rotation,Choose the picture that matches this one.
-mental-rotation-prompt1,mental-rotation,Choose the matching picture.
-math-instructions1,math,"En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Esfuérzate al máximo y tómate tu tiempo. La mayoría de las preguntas tienen cuatro opciones. Eliges la que consideres correcta. ¡Empecemos!"
-number-comparison-prompt1,math,Which number is larger?
-number-comparison-prompt2,math,Which is larger?
-number-identification-prompt1,math,Choose the number you hear.
-missing-number-prompt1,math,What number goes in the blank?
-missing-number-prompt2,math,What number goes here?
-addition-prompt1,math,Add the numbers and choose the correct answer.
-addition-prompt2,math,Add the numbers.
-subtraction-prompt1,math,Subtract the numbers and choose the correct answer.
-subtraction-prompt2,math,Subtract the numbers.
-multiplication-prompt1,math,Multiply the numbers and choose the correct answer.
-multiplication-prompt2,math,Multiply the numbers.
-number-line-instruct1,math,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.
-number-line-prompt1,math,Choose the number that is marked on the number line.
-number-line-slider-prompt1,math,Pon la barra roja sobre la linea recta en el lugar del número indicado.
-number-identification-1,math,Choose the number 1.
-number-identification-2,math,Choose the 2.
-number-identification-3,math,Choose the 9.
-number-identification-4,math,Choose the 0.
-number-identification-5,math,Choose the 12.
-number-identification-6,math,Choose the 30.
-number-identification-7,math,Choose the 22.
-number-identification-8,math,Choose the 45.
-number-identification-9,math,Choose the 39.
-number-identification-10,math,Choose the 23.
-number-identification-11,math,Choose the 48.
-number-identification-12,math,Choose the 91.
-number-identification-13,math,Choose the 33.
-number-identification-14,math,Choose the 74.
-number-identification-15,math,Choose the 87.
-number-identification-16,math,Choose the 65.
-number-identification-17,math,Choose the 108.
-number-identification-18,math,Choose the 245.
-number-identification-19,math,Choose the 587.
-number-identification-20,math,Choose the 731.
-number-identification-21,math,Choose the 989.
-trog-instruct1,trog,"Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started!"
-trog-prompt1,trog,Choose the picture of the...
-trog-prompt2,trog,Choose the picture of...
-trog-prompt3,trog,Choose the picture that shows...
-trog-item-1,trog,Choose the picture of the shoe.
-trog-item-2,trog,Choose the picture of the bird.
-trog-item-3,trog,Choose the picture of the comb.
-trog-item-4,trog,Choose the picture of the apple.
-trog-item-5,trog,Choose the picture that shows eating.
-trog-item-6,trog,Choose the picture that shows picking.
-trog-item-7,trog,Choose the picture that shows sitting.
-trog-item-8,trog,Choose the picture that shows running.
-trog-item-9,trog,Choose the picture that shows long.
-trog-item-10,trog,Choose the picture that shows tall.
-trog-item-11,trog,Choose the picture that shows red.
-trog-item-12,trog,Choose the picture that shows black.
-trog-item-13,trog,the boy is running
-trog-item-14,trog,the big cup
-trog-item-15,trog,the dog is sitting
-trog-item-16,trog,the red ball
-trog-item-17,trog,the boy is not running
-trog-item-18,trog,the dog is not drinking
-trog-item-19,trog,the girl is not jumping
-trog-item-20,trog,the dog is not sitting
-trog-item-21,trog,the boy is jumping over the box
-trog-item-22,trog,the girl is sitting on the table
-trog-item-23,trog,the man is eating the apple
-trog-item-24,trog,the lady is carrying the bag
-trog-item-25,trog,they are sitting on the table
-trog-item-26,trog,the cow is looking at them
-trog-item-27,trog,they are jumping over the wall
-trog-item-28,trog,the elephant is carrying them
-trog-item-29,trog,the girl is pushing the horse
-trog-item-30,trog,the boy is chasing the sheep
-trog-item-31,trog,the man is chasing the dog
-trog-item-32,trog,the cow is pushing the lady
-trog-item-33,trog,she is sitting on the chair
-trog-item-34,trog,the lady is carrying him
-trog-item-35,trog,he is sitting in the tree
-trog-item-36,trog,the horse is looking at her
-trog-item-37,trog,the cats look at the ball
-trog-item-38,trog,the boy stands on the chairs
-trog-item-39,trog,the boys pick the apples
-trog-item-40,trog,the girl drops the cups
-trog-item-41,trog,the fork is longer than the pencil
-trog-item-42,trog,the box is bigger than the cup
-trog-item-43,trog,the shoe is bigger than the bird
-trog-item-44,trog,the horse is taller than the wall
-trog-item-45,trog,the girl is chased by the horse
-trog-item-46,trog,the elephant is pushed by the boy
-trog-item-47,trog,the horse is chased by the man
-trog-item-48,trog,the cow is pushed by the man
-trog-item-49,trog,the cup is in the box
-trog-item-50,trog,the pencil is on the box
-trog-item-51,trog,the circle is in the star
-trog-item-52,trog,the fork is on the shoe
-trog-item-53,trog,the boy chasing the horse is tall
-trog-item-54,trog,the pencil on the shoe is blue
-trog-item-55,trog,the cow chasing the cat is brown
-trog-item-56,trog,the circle in the star is yellow
-trog-item-57,trog,the box but not the chair is red
-trog-item-58,trog,the cat is big but not black
-trog-item-59,trog,the horse but not the boy is standing
-trog-item-60,trog,the boy is sitting but not eating
-trog-item-61,trog,the pencil is above the flower
-trog-item-62,trog,the comb is below the spoon
-trog-item-63,trog,the star is above the circle
-trog-item-64,trog,the square is below the star
-trog-item-65,trog,not only the bird but also the flower is blue
-trog-item-66,trog,the box is not only big but also blue
-trog-item-67,trog,not only the girl but also the cat is sitting
-trog-item-68,trog,the girl has not only food but also a drink
-trog-item-69,trog,the pencil is on the book that is yellow
-trog-item-70,trog,the girl chases the dog that is big
-trog-item-71,trog,the square is in the star that is blue
-trog-item-72,trog,the dog chases the horse that is brown
-trog-item-73,trog,neither the dog nor the ball is brown
-trog-item-74,trog,the pencil is neither long nor red
-trog-item-75,trog,neither the boy nor the horse is running
-trog-item-76,trog,the boy has neither hat nor shoes
-trog-item-77,trog,the book the pencil is on is red
-trog-item-78,trog,the cat the cow chases is black
-trog-item-79,trog,the circle the star is in is red
-trog-item-80,trog,the boy the dog chases is big
-trog-item-81,trog,the horse drank water by the barn and the sheep ate grass by the fence
-trog-item-82,trog,the student opened the notebook and drew a tree
-trog-item-83,trog,we will have a picnic in the park if it is sunny
-trog-item-84,trog,he found his keys under the couch with the pillows
-trog-item-85,trog,she is the gardener who wears the hat that has a flower
-trog-item-86,trog,She tripped on a rock and dropped her books.
-trog-item-87,trog,The teacher will give the students cake if they stand in a line.
-trog-item-88,trog,We will dance together if there is music playing.
-trog-item-89,trog,"Although it is hot outside, I am wearing a jacket with a hood."
-trog-item-90,trog,"Le gusta nadar. Sin embargo, elijió jugar fútbol con sus amigos."
-trog-item-91,trog,"Despite the noise in the classroom, she focused on reading her notebook."
-trog-item-92,trog,He wore the clown's hat despite its large size.
-trog-item-93,trog,The duck following the turtle is walking across the bridge.
-trog-item-94,trog,Bumping the table with my foot caused a book to fall.
-trog-item-95,trog,The person chases the dog that is big.
 trog-item-96,trog,A la niña que llevaba el morral su amiga le mostró una flor.
-trog-item-97,trog,"The kids cleaned the room, but forgot to put away the train."
+trog-item-97,trog,"Los niños limpiaron la habitación, pero olvidaron guardar el tren."
 trog-item-98,trog,El mono no se comió el plátano ni se columpió en la liana.
-trog-item-99,trog,"Her mom said it would be sunny. However, it rained heavily."
-trog-item-100,trog,The plane that is gray is above the clouds.
-trog-item-101,trog,The fish swim beneath a whale and a sea turtle.
-trog-item-102,trog,The car that the truck followed is driving toward the tunnel.
-trog-item-103,trog,Instead of doing homework she did a puzzle in her room.
+trog-item-99,trog,"Su madre dijo que haría sol. Sin embargo, llovió a cántaros."
+trog-item-100,trog,El avión que es gris está por arriba de las nubes.
+trog-item-101,trog,Los peces nadan debajo de una ballena y una tortuga marina.
+trog-item-102,trog,El coche al que siguió el camión se dirige hacia el túnel.
+trog-item-103,trog,"En vez de hacer las tareas, ella hizo un rompecabezas en su habitación. "
 yes,theory-of-mind,sí
 no,theory-of-mind,no
 happy,theory-of-mind,feliz
@@ -690,9 +189,9 @@ disgusted,theory-of-mind,asqueado
 surprised,theory-of-mind,sorprendido
 ToM-intro,theory-of-mind,Este es el Juego de las historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias.
 ToM-transition,theory-of-mind,¡Bien hecho! Ahora vamos con una nueva historia.
-ToM-scene1-instruct1,theory-of-mind,"Here is Madison. This morning, Madison put her book behind the chair, because she didn’t want anyone to find it. "
-ToM-scene1-instruct2,theory-of-mind,"But when Madison was outside playing, someone did find it! And hid it under the rug. "
-ToM-scene1-instruct3,theory-of-mind,So now it’s reading time and Madison wants her book.
+ToM-scene1-instruct1,theory-of-mind,"Esta es Marisol. Esta mañana, Marisol puso su libro detrás de la silla, porque no quería que nadie lo encontrara."
+ToM-scene1-instruct2,theory-of-mind,"Pero cuando Marisol estaba afuera jugando, ¡alguien lo encontró! Y lo escondió debajo de la alfombra."
+ToM-scene1-instruct3,theory-of-mind,"Ahora, es el momento de leer y Marisol quiere su libro."
 ToM-scene1-q1-false_belief,theory-of-mind,¿Dónde buscará Marisol su libro primero?
 chair,theory-of-mind,Detrás de la silla
 rug,theory-of-mind,Debajo de la alfombra
@@ -710,9 +209,9 @@ ToM-scene2-q3-false_belief,theory-of-mind,¿Elián está siendo malo y travieso 
 ToM-scene2-q4-false_belief,theory-of-mind,¿Debería Elián estar en problemas con el maestro por tomar el libro de Ana?
 ToM-scene2-q5-reality_check,theory-of-mind,¿Puedes ayudar a Ana a encontrar su libro? ¿Está sobre la repisa o debajo de los abrigos?
 ToM-scene2-q6-reality_check,theory-of-mind,¿Puedes ayudar a Elián a encontrar su libro? ¿Está sobre la repisa o debajo de los abrigos?
-ToM-scene3-instruct1,theory-of-mind,"Joshua, Isabel, and Ivan are playing a game. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. "
-ToM-scene3-instruct2,theory-of-mind,"So Ivan is going first. He draws this clue in the sandbox, and then he goes to hide. "
-ToM-scene3-instruct3,theory-of-mind,"Now it's Joshua's turn to leave a clue, and hide. Isabel and Ivan will then try to use the clue to find him."
+ToM-scene3-instruct1,theory-of-mind,"Johan, Isabel e Iván están jugando. El juego es el siguiente: Uno de los niños se esconde, pero debe dibujar una pista en la arena que permita a los otros niños encontrarlo."
+ToM-scene3-instruct2,theory-of-mind,"Entonces, Iván va primero. Dibuja esta pista en la arena y se esconde."
+ToM-scene3-instruct3,theory-of-mind,Ahora le toca a Johan dejar una pista y esconderse. Isabel e Iván intentarán utilizar la pista para encontrarlo.
 ToM-scene3-instruct4,theory-of-mind,"Johan decide esconderse detrás de la fuente. Él dibuja una pista en la arena. Él intenta dibujar la parte inferior de la fuente y el agua que sale de ella, ¡pero el dibujo que hace parece un árbol! Ahora, Johan se esconde detrás de la fuente."
 ToM-scene3-q1,theory-of-mind,¿Qué quería dibujar Johan?
 fountain,theory-of-mind,Una fuente
@@ -721,21 +220,21 @@ ToM-scene3-q2-false_belief,theory-of-mind,"Cuando Isabel e Iván vean esta pista
 ToM-scene3-q2-reality_check,theory-of-mind,¿Puedes ayudarles a encontrar dónde está realmente Johan?
 behind-fountain,theory-of-mind,Detrás de la fuente
 behind-tree,theory-of-mind,Detrás del árbol
-ToM-scene3-q3-emotion_reasoning,theory-of-mind,"Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game?"
-ToM-scene4-instruct1,theory-of-mind,"Now the games are over, and it's almost time to go home. Mother tells the kids to find all of their toys. "
-ToM-scene4-instruct2,theory-of-mind,"Joshua brought his toy truck with him to the park, but now he can't find it. He's looking everywhere but he can't find it. "
-ToM-scene4-q1-emotion_reasoning,theory-of-mind,How does Joshua feel about losing his truck?
+ToM-scene3-q3-emotion_reasoning,theory-of-mind,"¡Mira, Isabel e Iván encontraron a Joshua y ganaron el juego! ¿Cómo crees que se siente Isabel por ganar el juego?"
+ToM-scene4-instruct1,theory-of-mind,Ya se acabaron los juegos y es hora de volver a casa. Mamá les dice a los niños que busquen todos sus juguetes.
+ToM-scene4-instruct2,theory-of-mind,"Johan trajo su camión de juguete al parque, pero ahora no lo encuentra. Lo busca por todas partes, pero no puede encontrarlo."
+ToM-scene4-q1-emotion_reasoning,theory-of-mind,¿Cómo se siente Johan por perder su camión?
 ToM-scene4-q8-emotion_reasoning,theory-of-mind,¿Cómo se sentiría Johan si encontrara su camión?
 ToM-scene4-instruct3,theory-of-mind,"Johan no encuentra su camión porque antes, cuando nadie miraba, Isabel cogió el camión de juguete y lo enterró en la arena."
-ToM-scene4-instruct4,theory-of-mind,"So Joshua looks everywhere and he can't find his toy truck. Mother gets mad at Joshua, because he lost his truck."
+ToM-scene4-instruct4,theory-of-mind,"Por eso, Johan mira por todas partes y no encuentra su camión de juguete. Mamá se enoja con Johan porque perdió el camión."
 ToM-scene4-q2,theory-of-mind,¿Es justo que Mamá se enoje con Johan por haber perdido su camión?
 ToM-scene4-q3,theory-of-mind,¿Mamá está enojada con Isabel? 
 ToM-scene4-q4-false_belief,theory-of-mind,¿Johan está enojado con Isabel? 
-ToM-scene4-instruct5,theory-of-mind,"When Isabel sees that Mother is mad at Joshua, she goes to the sandbox and digs up the toy truck, and gives it back to Joshua."
+ToM-scene4-instruct5,theory-of-mind,"Cuando Isabel se da cuenta de que Mamá está enojada con Johan, va al patio de arena, saca el juguete de la arena y se lo devuelve a Johan."
 ToM-scene4-q5,theory-of-mind,¿Ahora Mamá está enojada con Johan?
 ToM-scene4-q6,theory-of-mind,¿Ahora Mamá está enojada con Isabel?
 ToM-scene4-q7,theory-of-mind,¿Ahora Johan está enojado con Isabel?
-ToM-scene4-instruct6,theory-of-mind,"Isabel tells Joshua that she’s very sorry, and she gives him a big hug. Joshua gives her a big hug back, and Mother joins in."
+ToM-scene4-instruct6,theory-of-mind,"Isabel le pide disculpas a Johan y le da un fuerte abrazo. Johan le devuelve el abrazo, y Mamá se une a ellos."
 ToM-scene5-instruct1,theory-of-mind,"Ella es Carla. Hace un rato, la mamá de María limpiaba la casa mientras María observaba. La mamá dejó tres tazas en la cocina: hay una taza pequeña en la barra, una taza mediana en la mesa y una taza grande en un estante que está muy alto. "
 ToM-scene5-instruct2,theory-of-mind,"Carla y Papá acaban de entrar y Carla le pide a su papá que le de una taza. Carla le dice a su papá ""¡quiero la taza grande!""."
 ToM-scene5-q1,theory-of-mind,¿Cuál taza le dará el Papá a Carla?
@@ -745,13 +244,14 @@ medium_cup,theory-of-mind,La taza mediana
 large_cup,theory-of-mind,La taza grande
 ToM-scene5-q3-emotion_reasoning,theory-of-mind,¿Cómo se siente Carla por no recibir la taza que quería?
 ToM-scene5-q4-emotion_reasoning,theory-of-mind,¿Cómo se sentiría Carla si hubiera recibido la taza que quería?
-ToM-scene6-instruct1,theory-of-mind,"Sam and Maria are playing together. They look outside and see a new shop across the street. Maria tells Sam: “I am going to buy new shirts for us there,” and she walks away."
+ToM-scene6-instruct1,theory-of-mind,"Sam y María están jugando juntos. Cuando miran hacia afuera ven una tienda nueva al otro lado de la calle. María le dice a Sam: ""voy a ir a comprar camisetas nuevas para nosotros"" y se va."
 ToM-scene6-instruct2,theory-of-mind,"        
 Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. ""¿Venden camisetas?"" pregunta Sam. ""No"", dice Mamá, ""solo venden zapatos"". ""Probablemente ahora María va a comprar zapatos en la tienda"", dice Sam."
-ToM-scene6-q1,theory-of-mind,Does Maria know that they are selling shoes in the shop?
-ToM-scene6-instruct3,theory-of-mind,"Maria has arrived at the shop. “I would like to buy shirts,” she says. “All we have left are socks,” says the shopkeeper. Since Maria also needs socks, she decides to get some socks."
-ToM-scene6-q2,theory-of-mind,Does Sam know that Maria bought some socks?
-ToM-scene6-q3,theory-of-mind,What does Sam think they are selling at the shop?
+ToM-scene6-q1,theory-of-mind,"	
+¿María sabe que en la tienda venden zapatos?"
+ToM-scene6-instruct3,theory-of-mind,"María llega a la tienda y dice ""me gustaría comprar camisas."" La vendedora responde ""Sólo nos quedan medias."" Como María también necesita medias, decide comprar algunos pares."
+ToM-scene6-q2,theory-of-mind,¿Sam sabe que María ha comprado medias?
+ToM-scene6-q3,theory-of-mind,¿Qué cree Sam que venden en la tienda?
 shoes,theory-of-mind,Zapatos
 socks,theory-of-mind,Medias
 shirts,theory-of-mind,Camisetas
@@ -760,37 +260,37 @@ ToM-scene6-instruct4,theory-of-mind,"Caminando de regreso, María se encuentra c
 ToM-scene6-q4,theory-of-mind,¿Qué le dice María a Papá?
 ToM-scene6-instruct5,theory-of-mind,"Entonces Papá pregunta: ""¿Qué cree Sam que venden en la tienda?""."
 ToM-scene6-q5,theory-of-mind,¿Qué le dice María a Papá?
-ToM-scene6-q6,theory-of-mind,What does Sam think they are selling at the shop?
+ToM-scene6-q6,theory-of-mind,¿Qué cree Sam que venden en la tienda?
 ToM-scene6-instruct6,theory-of-mind,Sam está muy feliz por recibir sus medias nuevas.
-hostile-attribution-scene1-instruct1,hostile-attribution,Imagine that you are walking to school and you’re wearing your new shoes. You really like your new shoes and this is the first day you have worn them.
-hostile-attribution-scene1-instruct2,hostile-attribution,"Suddenly, you are bumped from behind by a boy. You stumble and fall into a mud puddle and your new shoes get muddy."
-hostile-attribution-scene1-q1,hostile-attribution,Do you think that the boy bumped you on purpose or by accident?
-hostile-attribution-scene1-q2,hostile-attribution,Now pick one of the three choices as the one you would do:
-hostile-attribution-scene1-q2-ans1,hostile-attribution,clean up my shoes
-hostile-attribution-scene1-q2-ans2,hostile-attribution,walk away from the boy
-hostile-attribution-scene1-q2-ans3,hostile-attribution,push the boy in the mud
-hostile-attribution-scene2-instruct1,hostile-attribution,"Imagine that you are on the playground. You and some other kids are having a race. A boy is standing on the side, bouncing a basketball."
+hostile-attribution-scene1-instruct1,hostile-attribution,Imagina que vas camino a la escuela y llevas puestos tus zapatos nuevos. Te gustan mucho tus zapatos nuevos y es la primera vez que los usas.
+hostile-attribution-scene1-instruct2,hostile-attribution,"De repente, un chico te choca por detrás. Tropiezas y caes en un charco de barro y tus zapatos nuevos se ensucian de barro"
+hostile-attribution-scene1-q1,hostile-attribution,¿Crees que el chico te golpeó a propósito o por accidente?
+hostile-attribution-scene1-q2,hostile-attribution,Ahora escoge cuál de estas tres opciones harías tú:
+hostile-attribution-scene1-q2-ans1,hostile-attribution,limpiar mis zapatos
+hostile-attribution-scene1-q2-ans2,hostile-attribution,alejarme del chico
+hostile-attribution-scene1-q2-ans3,hostile-attribution,empujar al chico al barro
+hostile-attribution-scene2-instruct1,hostile-attribution,"Imagina que estás en el patio de recreo. Tú y otros niños están haciendo una carrera. Un niño está parado a un lado, haciendo rebotar una pelota de baloncesto."
 hostile-attribution-scene2-instruct2,hostile-attribution,"De repente, el chico hace rebotar la pelota y rueda bajo tus pies, haciéndote caer. Te raspas la rodilla, y alguien más gana la carrera."
-hostile-attribution-scene2-q1,hostile-attribution,Do you think that the boy made you fall on purpose or by accident?
-hostile-attribution-scene2-q2,hostile-attribution,Now pick one of the three choices as the one you would do:
-hostile-attribution-scene2-q2-ans1,hostile-attribution,go to another area of the playground
-hostile-attribution-scene2-q2-ans2,hostile-attribution,say something mean to him
-hostile-attribution-scene2-q2-ans3,hostile-attribution,take care of my knee
-hostile-attribution-scene3-instruct1,hostile-attribution,Imagine that you are working on an assignment at your desk. 
-hostile-attribution-scene3-instruct2,hostile-attribution,"You go to sharpen your pencil, and as you walk back to your desk there is a boy walking just in front of you. The boy passes your desk before you get there. "
-hostile-attribution-scene3-instruct3,hostile-attribution,"The next thing you know, the boy has knocked all of your papers off of your desk, and they are all over the floor."
-hostile-attribution-scene3-q1,hostile-attribution,Do you think the boy knocked your papers onto the floor on purpose or by accident?
-hostile-attribution-scene3-q2,hostile-attribution,Now pick one of the three choices as the one you would do:
-hostile-attribution-scene3-q2-ans1,hostile-attribution,call him a name
-hostile-attribution-scene3-q2-ans2,hostile-attribution,pick up the papers
-hostile-attribution-scene3-q2-ans3,hostile-attribution,do nothing
+hostile-attribution-scene2-q1,hostile-attribution,¿Crees que el chico te hizo caer a propósito o por accidente?
+hostile-attribution-scene2-q2,hostile-attribution,Ahora escoge cuál de estas tres opciones harías tú:
+hostile-attribution-scene2-q2-ans1,hostile-attribution,ir a otra zona del patio de recreo
+hostile-attribution-scene2-q2-ans2,hostile-attribution,insultar al niño
+hostile-attribution-scene2-q2-ans3,hostile-attribution,curar mi rodilla
+hostile-attribution-scene3-instruct1,hostile-attribution,Imagina que estás trabajando en una tarea en tu escritorio.
+hostile-attribution-scene3-instruct2,hostile-attribution,"Te levantas para sacarle punta a tu lápiz y, de regreso a tu escritorio, vas detrás de un niño que camina justo delante de ti. El niño pasa por tu escritorio antes de que tú llegues."
+hostile-attribution-scene3-instruct3,hostile-attribution,"De repente, el chico tira todos los papeles que estaban en tu escritorio y ahora están regados en el suelo."
+hostile-attribution-scene3-q1,hostile-attribution,¿Crees que el chico tiró tus papeles al suelo a propósito o por accidente?
+hostile-attribution-scene3-q2,hostile-attribution,Ahora escoge cuál de estas tres opciones harías tú:
+hostile-attribution-scene3-q2-ans1,hostile-attribution,insultar al niño
+hostile-attribution-scene3-q2-ans2,hostile-attribution,recoger los papeles
+hostile-attribution-scene3-q2-ans3,hostile-attribution,no hacer nada
 hostile-attribution-scene1-by-accident,theory-of-mind,por accidente
 hostile-attribution-scene1-on-purpose,theory-of-mind,a propósito
 hostile-attribution-scene2-by-accident,theory-of-mind,por accidente
 hostile-attribution-scene2-on-purpose,theory-of-mind,a propósito
 hostile-attribution-scene3-by-accident,theory-of-mind,por accidente
 hostile-attribution-scene3-on-purpose,theory-of-mind,a propósito
-same-different-selection-instruct1,same-different-selection,"This is the matching game. In this game, you're going to choose sets of cards that match in some way. First, let's look at some of the cards you are going to see."
+same-different-selection-instruct1,same-different-selection,"Este es el juego de parejas. En este juego, vas a elegir conjuntos de cartas que se parecen de alguna manera. Primero, veamos algunas de las cartas que vas a ver."
 same-different-selection-touch-circle,same-different-selection,Escoge la carta que tiene un círculo.
 same-different-selection-touch-square,same-different-selection,Escoge la carta que tiene un cuadrado.
 same-different-selection-touch-triangle,same-different-selection,Escoge la carta que tiene un triángulo.
@@ -828,35 +328,35 @@ sds-2match-prompt1,same-different-selection,Aquí hay un nuevo grupo de cartas. 
 sds-2match-prompt2,same-different-selection,Escoge dos cartas que sean pareja porque son iguales en algo diferente. 
 sds-3unique-prompt1,same-different-selection,Escoge tres cartas que sean iguales en un solo aspecto. 
 sds-3unique-prompt2,same-different-selection,Escoge otras tres cartas que sean iguales en un solo aspecto.
-memory-game-display,memory-game,Watch the squares light up.
-memory-game-input,memory-game,Touch the squares in the same order.
-memory-game-instruct1,memory-game,This is the memory game. Here's how you play it.
-memory-game-instruct2,memory-game,You will see squares light up.
-memory-game-instruct3,memory-game,You're going to touch the squares in the same order.
-memory-game-instruct4,memory-game,Watch carefully! Try to remember the order.
-memory-game-forward-prompt,memory-game,Choose the squares in the same order.
+memory-game-display,memory-game,Observa se iluminan los cuadrados.
+memory-game-input,memory-game,Toca los cuadrados en el mismo orden.
+memory-game-instruct1,memory-game,Este es el juego de la memoria. Las reglas son las siguientes.
+memory-game-instruct2,memory-game,Verás que los cuadrados se iluminan.
+memory-game-instruct3,memory-game,Vas a tocar los cuadrados en el mismo orden.
+memory-game-instruct4,memory-game,¡Observa con atención! Intenta recordar el orden.
+memory-game-forward-prompt,memory-game,Escoge los cuadrados en el mismo orden.
 memory-game-forward-try-again,memory-game,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en el mismo orden.
 memory-game-instruct5,memory-game,Esta vez el juego no te dirá si la respuesta es correcta o no. ¡Empecemos a jugar al juego de memoria!
-memory-game-instruct6,memory-game,Now let's play the memory game in reverse!
-memory-game-instruct7,memory-game,Let’s start playing the memory game!
-memory-game-backward-prompt,memory-game,Choose the squares in the backward order.
+memory-game-instruct6,memory-game,Ahora vamos a jugar al juego de la memoria a la inversa.
+memory-game-instruct7,memory-game,¡Empecemos a jugar al juego de memoria!
+memory-game-backward-prompt,memory-game,Escoge los cuadrados en orden inverso.
 memory-game-backward-try-again,memory-game,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en orden inverso.
-heart-instruct1,hearts-and-flowers,This is the heart game. Here's how you play it.
+heart-instruct1,hearts-and-flowers,Este es el juego del corazón. Las reglas son las siguientes.
 heart-instruct2,hearts-and-flowers,"Cuando veas un corazón, presiona el botón del mismo lado."
-hearts-and-flowers-try-again,hearts-and-flowers,That's not right. Try again.
-heart-practice-feedback1,hearts-and-flowers,The heart is on the right side. Press the right button.
-hearts-and-flowers-practice-time,hearts-and-flowers,Time to practice!
-heart-practice-feedback2,hearts-and-flowers,"Remember! When you see a HEART, press the button on the SAME side."
+hearts-and-flowers-try-again,hearts-and-flowers,La respuesta no es correcta.  Inténtalo de nuevo.
+heart-practice-feedback1,hearts-and-flowers,El corazón está en el lado derecho. Presiona el botón derecho.
+hearts-and-flowers-practice-time,hearts-and-flowers,¡Es hora de practicar!
+heart-practice-feedback2,hearts-and-flowers,"¡Recuerda! Cuando veas un CORAZÓN, presiona el botón del MISMO lado."
 hearts-and-flowers-instruct1,hearts-and-flowers,Esta vez el juego irá más rápido. No te dirá si la respuesta es correcta o no. ¡Trata de seguir el ritmo!
 hearts-and-flowers-instruct2,hearts-and-flowers,"Intenta responder lo más rápido que puedas sin cometer errores. Si cometes un error, ¡sigue adelante!"
-hearts-and-flowers-play-time,hearts-and-flowers,Time to play!
+hearts-and-flowers-play-time,hearts-and-flowers,¡Hora de jugar!
 flower-instruct1,hearts-and-flowers,Este es el juego de las flores. Las reglas son las siguientes.
-flower-instruct2,hearts-and-flowers,"When you see a flower, press the button on the opposite side."
-flower-practice-feedback1,hearts-and-flowers,The flower is on the left side. Press the right button.
-flower-practice-feedback2,hearts-and-flowers,"When you see a FLOWER, press the button on the OPPOSITE side."
-hearts-and-flowers-instruct3,hearts-and-flowers,"Now, we're going to play a game with hearts and flowers."
-hearts-and-flowers-encourage1,hearts-and-flowers,Try to keep up!
-hearts-and-flowers-encourage2,hearts-and-flowers,"If you make a mistake, just keep going!"
+flower-instruct2,hearts-and-flowers,"Cuando veas una flor, presiona el botón del lado opuesto."
+flower-practice-feedback1,hearts-and-flowers,La flor está en el lado izquierdo. Presione el botón derecho.
+flower-practice-feedback2,hearts-and-flowers,"Cuando veas una FLOR, presiona el botón en el lado OPUESTO."
+hearts-and-flowers-instruct3,hearts-and-flowers,"Ahora, vamos a jugar un juego con corazones y flores."
+hearts-and-flowers-encourage1,hearts-and-flowers,¡Trata de seguir el ritmo!
+hearts-and-flowers-encourage2,hearts-and-flowers,"Si cometes un error, ¡sigue adelante!"
 hearts-and-flowers-end,hearts-and-flowers,"¡Bien hecho, has terminado el juego!"
 vocab-item-001,vocab,la bellota
 vocab-item-002,vocab,el áloe
@@ -956,10 +456,10 @@ vocab-item-095,vocab,la piel
 vocab-item-096,vocab,el muro
 vocab-item-097,vocab,la rueda
 vocab-item-098,vocab,la granja
-vocab-item-099,vocab,juggling
+vocab-item-099,vocab,el malabarismo
 vocab-item-100,vocab,el aderezo
 vocab-item-101,vocab,el techo
-vocab-item-102,vocab,peeking
+vocab-item-102,vocab,espiando
 vocab-item-103,vocab,la regla
 vocab-item-104,vocab,el túnel
 vocab-item-105,vocab,el sobre
@@ -967,71 +467,71 @@ vocab-item-106,vocab,el diamante
 vocab-item-107,vocab,el calendario
 vocab-item-108,vocab,el panda
 vocab-item-109,vocab,la flecha
-vocab-item-110,vocab,picking
-vocab-item-111,vocab,dripping
+vocab-item-110,vocab,cosecha
+vocab-item-111,vocab,goteo
 vocab-item-112,vocab,el caballero
-vocab-item-113,vocab,delivering
+vocab-item-113,vocab,entregando
 vocab-item-114,vocab,la dentista
 vocab-item-115,vocab,la garra
 vocab-item-116,vocab,el uniforme
-vocab-item-117,vocab,furry
+vocab-item-117,vocab,peludo
 vocab-item-118,vocab,el cormorán
-vocab-item-119,vocab,fetch
+vocab-item-119,vocab,traer
 vocab-item-120,vocab,la arcada
 vocab-item-121,vocab,el artefacto
-vocab-item-122,vocab,aversion
+vocab-item-122,vocab,aversión
 vocab-item-123,vocab,la boina
-vocab-item-124,vocab,applaud
-vocab-item-125,vocab,timid
+vocab-item-124,vocab,aplaudir
+vocab-item-125,vocab,tímido
 vocab-item-126,vocab,el campamento
-vocab-item-127,vocab,tumble
-vocab-item-128,vocab,concentric
+vocab-item-127,vocab,caída
+vocab-item-128,vocab,concéntrico
 vocab-item-129,vocab,la confitería
 vocab-item-130,vocab,el costurero
-vocab-item-131,vocab,degression
+vocab-item-131,vocab,disminución
 vocab-item-132,vocab,el diván
 vocab-item-133,vocab,el humedal
 vocab-item-134,vocab,la ventana salediza
 vocab-item-135,vocab,el esteta
-vocab-item-136,vocab,ecstatic
-vocab-item-137,vocab,rickety
+vocab-item-136,vocab,extático
+vocab-item-137,vocab,desvencijado
 vocab-item-138,vocab,gourmet
-vocab-item-139,vocab,gesticulate
+vocab-item-139,vocab,gesticular
 vocab-item-140,vocab,la fachada
 vocab-item-141,vocab,la pendiente
 vocab-item-142,vocab,el hábito
 vocab-item-143,vocab,la intersección
 vocab-item-144,vocab,la irrigación
 vocab-item-145,vocab,el kazoo
-vocab-item-146,vocab,chat
+vocab-item-146,vocab,conversar
 vocab-item-147,vocab,la colonia
-vocab-item-148,vocab,preserve
+vocab-item-148,vocab,preservar
 vocab-item-149,vocab,el toldo
-vocab-item-150,vocab,mammalogy
+vocab-item-150,vocab,mamalogía
 vocab-item-151,vocab,el metrónomo
 vocab-item-152,vocab,el paleontólogo
 vocab-item-153,vocab,la percusión
 vocab-item-154,vocab,la posterior
-vocab-item-155,vocab,precarious
+vocab-item-155,vocab,precario
 vocab-item-156,vocab,el quiosco
-vocab-item-157,vocab,resuscitation
+vocab-item-157,vocab,resucitación
 vocab-item-158,vocab,el rosetón
 vocab-item-159,vocab,el azafrán
-vocab-item-160,vocab,mischievous
+vocab-item-160,vocab,travieso
 vocab-item-161,vocab,la desnatadora
-vocab-item-162,vocab,sedentary
+vocab-item-162,vocab,sedentario
 vocab-item-163,vocab,la gamuza
 vocab-item-164,vocab,el torniquete
 vocab-item-165,vocab,la tríada
-vocab-item-166,vocab,dredging
-vocab-item-167,vocab,urban
+vocab-item-166,vocab,dragado
+vocab-item-167,vocab,urbano
 vocab-item-168,vocab,el vapor
 vocab-item-169,vocab,la vértebra
 vocab-item-170,vocab,el vendaje
-vocab-instruct-1,vocab,"In this game, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word!"
-vocab-practice-1,vocab,"You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word!"
-vocab-instruct-2,vocab,"Some words are hard, and that's okay. If you're not sure, just give your best guess!"
-vocab-instruct-3,vocab,"If you need to hear the word again, press the speaker button."
+vocab-instruct-1,vocab,"En este juego, escucharás palabras y observarás diferentes imágenes. ¡Tu tarea es elegir la imagen que coincida con la palabra!"
+vocab-practice-1,vocab,"A continuación, verás algunas imágenes, por ejemplo, una imagen de una manzana y una imagen de una zanahoria. Luego, escucharás la palabra que identifica una de las imágenes. ¡Asegúrate de elegir la imagen que coincida con la palabra!"
+vocab-instruct-2,vocab,"Algunas palabras son difíciles, pero no te preocupes, si tienes dudas, ¡haz tu mejor intento!"
+vocab-instruct-3,vocab,"Si necesitas escuchar la palabra otra vez, presiona el botón del altavoz."
 shared-intro-devices,trog,"You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now."
 shared-choose-picture-press-arrow,trog,"To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture."
 shared-intro-replay,trog,You can press the replay button to hear things again. Try it now.
