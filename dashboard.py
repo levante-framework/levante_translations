@@ -325,7 +325,7 @@ class App(ctk.CTk):
                 self.ssml_input.insert("0.0", translation_text)
 
                 # This is kind of gross. Maybe we should fix tools?
-                audio_file = f'tools/{item_values[4]}'
+                audio_file = item_values[4]
                 playsound(audio_file)
 
         # Create a treeview widget for the table
