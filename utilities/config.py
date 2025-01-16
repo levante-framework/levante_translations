@@ -15,7 +15,7 @@ def get_languages():
         'English': {'lang_code':'en', 'voice': 'en-US-AriaNeural'},
         'Spanish': {'lang_code': 'es-CO', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'voice' :'VickiNeural'},
-        'French': {'lang_code': 'fr', 'voice' : 'Pauline'}
+        'French': {'lang_code': 'fr', 'voice' : 'LeaNeural'}
         }
     
     # Later we can add HT voices and Eleven voices to each of these

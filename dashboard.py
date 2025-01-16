@@ -100,6 +100,7 @@ class App(ctk.CTk):
                 active_tab = self.tabview.get()
 
             # ASSUMES PlayHt for now
+            # NEEDS TO BE PARAMETERIZED
             if active_tab == "English":
                 lang_code = 'en'
                 voice = conf.get_default_voice('English')
@@ -111,6 +112,10 @@ class App(ctk.CTk):
             elif active_tab == "German":
                 lang_code = 'de'
                 voice = conf.get_default_voice('German')
+
+            elif active_tab == "French":
+                lang_code = 'fr'
+                voice = conf.get_default_voice('French')
             else:
                 print ("NO LANGUAGE")
                 exit()
@@ -420,14 +425,17 @@ class App(ctk.CTk):
         global ht_english_voice_list
         global ht_spanish_voice_list
         global ht_german_voice_list
+        global ht_french_voice_list
 
         global eleven_english_voice_list
         global eleven_spanish_voice_list
         global eleven_german_voice_list
+        global eleven_french_voice_list
 
         global eleven_english_voice_dict
         global eleven_spanish_voice_dict
         global eleven_german_voice_dict
+        global eleven_french_voice_dict
 
         # we get called before there is a tab view
         # so in that case we default to English
@@ -461,6 +469,14 @@ class App(ctk.CTk):
                 elif service == 'ElevenLabs':
                     if 'eleven_german_voice_list' in globals():
                         return eleven_german_voice_list
+            elif active_tab == "French":
+                lang_code = 'fr'
+                if service == 'PlayHt':
+                    if 'ht_french_voice_list' in globals():
+                        return ht_french_voice_list
+                elif service == 'ElevenLabs':
+                    if 'eleven_french_voice_list' in globals():
+                        return eleven_french_voice_list
             else:
                 print ("NO LANGUAGE")
                 exit()

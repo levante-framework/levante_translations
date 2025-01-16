@@ -30,12 +30,15 @@ def list_voices(lang_code):
         voices = response_data.get("voices", [])
     
          # Specify the language you want to filter by
+         # This needs to be parameterized!
         if lang_code == 'en':
             target_language = "English (US)"  # Change this to your desired language
         elif lang_code == 'de':
             target_language = "German"  # Change this to your desired language
         elif lang_code == 'es-CO':
             target_language = "Spanish (Colombia)"  # Change this to your desired language
+        elif lang_code == 'fr':
+            target_language = "French"  # Change this to your desired language
         else:
             return("Error")
 
