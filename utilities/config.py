@@ -6,7 +6,7 @@ language_list = {}
 
 # current location of translated items
 # at some point can integrate with crowdin output
-item_bank_translations = "item_bank_translations.csv"
+item_bank_translations = "text/translated.csv"
 stats_file_path = 'stats.csv'
 
 def get_languages(): 
@@ -15,6 +15,7 @@ def get_languages():
         'English': {'lang_code':'en', 'voice': 'en-US-AriaNeural'},
         'Spanish': {'lang_code': 'es-CO', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'voice' :'VickiNeural'},
+        #'French': {'lang_code': 'fr', 'voice' : 'Pauline'}
         }
     
     # Later we can add HT voices and Eleven voices to each of these

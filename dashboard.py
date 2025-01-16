@@ -23,7 +23,8 @@ class App(ctk.CTk):
 
         ## Uses our default file name
         self.ourData = pd.read_csv(conf.item_bank_translations)
-
+        self.ourData = self.ourData.rename(columns={'identifier': 'item_id'})
+        self.ourData = self.ourData.rename(columns={'text': 'en'})
 
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
