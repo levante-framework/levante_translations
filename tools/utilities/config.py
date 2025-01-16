@@ -4,6 +4,11 @@
 # if we add it here can we use it throughout?
 language_list = {}
 
+# current location of translated items
+# at some point can integrate with crowdin output
+item_bank_translations = "tools/item_bank_translations.csv"
+stats_file_path = 'tools/stats.csv'
+
 def get_languages(): 
 
     language_list = {\

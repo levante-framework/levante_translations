@@ -22,7 +22,8 @@ class App(ctk.CTk):
         self.language_dict = conf.get_languages()
 
         ## Uses our default file name
-        self.ourData = pd.read_csv("item_bank_translations.csv")
+        self.ourData = pd.read_csv(conf.item_bank_translations)
+
 
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
@@ -137,24 +138,25 @@ class App(ctk.CTk):
         # ... pack frame ...
         # Add tree using create_table()
 
-        # Current code has languages hard-wired:
-        tabEnglish = tabview.add("English")
-        tabSpanish = tabview.add("Spanish")
-        tabGerman = tabview.add("German")
+        language_dict = conf.get_languages()
+        tabArray = {}
+        frameArray = {}
+        treeArray = {}
 
-        # Add scrollable frames
-        self.englishFrame = ctk.CTkFrame(tabEnglish)
-        self.englishFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
+        for language_name in language_dict.keys():
 
-        self.spanishFrame = ctk.CTkFrame(tabSpanish)
-        self.spanishFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
-      
-        self.germanFrame = ctk.CTkFrame(tabGerman)
-        self.germanFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
+            newTab = tabview.add(language_name)
+            tabArray[language_name] = newTab
 
-        self.englishTree = self.create_table(self.englishFrame, 'en')     
-        self.spanishTree = self.create_table(self.spanishFrame, 'es-CO')
-        self.germanTree = self.create_table(self.germanFrame, 'de')
+            newFrame = ctk.CTkFrame(newTab)
+            newFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
+            frameArray[language_name] = newFrame
+
+            # Need to set lang code
+            specific_language = language_dict.get(language_name)
+            language_code = specific_language.get('lang_code')
+            newTree = self.create_table(newFrame, language_code)
+            treeArray[language_name] = newTree
 
         return tabview
 
@@ -322,7 +324,8 @@ class App(ctk.CTk):
                 translation_text = item_values[3]
                 self.ssml_input.insert("0.0", translation_text)
 
-                audio_file = item_values[4]
+                # This is kind of gross. Maybe we should fix tools?
+                audio_file = f'tools/{item_values[4]}'
                 playsound(audio_file)
 
         # Create a treeview widget for the table

@@ -6,9 +6,9 @@ import pandas as pd
 import re
 import tempfile
 import playsound
+from utilities import config as conf
 from PlayHt import playHt_utilities
 
-stats_file_path = 'stats.csv'
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -106,10 +106,10 @@ def store_stats(lang_code, errors, notask, voice):
     statsData.to_csv(stats_file_path, index=False)
 
 def get_stats():
-    if not os.path.exists(stats_file_path):
+    if not os.path.exists(conf.stats_file_path):
         return(False)
     else:
-        statsData = pd.read_csv(stats_file_path)
+        statsData = pd.read_csv(conf.stats_file_path)
     print(f'Stats: {statsData}')
     return(statsData)
 
