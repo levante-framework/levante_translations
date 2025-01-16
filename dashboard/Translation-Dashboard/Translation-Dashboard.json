@@ -1,0 +1,56 @@
+{
+    "MAIN-1": {
+        "TYPE": "MAIN",
+        "parameters": {
+            "title": "Window",
+            "width": 800,
+            "height": 600
+        },
+        "pack_options": {},
+        "ID": "5537ea67-cb31-447a-921c-e903242f816c",
+        "FRAME0": {
+            "TYPE": "FRAME",
+            "parameters": {},
+            "pack_options": {
+                "fill": "x",
+                "anchor": "center",
+                "expand": 0,
+                "ipadx": 0,
+                "ipady": 0,
+                "padx": 0,
+                "pady": 0,
+                "side": "top"
+            },
+            "ID": "f9da657b-5b06-4ffd-86b7-1e38c5b6b7f9",
+            "PACK_PROPAGATE": "False",
+            "LABEL1": {
+                "TYPE": "LABEL",
+                "parameters": {
+                    "text": "Translation Dashboard"
+                },
+                "pack_options": {},
+                "ID": "778ea6ca-c390-45c6-afc1-49919e741cf6"
+            }
+        },
+        "SCROLLABLEFRAME2": {
+            "TYPE": "SCROLLABLEFRAME",
+            "parameters": {
+                "orientation": "vertical"
+            },
+            "pack_options": {
+                "expand": true,
+                "anchor": "center",
+                "fill": "both",
+                "ipadx": 0,
+                "ipady": 0,
+                "padx": 0,
+                "pady": 0,
+                "side": "top"
+            },
+            "ID": "9a7c139d-cec8-49dc-b0fc-96299783d182"
+        },
+        "theme": "green",
+        "palette_on_change": {},
+        "palette": {}
+    }
+}
