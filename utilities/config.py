@@ -6,8 +6,8 @@ language_list = {}
 
 # current location of translated items
 # at some point can integrate with crowdin output
-item_bank_translations = "tools/item_bank_translations.csv"
-stats_file_path = 'tools/stats.csv'
+item_bank_translations = "item_bank_translations.csv"
+stats_file_path = 'stats.csv'
 
 def get_languages(): 
 
