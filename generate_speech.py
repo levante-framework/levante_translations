@@ -14,7 +14,7 @@ def generate_audio(lang_code, voice):
 #       arrange for an export/download directly from Crowdin
 #
 # For testing don't co-host with Text Translation repo
-    input_file_name = "item_bank_translations.csv"
+    input_file_name = "translated_fixed.csv"
     diff_file_name = "needed_item_bank_translations.csv"
     master_file_path = "translation_master.csv"
 
@@ -25,7 +25,7 @@ def generate_audio(lang_code, voice):
 
 #### Switch to audio-generation repo once there is a real Crowdin account
 #    with permission to write to it
-    webURL = "https://raw.githubusercontent.com/digital-pro/levante-audio/l10n_main2/translated.csv"
+    webURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated.csv"
 
     # Turn into dataframe so we can do any needed edits
     translationData = pd.read_csv(webURL)
@@ -55,6 +55,7 @@ def generate_audio(lang_code, voice):
         masterData['en'] = None
         masterData['es-CO'] = None
         masterData['de'] = None
+        masterData['fr'] = None
         masterData.to_csv(master_file_path)
         # Create baseline masterData
 
@@ -92,6 +93,7 @@ def generate_audio(lang_code, voice):
                       'en'      : ourRow['en'],
                       'es-CO'   : ourRow['es-CO'],
                       'de'      : ourRow['de'],
+                      'fr'      : ourRow['fr'],
                       'labels'  : ourRow['labels']
                       }
             diffData = pd.DataFrame(starterRow, index=[0])
