@@ -6,18 +6,15 @@ Open a terminal:
 Create a directory to use for your levante projects
 
 Then:
-git clone https://github.com/levante-framework/audio-generation.git
+git clone https://github.com/levante-framework/levante_translations.git
 
 [If you've already cloned it, use "git pull"]
 
 [Change into the folder with the project:]
-cd audio-generation
+cd levante_translations
 
-[Checkout the Dev branch that has the SSML support:]
-git checkout dev
-
-[Go to the Tools sub-folder:]
-cd tools
+[For stable behavior, use the dev branch]
+git checkout main
 
 [Install all the needed packages:]
 pip (or pip3) install . --user
