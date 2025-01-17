@@ -8,6 +8,7 @@ import tempfile
 import playsound
 from utilities import config as conf
 from PlayHt import playHt_utilities
+from ELabs import elevenlabs_utilities
 
 
 def create_directory(path):
@@ -69,8 +70,8 @@ def play_audio_from_text(service, voice, text ):
     elif service == 'ElevenLabs':
         # we need to look up the voice id (or not!)
         #voice_id = use_voicedict[voice]
-        #elevenlabs_utilities.play_audio(text, voice)
-        print("NOT IMPLEMENTED")
+        elevenlabs_utilities.play_audio(text, voice)
+        #print("NOT IMPLEMENTED")
 
 def store_stats(lang_code, errors, notask, voice):
 

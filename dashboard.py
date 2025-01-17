@@ -11,7 +11,7 @@ from typing import Final
 
 # Service specific code
 from PlayHt import playHt_utilities
-from ElevenLabs import elevenlabs_utilities
+from ELabs import elevenlabs_utilities
 
 class App(ctk.CTk):
 
@@ -250,22 +250,20 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(voice_frame, text="Compare PlayHt Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        service = 'PlayHt'
-        voice_values = self.get_voice_list(service)
+        voice_values = self.get_voice_list('PlayHt')
 
         self.ht_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
-            command=lambda choice: self.voice_compare_callback(choice, service))
+            command=lambda choice: self.voice_compare_callback(choice, 'PlayHt'))
         self.ht_voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
         self.ht_voice_combobox.set("Select a PlayHt Voice")
 
         label = ctk.CTkLabel(voice_frame, text="Compare ElevenLabs Voice: ")
         label.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
 
-        service = 'ElevenLabs'
-        voice_values = self.get_voice_list(service)
+        voice_values = self.get_voice_list('ElevenLabs')
 
         self.eleven_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
-            command=lambda choice: self.voice_compare_callback(choice, service))
+            command=lambda choice: self.voice_compare_callback(choice, 'ElevenLabs'))
         self.eleven_voice_combobox.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
         self.eleven_voice_combobox.set("Select an ElevenLabs Voice")
 
