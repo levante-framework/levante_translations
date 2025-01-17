@@ -27,6 +27,8 @@ export PLAY_DOT_HT_API_KEY=<API_KEY>
 export PLAY_DOT_HT_USER_ID=<USER_ID>
 [then exit the editor and do "source ~/.zshrc"]
 
+You will also need to install ffmpeg to hear some of the audio.
+
 [Hopefully the Dashboard will now run:]
 python (or py) dashboard.py
 
@@ -45,6 +47,7 @@ python (or py) dashboard.py
 
 4. Optionally push/merge the audio files to the asset repo, and/or
     sync them to the appropriate google bucket using 'gsutil rsync -r <src> <bucket>'
+
 
 ## Code Flow:
 
