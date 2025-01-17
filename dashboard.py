@@ -132,37 +132,25 @@ class App(ctk.CTk):
                                       command=self.on_tab_change)
         tabview.grid(row=self.TABLE_ROW, column=0, padx=2, pady=2, sticky="nsew")
 
-        # Create tabs -- should be enumeration of languages
-        # tabList = []
-        # for language in language_dict['keys']:
-        # tabList = concat(tabList, tabview.add(language))
-        #
-        # Add the frame and tree at the same time
-        # Can we use tabList(end) or something?
-        # how do we keep track of frames? Another list?
-        # [frame] = ctk.CTkFrame(tabList(end))
-        # ... pack frame ...
-        # Add tree using create_table()
-
         language_dict = conf.get_languages()
-        tabArray = {}
-        frameArray = {}
-        treeArray = {}
+        self.tabArray = {}
+        self.frameArray = {}
+        self.treeArray = {}
 
         for language_name in language_dict.keys():
 
             newTab = tabview.add(language_name)
-            tabArray[language_name] = newTab
+            self.tabArray[language_name] = newTab
 
             newFrame = ctk.CTkFrame(newTab)
             newFrame.pack(side="top", expand=True, fill="both", padx=2, pady=2)
-            frameArray[language_name] = newFrame
+            self.frameArray[language_name] = newFrame
 
             # Need to set lang code
             specific_language = language_dict.get(language_name)
             language_code = specific_language.get('lang_code')
             newTree = self.create_table(newFrame, language_code)
-            treeArray[language_name] = newTree
+            self.treeArray[language_name] = newTree
 
         return tabview
 
@@ -525,18 +513,8 @@ class App(ctk.CTk):
 
         # We want to find the selected item (if any) and render
         # it with the selected voice, and the current language
-        if self.tabview.get() == "English":
-            useTree = self.englishTree
-            #use_voicedict = eleven_english_voice_dict
-        elif self.tabview.get() == "Spanish":
-            useTree = self.spanishTree
-            #use_voicedict = eleven_spanish_voice_dict
-        elif self.tabview.get() == "German":
-            useTree = self.germanTree
-            #use_voicedict = eleven_german_voice_dict
-        else:
-            print("Nothing Selected")
-            return
+        language = self.tabview.get()
+        useTree = self.treeArray[language]
 
         voice = chosen_voice        
 
