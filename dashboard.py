@@ -83,8 +83,11 @@ class App(ctk.CTk):
 
         self.tabview = self.create_tabview()
 
-        # when tab is selected, change values for voices
-        # should probably cache them at some point
+        #Add basic instructions:
+        u.show_intro_messagebox(self)
+    
+    # when tab is selected, change values for voices
+    # should probably cache them at some point
     def on_tab_change(self):
         self.after(100, self.update_comboboxes)
 
@@ -227,7 +230,7 @@ class App(ctk.CTk):
         search_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add label to the search_frame
-        label = ctk.CTkLabel(search_frame, text="Search for task: ")
+        label = ctk.CTkLabel(search_frame, text="Search for specific item: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         # Create the search box and add it to search_frame
