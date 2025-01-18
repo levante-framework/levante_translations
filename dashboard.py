@@ -282,7 +282,7 @@ class App(ctk.CTk):
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_play = ctk.CTkButton(ssml_frame, \
-                text="Play SSML",   # This sets the label
+                text="Play in default voice:",   # This sets the label
                 command=self.on_ssml_play)  
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
