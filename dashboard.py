@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import customtkinter as ctk
 from CTkToolTip import *
 import pandas as pd
@@ -516,7 +517,13 @@ class App(ctk.CTk):
 
         voice = chosen_voice        
 
-        selected_item = useTree.selection()[0]
+        #if there is a selected item, use it
+        try:
+            selected_item = useTree.selection()[0]
+        except:
+            messagebox.showinfo("Selection Needed", \
+                                "Please select an item you'd like to listen to.")
+            return
         selected_row = useTree.item(selected_item)
         
         column_values = selected_row['values']
