@@ -359,7 +359,7 @@ class App(ctk.CTk):
         for index, row in self.ourData.iterrows():
             base = "audio_files"
 
-            if type(row['labels']) == type('str'):
+            if isinstance(row['labels'], str) and row['labels'].strip():
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
 
