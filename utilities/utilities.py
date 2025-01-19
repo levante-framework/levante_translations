@@ -137,16 +137,17 @@ def show_intro_messagebox(self):
     dialog.title("Quick notes on using the Audio Dashboard")
     
     message = tk.Message(dialog, text= \
-            "1. Choose a language tab."
-            "2. Select or search for an item of interest."
-            "3. That will play our current audio for the item."
-            "4. Choose a voice from the PlayHt or ElevenLabs dropdowns."
-            "   That will generate audio for that item in that voice."
-            "   Be a bit patient as it can take some time to generate the audio.", \
-            width=300, font=("Arial", 12))
+            "1. Choose a language tab.\n"
+            "2. Select or search for an item of interest.\n"
+            "3. That will play our current audio for the item.\n"
+            "4. Choose a voice from the PlayHt or ElevenLabs dropdowns.\n"
+            "   That will generate audio for that item in that voice.\n"
+            "   Be a bit patient as it can take some time to generate the audio.\n", \
+            width=1200, font=("Arial", 24))
     
     message.pack(padx=20, pady=20)
     
-    ok_button = tk.Button(dialog, text="Let's get to it!", command=dialog.destroy)
+    ok_button = tk.Button(dialog, text="Let's get to it!", font=("Arial", 24), command=dialog.destroy)
     ok_button.pack(pady=10)
+    dialog.transient(self)
 
