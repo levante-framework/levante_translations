@@ -257,7 +257,7 @@ class App(ctk.CTk):
         voice_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add PlayHt elements
-        label = ctk.CTkLabel(voice_frame, text="Compare PlayHt Voice: ")
+        label = ctk.CTkLabel(voice_frame, text="Compare SSML Using PlayHt Voice: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         voice_values = self.get_voice_list('PlayHt')
@@ -267,7 +267,7 @@ class App(ctk.CTk):
         self.ht_voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
         self.ht_voice_combobox.set("Select a PlayHt Voice")
 
-        label = ctk.CTkLabel(voice_frame, text="Compare ElevenLabs Voice: ")
+        label = ctk.CTkLabel(voice_frame, text="Compare SSML Using ElevenLabs Voice: ")
         label.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
 
         voice_values = self.get_voice_list('ElevenLabs')
