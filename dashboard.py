@@ -281,7 +281,7 @@ class App(ctk.CTk):
         ssml_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add PlayHt elements
-        label = ctk.CTkLabel(ssml_frame, text="Paste SSML Text: ")
+        label = ctk.CTkLabel(ssml_frame, text="SSML Sandbox: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_play = ctk.CTkButton(ssml_frame, \
