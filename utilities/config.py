@@ -6,7 +6,11 @@ language_list = {}
 
 # current location of translated items
 # at some point can integrate with crowdin output
-item_bank_translations = "text/translated.csv"
+translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated.csv"
+
+# currently we read right from there
+item_bank_translations = translatedTextURL
+
 stats_file_path = 'stats.csv'
 
 def get_languages(): 
