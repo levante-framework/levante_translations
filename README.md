@@ -13,7 +13,7 @@ git clone https://github.com/levante-framework/levante_translations.git
 [Change into the folder with the project:]
 cd levante_translations
 
-[For stable behavior, use the dev branch]
+[For stable behavior, use the main branch]
 git checkout main
 
 [Install all the needed packages:]
@@ -27,11 +27,10 @@ export PLAY_DOT_HT_API_KEY=<API_KEY>
 export PLAY_DOT_HT_USER_ID=<USER_ID>
 [then exit the editor and do "source ~/.zshrc"]
 
-You will also need to install ffmpeg to hear some of the audio.
+You may also need to install ffmpeg to hear some of the audio.
 
 [Hopefully the Dashboard will now run:]
 python (or py) dashboard.py
-
 
 ### Generating Audio Files
 
@@ -48,22 +47,22 @@ python (or py) dashboard.py
 4. Optionally push/merge the audio files to the asset repo, and/or
     sync them to the appropriate google bucket using 'gsutil rsync -r <src> <bucket>'
 
-
 ## Code Flow:
 
 Batch/Shell files call generate_speech.py with the appropriate language code and voice.
 
-(CURRENTLY only PlayHt is supported.)
+(CURRENTLY only PlayHt is supported. We'll add ElevenLabs if we decide we want
+ to use any of their voices)
 
-_generate_speech.py_ compares the desired audio with its persistent cache of what
-it has already translated. If a string is new or changed, it is placed in
+_generate_speech.py_ compares the desired text with its persistent cache of what
+it has already generated audio for. If a string is new or changed, it is placed in
 'needed_item_bank_translation.csv'
 
 Items with no assigned task are skipped, as there is nowhere to file them.
 
 The translations needed are passed to PlayHT/playHt_tts.py
 
-The module iterates through the rows in the csv, requesting audio for each.
+The module iterates through the rows in the csv, requesting audio generation for each.
 
 As needed, the module will wait for a status of completed.
 
@@ -72,7 +71,7 @@ do that 5 times before giving up.
 
 ## Error Handling
 
-Errors aren't a problem for English and Spanish, but happen for German.
+Errors aren't a problem for English and Spanish, but happen for German and French.
 There doesn't seem to be a pattern, but it means that sometimes the batch/shell
 file has to be re-run. After a couple/few runs, everything gets translated.
 
