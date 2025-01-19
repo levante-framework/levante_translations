@@ -145,6 +145,11 @@ def show_intro_messagebox(self):
             "   Be a bit patient as it can take some time to generate the audio.\n", \
             width=1200, font=("Arial", 24))
     
+    # Put the dialog box somewhere useful
+    x = 400
+    y = 400
+    dialog.geometry(f"+{x}+{y}")
+    
     message.pack(padx=20, pady=20)
     
     ok_button = tk.Button(dialog, text="Let's get to it!", font=("Arial", 24), command=dialog.destroy)
