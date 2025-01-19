@@ -25,7 +25,7 @@ def generate_audio(lang_code, voice):
 # so use a webURL
 
     # Turn into dataframe so we can do any needed edits
-    translationData = pd.read_csv(conf.itemBankTranslations)
+    translationData = pd.read_csv(conf.item_bank_translations)
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
@@ -62,6 +62,8 @@ def generate_audio(lang_code, voice):
     # translationData is the exported csv from Crowdin
     # masterData is our state of generated audio files
 
+    # we should probably zero out diffdata
+    
     for index, ourRow in translationData.iterrows():
         print(f'Our lang: {lang_code} our row lang: {ourRow["en"]}')
         # check to see if our lang_code is already matched 
@@ -77,6 +79,9 @@ def generate_audio(lang_code, voice):
     
         if translationCurrent == translationNeeded:
             continue
+
+        # for debugging
+        print(f'Current: {translationCurrent}, Needed: {translationNeeded}')
 
         try:
             if isinstance(diffData, pd.DataFrame):
@@ -95,15 +100,23 @@ def generate_audio(lang_code, voice):
                       }
             diffData = pd.DataFrame(starterRow, index=[0])
 
-    diffData.to_csv(diff_file_name)
-    retry_seconds = 1
-    playHt_tts.main(
-        input_file_path = diff_file_name, 
-        lang_code = lang_code,
-        retry_seconds= retry_seconds,
-        master_file_path=master_file_path, 
-        voice=voice, 
-        audio_base_dir = audio_base_dir)
+    # remove the diff file to reset
+    if os.path.exists(diff_file_name):
+        os.remove(diff_file_name)
+    if not diffData.empty:
+
+        # for debugging
+        #print(f'Writing diff data {diffData}')
+
+        diffData.to_csv(diff_file_name)
+        retry_seconds = 1
+        playHt_tts.main(
+            input_file_path = diff_file_name, 
+            lang_code = lang_code,
+            retry_seconds= retry_seconds,
+            master_file_path=master_file_path, 
+            voice=voice, 
+            audio_base_dir = audio_base_dir)
 
 """
     Args:
