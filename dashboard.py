@@ -287,7 +287,7 @@ class App(ctk.CTk):
         ssml_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add PlayHt elements
-        label = ctk.CTkLabel(ssml_frame, text="SSML Sandbox: ")
+        label = ctk.CTkLabel(ssml_frame, text="SSML Editor: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_play = ctk.CTkButton(ssml_frame, \
@@ -518,8 +518,6 @@ class App(ctk.CTk):
                 eleven_german_voice_list = voices
             return voices    
             
-### Needs to support both services
-
     def voice_compare_callback(self, chosen_voice, service):   
 
         # trees don't seem to have named columns?
@@ -532,19 +530,6 @@ class App(ctk.CTk):
 
         voice = chosen_voice        
 
-        #if there is a selected item, use it
-        try:
-            selected_item = useTree.selection()[0]
-        except:
-            messagebox.showinfo("Selection Needed", \
-                                "Please select an item you'd like to listen to.")
-            return
-        selected_row = useTree.item(selected_item)
-        
-        column_values = selected_row['values']
-        translated_text = column_values[TRANSLATION_COLUMN]
-
-        # consider placing a "wait" indicator
         if service == 'PlayHt':
             cBox = self.ht_voice_combobox
         else:
@@ -553,7 +538,11 @@ class App(ctk.CTk):
         cBox.configure(button_color="red")
         cBox.update()
 
-        u.play_audio_from_text(service, voice, translated_text)
+        # try getting text from ssml editbox
+        play_text_html = self.ssml_input.get("0.0", "end")
+        play_text_ssml = u.html_to_ssml(play_text_html)
+
+        u.play_audio_from_text(service, voice, play_text_ssml)
 
         cBox.configure(button_color = "white")
         cBox.update
