@@ -318,11 +318,17 @@ class App(ctk.CTk):
                 # should go by column name...
 
                 translation_text = item_values[3]
+
+                # clear existing text and insert our new text
+                self.ssml_input.delete("0.0", "end")
                 self.ssml_input.insert("0.0", translation_text)
 
                 # This is kind of gross. Maybe we should fix tools?
                 audio_file = item_values[4]
-                playsound(audio_file)
+                try:
+                    playsound(audio_file)
+                except:
+                    messagebox.showinfo("Can't find or play audio file.")
 
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")

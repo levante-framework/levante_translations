@@ -7,6 +7,7 @@ import pandas as pd
 import os
 import numpy as np
 import sys
+import utilities.config as conf
 
 def generate_audio(lang_code, voice): 
 # Retrieve translations.csv from the repo
@@ -23,12 +24,8 @@ def generate_audio(lang_code, voice):
 # Right now this is our repo, but it might wind up somewhere else,
 # so use a webURL
 
-#### Switch to audio-generation repo once there is a real Crowdin account
-#    with permission to write to it
-    webURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated.csv"
-
     # Turn into dataframe so we can do any needed edits
-    translationData = pd.read_csv(webURL)
+    translationData = pd.read_csv(conf.itemBankTranslations)
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
