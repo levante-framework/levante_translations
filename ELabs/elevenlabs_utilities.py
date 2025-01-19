@@ -44,9 +44,8 @@ def play_audio(text, voice):
     # Generate audio from text
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
-    audio = client.generate(text=text, voice=voice) # voice=voice)
-    # Example of using a voice name
-    #audio = client.generate(text=text, voice='Susi') # voice=voice)
+    audio = client.generate(text=text, voice=voice, \
+                            enable_ssml_parsing=True)
 
     # Play the generated audio
     play(audio)
