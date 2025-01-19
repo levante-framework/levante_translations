@@ -296,7 +296,7 @@ class App(ctk.CTk):
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
-        self.ssml_input.insert("0.0", 'Text goes <break time="2000ms"/> here...')
+        self.ssml_input.insert("0.0", 'Text goes <break time="2.0s" /> here...')
         self.ssml_input.grid(row=0, column=1, rowspan=2, columnspan=2, padx=(5,5), pady=2, sticky="w")
 
 
