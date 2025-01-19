@@ -538,8 +538,19 @@ class App(ctk.CTk):
         column_values = selected_row['values']
         translated_text = column_values[TRANSLATION_COLUMN]
 
+        # consider placing a "wait" indicator
+        if service == 'PlayHt':
+            cBox = self.ht_voice_combobox
+        else:
+            cBox = self.eleven_voice_combobox
+
+        cBox.configure(button_color="red")
+        cBox.update()
+
         u.play_audio_from_text(service, voice, translated_text)
 
+        cBox.configure(button_color = "white")
+        cBox.update
 
 
 
