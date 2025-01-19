@@ -182,7 +182,7 @@ class App(ctk.CTk):
         # Left column for Label
         headerOne = ctk.CTkLabel(self.top_frame, text = "Current")
         headerOne.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
-        headerTwo = ctk.CTkLabel(self.top_frame, text = "Stats:")
+        headerTwo = ctk.CTkLabel(self.top_frame, text = "Audio Stats:")
         headerTwo.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
 
         # First row
