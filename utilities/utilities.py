@@ -6,6 +6,7 @@ import pandas as pd
 import re
 import tempfile
 import playsound
+from tkinter import font as tkfont
 from utilities import config as conf
 from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
@@ -136,14 +137,17 @@ def show_intro_messagebox(self):
     dialog = tk.Toplevel(self)
     dialog.title("Quick notes on using the Audio Dashboard")
     
+    bold_font = tkfont.Font(family="Helvetica", size=24, weight="bold")
+
     message = tk.Message(dialog, text= \
             "1. Choose a language tab.\n"
             "2. Select or search for an item of interest.\n"
             "3. That will play our current audio for the item.\n"
-            "4. Choose a voice from the PlayHt or ElevenLabs dropdowns.\n"
-            "   That will generate audio for that item in that voice.\n"
+            "4. OPTIONALLY: Add desired SSML tags to the SSML Edit box.\n"
+            "5. Choose a voice from the PlayHt or ElevenLabs dropdowns.\n"
+            "   That generates audio for the text in the Editor in that voice.\n"
             "   Be a bit patient as it can take some time to generate the audio.\n", \
-            width=1200, font=("Arial", 24))
+            width=1200, font=bold_font)
     
     # Put the dialog box somewhere useful
     x = 400
