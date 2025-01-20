@@ -59,9 +59,9 @@ class App(ctk.CTk):
 
         ### -- Now the lower frame -- Tabbed frame for each language
         # Row assignments
-        SEARCH_ROW: Final[int] = 0
+        SEARCH_ROW: Final[int] = 2
         VOICE_ROW: Final[int] = 1
-        SSML_ROW: Final[int] = 2
+        SSML_ROW: Final[int] = 0
         self.TABLE_ROW: Final[int] = 3
 
         self.language_frame = ctk.CTkFrame(self)
@@ -236,7 +236,7 @@ class App(ctk.CTk):
         search_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
 
         # Add label to the search_frame
-        label = ctk.CTkLabel(search_frame, text="Search for specific item: ")
+        label = ctk.CTkLabel(search_frame, text="Search for specific item to use for testing, or select one from below: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         # Create the search box and add it to search_frame
@@ -246,7 +246,7 @@ class App(ctk.CTk):
 
         # bind to current language / code for displaying results
         parent.search_entry.bind("<Return>", lambda event: self.search_treeview(parent))
-        CTkToolTip(parent.search_entry, message="Type a task id and then <Return> to navigate to the item and play the text.")
+        CTkToolTip(parent.search_entry, message="Type an item id and then <Return> to navigate to the item and play the text.")
         return search_frame  # Return the frame in case you need to reference it later
 
     def create_voice_frame(self, parent, row):
@@ -387,16 +387,7 @@ class App(ctk.CTk):
 
         ## This shouldn't be needed if we can sort out the ParentFrame
         active_tab = self.tabview.get()
-
-        if active_tab == "English":
-            tree = self.englishTree
-        elif active_tab == "Spanish":
-            tree = self.spanishTree
-        elif active_tab == "German":
-            tree = self.germanTree
-        else:
-            print ("NO LANGUAGE")
-            exit()
+        tree = self.treeArray[active_tab]
 
         for item_index in tree.get_children():
             # column 0 is the task name
