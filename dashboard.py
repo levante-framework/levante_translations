@@ -290,21 +290,20 @@ class App(ctk.CTk):
         label = ctk.CTkLabel(ssml_frame, text="SSML Editor: ")
         label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
-        self.ssml_play = ctk.CTkButton(ssml_frame, \
-                text="Play in default voice:",   # This sets the label
-                command=self.on_ssml_play)  
+        self.ssml_play = ctk.CTkButton(ssml_frame,  
+            text="Play in default voice:",
+            command=self.on_ssml_play)  
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
         self.ssml_input.insert("0.0", 'Text goes <break time="2.0s" /> here...')
-        self.ssml_input.grid(row=0, column=1, rowspan=2, columnspan=2, padx=(5,5), pady=2, sticky="w")
+        self.ssml_input.grid(row=0, column=1, rowspan=2, padx=(5,5), pady=2, sticky="nsew")
 
         self.show_ssml_button = ctk.CTkButton(ssml_frame,
             text="Show SSML Tips", command=lambda: u.show_ssml_tips(self))
-        self.show_ssml_button.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
+        self.show_ssml_button.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
 
-
-        return ssml_frame  # Return the frame in case you need to reference it later
+        return ssml_frame
 
     def create_table(self, parent, lang_code):
 
