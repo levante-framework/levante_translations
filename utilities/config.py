@@ -31,6 +31,11 @@ def get_default_voice(language):
     language_dict = language_index[language]
     return( language_dict['voice'])
 
+def get_lang_code(language):
+    language_index = get_languages()
+    language_dict = language_index[language]
+    return( language_dict['lang_code'])
+
 def add_voice_list(language, service, voice_list):
     print('put add voice list here')
 
