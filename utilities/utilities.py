@@ -165,7 +165,7 @@ def show_ssml_tips(self):
     message = tk.Message(dialog, text= \
             "<break time='1.0s'/> -- Add a pause\n"
             "<emphasis>TEXT</> -- More emphatic tone\n"
-            "<p> -- Pause between paragraphs\n" 
+            "<p> -- Pause between paragraphs (when using PlayHt)\n" 
             "<phoneme alphabet=\"ipa\" ph=\"your-IPA-Pronunciation-here\">\n \
               word</phoneme> -- tag for IPA"
             "<phoneme alphabet=\"cmu-arpabet\" ph=\"your-CMU-pronunciation-here\">\n \
