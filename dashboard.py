@@ -102,27 +102,12 @@ class App(ctk.CTk):
         try:
             if self.tabview.winfo_exists():
                 active_tab = self.tabview.get()
-
-            # ASSUMES PlayHt for now
-            # NEEDS TO BE PARAMETERIZED
-            if active_tab == "English":
-                lang_code = 'en'
-                voice = conf.get_default_voice('English')
-                
-            elif active_tab == "Spanish":
-                lang_code = 'es-CO'
-                voice = conf.get_default_voice('Spanish')
-                
-            elif active_tab == "German":
-                lang_code = 'de'
-                voice = conf.get_default_voice('German')
-
-            elif active_tab == "French":
-                lang_code = 'fr'
-                voice = conf.get_default_voice('French')
             else:
-                print ("NO LANGUAGE")
-                exit()
+                return
+            
+            # ASSUMES PlayHt for now
+            voice = conf.get_default_voice(active_tab)
+            lang_code = conf.get_lang_code(active_tab)
         except:
             # assume we will show english when created
             lang_code = 'en'
@@ -164,6 +149,8 @@ class App(ctk.CTk):
         # get error and 'no task' stats
         statsData = u.get_stats()
 
+        # Each language gets a column, so this probably won't
+        # scale well with languages. Might become legacy
         englishStats = statsData.loc[statsData['Language'] == 'English']
         englishErrors = englishStats['Errors'][0]
         englishNoTask = englishStats['No Task'][0]
@@ -342,6 +329,10 @@ class App(ctk.CTk):
         # Create a treeview widget for the table
         columns = ("Item", "Task", "English", "Translated", "Audio")
         style = ttk.Style()
+        style.configure("Treeview.Heading",
+                font=("Arial", 14, "bold"),  # Font family, size, and weight
+                foreground="blue",           # Optional: change text color
+                background="lightgray")      # Optional: 
         style.configure("Treeview", rowheight=80, \
                         font=('TkDefaultFont', 16))
 
