@@ -33,9 +33,11 @@ def list_voices(lang_code):
 #    )
     voice_list = response.voices
 
+
     # Filter for just the voices we've added ourselves!
     library_voices = [voice for voice in voice_list \
-                      if voice.category == "professional"]
+                      if voice.category == "professional" and \
+                        voice.labels.get('language') == modified_language_code]
     
     # Create a dictionary with voice names as keys and voice IDs as values
     voice_dict = {voice.name: voice.voice_id for voice in library_voices}
