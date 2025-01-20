@@ -292,7 +292,7 @@ class App(ctk.CTk):
 
         self.ssml_play = ctk.CTkButton(ssml_frame,  
             text="Play in default voice:",
-            command=self.on_ssml_play)  
+            command=lambda: self.on_ssml_play())
         self.ssml_play.grid(row=1, column=0, padx=(5,5), pady=2, sticky="w")
 
         self.ssml_input = ctk.CTkTextbox(ssml_frame, width=400, height=50)
