@@ -6,11 +6,11 @@ import pandas as pd
 import re
 import tempfile
 import playsound
+import tkinter as tk
 from tkinter import font as tkfont
 from utilities import config as conf
 from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
-
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -131,12 +131,9 @@ def play_data_object(audio_data):
         # Clean up the temporary file
         os.unlink(temp_filename)
 
-import tkinter as tk
-
 def show_intro_messagebox(self):
     dialog = tk.Toplevel(self)
     dialog.title("Quick notes on using the Audio Dashboard")
-    
     bold_font = tkfont.Font(family="Helvetica", size=24, weight="bold")
 
     message = tk.Message(dialog, text= \
@@ -160,3 +157,28 @@ def show_intro_messagebox(self):
     ok_button.pack(pady=10)
     dialog.transient(self)
 
+def show_ssml_tips(self):
+    dialog = tk.Toplevel(self)
+    dialog.title("Quick Tips for using SSML")
+    bold_font = tkfont.Font(family="Helvetica", size=24, weight="bold")
+
+    message = tk.Message(dialog, text= \
+            "<break time='1.0s'/> -- Add a pause\n"
+            "<emphasis>TEXT</> -- More emphatic tone\n"
+            "<phoneme alphabet=\"ipa\" ph=\"your-IPA-Pronunciation-here\">\n \
+              word</phoneme> -- tag for IPA"
+            "<phoneme alphabet=\"cmu-arpabet\" ph=\"your-CMU-pronunciation-here\">\n \
+              word</phoneme> -- tag for CMU Arpabet\n"
+            "Replace \"your-IPA-Pronunciation-here\" or \"your-CMU-pronunciation-here\"",
+            width=1200, font=bold_font)
+    
+    # Put the dialog box somewhere useful
+    x = 400
+    y = 400
+    dialog.geometry(f"+{x}+{y}")
+    
+    message.pack(padx=20, pady=20)
+    
+    ok_button = tk.Button(dialog, text="OK", font=("Arial", 24), command=dialog.destroy)
+    ok_button.pack(pady=10)
+    dialog.transient(self)

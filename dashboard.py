@@ -299,6 +299,10 @@ class App(ctk.CTk):
         self.ssml_input.insert("0.0", 'Text goes <break time="2.0s" /> here...')
         self.ssml_input.grid(row=0, column=1, rowspan=2, columnspan=2, padx=(5,5), pady=2, sticky="w")
 
+        self.show_ssml_button = ctk.CTkButton(ssml_frame,
+            text="Show SSML Tips", command=lambda: u.show_ssml_tips(self))
+        self.show_ssml_button.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
+
 
         return ssml_frame  # Return the frame in case you need to reference it later
 
