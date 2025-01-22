@@ -35,41 +35,41 @@ mental-rotation-instruct-3D,mental-rotation,"Jetzt siehst du Bilder, die Blöcke
 mental-rotation-prompt2,mental-rotation,"Wähle das Bild aus, das hierzu passt."
 mental-rotation-prompt1,mental-rotation,Wähle das passende Bild aus.
 math-instructions1,math,"In diesem Spiel wirst du einige mathematische Aufgaben lösen. Einige sind wie die, die du in der Schule machst, und einige sind etwas anders als die, die du in der Schule machst. Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Das ist nicht schlimm! Bitte gib dein Bestes und nimm dir Zeit. Bei den meisten Fragen gibt es vier Auswahlmöglichkeiten. Du wählst die aus, die du für richtig hältst. Los geht's!"
-number-comparison-prompt1,"math, number-comparison",Welche Zahl ist größer?
-number-comparison-prompt2,"math, number-comparison",Welche ist größer?
-number-identification-prompt1,"math, number-identification","Wähle die Zahl, die du hörst."
-missing-number-prompt1,"math, missing-number",Welche Zahl gehört in die Lücke?
-missing-number-prompt2,"math, missing-number",Welche Zahl gehört hierher?
-addition-prompt1,"math, addition",Addiere die Zahlen und wähle die richtige Antwort.
-addition-prompt2,"math, addition",Addiere die Zahlen. 
-subtraction-prompt1,"math, subtraction",Ziehe die Zahlen ab und wähle die richtige Antwort.
-subtraction-prompt2,"math, subtraction",Ziehe die Zahlen ab. 
-multiplication-prompt1,"math, multiplication",Multipliziere die Zahlen und wähle die richtige Antwort.
-multiplication-prompt2,"math, multiplication",Multipliziere die Zahlen. 
+number-comparison-prompt1,math,Welche Zahl ist größer?
+number-comparison-prompt2,math,Welche ist größer?
+number-identification-prompt1,math,"Wähle die Zahl, die du hörst."
+missing-number-prompt1,math,Welche Zahl gehört in die Lücke?
+missing-number-prompt2,math,Welche Zahl gehört hierher?
+addition-prompt1,math,Addiere die Zahlen und wähle die richtige Antwort.
+addition-prompt2,math,Addiere die Zahlen. 
+subtraction-prompt1,math,Ziehe die Zahlen ab und wähle die richtige Antwort.
+subtraction-prompt2,math,Ziehe die Zahlen ab. 
+multiplication-prompt1,math,Multipliziere die Zahlen und wähle die richtige Antwort.
+multiplication-prompt2,math,Multipliziere die Zahlen. 
 number-line-instruct1,math,"Hier ist eine Zahlenreihe. Du kannst die rote Linie vorwärts und rückwärts entlang der schwarzen Linie verschieben. Verschiebe die rote Linie so, dass sie sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du die rote Linie verschiebst."
-number-line-prompt1,"math, number-line-4AFC","Wähle die Zahl, die auf der Zahlenreihe markiert ist."
+number-line-prompt1,math,"Wähle die Zahl, die auf der Zahlenreihe markiert ist."
 number-line-slider-prompt1,math,Bewege den Schieberegler auf die angegebene Zahl.
-number-identification-1,"math, number-identification",Wähle die Zahl Eins.
-number-identification-2,"math, number-identification",Wähle die Zwei.
-number-identification-3,"math, number-identification",Wähle die Neun.
-number-identification-4,"math, number-identification",Wähle die Null.
-number-identification-5,"math, number-identification",Wähle die Zwölf.
-number-identification-6,"math, number-identification",Wähle die Dreißig.
-number-identification-7,"math, number-identification",Wähle die  Zweiundzwanzig.
-number-identification-8,"math, number-identification",Wähle die  Fünfundvierzig.
-number-identification-9,"math, number-identification",Wähle die  Neununddreißig.
-number-identification-10,"math, number-identification",Wähle die  Dreiundzwanzig.
-number-identification-11,"math, number-identification",Wähle die  Achtundvierzig.
-number-identification-12,"math, number-identification",Wähle die  91.
-number-identification-13,"math, number-identification",Wähle die  Dreiunddreißig.
-number-identification-14,"math, number-identification",Wähle die  Vierundsiebzig.
-number-identification-15,"math, number-identification",Wähle die  Siebenundachzig.
-number-identification-16,"math, number-identification",Wähle die  65.
-number-identification-17,"math, number-identification",Wähle die  Einhundertacht.
-number-identification-18,"math, number-identification",Wähle die  Zweihundertfünfundvierzig.
-number-identification-19,"math, number-identification",Wähle die  Fünfhundertsiebenundachzig.
-number-identification-20,"math, number-identification",Wähle die  Siebenhunderteinunddreißig.
-number-identification-21,"math, number-identification",Wähle die  Neunhundertneunundachzig.
+number-identification-1,math,Wähle die Zahl Eins.
+number-identification-2,math,Wähle die Zwei.
+number-identification-3,math,Wähle die Neun.
+number-identification-4,math,Wähle die Null.
+number-identification-5,math,Wähle die Zwölf.
+number-identification-6,math,Wähle die Dreißig.
+number-identification-7,math,Wähle die  Zweiundzwanzig.
+number-identification-8,math,Wähle die  Fünfundvierzig.
+number-identification-9,math,Wähle die  Neununddreißig.
+number-identification-10,math,Wähle die  Dreiundzwanzig.
+number-identification-11,math,Wähle die  Achtundvierzig.
+number-identification-12,math,Wähle die  91.
+number-identification-13,math,Wähle die  Dreiunddreißig.
+number-identification-14,math,Wähle die  Vierundsiebzig.
+number-identification-15,math,Wähle die  Siebenundachzig.
+number-identification-16,math,Wähle die  65.
+number-identification-17,math,Wähle die  Einhundertacht.
+number-identification-18,math,Wähle die  Zweihundertfünfundvierzig.
+number-identification-19,math,Wähle die  Fünfhundertsiebenundachzig.
+number-identification-20,math,Wähle die  Siebenhunderteinunddreißig.
+number-identification-21,math,Wähle die  Neunhundertneunundachzig.
 trog-instruct1,trog,"Jetzt werden wir ein Zuordnungsspiel spielen! Ich werde ein paar Wörter sagen, und du wählst das Bild aus, das zu dem passt, was ich sage. Los geht's!"
 trog-prompt1,trog,Berühre das Bild mit dem/der/den...
 trog-prompt2,trog,Berühre das Bild mit...
