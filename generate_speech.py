@@ -119,14 +119,22 @@ def generate_audio(language):
         diffData.to_csv(diff_file_name)
         retry_seconds = 1
         
-        
-        playHt_tts.main(
-            input_file_path = diff_file_name, 
-            lang_code = lang_code,
-            retry_seconds= retry_seconds,
-            master_file_path=master_file_path, 
-            voice=voice, 
-            audio_base_dir = audio_base_dir)
+        if service == 'PlayHt':
+            playHt_tts.main(
+                input_file_path = diff_file_name, 
+                lang_code = lang_code,
+                retry_seconds= retry_seconds,
+                master_file_path=master_file_path, 
+                voice=voice, 
+                audio_base_dir = audio_base_dir)
+        else:
+            elevenlabs_tts.main(
+                input_file_path = diff_file_name, 
+                lang_code = lang_code,
+                retry_seconds= retry_seconds,
+                master_file_path=master_file_path, 
+                voice=voice, 
+                audio_base_dir = audio_base_dir)
 
 """
     Args:
