@@ -97,7 +97,6 @@ def example():
     with open("output.mp3", "wb") as f:
         f.write(audio)
 
-## PASTED FROM PLAYHT -- NEEDS TO BE MODIFIED!
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, \
                masterData, audio_base_dir, headers):
@@ -106,21 +105,17 @@ def processRow(index, ourRow, lang_code, voice, \
     errorCount = 0
     retrySeconds = 1 # sort of arbitrary backoff to recheck status
 
-    # we should potentially filter these out when we generate diffs
-    # instead of waiting until now. But at some point we might
-    # want to generate them as part of an "unassigned" task or something
     if not (type(ourRow['labels']) == type('str')):
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
-    audio = client.generate(
-        text="Hello, this is a test of the ElevenLabs API!",
-        voice=voice,
-        model="eleven_monolingual_v1"
-    )
+    audio_client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
 
-    # Play the audio (works locally)
-    play(audio)
+    audio = audio_client.generate(
+        text=ourRow[lang_code],
+        #voice=voice,
+        model="eleven_multilingual_v2"
+    )
 
     with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
                                 audio_base_dir, lang_code), "wb") as file:
@@ -136,6 +131,4 @@ def processRow(index, ourRow, lang_code, voice, \
         masterData.to_csv("translation_master.csv")
         # finished with the if statement        
         return 'Success'    
-
-list_voices('en')
 
