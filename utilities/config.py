@@ -16,12 +16,14 @@ stats_file_path = 'stats.csv'
 def get_languages(): 
 
     language_list = {\
-        'English': {'lang_code':'en', 'voice': 'en-US-AriaNeural'},
-        'Spanish': {'lang_code': 'es-CO', 'voice': 'es-CO-SalomeNeural'},
-        'German': {'lang_code': 'de', 'voice' :'VickiNeural'},
-        'French': {'lang_code': 'fr', 'voice' : 'LeaNeural'}
+        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra'},
+        'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
+        'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
+        #'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice' : 'LeaNeural'}
         }
-    
+
+#        'English': {'lang_code':'en', 'service' : 'PlayHt', 'voice': 'en-US-AriaNeural'},
+
     # Later we can add HT voices and Eleven voices to each of these
     # e.g. language_list['English']['ht_voices' : ht_english_voice_list]
     return language_list       
