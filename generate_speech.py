@@ -9,7 +9,9 @@ import numpy as np
 import sys
 import utilities.config as conf
 
-def generate_audio(lang_code, voice): 
+language_dict = conf.get_languages()
+
+def generate_audio(language): 
 # Retrieve translations.csv from the repo
 # NOTE: If special characters get munged, will need to
 #       arrange for an export/download directly from Crowdin
@@ -62,8 +64,14 @@ def generate_audio(lang_code, voice):
     # translationData is the exported csv from Crowdin
     # masterData is our state of generated audio files
 
-    # we should probably zero out diffdata
-    
+    # get lang_code from language config
+    our_language = language_dict[language]
+    lang_code = our_language['lang_code']
+    # We need to support different services for different languages
+    service = our_language['service']
+    voice = our_language['voice']
+
+
     for index, ourRow in translationData.iterrows():
         print(f'Our lang: {lang_code} our row lang: {ourRow["en"]}')
         # check to see if our lang_code is already matched 
@@ -110,6 +118,8 @@ def generate_audio(lang_code, voice):
 
         diffData.to_csv(diff_file_name)
         retry_seconds = 1
+        
+        
         playHt_tts.main(
             input_file_path = diff_file_name, 
             lang_code = lang_code,
@@ -126,12 +136,14 @@ def generate_audio(lang_code, voice):
     """
 
 def main(
-    lang_code: str,
-    voice: str,
+    language: str,
     user_id: str = None,
     api_key: str = None
 ):
-    generate_audio(lang_code=lang_code, voice=voice)
+    
+    # should probably be a language which can then
+    # trigger the lang_code and voice
+    generate_audio(language=language)
         
 if __name__ == "__main__":
     main(*sys.argv[1:])
