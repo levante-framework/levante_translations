@@ -35,41 +35,41 @@ mental-rotation-instruct-3D,mental-rotation,Ahora verás imágenes que muestran 
 mental-rotation-prompt2,mental-rotation,Escoge la imagen que coincida con esta.
 mental-rotation-prompt1,mental-rotation,Escoge la imagen que coincide.
 math-instructions1,math,"En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Esfuérzate al máximo y tómate tu tiempo. La mayoría de las preguntas tienen cuatro opciones. Eliges la que consideres correcta. ¡Empecemos!"
-number-comparison-prompt1,"math, number-comparison",¿Cuál número es mayor?
-number-comparison-prompt2,"math, number-comparison",¿Cuál es mayor?
-number-identification-prompt1,"math, number-identification",Escoge el número cuando lo escuches.
-missing-number-prompt1,"math, missing-number",¿Cuál número va en el espacio en blanco?
-missing-number-prompt2,"math, missing-number",¿Cuál número va aquí?
-addition-prompt1,"math, addition",Suma los números y escoge la respuesta correcta.
-addition-prompt2,"math, addition",Suma los números.
-subtraction-prompt1,"math, subtraction",Resta los números y escoge la respuesta correcta.
-subtraction-prompt2,"math, subtraction",Resta los números.
-multiplication-prompt1,"math, multiplication",Multiplica los números y escoge la respuesta correcta.
-multiplication-prompt2,"math, multiplication",Multiplica los números.
+number-comparison-prompt1,math,¿Cuál número es mayor?
+number-comparison-prompt2,math,¿Cuál es mayor?
+number-identification-prompt1,math,Escoge el número cuando lo escuches.
+missing-number-prompt1,math,¿Cuál número va en el espacio en blanco?
+missing-number-prompt2,math,¿Cuál número va aquí?
+addition-prompt1,math,Suma los números y escoge la respuesta correcta.
+addition-prompt2,math,Suma los números.
+subtraction-prompt1,math,Resta los números y escoge la respuesta correcta.
+subtraction-prompt2,math,Resta los números.
+multiplication-prompt1,math,Multiplica los números y escoge la respuesta correcta.
+multiplication-prompt2,math,Multiplica los números.
 number-line-instruct1,math,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.
-number-line-prompt1,"math, number-line-4AFC",Esocoge el número que está marcado en la recta numérica.
+number-line-prompt1,math,Esocoge el número que está marcado en la recta numérica.
 number-line-slider-prompt1,math,Pon la barra roja sobre la linea recta en el lugar del número indicado.
-number-identification-1,"math, number-identification",Escoge el número 1.
-number-identification-2,"math, number-identification",Escoge el 2.
-number-identification-3,"math, number-identification",Escoge el 9.
-number-identification-4,"math, number-identification",Escoge el 0.
-number-identification-5,"math, number-identification",Escoge el 12.
-number-identification-6,"math, number-identification",Escoge el 30.
-number-identification-7,"math, number-identification",Escoge el 22.
-number-identification-8,"math, number-identification",Escoge el 45.
-number-identification-9,"math, number-identification",Escoge el 39.
-number-identification-10,"math, number-identification",Escoge el 23.
-number-identification-11,"math, number-identification",Escoge el 48.
-number-identification-12,"math, number-identification",Escoge el 91.
-number-identification-13,"math, number-identification",Escoge el 33.
-number-identification-14,"math, number-identification",Escoge el 74.
-number-identification-15,"math, number-identification",Escoge el 87.
-number-identification-16,"math, number-identification",Escoge el 65.
-number-identification-17,"math, number-identification",Escoge el 108.
-number-identification-18,"math, number-identification",Escoge el 245.
-number-identification-19,"math, number-identification",Escoge el 587.
-number-identification-20,"math, number-identification",Escoge el 731.
-number-identification-21,"math, number-identification",Escoge el 989. 
+number-identification-1,math,Escoge el número 1.
+number-identification-2,math,Escoge el 2.
+number-identification-3,math,Escoge el 9.
+number-identification-4,math,Escoge el 0.
+number-identification-5,math,Escoge el 12.
+number-identification-6,math,Escoge el 30.
+number-identification-7,math,Escoge el 22.
+number-identification-8,math,Escoge el 45.
+number-identification-9,math,Escoge el 39.
+number-identification-10,math,Escoge el 23.
+number-identification-11,math,Escoge el 48.
+number-identification-12,math,Escoge el 91.
+number-identification-13,math,Escoge el 33.
+number-identification-14,math,Escoge el 74.
+number-identification-15,math,Escoge el 87.
+number-identification-16,math,Escoge el 65.
+number-identification-17,math,Escoge el 108.
+number-identification-18,math,Escoge el 245.
+number-identification-19,math,Escoge el 587.
+number-identification-20,math,Escoge el 731.
+number-identification-21,math,Escoge el 989. 
 trog-instruct1,trog,"Ahora, ¡vamos a hacer un juego de asociación! Yo diré palabras y tú eliges la imagen que va con las palabras que yo diga. ¡Empecemos!"
 trog-prompt1,trog,Escoge la imagen del...
 trog-prompt2,trog,Escoge la imagen de...
