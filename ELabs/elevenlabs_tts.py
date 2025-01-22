@@ -113,102 +113,29 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
-    # we want to begin to support SSML, so convert to that format:
-    #ssmlText = u.html_to_ssml(ourRow[lang_code])
-    # However SSML requires different params, so experiment in the
-    # dashboard first!
-    data = {
-        # content needs to be a list, even if we only do one at a time
-        "content" : [ourRow[lang_code]],
-        "voice": voice,
-        "title": "Levante Audio", # not sure where this matters?
-        "trimSilence": True
-    }
+    audio = client.generate(
+        text="Hello, this is a test of the ElevenLabs API!",
+        voice=voice,
+        model="eleven_monolingual_v1"
+    )
 
-    ## NEED TO REPLACE WITH ELEVEN LABS API
-    ## Use a While loop so we can retry odd failure cases
-    while True and errorCount < 5:
-        response = requests.post(API_URL, headers=headers, json=data) 
+    # Play the audio (works locally)
+    play(audio)
 
-        # In some cases we get an odd error that appears to suggest the
-        # transcription is still in progress, but it never finishes
-        # to handle that case, we abandon that transaction & start a new one
-        restartRequest = False
-        # 201 means that we got a response of some kind
-        if response.status_code == 201:
-            # results are packed into a json object
-            result = response.json()
-            logging.info(f"convert_tts: response for item={ourRow['item_id']}: transcriptionId={result['transcriptionId']}")
-        else:
-            logging.error(f"convert_tts: no response for item={ourRow['item_id']}: status code={response.status_code}")
-            # sometimes a retry works after no response
-            errorCount += 1
-            continue
-
-        # status is a little awkward to parse. Some errors aren't exactly errors
-        json_status = response.json()
-
-        if "transcriptionId" in json_status:
-            # This means that we've successfully started the transcription
-            transcription_id = json_status["transcriptionId"]
-            print(f"Conversion initiated for: {ourRow['item_id']}")
-        
-            # Poll the status until completion or we get 5 error returns
-            while True and errorCount < 5 and restartRequest == False:
-                downloadURL = None # clear each time
-                status_params = {"transcriptionId": transcription_id}
-                status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
-                status_data = status_response.json()
-
-                # Some errors are "fatal", some just mean a retry is needed
-                if 'error' in status_data:
-                    if status_data['error'] == True: # and \
-                        #status_data['message'] != 'Transcription still in progress':
-                        print(f'Error translating {ourRow["item_id"]}')
-                        restartRequest = True
-                        errorCount += 1
-                        continue # we want to start the loop over
-
-                # Our transcription is successful                        
-                if status_data["converted"] == True:
-                    print(f"Conversion for {ourRow['item_id']} completed successfully!")
-                    #print(f"Audio URL: {status_data['audioUrl']}")
-                    # set the download URL for retrieval or get it right here?
-                    downloadURL = status_data['audioUrl']
-
-                    # At this point we should have an "audioURL" that we can retrieve
-                    # and then write out to the appropriate directory
-                    audioData = requests.get(downloadURL)
-
-                    # open file for writing
-                    # Download the MP3 file
-                    if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
-                        restartRequest = False
-                        errorCount = 0
-                        with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
+    with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
                                 audio_base_dir, lang_code), "wb") as file:
-                            file.write(audioData.content)
+        file.write(audio)
 
-                            # Update our "cache" of successful transcriptions                            
-                            masterData[lang_code] = \
-                                np.where(masterData["item_id"] == ourRow["item_id"], \
-                                ourRow[lang_code], masterData[lang_code])
+        # Update our "cache" of successful transcriptions                            
+        masterData[lang_code] = \
+            np.where(masterData["item_id"] == ourRow["item_id"], \
+            ourRow[lang_code], masterData[lang_code])
 
-                            # write as we go, so erroring out doesn't lose progress
-                            # Translated, so we can save it to a master sheet
-                            masterData.to_csv("translation_master.csv")
-                            # finished with the if statement        
-                            return 'Success'    
-                else:
-                    # print(f"Conversion in progress. Status: {status_data['converted']}")
-                    # currently most tasks complet in about 1 second, so .5 seconds
-                    # seems like a good tradeoff between "over-polling" and "over-waiting"
-                    time.sleep(retrySeconds)  # Wait before checking again
-            else:
-                continue
-    else:
-        # we've tried several times
-        return 'Error'
+        # write as we go, so erroring out doesn't lose progress
+        # Translated, so we can save it to a master sheet
+        masterData.to_csv("translation_master.csv")
+        # finished with the if statement        
+        return 'Success'    
 
 list_voices('en')
 
