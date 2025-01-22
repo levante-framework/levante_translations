@@ -1,7 +1,5 @@
 from PlayHt import playHt_tts
-# for future Google integration
-# from google import google_cloud
-# from google import google_tts
+from ELabs import elevenlabs_tts
 
 import pandas as pd
 import os
