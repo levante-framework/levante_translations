@@ -35,41 +35,41 @@ mental-rotation-instruct-3D,mental-rotation,Now you will see pictures that show 
 mental-rotation-prompt2,mental-rotation,Choose the picture that matches this one.
 mental-rotation-prompt1,mental-rotation,Choose the matching picture.
 math-instructions1,math,"In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!"
-number-comparison-prompt1,"math, number-comparison",Which number is larger?
-number-comparison-prompt2,"math, number-comparison",Which is larger?
-number-identification-prompt1,"math, number-identification",Choose the number you hear.
-missing-number-prompt1,"math, missing-number",What number goes in the blank?
-missing-number-prompt2,"math, missing-number",What number goes here?
-addition-prompt1,"math, addition",Add the numbers and choose the correct answer.
-addition-prompt2,"math, addition",Add the numbers.
-subtraction-prompt1,"math, subtraction",Subtract the numbers and choose the correct answer.
-subtraction-prompt2,"math, subtraction",Subtract the numbers.
-multiplication-prompt1,"math, multiplication",Multiply the numbers and choose the correct answer.
-multiplication-prompt2,"math, multiplication",Multiply the numbers.
+number-comparison-prompt1,math,Which number is larger?
+number-comparison-prompt2,math,Which is larger?
+number-identification-prompt1,math,Choose the number you hear.
+missing-number-prompt1,math,What number goes in the blank?
+missing-number-prompt2,math,What number goes here?
+addition-prompt1,math,Add the numbers and choose the correct answer.
+addition-prompt2,math,Add the numbers.
+subtraction-prompt1,math,Subtract the numbers and choose the correct answer.
+subtraction-prompt2,math,Subtract the numbers.
+multiplication-prompt1,math,Multiply the numbers and choose the correct answer.
+multiplication-prompt2,math,Multiply the numbers.
 number-line-instruct1,math,Here is a number line. You can move the red line forward and backward along the black line. Move the red line so it is in the right place to show where the number would fit. Make sure you look at the numbers at each end when deciding where to move the red line.
-number-line-prompt1,"math, number-line-4AFC",Choose the number that is marked on the number line.
+number-line-prompt1,math,Choose the number that is marked on the number line.
 number-line-slider-prompt1,math,Move the red line to mark the number.
-number-identification-1,"math, number-identification",Choose the number 1.
-number-identification-2,"math, number-identification",Choose the 2.
-number-identification-3,"math, number-identification",Choose the 9.
-number-identification-4,"math, number-identification",Choose the 0.
-number-identification-5,"math, number-identification",Choose the 12.
-number-identification-6,"math, number-identification",Choose the 30.
-number-identification-7,"math, number-identification",Choose the 22.
-number-identification-8,"math, number-identification",Choose the 45.
-number-identification-9,"math, number-identification",Choose the 39.
-number-identification-10,"math, number-identification",Choose the 23.
-number-identification-11,"math, number-identification",Choose the 48.
-number-identification-12,"math, number-identification",Choose the 91.
-number-identification-13,"math, number-identification",Choose the 33.
-number-identification-14,"math, number-identification",Choose the 74.
-number-identification-15,"math, number-identification",Choose the 87.
-number-identification-16,"math, number-identification",Choose the 65.
-number-identification-17,"math, number-identification",Choose the 108.
-number-identification-18,"math, number-identification",Choose the 245.
-number-identification-19,"math, number-identification",Choose the 587.
-number-identification-20,"math, number-identification",Choose the 731.
-number-identification-21,"math, number-identification",Choose the 989.
+number-identification-1,math,Choose the number 1.
+number-identification-2,math,Choose the 2.
+number-identification-3,math,Choose the 9.
+number-identification-4,math,Choose the 0.
+number-identification-5,math,Choose the 12.
+number-identification-6,math,Choose the 30.
+number-identification-7,math,Choose the 22.
+number-identification-8,math,Choose the 45.
+number-identification-9,math,Choose the 39.
+number-identification-10,math,Choose the 23.
+number-identification-11,math,Choose the 48.
+number-identification-12,math,Choose the 91.
+number-identification-13,math,Choose the 33.
+number-identification-14,math,Choose the 74.
+number-identification-15,math,Choose the 87.
+number-identification-16,math,Choose the 65.
+number-identification-17,math,Choose the 108.
+number-identification-18,math,Choose the 245.
+number-identification-19,math,Choose the 587.
+number-identification-20,math,Choose the 731.
+number-identification-21,math,Choose the 989.
 trog-instruct1,trog,"Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started!"
 trog-prompt1,trog,Choose the picture of the...
 trog-prompt2,trog,Choose the picture of...
