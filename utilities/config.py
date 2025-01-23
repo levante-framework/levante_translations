@@ -16,7 +16,8 @@ stats_file_path = 'stats.csv'
 def get_languages(): 
 
     language_list = {\
-        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
+        #'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
+        'English': {'lang_code':'en', 'service' : 'PlayHt', 'voice': 'en-US-AriaNeural'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
         #'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice' : 'LeaNeural'}
