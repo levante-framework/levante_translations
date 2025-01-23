@@ -47,12 +47,19 @@ def play_audio(text, voice):
     # Generate audio from text
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
-    audio = client.generate(text=text, voice=voice, \
+    audio_iterator = client.generate(text=text, voice=voice, \
         model="eleven_multilingual_v2")
         #enable_ssml_parsing=True)
 
+    # Collect all audio chunks into a single bytes object
+    audio_data = b"".join(audio_iterator)
+
     # Play the generated audio
-    play(audio)
+    play(audio_data)
+
+    # Save the audio to a file
+    with open("output.mp3", "wb") as f:
+        f.write(audio_data)
 
 #voice_dict = list_voices('de')
 

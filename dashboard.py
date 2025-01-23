@@ -107,13 +107,14 @@ class App(ctk.CTk):
             
             # ASSUMES PlayHt for now
             voice = conf.get_default_voice(active_tab)
-            lang_code = conf.get_lang_code(active_tab)
+            service = conf.get_service(active_tab)
         except:
             # assume we will show english when created
-            lang_code = 'en'
+            service = 'PlayHt'
 
         # Now transcribe text & play using selected voice
-        u.play_audio_from_text('PlayHt', voice, play_text_ssml)
+        # We need to find the service
+        u.play_audio_from_text(service, voice, play_text_ssml)
         #print('tbd')
 
     def create_tabview(self):

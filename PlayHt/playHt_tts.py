@@ -23,6 +23,7 @@ def processRow(index, ourRow, lang_code, voice, \
     # reset local error count for new row
     errorCount = 0
     retrySeconds = 1 # sort of arbitrary backoff to recheck status
+    service = 'PlayHt'
 
     # we should potentially filter these out when we generate diffs
     # instead of waiting until now. But at some point we might
@@ -106,6 +107,7 @@ def processRow(index, ourRow, lang_code, voice, \
                     if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
                         restartRequest = False
                         errorCount = 0
+                        u.save_audio(ourRow, lang_code, service)
                         with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
                                 audio_base_dir, lang_code), "wb") as file:
                             file.write(audioData.content)

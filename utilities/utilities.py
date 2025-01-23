@@ -183,3 +183,23 @@ def show_ssml_tips(self):
     ok_button = tk.Button(dialog, text="OK", font=("Arial", 24), command=dialog.destroy)
     ok_button.pack(pady=10)
     dialog.transient(self)
+
+"""
+Maybe this should be here instead of in each service??
+
+def save_audio(ourRow, lang_code, service):
+    with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
+        audio_base_dir, lang_code), "wb") as file:
+    file.write(audioData.content)
+
+    # Update our "cache" of successful transcriptions                            
+    masterData[lang_code] = \
+        np.where(masterData["item_id"] == ourRow["item_id"], \
+        ourRow[lang_code], masterData[lang_code])
+
+    # write as we go, so erroring out doesn't lose progress
+    # Translated, so we can save it to a master sheet
+    masterData.to_csv("translation_master.csv")
+    # finished with the if statement        
+    return 'Success'    
+"""
