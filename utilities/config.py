@@ -16,7 +16,7 @@ stats_file_path = 'stats.csv'
 def get_languages(): 
 
     language_list = {\
-        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra'},
+        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
         #'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice' : 'LeaNeural'}
@@ -37,6 +37,11 @@ def get_lang_code(language):
     language_index = get_languages()
     language_dict = language_index[language]
     return( language_dict['lang_code'])
+
+def get_service(language):
+    language_index = get_languages()
+    language_dict = language_index[language]
+    return( language_dict['service'])
 
 def add_voice_list(language, service, voice_list):
     print('put add voice list here')
