@@ -3,14 +3,13 @@ import os
 import pandas as pd
 from elevenlabs import play
 from elevenlabs.client import ElevenLabs
-import utilities as u
+import utilities.utilities as u
 
-client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
-# These are the two functions we need to support
+audio_client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
 
 def list_voices(lang_code):
     # Fetch all available voices
-    voices = client.voices.get_all()
+    voices = audio_client.voices.get_all()
     for voice in voices:
         print(repr(voice))
 
@@ -59,6 +58,7 @@ def main(
     }
     
     stats = {'Errors': 0, 'Processed' : 0, 'NoTask': 0}
+
     for index, ourRow in inputData.iterrows():
 
         result = processRow(index, ourRow, lang_code=lang_code, voice=voice, \
@@ -108,8 +108,6 @@ def processRow(index, ourRow, lang_code, voice, \
     if not (type(ourRow['labels']) == type('str')):
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
-
-    audio_client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
 
     audio = audio_client.generate(
         text=ourRow[lang_code],
