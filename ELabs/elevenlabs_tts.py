@@ -1,32 +1,21 @@
 # generate audio using ElevenLabs
 import os
 import pandas as pd
+import numpy as np
 from elevenlabs import play
+from elevenlabs import save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
 
-audio_client = ElevenLabs(api_key=os.getenv('ELEVEN_API_KEY'))
+# this doesn't work?
+# from elevenlabs import set_api_key
 
-def list_voices(lang_code):
-    # Fetch all available voices
-    voices = audio_client.voices.get_all()
-    for voice in voices:
-        print(repr(voice))
+# this doesn't work?
+# set_api_key(os.getenv('ELEVEN_API_KEY'))
 
-    # Function to filter voices by language
-    def filter_voices_by_language(voices, language):
-        return [voice for voice in voices if language.lower() in str(voice[3]).lower()]
-    # 
-    #Example: List all Korean voices
-    korean_voices = filter_voices_by_language(voices, "korean")
+audio_client = ElevenLabs(api_key=os.getenv('elevenlabs_test'))
 
-    # Print the filtered voices
-    for voice in korean_voices:
-        print(f"Name: {voice.name}, ID: {voice.voice_id}")
-        
-def get_audio(text, voice):
-    print("TBD")
-
+# This is called to generate audio for the passed string
 def main(
         input_file_path: str,
         master_file_path: str,
@@ -109,15 +98,16 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
-    audio = audio_client.generate(
-        text=ourRow[lang_code],
-        #voice=voice,
-        model="eleven_multilingual_v2"
-    )
+    try:
+        audio = audio_client.generate(
+            text=ourRow[lang_code],
+            model="eleven_multilingual_v2"
+        )
 
-    with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
-                                audio_base_dir, lang_code), "wb") as file:
-        file.write(audio)
+        # Eleven labs wants a filename
+        audio_filename = u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
+                audio_base_dir, lang_code)
+        save(audio, audio_filename)
 
         # Update our "cache" of successful transcriptions                            
         masterData[lang_code] = \
@@ -130,3 +120,5 @@ def processRow(index, ourRow, lang_code, voice, \
         # finished with the if statement        
         return 'Success'    
 
+    except:
+        return 'Failure'

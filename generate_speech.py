@@ -114,6 +114,7 @@ def generate_audio(language):
         # for debugging
         #print(f'Writing diff data {diffData}')
 
+        # diff_file_name contains the items that need audio
         diffData.to_csv(diff_file_name)
         retry_seconds = 1
         
@@ -147,7 +148,7 @@ def main(
     api_key: str = None
 ):
     
-    # should probably be a language which can then
+    # is a language which can then
     # trigger the lang_code and voice
     generate_audio(language=language)
         
