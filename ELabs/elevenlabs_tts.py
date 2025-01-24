@@ -71,20 +71,6 @@ def main(
     print(f"Processed: {stats['Processed']}, Errors: {stats['Errors']}, \
           No Task: {stats['NoTask']}")
 
-def example():
-    # Generate audio from text
-    audio = client.generate(
-        text="Hello, this is a test of the ElevenLabs API!",
-        voice="Rachel",
-        model="eleven_monolingual_v1"
-    )
-
-    # Play the audio (works locally)
-    play(audio)
-
-    # Alternatively, save the audio to a file
-    with open("output.mp3", "wb") as f:
-        f.write(audio)
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, \
@@ -101,6 +87,7 @@ def processRow(index, ourRow, lang_code, voice, \
     try:
         audio = audio_client.generate(
             text=ourRow[lang_code],
+            voice=voice,
             model="eleven_multilingual_v2"
         )
 
@@ -108,7 +95,8 @@ def processRow(index, ourRow, lang_code, voice, \
         audio_filename = u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
                 audio_base_dir, lang_code)
         save(audio, audio_filename)
-
+        print(f'Generated {audio_filename}')
+        
         # Update our "cache" of successful transcriptions                            
         masterData[lang_code] = \
             np.where(masterData["item_id"] == ourRow["item_id"], \
@@ -121,4 +109,5 @@ def processRow(index, ourRow, lang_code, voice, \
         return 'Success'    
 
     except:
+        print(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
         return 'Failure'
