@@ -63,6 +63,7 @@ class App(ctk.CTk):
         VOICE_ROW: Final[int] = 1
         SSML_ROW: Final[int] = 0
         self.TABLE_ROW: Final[int] = 3
+        self.STATUS_ROW: Final[int] = 4
 
         self.language_frame = ctk.CTkFrame(self)
         self.language_frame.grid(row=1, column=0, padx=2, pady=2, sticky="nsew")
@@ -82,6 +83,8 @@ class App(ctk.CTk):
         self.create_ssml_frame(self.language_frame, SSML_ROW)
 
         self.tabview = self.create_tabview()
+
+        self.create_status_bar()
 
         #Add basic instructions:
         u.show_intro_messagebox(self)
@@ -533,7 +536,11 @@ class App(ctk.CTk):
         cBox.configure(button_color = "white")
         cBox.update
 
+    def create_status_bar(self):
+        self.statusbar = ctk.CTkLabel(self)
+        self.statusbar.grid(row=self.STATUS_ROW, column=0, padx=5, pady=2, sticky="ew")
 
+        self.statusbar.configure(text="Status goes here!")
 
 if __name__ == "__main__":
     app = App()
