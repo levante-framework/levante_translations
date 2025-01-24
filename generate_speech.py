@@ -49,6 +49,8 @@ def generate_audio(language):
         # Create a "null state" generation status file
         # so that we know what needs to be generated
         masterData = translationData.copy(deep = True)
+        
+        ## Needs to be parameterized by the languages in config.py
         masterData['en'] = None
         masterData['es-CO'] = None
         masterData['de'] = None

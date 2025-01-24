@@ -1,4 +1,21 @@
 
+### Levante Audio Tools
+
+Our audio tools include two main utilities:
+
+generate_speech.py: Designed to generate audio files for one or more languages in the voices specified in config.py. The audio files are laid out in a filesystem
+format that matches that needed for core assets and our GCP buckets.
+
+dashboard.py: This standalone utility does four things:
+
+1) Shows current audio generation stats in the top frame
+2) Shows all our current translations and audio by language
+   in the bottom frame. Selecting one will play it.
+3) For evaluation purposes, allows selecting a voice from
+   PlayHt or ElevenLabs to play the same text.
+4) Allows the addition of SSML tags to an edit box to evaluate their effect.
+
+
 ### Installing Levante-Audio-Tools
 
 Open a terminal:
