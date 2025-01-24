@@ -184,6 +184,9 @@ def show_ssml_tips(self):
     ok_button.pack(pady=10)
     dialog.transient(self)
 
+def status(self, new_status):
+    self.stats_bar.configure(text=new_status)
+
 """
 Maybe this should be here instead of in each service??
 
