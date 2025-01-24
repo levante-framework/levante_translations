@@ -544,6 +544,9 @@ class App(ctk.CTk):
 
         self.statusbar.configure(text="Status goes here!")
 
+    def set_status(self, new_status):
+        self.statusbar.configure(text = new_status)
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
