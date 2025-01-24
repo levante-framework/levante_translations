@@ -117,7 +117,10 @@ class App(ctk.CTk):
 
         # Now transcribe text & play using selected voice
         # We need to find the service
-        u.play_audio_from_text(service, voice, play_text_ssml)
+        try:
+            u.play_audio_from_text(service, voice, play_text_ssml)
+        except:
+            self.statusCCC
 
     def create_tabview(self):
         tabview = ctk.CTkTabview(self.language_frame, 
