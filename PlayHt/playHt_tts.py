@@ -86,7 +86,7 @@ def processRow(index, ourRow, lang_code, voice, \
                 if 'error' in status_data:
                     if status_data['error'] == True: # and \
                         #status_data['message'] != 'Transcription still in progress':
-                        print(f'Error translating {ourRow["item_id"]}')
+                        u.status(f'Error translating {ourRow["item_id"]}')
                         restartRequest = True
                         errorCount += 1
                         continue # we want to start the loop over
@@ -94,7 +94,7 @@ def processRow(index, ourRow, lang_code, voice, \
                 # Our transcription is successful                        
                 if status_data["converted"] == True:
                     print(f"Conversion for {ourRow['item_id']} completed successfully!")
-                    #print(f"Audio URL: {status_data['audioUrl']}")
+
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
 
