@@ -1,1 +1,0 @@
-python generate_speech.py "en" "en-US-AriaNeural"
