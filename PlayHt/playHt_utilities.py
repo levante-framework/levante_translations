@@ -68,7 +68,7 @@ def list_voices(lang_code):
 # could return file name or error, etc.
 def get_audio(text, voice):
 
-    retrySeconds = .5
+    retrySeconds = 1
     errorCount = 0
 
     # for now we are getting passed ssml already
