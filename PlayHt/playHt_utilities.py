@@ -4,6 +4,7 @@ import os
 from playsound import playsound 
 from utilities import utilities as u
 from pyht import Client
+import utilities.config as conf
 import time
 
 # Constants for API, in this case for Play.Ht, maybe
@@ -74,6 +75,7 @@ def get_audio(text, voice):
     # for now we are getting passed ssml already
     ssml_text = u.html_to_ssml(text)
     data = {
+        "stability": conf.playht_stability,
         "ssml": [ssml_text],
         "output_format": "mp3",
         "quality": "high",

@@ -1,6 +1,10 @@
 # Re-factoring language settings out of code
 # Work in progress
 
+# General settings
+playht_stability = 1.2
+elevenlabs_stability = .65
+
 # if we add it here can we use it throughout?
 language_list = {}
 
