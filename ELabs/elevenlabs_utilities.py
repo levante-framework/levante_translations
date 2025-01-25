@@ -5,6 +5,9 @@ from elevenlabs import Voice, VoiceSettings
 import utilities.config as conf
 import pprint 
 
+# create "global" voice_dict
+global voice_dict
+
 try:
     api_key=os.getenv('elevenlabs_test')  # enter your API key here 
     client = ElevenLabs(api_key=api_key)

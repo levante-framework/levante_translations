@@ -416,20 +416,23 @@ class App(ctk.CTk):
         # to be language extensible:
         # List of lists or dict of lists
 
-        global ht_english_voice_list
-        global ht_spanish_voice_list
-        global ht_german_voice_list
-        global ht_french_voice_list
+        global voice_list
+#        global ht_english_voice_list
+#        global ht_spanish_voice_list
+#        global ht_german_voice_list
+#        global ht_french_voice_list
 
-        global eleven_english_voice_list
-        global eleven_spanish_voice_list
-        global eleven_german_voice_list
-        global eleven_french_voice_list
+        global voice_dict
+#        global eleven_english_voice_list
+#        global eleven_spanish_voice_list
+#        global eleven_german_voice_list
+#       global eleven_french_voice_list
 
-        global eleven_english_voice_dict
-        global eleven_spanish_voice_dict
-        global eleven_german_voice_dict
-        global eleven_french_voice_dict
+        global eleven_voice_dict
+#        global eleven_english_voice_dict
+#        global eleven_spanish_voice_dict
+#        global eleven_german_voice_dict
+#        global eleven_french_voice_dict
 
         # we get called before there is a tab view
         # so in that case we default to English
@@ -534,7 +537,7 @@ class App(ctk.CTk):
         play_text_html = self.ssml_input.get("0.0", "end")
         play_text_ssml = u.html_to_ssml(play_text_html)
 
-        u.play_audio_from_text(service, voice, play_text_ssml)
+        u.play_audio_from_text(service, language, voice, play_text_ssml)
 
         cBox.configure(button_color = "white")
         cBox.update
