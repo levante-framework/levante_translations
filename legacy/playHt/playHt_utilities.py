@@ -72,7 +72,7 @@ def get_audio(text, voice):
         "content" : [text],
         "voice": voice,
         "title": "Comparison Audio", # not sure where this matters?
-        "trimSilence": True
+        "trimSilence": False
     }
 
     ## Use a While loop so we can retry odd failure cases

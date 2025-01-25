@@ -44,7 +44,7 @@ def processRow(index, ourRow, lang_code, voice, \
         "content" : [ourRow[lang_code]],
         "voice": voice,
         "title": "Levante Audio", # not sure where this matters?
-        "trimSilence": True
+        "trimSilence": False
     }
 
 

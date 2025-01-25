@@ -81,7 +81,7 @@ def get_audio(text, voice):
         "quality": "high",
         "voice": voice,
         "title": "Levante Audio", # not sure where this matters?
-        "trimSilence": True
+        "trimSilence": False
     }
 
     ## Use a While loop so we can retry odd failure cases
