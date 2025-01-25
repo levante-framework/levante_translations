@@ -84,7 +84,7 @@ class App(ctk.CTk):
 
         self.tabview = self.create_tabview()
 
-        self.create_status_bar()
+        self.create_statusbar()
 
         #Add basic instructions:
         u.show_intro_messagebox(self)
@@ -120,7 +120,7 @@ class App(ctk.CTk):
         try:
             u.play_audio_from_text(service, voice, play_text_ssml)
         except:
-            self.statusCCC
+            self.set_status("Unable to Play")
 
     def create_tabview(self):
         tabview = ctk.CTkTabview(self.language_frame, 
@@ -328,7 +328,8 @@ class App(ctk.CTk):
                 # This is kind of gross. Maybe we should fix tools?
                 audio_file = item_values[4]
                 try:
-                    playsound(audio_file)
+                    self.set_status(os.path.abspath(audio_file))
+                    playsound(os.path.abspath(audio_file))
                 except:
                     messagebox.showinfo("Can't find or play audio file.")
 
@@ -526,7 +527,7 @@ class App(ctk.CTk):
         else:
             cBox = self.eleven_voice_combobox
 
-        cBox.configure(button_color="red")
+        cBox.configure(button_color="yellow")
         cBox.update()
 
         # try getting text from ssml editbox
@@ -538,14 +539,29 @@ class App(ctk.CTk):
         cBox.configure(button_color = "white")
         cBox.update
 
-    def create_status_bar(self):
-        self.statusbar = ctk.CTkLabel(self)
+    def create_statusbar(self):
+
+        # Create a read-only entry widget
+        self.statusbar = ctk.CTkEntry(self, 
+                                state="normal", 
+                                fg_color=("white", "gray20"),
+                                text_color=("black", "white"),
+                                border_width=2, 
+                                placeholder_text="Audio file path will go here"
+                                )
         self.statusbar.grid(row=self.STATUS_ROW, column=0, padx=5, pady=2, sticky="ew")
 
-        self.statusbar.configure(text="Status goes here!")
+        # Remove focus highlight
+        #self.statusbar.configure(takefocus=0)
+
 
     def set_status(self, new_status):
-        self.statusbar.configure(text = new_status)
+        # Set the text
+        self.statusbar.delete(0, ctk.END)
+        self.statusbar.insert(0, new_status)
+        # Remove focus highlight
+        #self.statusbar.configure(takefocus=0)
+
 
 if __name__ == "__main__":
     app = App()
