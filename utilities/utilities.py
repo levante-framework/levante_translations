@@ -62,7 +62,7 @@ def count_audio_files(lang_code):
     raw_result = subprocess.run(f'ls audio_files/*/{lang_code}/shared/* | wc -l', shell=True, capture_output=True, text=True)
     return raw_result.stdout.strip()
 
-def play_audio_from_text(service, voice, text ):
+def play_audio_from_text(service, language, voice, text ):
     if service == 'PlayHt':
         translated_audio = playHt_utilities.get_audio(text, voice)
         if len(translated_audio) == 0:
