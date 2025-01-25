@@ -109,5 +109,5 @@ def processRow(index, ourRow, lang_code, voice, \
         return 'Success'    
 
     except:
-        print(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
+        u.status(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
         return 'Failure'

@@ -93,7 +93,7 @@ def processRow(index, ourRow, lang_code, voice, \
 
                 # Our transcription is successful                        
                 if status_data["converted"] == True:
-                    print(f"Conversion for {ourRow['item_id']} completed successfully!")
+                    u.status(f"Conversion for {ourRow['item_id']} completed successfully!")
 
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
