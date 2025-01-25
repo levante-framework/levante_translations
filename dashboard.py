@@ -416,24 +416,6 @@ class App(ctk.CTk):
         # to be language extensible:
         # List of lists or dict of lists
 
-        global voice_list
-#        global ht_english_voice_list
-#        global ht_spanish_voice_list
-#        global ht_german_voice_list
-#        global ht_french_voice_list
-
-        global voice_dict
-#        global eleven_english_voice_list
-#        global eleven_spanish_voice_list
-#        global eleven_german_voice_list
-#       global eleven_french_voice_list
-
-        global eleven_voice_dict
-#        global eleven_english_voice_dict
-#        global eleven_spanish_voice_dict
-#        global eleven_german_voice_dict
-#        global eleven_french_voice_dict
-
         # we get called before there is a tab view
         # so in that case we default to English
         # (a little lame:))
@@ -445,35 +427,35 @@ class App(ctk.CTk):
             if active_tab == "English":
                 lang_code = 'en'
                 if service == 'PlayHt':
-                    if 'ht_english_voice_list' in globals():
-                        return ht_english_voice_list
+                    if self.ht_en_voice_list:
+                        return self.en_voice_list
                 elif service == 'ElevenLabs':
-                    if 'eleven_english_voice_list' in globals():
-                        return eleven_english_voice_list
+                    if self.eleven_en_voice_list:
+                        return self.eleven_en_voice_list
             elif active_tab == "Spanish":
                 lang_code = 'es-CO'
                 if service == 'PlayHt':
-                    if 'ht_spanish_voice_list' in globals():
-                        return ht_spanish_voice_list
+                    if self.ht_es_voice_list:
+                        return self.ht_es_voice_list
                 elif service == 'ElevenLabs':
-                    if 'eleven_spanish_voice_list' in globals():
-                        return eleven_spanish_voice_list
+                    if self.eleven_es_voice_list:
+                        return self.eleven_es_voice_list
             elif active_tab == "German":
                 lang_code = 'de'
                 if service == 'PlayHt':
-                    if 'ht_german_voice_list' in globals():
-                        return ht_german_voice_list
+                    if self.ht_de_voice_list:
+                        return self.ht_de_voice_list
                 elif service == 'ElevenLabs':
-                    if 'eleven_german_voice_list' in globals():
-                        return eleven_german_voice_list
+                    if self.eleven_voice_list:
+                        return self.eleven_de_voice_list
             elif active_tab == "French":
                 lang_code = 'fr'
                 if service == 'PlayHt':
-                    if 'ht_french_voice_list' in globals():
-                        return ht_french_voice_list
+                    if self.ht_fr_voice_list:
+                        return self.ht_fr_voice_list
                 elif service == 'ElevenLabs':
-                    if 'eleven_french_voice_list' in globals():
-                        return eleven_french_voice_list
+                    if self.eleven_fr_voice_list:
+                        return self.eleven_fr_voice_list
             else:
                 print ("NO LANGUAGE")
                 exit()
@@ -488,11 +470,11 @@ class App(ctk.CTk):
             for voice in voice_list:
                 voices.append(voice.get('value'))
             if lang_code == 'en':
-                ht_english_voice_list = voices
+                self.ht_en_voice_list = voices
             elif lang_code == 'es-CO':
-                ht_spanish_voice_list = voices
+                self.ht_es_voice_list = voices
             elif lang_code == 'de':
-                ht_german_voice_list = voices
+                self.ht_de_voice_list = voices
             return voices    
 
         elif service == 'ElevenLabs':
@@ -503,14 +485,14 @@ class App(ctk.CTk):
             # And we have 3 (for now) voice dictionaries
             voice_ids = list(voice_dict.values())
             if lang_code == 'en':
-                eleven_english_voice_dict = voice_dict
-                eleven_english_voice_list = voices
+                self.eleven_en_voice_dict = voice_dict
+                self.eleven_en_voice_list = voices
             elif lang_code == 'es-CO':
-                eleven_spanish_voice_dict = voice_dict
-                eleven_spanish_voice_list = voices
+                self.eleven_es_voice_dict = voice_dict
+                self.eleven_es_voice_list = voices
             elif lang_code == 'de':
-                eleven_german_voice_dict = voice_dict
-                eleven_german_voice_list = voices
+                self.eleven_de_voice_dict = voice_dict
+                self.eleven_de_voice_list = voices
             return voices    
             
     def voice_compare_callback(self, chosen_voice, service):   
