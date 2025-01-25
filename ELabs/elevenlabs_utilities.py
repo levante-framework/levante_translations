@@ -1,6 +1,8 @@
 import os
 from elevenlabs import play, voices
 from elevenlabs.client import ElevenLabs 
+from elevenlabs import Voice, VoiceSettings
+import utilities.config as conf
 import pprint 
 
 try:
@@ -43,13 +45,25 @@ def list_voices(lang_code):
     voice_dict = {voice.name: voice.voice_id for voice in library_voices}
     return voice_dict
 
-def play_audio(text, voice):
+def play_audio(text, desired_voice):
     # Generate audio from text
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
-    audio_iterator = client.generate(text=text, voice=voice, \
+    
+    """
+    voice = Voice(
+        voice_id=desired_voice,
+        settings=VoiceSettings(
+            stability=0.71,
+            similarity_boost=0.5,
+            style=0.0,
+            use_speaker_boost=True
+        )
+    )
+"""
+
+    audio_iterator = client.generate(text=text, voice=desired_voice, \
         model="eleven_multilingual_v2")
-        #enable_ssml_parsing=True)
 
     # Collect all audio chunks into a single bytes object
     audio_data = b"".join(audio_iterator)
