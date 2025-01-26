@@ -525,7 +525,7 @@ class App(ctk.CTk):
         column_values = selected_row['values']
         translated_text = column_values[TRANSLATION_COLUMN]
 
-        u.play_audio_from_text(service, voice, translated_text)
+        u.play_audio_from_text(service, self.tabview.get(), voice, translated_text)
 
 
 
