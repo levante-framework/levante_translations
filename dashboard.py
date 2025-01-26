@@ -118,7 +118,7 @@ class App(ctk.CTk):
         # Now transcribe text & play using selected voice
         # We need to find the service
         try:
-            u.play_audio_from_text(service, voice, play_text_ssml)
+            u.play_audio_from_text(service, active_tab, voice, play_text_ssml)
         except:
             self.set_status("Unable to Play")
 
