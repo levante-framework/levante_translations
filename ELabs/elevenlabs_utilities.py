@@ -75,8 +75,8 @@ def play_audio(text, desired_voice):
     play(audio_data)
 
     # Save the audio to a file
-    with open("output.mp3", "wb") as f:
-        f.write(audio_data)
+    #with open("output.mp3", "wb") as f:
+    #    f.write(audio_data)
 
 #voice_dict = list_voices('de')
 
