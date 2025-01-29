@@ -11,7 +11,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime
 import utilities.utilities as u
 
-# Constants for API, in this case for Play.Ht, maybe
+# Constants for API, in this case for Play.Ht:
 API_URL = "https://api.play.ht/api/v1/convert"
 STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
 
