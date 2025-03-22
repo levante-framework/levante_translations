@@ -9,7 +9,6 @@ elevenlabs_stability = .65
 language_list = {}
 
 # current location of translated items
-# at some point can integrate with crowdin output
 translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated.csv"
 
 # currently we read right from there
@@ -19,14 +18,14 @@ stats_file_path = 'stats.csv'
 
 def get_languages(): 
 
+# Note: fr needs to be fr-CA
     language_list = {\
         'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
-        #'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice' : 'LeaNeural'}
-        }
-
-#        'English': {'lang_code':'en', 'service' : 'PlayHt', 'voice': 'en-US-AriaNeural'},
+        'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'LeaNeural'},
+        'Dutch': {'lang_code': 'nl', 'service' : 'PlayHt', 'voice' : 'HansNeural'},
+    }
 
     # Later we can add HT voices and Eleven voices to each of these
     # e.g. language_list['English']['ht_voices' : ht_english_voice_list]

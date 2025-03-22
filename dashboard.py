@@ -1,3 +1,4 @@
+from math import isnan
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -363,11 +364,14 @@ class App(ctk.CTk):
                 ourTree.column(col, width=200)
 
         # Insert DataFrame rows into the Treeview
+        # First row: {self.ourData.iloc[0].to_dict()}
         for index, row in self.ourData.iterrows():
             base = "audio_files"
 
             if isinstance(row['labels'], str) and row['labels'].strip():
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
+                if not isinstance(row[lang_code], str) and isnan(row[lang_code]):
+                    row[lang_code] = ''; # Don't want a Nan value
                 values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
