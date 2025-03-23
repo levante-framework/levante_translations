@@ -15,7 +15,8 @@ def generate_audio(language):
 #       arrange for an export/download directly from Crowdin
 #
 # For testing don't co-host with Text Translation repo
-    input_file_name = "translated_fixed.csv"
+    #input_file_name = "translated_fixed.csv"
+    input_file_name = conf.item_bank_translations
     diff_file_name = "needed_item_bank_translations.csv"
     master_file_path = "translation_master.csv"
 
@@ -25,7 +26,12 @@ def generate_audio(language):
 # so use a webURL
 
     # Turn into dataframe so we can do any needed edits
-    translationData = pd.read_csv(conf.item_bank_translations)
+    try:
+        # Try with explicit UTF-8 encoding
+        translationData = pd.read_csv(conf.item_bank_translations, encoding='utf-8')
+    except UnicodeDecodeError:
+        # If UTF-8 fails, try with a more permissive encoding
+        translationData = pd.read_csv(conf.item_bank_translations, encoding='latin1')
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
@@ -39,7 +45,7 @@ def generate_audio(language):
     #translationData = translationData.rename(columns={'labels': 'task'})
 
     # All data that we need to make sure is or has been generated
-    translationData.to_csv(input_file_name)
+    translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
 
     # The "master file" of already generated strings
     # There is/may also be an existing .csv file (translation_master.csv)
@@ -50,12 +56,11 @@ def generate_audio(language):
         # so that we know what needs to be generated
         masterData = translationData.copy(deep = True)
         
-        ## Needs to be parameterized by the languages in config.py
-        masterData['en'] = None
-        masterData['es-CO'] = None
-        masterData['de'] = None
-        masterData['fr'] = None
-        masterData.to_csv(master_file_path)
+        # Initialize all language columns from config
+        for language in language_dict.values():
+            lang_code = language['lang_code']
+            masterData[lang_code] = None
+        masterData.to_csv(master_file_path, encoding='utf-8', errors='replace')
         # Create baseline masterData
 
     # Now we have masterData & translationData
@@ -71,7 +76,19 @@ def generate_audio(language):
     service = our_language['service']
     voice = our_language['voice']
 
-
+    # remove the diff file to reset
+    if os.path.exists(diff_file_name):
+        try:
+            os.remove(diff_file_name)
+        except PermissionError:
+            # Force removal of locked file on Windows
+            import stat
+            os.chmod(diff_file_name, stat.S_IWRITE)
+            os.remove(diff_file_name)
+            
+    # Initialize diffData to an empty DataFrame before the loop
+    diffData = pd.DataFrame()
+    
     for index, ourRow in translationData.iterrows():
         print(f'Our lang: {lang_code} our row lang: {ourRow["en"]}')
         # check to see if our lang_code is already matched 
@@ -81,9 +98,14 @@ def generate_audio(language):
 
         # Find what we have generated for that phrase currently
         try:
-            translationCurrent = masterData.loc[masterData['item_id'] == item_id, lang_code].iloc[0]
-        except:
-            translationCurrent = masterData.loc[masterData['item_id'] == item_id, lang_code][1]
+            matched_rows = masterData.loc[masterData['item_id'] == item_id, lang_code]
+            if len(matched_rows) > 0:
+                translationCurrent = matched_rows.iloc[0]
+            else:
+                translationCurrent = None
+        except Exception as e:
+            print(f"Error finding translation for {item_id}: {e}")
+            translationCurrent = None
     
         if translationCurrent == translationNeeded:
             continue
@@ -92,32 +114,31 @@ def generate_audio(language):
         print(f'Current: {translationCurrent}, Needed: {translationNeeded}')
 
         try:
+            # Create a DataFrame with the same columns as translationData if diffData is empty
+            if diffData.empty:
+                diffData = pd.DataFrame(columns=translationData.columns)
             if isinstance(diffData, pd.DataFrame):
                 diffData.loc[len(diffData)] = ourRow
             else:
                 print("The variable 'diffData' exists but is not a DataFrame")
         except NameError:
-            # seed diffData with ourRow
-            # There _has_ to be a more flexible way!!
-            starterRow = {'item_id' : ourRow['item_id'],
-                      'en'      : ourRow['en'],
-                      'es-CO'   : ourRow['es-CO'],
-                      'de'      : ourRow['de'],
-                      'fr'      : ourRow['fr'],
-                      'labels'  : ourRow['labels']
-                      }
+            # This block should never be reached now that we initialize diffData
+            starterRow = {'item_id': ourRow['item_id'], 'labels': ourRow['labels']}
+            # Add all language columns from config
+            for language in language_dict.values():
+                lang_code = language['lang_code']
+                starterRow[lang_code] = ourRow[lang_code]
             diffData = pd.DataFrame(starterRow, index=[0])
 
-    # remove the diff file to reset
-    if os.path.exists(diff_file_name):
-        os.remove(diff_file_name)
     if not diffData.empty:
 
         # for debugging
         #print(f'Writing diff data {diffData}')
 
         # diff_file_name contains the items that need audio
-        diffData.to_csv(diff_file_name)
+        # Write diff data and ensure file is properly closed
+        with open(diff_file_name, 'w', encoding='utf-8', errors='replace') as f:
+            diffData.to_csv(f)
         retry_seconds = 1
         
         if service == 'PlayHt':

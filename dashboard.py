@@ -1,3 +1,4 @@
+from math import isnan
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -363,11 +364,14 @@ class App(ctk.CTk):
                 ourTree.column(col, width=200)
 
         # Insert DataFrame rows into the Treeview
+        # First row: {self.ourData.iloc[0].to_dict()}
         for index, row in self.ourData.iterrows():
             base = "audio_files"
 
             if isinstance(row['labels'], str) and row['labels'].strip():
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
+                if not isinstance(row[lang_code], str) and isnan(row[lang_code]):
+                    row[lang_code] = ''; # Don't want a Nan value
                 values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
@@ -423,77 +427,54 @@ class App(ctk.CTk):
             if self.tabview.winfo_exists():
                 active_tab = self.tabview.get()
 
-            # Needs refactoring:)!
-            if active_tab == "English":
-                lang_code = 'en'
-                if service == 'PlayHt':
-                    if self.ht_en_voice_list:
-                        return self.en_voice_list
-                elif service == 'ElevenLabs':
-                    if self.eleven_en_voice_list:
-                        return self.eleven_en_voice_list
-            elif active_tab == "Spanish":
-                lang_code = 'es-CO'
-                if service == 'PlayHt':
-                    if self.ht_es_voice_list:
-                        return self.ht_es_voice_list
-                elif service == 'ElevenLabs':
-                    if self.eleven_es_voice_list:
-                        return self.eleven_es_voice_list
-            elif active_tab == "German":
-                lang_code = 'de'
-                if service == 'PlayHt':
-                    if self.ht_de_voice_list:
-                        return self.ht_de_voice_list
-                elif service == 'ElevenLabs':
-                    if self.eleven_voice_list:
-                        return self.eleven_de_voice_list
-            elif active_tab == "French":
-                lang_code = 'fr'
-                if service == 'PlayHt':
-                    if self.ht_fr_voice_list:
-                        return self.ht_fr_voice_list
-                elif service == 'ElevenLabs':
-                    if self.eleven_fr_voice_list:
-                        return self.eleven_fr_voice_list
-            else:
-                print ("NO LANGUAGE")
+            # Get language code from config based on active tab
+            specific_language = self.language_dict.get(active_tab)
+            if not specific_language:
+                print("NO LANGUAGE")
                 exit()
+                
+            lang_code = specific_language.get('lang_code')
+            
+            # Check for cached voice lists
+            if service == 'PlayHt':
+                voice_list_attr = f'ht_{lang_code.replace("-","_")}_voice_list'
+                if hasattr(self, voice_list_attr) and getattr(self, voice_list_attr):
+                    return getattr(self, voice_list_attr)
+            elif service == 'ElevenLabs':
+                voice_list_attr = f'eleven_{lang_code.replace("-","_")}_voice_list'
+                if hasattr(self, voice_list_attr) and getattr(self, voice_list_attr):
+                    return getattr(self, voice_list_attr)
         except:
             # assume we will show english when created
             lang_code = 'en'
-
+            # HACK
+            service = "ElevenLabs"
+            
         # voice list not found
         if service == 'PlayHt':
             voice_list = playHt_utilities.list_voices(lang_code)
             voices = []
             for voice in voice_list:
                 voices.append(voice.get('value'))
-            if lang_code == 'en':
-                self.ht_en_voice_list = voices
-            elif lang_code == 'es-CO':
-                self.ht_es_voice_list = voices
-            elif lang_code == 'de':
-                self.ht_de_voice_list = voices
-            return voices    
+            # Create attribute name by replacing hyphens with underscores
+            voice_list_attr = f'ht_{lang_code.replace("-","_")}_voice_list'
+            # Set the attribute dynamically
+            setattr(self, voice_list_attr, voices)
+            return voices
 
         elif service == 'ElevenLabs':
             voice_dict = elevenlabs_utilities.list_voices(lang_code)
             voices = list(voice_dict.keys())
 
-            # We need to find a way to retrieve voice_ids later
-            # And we have 3 (for now) voice dictionaries
-            voice_ids = list(voice_dict.values())
-            if lang_code == 'en':
-                self.eleven_en_voice_dict = voice_dict
-                self.eleven_en_voice_list = voices
-            elif lang_code == 'es-CO':
-                self.eleven_es_voice_dict = voice_dict
-                self.eleven_es_voice_list = voices
-            elif lang_code == 'de':
-                self.eleven_de_voice_dict = voice_dict
-                self.eleven_de_voice_list = voices
-            return voices    
+            # Create attribute names by replacing hyphens with underscores
+            voice_dict_attr = f'eleven_{lang_code.replace("-","_")}_voice_dict'
+            voice_list_attr = f'eleven_{lang_code.replace("-","_")}_voice_list'
+
+            # Set the attributes dynamically
+            setattr(self, voice_dict_attr, voice_dict)
+            setattr(self, voice_list_attr, voices)
+
+            return voices
             
     def voice_compare_callback(self, chosen_voice, service):   
 
