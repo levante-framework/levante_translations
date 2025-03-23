@@ -11,6 +11,7 @@ from tkinter import font as tkfont
 from utilities import config as conf
 from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
+import numpy as np
 
 def create_directory(path):
     if not os.path.exists(path):
@@ -185,13 +186,11 @@ def show_ssml_tips(self):
     dialog.transient(self)
 
         
-"""
-Maybe this should be here instead of in each service??
 
-def save_audio(ourRow, lang_code, service):
-    with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
+def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData):
+    with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
         audio_base_dir, lang_code), "wb") as file:
-    file.write(audioData.content)
+        file.write(audioData.content)
 
     # Update our "cache" of successful transcriptions                            
     masterData[lang_code] = \
@@ -203,4 +202,3 @@ def save_audio(ourRow, lang_code, service):
     masterData.to_csv("translation_master.csv")
     # finished with the if statement        
     return 'Success'    
-"""
