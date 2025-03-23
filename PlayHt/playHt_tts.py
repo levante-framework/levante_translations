@@ -86,14 +86,15 @@ def processRow(index, ourRow, lang_code, voice, \
                 if 'error' in status_data:
                     if status_data['error'] == True: # and \
                         #status_data['message'] != 'Transcription still in progress':
-                        u.status(f'Error translating {ourRow["item_id"]}')
+                        print(f'Error translating {ourRow["item_id"]}') # Removed u.status since u is not defined
                         restartRequest = True
                         errorCount += 1
                         continue # we want to start the loop over
 
                 # Our transcription is successful                        
                 if status_data["converted"] == True:
-                    u.status(f"Conversion for {ourRow['item_id']} completed successfully!")
+                    # u is not defined - need to import utilities as u at top of file
+                    print(f"Conversion for {ourRow['item_id']} completed successfully!")
 
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
@@ -107,21 +108,8 @@ def processRow(index, ourRow, lang_code, voice, \
                     if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
                         restartRequest = False
                         errorCount = 0
-                        u.save_audio(ourRow, lang_code, service)
-                        with open(u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
-                                audio_base_dir, lang_code), "wb") as file:
-                            file.write(audioData.content)
-
-                            # Update our "cache" of successful transcriptions                            
-                            masterData[lang_code] = \
-                                np.where(masterData["item_id"] == ourRow["item_id"], \
-                                ourRow[lang_code], masterData[lang_code])
-
-                            # write as we go, so erroring out doesn't lose progress
-                            # Translated, so we can save it to a master sheet
-                            masterData.to_csv("translation_master.csv")
-                            # finished with the if statement        
-                            return 'Success'    
+                        return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData)
+                            
                 else:
                     # print(f"Conversion in progress. Status: {status_data['converted']}")
                     # currently most tasks complet in about 1 second, so .5 seconds
