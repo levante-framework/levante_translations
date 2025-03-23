@@ -35,13 +35,13 @@ def list_voices(lang_code):
         language_dict = conf.get_languages()
         # Find the language key by searching for matching lang_code
         language = next(lang for lang, attrs in language_dict.items() if attrs['lang_code'] == lang_code)
-        target_language = language_dict[language]['playht_language']
+        target_language = language_dict[language]['lang_code']
 
         # Filter voices by the specified language
         filtered_voices = [voice for voice in voices if \
-                           voice.get('language') == target_language \
-                    and voice.get('gender') == 'Female' \
-                    and voice.get('voiceType') == 'Neural']
+                           voice.get('languageCode') == target_language \
+                    and voice.get('gender') == 'Female'] #\
+                    #and voice.get('voiceType') == 'Neural']
 
         return(filtered_voices)
 

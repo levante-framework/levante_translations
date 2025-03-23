@@ -23,7 +23,7 @@ def get_languages():
         'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
-        'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'LeaNeural'},
+        'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'Gabrielle'},
         'Dutch': {'lang_code': 'nl', 'service' : 'PlayHt', 'voice' : 'FennaNeural'},
     }
 
