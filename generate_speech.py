@@ -15,7 +15,8 @@ def generate_audio(language):
 #       arrange for an export/download directly from Crowdin
 #
 # For testing don't co-host with Text Translation repo
-    input_file_name = "translated_fixed.csv"
+    #input_file_name = "translated_fixed.csv"
+    input_file_name = conf.item_bank_translations
     diff_file_name = "needed_item_bank_translations.csv"
     master_file_path = "translation_master.csv"
 
@@ -50,11 +51,10 @@ def generate_audio(language):
         # so that we know what needs to be generated
         masterData = translationData.copy(deep = True)
         
-        ## Needs to be parameterized by the languages in config.py
-        masterData['en'] = None
-        masterData['es-CO'] = None
-        masterData['de'] = None
-        masterData['fr'] = None
+        # Initialize all language columns from config
+        for language in language_dict.values():
+            lang_code = language['lang_code']
+            masterData[lang_code] = None
         masterData.to_csv(master_file_path)
         # Create baseline masterData
 
@@ -65,6 +65,7 @@ def generate_audio(language):
     # masterData is our state of generated audio files
 
     # get lang_code from language config
+    breakpoint()
     our_language = language_dict[language]
     lang_code = our_language['lang_code']
     # We need to support different services for different languages
@@ -99,13 +100,11 @@ def generate_audio(language):
         except NameError:
             # seed diffData with ourRow
             # There _has_ to be a more flexible way!!
-            starterRow = {'item_id' : ourRow['item_id'],
-                      'en'      : ourRow['en'],
-                      'es-CO'   : ourRow['es-CO'],
-                      'de'      : ourRow['de'],
-                      'fr'      : ourRow['fr'],
-                      'labels'  : ourRow['labels']
-                      }
+            starterRow = {'item_id': ourRow['item_id'], 'labels': ourRow['labels']}
+            # Add all language columns from config
+            for language in language_dict.values():
+                lang_code = language['lang_code']
+                starterRow[lang_code] = ourRow[lang_code]
             diffData = pd.DataFrame(starterRow, index=[0])
 
     # remove the diff file to reset

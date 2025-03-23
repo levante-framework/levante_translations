@@ -109,5 +109,6 @@ def processRow(index, ourRow, lang_code, voice, \
         return 'Success'    
 
     except:
-        u.status(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
+        # u is not defined - need to import utilities as u at top of file
+        print(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
         return 'Failure'

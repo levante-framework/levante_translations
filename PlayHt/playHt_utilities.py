@@ -32,16 +32,10 @@ def list_voices(lang_code):
     
          # Specify the language you want to filter by
          # This needs to be parameterized!
-        if lang_code == 'en':
-            target_language = "English (US)"  # Change this to your desired language
-        elif lang_code == 'de':
-            target_language = "German"  # Change this to your desired language
-        elif lang_code == 'es-CO':
-            target_language = "Spanish (Colombia)"  # Change this to your desired language
-        elif lang_code == 'fr':
-            target_language = "French"  # Change this to your desired language
-        else:
-            return("Error")
+        language_dict = conf.get_languages()
+        # Find the language key by searching for matching lang_code
+        language = next(lang for lang, attrs in language_dict.items() if attrs['lang_code'] == lang_code)
+        target_language = language_dict[language]['playht_language']
 
         # Filter voices by the specified language
         filtered_voices = [voice for voice in voices if \

@@ -24,7 +24,7 @@ def get_languages():
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
         'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'LeaNeural'},
-        'Dutch': {'lang_code': 'nl', 'service' : 'PlayHt', 'voice' : 'HansNeural'},
+        'Dutch': {'lang_code': 'nl', 'service' : 'PlayHt', 'voice' : 'FennaNeural'},
     }
 
     # Later we can add HT voices and Eleven voices to each of these

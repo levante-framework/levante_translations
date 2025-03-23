@@ -86,14 +86,15 @@ def processRow(index, ourRow, lang_code, voice, \
                 if 'error' in status_data:
                     if status_data['error'] == True: # and \
                         #status_data['message'] != 'Transcription still in progress':
-                        u.status(f'Error translating {ourRow["item_id"]}')
+                        print(f'Error translating {ourRow["item_id"]}') # Removed u.status since u is not defined
                         restartRequest = True
                         errorCount += 1
                         continue # we want to start the loop over
 
                 # Our transcription is successful                        
                 if status_data["converted"] == True:
-                    u.status(f"Conversion for {ourRow['item_id']} completed successfully!")
+                    # u is not defined - need to import utilities as u at top of file
+                    print(f"Conversion for {ourRow['item_id']} completed successfully!")
 
                     # set the download URL for retrieval or get it right here?
                     downloadURL = status_data['audioUrl']
