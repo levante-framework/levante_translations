@@ -20,11 +20,11 @@ def get_languages():
 
 # Note: fr needs to be fr-CA
     language_list = {\
-        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
+        'English': {'lang_code':'en-US', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
-        'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
+        'German': {'lang_code': 'de-DE', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
         'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'Gabrielle'},
-        'Dutch': {'lang_code': 'nl', 'service' : 'PlayHt', 'voice' : 'FennaNeural'},
+        'Dutch': {'lang_code': 'nl-NL', 'service' : 'PlayHt', 'voice' : 'FennaNeural'},
     }
 
     # Later we can add HT voices and Eleven voices to each of these
