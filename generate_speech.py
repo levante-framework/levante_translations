@@ -41,7 +41,12 @@ def generate_audio(language):
     # labels -> task
     # text -> en
     translationData = translationData.rename(columns={'identifier': 'item_id'})
-    translationData = translationData.rename(columns={'text': 'en'})
+    translationData = translationData.rename(columns={'text': 'en-US'})
+    translationData = translationData.rename(columns={'de': 'de-DE'})
+    translationData = translationData.rename(columns={'es': 'es-CO'})
+    translationData = translationData.rename(columns={'fr': 'fr-CA'})
+    translationData = translationData.rename(columns={'nl': 'nl-NL'})
+
     #translationData = translationData.rename(columns={'labels': 'task'})
 
     # All data that we need to make sure is or has been generated

@@ -26,7 +26,15 @@ class App(ctk.CTk):
         ## Uses our default file name
         self.ourData = pd.read_csv(conf.item_bank_translations)
         self.ourData = self.ourData.rename(columns={'identifier': 'item_id'})
-        self.ourData = self.ourData.rename(columns={'text': 'en'})
+
+        # This needs to be refactored!
+        self.ourData = self.ourData.rename(columns={'text': 'en-US'})
+        self.ourData = self.ourData.rename(columns={'en': 'en-US'})
+        self.ourData = self.ourData.rename(columns={'de': 'de-DE'})
+        self.ourData = self.ourData.rename(columns={'es': 'es-CO'})
+        self.ourData = self.ourData.rename(columns={'fr': 'fr-CA'})
+        self.ourData = self.ourData.rename(columns={'nl': 'nl-NL'})
+
 
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
@@ -372,7 +380,7 @@ class App(ctk.CTk):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 if not isinstance(row[lang_code], str) and isnan(row[lang_code]):
                     row[lang_code] = ''; # Don't want a Nan value
-                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
+                values = [row['item_id'], row['labels'], row['en-US'], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
                 values[2] = u.wrap_text(values[2])
