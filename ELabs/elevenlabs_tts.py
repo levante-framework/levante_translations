@@ -38,6 +38,13 @@ def main(
     inputData = pd.read_csv(input_file_path, index_col=0)
     masterData = pd.read_csv(master_file_path, index_col=0)
 
+    # Rename columns to match lang_codes used in the script
+    masterData = masterData.rename(columns={'en': 'en-US',
+                                             'de': 'de-DE',
+                                             'es': 'es-CO',
+                                             'fr': 'fr-CA',
+                                             'nl': 'nl-NL'})
+
     # build API call
     headers = {
         'Authorization': api_key,
