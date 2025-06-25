@@ -32,16 +32,33 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
+    # Check if the column exists, if not try the original column name
+    if lang_code in ourRow:
+        translation_text = ourRow[lang_code]
+    elif lang_code == 'en-US' and 'en' in ourRow:
+        translation_text = ourRow['en']
+    elif lang_code == 'de-DE' and 'de' in ourRow:
+        translation_text = ourRow['de']
+    elif lang_code == 'es-CO' and 'es-CO' in ourRow:
+        translation_text = ourRow['es-CO']
+    elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
+        translation_text = ourRow['fr-CA']
+    elif lang_code == 'nl-NL' and 'nl' in ourRow:
+        translation_text = ourRow['nl']
+    else:
+        print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+        return 'Error'
+
     # Assemble data packet to pass to PlayHT
     # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
     
     # we want to begin to support SSML, so convert to that format:
-    #ssmlText = u.html_to_ssml(ourRow[lang_code])
+    #ssmlText = u.html_to_ssml(translation_text)
     # However SSML requires different params, so experiment in the
     # dashboard first!
     data = {
         # content needs to be a list, even if we only do one at a time
-        "content" : [ourRow[lang_code]],
+        "content" : [translation_text],
         "voice": voice,
         "title": "Levante Audio", # not sure where this matters?
         "trimSilence": False
