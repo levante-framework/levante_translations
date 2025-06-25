@@ -91,9 +91,26 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
+    # Check if the column exists, if not try the original column name
+    if lang_code in ourRow:
+        translation_text = ourRow[lang_code]
+    elif lang_code == 'en-US' and 'en' in ourRow:
+        translation_text = ourRow['en']
+    elif lang_code == 'de-DE' and 'de' in ourRow:
+        translation_text = ourRow['de']
+    elif lang_code == 'es-CO' and 'es-CO' in ourRow:
+        translation_text = ourRow['es-CO']
+    elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
+        translation_text = ourRow['fr-CA']
+    elif lang_code == 'nl-NL' and 'nl' in ourRow:
+        translation_text = ourRow['nl']
+    else:
+        print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+        return 'Error'
+
     try:
         audio = audio_client.generate(
-            text=ourRow[lang_code],
+            text=translation_text,
             voice=voice,
             model="eleven_multilingual_v2"
         )
@@ -107,7 +124,7 @@ def processRow(index, ourRow, lang_code, voice, \
         # Update our "cache" of successful transcriptions                            
         masterData[lang_code] = \
             np.where(masterData["item_id"] == ourRow["item_id"], \
-            ourRow[lang_code], masterData[lang_code])
+            translation_text, masterData[lang_code])
 
         # write as we go, so erroring out doesn't lose progress
         # Translated, so we can save it to a master sheet
@@ -117,5 +134,5 @@ def processRow(index, ourRow, lang_code, voice, \
 
     except:
         # u is not defined - need to import utilities as u at top of file
-        print(f'Failed to generate {ourRow[lang_code]} for voice {voice}\n')
+        print(f'Failed to generate {translation_text} for voice {voice}\n')
         return 'Failure'

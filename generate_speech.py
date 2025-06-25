@@ -95,10 +95,27 @@ def generate_audio(language):
     diffData = pd.DataFrame()
     
     for index, ourRow in translationData.iterrows():
-        print(f'Our lang: {lang_code} our row lang: {ourRow["en"]}')
+        # Check if the column exists, if not try the original column name
+        if lang_code in ourRow:
+            translation_text = ourRow[lang_code]
+        elif lang_code == 'en-US' and 'en' in ourRow:
+            translation_text = ourRow['en']
+        elif lang_code == 'de-DE' and 'de' in ourRow:
+            translation_text = ourRow['de']
+        elif lang_code == 'es-CO' and 'es-CO' in ourRow:
+            translation_text = ourRow['es-CO']
+        elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
+            translation_text = ourRow['fr-CA']
+        elif lang_code == 'nl-NL' and 'nl' in ourRow:
+            translation_text = ourRow['nl']
+        else:
+            print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+            continue
+            
+        print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         # check to see if our lang_code is already matched 
         # this is the language phrase we need to see if we have generated
-        translationNeeded = ourRow[lang_code]
+        translationNeeded = translation_text
         item_id = ourRow['item_id']
 
         # Find what we have generated for that phrase currently
