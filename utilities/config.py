@@ -9,7 +9,7 @@ elevenlabs_stability = .65
 language_list = {}
 
 # current location of translated items
-translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_main/text/translated_prompts.csv"
+translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv"
 
 # currently we read right from there
 item_bank_translations = translatedTextURL
