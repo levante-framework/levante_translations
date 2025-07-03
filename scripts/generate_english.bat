@@ -1,1 +1,1 @@
-python ..\generate_speech.py "English" "Alexandra - Conversational and Real"
+python ..\generate_speech.py "English" "en-US-AriaNeural"

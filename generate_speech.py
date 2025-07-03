@@ -18,7 +18,7 @@ def generate_audio(language):
     #input_file_name = "translated_fixed.csv"
     input_file_name = conf.item_bank_translations
     diff_file_name = "needed_item_bank_translations.csv"
-    master_file_path = "translation_master.csv"
+    master_file_path = "../translation_master.csv"
 
 # Raw Github URL for translations uploaded from Crowdin
 # for debugging use the service branch, later change to main
@@ -41,11 +41,8 @@ def generate_audio(language):
     # labels -> task
     # text -> en
     translationData = translationData.rename(columns={'identifier': 'item_id'})
-    translationData = translationData.rename(columns={'text': 'en-US'})
-    translationData = translationData.rename(columns={'de': 'de-DE'})
-    translationData = translationData.rename(columns={'es': 'es-CO'})
-    translationData = translationData.rename(columns={'fr': 'fr-CA'})
-    translationData = translationData.rename(columns={'nl': 'nl-NL'})
+    translationData = translationData.rename(columns={'es-CO': 'es-co'})
+    translationData = translationData.rename(columns={'fr': 'fr-ca'})
 
     #translationData = translationData.rename(columns={'labels': 'task'})
 
@@ -54,7 +51,7 @@ def generate_audio(language):
 
     # The "master file" of already generated strings
     # There is/may also be an existing .csv file (translation_master.csv)
-    if os.path.exists("translation_master.csv"):
+    if os.path.exists(master_file_path):
         masterData = pd.read_csv(master_file_path)
     else:
         # Create a "null state" generation status file
