@@ -44,10 +44,10 @@ def list_voices(lang_code):
                     and voice.get('gender') == 'Female'] #\
                     #and voice.get('voiceType') == 'Neural']
 
-        # Update voice mappings with the voices we found
+        # Update voice mappings with the fetched voices
         for voice in filtered_voices:
             voice_name = voice.get('name', '')
-            voice_id = voice.get('value', '')
+            voice_id = voice.get('value', '')  # Old API uses 'value' instead of 'id'
             if voice_name and voice_id:
                 voice_mapping.add_voice_mapping(voice_name, voice_id)
 
