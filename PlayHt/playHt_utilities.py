@@ -6,6 +6,7 @@ from utilities import utilities as u
 from pyht import Client
 import utilities.config as conf
 import time
+from . import voice_mapping
 
 # Constants for API, in this case for Play.Ht, maybe
 API_URL = "https://api.play.ht/api/v1/convert"
@@ -43,6 +44,13 @@ def list_voices(lang_code):
                     and voice.get('gender') == 'Female'] #\
                     #and voice.get('voiceType') == 'Neural']
 
+        # Update voice mappings with the voices we found
+        for voice in filtered_voices:
+            voice_name = voice.get('name', '')
+            voice_id = voice.get('value', '')
+            if voice_name and voice_id:
+                voice_mapping.add_voice_mapping(voice_name, voice_id)
+
         return(filtered_voices)
 
 # Print voice details for debugging
@@ -65,6 +73,13 @@ def get_audio(text, voice):
 
     retrySeconds = 1
     errorCount = 0
+
+    # Convert readable voice name to PlayHT voice ID if needed
+    voice_id = voice_mapping.get_voice_id(voice)
+    if voice_id:
+        voice = voice_id
+    else:
+        print(f"Warning: Using voice '{voice}' directly (no mapping found)")
 
     # for now we are getting passed ssml already
     ssml_text = u.html_to_ssml(text)

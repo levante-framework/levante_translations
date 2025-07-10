@@ -10,6 +10,7 @@ import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
 import utilities.utilities as u
+from . import voice_mapping
 
 # Constants for API, in this case for Play.Ht, maybe
 API_URL = "https://api.play.ht/api/v1/convert"
@@ -51,6 +52,13 @@ def processRow(index, ourRow, lang_code, voice, \
 
     # Assemble data packet to pass to PlayHT
     # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
+    
+    # Convert readable voice name to PlayHT voice ID if needed
+    voice_id = voice_mapping.get_voice_id(voice)
+    if voice_id:
+        voice = voice_id
+    else:
+        print(f"Warning: Using voice '{voice}' directly (no mapping found)")
     
     # we want to begin to support SSML, so convert to that format:
     #ssmlText = u.html_to_ssml(translation_text)
