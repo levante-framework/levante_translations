@@ -21,9 +21,9 @@ def get_languages():
 # Updated for PlayHt API v2 with correct voice IDs and language codes
     language_list = {\
         'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
-        'Spanish': {'lang_code': 'es', 'service' : 'PlayHt', 'voice': 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json'},
-        'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice' :'s3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json'},
-        'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice' : 's3://voice-cloning-zero-shot/067f8a04-9138-440b-971d-5cce69f4c271/original/manifest.json'},
+        'Spanish': {'lang_code': 'es', 'service' : 'PlayHt', 'voice': 'Spanish_Violeta Narrative'},
+        'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice': 'German_Anke Narrative'},
+        'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice': 'French_Ange Narrative'},
         'Dutch': {'lang_code': 'nl', 'service' : 'ElevenLabs', 'voice' : 'Xander'},
     }
 
