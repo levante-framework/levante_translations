@@ -9,7 +9,7 @@ elevenlabs_stability = .65
 language_list = {}
 
 # current location of translated items
-translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_main/text/translated_prompts.csv"
+translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv"
 
 # currently we read right from there
 item_bank_translations = translatedTextURL
@@ -18,13 +18,13 @@ stats_file_path = 'stats.csv'
 
 def get_languages(): 
 
-# Note: fr needs to be fr-CA
+# Updated for PlayHt API v2 with correct voice IDs and language codes
     language_list = {\
-        'English': {'lang_code':'en-US', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
-        'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'es-CO-SalomeNeural'},
-        'German': {'lang_code': 'de-DE', 'service' : 'PlayHt', 'voice' :'VickiNeural'},
-        'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice' : 'Gabrielle'},
-        'Dutch': {'lang_code': 'nl-NL', 'service' : 'PlayHt', 'voice' : 'FennaNeural'},
+        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
+        'Spanish': {'lang_code': 'es', 'service' : 'PlayHt', 'voice': 'Spanish_Violeta Narrative'},
+        'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice': 'German_Anke Narrative'},
+        'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice': 'French_Ange Narrative'},
+        'Dutch': {'lang_code': 'nl', 'service' : 'ElevenLabs', 'voice' : 'Xander'},
     }
 
     # Later we can add HT voices and Eleven voices to each of these
