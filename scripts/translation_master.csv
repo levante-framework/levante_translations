@@ -1,4 +1,4 @@
-,item_id,labels,en-US,es-CO,de-DE,fr-CA,nl-NL,context,en-US
+,item_id,labels,en-US,es-CO,de-DE,fr-CA,nl-NL,context,en-US.1
 0,general-intro1,general,Hi! We are excited to have you play some games with us today!,¡Hola! ¡Estamos encantados de que juegues hoy con nosotros!,,,,"general-intro1
 Final es-co & de translation review complete",
 1,general-intro2,general,"First, you get to choose a buddy to play along with you. As you complete the different games, you will get to pick an accessory like a hat or glasses to decorate your buddy.","En primer lugar, tienes que elegir a un amigo para que juegue contigo. A medida que completes los diferentes juegos, podrás elegir un accesorio como un sombrero o unas gafas para decorar a tu amigo.",,,,"general-intro2
@@ -50,7 +50,7 @@ Final es-co & de translation review complete",
 ",
 21,general-exit,general,Exit,Salir,,,,"general-exit
 Final es-co & de translation review complete",
-22,task-completion,general,You've finished this game. Thank you!,Has terminado este juego. ¡Gracias!,,,,"task-completion
+22,task-completion,general,You've completed this game. Thank you!,Has completado el juego. ¡Gracias!,,,,"task-completion
 Final es-co & de translation review complete",
 23,matrix-reasoning-instruct1,matrix-reasoning,"We’re going to show you a puzzle, and your job is to pick the best piece to complete the puzzle. Let's get started!",Vamos a mostrarte un rompecabezas. Tu tarea es elegir la mejor pieza para completarlo. ¡Empecemos!,,,,"matrix-reasoning-instruct1
 Es-co complete, de still needs review.",
@@ -66,13 +66,17 @@ Final es-co & de translation review complete",
 Final es-co & de translation review complete",
 29,mental-rotation-test-instruct4,mental-rotation,Now you try! Can you find the shape that goes with the outline?,"¡Ahora, inténtalo tú! ¿Puedes encontrar la figura que va con la silueta?",,,,"mental-rotation-test-instruct4
 Final es-co & de translation review complete",
-30,mental-rotation-instruct-3D,mental-rotation,Now you will see pictures that show blocks with three sides. Your task is to choose the matching picture.,Ahora verás imágenes que muestran bloques con tres lados. Tu tarea es elegir la imagen que coincide.,,,,"mental-rotation-instruct-3D
+30,mental-rotation-instruct-3D,mental-rotation,Now you will see pictures that show blocks with three sides. Your task is to choose the matching picture.,Ahora verás unas imágenes de bloques que tienen tres lados. Tu tarea es elegir la imagen que coincide.,,,,"mental-rotation-instruct-3D
 ",
 31,mental-rotation-prompt2,mental-rotation,Choose the picture that matches this one.,Escoge la imagen que coincida con esta.,,,,"mental-rotation-prompt2
 Final es-co & de translation review complete",
 32,mental-rotation-prompt1,mental-rotation,Choose the matching picture.,Escoge la imagen que coincide.,,,,"mental-rotation-prompt1
 Final es-co & de translation review complete",
-33,math-instructions1,math,"In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!","En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Esfuérzate al máximo y tómate tu tiempo. La mayoría de las preguntas tienen cuatro opciones. Eliges la que consideres correcta. ¡Empecemos!",,,,"math-instructions1
+33,math-instructions1,math,"In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!","En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. 
+
+Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Esfuérzate al máximo y tómate tu tiempo. La mayoría de las preguntas tienen cuatro opciones. Elige la que consideres correcta. ¡Empecemos!",,,,"math-instructions1
 Es-co complete, de still needs review.",
 34,number-comparison-prompt1,math,Which number is larger?,¿Cuál número es mayor?,,,,"number-comparison-prompt1
 Es-co complete, de still needs review.",
@@ -96,11 +100,11 @@ Es-co complete, de still needs review.",
 Es-co complete, de still needs review.",
 44,multiplication-prompt2,math,Multiply the numbers.,Multiplica los números.,,,,"multiplication-prompt2
 Es-co complete, de still needs review.",
-45,number-line-instruct1,math,Here is a number line. You can move the red line forward and backward along the black line. Move the red line so it is in the right place to show where the number would fit. Make sure you look at the numbers at each end when deciding where to move the red line.,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.,,,,"number-line-instruct1
+45,number-line-instruct1,math,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Aquí tienes una recta numérica. Mira qué números están en los extremos. Puedes mover la barra roja hacia delante y hacia atrás a lo largo de la línea negra. Pon la barra roja en el lugar del número indicado.,,,,"number-line-instruct1
 Es-co complete, de still needs review.",
 46,number-line-prompt1,math,Choose the number that is marked on the number line.,Esocoge el número que está marcado en la recta numérica.,,,,"number-line-prompt1
 Es-co complete, de still needs review.",
-47,number-line-slider-prompt1,math,Move the red line to mark the number.,Pon la barra roja sobre la linea recta en el lugar del número indicado.,,,,"number-line-slider-prompt1
+47,number-line-slider-prompt1,math,Move the slider to mark the number.,Ubica el marcador sobre la recta numérica para marcar el lugar del número.,,,,"number-line-slider-prompt1
 Es-co complete, de still needs review.",
 48,number-identification-1,math,Choose the number 1.,Escoge el número 1.,,,,"number-identification-1
 Es-co complete, de still needs review.",
@@ -146,11 +150,11 @@ Es-co complete, de still needs review.",
 Es-co complete, de still needs review.",
 69,trog-instruct1,trog,"Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started!","Ahora, ¡vamos a hacer un juego de asociación! Yo diré palabras y tú eliges la imagen que va con las palabras que yo diga. ¡Empecemos!",,,,"trog-instruct1
 Es-co complete, de still needs review.",
-70,trog-prompt1,trog,Choose the picture of the...,Escoge la imagen del...,,,,"trog-prompt1
+70,trog-prompt1,trog,Choose the picture of the...,Escoge el dibujo del...,,,,"trog-prompt1
 Es-co complete, de still needs review.",
-71,trog-prompt2,trog,Choose the picture of...,Escoge la imagen de...,,,,"trog-prompt2
+71,trog-prompt2,trog,Choose the picture of...,Escoge el dibujo de...,,,,"trog-prompt2
 Es-co complete, de still needs review.",
-72,trog-prompt3,trog,Choose the picture that shows...,Escoge la imagen que muestra...,,,,"trog-prompt3
+72,trog-prompt3,trog,Choose the picture that shows...,Escoge el dibujo que muestra...,,,,"trog-prompt3
 Es-co complete, de still needs review.",
 73,trog-item-1,trog,Choose the picture of the shoe.,Escoge la imagen del zapato.,,,,"trog-item-1
 Es-co complete, de still needs review.",
@@ -660,19 +664,19 @@ Final es-co & de translation review complete",
 Final es-co & de translation review complete",
 324,memory-game-display,memory-game,Watch the squares light up.,Observa se iluminan los cuadrados.,,,,"memory-game-display
 Final es-co & de translation review complete",
-325,memory-game-input,memory-game,Touch the squares in the same order.,Toca los cuadrados en el mismo orden.,,,,"memory-game-input
+325,memory-game-input,memory-game,Choose the squares in the same order.,Toca los cuadrados en el mismo orden.,,,,"memory-game-input
 Final es-co & de translation review complete",
 326,memory-game-instruct1,memory-game,This is the memory game. Here's how you play it.,Este es el juego de la memoria. Las reglas son las siguientes.,,,,"memory-game-instruct1
 Final es-co & de translation review complete",
 327,memory-game-instruct2,memory-game,You will see squares light up.,Verás que los cuadrados se iluminan.,,,,"memory-game-instruct2
 Final es-co & de translation review complete",
-328,memory-game-instruct3,memory-game,You're going to touch the squares in the same order.,Vas a tocar los cuadrados en el mismo orden.,,,,"memory-game-instruct3
+328,memory-game-instruct3,memory-game,You're going to choose the squares in the same order.,Vas a tocar los cuadrados en el mismo orden.,,,,"memory-game-instruct3
 Final es-co & de translation review complete",
 329,memory-game-instruct4,memory-game,Watch carefully! Try to remember the order.,¡Observa con atención! Intenta recordar el orden.,,,,"memory-game-instruct4
 Final es-co & de translation review complete",
 330,memory-game-forward-prompt,memory-game,Choose the squares in the same order.,Escoge los cuadrados en el mismo orden.,,,,"memory-game-forward-prompt
 Final es-co & de translation review complete",
-331,memory-game-forward-try-again,memory-game,That's not right. Try again. Choose the squares in the same order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en el mismo orden.,,,,"memory-game-forward-try-again
+331,memory-game-forward-try-again,memory-game,That's not quite right. Please try again. Choose the squares in the same order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en el mismo orden.,,,,"memory-game-forward-try-again
 ",
 332,memory-game-instruct5,memory-game,This time the game won't tell you if you're right or wrong. Let’s start playing the memory game!,Esta vez el juego no te dirá si la respuesta es correcta o no. ¡Empecemos a jugar al juego de memoria!,,,,"memory-game-instruct5
 Final es-co & de translation review complete",
@@ -682,13 +686,13 @@ Final es-co & de translation review complete",
 Final es-co & de translation review complete",
 335,memory-game-backward-prompt,memory-game,Choose the squares in the backward order.,Escoge los cuadrados en orden inverso.,,,,"memory-game-backward-prompt
 Final es-co & de translation review complete",
-336,memory-game-backward-try-again,memory-game,That's not right. Try again. Choose the squares in the backward order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en orden inverso.,,,,"memory-game-backward-try-again
+336,memory-game-backward-try-again,memory-game,That's not quite right. Please try again. Choose the squares in the backward order.,La respuesta no es correcta.  Inténtalo de nuevo. Escoge los cuadrados en orden inverso.,,,,"memory-game-backward-try-again
 ",
 337,heart-instruct1,hearts-and-flowers,This is the heart game. Here's how you play it.,Este es el juego del corazón. Las reglas son las siguientes.,,,,"heart-instruct1
 Final es-co & de translation review complete",
 338,heart-instruct2,hearts-and-flowers,"When you see a heart, press the button on the same side.","Cuando veas un corazón, presiona el botón del mismo lado.",,,,"heart-instruct2
 Final es-co & de translation review complete",
-339,hearts-and-flowers-try-again,hearts-and-flowers,That's not right. Try again.,La respuesta no es correcta.  Inténtalo de nuevo.,,,,"hearts-and-flowers-try-again
+339,hearts-and-flowers-try-again,hearts-and-flowers,That's not quite right. Please try again.,La respuesta no es correcta.  Inténtalo de nuevo.,,,,"hearts-and-flowers-try-again
 Final es-co & de translation review complete",
 340,heart-practice-feedback1,hearts-and-flowers,The heart is on the right side. Press the right button.,El corazón está en el lado derecho. Presiona el botón derecho.,,,,"heart-practice-feedback1
 Final es-co & de translation review complete",
@@ -1160,9 +1164,9 @@ Final es-co & de translation review complete",
 ",
 574,ToM-scene-8-q5-false_belief,theory-of-mind,Should Allie get in trouble with the teacher for taking Mike’s pencil?,Should Allie get in trouble with the teacher for taking Mike’s pencil?,,,,"ToM-scene-8-q5-false_belief
 ",
-575,ToM-scene-8-q6-reality_check,theory-of-mind,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,,,,"ToM-scene-8-q6-reality_check
+575,ToM-scene-8-q6-reality_check,theory-of-mind,Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?,Can you help Mike find his pencil? Is it on top of the shelf or behind the shelf?,,,,"ToM-scene-8-q6-reality_check
 ",
-576,ToM-scene-8-q7-reality_check,theory-of-mind,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,,,,"ToM-scene-8-q7-reality_check
+576,ToM-scene-8-q7-reality_check,theory-of-mind,Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?,Can you help Allie find her pencil? Is it on top of the shelf or behind the shelf?,,,,"ToM-scene-8-q7-reality_check
 ",
 577,ToM-scene-9-instruct1,theory-of-mind,"This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark is drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books, a book about cups and a book about hills.","This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark is drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books, a book about cups and a book about hills.",,,,"ToM-scene-9-instruct1
 ",
@@ -1192,7 +1196,7 @@ Final es-co & de translation review complete",
 ",
 590,ToM-scene-10-q2-emotion_reasoning,theory-of-mind,How would Megan feel if she received a book?,How would Megan feel if she received a book?,,,,"ToM-scene-10-q2-emotion_reasoning
 ",
-591,ToM-scene-10-instruct3,theory-of-mind,"Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”",,,,"ToM-scene-10-instruct3
+591,ToM-scene-10-instruct3,theory-of-mind,"Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”","Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” and Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”",,,,"ToM-scene-10-instruct3
 ",
 592,ToM-scene-10-q3-reality_check,theory-of-mind,Is Brian lying?,Is Brian lying?,,,,"ToM-scene-10-q3-reality_check
 ",
@@ -1206,15 +1210,15 @@ Final es-co & de translation review complete",
 ",
 597,ToM-scene-11-instruct1,theory-of-mind,"This is Josh. Earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.","This is Josh. Earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.",,,,"ToM-scene-11-instruct1
 ",
-598,ToM-scene-11-instruct2,theory-of-mind,"Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”",,,,"ToM-scene-11-instruct2
+598,ToM-scene-11-instruct2,theory-of-mind,"Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”","Josh’s mom just walked in and Josh asks his mom to get one of the toys. And Josh tells his mom, “I want the small ball!”",,,,"ToM-scene-11-instruct2
 ",
 599,ToM-scene-11-q1-reference,theory-of-mind,Which ball will mom get for Josh?,Which ball will mom get for Josh?,,,,"ToM-scene-11-q1-reference
 ",
 600,ToM-scene-11-q2-reality_check,theory-of-mind,Which ball does Josh want?,Which ball does Josh want?,,,,"ToM-scene-11-q2-reality_check
 ",
-601,baseball,theory-of-mind,The baseball,The baseball,,,,"baseball
+601,baseball,theory-of-mind,The small baseball,The baseball,,,,"baseball
 ",
-602,soccerball,theory-of-mind,The soccer ball,The soccer ball,,,,"soccerball
+602,soccerball,theory-of-mind,The medium sized soccer ball,The soccer ball,,,,"soccerball
 ",
 603,basketball,theory-of-mind,A basketball,A basketball,,,,"basketball
 ",
@@ -1222,15 +1226,15 @@ Final es-co & de translation review complete",
 ",
 605,ToM-scene-11-q4-emotion_reasoning,theory-of-mind,How do you think Josh would feel if he had received the correct toy?,How do you think Josh would feel if he had received the correct toy?,,,,"ToM-scene-11-q4-emotion_reasoning
 ",
-606,ToM-scene-12-instruct1,theory-of-mind,"This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.",,,,"ToM-scene-12-instruct1
+606,ToM-scene-12-instruct1,theory-of-mind,"This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.","This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her green ball at recess.",,,,"ToM-scene-12-instruct1
 ",
 607,ToM-scene-12-instruct2,theory-of-mind,"Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.","Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.",,,,"ToM-scene-12-instruct2
 ",
 608,ToM-scene-12-q1-false_belief,theory-of-mind,Which toy does Dad think Emma wants to bring to school?,Which toy does Dad think Emma wants to bring to school?,,,,"ToM-scene-12-q1-false_belief
 ",
-609,ToM-scene-12-instruct3,theory-of-mind,"Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.",,,,"ToM-scene-12-instruct3
+609,ToM-scene-12-instruct3,theory-of-mind,"Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.","Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her green ball. Dad goes to pack Emma’s bag, but can’t find her green ball in the toy box! But dad finds a purple ball in the toy box, so he packs the purple ball for Emma instead.",,,,"ToM-scene-12-instruct3
 ",
-610,ToM-scene-12-q2-false_belief,theory-of-mind,Does Emma know that Dad packed the purple ball?,Does Emma know that Dad packed the purple ball?,,,,"ToM-scene-12-q2-false_belief
+610,ToM-scene-12-q2-false_belief,theory-of-mind,Does Emma know that Dad packed the blue ball?,Does Emma know that Dad packed the purple ball?,,,,"ToM-scene-12-q2-false_belief
 ",
 611,ToM-scene-12-q3-false_belief,theory-of-mind,Which ball does Emma think Dad packed?,Which ball does Emma think Dad packed?,,,,"ToM-scene-12-q3-false_belief
 ",
@@ -1344,11 +1348,11 @@ Final es-co & de translation review complete",
 ",
 666,ToM-scene-17-q2-reality_check,theory-of-mind,Which stack of books was Mika talking about?,Which stack of books was Mika talking about?,,,,"ToM-scene-17-q2-reality_check
 ",
-667,bluestack,theory-of-mind,The blue stack,The blue stack,,,,"bluestack
+667,bluestack,theory-of-mind,The large blue stack,The blue stack,,,,"bluestack
 ",
-668,redstack,theory-of-mind,The red stack,The red stack,,,,"redstack
+668,redstack,theory-of-mind,The medium sized red stack,The red stack,,,,"redstack
 ",
-669,yellowstack,theory-of-mind,The yellow stack,The yellow stack,,,,"yellowstack
+669,yellowstack,theory-of-mind,The small yellow stack,The yellow stack,,,,"yellowstack
 ",
 670,ToM-scene-17-q3-emotion_reasoning,theory-of-mind,Mom looks in the wrong stack of books and can’t find the book that she wanted. How do you think Mom feels about not finding the book she wanted?,Mom looks in the wrong stack of books and can’t find the book that she wanted. How do you think Mom feels about not finding the book she wanted?,,,,"ToM-scene-17-q3-emotion_reasoning
 ",
