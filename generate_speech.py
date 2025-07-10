@@ -39,13 +39,23 @@ def generate_audio(language):
     # Current export from Crowdin has columns of
     # identifier -> item_id
     # labels -> task
-    # text -> en
+    # Handle mixed column formats in the CSV
     translationData = translationData.rename(columns={'identifier': 'item_id'})
-    translationData = translationData.rename(columns={'text': 'en-US'})
-    translationData = translationData.rename(columns={'de': 'de-DE'})
-    translationData = translationData.rename(columns={'es': 'es-CO'})
-    translationData = translationData.rename(columns={'fr': 'fr-CA'})
-    translationData = translationData.rename(columns={'nl': 'nl-NL'})
+    
+    # Rename columns to match our simplified language codes
+    column_mapping = {
+        'text': 'en',        # English text column
+        'es-CO': 'es',       # Spanish: es-CO -> es
+        'fr-CA': 'fr',       # French: fr-CA -> fr
+        'nl-NL': 'nl'        # Dutch: nl-NL -> nl (if it exists)
+    }
+    
+    # Only rename columns that actually exist in the data
+    for old_col, new_col in column_mapping.items():
+        if old_col in translationData.columns:
+            translationData = translationData.rename(columns={old_col: new_col})
+    
+    # Note: 'de' and 'nl' are already in the correct format in the CSV
 
     #translationData = translationData.rename(columns={'labels': 'task'})
 
@@ -56,14 +66,38 @@ def generate_audio(language):
     # There is/may also be an existing .csv file (translation_master.csv)
     if os.path.exists("translation_master.csv"):
         masterData = pd.read_csv(master_file_path)
+        
+        # Handle column format mismatch between old master file and new system
+        # The master file might have old column names, so rename them to match our new format
+        master_column_mapping = {
+            'en-US': 'en',
+            'es-CO': 'es', 
+            'de-DE': 'de',
+            'fr-CA': 'fr',
+            'nl-NL': 'nl'
+        }
+        
+        # Rename columns in master data to match our simplified format
+        for old_col, new_col in master_column_mapping.items():
+            if old_col in masterData.columns:
+                masterData = masterData.rename(columns={old_col: new_col})
+                print(f"📋 Renamed master column {old_col} -> {new_col}")
+        
+        # Add any missing language columns that might be needed
+        for lang_config in language_dict.values():
+            lang_code = lang_config['lang_code']
+            if lang_code not in masterData.columns:
+                masterData[lang_code] = None
+                print(f"📋 Added missing column {lang_code} to master data")
+                
     else:
         # Create a "null state" generation status file
         # so that we know what needs to be generated
         masterData = translationData.copy(deep = True)
         
         # Initialize all language columns from config
-        for language in language_dict.values():
-            lang_code = language['lang_code']
+        for lang_config in language_dict.values():
+            lang_code = lang_config['lang_code']
             masterData[lang_code] = None
         masterData.to_csv(master_file_path, encoding='utf-8', errors='replace')
         # Create baseline masterData
@@ -95,19 +129,9 @@ def generate_audio(language):
     diffData = pd.DataFrame()
     
     for index, ourRow in translationData.iterrows():
-        # Check if the column exists, if not try the original column name
+        # Check if the column exists for simplified language codes
         if lang_code in ourRow:
             translation_text = ourRow[lang_code]
-        elif lang_code == 'en-US' and 'en' in ourRow:
-            translation_text = ourRow['en']
-        elif lang_code == 'de-DE' and 'de' in ourRow:
-            translation_text = ourRow['de']
-        elif lang_code == 'es-CO' and 'es-CO' in ourRow:
-            translation_text = ourRow['es-CO']
-        elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
-            translation_text = ourRow['fr-CA']
-        elif lang_code == 'nl-NL' and 'nl' in ourRow:
-            translation_text = ourRow['nl']
         else:
             print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
             continue
@@ -147,8 +171,8 @@ def generate_audio(language):
             # This block should never be reached now that we initialize diffData
             starterRow = {'item_id': ourRow['item_id'], 'labels': ourRow['labels']}
             # Add all language columns from config
-            for language in language_dict.values():
-                lang_code = language['lang_code']
+            for lang_config in language_dict.values():
+                lang_code = lang_config['lang_code']
                 starterRow[lang_code] = ourRow[lang_code]
             diffData = pd.DataFrame(starterRow, index=[0])
 
@@ -163,8 +187,11 @@ def generate_audio(language):
             diffData.to_csv(f)
         retry_seconds = 1
         
+        print(f"\n🎯 Starting audio generation for {language}...")
+        print(f"📊 Processing {len(diffData)} items that need audio generation")
+        
         if service == 'PlayHt':
-            playHt_tts.main(
+            result = playHt_tts.main(
                 input_file_path = diff_file_name, 
                 lang_code = lang_code,
                 retry_seconds= retry_seconds,
@@ -172,13 +199,39 @@ def generate_audio(language):
                 voice=voice, 
                 audio_base_dir = audio_base_dir)
         else:
-            elevenlabs_tts.main(
+            result = elevenlabs_tts.main(
                 input_file_path = diff_file_name, 
                 lang_code = lang_code,
                 retry_seconds= retry_seconds,
                 master_file_path=master_file_path, 
                 voice=voice, 
                 audio_base_dir = audio_base_dir)
+        
+        print(f"✅ Audio generation completed for {language}")
+        
+    else:
+        print(f"✅ No new audio files needed for {language} - all translations are up to date!")
+    
+    # Display final statistics
+    print(f"\n📈 Final Statistics for {language}:")
+    print(f"   Language: {language}")
+    print(f"   Language Code: {lang_code}")
+    print(f"   Service: {service}")
+    print(f"   Voice: {voice[:50]}..." if len(voice) > 50 else f"   Voice: {voice}")
+    
+    # Count total audio files for this language
+    try:
+        import utilities.utilities as u
+        total_audio_files = u.count_audio_files(lang_code)
+        print(f"   Total Audio Files: {total_audio_files}")
+    except:
+        print(f"   Total Audio Files: Unable to count")
+    
+    print(f"   Items processed this run: {len(diffData) if not diffData.empty else 0}")
+    print(f"   Total items in dataset: {len(translationData)}")
+    
+    print(f"\n🎉 Audio generation for {language} complete!")
+    print("=" * 60)
 
 """
     Args:
@@ -198,6 +251,11 @@ def main(
     generate_audio(language=language)
         
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("❌ ERROR: No language specified!")
+        print("Usage: python generate_speech.py <language>")
+        print("Available languages: German, Spanish, French, Dutch, English")
+        sys.exit(1)
     main(*sys.argv[1:])
 
 # IF we're happy with the output then
