@@ -10,10 +10,10 @@ import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
 import utilities.utilities as u
+from . import voice_mapping
 
-# Constants for API, in this case for Play.Ht, maybe
-API_URL = "https://api.play.ht/api/v1/convert"
-STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
+# Constants for API v2 - Updated to new PlayHt API
+API_URL = "https://api.play.ht/api/v2/tts/stream"
 
 
 # Called to process each row of the input csv (now dataframe)
@@ -49,94 +49,93 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
         return 'Error'
 
-    # Assemble data packet to pass to PlayHT
-    # see https://docs.play.ht/reference/api-convert-tts-standard-premium-voices
+    # Assemble data packet for PlayHT API v2
+    # see https://docs.play.ht/reference/api-generate-tts-audio-stream
     
-    # we want to begin to support SSML, so convert to that format:
-    #ssmlText = u.html_to_ssml(translation_text)
-    # However SSML requires different params, so experiment in the
-    # dashboard first!
+    # Convert to SSML if needed
+    ssml_text = u.html_to_ssml(translation_text)
+    
+    # Convert readable voice name to PlayHT voice ID if needed
+    voice_id = voice_mapping.get_voice_id(voice)
+    if voice_id:
+        voice = voice_id
+    else:
+        print(f"Warning: Using voice '{voice}' directly (no mapping found)")
+    
     data = {
-        # content needs to be a list, even if we only do one at a time
-        "content" : [translation_text],
+        "text": ssml_text,
         "voice": voice,
-        "title": "Levante Audio", # not sure where this matters?
-        "trimSilence": False
+        "voice_engine": "Play3.0-mini",  # Use the newer engine
+        "output_format": "mp3",
+        "sample_rate": 24000
     }
 
 
-    ## Use a While loop so we can retry odd failure cases
+        ## Use a While loop so we can retry odd failure cases
     while True and errorCount < 5:
-        response = requests.post(API_URL, headers=headers, json=data) 
-
-        # In some cases we get an odd error that appears to suggest the
-        # transcription is still in progress, but it never finishes
-        # to handle that case, we abandon that transaction & start a new one
-        restartRequest = False
-        # 201 means that we got a response of some kind
-        if response.status_code == 201:
-            # results are packed into a json object
-            result = response.json()
-            logging.info(f"convert_tts: response for item={ourRow['item_id']}: transcriptionId={result['transcriptionId']}")
-        else:
-            logging.error(f"convert_tts: no response for item={ourRow['item_id']}: status code={response.status_code}")
-            # sometimes a retry works after no response
-            errorCount += 1
-            continue
-
-        # status is a little awkward to parse. Some errors aren't exactly errors
-        json_status = response.json()
-
-        if "transcriptionId" in json_status:
-            # This means that we've successfully started the transcription
-            transcription_id = json_status["transcriptionId"]
-            print(f"Conversion initiated for: {ourRow['item_id']}")
-        
-            # Poll the status until completion or we get 5 error returns
-            while True and errorCount < 5 and restartRequest == False:
-                downloadURL = None # clear each time
-                status_params = {"transcriptionId": transcription_id}
-                status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
-                status_data = status_response.json()
-
-                # Some errors are "fatal", some just mean a retry is needed
-                if 'error' in status_data:
-                    if status_data['error'] == True: # and \
-                        #status_data['message'] != 'Transcription still in progress':
-                        print(f'Error translating {ourRow["item_id"]}') # Removed u.status since u is not defined
-                        restartRequest = True
-                        errorCount += 1
-                        continue # we want to start the loop over
-
-                # Our transcription is successful                        
-                if status_data["converted"] == True:
-                    # u is not defined - need to import utilities as u at top of file
-                    print(f"Conversion for {ourRow['item_id']} completed successfully!")
-
-                    # set the download URL for retrieval or get it right here?
-                    downloadURL = status_data['audioUrl']
-
-                    # At this point we should have an "audioURL" that we can retrieve
-                    # and then write out to the appropriate directory
-                    audioData = requests.get(downloadURL)
-
-                    # open file for writing
-                    # Download the MP3 file
-                    if audioData.status_code == 200 and ourRow['labels'] != float('nan'):
-                        restartRequest = False
-                        errorCount = 0
-                        return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData)
-                            
+        try:
+            response = requests.post(API_URL, headers=headers, json=data, timeout=30)
+            
+            # Handle different status codes for v2 API
+            if response.status_code == 200:
+                # v2 API returns audio content directly
+                print(f"✅ PlayHt v2 API success for item {ourRow['item_id']} - received {len(response.content)} bytes")
+                
+                # Create a response object that mimics the old audioData structure
+                class AudioResponse:
+                    def __init__(self, content):
+                        self.content = content
+                        self.status_code = 200
+                
+                audioData = AudioResponse(response.content)
+                
+                if ourRow['labels'] != float('nan'):
+                    return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData)
                 else:
-                    # print(f"Conversion in progress. Status: {status_data['converted']}")
-                    # currently most tasks complet in about 1 second, so .5 seconds
-                    # seems like a good tradeoff between "over-polling" and "over-waiting"
-                    time.sleep(retrySeconds)  # Wait before checking again
-            else:
+                    return 'Success'
+                    
+            elif response.status_code == 503:
+                # Service unavailable - likely rate limiting or server overload
+                print(f"PlayHt service unavailable (503) for item {ourRow['item_id']}. Waiting {retrySeconds * 2} seconds before retry...")
+                time.sleep(retrySeconds * 2)  # Wait longer for 503 errors
+                errorCount += 1
+                retrySeconds = min(retrySeconds * 2, 30)  # Exponential backoff, max 30 seconds
                 continue
-    else:
-        # we've tried several times
-        return 'Error'
+                
+            elif response.status_code == 429:
+                # Rate limit exceeded
+                retry_after = response.headers.get('Retry-After', retrySeconds * 2)
+                print(f"Rate limit exceeded for item {ourRow['item_id']}. Waiting {retry_after} seconds...")
+                time.sleep(int(retry_after))
+                errorCount += 1
+                continue
+                
+            elif response.status_code == 400:
+                print(f"PlayHt API error 400 for item {ourRow['item_id']} - Bad request: {response.text}")
+                # For 400 errors, don't retry - likely a permanent issue
+                return 'Error'
+                
+            else:
+                logging.error(f"convert_tts: API error for item={ourRow['item_id']}: status code={response.status_code}, response={response.text}")
+                errorCount += 1
+                time.sleep(retrySeconds)
+                continue
+                
+        except requests.exceptions.Timeout:
+            print(f"PlayHt API timeout for item {ourRow['item_id']}. Retrying... ({errorCount + 1}/5)")
+            errorCount += 1
+            time.sleep(retrySeconds)
+            continue
+            
+        except requests.exceptions.RequestException as e:
+            print(f"PlayHt API request failed for item {ourRow['item_id']}: {e}")
+            errorCount += 1
+            time.sleep(retrySeconds)
+            continue
+    
+    # If we get here, we've exhausted all retries
+    print(f"❌ PlayHt API failed after 5 retries for item {ourRow['item_id']}")
+    return 'Error'
     
     """
     The main function to process the transcription jobs.
@@ -191,11 +190,11 @@ def main(
                                              'fr': 'fr-CA',
                                              'nl': 'nl-NL'})
 
-    # build API call
+    # build API call for v2 API
     headers = {
-        'Authorization': api_key,
+        'AUTHORIZATION': api_key,  # Changed from Authorization
         'X-USER-ID': user_id,
-        'Accept': 'application/json',
+        'Accept': 'audio/mpeg',  # Changed from application/json
         'Content-Type': 'application/json'
     }
     

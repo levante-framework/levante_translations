@@ -6,21 +6,22 @@ from utilities import utilities as u
 from pyht import Client
 import utilities.config as conf
 import time
+from . import voice_mapping
 
-# Constants for API, in this case for Play.Ht, maybe
-API_URL = "https://api.play.ht/api/v1/convert"
-STATUS_URL = "https://api.play.ht/api/v1/articleStatus"
+# Constants for API v2 - Updated to new PlayHt API
+API_URL = "https://api.play.ht/api/v2/tts/stream"
+VOICES_URL = "https://api.play.ht/api/v2/voices"
 
 headers = {
-    "Authorization": os.environ["PLAY_DOT_HT_API_KEY"],
+    "AUTHORIZATION": os.environ["PLAY_DOT_HT_API_KEY"],  # Changed from Authorization
     "X-USER-ID": os.environ["PLAY_DOT_HT_USER_ID"],
-    'Accept': 'application/json',
+    'Accept': 'audio/mpeg',  # Changed from application/json
     "Content-Type": "application/json"
 }
 
 def list_voices(lang_code):
-    # Set up the API request
-    url = "https://play.ht/api/v1/getVoices"
+    # Set up the API request for v2 API
+    url = VOICES_URL
 
     # Make the API request
     response = requests.get(url, headers=headers)
@@ -43,6 +44,13 @@ def list_voices(lang_code):
                     and voice.get('gender') == 'Female'] #\
                     #and voice.get('voiceType') == 'Neural']
 
+        # Update voice mappings with the fetched voices
+        for voice in filtered_voices:
+            voice_name = voice.get('name', '')
+            voice_id = voice.get('value', '')  # Old API uses 'value' instead of 'id'
+            if voice_name and voice_id:
+                voice_mapping.add_voice_mapping(voice_name, voice_id)
+
         return(filtered_voices)
 
 # Print voice details for debugging
@@ -59,95 +67,85 @@ def list_voices(lang_code):
     else:
         print(f"Error: {response.status_code} - {response.text}")
 
-# Borrowed from playHt_tts (should refactor)
-# could return file name or error, etc.
+# Updated for PlayHt API v2 - Direct streaming response
 def get_audio(text, voice):
-
+    """
+    Get audio using PlayHt API v2 streaming endpoint
+    Returns audio content directly (no more polling)
+    """
     retrySeconds = 1
     errorCount = 0
 
-    # for now we are getting passed ssml already
+    # Convert readable voice name to PlayHT voice ID if needed
+    voice_id = voice_mapping.get_voice_id(voice)
+    if voice_id:
+        voice = voice_id
+    else:
+        print(f"Warning: Using voice '{voice}' directly (no mapping found)")
+
+    # Convert HTML to SSML if needed
     ssml_text = u.html_to_ssml(text)
+    
+    # API v2 data format
     data = {
-        "stability": conf.playht_stability,
-        "ssml": [ssml_text],
-        "output_format": "mp3",
-        "quality": "high",
+        "text": ssml_text,
         "voice": voice,
-        "title": "Levante Audio", # not sure where this matters?
-        "trimSilence": False
+        "voice_engine": "Play3.0-mini",  # Use the newer engine
+        "output_format": "mp3",
+        "sample_rate": 24000
     }
 
     ## Use a While loop so we can retry odd failure cases
     while True and errorCount < 5:
-        response = requests.post(API_URL, headers=headers, json=data) 
+        try:
+            response = requests.post(API_URL, headers=headers, json=data, timeout=30)
 
-        # In some cases we get an odd error that appears to suggest the
-        # transcription is still in progress, but it never finishes
-        # to handle that case, we abandon that transaction & start a new one
-        restartRequest = False
-        # 201 means that we got a response of some kind
-        if response.status_code == 201:
-            # results are packed into a json object
-            result = response.json()
-        else:
-            # sometimes a retry works after no response
+            # Handle different status codes
+            if response.status_code == 200:
+                # v2 API returns audio content directly
+                print(f"✅ PlayHt v2 API success - received {len(response.content)} bytes")
+                return response.content
+                
+            elif response.status_code == 503:
+                # Service unavailable - likely rate limiting or server overload
+                print(f"PlayHt service unavailable (503). Waiting {retrySeconds * 2} seconds before retry...")
+                time.sleep(retrySeconds * 2)  # Wait longer for 503 errors
+                errorCount += 1
+                retrySeconds = min(retrySeconds * 2, 30)  # Exponential backoff, max 30 seconds
+                continue
+                
+            elif response.status_code == 429:
+                # Rate limit exceeded
+                retry_after = response.headers.get('Retry-After', retrySeconds * 2)
+                print(f"Rate limit exceeded. Waiting {retry_after} seconds...")
+                time.sleep(int(retry_after))
+                errorCount += 1
+                continue
+
+            elif response.status_code == 400:
+                print(f"PlayHt API error 400 - Bad request: {response.text}")
+                # For 400 errors, don't retry - likely a permanent issue
+                return b''
+                
+            else:
+                # Other error codes
+                print(f"PlayHt API error: {response.status_code} - {response.text}")
+                errorCount += 1
+                time.sleep(retrySeconds)
+                continue
+                
+        except requests.exceptions.Timeout:
+            print(f"PlayHt API timeout. Retrying... ({errorCount + 1}/5)")
             errorCount += 1
+            time.sleep(retrySeconds)
             continue
 
-        # status is a little awkward to parse. Some errors aren't exactly errors
-        json_status = response.json()
-
-        if "transcriptionId" in json_status:
-            # This means that we've successfully started the transcription
-            transcription_id = json_status["transcriptionId"]
-        
-            # Poll the status until completion or we get 5 error returns
-            while True and errorCount < 5 and restartRequest == False:
-                downloadURL = None # clear each time
-                status_params = {"transcriptionId": transcription_id}
-                status_response = requests.get(STATUS_URL, params=status_params, headers=headers)
-                status_data = status_response.json()
-
-                # Some errors are "fatal", some just mean a retry is needed
-                if 'error' in status_data:
-                    if status_data['error'] == True: # and \
-                        #status_data['message'] != 'Transcription still in progress':
-                        restartRequest = True
-                        errorCount += 1
-                        # might still be in progress
-                        time.sleep(retrySeconds)
-                        continue # we want to start the loop over
-
-                # Our transcription is successful                        
-                if "audioUrl" in status_data:
-                    #print(f"Audio URL: {status_data['audioUrl']}")
-                    # set the download URL for retrieval or get it right here?
-                    downloadURL = status_data['audioUrl']
-
-                    # At this point we should have an "audioURL" that we can retrieve
-                    # and then write out to the appropriate directory
-                    audioData = requests.get(downloadURL)
-
-                    # open file for writing
-                    # Download the MP3 file
-                    if audioData.status_code == 200:
-                        restartRequest = False
-                        errorCount = 0
-
-                        #output_file = 'voice_comparison.mp3'
-                        #with open(output_file, "wb") as file:
-                        #    file.write(audioData.content)
-                        #    file.close
-                        #    return 'Success'
-                        return(audioData.content)    
-                else:
-                    # print(f"Conversion in progress. Status: {status_data['converted']}")
-                    # currently most tasks complet in about 1 second, so .5 seconds
-                    # seems like a good tradeoff between "over-polling" and "over-waiting"
-                    time.sleep(retrySeconds)  # Wait before checking again
-            else:
-                continue
-    else:
-        # we've tried several times
-        return ''
+        except requests.exceptions.RequestException as e:
+            print(f"PlayHt API request failed: {e}")
+            errorCount += 1
+            time.sleep(retrySeconds)
+            continue
+    
+    # If we get here, we've exhausted all retries
+    print("❌ PlayHt API failed after 5 retries")
+    return b''
