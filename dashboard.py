@@ -12,7 +12,8 @@ from playsound import playsound
 from typing import Final
 
 # Service specific code
-from PlayHt import playHt_utilities
+# Moving PlayHt from v1 to v2
+# from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
 
 class App(ctk.CTk):
