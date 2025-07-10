@@ -23,23 +23,24 @@ class VoiceMapper:
         
         # Default readable name mappings for commonly used voices
         self.readable_mappings = {
-            # Spanish voices
-            'es-CO-SalomeNeural': 'SalomeNeural',
-            'Spanish_Female_1': 'SalomeNeural',
-            'Spanish_Conversational': 'SalomeNeural',
+            # Spanish voices (updated to current API names)
+            'es-CO-SalomeNeural': 'Spanish_Violeta Narrative',
+            'Spanish_Female_1': 'Spanish_Violeta Narrative',
+            'Spanish_Conversational': 'Spanish_Violeta Conversational',
+            'SalomeNeural': 'Spanish_Violeta Narrative',
             
-            # German voices  
-            'VickiNeural': 'VickiNeural',
-            'German_Female_1': 'VickiNeural',
-            'German_Conversational': 'VickiNeural',
+            # German voices (updated to current API names)
+            'VickiNeural': 'German_Anke Narrative',
+            'German_Female_1': 'German_Anke Narrative',
+            'German_Conversational': 'German_Anke Conversational',
             
-            # French voices
-            'Gabrielle': 'Gabrielle',
-            'French_Female_1': 'Gabrielle',
-            'French_Conversational': 'Gabrielle',
+            # French voices (updated to current API names)
+            'Gabrielle': 'French_Ange Narrative',
+            'French_Female_1': 'French_Ange Narrative',
+            'French_Conversational': 'French_Ange Conversational',
             
-            # Dutch voices
-            'FennaNeural': 'FennaNeural',
+            # Dutch voices (no Dutch voices found in current API)
+            'FennaNeural': 'FennaNeural',  # Keep as fallback
             'Dutch_Female_1': 'FennaNeural',
             'Dutch_Conversational': 'FennaNeural',
         }

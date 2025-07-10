@@ -22,10 +22,10 @@ headers = {
 
 # Required voices for each language
 REQUIRED_VOICES = {
-    'es-CO': 'es-CO-SalomeNeural',
-    'de-DE': 'VickiNeural', 
-    'fr-CA': 'Gabrielle',
-    'nl-NL': 'FennaNeural'
+    'es-CO': 'Spanish_Violeta Narrative',
+    'de-DE': 'German_Anke Narrative', 
+    'fr-CA': 'French_Ange Narrative',
+    'nl-NL': 'FennaNeural'  # Dutch uses ElevenLabs, not PlayHT
 }
 
 def check_api_credentials():
