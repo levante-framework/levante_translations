@@ -463,7 +463,9 @@ class App(ctk.CTk):
             voice_list = playHt_utilities.list_voices(lang_code)
             voices = []
             for voice in voice_list:
-                voices.append(voice.get('value'))
+                # Use readable name instead of raw voice ID
+                voice_name = voice.get('name', voice.get('value', 'Unknown Voice'))
+                voices.append(voice_name)
             # Create attribute name by replacing hyphens with underscores
             voice_list_attr = f'ht_{lang_code.replace("-","_")}_voice_list'
             # Set the attribute dynamically
