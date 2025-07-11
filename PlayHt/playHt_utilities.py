@@ -90,12 +90,9 @@ def get_audio(text, voice):
     if ssml_text.startswith('<speak>') and ssml_text.endswith('</speak>'):
         ssml_text = ssml_text[7:-8]  # Remove <speak> and </speak>
     
-    # API v2 data format - try different engines for different voice types
-    # Some voices work better with different engines
-    if "mockingbird-prod" in voice:
-        voice_engine = "PlayHT2.0-turbo"  # Older engine for mockingbird voices
-    else:
-        voice_engine = "Play3.0-mini"  # Newer engine for other voices
+    # API v2 data format - using PlayDialog for better emotion and natural speech
+    # Fall back to Play3.0-mini if PlayDialog fails
+    voice_engine = "PlayDialog"  # PlayDialog excels in creating highly emotive and natural speech
         
     data = {
         "text": ssml_text,
@@ -140,6 +137,26 @@ def get_audio(text, voice):
                 print(f"PlayHt API error 400 - Bad request: {response.text}")
                 # For 400 errors, don't retry - likely a permanent issue
                 return b''
+                
+            elif response.status_code == 500:
+                print(f"PlayHt API error: {response.status_code} - {response.text}")
+                # Debug information for 500 errors
+                print("Debug info for 500 error:")
+                print(f"  Voice: {voice}")
+                print(f"  Text: '{text[:100]}{'...' if len(text) > 100 else ''}'")
+                print(f"  Text length: {len(text)} characters")
+                print(f"  Voice engine: {voice_engine}")
+                print(f"  Text type: {'ssml' if '<' in ssml_text and '>' in ssml_text else 'plain'}")
+                
+                # Try fallback to Play3.0-mini if using PlayDialog
+                if voice_engine == "PlayDialog" and errorCount == 0:
+                    print("Retrying with Play3.0-mini fallback...")
+                    voice_engine = "Play3.0-mini"
+                    data["voice_engine"] = voice_engine
+                    errorCount += 1
+                    continue
+                else:
+                    return b''
                 
             else:
                 # Other error codes - add debugging for 500 errors
