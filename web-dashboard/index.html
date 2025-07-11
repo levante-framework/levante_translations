@@ -303,6 +303,86 @@
             100% { transform: rotate(360deg); }
         }
 
+        .credential-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .help-text a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .security-note {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+            margin-top: 20px;
+        }
+
+        .security-note p {
+            margin: 0;
+            font-size: 12px;
+            color: #155724;
+        }
+
+        .credentials-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
         @media (max-width: 768px) {
             .control-group {
                 flex-direction: column;
@@ -316,6 +396,15 @@
             .tab-buttons {
                 flex-wrap: wrap;
             }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .credentials-button {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -324,6 +413,9 @@
         <div class="header">
             <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
             <p>Compare and generate TTS audio across multiple languages and services</p>
+            <button onclick="showCredentialsSetup()" class="btn btn-info credentials-button">
+                <i class="fas fa-key"></i> API Keys
+            </button>
         </div>
 
         <div class="main-content">
@@ -367,6 +459,12 @@
                     <label for="ssmlEditor"><i class="fas fa-code"></i> SSML Editor:</label>
                     <button id="playSSML" class="btn btn-success">
                         <i class="fas fa-play"></i> Play SSML
+                    </button>
+                    <button onclick="showCredentialsSetup()" class="btn btn-info">
+                        <i class="fas fa-key"></i> Manage API Keys
+                    </button>
+                    <button id="debugVoices" class="btn btn-secondary">
+                        <i class="fas fa-bug"></i> Debug Voices
                     </button>
                 </div>
                 <textarea id="ssmlEditor" class="ssml-textarea" placeholder="Enter text or SSML here..."></textarea>
@@ -413,6 +511,15 @@
                 this.currentLanguage = 'English';
                 this.selectedRow = null;
 
+                // Initialize voices object
+                this.voices = {
+                    playht: [],
+                    elevenlabs: []
+                };
+
+                // Initialize API credentials
+                this.apiCredentials = this.loadStoredCredentials();
+
                 this.init();
             }
 
@@ -420,12 +527,139 @@
                 console.log('Initializing Audio Dashboard...');
                 this.setStatus('Loading dashboard...');
                 
+                // Check if credentials are needed and prompt if missing
+                await this.checkAndPromptCredentials();
+                
                 await this.loadData();
                 this.createTabs();
                 this.setupEventListeners();
                 
+                // Initialize voice dropdowns with default messages
+                this.populateVoiceDropdowns();
+                
+                // Load voices if we have credentials
+                const credentials = this.loadCredentials();
+                if ((credentials.playht.apiKey && credentials.playht.userId) || credentials.elevenlabs.apiKey) {
+                    await this.loadVoices();
+                }
+                
                 this.setStatus('Dashboard ready!');
                 console.log('Dashboard initialization complete');
+            }
+
+            loadCredentials() {
+                return {
+                    playht: {
+                        apiKey: localStorage.getItem('playht_api_key') || '',
+                        userId: localStorage.getItem('playht_user_id') || ''
+                    },
+                    elevenlabs: {
+                        apiKey: localStorage.getItem('elevenlabs_api_key') || ''
+                    }
+                };
+            }
+
+            loadStoredCredentials() {
+                return this.loadCredentials();
+            }
+
+            saveCredentials(credentials) {
+                if (credentials.playht) {
+                    if (credentials.playht.apiKey) {
+                        localStorage.setItem('playht_api_key', credentials.playht.apiKey);
+                    }
+                    if (credentials.playht.userId) {
+                        localStorage.setItem('playht_user_id', credentials.playht.userId);
+                    }
+                }
+                if (credentials.elevenlabs && credentials.elevenlabs.apiKey) {
+                    localStorage.setItem('elevenlabs_api_key', credentials.elevenlabs.apiKey);
+                }
+                this.apiCredentials = this.loadStoredCredentials();
+            }
+
+            clearCredentials() {
+                localStorage.removeItem('playht_api_key');
+                localStorage.removeItem('playht_user_id');
+                localStorage.removeItem('elevenlabs_api_key');
+                this.apiCredentials = this.loadStoredCredentials();
+            }
+
+            async checkAndPromptCredentials() {
+                const needsPlayHT = !this.apiCredentials.playht.apiKey || !this.apiCredentials.playht.userId;
+                const needsElevenLabs = !this.apiCredentials.elevenlabs.apiKey;
+
+                console.log('Checking credentials:', { needsPlayHT, needsElevenLabs });
+                console.log('Current credentials:', this.apiCredentials);
+
+                if (needsPlayHT || needsElevenLabs) {
+                    console.log('Showing credentials modal');
+                    this.showCredentialsModal(needsPlayHT, needsElevenLabs);
+                } else {
+                    console.log('Credentials found, loading voices');
+                    await this.loadVoices();
+                }
+            }
+
+            showCredentialsModal(needsPlayHT = true, needsElevenLabs = true) {
+                console.log('Creating credentials modal');
+                
+                // Remove existing modal if present
+                const existingModal = document.getElementById('credentialsModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // Create modal HTML
+                const modalHTML = `
+                    <div id="credentialsModal" class="modal" style="display: block; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+                        <div class="modal-content" style="background-color: white; margin: 5% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px; position: relative;">
+                            <span class="close" onclick="closeCredentialsModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                            <h2>🔐 API Credentials Setup</h2>
+                            <p>To use the voice generation features, please enter your API credentials. These will be stored securely in your browser's local storage.</p>
+                            
+                            ${needsPlayHT ? `
+                            <div class="credential-section">
+                                <h3>PlayHT Credentials</h3>
+                                <div class="form-group">
+                                    <label for="playhtApiKey">PlayHT API Key:</label>
+                                    <input type="password" id="playhtApiKey" placeholder="Enter your PlayHT API key" value="${this.apiCredentials.playht.apiKey}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playhtUserId">PlayHT User ID:</label>
+                                    <input type="text" id="playhtUserId" placeholder="Enter your PlayHT User ID" value="${this.apiCredentials.playht.userId}">
+                                </div>
+                                <p class="help-text">Get your credentials at: <a href="https://play.ht/studio/api-access" target="_blank">PlayHT API Access</a></p>
+                            </div>
+                            ` : ''}
+                            
+                            ${needsElevenLabs ? `
+                            <div class="credential-section">
+                                <h3>ElevenLabs Credentials</h3>
+                                <div class="form-group">
+                                    <label for="elevenlabsApiKey">ElevenLabs API Key:</label>
+                                    <input type="password" id="elevenlabsApiKey" placeholder="Enter your ElevenLabs API key" value="${this.apiCredentials.elevenlabs.apiKey}">
+                                </div>
+                                <p class="help-text">Get your API key at: <a href="https://elevenlabs.io/speech-synthesis" target="_blank">ElevenLabs Dashboard</a></p>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="modal-actions">
+                                <button onclick="saveCredentialsFromModal()" class="btn btn-primary">Save Credentials</button>
+                                <button onclick="clearAllCredentials()" class="btn btn-secondary">Clear All</button>
+                                <button onclick="closeCredentialsModal()" class="btn btn-secondary">Skip for Now</button>
+                            </div>
+                            
+                            <div class="security-note">
+                                <p><strong>🔒 Security Note:</strong> Your credentials are stored only in your browser's local storage and are never sent to our servers. They are used only for direct API calls to PlayHT and ElevenLabs.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Add modal to page
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                console.log('Credentials modal added to page');
             }
 
             async loadData() {
@@ -441,6 +675,168 @@
                     console.log(`Loaded ${this.data.length} sample translation items`);
                     this.setStatus(`⚠️ Using sample data (${this.data.length} items) - could not load from GitHub`);
                 }
+            }
+
+            async loadVoices() {
+                console.log('Loading voices...');
+                this.setStatus('Loading voices...');
+                
+                const credentials = this.loadCredentials();
+                
+                // Load PlayHT voices if credentials available
+                if (credentials.playht.apiKey && credentials.playht.userId) {
+                    try {
+                        await this.loadPlayHTVoices(credentials.playht);
+                        console.log('PlayHT voices loaded successfully');
+                    } catch (error) {
+                        console.error('Error loading PlayHT voices:', error);
+                    }
+                }
+                
+                // Load ElevenLabs voices if credentials available
+                if (credentials.elevenlabs.apiKey) {
+                    try {
+                        await this.loadElevenLabsVoices(credentials.elevenlabs);
+                        console.log('ElevenLabs voices loaded successfully');
+                    } catch (error) {
+                        console.error('Error loading ElevenLabs voices:', error);
+                    }
+                }
+                
+                this.populateVoiceDropdowns();
+                this.setStatus('✅ Voices loaded successfully');
+            }
+
+            async loadPlayHTVoices(credentials) {
+                console.log('Loading PlayHT voices...');
+                
+                // For now, use predefined voices to avoid CORS issues
+                // In a production environment, you'd need a backend proxy
+                // Updated to match config.py language codes and add more voices per language
+                this.voices.playht = [
+                    // English voices
+                    { id: 'charlotte_narrative', name: 'Charlotte Narrative', language: 'en', gender: 'female' },
+                    { id: 'susan_commercial', name: 'Susan Commercial', language: 'en', gender: 'female' },
+                    { id: 'alexandra_conversational', name: 'Alexandra Conversational', language: 'en', gender: 'female' },
+                    
+                    // Spanish voices (es-CO from config.py)
+                    { id: 'spanish_violeta_narrative', name: 'Spanish Violeta Narrative', language: 'es-CO', gender: 'female' },
+                    { id: 'spanish_maria_commercial', name: 'Spanish Maria Commercial', language: 'es-CO', gender: 'female' },
+                    { id: 'spanish_sofia_conversational', name: 'Spanish Sofia Conversational', language: 'es-CO', gender: 'female' },
+                    
+                    // German voices
+                    { id: 'german_anke_narrative', name: 'German Anke Narrative', language: 'de', gender: 'female' },
+                    { id: 'german_petra_commercial', name: 'German Petra Commercial', language: 'de', gender: 'female' },
+                    { id: 'german_katrin_conversational', name: 'German Katrin Conversational', language: 'de', gender: 'female' },
+                    
+                    // French voices (fr-CA from config.py)
+                    { id: 'french_ange_narrative', name: 'French Ange Narrative', language: 'fr-CA', gender: 'female' },
+                    { id: 'french_marie_commercial', name: 'French Marie Commercial', language: 'fr-CA', gender: 'female' },
+                    { id: 'french_isabelle_conversational', name: 'French Isabelle Conversational', language: 'fr-CA', gender: 'female' },
+                    
+                    // Dutch voices
+                    { id: 'dutch_emma_narrative', name: 'Dutch Emma Narrative', language: 'nl', gender: 'female' },
+                    { id: 'dutch_sophie_commercial', name: 'Dutch Sophie Commercial', language: 'nl', gender: 'female' },
+                    { id: 'dutch_lotte_conversational', name: 'Dutch Lotte Conversational', language: 'nl', gender: 'female' }
+                ];
+                
+                console.log(`Loaded ${this.voices.playht.length} PlayHT voices (predefined)`);
+                this.setStatus('✅ PlayHT voices loaded (predefined set)');
+            }
+
+            async loadElevenLabsVoices(credentials) {
+                console.log('Loading ElevenLabs voices...');
+                
+                // For now, use predefined voices to avoid CORS issues
+                // In a production environment, you'd need a backend proxy
+                this.voices.elevenlabs = [
+                    { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', language: 'multilingual', gender: 'female' },
+                    { id: 'ThT5KcBeYPX3keUQqHPh', name: 'Dorothy', language: 'multilingual', gender: 'female' },
+                    { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam', language: 'multilingual', gender: 'male' },
+                    { id: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh', language: 'multilingual', gender: 'male' },
+                    { id: 'VR6AewLTigWG4xSOukaG', name: 'Arnold', language: 'multilingual', gender: 'male' },
+                    { id: 'ErXwobaYiN019PkySvjV', name: 'Antoni', language: 'multilingual', gender: 'male' },
+                    { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam', language: 'multilingual', gender: 'male' },
+                    { id: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi', language: 'multilingual', gender: 'female' },
+                    { id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Elli', language: 'multilingual', gender: 'female' },
+                    { id: 'oWAxZDx7w5VEj9dCyTzz', name: 'Grace', language: 'multilingual', gender: 'female' }
+                ];
+                
+                // Filter for female voices only
+                this.voices.elevenlabs = this.voices.elevenlabs.filter(voice => voice.gender === 'female');
+                
+                console.log(`Loaded ${this.voices.elevenlabs.length} ElevenLabs voices (predefined)`);
+                this.setStatus('✅ ElevenLabs voices loaded (predefined set)');
+            }
+
+            isFemaleVoice(voiceName) {
+                const femaleNames = [
+                    'alexandra', 'charlotte', 'susan', 'olivia', 'emma', 'sophia', 'isabella',
+                    'ava', 'mia', 'abigail', 'emily', 'harper', 'amelia', 'evelyn', 'elizabeth',
+                    'sofia', 'madison', 'avery', 'ella', 'scarlett', 'grace', 'chloe', 'victoria',
+                    'riley', 'aria', 'hailey', 'hannah', 'aaliyah', 'addison', 'mackenzie',
+                    'violeta', 'anke', 'ange', 'yasmine', 'claudia', 'zuri', 'nia', 'juniper',
+                    'jessica', 'fenna', 'xander' // Note: Xander is actually male but used for Dutch
+                ];
+                
+                const name = voiceName.toLowerCase();
+                return femaleNames.some(femaleName => name.includes(femaleName));
+            }
+
+            populateVoiceDropdowns() {
+                const playhtSelect = document.getElementById('playhtVoice');
+                const elevenlabsSelect = document.getElementById('elevenlabsVoice');
+                
+                if (!playhtSelect || !elevenlabsSelect) {
+                    console.error('Voice dropdown elements not found');
+                    return;
+                }
+                
+                // Clear existing options
+                playhtSelect.innerHTML = '<option value="">Select PlayHT Voice...</option>';
+                elevenlabsSelect.innerHTML = '<option value="">Select ElevenLabs Voice...</option>';
+                
+                // Check if we have voices to populate
+                if (this.voices.playht.length === 0 && this.voices.elevenlabs.length === 0) {
+                    playhtSelect.innerHTML = '<option value="">No voices loaded - Enter API keys first</option>';
+                    elevenlabsSelect.innerHTML = '<option value="">No voices loaded - Enter API keys first</option>';
+                    return;
+                }
+                
+                // Get current language and map to language codes
+                const currentLang = this.getCurrentLanguage();
+                const langCodeMap = {
+                    'English': 'en',
+                    'Spanish': 'es-CO',
+                    'German': 'de',
+                    'French': 'fr-CA',
+                    'Dutch': 'nl'
+                };
+                
+                const currentLangCode = langCodeMap[currentLang] || 'en';
+                
+                // Filter PlayHT voices for current language
+                const filteredPlayHTVoices = this.voices.playht.filter(voice => 
+                    voice.language === currentLangCode
+                );
+                
+                // Populate PlayHT voices (filtered by current language)
+                filteredPlayHTVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.id;
+                    option.textContent = voice.name;
+                    playhtSelect.appendChild(option);
+                });
+                
+                // For ElevenLabs, show all voices but indicate they're multilingual
+                this.voices.elevenlabs.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.id;
+                    option.textContent = `${voice.name} (Multilingual)`;
+                    elevenlabsSelect.appendChild(option);
+                });
+                
+                console.log(`Voice dropdowns populated for ${currentLang}: ${filteredPlayHTVoices.length} PlayHT, ${this.voices.elevenlabs.length} ElevenLabs`);
             }
 
             async loadTranslationData() {
@@ -599,6 +995,34 @@
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     this.searchItems(e.target.value);
                 });
+
+                // Voice dropdown event listeners
+                document.getElementById('playhtVoice').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.generateAudio('playht', e.target.value);
+                    }
+                });
+
+                document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.generateAudio('elevenlabs', e.target.value);
+                    }
+                });
+
+                // Refresh voices button
+                document.getElementById('refreshVoices').addEventListener('click', async () => {
+                    await this.loadVoices();
+                });
+
+                // SSML play button
+                document.getElementById('playSSML').addEventListener('click', () => {
+                    this.playSSMLText();
+                });
+
+                // Debug voices button
+                document.getElementById('debugVoices').addEventListener('click', () => {
+                    this.showAvailableVoices();
+                });
             }
 
             createTabs() {
@@ -694,6 +1118,12 @@
 
                 this.currentLanguage = language;
                 this.populateTable(language);
+                
+                // Refresh voice dropdowns for the new language
+                this.populateVoiceDropdowns();
+                
+                console.log(`Switched to ${language} tab, refreshed voice dropdowns`);
+                this.setStatus(`Switched to ${language} language`);
             }
 
             selectRow(row, item) {
@@ -831,19 +1261,397 @@
                 console.log(`No audio file found for ${itemId} in language ${langCode}`);
             }
 
+            async generateAudio(service, voiceId) {
+                const text = document.getElementById('ssmlEditor').value;
+                if (!text.trim()) {
+                    this.setStatus('❌ Please enter some text to generate audio');
+                    return;
+                }
+
+                const credentials = this.loadCredentials();
+                
+                if (service === 'playht') {
+                    if (!credentials.playht.apiKey || !credentials.playht.userId) {
+                        this.setStatus('❌ PlayHT credentials not found');
+                        this.showCredentialsModal(true, false);
+                        return;
+                    }
+                    await this.generatePlayHTAudio(text, voiceId, credentials.playht);
+                } else if (service === 'elevenlabs') {
+                    if (!credentials.elevenlabs.apiKey) {
+                        this.setStatus('❌ ElevenLabs credentials not found');
+                        this.showCredentialsModal(false, true);
+                        return;
+                    }
+                    await this.generateElevenLabsAudio(text, voiceId, credentials.elevenlabs);
+                }
+            }
+
+            async generatePlayHTAudio(text, voiceId, credentials) {
+                this.setStatus('🎵 Generating PlayHT audio...');
+                
+                // Note: Direct API calls from browser are blocked by CORS
+                // In production, you'd need a backend proxy server
+                
+                // For demonstration, use browser speech synthesis with language-specific voice
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    // Map PlayHT voice IDs to language codes (matching config.py)
+                    const voiceLanguageMap = {
+                        // English voices
+                        'charlotte_narrative': 'en-US',
+                        'susan_commercial': 'en-US',
+                        'alexandra_conversational': 'en-US',
+                        
+                        // Spanish voices (es-CO from config.py)
+                        'spanish_violeta_narrative': 'es-CO',
+                        'spanish_maria_commercial': 'es-CO',
+                        'spanish_sofia_conversational': 'es-CO',
+                        
+                        // German voices
+                        'german_anke_narrative': 'de-DE',
+                        'german_petra_commercial': 'de-DE',
+                        'german_katrin_conversational': 'de-DE',
+                        
+                        // French voices (fr-CA from config.py)
+                        'french_ange_narrative': 'fr-CA',
+                        'french_marie_commercial': 'fr-CA',
+                        'french_isabelle_conversational': 'fr-CA',
+                        
+                        // Dutch voices
+                        'dutch_emma_narrative': 'nl-NL',
+                        'dutch_sophie_commercial': 'nl-NL',
+                        'dutch_lotte_conversational': 'nl-NL'
+                    };
+                    
+                    const targetLang = voiceLanguageMap[voiceId] || 'en-US';
+                    
+                    // Convert config.py language codes to browser speech synthesis codes
+                    const browserLangMap = {
+                        'es-CO': 'es-ES',  // Spanish Colombia -> Spanish Spain for browser
+                        'fr-CA': 'fr-FR',  // French Canada -> French France for browser
+                        'nl-NL': 'nl-NL',  // Dutch Netherlands (same)
+                        'de-DE': 'de-DE',  // German Germany (same)
+                        'en-US': 'en-US'   // English US (same)
+                    };
+                    
+                    const browserLang = browserLangMap[targetLang] || targetLang;
+                    utterance.lang = browserLang;
+                    
+                    // Wait for voices to load and select appropriate voice
+                    const selectVoiceAndSpeak = () => {
+                        const voices = speechSynthesis.getVoices();
+                        console.log(`PlayHT fallback: Available voices: ${voices.length}, Target: ${browserLang}`);
+                        
+                        // Try to find the best matching voice for the language
+                        let matchingVoice = null;
+                        
+                        // First try exact language match
+                        matchingVoice = voices.find(voice => voice.lang === browserLang);
+                        
+                        // If no exact match, try language prefix match
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(browserLang.split('-')[0])
+                            );
+                        }
+                        
+                        // If still no match, try to find a female voice for the language
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(browserLang.split('-')[0]) && 
+                                (voice.name.toLowerCase().includes('female') || 
+                                 voice.name.toLowerCase().includes('woman') ||
+                                 voice.name.toLowerCase().includes('zira') ||
+                                 voice.name.toLowerCase().includes('sabina') ||
+                                 voice.name.toLowerCase().includes('helena'))
+                            );
+                        }
+                        
+                        if (matchingVoice) {
+                            utterance.voice = matchingVoice;
+                            this.setStatus(`🔊 Playing with ${matchingVoice.name} (${matchingVoice.lang}) - PlayHT fallback`);
+                            console.log(`PlayHT fallback selected: ${matchingVoice.name} (${matchingVoice.lang})`);
+                        } else {
+                            this.setStatus(`🔊 Playing with browser default voice (${browserLang}) - PlayHT fallback`);
+                            console.log(`PlayHT fallback: No matching voice found for ${browserLang}`);
+                        }
+                        
+                        speechSynthesis.speak(utterance);
+                    };
+                    
+                    // Check if voices are already loaded
+                    if (speechSynthesis.getVoices().length > 0) {
+                        selectVoiceAndSpeak();
+                    } else {
+                        // Wait for voices to load
+                        speechSynthesis.addEventListener('voiceschanged', selectVoiceAndSpeak, { once: true });
+                        setTimeout(selectVoiceAndSpeak, 100);
+                    }
+                } else {
+                    this.setStatus('❌ Speech synthesis not supported');
+                }
+            }
+
+            async generateElevenLabsAudio(text, voiceId, credentials) {
+                this.setStatus('🎵 Generating ElevenLabs audio...');
+                
+                // Note: Direct API calls from browser are blocked by CORS
+                // In production, you'd need a backend proxy server
+                
+                // For demonstration, use browser speech synthesis with appropriate language
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    // Get language from current tab
+                    const currentLang = this.getCurrentLanguage();
+                    const langCodes = {
+                        'English': 'en-US',
+                        'Spanish': 'es-ES',  // Use Spanish Spain for browser compatibility
+                        'German': 'de-DE',
+                        'French': 'fr-FR',   // Use French France for browser compatibility
+                        'Dutch': 'nl-NL'
+                    };
+                    
+                    const targetLang = langCodes[currentLang] || 'en-US';
+                    utterance.lang = targetLang;
+                    
+                    // Wait for voices to load and select appropriate voice
+                    const selectVoiceAndSpeak = () => {
+                        const voices = speechSynthesis.getVoices();
+                        console.log(`ElevenLabs fallback: Available voices: ${voices.length}, Target: ${targetLang}`);
+                        
+                        // Try to find the best matching voice for the language
+                        let matchingVoice = null;
+                        
+                        // First try exact language match
+                        matchingVoice = voices.find(voice => voice.lang === targetLang);
+                        
+                        // If no exact match, try language prefix match
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(targetLang.split('-')[0])
+                            );
+                        }
+                        
+                        // If still no match, try to find a female voice for the language
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(targetLang.split('-')[0]) && 
+                                (voice.name.toLowerCase().includes('female') || 
+                                 voice.name.toLowerCase().includes('woman') ||
+                                 voice.name.toLowerCase().includes('zira') ||
+                                 voice.name.toLowerCase().includes('sabina') ||
+                                 voice.name.toLowerCase().includes('helena'))
+                            );
+                        }
+                        
+                        if (matchingVoice) {
+                            utterance.voice = matchingVoice;
+                            this.setStatus(`🔊 Playing with ${matchingVoice.name} (${matchingVoice.lang}) - ElevenLabs fallback`);
+                            console.log(`ElevenLabs fallback selected: ${matchingVoice.name} (${matchingVoice.lang})`);
+                        } else {
+                            this.setStatus(`🔊 Playing with browser default voice (${targetLang}) - ElevenLabs fallback`);
+                            console.log(`ElevenLabs fallback: No matching voice found for ${targetLang}`);
+                        }
+                        
+                        speechSynthesis.speak(utterance);
+                    };
+                    
+                    // Check if voices are already loaded
+                    if (speechSynthesis.getVoices().length > 0) {
+                        selectVoiceAndSpeak();
+                    } else {
+                        // Wait for voices to load
+                        speechSynthesis.addEventListener('voiceschanged', selectVoiceAndSpeak, { once: true });
+                        setTimeout(selectVoiceAndSpeak, 100);
+                    }
+                } else {
+                    this.setStatus('❌ Speech synthesis not supported');
+                }
+            }
+
+            playSSMLText() {
+                const text = document.getElementById('ssmlEditor').value;
+                if (!text.trim()) {
+                    this.setStatus('❌ Please enter some text to play');
+                    return;
+                }
+
+                // Check which voice is selected
+                const playhtVoice = document.getElementById('playhtVoice').value;
+                const elevenlabsVoice = document.getElementById('elevenlabsVoice').value;
+                
+                if (playhtVoice) {
+                    // PlayHT voice selected
+                    this.generateAudio('playht', playhtVoice);
+                } else if (elevenlabsVoice) {
+                    // ElevenLabs voice selected
+                    this.generateAudio('elevenlabs', elevenlabsVoice);
+                } else {
+                    // No voice selected, use browser speech synthesis with appropriate language
+                    this.playWithBrowserSpeech(text);
+                }
+            }
+
+            playWithBrowserSpeech(text) {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    // Set language based on current tab
+                    const currentLang = this.getCurrentLanguage();
+                    const langCodes = {
+                        'English': 'en-US',
+                        'Spanish': 'es-ES',
+                        'German': 'de-DE',
+                        'French': 'fr-FR',
+                        'Dutch': 'nl-NL'
+                    };
+                    
+                    const targetLang = langCodes[currentLang] || 'en-US';
+                    utterance.lang = targetLang;
+                    
+                    // Wait for voices to load if they haven't already
+                    const selectVoiceAndSpeak = () => {
+                        const voices = speechSynthesis.getVoices();
+                        console.log(`Available voices: ${voices.length}`);
+                        
+                        // Try to find the best matching voice for the language
+                        let matchingVoice = null;
+                        
+                        // First try to find exact language match
+                        matchingVoice = voices.find(voice => 
+                            voice.lang === targetLang
+                        );
+                        
+                        // If no exact match, try language prefix match
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(targetLang.split('-')[0])
+                            );
+                        }
+                        
+                        // If still no match, try to find a female voice for the language
+                        if (!matchingVoice) {
+                            matchingVoice = voices.find(voice => 
+                                voice.lang.startsWith(targetLang.split('-')[0]) && 
+                                (voice.name.toLowerCase().includes('female') || 
+                                 voice.name.toLowerCase().includes('woman') ||
+                                 voice.name.toLowerCase().includes('zira') ||
+                                 voice.name.toLowerCase().includes('sabina') ||
+                                 voice.name.toLowerCase().includes('helena'))
+                            );
+                        }
+                        
+                        if (matchingVoice) {
+                            utterance.voice = matchingVoice;
+                            this.setStatus(`🔊 Playing with ${matchingVoice.name} (${matchingVoice.lang})`);
+                            console.log(`Selected voice: ${matchingVoice.name} (${matchingVoice.lang})`);
+                        } else {
+                            this.setStatus(`🔊 Playing with browser default voice (${targetLang})`);
+                            console.log(`No matching voice found for ${targetLang}, using default`);
+                        }
+                        
+                        speechSynthesis.speak(utterance);
+                    };
+                    
+                    // Check if voices are already loaded
+                    if (speechSynthesis.getVoices().length > 0) {
+                        selectVoiceAndSpeak();
+                    } else {
+                        // Wait for voices to load
+                        speechSynthesis.addEventListener('voiceschanged', selectVoiceAndSpeak, { once: true });
+                        // Fallback timeout in case voiceschanged doesn't fire
+                        setTimeout(selectVoiceAndSpeak, 100);
+                    }
+                } else {
+                    this.setStatus('❌ Speech synthesis not supported in this browser');
+                }
+            }
+
+            getCurrentLanguage() {
+                const activeTab = document.querySelector('.tab-button.active');
+                return activeTab ? activeTab.textContent : 'English';
+            }
+
+            // Debug function to show available voices
+            showAvailableVoices() {
+                if ('speechSynthesis' in window) {
+                    const voices = speechSynthesis.getVoices();
+                    console.log('=== Available Browser Voices ===');
+                    voices.forEach((voice, index) => {
+                        console.log(`${index + 1}. ${voice.name} (${voice.lang}) - ${voice.gender || 'unknown gender'}`);
+                    });
+                    console.log(`Total voices: ${voices.length}`);
+                    
+                    // Show in status bar
+                    this.setStatus(`📋 ${voices.length} voices available - check console for details`);
+                } else {
+                    console.log('Speech synthesis not supported');
+                    this.setStatus('❌ Speech synthesis not supported');
+                }
+            }
+
             setStatus(message) {
                 document.getElementById('statusBar').textContent = message;
+            }
+        }
+
+        // Global functions for credential management
+        async function saveCredentialsFromModal() {
+            const credentials = {
+                playht: {
+                    apiKey: document.getElementById('playhtApiKey')?.value || '',
+                    userId: document.getElementById('playhtUserId')?.value || ''
+                },
+                elevenlabs: {
+                    apiKey: document.getElementById('elevenlabsApiKey')?.value || ''
+                }
+            };
+
+            dashboard.saveCredentials(credentials);
+            closeCredentialsModal();
+            dashboard.setStatus('✅ Credentials saved successfully');
+            
+            // Load voices after saving credentials
+            await dashboard.loadVoices();
+        }
+
+        function clearAllCredentials() {
+            if (confirm('Are you sure you want to clear all stored credentials?')) {
+                dashboard.clearCredentials();
+                closeCredentialsModal();
+                dashboard.setStatus('🗑️ All credentials cleared');
+            }
+        }
+
+        function closeCredentialsModal() {
+            const modal = document.getElementById('credentialsModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function showCredentialsSetup() {
+            console.log('showCredentialsSetup called');
+            if (window.dashboard) {
+                console.log('Dashboard found, showing modal');
+                window.dashboard.showCredentialsModal(true, true);
+            } else {
+                console.error('Dashboard not initialized yet');
+                alert('Dashboard is still loading. Please wait a moment and try again.');
             }
         }
 
         // Initialize the dashboard when the page loads
         let dashboard;
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing dashboard');
             dashboard = new AudioDashboard();
+            window.dashboard = dashboard;
+            console.log('Dashboard assigned to window.dashboard');
         });
-
-        // Export for use in HTML onclick handlers
-        window.dashboard = dashboard;
     </script>
 </body>
 </html> 

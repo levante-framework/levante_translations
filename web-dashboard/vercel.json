@@ -9,5 +9,15 @@
       "src": "*.js",
       "use": "@vercel/static"
     }
+  ],
+  "alias": [
+    "audio-dashboard-levante.vercel.app",
+    "levante-audio-dashboard.vercel.app"
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 } 

@@ -2,10 +2,13 @@
   "name": "levante-audio-dashboard",
   "version": "1.0.0",
   "description": "Web-based audio dashboard for Levante translations",
-  "main": "dashboard.html",
+  "main": "index.html",
+  "homepage": "https://audio-dashboard-levante.vercel.app",
   "scripts": {
     "start": "serve .",
-    "build": "echo 'No build step needed'"
+    "build": "echo 'No build step needed'",
+    "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1",
+    "deploy-bat": "deploy.bat"
   },
   "keywords": ["audio", "dashboard", "tts", "translations"],
   "author": "Levante Team",
