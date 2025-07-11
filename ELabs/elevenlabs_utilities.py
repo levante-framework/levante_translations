@@ -58,6 +58,13 @@ def play_audio(text, desired_voice):
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
     
+    # Clean the text first
+    text = text.strip()
+    
+    # Debug output
+    print(f"ElevenLabs Debug - Text: '{text}' (length: {len(text)})")
+    print(f"ElevenLabs Debug - Voice: {desired_voice}")
+    
     """
     voice = Voice(
         voice_id=desired_voice,
@@ -75,9 +82,12 @@ def play_audio(text, desired_voice):
 
     # Collect all audio chunks into a single bytes object
     audio_data = b"".join(audio_iterator)
+    
+    print(f"ElevenLabs Debug - Generated audio: {len(audio_data)} bytes")
 
-    # Play the generated audio
-    play(audio_data)
+    # Play the generated audio using our fixed play_data_object function
+    from utilities.utilities import play_data_object
+    play_data_object(audio_data)
 
     # Save the audio to a file
     #with open("output.mp3", "wb") as f:
