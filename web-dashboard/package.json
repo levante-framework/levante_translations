@@ -1,0 +1,17 @@
+{
+  "name": "levante-audio-dashboard",
+  "version": "1.0.0",
+  "description": "Web-based audio dashboard for Levante translations",
+  "main": "dashboard.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step needed'"
+  },
+  "keywords": ["audio", "dashboard", "tts", "translations"],
+  "author": "Levante Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+} 
