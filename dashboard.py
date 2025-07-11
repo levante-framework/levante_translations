@@ -107,7 +107,7 @@ class App(ctk.CTk):
     def on_ssml_play(self):
         # We want to play the current text in ssml_input through
         # the current (language specific) voice
-        play_text_html = self.ssml_input.get("0.0", "end")
+        play_text_html = self.ssml_input.get("0.0", "end-1c")  # end-1c excludes the trailing newline
 
         # get the correct voice
         voice = ''
@@ -126,12 +126,20 @@ class App(ctk.CTk):
             voice = 'Alexandra - Conversational and Real'
             active_tab = 'English'
 
+        # Clean the text thoroughly
+        play_text_html = play_text_html.strip()
+        
+        # Debug output
+        print(f"Debug - Playing text: '{play_text_html}' (length: {len(play_text_html)})")
+        print(f"Debug - Service: {service}, Voice: {voice}")
+
         # For PlayHT, pass raw HTML text since get_audio will process SSML
         # For ElevenLabs, convert to SSML first
         if service == 'PlayHt':
-            play_text = play_text_html.strip()  # Pass raw text, let PlayHT utilities handle SSML
+            play_text = play_text_html  # Pass raw text, let PlayHT utilities handle SSML
         else:
             play_text = u.html_to_ssml(play_text_html)  # ElevenLabs needs SSML
+            print(f"Debug - SSML converted text: '{play_text}'")
 
         # Now transcribe text & play using selected voice
         try:
