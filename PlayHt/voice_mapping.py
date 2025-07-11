@@ -23,23 +23,24 @@ class VoiceMapper:
         
         # Default readable name mappings for commonly used voices
         self.readable_mappings = {
-            # Spanish voices
-            'es-CO-SalomeNeural': 'SalomeNeural',
-            'Spanish_Female_1': 'SalomeNeural',
-            'Spanish_Conversational': 'SalomeNeural',
+            # Spanish voices (updated to current API names)
+            'es-CO-SalomeNeural': 'Spanish_Violeta Narrative',
+            'Spanish_Female_1': 'Spanish_Violeta Narrative',
+            'Spanish_Conversational': 'Spanish_Violeta Conversational',
+            'SalomeNeural': 'Spanish_Violeta Narrative',
             
-            # German voices  
-            'VickiNeural': 'VickiNeural',
-            'German_Female_1': 'VickiNeural',
-            'German_Conversational': 'VickiNeural',
+            # German voices (updated to current API names)
+            'VickiNeural': 'German_Anke Narrative',
+            'German_Female_1': 'German_Anke Narrative',
+            'German_Conversational': 'German_Anke Conversational',
             
-            # French voices
-            'Gabrielle': 'Gabrielle',
-            'French_Female_1': 'Gabrielle',
-            'French_Conversational': 'Gabrielle',
+            # French voices (updated to current API names)
+            'Gabrielle': 'French_Ange Narrative',
+            'French_Female_1': 'French_Ange Narrative',
+            'French_Conversational': 'French_Ange Conversational',
             
-            # Dutch voices
-            'FennaNeural': 'FennaNeural',
+            # Dutch voices (no Dutch voices found in current API)
+            'FennaNeural': 'FennaNeural',  # Keep as fallback
             'Dutch_Female_1': 'FennaNeural',
             'Dutch_Conversational': 'FennaNeural',
         }
@@ -111,17 +112,32 @@ class VoiceMapper:
                     voice_id = voice.get('id', voice.get('value', ''))
                     
                     if voice_name and voice_id:
-                        # Create multiple mapping entries for flexibility
-                        self.voice_mappings[voice_name] = voice_id
+                        # Prefer full S3 URLs over simplified IDs for better reliability
+                        if voice_name in self.voice_mappings:
+                            existing_id = self.voice_mappings[voice_name]
+                            # If current ID is a full S3 URL and existing is simplified, keep current
+                            if voice_id.startswith('s3://') and not existing_id.startswith('s3://'):
+                                self.voice_mappings[voice_name] = voice_id
+                            # If existing is S3 URL and current is simplified, keep existing
+                            elif existing_id.startswith('s3://') and not voice_id.startswith('s3://'):
+                                pass  # Keep existing
+                            else:
+                                # Both are same type, use the current one
+                                self.voice_mappings[voice_name] = voice_id
+                        else:
+                            # Create multiple mapping entries for flexibility
+                            self.voice_mappings[voice_name] = voice_id
                         
                         # Also create simplified names (remove spaces, special chars)
                         simplified_name = voice_name.replace(' ', '').replace('-', '').replace('_', '')
-                        self.voice_mappings[simplified_name] = voice_id
+                        if simplified_name not in self.voice_mappings or voice_id.startswith('s3://'):
+                            self.voice_mappings[simplified_name] = voice_id
                         
                         # Create language-specific mappings if language info is available
                         if 'language' in voice:
                             lang_name = f"{voice['language']}_{voice_name}"
-                            self.voice_mappings[lang_name] = voice_id
+                            if lang_name not in self.voice_mappings or voice_id.startswith('s3://'):
+                                self.voice_mappings[lang_name] = voice_id
                 
                 self.last_updated = datetime.now()
                 self._save_cache()
