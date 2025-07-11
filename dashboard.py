@@ -34,9 +34,11 @@ class App(ctk.CTk):
         self.ourData = self.ourData.rename(columns={'text': 'en'})
         # Keep the original column names as they are now (en, de, es, fr, nl)
 
-
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
+
+        # Clear voice cache on startup to ensure fresh voice data
+        self.clear_voice_cache()
 
         # Create and place the full frame
         self.fullFrame = ctk.CTkFrame(self)
@@ -449,7 +451,12 @@ class App(ctk.CTk):
             if hasattr(self, attr_name):
                 delattr(self, attr_name)
         
-        print("Voice cache cleared - voice lists will be regenerated")
+        # Also clear PlayHT voice mapping cache
+        try:
+            voice_mapping.update_voices(force=True)
+            print("Voice cache cleared - voice lists and PlayHT mappings will be regenerated")
+        except Exception as e:
+            print(f"Voice cache cleared - dashboard cache cleared, PlayHT cache update failed: {e}")
 
     def update_comboboxes(self, force_refresh=False):
         # Clear cache if force_refresh is True or if switching tabs

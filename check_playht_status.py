@@ -178,7 +178,7 @@ def check_tts_endpoint(voice_info=None):
     print("\n🔍 Testing TTS endpoint with simple request...")
     
     # Use a found voice or default
-    test_voice = "Play3.0-mini-http"
+    test_voice = "PlayDialog-test"
     if voice_info:
         # Use the first available voice from our required list
         first_voice = next(iter(voice_info.values()))
@@ -188,7 +188,7 @@ def check_tts_endpoint(voice_info=None):
     payload = {
         "text": "Hello, this is a test of the PlayHt API version 2.",
         "voice": test_voice,
-        "voice_engine": "Play3.0-mini"
+        "voice_engine": "PlayDialog"
     }
     
     try:
