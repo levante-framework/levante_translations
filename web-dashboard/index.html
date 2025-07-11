@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levante Translation & Audio Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .controls-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+            min-width: 120px;
+        }
+
+        .search-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .voice-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .voice-group label {
+            font-size: 14px;
+            color: #666;
+            min-width: auto;
+        }
+
+        .voice-select {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .ssml-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            margin-top: 10px;
+        }
+
+        .tabs {
+            margin-bottom: 20px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: #f8f9fa;
+            color: #666;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 13px;
+        }
+
+        .data-table th {
+            background: #4facfe;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            vertical-align: top;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .data-table tr.selected {
+            background: #e3f2fd;
+        }
+
+        .data-table .text-cell {
+            max-width: 200px;
+            word-wrap: break-word;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .data-table .audio-path {
+            font-size: 10px;
+            color: #6c757d;
+            max-width: 180px;
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        .data-table td:first-child {
+            font-weight: bold;
+            color: #007bff;
+            min-width: 100px;
+        }
+
+        .data-table td:nth-child(2) {
+            color: #28a745;
+            font-weight: 500;
+            min-width: 120px;
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .voice-controls {
+                flex-direction: column;
+            }
+            
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <p>Compare and generate TTS audio across multiple languages and services</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Search Section -->
+            <div class="controls-section">
+                <div class="control-group">
+                    <label for="searchInput"><i class="fas fa-search"></i> Search Items:</label>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search by item ID or text content...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Comparison Section -->
+            <div class="controls-section">
+                <div class="control-group">
+                    <label><i class="fas fa-volume-up"></i> Voice Comparison:</label>
+                    <div class="voice-controls">
+                        <div class="voice-group">
+                            <label for="playhtVoice">PlayHT Voice:</label>
+                            <select id="playhtVoice" class="voice-select">
+                                <option value="">Select PlayHT Voice...</option>
+                            </select>
+                        </div>
+                        <div class="voice-group">
+                            <label for="elevenlabsVoice">ElevenLabs Voice:</label>
+                            <select id="elevenlabsVoice" class="voice-select">
+                                <option value="">Select ElevenLabs Voice...</option>
+                            </select>
+                        </div>
+                        <button id="refreshVoices" class="btn btn-info">
+                            <i class="fas fa-sync-alt"></i> Refresh Voices
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SSML Editor Section -->
+            <div class="controls-section">
+                <div class="control-group">
+                    <label for="ssmlEditor"><i class="fas fa-code"></i> SSML Editor:</label>
+                    <button id="playSSML" class="btn btn-success">
+                        <i class="fas fa-play"></i> Play SSML
+                    </button>
+                </div>
+                <textarea id="ssmlEditor" class="ssml-textarea" placeholder="Enter text or SSML here..."></textarea>
+            </div>
+
+            <!-- Language Tabs -->
+            <div class="tabs">
+                <div class="tab-buttons" id="tabButtons">
+                    <!-- Tabs will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tabContent">
+                <!-- Tab content will be populated by JavaScript -->
+            </div>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Processing audio...</p>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            Ready
+        </div>
+    </div>
+
+    <script>
+        // Embedded JavaScript to avoid serving issues
+        class AudioDashboard {
+            constructor() {
+                this.languages = {
+                    'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
+                    'Spanish': { lang_code: 'es', service: 'PlayHT', voice: 'Spanish_Violeta Narrative' },
+                    'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
+                    'French': { lang_code: 'fr', service: 'PlayHT', voice: 'French_Ange Narrative' },
+                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Xander' }
+                };
+
+                this.data = [];
+                this.currentLanguage = 'English';
+                this.selectedRow = null;
+
+                this.init();
+            }
+
+            async init() {
+                console.log('Initializing Audio Dashboard...');
+                this.setStatus('Loading dashboard...');
+                
+                await this.loadData();
+                this.createTabs();
+                this.setupEventListeners();
+                
+                this.setStatus('Dashboard ready!');
+                console.log('Dashboard initialization complete');
+            }
+
+            async loadData() {
+                try {
+                    console.log('Loading sample translation data...');
+                    this.data = await this.loadSampleData();
+                    console.log(`Loaded ${this.data.length} sample translation items`);
+                    this.setStatus(`✅ Loaded ${this.data.length} translation items`);
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    this.setStatus('Error loading data');
+                }
+            }
+
+            async loadSampleData() {
+                return [
+                    {
+                        item_id: 'general_welcome',
+                        labels: 'general',
+                        en: 'Welcome to the audio dashboard',
+                        es: 'Bienvenido al panel de audio',
+                        de: 'Willkommen im Audio-Dashboard',
+                        fr: 'Bienvenue dans le tableau de bord audio',
+                        nl: 'Welkom bij het audio-dashboard'
+                    },
+                    {
+                        item_id: 'general_instructions',
+                        labels: 'general',
+                        en: 'Please follow the instructions carefully',
+                        es: 'Por favor sigue las instrucciones cuidadosamente',
+                        de: 'Bitte befolgen Sie die Anweisungen sorgfältig',
+                        fr: 'Veuillez suivre attentivement les instructions',
+                        nl: 'Volg de instructies zorgvuldig op'
+                    },
+                    {
+                        item_id: 'math_problem_01',
+                        labels: 'math',
+                        en: 'Please solve this math problem',
+                        es: 'Por favor resuelve este problema de matemáticas',
+                        de: 'Bitte lösen Sie dieses Matheproblem',
+                        fr: 'Veuillez résoudre ce problème de mathématiques',
+                        nl: 'Los dit wiskundeprobleem op'
+                    },
+                    {
+                        item_id: 'math_addition_01',
+                        labels: 'math, addition',
+                        en: 'What is 5 plus 3?',
+                        es: '¿Cuánto es 5 más 3?',
+                        de: 'Was ist 5 plus 3?',
+                        fr: 'Combien font 5 plus 3?',
+                        nl: 'Hoeveel is 5 plus 3?'
+                    },
+                    {
+                        item_id: 'vocab_cat',
+                        labels: 'vocab',
+                        en: 'The cat sits on the mat',
+                        es: 'El gato se sienta en la alfombra',
+                        de: 'Die Katze sitzt auf der Matte',
+                        fr: 'Le chat est assis sur le tapis',
+                        nl: 'De kat zit op de mat'
+                    },
+                    {
+                        item_id: 'vocab_dog',
+                        labels: 'vocab',
+                        en: 'The dog runs in the park',
+                        es: 'El perro corre en el parque',
+                        de: 'Der Hund läuft im Park',
+                        fr: 'Le chien court dans le parc',
+                        nl: 'De hond rent in het park'
+                    },
+                    {
+                        item_id: 'hearts_flowers_01',
+                        labels: 'hearts-and-flowers',
+                        en: 'Choose the correct pattern',
+                        es: 'Elige el patrón correcto',
+                        de: 'Wählen Sie das richtige Muster',
+                        fr: 'Choisissez le bon motif',
+                        nl: 'Kies het juiste patroon'
+                    },
+                    {
+                        item_id: 'hostile_attribution_01',
+                        labels: 'hostile-attribution',
+                        en: 'What do you think happened?',
+                        es: '¿Qué crees que pasó?',
+                        de: 'Was denkst du ist passiert?',
+                        fr: 'Que pensez-vous qu\'il s\'est passé?',
+                        nl: 'Wat denk je dat er is gebeurd?'
+                    }
+                ];
+            }
+
+            setupEventListeners() {
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.searchItems(e.target.value);
+                });
+            }
+
+            createTabs() {
+                const tabButtons = document.getElementById('tabButtons');
+                const tabContent = document.getElementById('tabContent');
+
+                console.log('Creating language tabs...', Object.keys(this.languages));
+
+                Object.keys(this.languages).forEach((language, index) => {
+                    const button = document.createElement('button');
+                    button.className = `tab-button ${index === 0 ? 'active' : ''}`;
+                    button.textContent = language;
+                    button.addEventListener('click', () => this.switchTab(language));
+                    tabButtons.appendChild(button);
+
+                    const content = document.createElement('div');
+                    content.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                    content.id = `tab-${language}`;
+                    content.innerHTML = this.createTableHTML(language);
+                    tabContent.appendChild(content);
+                });
+
+                this.currentLanguage = Object.keys(this.languages)[0];
+                console.log('Populating initial table for:', this.currentLanguage);
+                this.populateTable(this.currentLanguage);
+                console.log('Tabs created successfully');
+            }
+
+            createTableHTML(language) {
+                const langCode = this.languages[language].lang_code;
+                return `
+                    <table class="data-table" id="table-${language}">
+                        <thead>
+                            <tr>
+                                <th>Item ID</th>
+                                <th>Task</th>
+                                <th>English</th>
+                                <th>Translated (${langCode})</th>
+                                <th>Audio File</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            populateTable(language) {
+                const table = document.getElementById(`table-${language}`);
+                const tbody = table.querySelector('tbody');
+                const langCode = this.languages[language].lang_code;
+
+                tbody.innerHTML = '';
+
+                this.data.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.dataset.index = index;
+                    row.addEventListener('click', () => this.selectRow(row, item));
+
+                    const translatedText = item[langCode] || 'No translation available';
+                    const englishText = item.en || 'No English text';
+                    const audioFilePath = `audio_files/${item.labels}/${langCode}/shared/${item.item_id}.mp3`;
+                    
+                    row.innerHTML = `
+                        <td>${item.item_id}</td>
+                        <td>${item.labels}</td>
+                        <td class="text-cell">${this.wrapText(englishText, 40)}</td>
+                        <td class="text-cell">${this.wrapText(translatedText, 40)}</td>
+                        <td class="audio-path">${audioFilePath}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="dashboard.playExistingAudio('${item.item_id}', '${langCode}')">
+                                <i class="fas fa-play"></i> Play
+                            </button>
+                        </td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+            }
+
+            switchTab(language) {
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`tab-${language}`).classList.add('active');
+
+                this.currentLanguage = language;
+                this.populateTable(language);
+            }
+
+            selectRow(row, item) {
+                document.querySelectorAll('.data-table tr').forEach(r => {
+                    r.classList.remove('selected');
+                });
+
+                row.classList.add('selected');
+                this.selectedRow = item;
+
+                const langCode = this.languages[this.currentLanguage].lang_code;
+                const text = item[langCode] || item.en || '';
+                document.getElementById('ssmlEditor').value = text;
+
+                this.setStatus(`Selected: ${item.item_id}`);
+            }
+
+            searchItems(query) {
+                const tables = document.querySelectorAll('.data-table tbody');
+                
+                tables.forEach(tbody => {
+                    const rows = tbody.querySelectorAll('tr');
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(query.toLowerCase())) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            wrapText(text, width = 40) {
+                if (!text) return '';
+                
+                const words = text.split(' ');
+                const lines = [];
+                let currentLine = '';
+                
+                words.forEach(word => {
+                    if ((currentLine + word).length <= width) {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    } else {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = word;
+                    }
+                });
+                
+                if (currentLine) lines.push(currentLine);
+                return lines.join('<br>');
+            }
+
+            playExistingAudio(itemId, langCode) {
+                this.setStatus(`Playing existing audio for ${itemId} (${langCode})`);
+                console.log(`Would play audio file: audio_files/*/${langCode}/shared/${itemId}.mp3`);
+            }
+
+            setStatus(message) {
+                document.getElementById('statusBar').textContent = message;
+            }
+        }
+
+        // Initialize the dashboard when the page loads
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new AudioDashboard();
+        });
+
+        // Export for use in HTML onclick handlers
+        window.dashboard = dashboard;
+    </script>
+</body>
+</html> 
