@@ -430,14 +430,92 @@
 
             async loadData() {
                 try {
+                    console.log('Attempting to load real translation data from GitHub...');
+                    this.data = await this.loadTranslationData();
+                    console.log(`Successfully loaded ${this.data.length} real translation items`);
+                    this.setStatus(`✅ Loaded ${this.data.length} real translation items from GitHub`);
+                } catch (error) {
+                    console.error('Error loading real data, falling back to sample data:', error);
                     console.log('Loading sample translation data...');
                     this.data = await this.loadSampleData();
                     console.log(`Loaded ${this.data.length} sample translation items`);
-                    this.setStatus(`✅ Loaded ${this.data.length} translation items`);
-                } catch (error) {
-                    console.error('Error loading data:', error);
-                    this.setStatus('Error loading data');
+                    this.setStatus(`⚠️ Using sample data (${this.data.length} items) - could not load from GitHub`);
                 }
+            }
+
+            async loadTranslationData() {
+                // Use the same URL as the Python version from config.py
+                const csvUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
+                
+                try {
+                    const response = await fetch(csvUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const csvText = await response.text();
+                    return this.parseCSV(csvText);
+                } catch (error) {
+                    console.warn('Could not load from GitHub:', error);
+                    throw new Error('Could not load translation data from GitHub');
+                }
+            }
+
+            parseCSV(csvText) {
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                
+                const data = [];
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = this.parseCSVLine(lines[i]);
+                        if (values.length >= headers.length) {
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                // Map CSV columns to our expected format
+                                if (header === 'identifier') {
+                                    row.item_id = values[index];
+                                } else if (header === 'text') {
+                                    row.en = values[index];
+                                } else if (header === 'es-CO') {
+                                    row.es = values[index];
+                                } else if (header === 'fr-CA') {
+                                    row.fr = values[index];
+                                } else if (header === 'nl-NL') {
+                                    row.nl = values[index];
+                                } else {
+                                    row[header] = values[index];
+                                }
+                            });
+                            data.push(row);
+                        }
+                    }
+                }
+                
+                console.log(`Parsed ${data.length} translation items from CSV`);
+                return data;
+            }
+
+            parseCSVLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        result.push(current.trim());
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                
+                result.push(current.trim());
+                return result;
             }
 
             async loadSampleData() {
@@ -593,7 +671,7 @@
                         <td class="text-cell">${this.wrapText(translatedText, 40)}</td>
                         <td class="audio-path">${audioFilePath}</td>
                         <td>
-                            <button class="btn btn-primary" onclick="dashboard.playExistingAudio('${item.item_id}', '${langCode}')">
+                            <button class="btn btn-primary" onclick="dashboard.playExistingAudio('${item.item_id}', '${langCode}', '${item.labels}')">
                                 <i class="fas fa-play"></i> Play
                             </button>
                         </td>
@@ -669,9 +747,88 @@
                 return lines.join('<br>');
             }
 
-            playExistingAudio(itemId, langCode) {
-                this.setStatus(`Playing existing audio for ${itemId} (${langCode})`);
-                console.log(`Would play audio file: audio_files/*/${langCode}/shared/${itemId}.mp3`);
+            async playExistingAudio(itemId, langCode, taskLabel) {
+                this.setStatus(`Loading audio for ${itemId} (${langCode})...`);
+                
+                // Construct the GitHub raw URL for the audio file
+                const baseUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files';
+                const audioUrl = `${baseUrl}/${taskLabel}/${langCode}/shared/${itemId}.mp3`;
+                
+                console.log(`Attempting to play audio from: ${audioUrl}`);
+                
+                try {
+                    // Check if the audio file exists
+                    const response = await fetch(audioUrl, { method: 'HEAD' });
+                    
+                    if (response.ok) {
+                        // File exists, play it
+                        const audio = new Audio(audioUrl);
+                        
+                        audio.addEventListener('loadstart', () => {
+                            this.setStatus(`Loading audio: ${itemId}...`);
+                        });
+                        
+                        audio.addEventListener('canplay', () => {
+                            this.setStatus(`Playing audio: ${itemId}`);
+                        });
+                        
+                        audio.addEventListener('ended', () => {
+                            this.setStatus(`Finished playing: ${itemId}`);
+                        });
+                        
+                        audio.addEventListener('error', (e) => {
+                            console.error('Audio playback error:', e);
+                            this.setStatus(`❌ Error playing audio: ${itemId}`);
+                        });
+                        
+                        await audio.play();
+                    } else {
+                        // File doesn't exist, try alternative locations
+                        console.log(`Audio file not found at ${audioUrl}, trying alternative locations...`);
+                        await this.tryAlternativeAudioLocations(itemId, langCode, taskLabel);
+                    }
+                } catch (error) {
+                    console.error('Error loading audio:', error);
+                    this.setStatus(`❌ Could not load audio for ${itemId}`);
+                }
+            }
+
+            async tryAlternativeAudioLocations(itemId, langCode, taskLabel) {
+                // Try different possible locations for the audio file
+                const baseUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files';
+                
+                // Map simplified codes to potential full codes
+                const langCodeMappings = {
+                    'en': ['en', 'en-US'],
+                    'es': ['es', 'es-CO'], 
+                    'de': ['de', 'de-DE'],
+                    'fr': ['fr', 'fr-CA'],
+                    'nl': ['nl', 'nl-NL']
+                };
+                
+                const possibleLangCodes = langCodeMappings[langCode] || [langCode];
+                
+                for (const testLangCode of possibleLangCodes) {
+                    const audioUrl = `${baseUrl}/${taskLabel}/${testLangCode}/shared/${itemId}.mp3`;
+                    console.log(`Trying alternative location: ${audioUrl}`);
+                    
+                    try {
+                        const response = await fetch(audioUrl, { method: 'HEAD' });
+                        if (response.ok) {
+                            console.log(`Found audio at: ${audioUrl}`);
+                            const audio = new Audio(audioUrl);
+                            await audio.play();
+                            this.setStatus(`✅ Playing audio: ${itemId} (${testLangCode})`);
+                            return;
+                        }
+                    } catch (error) {
+                        console.log(`Failed to load from ${audioUrl}`);
+                    }
+                }
+                
+                // If no audio file found anywhere
+                this.setStatus(`❌ No audio file found for ${itemId} in any location`);
+                console.log(`No audio file found for ${itemId} in language ${langCode}`);
             }
 
             setStatus(message) {
