@@ -75,7 +75,7 @@ def get_audio(text, voice):
     data = {
         "text": ssml_text,
         "voice": voice,
-        "voice_engine": "Play3.0-mini",  # Use the newer engine
+        "voice_engine": "PlayDialog",  # Use PlayDialog for better emotion and natural speech
         "output_format": "mp3",
         "sample_rate": 24000
     }
