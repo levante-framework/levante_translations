@@ -116,9 +116,30 @@ def processRow(index, ourRow, lang_code, voice, \
                 return 'Error'
                 
             else:
+                # Parse error response for better debugging
+                try:
+                    error_data = response.json()
+                    error_message = error_data.get('error_message', 'Unknown error')
+                    error_id = error_data.get('error_id', 'Unknown')
+                    print(f"PlayHt API error: {response.status_code} - {error_message} (ID: {error_id})")
+                    
+                    # For voice-related errors, provide additional context
+                    if 'voice' in error_message.lower() or response.status_code == 500:
+                        print(f"Voice used: {voice} (original: {data['voice']})")
+                        print(f"Text length: {len(ssml_text)} characters")
+                        print(f"Voice engine: {data.get('voice_engine', 'N/A')}")
+                        
+                except:
+                    print(f"PlayHt API error: {response.status_code} - {response.text}")
+                
                 logging.error(f"convert_tts: API error for item={ourRow['item_id']}: status code={response.status_code}, response={response.text}")
                 errorCount += 1
-                time.sleep(retrySeconds)
+                
+                # For 500 errors, wait longer before retrying
+                if response.status_code == 500:
+                    time.sleep(retrySeconds * 3)
+                else:
+                    time.sleep(retrySeconds)
                 continue
                 
         except requests.exceptions.Timeout:
