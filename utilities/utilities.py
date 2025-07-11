@@ -152,15 +152,19 @@ def play_data_object(audio_data):
     temp_filename = temp_file.name
 
     try:
-    # Write the audio data to the temporary file
+        # Write the audio data to the temporary file
         temp_file.write(audio_data)
         temp_file.close()
     
-        # Play the temporary file
-        playsound.playsound(temp_filename)
+        # Play the temporary file - block=True ensures it waits for completion
+        playsound.playsound(temp_filename, block=True)
     finally:
-        # Clean up the temporary file
-        os.unlink(temp_filename)
+        # Clean up the temporary file after playback completes
+        try:
+            os.unlink(temp_filename)
+        except OSError:
+            # File might already be deleted or in use, ignore the error
+            pass
 
 def show_intro_messagebox(self):
     dialog = tk.Toplevel(self)

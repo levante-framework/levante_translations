@@ -108,7 +108,6 @@ class App(ctk.CTk):
         # We want to play the current text in ssml_input through
         # the current (language specific) voice
         play_text_html = self.ssml_input.get("0.0", "end")
-        play_text_ssml = u.html_to_ssml(play_text_html)
 
         # get the correct voice
         voice = ''
@@ -127,9 +126,16 @@ class App(ctk.CTk):
             voice = 'Alexandra - Conversational and Real'
             active_tab = 'English'
 
+        # For PlayHT, pass raw HTML text since get_audio will process SSML
+        # For ElevenLabs, convert to SSML first
+        if service == 'PlayHt':
+            play_text = play_text_html.strip()  # Pass raw text, let PlayHT utilities handle SSML
+        else:
+            play_text = u.html_to_ssml(play_text_html)  # ElevenLabs needs SSML
+
         # Now transcribe text & play using selected voice
         try:
-            u.play_audio_from_text(service, active_tab, voice, play_text_ssml)
+            u.play_audio_from_text(service, active_tab, voice, play_text)
         except Exception as e:
             print(f"Error playing audio: {e}")
             self.set_status(f"Unable to Play: {str(e)}")
@@ -522,28 +528,20 @@ class App(ctk.CTk):
                     ],
                     'es-CO': [
                         'Spanish_Violeta Narrative',
-                        'Spanish_Xavi Narrative', 
                         'Spanish_Violeta Conversational',
                         'Spanish_Patricia Narrative',
-                        'Spanish_Xavi Conversational',
                         'Spanish_Patricia Conversational'
                     ],
                     'de': [
                         'German_Anke Narrative',
-                        'German_Bernd Narrative',
-                        'German_Anke Conversational',
-                        'German_Bernd Conversational'
+                        'German_Anke Conversational'
                     ],
                     'fr-CA': [
                         'French_Ange Narrative',
-                        'French_Claude Narrative',
-                        'French_Ange Conversational', 
-                        'French_Claude Conversational'
+                        'French_Ange Conversational'
                     ],
                     'nl': [
-                        'Dutch_Bram Narrative',
                         'Dutch_Lotte Narrative',
-                        'Dutch_Bram Conversational',
                         'Dutch_Lotte Conversational'
                     ]
                 }
@@ -688,9 +686,15 @@ class App(ctk.CTk):
 
         # try getting text from ssml editbox
         play_text_html = self.ssml_input.get("0.0", "end")
-        play_text_ssml = u.html_to_ssml(play_text_html)
+        
+        # For PlayHT, pass raw HTML text since get_audio will process SSML
+        # For ElevenLabs, convert to SSML first
+        if service == 'PlayHt':
+            play_text = play_text_html.strip()  # Pass raw text, let PlayHT utilities handle SSML
+        else:
+            play_text = u.html_to_ssml(play_text_html)  # ElevenLabs needs SSML
 
-        u.play_audio_from_text(service, language, voice, play_text_ssml)
+        u.play_audio_from_text(service, language, voice, play_text)
 
         cBox.configure(button_color = "white")
         cBox.update

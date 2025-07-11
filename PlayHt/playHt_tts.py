@@ -52,8 +52,11 @@ def processRow(index, ourRow, lang_code, voice, \
     # Assemble data packet for PlayHT API v2
     # see https://docs.play.ht/reference/api-generate-tts-audio-stream
     
-    # Convert to SSML if needed
+    # Convert to SSML if needed, but remove <speak> wrapper for PlayHT API v2
     ssml_text = u.html_to_ssml(translation_text)
+    # PlayHT API v2 doesn't want the <speak> wrapper tags
+    if ssml_text.startswith('<speak>') and ssml_text.endswith('</speak>'):
+        ssml_text = ssml_text[7:-8]  # Remove <speak> and </speak>
     
     # Convert readable voice name to PlayHT voice ID if needed
     voice_id = voice_mapping.get_voice_id(voice)
@@ -69,6 +72,10 @@ def processRow(index, ourRow, lang_code, voice, \
         "output_format": "mp3",
         "sample_rate": 24000
     }
+    
+    # Add text_type if SSML tags are present
+    if '<' in ssml_text and '>' in ssml_text:
+        data["text_type"] = "ssml"
 
 
         ## Use a While loop so we can retry odd failure cases
