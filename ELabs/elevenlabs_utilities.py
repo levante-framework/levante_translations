@@ -14,7 +14,7 @@ try:
 except:
     print("No Eleven Labs API Key")
 
-def list_voices(lang_code):
+def list_voices(lang_code, gender_filter=None):
 
     # ElevenLabs doesn't have es-CO
     if lang_code == 'es-CO':
@@ -43,6 +43,11 @@ def list_voices(lang_code):
     library_voices = [voice for voice in voice_list \
                       if voice.category == "professional" and \
                         voice.labels.get('language') == modified_language_code]
+    
+    # Apply gender filter if specified
+    if gender_filter:
+        library_voices = [voice for voice in library_voices \
+                         if voice.labels.get('gender', '').lower() == gender_filter.lower()]
     
     # Create a dictionary with voice names as keys and voice IDs as values
     voice_dict = {voice.name: voice.voice_id for voice in library_voices}

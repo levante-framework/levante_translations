@@ -21,9 +21,9 @@ def get_languages():
 # Updated for PlayHt API v2 with correct voice IDs and language codes
     language_list = {\
         'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
-        'Spanish': {'lang_code': 'es', 'service' : 'PlayHt', 'voice': 'Spanish_Violeta Narrative'},
+        'Spanish': {'lang_code': 'es-CO', 'service' : 'PlayHt', 'voice': 'Spanish_Violeta Narrative'},
         'German': {'lang_code': 'de', 'service' : 'PlayHt', 'voice': 'German_Anke Narrative'},
-        'French': {'lang_code': 'fr', 'service' : 'PlayHt', 'voice': 'French_Ange Narrative'},
+        'French': {'lang_code': 'fr-CA', 'service' : 'PlayHt', 'voice': 'French_Ange Narrative'},
         'Dutch': {'lang_code': 'nl', 'service' : 'ElevenLabs', 'voice' : 'Xander'},
     }
 
