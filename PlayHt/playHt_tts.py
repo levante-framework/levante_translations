@@ -52,8 +52,11 @@ def processRow(index, ourRow, lang_code, voice, \
     # Assemble data packet for PlayHT API v2
     # see https://docs.play.ht/reference/api-generate-tts-audio-stream
     
-    # Convert to SSML if needed
+    # Convert to SSML if needed, but remove <speak> wrapper for PlayHT API v2
     ssml_text = u.html_to_ssml(translation_text)
+    # PlayHT API v2 doesn't want the <speak> wrapper tags
+    if ssml_text.startswith('<speak>') and ssml_text.endswith('</speak>'):
+        ssml_text = ssml_text[7:-8]  # Remove <speak> and </speak>
     
     # Convert readable voice name to PlayHT voice ID if needed
     voice_id = voice_mapping.get_voice_id(voice)
@@ -69,6 +72,10 @@ def processRow(index, ourRow, lang_code, voice, \
         "output_format": "mp3",
         "sample_rate": 24000
     }
+    
+    # Add text_type if SSML tags are present
+    if '<' in ssml_text and '>' in ssml_text:
+        data["text_type"] = "ssml"
 
 
         ## Use a While loop so we can retry odd failure cases
@@ -116,9 +123,30 @@ def processRow(index, ourRow, lang_code, voice, \
                 return 'Error'
                 
             else:
+                # Parse error response for better debugging
+                try:
+                    error_data = response.json()
+                    error_message = error_data.get('error_message', 'Unknown error')
+                    error_id = error_data.get('error_id', 'Unknown')
+                    print(f"PlayHt API error: {response.status_code} - {error_message} (ID: {error_id})")
+                    
+                    # For voice-related errors, provide additional context
+                    if 'voice' in error_message.lower() or response.status_code == 500:
+                        print(f"Voice used: {voice} (original: {data['voice']})")
+                        print(f"Text length: {len(ssml_text)} characters")
+                        print(f"Voice engine: {data.get('voice_engine', 'N/A')}")
+                        
+                except:
+                    print(f"PlayHt API error: {response.status_code} - {response.text}")
+                
                 logging.error(f"convert_tts: API error for item={ourRow['item_id']}: status code={response.status_code}, response={response.text}")
                 errorCount += 1
-                time.sleep(retrySeconds)
+                
+                # For 500 errors, wait longer before retrying
+                if response.status_code == 500:
+                    time.sleep(retrySeconds * 3)
+                else:
+                    time.sleep(retrySeconds)
                 continue
                 
         except requests.exceptions.Timeout:

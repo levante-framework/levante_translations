@@ -83,17 +83,31 @@ def get_audio(text, voice):
     else:
         print(f"Warning: Using voice '{voice}' directly (no mapping found)")
 
-    # Convert HTML to SSML if needed
+    # Convert HTML to SSML if needed, but remove <speak> wrapper for PlayHT API v2
     ssml_text = u.html_to_ssml(text)
     
-    # API v2 data format
+    # PlayHT API v2 doesn't want the <speak> wrapper tags
+    if ssml_text.startswith('<speak>') and ssml_text.endswith('</speak>'):
+        ssml_text = ssml_text[7:-8]  # Remove <speak> and </speak>
+    
+    # API v2 data format - try different engines for different voice types
+    # Some voices work better with different engines
+    if "mockingbird-prod" in voice:
+        voice_engine = "PlayHT2.0-turbo"  # Older engine for mockingbird voices
+    else:
+        voice_engine = "Play3.0-mini"  # Newer engine for other voices
+        
     data = {
         "text": ssml_text,
         "voice": voice,
-        "voice_engine": "Play3.0-mini",  # Use the newer engine
+        "voice_engine": voice_engine,
         "output_format": "mp3",
         "sample_rate": 24000
     }
+    
+    # Add text_type if SSML tags are present
+    if '<' in ssml_text and '>' in ssml_text:
+        data["text_type"] = "ssml"
 
     ## Use a While loop so we can retry odd failure cases
     while True and errorCount < 5:
@@ -128,10 +142,22 @@ def get_audio(text, voice):
                 return b''
                 
             else:
-                # Other error codes
+                # Other error codes - add debugging for 500 errors
                 print(f"PlayHt API error: {response.status_code} - {response.text}")
+                
+                # For 500 errors, provide additional debugging context
+                if response.status_code == 500:
+                    print(f"Debug info for 500 error:")
+                    print(f"  Voice: {voice}")
+                    print(f"  Text: '{ssml_text[:100]}{'...' if len(ssml_text) > 100 else ''}'")
+                    print(f"  Text length: {len(ssml_text)} characters")
+                    print(f"  Voice engine: {data.get('voice_engine', 'N/A')}")
+                    print(f"  Text type: {data.get('text_type', 'plain')}")
+                    time.sleep(retrySeconds * 3)  # Wait longer for 500 errors
+                else:
+                    time.sleep(retrySeconds)
+                    
                 errorCount += 1
-                time.sleep(retrySeconds)
                 continue
                 
         except requests.exceptions.Timeout:
