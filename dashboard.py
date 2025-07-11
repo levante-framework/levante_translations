@@ -8,11 +8,14 @@ from CTkToolTip import *
 import pandas as pd
 from utilities import utilities as u
 from utilities import config as conf
+
 from playsound import playsound
 from typing import Final
 
 # Service specific code
+# Moving PlayHt from v1 to v2
 from PlayHt import playHt_utilities
+from PlayHt import voice_mapping
 from ELabs import elevenlabs_utilities
 
 class App(ctk.CTk):
@@ -27,17 +30,15 @@ class App(ctk.CTk):
         self.ourData = pd.read_csv(conf.item_bank_translations)
         self.ourData = self.ourData.rename(columns={'identifier': 'item_id'})
 
-        # This needs to be refactored!
-        self.ourData = self.ourData.rename(columns={'text': 'en-US'})
-        self.ourData = self.ourData.rename(columns={'en': 'en-US'})
-        self.ourData = self.ourData.rename(columns={'de': 'de-DE'})
-        self.ourData = self.ourData.rename(columns={'es': 'es-CO'})
-        self.ourData = self.ourData.rename(columns={'fr': 'fr-CA'})
-        self.ourData = self.ourData.rename(columns={'nl': 'nl-NL'})
-
+        # Updated for simplified language codes
+        self.ourData = self.ourData.rename(columns={'text': 'en'})
+        # Keep the original column names as they are now (en, de, es, fr, nl)
 
         self.title("Levante Translation and Audio Generation Dashboard")
         self.geometry("1000x600")
+
+        # Clear voice cache on startup to ensure fresh voice data
+        self.clear_voice_cache()
 
         # Create and place the full frame
         self.fullFrame = ctk.CTkFrame(self)
@@ -101,13 +102,14 @@ class App(ctk.CTk):
     # when tab is selected, change values for voices
     # should probably cache them at some point
     def on_tab_change(self):
+        # Always clear cache when switching tabs
+        self.clear_voice_cache()
         self.after(100, self.update_comboboxes)
 
     def on_ssml_play(self):
         # We want to play the current text in ssml_input through
         # the current (language specific) voice
-        play_text_html = self.ssml_input.get("0.0", "end")
-        play_text_ssml = u.html_to_ssml(play_text_html)
+        play_text_html = self.ssml_input.get("0.0", "end-1c")  # end-1c excludes the trailing newline
 
         # get the correct voice
         voice = ''
@@ -117,19 +119,36 @@ class App(ctk.CTk):
             else:
                 return
             
-            # ASSUMES PlayHt for now
             voice = conf.get_default_voice(active_tab)
             service = conf.get_service(active_tab)
-        except:
+        except Exception as e:
+            print(f"Error getting service/voice configuration: {e}")
             # assume we will show english when created
-            service = 'PlayHt'
+            service = 'ElevenLabs'  # Changed from PlayHt to ElevenLabs for English default
+            voice = 'Alexandra - Conversational and Real'
+            active_tab = 'English'
+
+        # Clean the text thoroughly
+        play_text_html = play_text_html.strip()
+        
+        # Debug output
+        print(f"Debug - Playing text: '{play_text_html}' (length: {len(play_text_html)})")
+        print(f"Debug - Service: {service}, Voice: {voice}")
+
+        # For PlayHT, pass raw HTML text since get_audio will process SSML
+        # For ElevenLabs, convert to SSML first
+        if service == 'PlayHt':
+            play_text = play_text_html  # Pass raw text, let PlayHT utilities handle SSML
+        else:
+            play_text = u.html_to_ssml(play_text_html)  # ElevenLabs needs SSML
+            print(f"Debug - SSML converted text: '{play_text}'")
 
         # Now transcribe text & play using selected voice
-        # We need to find the service
         try:
-            u.play_audio_from_text(service, active_tab, voice, play_text_ssml)
-        except:
-            self.set_status("Unable to Play")
+            u.play_audio_from_text(service, active_tab, voice, play_text)
+        except Exception as e:
+            print(f"Error playing audio: {e}")
+            self.set_status(f"Unable to Play: {str(e)}")
 
     def create_tabview(self):
         tabview = ctk.CTkTabview(self.language_frame, 
@@ -192,7 +211,7 @@ class App(ctk.CTk):
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
         self.generatedEnglish.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
-        generated_spanish = u.count_audio_files('es-CO')
+        generated_spanish = u.count_audio_files('es')
         self.generatedSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Audio: {generated_spanish}')
         self.generatedSpanish.grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
 
@@ -256,27 +275,34 @@ class App(ctk.CTk):
         voice_frame.grid(row=row, column=0, padx=5, pady=2, sticky="ew")
 
         # Configure the grid layout for the voice frame
-        voice_frame.grid_columnconfigure(1, weight=1)  # Make the entry expandable
+        voice_frame.grid_columnconfigure(2, weight=1)  # Make the entry expandable
+
+        # Add refresh button at the left
+        self.refresh_voices_button = ctk.CTkButton(voice_frame, 
+            text="🔄 Refresh Voices",
+            command=lambda: self.update_comboboxes(force_refresh=True),
+            width=120)
+        self.refresh_voices_button.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
 
         # Add PlayHt elements
         label = ctk.CTkLabel(voice_frame, text="Compare SSML Using PlayHt Voice: ")
-        label.grid(row=0, column=0, padx=(5,5), pady=2, sticky="w")
+        label.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
 
         voice_values = self.get_voice_list('PlayHt')
 
         self.ht_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
             command=lambda choice: self.voice_compare_callback(choice, 'PlayHt'))
-        self.ht_voice_combobox.grid(row=0, column=1, padx=(5,5), pady=2, sticky="w")
+        self.ht_voice_combobox.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
         self.ht_voice_combobox.set("Select a PlayHt Voice")
 
         label = ctk.CTkLabel(voice_frame, text="Compare SSML Using ElevenLabs Voice: ")
-        label.grid(row=0, column=2, padx=(5,5), pady=2, sticky="w")
+        label.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
 
         voice_values = self.get_voice_list('ElevenLabs')
 
         self.eleven_voice_combobox = ctk.CTkComboBox(voice_frame, values=voice_values, \
             command=lambda choice: self.voice_compare_callback(choice, 'ElevenLabs'))
-        self.eleven_voice_combobox.grid(row=0, column=3, padx=(5,5), pady=2, sticky="w")
+        self.eleven_voice_combobox.grid(row=0, column=4, padx=(5,5), pady=2, sticky="w")
         self.eleven_voice_combobox.set("Select an ElevenLabs Voice")
 
         return voice_frame  # Return the frame in case you need to reference it later
@@ -380,7 +406,7 @@ class App(ctk.CTk):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 if not isinstance(row[lang_code], str) and isnan(row[lang_code]):
                     row[lang_code] = ''; # Don't want a Nan value
-                values = [row['item_id'], row['labels'], row['en-US'], row[lang_code], audio_file_name]
+                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
                 values[2] = u.wrap_text(values[2])
@@ -411,7 +437,32 @@ class App(ctk.CTk):
             else:
                 tree.selection_remove(item_index)
 
-    def update_comboboxes(self):
+    def clear_voice_cache(self):
+        """Clear all cached voice lists to force refresh"""
+        # Remove all cached voice list attributes
+        attrs_to_remove = []
+        for attr_name in dir(self):
+            if attr_name.startswith('ht_') and attr_name.endswith('_voice_list'):
+                attrs_to_remove.append(attr_name)
+            elif attr_name.startswith('eleven_') and (attr_name.endswith('_voice_list') or attr_name.endswith('_voice_dict')):
+                attrs_to_remove.append(attr_name)
+        
+        for attr_name in attrs_to_remove:
+            if hasattr(self, attr_name):
+                delattr(self, attr_name)
+        
+        # Also clear PlayHT voice mapping cache
+        try:
+            voice_mapping.update_voices(force=True)
+            print("Voice cache cleared - voice lists and PlayHT mappings will be regenerated")
+        except Exception as e:
+            print(f"Voice cache cleared - dashboard cache cleared, PlayHT cache update failed: {e}")
+
+    def update_comboboxes(self, force_refresh=False):
+        # Clear cache if force_refresh is True or if switching tabs
+        if force_refresh:
+            self.clear_voice_cache()
+        
         # get_language_list used current tab to derive lang_code
         ht_voice_list = self.get_voice_list('PlayHt')
         eleven_voice_list = self.get_voice_list('ElevenLabs')
@@ -460,12 +511,91 @@ class App(ctk.CTk):
             
         # voice list not found
         if service == 'PlayHt':
-            voice_list = playHt_utilities.list_voices(lang_code)
-            voices = []
-            for voice in voice_list:
-                # Use readable name instead of raw voice ID
-                voice_name = voice.get('name', voice.get('value', 'Unknown Voice'))
-                voices.append(voice_name)
+            # For comparison evaluation, show curated PlayHT voices for each language
+            try:
+                # Get all voices from the voice mapping system
+                all_voices = voice_mapping.list_voices()
+                
+                # Get ElevenLabs voices to exclude them from PlayHT list
+                try:
+                    elevenlabs_voices = set()
+                    # Get ElevenLabs voices for all potential language codes
+                    for test_lang in ['en', 'es', 'de', 'fr', 'nl']:
+                        try:
+                            el_voices = elevenlabs_utilities.list_voices(test_lang)
+                            elevenlabs_voices.update(el_voices.keys())
+                        except:
+                            continue
+                except Exception as e:
+                    print(f"Warning: Could not get ElevenLabs voices for filtering: {e}")
+                    elevenlabs_voices = set()
+                
+                # Define curated voice selections for comparison evaluation (6-10 voices per service)
+                curated_voices = {
+                    'en': [
+                        'English (US)_Susan (Advertising)',
+                        'English (US)_Delilah', 
+                        'English (CA)_Charlotte (Narrative)',
+                        'English (CA)_Olivia (Advertising)',
+                        'English (IE)_Madison',
+                        'English (IN)_Navya',
+                        'English (GB)_Sarah'
+                    ],
+                    'es-CO': [
+                        'Spanish_Violeta Narrative',
+                        'Spanish_Violeta Conversational',
+                        'Spanish_Patricia Narrative',
+                        'Spanish_Patricia Conversational'
+                    ],
+                    'de': [
+                        'German_Anke Narrative',
+                        'German_Anke Conversational'
+                    ],
+                    'fr-CA': [
+                        'French_Ange Narrative',
+                        'French_Ange Conversational'
+                    ],
+                    'nl': [
+                        'Dutch_Lotte Narrative',
+                        'Dutch_Lotte Conversational'
+                    ]
+                }
+                
+                # Get curated voices for this language, or fall back to filtered search
+                if lang_code in curated_voices:
+                    voices = curated_voices[lang_code]
+                    # Verify these voices exist in the actual voice list
+                    available_voice_names = [voice['name'] for voice in all_voices]
+                    voices = [v for v in voices if v in available_voice_names]
+                else:
+                    # Fall back to language filtering
+                    language_filters = {
+                        'en': ['English', 'english'],
+                        'es-CO': ['Spanish', 'spanish'],
+                        'de': ['German', 'german'],
+                        'fr-CA': ['French', 'french'],
+                        'nl': ['Dutch', 'dutch', 'Netherlands']
+                    }
+                    
+                    voices = []
+                    if lang_code in language_filters:
+                        filters = language_filters[lang_code]
+                        for voice in all_voices:
+                            voice_name = voice['name']
+                            # Skip if this is an ElevenLabs voice
+                            if voice_name in elevenlabs_voices:
+                                continue
+                            # Check if any of the language filters match the voice name
+                            if any(lang_filter in voice_name for lang_filter in filters):
+                                voices.append(voice_name)
+                    
+                    # Limit to first 10 voices for non-curated languages
+                    voices = voices[:10]
+                        
+            except Exception as e:
+                print(f"Error getting PlayHT voices: {e}")
+                voices = ["Spanish_Violeta Narrative", "German_Anke Narrative", "French_Ange Narrative"]
+                
             # Create attribute name by replacing hyphens with underscores
             voice_list_attr = f'ht_{lang_code.replace("-","_")}_voice_list'
             # Set the attribute dynamically
@@ -473,8 +603,69 @@ class App(ctk.CTk):
             return voices
 
         elif service == 'ElevenLabs':
-            voice_dict = elevenlabs_utilities.list_voices(lang_code)
-            voices = list(voice_dict.keys())
+            # For comparison evaluation, show curated ElevenLabs voices for each language
+            try:
+                # Define curated ElevenLabs voices for comparison evaluation (6-10 voices per service)
+                curated_elevenlabs_voices = {
+                    'en': {
+                        'voices': ['Yasmine', 'Alexandra - Conversational and Real', 'Aunt Annie - calm and professional', 'Claudia - Credible, Competent & Authentic', 'Zuri - New Yorker', 'Nia Davis- Black Female', 'Juniper', 'Jessica Anne Bogart - Conversations'],
+                        'gender_filter': 'Female'  # Only female voices for English
+                    },
+                    'es-CO': {
+                        'voices': ['Yasmine', 'Alexandra - Conversational and Real', 'Aunt Annie - calm and professional', 'Claudia - Credible, Competent & Authentic', 'Zuri - New Yorker', 'Nia Davis- Black Female'],  # Multi-lingual voices
+                        'gender_filter': None
+                    },
+                    'de': {
+                        'voices': ['Yasmine', 'Alexandra - Conversational and Real', 'Aunt Annie - calm and professional', 'Claudia - Credible, Competent & Authentic', 'Zuri - New Yorker', 'Nia Davis- Black Female'],  # Multi-lingual voices
+                        'gender_filter': None
+                    },
+                    'fr-CA': {
+                        'voices': ['Yasmine', 'Alexandra - Conversational and Real', 'Aunt Annie - calm and professional', 'Claudia - Credible, Competent & Authentic', 'Zuri - New Yorker', 'Nia Davis- Black Female'],  # Multi-lingual voices
+                        'gender_filter': None
+                    },
+                    'nl': {
+                        'voices': ['Yasmine', 'Alexandra - Conversational and Real', 'Aunt Annie - calm and professional', 'Claudia - Credible, Competent & Authentic', 'Zuri - New Yorker', 'Nia Davis- Black Female'],  # Multi-lingual voices
+                        'gender_filter': None
+                    }
+                }
+                
+                # Get curated voices for this language, or fall back to filtered search
+                if lang_code in curated_elevenlabs_voices:
+                    config = curated_elevenlabs_voices[lang_code]
+                    gender_filter = config['gender_filter']
+                    
+                    # For non-English languages, try to get voices from English since they're multilingual
+                    if lang_code != 'en':
+                        # Try to get multilingual voices from English
+                        try:
+                            voice_dict = elevenlabs_utilities.list_voices('en', gender_filter)
+                            all_available_voices = list(voice_dict.keys())
+                        except:
+                            # Fall back to the original language code
+                            voice_dict = elevenlabs_utilities.list_voices(lang_code, gender_filter)
+                            all_available_voices = list(voice_dict.keys())
+                    else:
+                        # For English, use the original approach
+                        voice_dict = elevenlabs_utilities.list_voices(lang_code, gender_filter)
+                        all_available_voices = list(voice_dict.keys())
+                    
+                    # Filter to only include curated voices that are actually available
+                    voices = [v for v in config['voices'] if v in all_available_voices]
+                    
+                    # If no curated voices are available, fall back to all available voices
+                    if not voices:
+                        voices = all_available_voices
+                else:
+                    # Fall back to all available voices for this language
+                    voice_dict = elevenlabs_utilities.list_voices(lang_code)
+                    voices = list(voice_dict.keys())
+                    
+            except Exception as e:
+                print(f"Error getting ElevenLabs voices: {e}")
+                # Fall back to default behavior
+                gender_filter = 'Female' if lang_code == 'en' else None
+                voice_dict = elevenlabs_utilities.list_voices(lang_code, gender_filter)
+                voices = list(voice_dict.keys())
 
             # Create attribute names by replacing hyphens with underscores
             voice_dict_attr = f'eleven_{lang_code.replace("-","_")}_voice_dict'
@@ -500,6 +691,8 @@ class App(ctk.CTk):
 
         if service == 'PlayHt':
             cBox = self.ht_voice_combobox
+            # For PlayHT, the voice mapping will be handled automatically
+            # in the play_audio_from_text function via playHt_utilities.get_audio
         else:
             cBox = self.eleven_voice_combobox
 
@@ -508,9 +701,15 @@ class App(ctk.CTk):
 
         # try getting text from ssml editbox
         play_text_html = self.ssml_input.get("0.0", "end")
-        play_text_ssml = u.html_to_ssml(play_text_html)
+        
+        # For PlayHT, pass raw HTML text since get_audio will process SSML
+        # For ElevenLabs, convert to SSML first
+        if service == 'PlayHt':
+            play_text = play_text_html.strip()  # Pass raw text, let PlayHT utilities handle SSML
+        else:
+            play_text = u.html_to_ssml(play_text_html)  # ElevenLabs needs SSML
 
-        u.play_audio_from_text(service, language, voice, play_text_ssml)
+        u.play_audio_from_text(service, language, voice, play_text)
 
         cBox.configure(button_color = "white")
         cBox.update

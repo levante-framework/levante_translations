@@ -59,9 +59,33 @@ def wrap_text(text, width=40):
     return "\n".join(textwrap.wrap(text, width=width))
 
 def count_audio_files(lang_code):
-# Execute the command and capture the output
-    raw_result = subprocess.run(f'ls audio_files/*/{lang_code}/shared/* | wc -l', shell=True, capture_output=True, text=True)
-    return raw_result.stdout.strip()
+    """Count audio files for a given language code, checking both old and new directory formats"""
+    import glob
+    
+    # Map simplified codes to old codes for backward compatibility
+    old_lang_codes = {
+        'en': 'en-US',
+        'es': 'es-CO', 
+        'de': 'de-DE',
+        'fr': 'fr-CA',
+        'nl': 'nl-NL'
+    }
+    
+    total_count = 0
+    
+    # Check new simplified directory structure
+    new_pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
+    new_files = glob.glob(new_pattern)
+    total_count += len(new_files)
+    
+    # Check old directory structure for backward compatibility
+    old_lang_code = old_lang_codes.get(lang_code, lang_code)
+    if old_lang_code != lang_code:  # Only check if there's a different old format
+        old_pattern = f'audio_files/*/{old_lang_code}/shared/*.mp3'
+        old_files = glob.glob(old_pattern)
+        total_count += len(old_files)
+    
+    return str(total_count)
 
 def play_audio_from_text(service, language, voice, text ):
     if service == 'PlayHt':
@@ -87,7 +111,9 @@ def store_stats(lang_code, errors, notask, voice):
         new_rows = [
             ['English', 0, 0 ,''],
             ['Spanish', 0, 0, ''],
-            ['German', 0, 0, '']
+            ['German', 0, 0, ''],
+            ['French', 0, 0, ''],
+            ['Dutch', 0, 0, '']
         ]
     
         for row in new_rows:
@@ -95,10 +121,14 @@ def store_stats(lang_code, errors, notask, voice):
         
     if lang_code == 'en':
         language = 'English'
-    elif lang_code == 'es-CO':
+    elif lang_code == 'es':
         language = 'Spanish'
     elif lang_code == 'de':
         language = 'German'
+    elif lang_code == 'fr':
+        language = 'French'
+    elif lang_code == 'nl':
+        language = 'Dutch'
     else:
         return()
             
@@ -122,15 +152,19 @@ def play_data_object(audio_data):
     temp_filename = temp_file.name
 
     try:
-    # Write the audio data to the temporary file
+        # Write the audio data to the temporary file
         temp_file.write(audio_data)
         temp_file.close()
     
-        # Play the temporary file
-        playsound.playsound(temp_filename)
+        # Play the temporary file - block=True ensures it waits for completion
+        playsound.playsound(temp_filename, block=True)
     finally:
-        # Clean up the temporary file
-        os.unlink(temp_filename)
+        # Clean up the temporary file after playback completes
+        try:
+            os.unlink(temp_filename)
+        except OSError:
+            # File might already be deleted or in use, ignore the error
+            pass
 
 def show_intro_messagebox(self):
     dialog = tk.Toplevel(self)
@@ -192,10 +226,32 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         audio_base_dir, lang_code), "wb") as file:
         file.write(audioData.content)
 
+    # Handle column format mismatch - masterData might have old column names
+    # Map simplified codes to old codes for backward compatibility
+    old_lang_codes = {
+        'en': 'en-US',
+        'es': 'es-CO', 
+        'de': 'de-DE',
+        'fr': 'fr-CA',
+        'nl': 'nl-NL'
+    }
+    
+    # Determine which column name to use in masterData
+    master_lang_col = lang_code
+    if lang_code not in masterData.columns:
+        # Try the old format
+        old_lang_code = old_lang_codes.get(lang_code, lang_code)
+        if old_lang_code in masterData.columns:
+            master_lang_col = old_lang_code
+        else:
+            # Add the new column if neither exists
+            masterData[lang_code] = None
+            master_lang_col = lang_code
+
     # Update our "cache" of successful transcriptions                            
-    masterData[lang_code] = \
+    masterData[master_lang_col] = \
         np.where(masterData["item_id"] == ourRow["item_id"], \
-        ourRow[lang_code], masterData[lang_code])
+        ourRow[lang_code], masterData[master_lang_col])
 
     # write as we go, so erroring out doesn't lose progress
     # Translated, so we can save it to a master sheet

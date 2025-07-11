@@ -1,1 +1,1 @@
-python ..\generate_speech.py "German" "VickiNeural"
+python ..\generate_speech.py "German" "German_Anke Narrative"
