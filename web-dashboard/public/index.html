@@ -41,6 +41,84 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
+        .credentials-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .credentials-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .credential-group {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .credential-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .credential-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .credential-group input[type="password"] {
+            font-family: monospace;
+        }
+
+        .credentials-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background: #4facfe;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a8bdb;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -334,6 +412,65 @@
             padding: 10px 20px;
             font-size: 14px;
             z-index: 1000;
+            transition: background-color 0.3s;
+        }
+
+        .status-bar.success {
+            background: #28a745;
+        }
+
+        .status-bar.error {
+            background: #dc3545;
+        }
+
+        .status-bar.warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-bar.info {
+            background: #17a2b8;
+        }
+
+        .credentials-form {
+            padding: 20px 0;
+        }
+
+        .credential-group {
+            margin-bottom: 20px;
+        }
+
+        .credential-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .credential-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .credential-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+        }
+
+        .credential-group input[type="password"] {
+            font-family: monospace;
+        }
+
+        .credentials-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
         }
 
         .loading {
@@ -443,8 +580,11 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <h1>Levante Translation Dashboard</h1>
             <p>Compare and generate TTS audio across multiple languages and services</p>
+            <button id="manageCredentials" class="btn btn-secondary" style="margin-top: 10px;">
+                <i class="fas fa-key"></i> Manage Credentials
+            </button>
         </div>
 
         <div class="stats-container" id="statsContainer">
@@ -522,6 +662,36 @@
         <!-- Status Bar -->
         <div class="status-bar" id="statusBar">
             Ready
+        </div>
+
+        <!-- Credentials Modal -->
+        <div id="credentialsModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeCredentialsModal()">&times;</span>
+                <h2><i class="fas fa-key"></i> API Credentials</h2>
+                <div class="credentials-form">
+                    <div class="credential-group">
+                        <label for="playhtApiKey">PlayHT API Key:</label>
+                        <input type="password" id="playhtApiKey" placeholder="Enter PlayHT API Key">
+                    </div>
+                    <div class="credential-group">
+                        <label for="playhtUserId">PlayHT User ID:</label>
+                        <input type="text" id="playhtUserId" placeholder="Enter PlayHT User ID">
+                    </div>
+                    <div class="credential-group">
+                        <label for="elevenlabsApiKey">ElevenLabs API Key:</label>
+                        <input type="password" id="elevenlabsApiKey" placeholder="Enter ElevenLabs API Key">
+                    </div>
+                    <div class="credentials-buttons">
+                        <button id="saveCredentials" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Credentials
+                        </button>
+                        <button id="clearCredentials" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Help Modal -->

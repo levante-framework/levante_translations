@@ -1,31 +1,29 @@
 {
-  "version": 2,
-  "builds": [
+  "public": true,
+  "rewrites": [
     {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ],
-  "alias": [
-    "audio-dashboard-levante.vercel.app",
-    "levante-audio-dashboard.vercel.app"
-  ],
-  "routes": [
+  "headers": [
     {
-      "src": "/main.html",
-      "dest": "/main.html"
+      "source": "/(.*).js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/main.html"
+      "source": "/(.*).css",
+      "headers": [
+        {
+          "key": "Content-Type", 
+          "value": "text/css"
+        }
+      ]
     }
   ]
 } 
