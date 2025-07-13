@@ -743,7 +743,10 @@ class AudioDashboard {
         }
 
         try {
-            const response = await fetch(this.apiConfig.playht.apiUrl, {
+            // Use local CORS proxy instead of direct PlayHT API call
+            const proxyUrl = '/proxy/playht';
+            
+            const response = await fetch(proxyUrl, {
                 method: 'POST',
                 headers: {
                     'AUTHORIZATION': this.apiConfig.playht.apiKey,
@@ -755,14 +758,20 @@ class AudioDashboard {
             });
 
             if (!response.ok) {
-                throw new Error(`PlayHT API error: ${response.status} - ${response.statusText}`);
+                const errorText = await response.text();
+                console.error('PlayHT API error details:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorText
+                });
+                throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
 
             return await response.arrayBuffer();
         } catch (error) {
-            // Handle CORS errors specifically
-            if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
-                throw new Error('PlayHT API blocked by CORS policy. Please use the Python utilities for PlayHT audio generation, or try ElevenLabs voices which work from browsers.');
+            console.error('PlayHT error:', error);
+            if (error.message.includes('Failed to fetch')) {
+                throw new Error('Network error connecting to PlayHT API proxy. Make sure the CORS proxy server is running on port 8001.');
             }
             throw error;
         }
