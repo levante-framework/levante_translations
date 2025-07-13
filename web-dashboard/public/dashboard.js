@@ -741,55 +741,40 @@ class AudioDashboard {
         // Convert HTML to SSML for PlayHT
         let processedText = this.htmlToSSML(text);
         
-        // Determine language based on current language tab
-        let language = 'english'; // default
-        if (this.currentLanguage) {
-            const langCode = this.languages[this.currentLanguage]?.lang_code;
-            switch (langCode) {
-                case 'es-CO':
-                    language = 'spanish';
-                    break;
-                case 'de':
-                    language = 'german';
-                    break;
-                case 'fr-CA':
-                    language = 'french';
-                    break;
-                case 'nl':
-                    language = 'dutch';
-                    break;
-                default:
-                    language = 'english';
-            }
-        }
-        
-        // PlayHT v1 API format - voice should be the full voice path
+        // PlayHT v2 API format
         const requestData = {
-            model: 'PlayDialog',
             text: processedText,
-            voice: `s3://voice-cloning-zero-shot/${voiceId}/manifest.json`,
-            outputFormat: 'mp3',
-            language: language
+            voice: voiceId,
+            voice_engine: 'PlayDialog',
+            output_format: 'mp3',
+            sample_rate: 24000
         };
 
+        // Add text_type if SSML tags are present
+        if (processedText.includes('<') && processedText.includes('>')) {
+            requestData.text_type = 'ssml';
+        }
+
         console.log('PlayHT API Request:', {
-            url: 'https://api.play.ai/api/v1/tts',
+            url: 'https://api.play.ht/api/v2/tts/stream',
             headers: {
                 'AUTHORIZATION': this.apiConfig.playht.apiKey,
                 'X-USER-ID': this.apiConfig.playht.userId,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'audio/mpeg'
             },
             body: requestData
         });
 
         try {
-            // Use PlayHT v1 API endpoint directly - should work with CORS
-            const response = await fetch('https://api.play.ai/api/v1/tts', {
+            // Use PlayHT v2 API endpoint
+            const response = await fetch('https://api.play.ht/api/v2/tts/stream', {
                 method: 'POST',
                 headers: {
                     'AUTHORIZATION': this.apiConfig.playht.apiKey,
                     'X-USER-ID': this.apiConfig.playht.userId,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'audio/mpeg'
                 },
                 body: JSON.stringify(requestData)
             });
@@ -809,20 +794,8 @@ class AudioDashboard {
                 throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
 
-            const result = await response.json();
-            console.log('PlayHT API response:', result);
-            
-            // PlayHT v1 API returns a JSON response with audioUrl
-            if (result.audioUrl) {
-                // Fetch the actual audio data from the URL
-                const audioResponse = await fetch(result.audioUrl);
-                if (!audioResponse.ok) {
-                    throw new Error(`Failed to fetch audio from URL: ${audioResponse.status}`);
-                }
-                return await audioResponse.arrayBuffer();
-            } else {
-                throw new Error('No audio URL returned from PlayHT API');
-            }
+            // PlayHT v2 returns direct audio stream
+            return await response.arrayBuffer();
         } catch (error) {
             console.error('PlayHT error:', error);
             if (error.message.includes('Failed to fetch')) {
@@ -1055,35 +1028,6 @@ class AudioDashboard {
     showCredentialsModal() {
         // Load current credentials into the modal
         this.loadCredentials();
-        
-        // Debug: Display current stored credentials
-        const currentCreds = {
-            playhtApiKey: localStorage.getItem('PLAY_DOT_HT_API_KEY') || 'Not set',
-            playhtUserId: localStorage.getItem('PLAY_DOT_HT_USER_ID') || 'Not set',
-            elevenlabsApiKey: localStorage.getItem('ELEVENLABS_API_KEY') || 'Not set'
-        };
-        
-        console.log('Current stored credentials:', currentCreds);
-        
-        // Add debug info to modal if it doesn't exist
-        let debugDiv = document.getElementById('credentialsDebug');
-        if (!debugDiv) {
-            debugDiv = document.createElement('div');
-            debugDiv.id = 'credentialsDebug';
-            debugDiv.style.cssText = 'background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px; font-family: monospace; font-size: 12px;';
-            
-            const modal = document.getElementById('credentialsModal');
-            const modalContent = modal.querySelector('.modal-content');
-            modalContent.appendChild(debugDiv);
-        }
-        
-        debugDiv.innerHTML = `
-            <strong>Current Stored Credentials (for debugging):</strong><br>
-            PlayHT API Key: ${currentCreds.playhtApiKey}<br>
-            PlayHT User ID: ${currentCreds.playhtUserId}<br>
-            ElevenLabs API Key: ${currentCreds.elevenlabsApiKey}
-        `;
-        
         document.getElementById('credentialsModal').style.display = 'block';
     }
 
