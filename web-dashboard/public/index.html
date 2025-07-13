@@ -275,14 +275,16 @@
 
         .ssml-textarea {
             width: 100%;
-            height: 150px;
+            height: 4.5em; /* Approximately 3 lines */
             padding: 15px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 14px;
-            resize: vertical;
+            line-height: 1.5;
+            resize: none; /* Prevent resizing */
             transition: border-color 0.3s;
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
         }
 
         .ssml-textarea:focus {
@@ -592,14 +594,18 @@
         </div>
 
         <div class="main-content">
-            <!-- Search Section -->
+            <!-- SSML Editor Section -->
             <div class="controls-section">
                 <div class="control-group">
-                    <label for="searchInput"><i class="fas fa-search"></i> Search Items:</label>
-                    <div class="search-container">
-                        <input type="text" id="searchInput" class="search-input" placeholder="Search by item ID or text content...">
-                    </div>
+                    <label for="ssmlEditor"><i class="fas fa-code"></i> SSML Editor:</label>
+                    <button id="ssmlHelp" class="btn btn-info">
+                        <i class="fas fa-question-circle"></i> SSML Help
+                    </button>
+                    <button id="playSSML" class="btn btn-success">
+                        <i class="fas fa-play"></i> Play SSML
+                    </button>
                 </div>
+                <textarea id="ssmlEditor" class="ssml-textarea" rows="3" placeholder="Enter text or SSML here..."></textarea>
             </div>
 
             <!-- Voice Comparison Section -->
@@ -626,18 +632,14 @@
                 </div>
             </div>
 
-            <!-- SSML Editor Section -->
+            <!-- Search Section -->
             <div class="controls-section">
                 <div class="control-group">
-                    <label for="ssmlEditor"><i class="fas fa-code"></i> SSML Editor:</label>
-                    <button id="ssmlHelp" class="btn btn-info">
-                        <i class="fas fa-question-circle"></i> SSML Help
-                    </button>
-                    <button id="playSSML" class="btn btn-success">
-                        <i class="fas fa-play"></i> Play SSML
-                    </button>
+                    <label for="searchInput"><i class="fas fa-search"></i> Search Items:</label>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search by item ID or text content...">
+                    </div>
                 </div>
-                <textarea id="ssmlEditor" class="ssml-textarea" placeholder="Enter text or SSML here..."></textarea>
             </div>
 
             <!-- Language Tabs -->
