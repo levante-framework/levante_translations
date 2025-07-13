@@ -64,69 +64,41 @@
     </div>
 
     <script>
-        // Essential voices for target languages
-        const COMPREHENSIVE_VOICES = {
+        // Voice data matching exact config.py settings
+        const VOICES = {
             "playht": {
-                "en": [{"voice_id": "s3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json", "name": "Inara", "labels": {"language": "en", "gender": "female"}, "category": "PlayHT"}],
-                "de": [{"voice_id": "s3://voice-cloning-zero-shot/3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d/original/manifest.json", "name": "German_Anke Narrative", "labels": {"language": "de", "gender": "female"}, "category": "PlayHT"}]
+                "en": [{"voice_id": "s3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json", "name": "Inara", "language": "en", "gender": "female"}],
+                "de": [{"voice_id": "s3://voice-cloning-zero-shot/3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d/original/manifest.json", "name": "German_Anke Narrative", "language": "de", "gender": "female"}]
             },
             "elevenlabs": {
-                "en": [{"voice_id": "kdmDKE6EkgrWrrykO9Qt", "name": "Alexandra - Conversational and Real", "labels": {"language": "en", "gender": "female"}, "category": "ElevenLabs"}],
-                "es": [{"voice_id": "VBmCZpOLbAT9F8rUdK7k", "name": "Ana María - Calm & natural neutral Spanish", "labels": {"language": "es", "gender": "female"}, "category": "ElevenLabs"}],
-                "fr": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "Caroline - Top France - Narrative, warm, sweet", "labels": {"language": "fr", "gender": "female"}, "category": "ElevenLabs"}],
-                "nl": [{"voice_id": "BmGJM2HQCL8H5KfGOzGP", "name": "Emma - Natural conversations in Dutch", "labels": {"language": "nl", "gender": "female"}, "category": "ElevenLabs"}]
+                "en": [{"voice_id": "kdmDKE6EkgrWrrykO9Qt", "name": "Alexandra - Conversational and Real", "language": "en", "gender": "female"}],
+                "es-CO": [{"voice_id": "VBmCZpOLbAT9F8rUdK7k", "name": "Ana María - Calm & natural neutral Spanish", "language": "es-CO", "gender": "female"}],
+                "de": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "German Voice", "language": "de", "gender": "female"}],
+                "fr-CA": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "Caroline - Top France - Narrative, warm, sweet", "language": "fr-CA", "gender": "female"}],
+                "nl": [{"voice_id": "BmGJM2HQCL8H5KfGOzGP", "name": "Emma - Natural conversations in Dutch", "language": "nl", "gender": "female"}]
             }
         };
 
-        class AudioDashboard {
+        class Dashboard {
             constructor() {
+                // Match exact config.py language settings
                 this.languages = {
                     'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
-                    'Spanish': { lang_code: 'es', service: 'ElevenLabs', voice: 'Ana María - Calm & natural neutral Spanish' },
+                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Ana María - Calm & natural neutral Spanish' },
                     'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
-                    'French': { lang_code: 'fr', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
+                    'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
                     'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' }
                 };
-                this.voices = { playht: [], elevenlabs: [] };
                 this.currentLanguage = 'English';
                 this.init();
             }
 
             init() {
-                console.log('Initializing Audio Dashboard...');
-                this.loadVoicesFromComprehensive();
+                console.log('Dashboard initializing...');
                 this.createTabs();
                 this.setupEventListeners();
-                this.setStatus('Dashboard loaded successfully!');
-            }
-
-            loadVoicesFromComprehensive() {
-                if (COMPREHENSIVE_VOICES.playht) {
-                    for (const [langCode, voices] of Object.entries(COMPREHENSIVE_VOICES.playht)) {
-                        for (const voice of voices) {
-                            this.voices.playht.push({
-                                voice_id: voice.voice_id,
-                                name: voice.name,
-                                labels: voice.labels,
-                                category: voice.category
-                            });
-                        }
-                    }
-                }
-                if (COMPREHENSIVE_VOICES.elevenlabs) {
-                    for (const [langCode, voices] of Object.entries(COMPREHENSIVE_VOICES.elevenlabs)) {
-                        for (const voice of voices) {
-                            this.voices.elevenlabs.push({
-                                voice_id: voice.voice_id,
-                                name: voice.name,
-                                labels: voice.labels,
-                                category: voice.category
-                            });
-                        }
-                    }
-                }
-                console.log(`Loaded ${this.voices.playht.length} PlayHT and ${this.voices.elevenlabs.length} ElevenLabs voices`);
-                this.populateVoiceDropdowns();
+                this.populateVoices();
+                this.setStatus('Dashboard ready!');
             }
 
             createTabs() {
@@ -137,75 +109,76 @@
                     const button = document.createElement('button');
                     button.className = `tab-button ${index === 0 ? 'active' : ''}`;
                     button.textContent = language;
-                    button.onclick = () => this.switchTab(language);
+                    button.addEventListener('click', () => this.switchTab(language, button));
                     tabButtons.appendChild(button);
 
                     const content = document.createElement('div');
                     content.className = `tab-content ${index === 0 ? 'active' : ''}`;
                     content.id = `tab-${language}`;
-                    content.innerHTML = `<h3>${language} Audio Generation</h3><p>Select voices above and use the controls to generate audio.</p>`;
+                    content.innerHTML = `<h3>${language} Audio Generation</h3><p>Language: ${this.languages[language].lang_code}<br>Default Service: ${this.languages[language].service}<br>Default Voice: ${this.languages[language].voice}</p>`;
                     tabContent.appendChild(content);
                 });
             }
 
-            switchTab(language) {
+            switchTab(language, button) {
                 document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 
-                event.target.classList.add('active');
+                button.classList.add('active');
                 document.getElementById(`tab-${language}`).classList.add('active');
                 
                 this.currentLanguage = language;
-                this.populateVoiceDropdowns();
+                this.populateVoices();
+                this.setStatus(`Switched to ${language}`);
             }
 
-            populateVoiceDropdowns() {
+            populateVoices() {
                 const playhtSelect = document.getElementById('playhtVoice');
                 const elevenlabsSelect = document.getElementById('elevenlabsVoice');
                 
                 playhtSelect.innerHTML = '<option value="">Select PlayHT Voice...</option>';
                 elevenlabsSelect.innerHTML = '<option value="">Select ElevenLabs Voice...</option>';
                 
-                const currentLangCode = this.languages[this.currentLanguage]?.lang_code || 'en';
+                const langCode = this.languages[this.currentLanguage].lang_code;
                 
-                this.voices.playht.filter(voice => 
-                    voice.labels?.language === currentLangCode
-                ).forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voice.voice_id;
-                    option.textContent = voice.name;
-                    playhtSelect.appendChild(option);
-                });
+                // Populate PlayHT voices
+                if (VOICES.playht[langCode]) {
+                    VOICES.playht[langCode].forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voice_id;
+                        option.textContent = voice.name;
+                        playhtSelect.appendChild(option);
+                    });
+                }
                 
-                this.voices.elevenlabs.filter(voice => 
-                    voice.labels?.language === currentLangCode
-                ).forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voice.voice_id;
-                    option.textContent = voice.name;
-                    elevenlabsSelect.appendChild(option);
-                });
+                // Populate ElevenLabs voices
+                if (VOICES.elevenlabs[langCode]) {
+                    VOICES.elevenlabs[langCode].forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voice_id;
+                        option.textContent = voice.name;
+                        elevenlabsSelect.appendChild(option);
+                    });
+                }
             }
 
             setupEventListeners() {
                 document.getElementById('refreshVoices').addEventListener('click', () => {
-                    this.loadVoicesFromComprehensive();
+                    this.populateVoices();
                     this.setStatus('Voices refreshed!');
                 });
             }
 
             setStatus(message) {
-                const statusBar = document.getElementById('statusBar');
-                if (statusBar) {
-                    statusBar.textContent = message;
-                }
+                document.getElementById('statusBar').textContent = message;
             }
         }
 
-        // Initialize dashboard when page loads
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new AudioDashboard();
+            console.log('DOM loaded, starting dashboard...');
+            new Dashboard();
         });
     </script>
 </body>
-</html> "<!-- Force deployment $(date) -->"  
+</html>  
