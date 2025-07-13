@@ -756,31 +756,36 @@ class AudioDashboard {
         }
 
         console.log('PlayHT API Request:', {
-            url: 'https://api.play.ht/api/v2/tts/stream',
+            url: '/api/playht-proxy',
             headers: {
-                'AUTHORIZATION': this.apiConfig.playht.apiKey,
+                'Authorization': this.apiConfig.playht.apiKey,
                 'X-USER-ID': this.apiConfig.playht.userId,
-                'Content-Type': 'application/json',
-                'Accept': 'audio/mpeg'
+                'Content-Type': 'application/json'
             },
             body: requestData
         });
 
         try {
-            // Use PlayHT v2 API endpoint
-            const response = await fetch('https://api.play.ht/api/v2/tts/stream', {
+            // Use Vercel serverless function to proxy PlayHT API
+            const response = await fetch('/api/playht-proxy', {
                 method: 'POST',
                 headers: {
-                    'AUTHORIZATION': this.apiConfig.playht.apiKey,
+                    'Authorization': this.apiConfig.playht.apiKey,
                     'X-USER-ID': this.apiConfig.playht.userId,
-                    'Content-Type': 'application/json',
-                    'Accept': 'audio/mpeg'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestData)
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
+                let errorText;
+                try {
+                    const errorData = await response.json();
+                    errorText = errorData.details || errorData.error || response.statusText;
+                } catch (e) {
+                    errorText = await response.text();
+                }
+                
                 console.error('PlayHT API error details:', {
                     status: response.status,
                     statusText: response.statusText,
@@ -799,7 +804,7 @@ class AudioDashboard {
         } catch (error) {
             console.error('PlayHT error:', error);
             if (error.message.includes('Failed to fetch')) {
-                throw new Error('Network error connecting to PlayHT API. This might be a CORS issue or the API might be down.');
+                throw new Error('Network error connecting to PlayHT API proxy. The serverless function may be down.');
             }
             throw error;
         }
