@@ -16,8 +16,8 @@
   ],
   "routes": [
     {
-      "src": "/dashboard-clean.html",
-      "dest": "/dashboard-clean.html"
+      "src": "/main.html",
+      "dest": "/main.html"
     },
     {
       "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico))",
@@ -25,7 +25,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/dashboard-clean.html"
+      "dest": "/main.html"
     }
   ]
 } 
