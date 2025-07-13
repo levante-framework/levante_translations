@@ -723,6 +723,21 @@ class AudioDashboard {
             throw new Error('PlayHT API credentials not configured');
         }
 
+        // Debug: Log the credentials being used (first few and last few characters for security)
+        const maskedApiKey = this.apiConfig.playht.apiKey.length > 8 ? 
+            this.apiConfig.playht.apiKey.substring(0, 4) + '...' + this.apiConfig.playht.apiKey.substring(this.apiConfig.playht.apiKey.length - 4) :
+            this.apiConfig.playht.apiKey;
+        const maskedUserId = this.apiConfig.playht.userId.length > 8 ? 
+            this.apiConfig.playht.userId.substring(0, 4) + '...' + this.apiConfig.playht.userId.substring(this.apiConfig.playht.userId.length - 4) :
+            this.apiConfig.playht.userId;
+        
+        console.log('PlayHT API Credentials being used:', {
+            apiKey: maskedApiKey,
+            userId: maskedUserId,
+            fullApiKey: this.apiConfig.playht.apiKey, // Full key for debugging
+            fullUserId: this.apiConfig.playht.userId   // Full user ID for debugging
+        });
+
         // Convert HTML to SSML for PlayHT
         let processedText = this.htmlToSSML(text);
         
@@ -757,6 +772,16 @@ class AudioDashboard {
             language: language
         };
 
+        console.log('PlayHT API Request:', {
+            url: 'https://api.play.ai/api/v1/tts',
+            headers: {
+                'AUTHORIZATION': this.apiConfig.playht.apiKey,
+                'X-USER-ID': this.apiConfig.playht.userId,
+                'Content-Type': 'application/json'
+            },
+            body: requestData
+        });
+
         try {
             // Use PlayHT v1 API endpoint directly - should work with CORS
             const response = await fetch('https://api.play.ai/api/v1/tts', {
@@ -775,7 +800,11 @@ class AudioDashboard {
                     status: response.status,
                     statusText: response.statusText,
                     errorText,
-                    requestData
+                    requestData,
+                    credentials: {
+                        apiKey: this.apiConfig.playht.apiKey,
+                        userId: this.apiConfig.playht.userId
+                    }
                 });
                 throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
@@ -1026,6 +1055,35 @@ class AudioDashboard {
     showCredentialsModal() {
         // Load current credentials into the modal
         this.loadCredentials();
+        
+        // Debug: Display current stored credentials
+        const currentCreds = {
+            playhtApiKey: localStorage.getItem('PLAY_DOT_HT_API_KEY') || 'Not set',
+            playhtUserId: localStorage.getItem('PLAY_DOT_HT_USER_ID') || 'Not set',
+            elevenlabsApiKey: localStorage.getItem('ELEVENLABS_API_KEY') || 'Not set'
+        };
+        
+        console.log('Current stored credentials:', currentCreds);
+        
+        // Add debug info to modal if it doesn't exist
+        let debugDiv = document.getElementById('credentialsDebug');
+        if (!debugDiv) {
+            debugDiv = document.createElement('div');
+            debugDiv.id = 'credentialsDebug';
+            debugDiv.style.cssText = 'background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px; font-family: monospace; font-size: 12px;';
+            
+            const modal = document.getElementById('credentialsModal');
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.appendChild(debugDiv);
+        }
+        
+        debugDiv.innerHTML = `
+            <strong>Current Stored Credentials (for debugging):</strong><br>
+            PlayHT API Key: ${currentCreds.playhtApiKey}<br>
+            PlayHT User ID: ${currentCreds.playhtUserId}<br>
+            ElevenLabs API Key: ${currentCreds.elevenlabsApiKey}
+        `;
+        
         document.getElementById('credentialsModal').style.display = 'block';
     }
 
