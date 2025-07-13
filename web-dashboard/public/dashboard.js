@@ -580,39 +580,37 @@ class AudioDashboard {
         // Use embedded voice lists instead of API calls to avoid CORS issues
         const playhtVoices = {
             'en': [
-                { id: 'adb83b67-8d75-48ff-ad4d-a0840d231ef1', name: 'Inara', language: 'en', gender: 'female' },
-                { id: '831bd330-85c6-4333-b2b4-10c476ea3491', name: 'Nia', language: 'en', gender: 'female' },
-                { id: '801a663f-efd0-4254-98d0-5c175514c3e8', name: 'Jennifer', language: 'en', gender: 'female' },
-                { id: '7c38b588-14e8-42b9-bacd-e03d1d673c3c', name: 'Nicole', language: 'en', gender: 'female' },
-                { id: '1f44b3e7-22ea-4c2e-87d0-b4d9c8f1d47d', name: 'Sophia', language: 'en', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json', name: 'Inara', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/831bd330-85c6-4333-b2b4-10c476ea3491/original/manifest.json', name: 'Nia', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c3e8/original/manifest.json', name: 'Jennifer', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/7c38b588-14e8-42b9-bacd-e03d1d673c3c/original/manifest.json', name: 'Nicole', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/1f44b3e7-22ea-4c2e-87d0-b4d9c8f1d47d/original/manifest.json', name: 'Sophia', language: 'en', gender: 'female' }
             ],
             'es-CO': [
-                { id: 'e0bf73c2-2b50-455a-8524-cc29de4360d1', name: 'Patricia Conversational', language: 'es-CO', gender: 'female' },
-                { id: '5694d5e5-2dfe-4440-8cc8-e2a69c3e7560', name: 'Patricia Narrative', language: 'es-CO', gender: 'female' },
-                { id: '4289181f-48fc-4c52-911f-6e769086eb98', name: 'Violeta Conversational', language: 'es-CO', gender: 'female' },
-                { id: '326c3793-b5b1-4ce3-a8ec-22c95d8553f0', name: 'Violeta Narrative', language: 'es-CO', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/5694d5e5-2dfe-4440-8cc8-e2a69c3e7560/original/manifest.json', name: 'Patricia Narrative', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/4289181f-48fc-4c52-911f-6e769086eb98/original/manifest.json', name: 'Violeta Conversational', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es-CO', gender: 'female' }
             ],
             'es': [
-                { id: 'e0bf73c2-2b50-455a-8524-cc29de4360d1', name: 'Patricia Conversational', language: 'es', gender: 'female' },
-                { id: '326c3793-b5b1-4ce3-a8ec-22c95d8553f0', name: 'Violeta Narrative', language: 'es', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es', gender: 'female' }
             ],
             'de': [
-                { id: 'c1cb7f62-4a59-4593-b6c6-6b430892541d', name: 'Anke Conversational', language: 'de', gender: 'female' },
-                { id: '3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d', name: 'Anke Narrative', language: 'de', gender: 'female' },
-                { id: '4b5c6d7e-8f9a-1b2c-3d4e-5f6a7b8c9d0e', name: 'German_Anke Narrative', language: 'de', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/c1cb7f62-4a59-4593-b6c6-6b430892541d/original/manifest.json', name: 'Anke Conversational', language: 'de', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json', name: 'Anke Narrative', language: 'de', gender: 'female' }
             ],
             'fr-CA': [
-                { id: 'f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f', name: 'Ange Conversational', language: 'fr-CA', gender: 'female' },
-                { id: 'a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f', name: 'Ange Narrative', language: 'fr-CA', gender: 'female' },
-                { id: 'c2d3e4f5-a6b7-8c9d-0e1f-2a3b4c5d6e7f', name: 'French_Ange Narrative', language: 'fr-CA', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr-CA', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr-CA', gender: 'female' }
             ],
             'fr': [
-                { id: 'f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f', name: 'Ange Conversational', language: 'fr', gender: 'female' },
-                { id: 'a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f', name: 'Ange Narrative', language: 'fr', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr', gender: 'female' }
             ],
             'nl': [
-                { id: 'e8f7a6b5-c4d3-2e1f-0a9b-8c7d6e5f4a3b', name: 'Dutch Female 1', language: 'nl', gender: 'female' },
-                { id: 'b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e', name: 'Dutch Female 2', language: 'nl', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e8f7a6b5-c4d3-2e1f-0a9b-8c7d6e5f4a3b/original/manifest.json', name: 'Dutch Female 1', language: 'nl', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e/original/manifest.json', name: 'Dutch Female 2', language: 'nl', gender: 'female' }
             ]
         };
 
