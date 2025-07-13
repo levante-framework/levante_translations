@@ -466,6 +466,9 @@
                     <button id="debugVoices" class="btn btn-secondary">
                         <i class="fas fa-bug"></i> Debug Voices
                     </button>
+                    <button onclick="window.dashboard?.testFunction()" class="btn btn-warning">
+                        <i class="fas fa-test-tube"></i> Test JS
+                    </button>
                 </div>
                 <textarea id="ssmlEditor" class="ssml-textarea" placeholder="Enter text or SSML here..."></textarea>
             </div>
@@ -495,16 +498,19 @@
         </div>
     </div>
 
+    <!-- Load comprehensive voices -->
+    <script src="comprehensive-voices.js"></script>
+    
     <script>
         // Embedded JavaScript to avoid serving issues
         class AudioDashboard {
             constructor() {
                 this.languages = {
                     'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
-                    'Spanish': { lang_code: 'es', service: 'PlayHT', voice: 'Spanish_Violeta Narrative' },
+                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Ana María - Calm & natural neutral Spanish' },
                     'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
-                    'French': { lang_code: 'fr', service: 'PlayHT', voice: 'French_Ange Narrative' },
-                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Xander' }
+                    'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
+                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' }
                 };
 
                 this.data = [];
@@ -527,24 +533,47 @@
                 console.log('Initializing Audio Dashboard...');
                 this.setStatus('Loading dashboard...');
                 
-                // Check if credentials are needed and prompt if missing
-                await this.checkAndPromptCredentials();
-                
-                await this.loadData();
-                this.createTabs();
-                this.setupEventListeners();
-                
-                // Initialize voice dropdowns with default messages
-                this.populateVoiceDropdowns();
-                
-                // Load voices if we have credentials
-                const credentials = this.loadCredentials();
-                if ((credentials.playht.apiKey && credentials.playht.userId) || credentials.elevenlabs.apiKey) {
-                    await this.loadVoices();
+                try {
+                    // Load data first
+                    console.log('Loading data...');
+                    await this.loadData();
+                    console.log('Data loaded successfully');
+                    
+                    // Create tabs after data is loaded
+                    console.log('Creating tabs...');
+                    this.createTabs();
+                    console.log('Tabs created successfully');
+                    
+                    // Setup event listeners
+                    console.log('Setting up event listeners...');
+                    this.setupEventListeners();
+                    console.log('Event listeners set up successfully');
+                    
+                    // Always load comprehensive voices first (they don't need credentials)
+                    console.log('Loading comprehensive voices...');
+                    await this.loadComprehensiveVoices();
+                    console.log('Comprehensive voices loaded successfully');
+                    
+                    // Then load API voices if we have credentials
+                    const credentials = this.loadCredentials();
+                    if ((credentials.playht.apiKey && credentials.playht.userId) || credentials.elevenlabs.apiKey) {
+                        console.log('Loading API voices...');
+                        await this.loadVoices();
+                        console.log('API voices loaded successfully');
+                    }
+                    
+                    // Check if credentials are needed and prompt if missing (after everything is loaded)
+                    console.log('Checking credentials...');
+                    await this.checkAndPromptCredentials();
+                    console.log('Credentials check complete');
+                    
+                    this.setStatus('Dashboard ready!');
+                    console.log('Dashboard initialization complete');
+                } catch (error) {
+                    console.error('Error during dashboard initialization:', error);
+                    this.setStatus(`Error: ${error.message}`);
+                    throw error;
                 }
-                
-                this.setStatus('Dashboard ready!');
-                console.log('Dashboard initialization complete');
             }
 
             loadCredentials() {
@@ -593,8 +622,8 @@
                 console.log('Current credentials:', this.apiCredentials);
 
                 if (needsPlayHT || needsElevenLabs) {
-                    console.log('Showing credentials modal');
-                    this.showCredentialsModal(needsPlayHT, needsElevenLabs);
+                    console.log('Credentials missing, but not showing modal automatically');
+                    this.setStatus('💡 Click "API Keys" to add credentials for voice generation');
                 } else {
                     console.log('Credentials found, loading voices');
                     await this.loadVoices();
@@ -677,9 +706,26 @@
                 }
             }
 
+            async loadComprehensiveVoices() {
+                console.log('Loading comprehensive voices...');
+                this.setStatus('Loading comprehensive voices...');
+                
+                // Load comprehensive voices without requiring API credentials
+                try {
+                    await this.loadPlayHTVoicesFromComprehensive();
+                    await this.loadElevenLabsVoicesFromComprehensive();
+                    console.log('Comprehensive voices loaded successfully');
+                    this.populateVoiceDropdowns();
+                    this.setStatus('✅ Comprehensive voices loaded successfully');
+                } catch (error) {
+                    console.error('Error loading comprehensive voices:', error);
+                    this.setStatus('⚠️ Error loading comprehensive voices');
+                }
+            }
+
             async loadVoices() {
-                console.log('Loading voices...');
-                this.setStatus('Loading voices...');
+                console.log('Loading API voices...');
+                this.setStatus('Loading API voices...');
                 
                 const credentials = this.loadCredentials();
                 
@@ -707,12 +753,53 @@
                 this.setStatus('✅ Voices loaded successfully');
             }
 
-            async loadPlayHTVoices(credentials) {
-                console.log('Loading PlayHT voices...');
+            async loadPlayHTVoicesFromComprehensive() {
+                console.log('Loading PlayHT voices from comprehensive data...');
                 
-                // Use actual PlayHT voices from the project CSV data (female only)
-                // These are real PlayHT voice IDs that work with the API for audio generation
-                this.voices.playht = [
+                // Use comprehensive voices from the generated JavaScript file
+                if (typeof COMPREHENSIVE_VOICES !== 'undefined' && COMPREHENSIVE_VOICES.playht) {
+                    // Convert comprehensive voices format to dashboard format
+                    this.voices.playht = [];
+                    
+                    // Load voices from all languages
+                    for (const [langCode, voices] of Object.entries(COMPREHENSIVE_VOICES.playht)) {
+                        for (const voice of voices) {
+                            this.voices.playht.push({
+                                voice_id: voice.voice_id, // Keep the comprehensive format
+                                id: voice.voice_id, // Also add id for backward compatibility
+                                name: voice.name,
+                                labels: voice.labels, // Keep the comprehensive format
+                                language: voice.labels.language, // Also add for backward compatibility
+                                gender: voice.labels.gender,
+                                category: voice.category,
+                                description: voice.description,
+                                sample_url: voice.sample_url
+                            });
+                        }
+                    }
+                    
+                    console.log(`Loaded ${this.voices.playht.length} PlayHT voices from comprehensive data`);
+                    return true;
+                } else {
+                    console.warn('Comprehensive voices not available');
+                    return false;
+                }
+            }
+
+            async loadPlayHTVoices(credentials) {
+                console.log('Loading PlayHT voices via API...');
+                
+                // If comprehensive voices are already loaded, don't override them
+                if (this.voices.playht.length > 0) {
+                    console.log('PlayHT voices already loaded from comprehensive data');
+                    return;
+                }
+                
+                // Fallback to API loading or basic voices
+                console.warn('Loading fallback voices');
+                    
+                    // Fallback to basic voices if comprehensive voices aren't available
+                    this.voices.playht = [
                     // English voices (female only)
                     { id: 's3://voice-cloning-zero-shot/f6c4ed76-1b55-4cd9-8896-31f7535f6cdb/original/manifest.json', name: 'Aaliyah', language: 'en', gender: 'female' },
                     { id: 's3://voice-cloning-zero-shot/80ba8839-a6e6-470c-8f68-7c1e5d3ee2ff/abigailsaad/manifest.json', name: 'Abigail', language: 'en', gender: 'female' },
@@ -812,49 +899,64 @@
                     { id: 's3://voice-cloning-zero-shot/5694d5e5-2dfe-4440-8cc8-e2a69c3e7560/original/manifest.json', name: 'Patricia Narrative', language: 'es', gender: 'female' },
                     { id: 's3://voice-cloning-zero-shot/4289181f-48fc-4c52-911f-6e769086eb98/original/manifest.json', name: 'Violeta Conversational', language: 'es', gender: 'female' },
                     { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es', gender: 'female' }
-                ];
+                    ];
+                    
+                    console.log(`Loaded ${this.voices.playht.length} PlayHT fallback voices`);
+                    this.setStatus(`⚠️ PlayHT voices loaded: ${this.voices.playht.length} fallback voices`);
+                }
+            }
+
+            async loadElevenLabsVoicesFromComprehensive() {
+                console.log('Loading ElevenLabs voices from comprehensive data...');
                 
-                console.log(`Loaded ${this.voices.playht.length} PlayHT voices (from project CSV data)`);
-                this.setStatus('✅ PlayHT voices loaded (from project CSV data)');
+                // Use comprehensive voices from the generated JavaScript file
+                if (typeof COMPREHENSIVE_VOICES !== 'undefined' && COMPREHENSIVE_VOICES.elevenlabs) {
+                    // Convert comprehensive voices format to dashboard format
+                    this.voices.elevenlabs = [];
+                    
+                    // Load voices from all languages
+                    for (const [langCode, voices] of Object.entries(COMPREHENSIVE_VOICES.elevenlabs)) {
+                        for (const voice of voices) {
+                            this.voices.elevenlabs.push({
+                                voice_id: voice.voice_id,
+                                name: voice.name,
+                                labels: voice.labels,
+                                category: voice.category,
+                                description: voice.description,
+                                sample_url: voice.sample_url
+                            });
+                        }
+                    }
+                    
+                    console.log(`Loaded ${this.voices.elevenlabs.length} ElevenLabs voices from comprehensive data`);
+                    return true;
+                } else {
+                    console.warn('Comprehensive voices not available');
+                    return false;
+                }
             }
 
             async loadElevenLabsVoices(credentials) {
-                console.log('Loading ElevenLabs voices...');
+                console.log('Loading ElevenLabs voices via API...');
                 
-                // Use actual ElevenLabs voices from the project CSV data
-                // These are real ElevenLabs voice IDs that work with the API for audio generation
-                this.voices.elevenlabs = [
-                    // English voices (female only, professional category)
-                    { voice_id: 'kdmDKE6EkgrWrrykO9Qt', name: 'Alexandra - Conversational and Real', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'Xb7hH8MSUJpSbSDYk0k2', name: 'Alice', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: '9BWtsMINqrJLrRacOk9x', name: 'Aria', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: 'y2TOWGCXSYEgBanvKsYJ', name: 'Aunt Annie - calm and professional', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'XB0fDUnXU5powFXDhCwa', name: 'Charlotte', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: 'yu4eXTP5aod8KAQzTI3T', name: 'Claudia - Credible, Competent & Authentic', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'cgSgspJ2msm6clMCkdW9', name: 'Jessica', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: 'g6xIsTj2HwM6VR4iXFCw', name: 'Jessica Anne Bogart - Conversations', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'aMSt68OGf4xUZAnLpTU8', name: 'Juniper', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'FGY2WhTYpPnrIDTdsKH5', name: 'Laura', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: 'XrExE9yKIg1WjnnlVkGX', name: 'Matilda', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: 'CBHdTdZwkV4jYoCyMV1B', name: 'Nia Davis- Black Female', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', labels: { language: 'en', gender: 'female' }, category: 'premade' },
-                    { voice_id: '3lChuqcq4ONNgu6CB9lV', name: 'Yasmine', labels: { language: 'en', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'C3x1TEM7scV4p2AXJyrp', name: 'Zuri - New Yorker', labels: { language: 'en', gender: 'female' }, category: 'professional' },
+                // If comprehensive voices are already loaded, don't override them
+                if (this.voices.elevenlabs.length > 0) {
+                    console.log('ElevenLabs voices already loaded from comprehensive data');
+                    return;
+                }
+                
+                // Fallback to API loading or basic voices
+                console.warn('Loading fallback voices');
                     
-                    // German voices (female only, professional category)
-                    { voice_id: 'AnvlJBAqSLDzEevYr9Ap', name: 'Ava - youthful and expressive German female voice', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'uART9md5WKE9VOhh7dbV', name: 'BayLee', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'K75lPKuh15SyVhQC1LrE', name: 'Carola Ferstl Nachrichten', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'VGPs8uAVxETgmG3lNnZD', name: 'Cornelia', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'otF9rqKzRHFgfwf6serQ', name: 'Dana - German conversation', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'PmkWuBgfgyHPLOeC499E', name: 'Frida - Friendly German Voice', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: '0pfORUxWwjL6pUNjqKde', name: 'Mia Maier', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'v3V1d2rk6528UrLKRuy8', name: 'Susi', labels: { language: 'de', gender: 'female' }, category: 'professional' },
-                    { voice_id: 'cpy7GcpDa9iah3sbx3uA', name: 'Tanja B.', labels: { language: 'de', gender: 'female' }, category: 'professional' }
+                // Fallback to basic voices if comprehensive voices aren't available
+                this.voices.elevenlabs = [
+                    { voice_id: 'kdmDKE6EkgrWrrykO9Qt', name: 'Alexandra - Conversational and Real', labels: { language: 'en', gender: 'female' }, category: 'professional' },
+                    { voice_id: 'yu4eXTP5aod8KAQzTI3T', name: 'Claudia - Credible, Competent & Authentic', labels: { language: 'en', gender: 'female' }, category: 'professional' },
+                    { voice_id: 'aMSt68OGf4xUZAnLpTU8', name: 'Juniper', labels: { language: 'en', gender: 'female' }, category: 'professional' }
                 ];
                 
-                console.log(`Loaded ${this.voices.elevenlabs.length} ElevenLabs voices (from project CSV data)`);
-                this.setStatus('✅ ElevenLabs voices loaded (from project CSV data)');
+                console.log(`Loaded ${this.voices.elevenlabs.length} ElevenLabs fallback voices`);
+                this.setStatus(`⚠️ ElevenLabs voices loaded: ${this.voices.elevenlabs.length} fallback voices`);
             }
 
             isFemaleVoice(voiceName) {
@@ -891,42 +993,38 @@
                     return;
                 }
                 
-                // Get current language and map to language codes (matching config.py)
+                // Get current language and map to language codes
                 const currentLang = this.getCurrentLanguage();
-                const langCodeMap = {
-                    'English': 'en',
-                    'Spanish': 'es-CO',  // Match config.py
-                    'German': 'de',
-                    'French': 'fr-CA',   // Match config.py
-                    'Dutch': 'nl'
+                const currentLangCode = this.languages[currentLang]?.lang_code || 'en';
+                
+                // Map complex codes to simple codes for comprehensive voice filtering
+                const simpleCodeMap = {
+                    'en': 'en',
+                    'es-CO': 'es',
+                    'de': 'de', 
+                    'fr-CA': 'fr',
+                    'nl': 'nl'
                 };
                 
-                const currentLangCode = langCodeMap[currentLang] || 'en';
+                const simpleLangCode = simpleCodeMap[currentLangCode] || currentLangCode;
                 
                 // Filter PlayHT voices for current language
                 const filteredPlayHTVoices = this.voices.playht.filter(voice => {
-                    if (!voice.language) return false;
-                    const voiceLang = voice.language.toLowerCase();
-                    const targetLang = currentLangCode.toLowerCase();
+                    // Check both voice.language (fallback format) and voice.labels.language (comprehensive format)
+                    const voiceLangSource = voice.labels?.language || voice.language;
+                    if (!voiceLangSource) return false;
+                    const voiceLang = voiceLangSource.toLowerCase();
                     
-                    // Handle language code mapping for filtering
-                    const langMap = {
-                        'es-co': 'es',
-                        'fr-ca': 'fr'
-                    };
-                    
-                    const mappedTargetLang = langMap[targetLang] || targetLang;
-                    
-                    // Check for exact match or language prefix match
-                    return voiceLang === mappedTargetLang || 
-                           voiceLang.startsWith(mappedTargetLang.split('-')[0]) ||
-                           mappedTargetLang.startsWith(voiceLang);
+                    // Match against both simple and complex language codes
+                    return voiceLang === simpleLangCode.toLowerCase() || 
+                           voiceLang === currentLangCode.toLowerCase() ||
+                           voiceLang.startsWith(simpleLangCode.toLowerCase());
                 });
                 
                 // Populate PlayHT voices (filtered by current language)
                 filteredPlayHTVoices.forEach(voice => {
                     const option = document.createElement('option');
-                    option.value = voice.id;
+                    option.value = voice.voice_id || voice.id; // Use voice_id from comprehensive format, fallback to id
                     option.textContent = voice.name;
                     playhtSelect.appendChild(option);
                 });
@@ -935,20 +1033,11 @@
                 const filteredElevenLabsVoices = this.voices.elevenlabs.filter(voice => {
                     if (!voice.labels || !voice.labels.language) return false; // Don't show if no language info
                     const voiceLang = voice.labels.language.toLowerCase();
-                    const targetLang = currentLangCode.toLowerCase();
                     
-                    // Handle language code mapping for filtering
-                    const langMap = {
-                        'es-co': 'es',
-                        'fr-ca': 'fr'
-                    };
-                    
-                    const mappedTargetLang = langMap[targetLang] || targetLang;
-                    
-                    // Check for exact match or language prefix match
-                    return voiceLang === mappedTargetLang || 
-                           voiceLang.startsWith(mappedTargetLang.split('-')[0]) ||
-                           mappedTargetLang.startsWith(voiceLang);
+                    // Match against both simple and complex language codes
+                    return voiceLang === simpleLangCode.toLowerCase() || 
+                           voiceLang === currentLangCode.toLowerCase() ||
+                           voiceLang.startsWith(simpleLangCode.toLowerCase());
                 });
                 
                 // Populate ElevenLabs voices (filtered by current language)
@@ -997,11 +1086,11 @@
                                 } else if (header === 'text') {
                                     row.en = values[index];
                                 } else if (header === 'es-CO') {
-                                    row.es = values[index];
+                                    row['es-CO'] = values[index];  // Keep es-CO as is
                                 } else if (header === 'fr-CA') {
-                                    row.fr = values[index];
+                                    row['fr-CA'] = values[index];  // Keep fr-CA as is
                                 } else if (header === 'nl-NL') {
-                                    row.nl = values[index];
+                                    row.nl = values[index];  // Map nl-NL to nl since config uses nl
                                 } else {
                                     row[header] = values[index];
                                 }
@@ -1115,37 +1204,88 @@
             }
 
             setupEventListeners() {
-                document.getElementById('searchInput').addEventListener('input', (e) => {
-                    this.searchItems(e.target.value);
-                });
+                console.log('Setting up event listeners...');
+                
+                // Search input
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        console.log('Search input:', e.target.value);
+                        this.searchItems(e.target.value);
+                    });
+                    console.log('✅ Search input listener added');
+                } else {
+                    console.error('❌ Search input not found');
+                }
 
                 // Voice dropdown event listeners
-                document.getElementById('playhtVoice').addEventListener('change', (e) => {
-                    if (e.target.value) {
-                        this.generateAudio('playht', e.target.value);
-                    }
-                });
+                const playhtVoice = document.getElementById('playhtVoice');
+                if (playhtVoice) {
+                    playhtVoice.addEventListener('change', (e) => {
+                        console.log('PlayHT voice selected:', e.target.value);
+                        if (e.target.value) {
+                            this.generateAudio('playht', e.target.value);
+                        }
+                    });
+                    console.log('✅ PlayHT voice listener added');
+                } else {
+                    console.error('❌ PlayHT voice dropdown not found');
+                }
 
-                document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
-                    if (e.target.value) {
-                        this.generateAudio('elevenlabs', e.target.value);
-                    }
-                });
+                const elevenlabsVoice = document.getElementById('elevenlabsVoice');
+                if (elevenlabsVoice) {
+                    elevenlabsVoice.addEventListener('change', (e) => {
+                        console.log('ElevenLabs voice selected:', e.target.value);
+                        if (e.target.value) {
+                            this.generateAudio('elevenlabs', e.target.value);
+                        }
+                    });
+                    console.log('✅ ElevenLabs voice listener added');
+                } else {
+                    console.error('❌ ElevenLabs voice dropdown not found');
+                }
 
                 // Refresh voices button
-                document.getElementById('refreshVoices').addEventListener('click', async () => {
-                    await this.loadVoices();
-                });
+                const refreshVoices = document.getElementById('refreshVoices');
+                if (refreshVoices) {
+                    refreshVoices.addEventListener('click', async () => {
+                        console.log('Refresh voices clicked');
+                        this.setStatus('🔄 Refreshing voices...');
+                        // Reload comprehensive voices first
+                        await this.loadComprehensiveVoices();
+                        // Then reload API voices if credentials are available
+                        await this.loadVoices();
+                    });
+                    console.log('✅ Refresh voices listener added');
+                } else {
+                    console.error('❌ Refresh voices button not found');
+                }
 
                 // SSML play button
-                document.getElementById('playSSML').addEventListener('click', () => {
-                    this.playSSMLText();
-                });
+                const playSSML = document.getElementById('playSSML');
+                if (playSSML) {
+                    playSSML.addEventListener('click', () => {
+                        console.log('Play SSML clicked');
+                        this.playSSMLText();
+                    });
+                    console.log('✅ Play SSML listener added');
+                } else {
+                    console.error('❌ Play SSML button not found');
+                }
 
                 // Debug voices button
-                document.getElementById('debugVoices').addEventListener('click', () => {
-                    this.showAvailableVoices();
-                });
+                const debugVoices = document.getElementById('debugVoices');
+                if (debugVoices) {
+                    debugVoices.addEventListener('click', () => {
+                        console.log('Debug voices clicked');
+                        this.showAvailableVoices();
+                    });
+                    console.log('✅ Debug voices listener added');
+                } else {
+                    console.error('❌ Debug voices button not found');
+                }
+                
+                console.log('Event listeners setup complete');
             }
 
             createTabs() {
@@ -1688,7 +1828,19 @@
             }
 
             setStatus(message) {
-                document.getElementById('statusBar').textContent = message;
+                const statusBar = document.getElementById('statusBar');
+                if (statusBar) {
+                    statusBar.textContent = message;
+                } else {
+                    console.log('Status:', message);
+                }
+            }
+
+            // Test function to verify JavaScript is working
+            testFunction() {
+                console.log('Test function called - JavaScript is working!');
+                this.setStatus('✅ Test function called - JavaScript is working!');
+                alert('JavaScript is working! Dashboard should be functional.');
             }
         }
 
@@ -1740,11 +1892,34 @@
 
         // Initialize the dashboard when the page loads
         let dashboard;
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             console.log('DOM loaded, initializing dashboard');
-            dashboard = new AudioDashboard();
-            window.dashboard = dashboard;
-            console.log('Dashboard assigned to window.dashboard');
+            try {
+                dashboard = new AudioDashboard();
+                window.dashboard = dashboard;
+                console.log('Dashboard assigned to window.dashboard');
+                
+                // Add a loading indicator
+                const statusBar = document.getElementById('statusBar');
+                if (statusBar) {
+                    statusBar.textContent = 'Initializing dashboard...';
+                }
+                
+                // Wait a bit for the dashboard to initialize
+                setTimeout(() => {
+                    if (statusBar) {
+                        statusBar.textContent = 'Dashboard loaded! Select a language tab to begin.';
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error initializing dashboard:', error);
+                const statusBar = document.getElementById('statusBar');
+                if (statusBar) {
+                    statusBar.textContent = `Error: ${error.message}`;
+                    statusBar.style.color = 'red';
+                }
+            }
         });
     </script>
 </body>

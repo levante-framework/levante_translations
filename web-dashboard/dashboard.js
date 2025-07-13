@@ -1,3 +1,6 @@
+// Import comprehensive voices
+// <script src="comprehensive-voices.js"></script>
+
 /**
  * Levante Translation and Audio Generation Dashboard
  * JavaScript implementation with PlayHT and ElevenLabs API integrations
