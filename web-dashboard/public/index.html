@@ -119,35 +119,6 @@
             background: #545b62;
         }
 
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .stat-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #4facfe;
-        }
-
         .main-content {
             padding: 20px;
         }
@@ -584,13 +555,6 @@
         <div class="header">
             <h1>Levante Translation Dashboard</h1>
             <p>Compare and generate TTS audio across multiple languages and services</p>
-            <button id="manageCredentials" class="btn btn-secondary" style="margin-top: 10px;">
-                <i class="fas fa-key"></i> Manage Credentials
-            </button>
-        </div>
-
-        <div class="stats-container" id="statsContainer">
-            <!-- Stats will be populated by JavaScript -->
         </div>
 
         <div class="main-content">
@@ -603,6 +567,9 @@
                     </button>
                     <button id="playSSML" class="btn btn-success">
                         <i class="fas fa-play"></i> Play SSML
+                    </button>
+                    <button id="manageCredentials" class="btn btn-secondary">
+                        <i class="fas fa-key"></i> Manage Credentials
                     </button>
                 </div>
                 <textarea id="ssmlEditor" class="ssml-textarea" rows="3" placeholder="Enter text or SSML here..."></textarea>
