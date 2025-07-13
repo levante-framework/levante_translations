@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Levante Audio Dashboard - Working Version</title>
+    <title>Levante Translation & Audio Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,56 +11,74 @@
         .dashboard-container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; text-align: center; }
         .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 300; }
-        .success-banner { background: #28a745; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; font-weight: bold; text-align: center; }
+        .header p { font-size: 1.2em; opacity: 0.9; }
         .main-content { padding: 30px; }
         .controls-section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4facfe; }
         .control-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .control-group label { font-weight: 600; color: #495057; }
+        .voice-controls { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .voice-control { display: flex; flex-direction: column; gap: 5px; }
+        .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
         .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-info { background: #17a2b8; color: white; }
-        .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 200px; }
+        .voice-select { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
+        .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
         .tabs { margin-bottom: 30px; }
         .tab-buttons { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-button { padding: 15px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
-        .tab-button.active { background: #007bff; color: white; }
-        .tab-content { display: none; padding: 20px; background: #f8f9fa; border-radius: 0 10px 10px 10px; }
+        .tab-button { padding: 15px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; color: #495057; }
+        .tab-button:hover { background: #e9ecef; transform: translateY(-2px); }
+        .tab-button.active { background: #007bff; color: white; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
+        .tab-content { display: none; padding: 25px; background: #f8f9fa; border-radius: 0 10px 10px 10px; border: 2px solid #e9ecef; }
         .tab-content.active { display: block; }
-        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #333; color: white; padding: 10px 20px; font-size: 14px; z-index: 1000; }
-        .debug-info { background: #e9ecef; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; font-size: 12px; }
+        .tab-content h3 { color: #495057; margin-bottom: 15px; font-size: 1.5em; }
+        .language-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-card { background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe; }
+        .info-card strong { color: #495057; display: block; margin-bottom: 5px; }
+        .info-card span { color: #6c757d; }
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #343a40; color: white; padding: 12px 20px; font-size: 14px; z-index: 1000; display: flex; align-items: center; gap: 10px; }
+        .status-icon { font-size: 16px; }
+        .sample-text { background: white; padding: 20px; border-radius: 8px; margin-top: 20px; border: 2px solid #e9ecef; }
+        .sample-text h4 { color: #495057; margin-bottom: 10px; }
+        .sample-text p { color: #6c757d; line-height: 1.6; }
+        @media (max-width: 768px) {
+            .control-group { flex-direction: column; align-items: stretch; }
+            .voice-controls { flex-direction: column; }
+            .tab-buttons { justify-content: center; }
+            .language-info { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="fas fa-microphone"></i> Levante Audio Dashboard</h1>
-            <p>TTS Audio Generation for Multiple Languages</p>
-            <div class="success-banner">✅ WORKING VERSION - NO JAVASCRIPT ERRORS</div>
+            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <p>Multi-language TTS audio generation with PlayHT and ElevenLabs</p>
         </div>
         <div class="main-content">
             <div class="controls-section">
                 <div class="control-group">
-                    <label><i class="fas fa-volume-up"></i> Voice Comparison:</label>
-                    <div>
-                        <label for="playhtVoice">PlayHT Voice:</label>
-                        <select id="playhtVoice" class="voice-select">
-                            <option value="">Select PlayHT Voice...</option>
-                        </select>
+                    <label><i class="fas fa-volume-up"></i> Voice Comparison Tools:</label>
+                    <div class="voice-controls">
+                        <div class="voice-control">
+                            <label for="playhtVoice">PlayHT Voice</label>
+                            <select id="playhtVoice" class="voice-select">
+                                <option value="">Select PlayHT Voice...</option>
+                            </select>
+                        </div>
+                        <div class="voice-control">
+                            <label for="elevenlabsVoice">ElevenLabs Voice</label>
+                            <select id="elevenlabsVoice" class="voice-select">
+                                <option value="">Select ElevenLabs Voice...</option>
+                            </select>
+                        </div>
+                        <button id="refreshVoices" class="btn btn-info">
+                            <i class="fas fa-sync-alt"></i> Refresh Voices
+                        </button>
                     </div>
-                    <div>
-                        <label for="elevenlabsVoice">ElevenLabs Voice:</label>
-                        <select id="elevenlabsVoice" class="voice-select">
-                            <option value="">Select ElevenLabs Voice...</option>
-                        </select>
-                    </div>
-                    <button id="refreshVoices" class="btn btn-info">
-                        <i class="fas fa-sync-alt"></i> Refresh Voices
-                    </button>
                 </div>
-            </div>
-            
-            <div class="debug-info" id="debugInfo">
-                🔧 Debug: Initializing dashboard...
             </div>
             
             <div class="tabs">
@@ -68,21 +86,13 @@
             </div>
             <div id="tabContent"></div>
         </div>
-        <div class="status-bar" id="statusBar">Loading...</div>
+        <div class="status-bar" id="statusBar">
+            <i class="fas fa-circle status-icon" style="color: #28a745;"></i>
+            <span>Dashboard ready</span>
+        </div>
     </div>
 
     <script>
-        // Debug function
-        function debugLog(message) {
-            console.log(message);
-            const debugDiv = document.getElementById('debugInfo');
-            if (debugDiv) {
-                debugDiv.innerHTML += '<br>' + message;
-            }
-        }
-
-        debugLog('🚀 Script loading - NO external dependencies');
-        
         // Voice data matching exact config.py settings
         const VOICES = {
             "playht": {
@@ -98,11 +108,8 @@
             }
         };
 
-        debugLog('✅ Voice data loaded successfully');
-
         class Dashboard {
             constructor() {
-                debugLog('🔧 Dashboard constructor called');
                 // Match exact config.py language settings
                 this.languages = {
                     'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
@@ -116,48 +123,58 @@
             }
 
             init() {
-                debugLog('🚀 Dashboard initializing...');
                 this.createTabs();
                 this.setupEventListeners();
                 this.populateVoices();
-                this.setStatus('✅ Dashboard ready - NO ERRORS!');
-                debugLog('✅ Dashboard initialization complete');
+                this.setStatus('Dashboard ready - Select a language to begin');
             }
 
             createTabs() {
-                debugLog('📑 Creating tabs...');
                 const tabButtons = document.getElementById('tabButtons');
                 const tabContent = document.getElementById('tabContent');
                 
-                if (!tabButtons || !tabContent) {
-                    debugLog('❌ Tab containers not found!');
-                    return;
-                }
-                
                 Object.keys(this.languages).forEach((language, index) => {
+                    // Create tab button
                     const button = document.createElement('button');
                     button.className = `tab-button ${index === 0 ? 'active' : ''}`;
                     button.textContent = language;
                     button.addEventListener('click', () => this.switchTab(language, button));
                     tabButtons.appendChild(button);
 
+                    // Create tab content
                     const content = document.createElement('div');
                     content.className = `tab-content ${index === 0 ? 'active' : ''}`;
                     content.id = `tab-${language}`;
+                    
+                    const langConfig = this.languages[language];
                     content.innerHTML = `
-                        <h3>${language} Audio Generation</h3>
-                        <p><strong>Language Code:</strong> ${this.languages[language].lang_code}</p>
-                        <p><strong>Default Service:</strong> ${this.languages[language].service}</p>
-                        <p><strong>Default Voice:</strong> ${this.languages[language].voice}</p>
-                        <div class="success-banner">✅ ${language} tab working correctly</div>
+                        <h3><i class="fas fa-globe"></i> ${language} Configuration</h3>
+                        <div class="language-info">
+                            <div class="info-card">
+                                <strong>Language Code</strong>
+                                <span>${langConfig.lang_code}</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Default Service</strong>
+                                <span>${langConfig.service}</span>
+                            </div>
+                            <div class="info-card">
+                                <strong>Default Voice</strong>
+                                <span>${langConfig.voice}</span>
+                            </div>
+                        </div>
+                        <div class="sample-text">
+                            <h4><i class="fas fa-file-text"></i> Sample Text for Testing</h4>
+                            <p>This is a sample text that can be used to test voice generation in ${language}. 
+                            You can use the voice controls above to generate audio with different voices and compare the results.</p>
+                        </div>
                     `;
                     tabContent.appendChild(content);
                 });
-                debugLog('✅ Tabs created successfully');
             }
 
             switchTab(language, button) {
-                debugLog(`🔄 Switching to ${language} tab`);
+                // Update active states
                 document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 
@@ -166,26 +183,20 @@
                 
                 this.currentLanguage = language;
                 this.populateVoices();
-                this.setStatus(`✅ Switched to ${language}`);
+                this.setStatus(`Switched to ${language} - ${this.languages[language].service} (${this.languages[language].lang_code})`);
             }
 
             populateVoices() {
-                debugLog(`🎤 Populating voices for ${this.currentLanguage}`);
                 const playhtSelect = document.getElementById('playhtVoice');
                 const elevenlabsSelect = document.getElementById('elevenlabsVoice');
                 
-                if (!playhtSelect || !elevenlabsSelect) {
-                    debugLog('❌ Voice selects not found!');
-                    return;
-                }
-                
+                // Clear existing options
                 playhtSelect.innerHTML = '<option value="">Select PlayHT Voice...</option>';
                 elevenlabsSelect.innerHTML = '<option value="">Select ElevenLabs Voice...</option>';
                 
                 const langCode = this.languages[this.currentLanguage].lang_code;
-                debugLog(`🔍 Looking for voices with language code: ${langCode}`);
                 
-                // Populate PlayHT voices
+                // Populate PlayHT voices for current language
                 if (VOICES.playht[langCode]) {
                     VOICES.playht[langCode].forEach(voice => {
                         const option = document.createElement('option');
@@ -193,12 +204,9 @@
                         option.textContent = voice.name;
                         playhtSelect.appendChild(option);
                     });
-                    debugLog(`✅ Added ${VOICES.playht[langCode].length} PlayHT voices`);
-                } else {
-                    debugLog(`⚠️ No PlayHT voices found for ${langCode}`);
                 }
                 
-                // Populate ElevenLabs voices
+                // Populate ElevenLabs voices for current language
                 if (VOICES.elevenlabs[langCode]) {
                     VOICES.elevenlabs[langCode].forEach(voice => {
                         const option = document.createElement('option');
@@ -206,51 +214,43 @@
                         option.textContent = voice.name;
                         elevenlabsSelect.appendChild(option);
                     });
-                    debugLog(`✅ Added ${VOICES.elevenlabs[langCode].length} ElevenLabs voices`);
-                } else {
-                    debugLog(`⚠️ No ElevenLabs voices found for ${langCode}`);
                 }
             }
 
             setupEventListeners() {
-                debugLog('🔧 Setting up event listeners...');
-                const refreshButton = document.getElementById('refreshVoices');
-                if (refreshButton) {
-                    refreshButton.addEventListener('click', () => {
-                        debugLog('🔄 Refresh button clicked');
-                        this.populateVoices();
-                        this.setStatus('✅ Voices refreshed!');
-                    });
-                    debugLog('✅ Refresh button listener added');
-                } else {
-                    debugLog('❌ Refresh button not found!');
-                }
+                // Refresh voices button
+                document.getElementById('refreshVoices').addEventListener('click', () => {
+                    this.populateVoices();
+                    this.setStatus('Voice lists refreshed');
+                });
+
+                // Voice selection handlers
+                document.getElementById('playhtVoice').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.setStatus(`PlayHT voice selected: ${e.target.options[e.target.selectedIndex].text}`);
+                    }
+                });
+
+                document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.setStatus(`ElevenLabs voice selected: ${e.target.options[e.target.selectedIndex].text}`);
+                    }
+                });
             }
 
             setStatus(message) {
                 const statusBar = document.getElementById('statusBar');
-                if (statusBar) {
-                    statusBar.textContent = message;
-                    debugLog(`📢 Status: ${message}`);
-                } else {
-                    debugLog('❌ Status bar not found!');
+                const statusContent = statusBar.querySelector('span');
+                if (statusContent) {
+                    statusContent.textContent = message;
                 }
             }
         }
 
-        // Initialize when page loads
+        // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            debugLog('📄 DOM loaded, starting dashboard...');
-            try {
-                window.dashboard = new Dashboard();
-                debugLog('🎉 Dashboard created successfully!');
-            } catch (error) {
-                debugLog('💥 Error creating dashboard: ' + error.message);
-                console.error('Dashboard error:', error);
-            }
+            new Dashboard();
         });
-        
-        debugLog('📜 Script loaded - Ready to initialize');
     </script>
 </body>
 </html> 
