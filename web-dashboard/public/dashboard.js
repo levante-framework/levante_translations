@@ -100,7 +100,6 @@ class AudioDashboard {
         await this.loadData();
         this.setupEventListeners();
         this.createTabs();
-        this.displayStats();
         this.updateVoiceDropdowns();
         this.showIntroModal();
     }
@@ -982,31 +981,6 @@ class AudioDashboard {
 
         // Wrap in speak tags
         return `<speak>${ssml}</speak>`;
-    }
-
-    displayStats() {
-        const statsContainer = document.getElementById('statsContainer');
-        
-        // Sample statistics - in a real implementation, this would load from stats.csv
-        const stats = {
-            'English': { errors: 0, noTask: 0, voice: 'Alexandra' },
-            'Spanish': { errors: 2, noTask: 1, voice: 'Violeta' },
-            'German': { errors: 1, noTask: 0, voice: 'Anke' },
-            'French': { errors: 0, noTask: 1, voice: 'Ange' },
-            'Dutch': { errors: 1, noTask: 2, voice: 'Xander' }
-        };
-
-        Object.entries(stats).forEach(([language, data]) => {
-            const card = document.createElement('div');
-            card.className = 'stat-card';
-            card.innerHTML = `
-                <h3>${language}</h3>
-                <div class="stat-value">${data.errors}</div>
-                <p>Errors</p>
-                <small>Voice: ${data.voice}</small>
-            `;
-            statsContainer.appendChild(card);
-        });
     }
 
     showLoading(show) {
