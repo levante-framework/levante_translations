@@ -16,8 +16,8 @@
   ],
   "routes": [
     {
-      "src": "/comprehensive-voices.js",
-      "dest": "/comprehensive-voices.js"
+      "src": "/dashboard-clean.html",
+      "dest": "/dashboard-clean.html"
     },
     {
       "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico))",
@@ -25,7 +25,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/dashboard-clean.html"
     }
   ]
 } 
