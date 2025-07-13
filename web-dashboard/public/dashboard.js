@@ -21,6 +21,12 @@ class AudioDashboard {
         this.voiceCache = {};
         this.audioCache = {};
         this.selectedRow = null;
+        
+        // Track the most recently selected voice
+        this.lastSelectedVoice = {
+            service: null,
+            voiceId: null
+        };
 
         // API Configuration
         this.apiConfig = {
@@ -678,6 +684,10 @@ class AudioDashboard {
     async onVoiceSelect(service, voiceId) {
         if (!voiceId) return;
 
+        // Track the most recently selected voice
+        this.lastSelectedVoice.service = service;
+        this.lastSelectedVoice.voiceId = voiceId;
+
         const text = document.getElementById('ssmlEditor').value.trim();
         if (!text) {
             this.setStatus('Please enter text in the SSML editor');
@@ -889,7 +899,14 @@ class AudioDashboard {
             return;
         }
 
-        // Use the default voice for the current language
+        // Check if we have a recently selected voice
+        if (this.lastSelectedVoice.service && this.lastSelectedVoice.voiceId) {
+            // Use the most recently selected voice
+            await this.generateAndPlayAudio(this.lastSelectedVoice.service, this.lastSelectedVoice.voiceId, text);
+            return;
+        }
+
+        // Fallback to default voice for the current language if no voice has been selected
         const languageConfig = this.languages[this.currentLanguage];
         const service = languageConfig.service;
         const voiceName = languageConfig.voice;
@@ -907,7 +924,7 @@ class AudioDashboard {
         }
 
         if (!voiceId) {
-            this.setStatus('Default voice not found, please select a voice manually');
+            this.setStatus('Please select a voice from the dropdowns before playing SSML');
             return;
         }
 
