@@ -723,36 +723,48 @@ class AudioDashboard {
             throw new Error('PlayHT API credentials not configured');
         }
 
-        // Convert HTML to SSML and remove wrapper tags for PlayHT
-        let ssmlText = this.htmlToSSML(text);
-        if (ssmlText.startsWith('<speak>') && ssmlText.endsWith('</speak>')) {
-            ssmlText = ssmlText.slice(7, -8);
+        // Convert HTML to SSML for PlayHT
+        let processedText = this.htmlToSSML(text);
+        
+        // Determine language based on current language tab
+        let language = 'english'; // default
+        if (this.currentLanguage) {
+            const langCode = this.languages[this.currentLanguage]?.lang_code;
+            switch (langCode) {
+                case 'es-CO':
+                    language = 'spanish';
+                    break;
+                case 'de':
+                    language = 'german';
+                    break;
+                case 'fr-CA':
+                    language = 'french';
+                    break;
+                case 'nl':
+                    language = 'dutch';
+                    break;
+                default:
+                    language = 'english';
+            }
         }
-
+        
+        // PlayHT v1 API format - voice should be the full voice path
         const requestData = {
-            text: ssmlText,
-            voice: voiceId,
-            voice_engine: 'PlayDialog',
-            output_format: 'mp3',
-            sample_rate: 24000
+            model: 'PlayDialog',
+            text: processedText,
+            voice: `s3://voice-cloning-zero-shot/${voiceId}/manifest.json`,
+            outputFormat: 'mp3',
+            language: language
         };
 
-        // Add text_type if SSML tags are present
-        if (ssmlText.includes('<') && ssmlText.includes('>')) {
-            requestData.text_type = 'ssml';
-        }
-
         try {
-            // Use local CORS proxy instead of direct PlayHT API call
-            const proxyUrl = '/proxy/playht';
-            
-            const response = await fetch(proxyUrl, {
+            // Use PlayHT v1 API endpoint directly - should work with CORS
+            const response = await fetch('https://api.play.ai/api/v1/tts', {
                 method: 'POST',
                 headers: {
                     'AUTHORIZATION': this.apiConfig.playht.apiKey,
                     'X-USER-ID': this.apiConfig.playht.userId,
-                    'Content-Type': 'application/json',
-                    'Accept': 'audio/mpeg'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestData)
             });
@@ -762,16 +774,30 @@ class AudioDashboard {
                 console.error('PlayHT API error details:', {
                     status: response.status,
                     statusText: response.statusText,
-                    errorText
+                    errorText,
+                    requestData
                 });
                 throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
 
-            return await response.arrayBuffer();
+            const result = await response.json();
+            console.log('PlayHT API response:', result);
+            
+            // PlayHT v1 API returns a JSON response with audioUrl
+            if (result.audioUrl) {
+                // Fetch the actual audio data from the URL
+                const audioResponse = await fetch(result.audioUrl);
+                if (!audioResponse.ok) {
+                    throw new Error(`Failed to fetch audio from URL: ${audioResponse.status}`);
+                }
+                return await audioResponse.arrayBuffer();
+            } else {
+                throw new Error('No audio URL returned from PlayHT API');
+            }
         } catch (error) {
             console.error('PlayHT error:', error);
             if (error.message.includes('Failed to fetch')) {
-                throw new Error('Network error connecting to PlayHT API proxy. Make sure the CORS proxy server is running on port 8001.');
+                throw new Error('Network error connecting to PlayHT API. This might be a CORS issue or the API might be down.');
             }
             throw error;
         }
