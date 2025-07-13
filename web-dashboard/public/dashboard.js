@@ -21,6 +21,12 @@ class AudioDashboard {
         this.voiceCache = {};
         this.audioCache = {};
         this.selectedRow = null;
+        
+        // Track the most recently selected voice
+        this.lastSelectedVoice = {
+            service: null,
+            voiceId: null
+        };
 
         // API Configuration
         this.apiConfig = {
@@ -100,7 +106,6 @@ class AudioDashboard {
         await this.loadData();
         this.setupEventListeners();
         this.createTabs();
-        this.displayStats();
         this.updateVoiceDropdowns();
         this.showIntroModal();
     }
@@ -580,39 +585,37 @@ class AudioDashboard {
         // Use embedded voice lists instead of API calls to avoid CORS issues
         const playhtVoices = {
             'en': [
-                { id: 'adb83b67-8d75-48ff-ad4d-a0840d231ef1', name: 'Inara', language: 'en', gender: 'female' },
-                { id: '831bd330-85c6-4333-b2b4-10c476ea3491', name: 'Nia', language: 'en', gender: 'female' },
-                { id: '801a663f-efd0-4254-98d0-5c175514c3e8', name: 'Jennifer', language: 'en', gender: 'female' },
-                { id: '7c38b588-14e8-42b9-bacd-e03d1d673c3c', name: 'Nicole', language: 'en', gender: 'female' },
-                { id: '1f44b3e7-22ea-4c2e-87d0-b4d9c8f1d47d', name: 'Sophia', language: 'en', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json', name: 'Inara', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/831bd330-85c6-4333-b2b4-10c476ea3491/original/manifest.json', name: 'Nia', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c3e8/original/manifest.json', name: 'Jennifer', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/7c38b588-14e8-42b9-bacd-e03d1d673c3c/original/manifest.json', name: 'Nicole', language: 'en', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/1f44b3e7-22ea-4c2e-87d0-b4d9c8f1d47d/original/manifest.json', name: 'Sophia', language: 'en', gender: 'female' }
             ],
             'es-CO': [
-                { id: 'e0bf73c2-2b50-455a-8524-cc29de4360d1', name: 'Patricia Conversational', language: 'es-CO', gender: 'female' },
-                { id: '5694d5e5-2dfe-4440-8cc8-e2a69c3e7560', name: 'Patricia Narrative', language: 'es-CO', gender: 'female' },
-                { id: '4289181f-48fc-4c52-911f-6e769086eb98', name: 'Violeta Conversational', language: 'es-CO', gender: 'female' },
-                { id: '326c3793-b5b1-4ce3-a8ec-22c95d8553f0', name: 'Violeta Narrative', language: 'es-CO', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/5694d5e5-2dfe-4440-8cc8-e2a69c3e7560/original/manifest.json', name: 'Patricia Narrative', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/4289181f-48fc-4c52-911f-6e769086eb98/original/manifest.json', name: 'Violeta Conversational', language: 'es-CO', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es-CO', gender: 'female' }
             ],
             'es': [
-                { id: 'e0bf73c2-2b50-455a-8524-cc29de4360d1', name: 'Patricia Conversational', language: 'es', gender: 'female' },
-                { id: '326c3793-b5b1-4ce3-a8ec-22c95d8553f0', name: 'Violeta Narrative', language: 'es', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es', gender: 'female' }
             ],
             'de': [
-                { id: 'c1cb7f62-4a59-4593-b6c6-6b430892541d', name: 'Anke Conversational', language: 'de', gender: 'female' },
-                { id: '3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d', name: 'Anke Narrative', language: 'de', gender: 'female' },
-                { id: '4b5c6d7e-8f9a-1b2c-3d4e-5f6a7b8c9d0e', name: 'German_Anke Narrative', language: 'de', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/c1cb7f62-4a59-4593-b6c6-6b430892541d/original/manifest.json', name: 'Anke Conversational', language: 'de', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json', name: 'Anke Narrative', language: 'de', gender: 'female' }
             ],
             'fr-CA': [
-                { id: 'f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f', name: 'Ange Conversational', language: 'fr-CA', gender: 'female' },
-                { id: 'a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f', name: 'Ange Narrative', language: 'fr-CA', gender: 'female' },
-                { id: 'c2d3e4f5-a6b7-8c9d-0e1f-2a3b4c5d6e7f', name: 'French_Ange Narrative', language: 'fr-CA', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr-CA', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr-CA', gender: 'female' }
             ],
             'fr': [
-                { id: 'f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f', name: 'Ange Conversational', language: 'fr', gender: 'female' },
-                { id: 'a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f', name: 'Ange Narrative', language: 'fr', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr', gender: 'female' }
             ],
             'nl': [
-                { id: 'e8f7a6b5-c4d3-2e1f-0a9b-8c7d6e5f4a3b', name: 'Dutch Female 1', language: 'nl', gender: 'female' },
-                { id: 'b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e', name: 'Dutch Female 2', language: 'nl', gender: 'female' }
+                { id: 's3://voice-cloning-zero-shot/e8f7a6b5-c4d3-2e1f-0a9b-8c7d6e5f4a3b/original/manifest.json', name: 'Dutch Female 1', language: 'nl', gender: 'female' },
+                { id: 's3://voice-cloning-zero-shot/b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e/original/manifest.json', name: 'Dutch Female 2', language: 'nl', gender: 'female' }
             ]
         };
 
@@ -681,6 +684,10 @@ class AudioDashboard {
     async onVoiceSelect(service, voiceId) {
         if (!voiceId) return;
 
+        // Track the most recently selected voice
+        this.lastSelectedVoice.service = service;
+        this.lastSelectedVoice.voiceId = voiceId;
+
         const text = document.getElementById('ssmlEditor').value.trim();
         if (!text) {
             this.setStatus('Please enter text in the SSML editor');
@@ -723,14 +730,27 @@ class AudioDashboard {
             throw new Error('PlayHT API credentials not configured');
         }
 
-        // Convert HTML to SSML and remove wrapper tags for PlayHT
-        let ssmlText = this.htmlToSSML(text);
-        if (ssmlText.startsWith('<speak>') && ssmlText.endsWith('</speak>')) {
-            ssmlText = ssmlText.slice(7, -8);
-        }
+        // Debug: Log the credentials being used (first few and last few characters for security)
+        const maskedApiKey = this.apiConfig.playht.apiKey.length > 8 ? 
+            this.apiConfig.playht.apiKey.substring(0, 4) + '...' + this.apiConfig.playht.apiKey.substring(this.apiConfig.playht.apiKey.length - 4) :
+            this.apiConfig.playht.apiKey;
+        const maskedUserId = this.apiConfig.playht.userId.length > 8 ? 
+            this.apiConfig.playht.userId.substring(0, 4) + '...' + this.apiConfig.playht.userId.substring(this.apiConfig.playht.userId.length - 4) :
+            this.apiConfig.playht.userId;
+        
+        console.log('PlayHT API Credentials being used:', {
+            apiKey: maskedApiKey,
+            userId: maskedUserId,
+            fullApiKey: this.apiConfig.playht.apiKey, // Full key for debugging
+            fullUserId: this.apiConfig.playht.userId   // Full user ID for debugging
+        });
 
+        // Convert HTML to SSML for PlayHT
+        let processedText = this.htmlToSSML(text);
+        
+        // PlayHT v2 API format
         const requestData = {
-            text: ssmlText,
+            text: processedText,
             voice: voiceId,
             voice_engine: 'PlayDialog',
             output_format: 'mp3',
@@ -738,31 +758,60 @@ class AudioDashboard {
         };
 
         // Add text_type if SSML tags are present
-        if (ssmlText.includes('<') && ssmlText.includes('>')) {
+        if (processedText.includes('<') && processedText.includes('>')) {
             requestData.text_type = 'ssml';
         }
 
+        console.log('PlayHT API Request:', {
+            url: '/api/playht-proxy',
+            headers: {
+                'Authorization': this.apiConfig.playht.apiKey,
+                'X-USER-ID': this.apiConfig.playht.userId,
+                'Content-Type': 'application/json'
+            },
+            body: requestData
+        });
+
         try {
-            const response = await fetch(this.apiConfig.playht.apiUrl, {
+            // Use Vercel serverless function to proxy PlayHT API
+            const response = await fetch('/api/playht-proxy', {
                 method: 'POST',
                 headers: {
-                    'AUTHORIZATION': this.apiConfig.playht.apiKey,
+                    'Authorization': this.apiConfig.playht.apiKey,
                     'X-USER-ID': this.apiConfig.playht.userId,
-                    'Content-Type': 'application/json',
-                    'Accept': 'audio/mpeg'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestData)
             });
 
             if (!response.ok) {
-                throw new Error(`PlayHT API error: ${response.status} - ${response.statusText}`);
+                let errorText;
+                try {
+                    const errorData = await response.json();
+                    errorText = errorData.details || errorData.error || response.statusText;
+                } catch (e) {
+                    errorText = await response.text();
+                }
+                
+                console.error('PlayHT API error details:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorText,
+                    requestData,
+                    credentials: {
+                        apiKey: this.apiConfig.playht.apiKey,
+                        userId: this.apiConfig.playht.userId
+                    }
+                });
+                throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
 
+            // PlayHT v2 returns direct audio stream
             return await response.arrayBuffer();
         } catch (error) {
-            // Handle CORS errors specifically
-            if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
-                throw new Error('PlayHT API blocked by CORS policy. Please use the Python utilities for PlayHT audio generation, or try ElevenLabs voices which work from browsers.');
+            console.error('PlayHT error:', error);
+            if (error.message.includes('Failed to fetch')) {
+                throw new Error('Network error connecting to PlayHT API proxy. The serverless function may be down.');
             }
             throw error;
         }
@@ -850,7 +899,14 @@ class AudioDashboard {
             return;
         }
 
-        // Use the default voice for the current language
+        // Check if we have a recently selected voice
+        if (this.lastSelectedVoice.service && this.lastSelectedVoice.voiceId) {
+            // Use the most recently selected voice
+            await this.generateAndPlayAudio(this.lastSelectedVoice.service, this.lastSelectedVoice.voiceId, text);
+            return;
+        }
+
+        // Fallback to default voice for the current language if no voice has been selected
         const languageConfig = this.languages[this.currentLanguage];
         const service = languageConfig.service;
         const voiceName = languageConfig.voice;
@@ -868,7 +924,7 @@ class AudioDashboard {
         }
 
         if (!voiceId) {
-            this.setStatus('Default voice not found, please select a voice manually');
+            this.setStatus('Please select a voice from the dropdowns before playing SSML');
             return;
         }
 
@@ -942,31 +998,6 @@ class AudioDashboard {
 
         // Wrap in speak tags
         return `<speak>${ssml}</speak>`;
-    }
-
-    displayStats() {
-        const statsContainer = document.getElementById('statsContainer');
-        
-        // Sample statistics - in a real implementation, this would load from stats.csv
-        const stats = {
-            'English': { errors: 0, noTask: 0, voice: 'Alexandra' },
-            'Spanish': { errors: 2, noTask: 1, voice: 'Violeta' },
-            'German': { errors: 1, noTask: 0, voice: 'Anke' },
-            'French': { errors: 0, noTask: 1, voice: 'Ange' },
-            'Dutch': { errors: 1, noTask: 2, voice: 'Xander' }
-        };
-
-        Object.entries(stats).forEach(([language, data]) => {
-            const card = document.createElement('div');
-            card.className = 'stat-card';
-            card.innerHTML = `
-                <h3>${language}</h3>
-                <div class="stat-value">${data.errors}</div>
-                <p>Errors</p>
-                <small>Voice: ${data.voice}</small>
-            `;
-            statsContainer.appendChild(card);
-        });
     }
 
     showLoading(show) {
