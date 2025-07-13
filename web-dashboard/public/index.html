@@ -158,6 +158,31 @@
             transition: border-color 0.3s;
         }
 
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .task-filter {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .task-filter:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+        }
+
         .search-input:focus {
             outline: none;
             border-color: #4facfe;
@@ -599,12 +624,24 @@
                 </div>
             </div>
 
-            <!-- Search Section -->
+            <!-- Search and Filter Section -->
             <div class="controls-section">
                 <div class="control-group">
                     <label for="searchInput"><i class="fas fa-search"></i> Search Items:</label>
                     <div class="search-container">
                         <input type="text" id="searchInput" class="search-input" placeholder="Search by item ID or text content...">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="taskFilter"><i class="fas fa-filter"></i> Filter by Task:</label>
+                    <div class="filter-container">
+                        <select id="taskFilter" class="task-filter">
+                            <option value="">All Tasks</option>
+                            <!-- Task options will be populated by JavaScript -->
+                        </select>
+                        <button id="clearFilters" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </button>
                     </div>
                 </div>
             </div>

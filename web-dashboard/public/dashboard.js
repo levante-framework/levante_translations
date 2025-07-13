@@ -125,6 +125,9 @@ class AudioDashboard {
             this.data = await this.loadSampleData();
             console.log(`Loaded ${this.data.length} sample items`);
         }
+        
+        // Populate the task filter dropdown with available tasks
+        this.populateTaskFilter();
     }
 
     async loadTranslationData() {
@@ -373,6 +376,16 @@ class AudioDashboard {
             this.searchItems(e.target.value);
         });
 
+        // Task filter functionality
+        document.getElementById('taskFilter').addEventListener('change', (e) => {
+            this.filterByTask(e.target.value);
+        });
+
+        // Clear filters functionality
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            this.clearAllFilters();
+        });
+
         // Voice selection
         document.getElementById('playhtVoice').addEventListener('change', (e) => {
             this.onVoiceSelect('PlayHT', e.target.value);
@@ -526,18 +539,122 @@ class AudioDashboard {
 
     searchItems(query) {
         const tables = document.querySelectorAll('.data-table tbody');
+        const selectedTask = document.getElementById('taskFilter').value;
         
         tables.forEach(tbody => {
             const rows = tbody.querySelectorAll('tr');
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
-                if (text.includes(query.toLowerCase())) {
+                const taskCell = row.cells[1];
+                const taskText = taskCell ? taskCell.textContent.trim() : '';
+                
+                // Check both search query and task filter
+                const matchesSearch = !query || text.includes(query.toLowerCase());
+                const matchesTask = !selectedTask || taskText === selectedTask;
+                
+                if (matchesSearch && matchesTask) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
                 }
             });
         });
+        
+        // Update status with combined filter info
+        let statusMessage = '';
+        if (query && selectedTask) {
+            statusMessage = `Searching for "${query}" in task: ${selectedTask}`;
+        } else if (query) {
+            statusMessage = `Searching for "${query}"`;
+        } else if (selectedTask) {
+            const filteredCount = this.data.filter(item => item.labels === selectedTask).length;
+            statusMessage = `Filtered to ${filteredCount} items for task: ${selectedTask}`;
+        } else {
+            statusMessage = `Showing all ${this.data.length} items`;
+        }
+        this.setStatus(statusMessage);
+    }
+
+    populateTaskFilter() {
+        // Get unique task names from the data
+        const tasks = [...new Set(this.data.map(item => item.labels))].sort();
+        
+        const taskFilter = document.getElementById('taskFilter');
+        
+        // Clear existing options (keep the "All Tasks" option)
+        taskFilter.innerHTML = '<option value="">All Tasks</option>';
+        
+        // Add task options
+        tasks.forEach(task => {
+            if (task && task.trim()) {
+                const option = document.createElement('option');
+                option.value = task;
+                option.textContent = task;
+                taskFilter.appendChild(option);
+            }
+        });
+        
+        console.log(`Populated task filter with ${tasks.length} tasks`);
+    }
+
+    filterByTask(selectedTask) {
+        const tables = document.querySelectorAll('.data-table tbody');
+        const searchQuery = document.getElementById('searchInput').value;
+        
+        tables.forEach(tbody => {
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const taskCell = row.cells[1]; // Task is in the second column
+                const text = row.textContent.toLowerCase();
+                
+                if (taskCell) {
+                    const taskText = taskCell.textContent.trim();
+                    
+                    // Check both task filter and search query
+                    const matchesTask = !selectedTask || taskText === selectedTask;
+                    const matchesSearch = !searchQuery || text.includes(searchQuery.toLowerCase());
+                    
+                    if (matchesTask && matchesSearch) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+        
+        // Update status with combined filter info
+        let statusMessage = '';
+        if (searchQuery && selectedTask) {
+            statusMessage = `Searching for "${searchQuery}" in task: ${selectedTask}`;
+        } else if (searchQuery) {
+            statusMessage = `Searching for "${searchQuery}"`;
+        } else if (selectedTask) {
+            const filteredCount = this.data.filter(item => item.labels === selectedTask).length;
+            statusMessage = `Filtered to ${filteredCount} items for task: ${selectedTask}`;
+        } else {
+            statusMessage = `Showing all ${this.data.length} items`;
+        }
+        this.setStatus(statusMessage);
+    }
+
+    clearAllFilters() {
+        // Clear search input
+        document.getElementById('searchInput').value = '';
+        
+        // Reset task filter
+        document.getElementById('taskFilter').value = '';
+        
+        // Show all rows
+        const tables = document.querySelectorAll('.data-table tbody');
+        tables.forEach(tbody => {
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+        });
+        
+        this.setStatus(`Showing all ${this.data.length} items`);
     }
 
     async updateVoiceDropdowns() {
@@ -773,7 +890,7 @@ class AudioDashboard {
         });
 
         try {
-            // Use Vercel serverless function to proxy PlayHT API
+            // Use Vercel serverless function to proxy PlayHT API calls
             const response = await fetch('/api/playht-proxy', {
                 method: 'POST',
                 headers: {
