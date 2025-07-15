@@ -284,10 +284,16 @@ class AudioDashboard {
                         } else if (header === 'text') {
                             row.en = values[index];
                         } else if (header === 'es-CO') {
+                            // Keep both the original column name and simplified version
+                            row['es-CO'] = values[index];
                             row.es = values[index];
                         } else if (header === 'fr-CA') {
+                            // Keep both the original column name and simplified version
+                            row['fr-CA'] = values[index];
                             row.fr = values[index];
                         } else if (header === 'nl-NL') {
+                            // Keep both the original column name and simplified version
+                            row['nl-NL'] = values[index];
                             row.nl = values[index];
                         } else {
                             row[header] = values[index];
@@ -860,13 +866,12 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
-            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
-            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
+            'nl': ['Dutch', 'Dutch (NL)', 'nl']
         };
         
         // Get the possible language values for this language code
@@ -1015,40 +1020,46 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
-            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
-            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
+            'nl': ['Dutch', 'Dutch (NL)', 'nl']
         };
         
         // Get the possible language values for this language code
         const possibleLangs = langMapping[langCode] || [langCode];
         
         // Filter PlayHT voices for the requested language
-        let playhtVoices = allVoices.filter(voice => {
-            const isPlayHT = voice.service === 'PlayHT';
-            const matchesLang = possibleLangs.some(lang => 
-                voice.language === lang || 
-                voice.language_code === lang ||
-                voice.language_code === langCode ||
-                voice.language_code === langCode.split('-')[0]
-            );
-            return isPlayHT && matchesLang;
-        });
+        let playhtVoices = allVoices.filter(voice => 
+            voice.service === 'PlayHT' && 
+            langMapping[langCode] && langMapping[langCode].includes(voice.language_code)
+        );
         
         // Debug: Log PlayHT filtering results
-        console.log('DEBUG: PlayHT voices before filtering:', allVoices.filter(v => v.service === 'PlayHT').length);
+        console.log('DEBUG: PlayHT voices before filtering:', allVoices.filter(voice => voice.service === 'PlayHT').length);
+        console.log('DEBUG: Language mapping for', langCode, ':', langMapping[langCode]);
         console.log('DEBUG: PlayHT voices after language filtering:', playhtVoices.length);
-        console.log('DEBUG: PlayHT voices sample:', playhtVoices.slice(0, 3));
-        console.log('DEBUG: Looking for languages:', possibleLangs);
+        
+        // Special debugging for Spanish voices
+        if (langCode === 'es-CO') {
+            const spanishPlayHTVoices = allVoices.filter(voice => voice.service === 'PlayHT');
+            console.log('DEBUG: All PlayHT voices for Spanish debugging:', spanishPlayHTVoices.map(v => ({
+                name: v.name,
+                language_code: v.language_code,
+                service: v.service
+            })));
+        }
+        
+        console.log('DEBUG: PlayHT voices sample:', playhtVoices.slice(0, 3).map(v => ({
+            name: v.name,
+            language_code: v.language_code,
+            service: v.service
+        })));
         
         // Apply additional filters
         playhtVoices = this.filterVoices(playhtVoices, langCode);
-        
-        // Debug: Log final results
         console.log('DEBUG: PlayHT voices after all filters:', playhtVoices.length);
         
         // Cache the results
@@ -1069,13 +1080,12 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
-            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
-            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
+            'nl': ['Dutch', 'Dutch (NL)', 'nl']
         };
         
         // Get the possible language values for this language code
