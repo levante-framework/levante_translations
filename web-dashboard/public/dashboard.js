@@ -98,6 +98,16 @@ class AudioDashboard {
         const playhtUserId = localStorage.getItem('PLAY_DOT_HT_USER_ID') || '';
         const elevenlabsApiKey = localStorage.getItem('ELEVENLABS_API_KEY') || '';
 
+        // Debug: Show what credentials are being loaded
+        console.log('DEBUG: Loading credentials from localStorage:', {
+            playhtApiKey: playhtApiKey ? 'Present' : 'Missing',
+            playhtUserId: playhtUserId ? 'Present' : 'Missing',
+            elevenlabsApiKey: elevenlabsApiKey ? 'Present' : 'Missing',
+            playhtApiKeyLength: playhtApiKey.length,
+            playhtUserIdLength: playhtUserId.length,
+            elevenlabsApiKeyLength: elevenlabsApiKey.length
+        });
+
         // Update the API config silently
         this.apiConfig.playht.apiKey = playhtApiKey;
         this.apiConfig.playht.userId = playhtUserId;
@@ -386,6 +396,33 @@ class AudioDashboard {
             this.clearAllFilters();
         });
 
+        // Voice filter functionality
+        document.getElementById('ageFilter').addEventListener('change', () => {
+            this.applyVoiceFilters();
+        });
+        
+        document.getElementById('accentFilter').addEventListener('change', () => {
+            this.applyVoiceFilters();
+        });
+        
+        document.getElementById('styleFilter').addEventListener('change', () => {
+            this.applyVoiceFilters();
+        });
+        
+        document.getElementById('categoryFilter').addEventListener('change', () => {
+            this.applyVoiceFilters();
+        });
+
+        // Clear voice filters
+        document.getElementById('clearVoiceFilters').addEventListener('click', () => {
+            this.clearVoiceFilters();
+        });
+
+        // Show voice preview
+        document.getElementById('showVoicePreview').addEventListener('click', () => {
+            this.showVoicePreview();
+        });
+
         // Voice selection
         document.getElementById('playhtVoice').addEventListener('change', (e) => {
             this.onVoiceSelect('PlayHT', e.target.value);
@@ -642,7 +679,7 @@ class AudioDashboard {
         // Clear search input
         document.getElementById('searchInput').value = '';
         
-        // Reset task filter
+        // Clear task filter
         document.getElementById('taskFilter').value = '';
         
         // Show all rows
@@ -654,7 +691,171 @@ class AudioDashboard {
             });
         });
         
-        this.setStatus(`Showing all ${this.data.length} items`);
+        this.setStatus('Filters cleared', 'info');
+    }
+
+    applyVoiceFilters() {
+        const ageFilter = document.getElementById('ageFilter').value;
+        const accentFilter = document.getElementById('accentFilter').value;
+        const styleFilter = document.getElementById('styleFilter').value;
+        const categoryFilter = document.getElementById('categoryFilter').value;
+        
+        // Apply filters and update voice dropdowns
+        this.updateVoiceDropdowns();
+        
+        const activeFilters = [];
+        if (ageFilter) activeFilters.push(`Age: ${ageFilter}`);
+        if (accentFilter) activeFilters.push(`Accent: ${accentFilter}`);
+        if (styleFilter) activeFilters.push(`Style: ${styleFilter}`);
+        if (categoryFilter) activeFilters.push(`Category: ${categoryFilter}`);
+        
+        if (activeFilters.length > 0) {
+            this.setStatus(`Voice filters applied: ${activeFilters.join(', ')}`, 'info');
+        } else {
+            this.setStatus('Voice filters cleared', 'info');
+        }
+    }
+
+    clearVoiceFilters() {
+        document.getElementById('ageFilter').value = '';
+        document.getElementById('accentFilter').value = '';
+        document.getElementById('styleFilter').value = '';
+        document.getElementById('categoryFilter').value = '';
+        
+        this.applyVoiceFilters();
+    }
+
+    async showVoicePreview() {
+        const langCode = this.languages[this.currentLanguage].lang_code;
+        const allVoices = await this.loadComprehensiveVoices();
+        
+        // Filter voices by current language and applied filters
+        const filteredVoices = this.filterVoices(allVoices, langCode);
+        
+        // Show modal
+        const modal = document.getElementById('voicePreviewModal');
+        const grid = document.getElementById('voicePreviewGrid');
+        
+        // Clear existing content
+        grid.innerHTML = '';
+        
+        // Create voice cards
+        filteredVoices.forEach(voice => {
+            const card = this.createVoiceCard(voice);
+            grid.appendChild(card);
+        });
+        
+        modal.style.display = 'block';
+        this.setStatus(`Showing ${filteredVoices.length} voices for ${this.currentLanguage}`, 'info');
+    }
+
+    filterVoices(voices, langCode) {
+        const ageFilter = document.getElementById('ageFilter').value;
+        const accentFilter = document.getElementById('accentFilter').value;
+        const styleFilter = document.getElementById('styleFilter').value;
+        const categoryFilter = document.getElementById('categoryFilter').value;
+        
+        // Create a mapping from standard language codes to CSV language formats
+        const langMapping = {
+            'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'de': ['German', 'German (DE)', 'de'],
+            'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
+            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
+        };
+        
+        // Get the possible language values for this language code
+        const possibleLangs = langMapping[langCode] || [langCode];
+        
+        return voices.filter(voice => {
+            // Language filter - check if voice matches any of the possible language formats
+            const matchesLang = possibleLangs.some(lang => 
+                voice.language === lang || 
+                voice.language_code === lang ||
+                voice.language_code === langCode ||
+                voice.language_code === langCode.split('-')[0]
+            );
+            
+            if (!matchesLang) {
+                return false;
+            }
+            
+            // Age filter
+            if (ageFilter && voice.age !== ageFilter) {
+                return false;
+            }
+            
+            // Accent filter
+            if (accentFilter && voice.accent !== accentFilter) {
+                return false;
+            }
+            
+            // Style filter
+            if (styleFilter && voice.style !== styleFilter && voice.voice_type !== styleFilter) {
+                return false;
+            }
+            
+            // Category filter
+            if (categoryFilter && voice.category !== categoryFilter) {
+                return false;
+            }
+            
+            return true;
+        });
+    }
+
+    createVoiceCard(voice) {
+        const card = document.createElement('div');
+        card.className = 'voice-card';
+        
+        const serviceBadge = voice.service === 'ElevenLabs' ? 
+            '<span style="background: #6c5ce7; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">ElevenLabs</span>' :
+            '<span style="background: #00b894; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">PlayHT</span>';
+        
+        card.innerHTML = `
+            <h4>${voice.display_name || voice.name} ${serviceBadge}</h4>
+            <div class="voice-details">
+                ${voice.gender ? `Gender: ${voice.gender}` : ''}
+                ${voice.age ? ` • Age: ${voice.age}` : ''}
+                ${voice.accent ? ` • Accent: ${voice.accent}` : ''}
+                ${voice.style || voice.voice_type ? ` • Style: ${voice.style || voice.voice_type}` : ''}
+                ${voice.category ? ` • Category: ${voice.category}` : ''}
+            </div>
+            ${voice.description ? `<p style="font-size: 12px; color: #888; margin: 5px 0;">${voice.description}</p>` : ''}
+            ${voice.sample_url ? `
+                <div class="voice-sample">
+                    <audio controls preload="none">
+                        <source src="${voice.sample_url}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            ` : ''}
+            <button class="select-voice-btn" onclick="dashboard.selectVoiceFromPreview('${voice.service}', '${voice.voice_id || voice.id}')">
+                Select This Voice
+            </button>
+        `;
+        
+        return card;
+    }
+
+    selectVoiceFromPreview(service, voiceId) {
+        // Set the voice in the appropriate dropdown
+        const dropdown = service === 'ElevenLabs' ? 
+            document.getElementById('elevenlabsVoice') : 
+            document.getElementById('playhtVoice');
+        
+        dropdown.value = voiceId;
+        
+        // Close the modal
+        document.getElementById('voicePreviewModal').style.display = 'none';
+        
+        // Generate audio with the selected voice
+        this.onVoiceSelect(service, voiceId);
+        
+        this.setStatus(`Selected ${service} voice`, 'success');
     }
 
     async updateVoiceDropdowns() {
@@ -678,8 +879,9 @@ class AudioDashboard {
             playhtSelect.innerHTML = '<option value="">Select PlayHT Voice...</option>';
             playhtVoices.forEach(voice => {
                 const option = document.createElement('option');
-                option.value = voice.id;
-                option.textContent = voice.name;
+                option.value = voice.voice_id || voice.id;
+                option.textContent = `${voice.display_name || voice.name}${voice.accent ? ` (${voice.accent})` : ''}${voice.age ? ` - ${voice.age}` : ''}`;
+                option.title = voice.description || voice.name;
                 playhtSelect.appendChild(option);
             });
 
@@ -687,8 +889,9 @@ class AudioDashboard {
             elevenlabsSelect.innerHTML = '<option value="">Select ElevenLabs Voice...</option>';
             elevenlabsVoices.forEach(voice => {
                 const option = document.createElement('option');
-                option.value = voice.voice_id;
-                option.textContent = voice.name;
+                option.value = voice.voice_id || voice.id;
+                option.textContent = `${voice.display_name || voice.name}${voice.accent ? ` (${voice.accent})` : ''}${voice.age ? ` - ${voice.age}` : ''}`;
+                option.title = voice.description || voice.name;
                 elevenlabsSelect.appendChild(option);
             });
 
@@ -699,97 +902,176 @@ class AudioDashboard {
     }
 
     async getPlayHTVoices(langCode) {
-        // Use embedded voice lists instead of API calls to avoid CORS issues
-        const playhtVoices = {
-            'en': [
-                { id: 's3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json', name: 'Inara', language: 'en', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/831bd330-85c6-4333-b2b4-10c476ea3491/original/manifest.json', name: 'Nia', language: 'en', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/801a663f-efd0-4254-98d0-5c175514c3e8/original/manifest.json', name: 'Jennifer', language: 'en', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/7c38b588-14e8-42b9-bacd-e03d1d673c3c/original/manifest.json', name: 'Nicole', language: 'en', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/1f44b3e7-22ea-4c2e-87d0-b4d9c8f1d47d/original/manifest.json', name: 'Sophia', language: 'en', gender: 'female' }
-            ],
-            'es-CO': [
-                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es-CO', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/5694d5e5-2dfe-4440-8cc8-e2a69c3e7560/original/manifest.json', name: 'Patricia Narrative', language: 'es-CO', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/4289181f-48fc-4c52-911f-6e769086eb98/original/manifest.json', name: 'Violeta Conversational', language: 'es-CO', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es-CO', gender: 'female' }
-            ],
-            'es': [
-                { id: 's3://voice-cloning-zero-shot/e0bf73c2-2b50-455a-8524-cc29de4360d1/original/manifest.json', name: 'Patricia Conversational', language: 'es', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language: 'es', gender: 'female' }
-            ],
-            'de': [
-                { id: 's3://voice-cloning-zero-shot/c1cb7f62-4a59-4593-b6c6-6b430892541d/original/manifest.json', name: 'Anke Conversational', language: 'de', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json', name: 'Anke Narrative', language: 'de', gender: 'female' }
-            ],
-            'fr-CA': [
-                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr-CA', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr-CA', gender: 'female' }
-            ],
-            'fr': [
-                { id: 's3://voice-cloning-zero-shot/f1e2d3c4-b5a6-9c8d-7e6f-5a4b3c2d1e0f/original/manifest.json', name: 'Ange Conversational', language: 'fr', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/a9b8c7d6-e5f4-3c2b-1a0f-9e8d7c6b5a4f/original/manifest.json', name: 'Ange Narrative', language: 'fr', gender: 'female' }
-            ],
-            'nl': [
-                { id: 's3://voice-cloning-zero-shot/e8f7a6b5-c4d3-2e1f-0a9b-8c7d6e5f4a3b/original/manifest.json', name: 'Dutch Female 1', language: 'nl', gender: 'female' },
-                { id: 's3://voice-cloning-zero-shot/b3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e/original/manifest.json', name: 'Dutch Female 2', language: 'nl', gender: 'female' }
-            ]
+        // Load comprehensive voice data
+        const allVoices = await this.loadComprehensiveVoices();
+        
+        // Debug: Log the language code and first few voices
+        console.log('DEBUG: Getting PlayHT voices for language:', langCode);
+        console.log('DEBUG: Total voices loaded:', allVoices.length);
+        console.log('DEBUG: First 3 voices:', allVoices.slice(0, 3));
+        
+        // Create a mapping from standard language codes to CSV language formats
+        const langMapping = {
+            'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'de': ['German', 'German (DE)', 'de'],
+            'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
+            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
         };
-
-        // Return voices for the requested language, fallback to simplified language code
-        const voices = playhtVoices[langCode] || playhtVoices[langCode.split('-')[0]] || [];
+        
+        // Get the possible language values for this language code
+        const possibleLangs = langMapping[langCode] || [langCode];
+        
+        // Filter PlayHT voices for the requested language
+        let playhtVoices = allVoices.filter(voice => {
+            const isPlayHT = voice.service === 'PlayHT';
+            const matchesLang = possibleLangs.some(lang => 
+                voice.language === lang || 
+                voice.language_code === lang ||
+                voice.language_code === langCode ||
+                voice.language_code === langCode.split('-')[0]
+            );
+            return isPlayHT && matchesLang;
+        });
+        
+        // Debug: Log PlayHT filtering results
+        console.log('DEBUG: PlayHT voices before filtering:', allVoices.filter(v => v.service === 'PlayHT').length);
+        console.log('DEBUG: PlayHT voices after language filtering:', playhtVoices.length);
+        console.log('DEBUG: PlayHT voices sample:', playhtVoices.slice(0, 3));
+        console.log('DEBUG: Looking for languages:', possibleLangs);
+        
+        // Apply additional filters
+        playhtVoices = this.filterVoices(playhtVoices, langCode);
+        
+        // Debug: Log final results
+        console.log('DEBUG: PlayHT voices after all filters:', playhtVoices.length);
         
         // Cache the results
         const cacheKey = `playht_${langCode}`;
-        this.voiceCache[cacheKey] = voices;
+        this.voiceCache[cacheKey] = playhtVoices;
         
-        return voices;
+        return playhtVoices;
     }
 
     async getElevenLabsVoices(langCode) {
-        // Use embedded voice lists instead of API calls to avoid CORS issues
-        const elevenlabsVoices = {
-            'en': [
-                { voice_id: 'kdmDKE6EkgrWrrykO9Qt', name: 'Alexandra - Conversational and Real', language: 'en', gender: 'female' },
-                { voice_id: 'y2TOWGCXSYEgBanvKsYJ', name: 'Aunt Annie', language: 'en', gender: 'female' },
-                { voice_id: 'XrExE9yKIg1WjnnlVkGZ', name: 'Matilda', language: 'en', gender: 'female' },
-                { voice_id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', language: 'en', gender: 'female' },
-                { voice_id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Elli', language: 'en', gender: 'female' }
-            ],
-            'es-CO': [
-                { voice_id: 'm7yTemJqdIqrcNleANfX', name: 'Ana María - Calm & natural neutral Spanish', language: 'es-CO', gender: 'female' },
-                { voice_id: 'VBmCZpOLbAT9F8rUdK7k', name: 'Spanish Female Voice', language: 'es-CO', gender: 'female' }
-            ],
-            'es': [
-                { voice_id: 'm7yTemJqdIqrcNleANfX', name: 'Ana María - Calm & natural neutral Spanish', language: 'es', gender: 'female' }
-            ],
-            'de': [
-                { voice_id: 'v3V1d2rk6528UrLKRuy8', name: 'Susi', language: 'de', gender: 'female' },
-                { voice_id: 'AnvlJBAqSLDzEevYr9Ap', name: 'Ava', language: 'de', gender: 'female' },
-                { voice_id: 'D4BIjjCRFRZhH8fGOzGP', name: 'German Female Voice', language: 'de', gender: 'female' }
-            ],
-            'fr-CA': [
-                { voice_id: 'kwhMCf63M8O3rCfnQ3oQ', name: 'Caroline - Top France - Narrative, warm, sweet', language: 'fr-CA', gender: 'female' },
-                { voice_id: 'xNtG3W2oqJs0cJZuTyBc', name: 'Chloé', language: 'fr-CA', gender: 'female' }
-            ],
-            'fr': [
-                { voice_id: 'kwhMCf63M8O3rCfnQ3oQ', name: 'Caroline - Top France - Narrative, warm, sweet', language: 'fr', gender: 'female' },
-                { voice_id: 'xNtG3W2oqJs0cJZuTyBc', name: 'Chloé', language: 'fr', gender: 'female' }
-            ],
-            'nl': [
-                { voice_id: 'OlBRrVAItyi00MuGMbna', name: 'Emma - Natural conversations in Dutch', language: 'nl', gender: 'female' },
-                { voice_id: 'BmGJM2HQCL8H5KfGOzGP', name: 'Dutch Female Voice', language: 'nl', gender: 'female' }
-            ]
+        // Load comprehensive voice data
+        const allVoices = await this.loadComprehensiveVoices();
+        
+        // Create a mapping from standard language codes to CSV language formats
+        const langMapping = {
+            'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'de': ['German', 'German (DE)', 'de'],
+            'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
+            'nl': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl'],
+            'nl-NL': ['Dutch', 'Dutch (NL)', 'Dutch (BE)', 'nl']
         };
-
-        // Return voices for the requested language, fallback to simplified language code
-        const voices = elevenlabsVoices[langCode] || elevenlabsVoices[langCode.split('-')[0]] || [];
+        
+        // Get the possible language values for this language code
+        const possibleLangs = langMapping[langCode] || [langCode];
+        
+        // Filter ElevenLabs voices for the requested language
+        let elevenlabsVoices = allVoices.filter(voice => {
+            const isElevenLabs = voice.service === 'ElevenLabs';
+            const matchesLang = possibleLangs.some(lang => 
+                voice.language === lang || 
+                voice.language_code === lang ||
+                voice.language_code === langCode ||
+                voice.language_code === langCode.split('-')[0]
+            );
+            return isElevenLabs && matchesLang;
+        });
+        
+        // Apply additional filters
+        elevenlabsVoices = this.filterVoices(elevenlabsVoices, langCode);
         
         // Cache the results
         const cacheKey = `elevenlabs_${langCode}`;
-        this.voiceCache[cacheKey] = voices;
+        this.voiceCache[cacheKey] = elevenlabsVoices;
         
-        return voices;
+        return elevenlabsVoices;
+    }
+
+    async loadComprehensiveVoices() {
+        // Check cache first
+        if (this.comprehensiveVoices) {
+            return this.comprehensiveVoices;
+        }
+
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/levante-framework/levante_translations/main/comprehensive_female_voices_20250712_133241.csv');
+            const csvText = await response.text();
+            
+            // Parse CSV
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(',');
+            const voices = [];
+            
+            console.log('DEBUG: CSV headers:', headers);
+            console.log('DEBUG: Total CSV lines:', lines.length);
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line) {
+                    const values = this.parseCSVLine(line);
+                    if (values.length >= headers.length) {
+                        const voice = {};
+                        headers.forEach((header, index) => {
+                            voice[header.trim()] = values[index] ? values[index].trim() : '';
+                        });
+                        
+                        // Standardize the data format
+                        voice.voice_id = voice.id; // ElevenLabs format
+                        voice.display_name = voice.name;
+                        voices.push(voice);
+                        
+                        // Debug: Log first few voices
+                        if (i <= 5) {
+                            console.log(`DEBUG: Voice ${i}:`, voice);
+                        }
+                    }
+                }
+            }
+            
+            this.comprehensiveVoices = voices;
+            console.log(`Loaded ${voices.length} comprehensive voices`);
+            
+            // Debug: Count voices by service
+            const serviceCount = {};
+            voices.forEach(voice => {
+                serviceCount[voice.service] = (serviceCount[voice.service] || 0) + 1;
+            });
+            console.log('DEBUG: Voices by service:', serviceCount);
+            
+            return voices;
+            
+        } catch (error) {
+            console.error('Error loading comprehensive voices:', error);
+            // Fallback to embedded voices if CSV loading fails
+            return this.getFallbackVoices();
+        }
+    }
+
+    getFallbackVoices() {
+        // Fallback to the original embedded voice data
+        return [
+            // PlayHT voices
+            { service: 'PlayHT', id: 's3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json', name: 'Inara', language_code: 'en', gender: 'female', voice_id: 's3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json', display_name: 'Inara' },
+            { service: 'PlayHT', id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', name: 'Violeta Narrative', language_code: 'es-CO', gender: 'female', voice_id: 's3://voice-cloning-zero-shot/326c3793-b5b1-4ce3-a8ec-22c95d8553f0/original/manifest.json', display_name: 'Violeta Narrative' },
+            { service: 'PlayHT', id: 's3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json', name: 'Anke Narrative', language_code: 'de', gender: 'female', voice_id: 's3://voice-cloning-zero-shot/2f91566e-215a-4234-96e2-60acf07fed5e/original/manifest.json', display_name: 'Anke Narrative' },
+            
+            // ElevenLabs voices
+            { service: 'ElevenLabs', id: 'kdmDKE6EkgrWrrykO9Qt', name: 'Alexandra - Conversational and Real', language_code: 'en', gender: 'female', voice_id: 'kdmDKE6EkgrWrrykO9Qt', display_name: 'Alexandra - Conversational and Real' },
+            { service: 'ElevenLabs', id: 'm7yTemJqdIqrcNleANfX', name: 'Ana María - Calm & natural neutral Spanish', language_code: 'es', gender: 'female', voice_id: 'm7yTemJqdIqrcNleANfX', display_name: 'Ana María - Calm & natural neutral Spanish' },
+            { service: 'ElevenLabs', id: 'v3V1d2rk6528UrLKRuy8', name: 'Susi', language_code: 'de', gender: 'female', voice_id: 'v3V1d2rk6528UrLKRuy8', display_name: 'Susi' },
+            { service: 'ElevenLabs', id: 'kwhMCf63M8O3rCfnQ3oQ', name: 'Caroline - Top France - Narrative, warm, sweet', language_code: 'fr', gender: 'female', voice_id: 'kwhMCf63M8O3rCfnQ3oQ', display_name: 'Caroline - Top France - Narrative, warm, sweet' },
+            { service: 'ElevenLabs', id: 'OlBRrVAItyi00MuGMbna', name: 'Emma - Natural conversations in Dutch', language_code: 'nl', gender: 'female', voice_id: 'OlBRrVAItyi00MuGMbna', display_name: 'Emma - Natural conversations in Dutch' }
+        ];
     }
 
     async refreshVoices() {
@@ -843,8 +1125,16 @@ class AudioDashboard {
     }
 
     async generatePlayHTAudio(voiceId, text) {
+        // Debug: Check credentials
+        console.log('DEBUG: PlayHT credentials check:', {
+            apiKey: this.apiConfig.playht.apiKey ? 'Present' : 'Missing',
+            userId: this.apiConfig.playht.userId ? 'Present' : 'Missing',
+            apiKeyLength: this.apiConfig.playht.apiKey?.length || 0,
+            userIdLength: this.apiConfig.playht.userId?.length || 0
+        });
+
         if (!this.apiConfig.playht.apiKey || !this.apiConfig.playht.userId) {
-            throw new Error('PlayHT API credentials not configured');
+            throw new Error('PlayHT API credentials not configured. Please enter your API key and User ID in the settings.');
         }
 
         // Debug: Log the credentials being used (first few and last few characters for security)
@@ -858,8 +1148,7 @@ class AudioDashboard {
         console.log('PlayHT API Credentials being used:', {
             apiKey: maskedApiKey,
             userId: maskedUserId,
-            fullApiKey: this.apiConfig.playht.apiKey, // Full key for debugging
-            fullUserId: this.apiConfig.playht.userId   // Full user ID for debugging
+            voiceId: voiceId
         });
 
         // Convert HTML to SSML for PlayHT
@@ -882,8 +1171,8 @@ class AudioDashboard {
         console.log('PlayHT API Request:', {
             url: '/api/playht-proxy',
             headers: {
-                'Authorization': this.apiConfig.playht.apiKey,
-                'X-USER-ID': this.apiConfig.playht.userId,
+                'Authorization': maskedApiKey,
+                'X-USER-ID': maskedUserId,
                 'Content-Type': 'application/json'
             },
             body: requestData
@@ -916,8 +1205,8 @@ class AudioDashboard {
                     errorText,
                     requestData,
                     credentials: {
-                        apiKey: this.apiConfig.playht.apiKey,
-                        userId: this.apiConfig.playht.userId
+                        apiKey: maskedApiKey,
+                        userId: maskedUserId
                     }
                 });
                 throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
@@ -935,8 +1224,14 @@ class AudioDashboard {
     }
 
     async generateElevenLabsAudio(voiceId, text) {
+        // Debug: Check credentials
+        console.log('DEBUG: ElevenLabs credentials check:', {
+            apiKey: this.apiConfig.elevenlabs.apiKey ? 'Present' : 'Missing',
+            apiKeyLength: this.apiConfig.elevenlabs.apiKey?.length || 0
+        });
+
         if (!this.apiConfig.elevenlabs.apiKey) {
-            throw new Error('ElevenLabs API key not configured');
+            throw new Error('ElevenLabs API key not configured. Please enter your API key in the settings.');
         }
 
         // Debug logging
@@ -1163,7 +1458,11 @@ function closeCredentialsModal() {
     document.getElementById('credentialsModal').style.display = 'none';
 }
 
-// Initialize the dashboard when the page loads
+function closeVoicePreviewModal() {
+    document.getElementById('voicePreviewModal').style.display = 'none';
+}
+
+// Initialize dashboard when page loads
 let dashboard;
 document.addEventListener('DOMContentLoaded', () => {
     dashboard = new AudioDashboard();
