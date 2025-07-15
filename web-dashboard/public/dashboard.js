@@ -61,17 +61,28 @@ class AudioDashboard {
             elevenlabsApiKey: document.getElementById('elevenlabsApiKey').value
         };
 
-        // Save to localStorage
+        // Save to localStorage with multiple backup keys
         localStorage.setItem('PLAY_DOT_HT_API_KEY', credentials.playhtApiKey);
+        localStorage.setItem('playht_api_key', credentials.playhtApiKey);
         localStorage.setItem('PLAY_DOT_HT_USER_ID', credentials.playhtUserId);
+        localStorage.setItem('playht_user_id', credentials.playhtUserId);
         localStorage.setItem('ELEVENLABS_API_KEY', credentials.elevenlabsApiKey);
+        localStorage.setItem('elevenlabs_api_key', credentials.elevenlabsApiKey);
+
+        // Also save to sessionStorage as backup
+        sessionStorage.setItem('PLAY_DOT_HT_API_KEY', credentials.playhtApiKey);
+        sessionStorage.setItem('PLAY_DOT_HT_USER_ID', credentials.playhtUserId);
+        sessionStorage.setItem('ELEVENLABS_API_KEY', credentials.elevenlabsApiKey);
 
         // Update the API config
         this.apiConfig.playht.apiKey = credentials.playhtApiKey;
         this.apiConfig.playht.userId = credentials.playhtUserId;
         this.apiConfig.elevenlabs.apiKey = credentials.elevenlabsApiKey;
 
-        this.setStatus('Credentials saved successfully!', 'success');
+        // Ensure backup is current
+        this.backupCredentials();
+
+        this.setStatus('Credentials saved successfully with backup storage!', 'success');
         
         // Close the modal
         document.getElementById('credentialsModal').style.display = 'none';
@@ -93,10 +104,27 @@ class AudioDashboard {
     }
 
     async init() {
-        // Load credentials silently on startup
-        const playhtApiKey = localStorage.getItem('PLAY_DOT_HT_API_KEY') || '';
-        const playhtUserId = localStorage.getItem('PLAY_DOT_HT_USER_ID') || '';
-        const elevenlabsApiKey = localStorage.getItem('ELEVENLABS_API_KEY') || '';
+        // Load credentials silently on startup with backup recovery
+        let playhtApiKey = localStorage.getItem('PLAY_DOT_HT_API_KEY') || '';
+        let playhtUserId = localStorage.getItem('PLAY_DOT_HT_USER_ID') || '';
+        let elevenlabsApiKey = localStorage.getItem('ELEVENLABS_API_KEY') || '';
+
+        // Backup credential recovery - try alternative storage keys
+        if (!playhtApiKey) {
+            playhtApiKey = localStorage.getItem('playht_api_key') || 
+                          localStorage.getItem('PLAYHT_API_KEY') || 
+                          sessionStorage.getItem('PLAY_DOT_HT_API_KEY') || '';
+        }
+        if (!playhtUserId) {
+            playhtUserId = localStorage.getItem('playht_user_id') || 
+                          localStorage.getItem('PLAYHT_USER_ID') || 
+                          sessionStorage.getItem('PLAY_DOT_HT_USER_ID') || '';
+        }
+        if (!elevenlabsApiKey) {
+            elevenlabsApiKey = localStorage.getItem('elevenlabs_api_key') || 
+                              localStorage.getItem('ELEVEN_LABS_API_KEY') || 
+                              sessionStorage.getItem('ELEVENLABS_API_KEY') || '';
+        }
 
         // Debug: Show what credentials are being loaded
         console.log('DEBUG: Loading credentials from localStorage:', {
@@ -112,12 +140,82 @@ class AudioDashboard {
         this.apiConfig.playht.apiKey = playhtApiKey;
         this.apiConfig.playht.userId = playhtUserId;
         this.apiConfig.elevenlabs.apiKey = elevenlabsApiKey;
+
+        // Ensure credentials are backed up in multiple locations
+        this.backupCredentials();
         
         await this.loadData();
         this.setupEventListeners();
         this.createTabs();
         this.updateVoiceDropdowns();
         this.showIntroModal();
+    }
+
+    // Backup credentials to multiple storage locations
+    backupCredentials() {
+        if (this.apiConfig.playht.apiKey) {
+            localStorage.setItem('PLAY_DOT_HT_API_KEY', this.apiConfig.playht.apiKey);
+            localStorage.setItem('playht_api_key', this.apiConfig.playht.apiKey);
+            sessionStorage.setItem('PLAY_DOT_HT_API_KEY', this.apiConfig.playht.apiKey);
+        }
+        if (this.apiConfig.playht.userId) {
+            localStorage.setItem('PLAY_DOT_HT_USER_ID', this.apiConfig.playht.userId);
+            localStorage.setItem('playht_user_id', this.apiConfig.playht.userId);
+            sessionStorage.setItem('PLAY_DOT_HT_USER_ID', this.apiConfig.playht.userId);
+        }
+        if (this.apiConfig.elevenlabs.apiKey) {
+            localStorage.setItem('ELEVENLABS_API_KEY', this.apiConfig.elevenlabs.apiKey);
+            localStorage.setItem('elevenlabs_api_key', this.apiConfig.elevenlabs.apiKey);
+            sessionStorage.setItem('ELEVENLABS_API_KEY', this.apiConfig.elevenlabs.apiKey);
+        }
+    }
+
+    // Recover credentials from backup storage locations
+    recoverCredentials() {
+        let recovered = false;
+        
+        // Try to recover PlayHT API Key
+        let playhtApiKey = localStorage.getItem('PLAY_DOT_HT_API_KEY') || 
+                          localStorage.getItem('playht_api_key') || 
+                          localStorage.getItem('PLAYHT_API_KEY') || 
+                          sessionStorage.getItem('PLAY_DOT_HT_API_KEY') || '';
+        
+        // Try to recover PlayHT User ID
+        let playhtUserId = localStorage.getItem('PLAY_DOT_HT_USER_ID') || 
+                          localStorage.getItem('playht_user_id') || 
+                          localStorage.getItem('PLAYHT_USER_ID') || 
+                          sessionStorage.getItem('PLAY_DOT_HT_USER_ID') || '';
+        
+        // Try to recover ElevenLabs API Key
+        let elevenlabsApiKey = localStorage.getItem('ELEVENLABS_API_KEY') || 
+                              localStorage.getItem('elevenlabs_api_key') || 
+                              localStorage.getItem('ELEVEN_LABS_API_KEY') || 
+                              sessionStorage.getItem('ELEVENLABS_API_KEY') || '';
+
+        // Update the form fields
+        if (playhtApiKey) {
+            document.getElementById('playhtApiKey').value = playhtApiKey;
+            this.apiConfig.playht.apiKey = playhtApiKey;
+            recovered = true;
+        }
+        if (playhtUserId) {
+            document.getElementById('playhtUserId').value = playhtUserId;
+            this.apiConfig.playht.userId = playhtUserId;
+            recovered = true;
+        }
+        if (elevenlabsApiKey) {
+            document.getElementById('elevenlabsApiKey').value = elevenlabsApiKey;
+            this.apiConfig.elevenlabs.apiKey = elevenlabsApiKey;
+            recovered = true;
+        }
+
+        if (recovered) {
+            this.setStatus('Credentials recovered successfully!', 'success');
+            // Ensure they're backed up again
+            this.backupCredentials();
+        } else {
+            this.setStatus('No credentials found to recover.', 'error');
+        }
     }
 
     async loadData() {
@@ -375,6 +473,10 @@ class AudioDashboard {
 
         document.getElementById('saveCredentials').addEventListener('click', () => {
             this.saveCredentials();
+        });
+
+        document.getElementById('recoverCredentials').addEventListener('click', () => {
+            this.recoverCredentials();
         });
 
         document.getElementById('clearCredentials').addEventListener('click', () => {
@@ -960,6 +1062,10 @@ class AudioDashboard {
         // Load comprehensive voice data
         const allVoices = await this.loadComprehensiveVoices();
         
+        // Debug: Log the language code and first few voices
+        console.log('DEBUG: Getting ElevenLabs voices for language:', langCode);
+        console.log('DEBUG: Total voices loaded:', allVoices.length);
+        
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
@@ -975,6 +1081,10 @@ class AudioDashboard {
         // Get the possible language values for this language code
         const possibleLangs = langMapping[langCode] || [langCode];
         
+        // Debug: Log ElevenLabs filtering results
+        console.log('DEBUG: ElevenLabs voices before filtering:', allVoices.filter(v => v.service === 'ElevenLabs').length);
+        console.log('DEBUG: Looking for languages:', possibleLangs);
+        
         // Filter ElevenLabs voices for the requested language
         let elevenlabsVoices = allVoices.filter(voice => {
             const isElevenLabs = voice.service === 'ElevenLabs';
@@ -987,8 +1097,15 @@ class AudioDashboard {
             return isElevenLabs && matchesLang;
         });
         
+        // Debug: Log ElevenLabs filtering results
+        console.log('DEBUG: ElevenLabs voices after language filtering:', elevenlabsVoices.length);
+        console.log('DEBUG: ElevenLabs voices sample:', elevenlabsVoices.slice(0, 3));
+        
         // Apply additional filters
         elevenlabsVoices = this.filterVoices(elevenlabsVoices, langCode);
+        
+        // Debug: Log final results
+        console.log('DEBUG: ElevenLabs voices after all filters:', elevenlabsVoices.length);
         
         // Cache the results
         const cacheKey = `elevenlabs_${langCode}`;
@@ -1408,8 +1525,9 @@ class AudioDashboard {
             .replace(/<\s*br\s*\/?>/g, '<break time="400ms"/>')
             .replace(/<\s*p\s*\/?>/g, '<break time="400ms"/>');
 
-        // Wrap in speak tags
-        return `<speak>${ssml}</speak>`;
+        // Wrap in speak tags - COMMENTED OUT
+        // return `<speak>${ssml}</speak>`;
+        return ssml;
     }
 
     showLoading(show) {

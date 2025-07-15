@@ -1,6 +1,15 @@
 {
-  "public": true,
+  "version": 2,
+  "functions": {
+    "api/playht-proxy.js": {
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
+    {
+      "source": "/proxy/(.*)",
+      "destination": "/api/playht-proxy"
+    },
     {
       "source": "/(.*)",
       "destination": "/public/$1"
@@ -8,20 +17,11 @@
   ],
   "headers": [
     {
-      "source": "/(.*).js",
+      "source": "/public/(.*)",
       "headers": [
         {
-          "key": "Content-Type",
-          "value": "application/javascript"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).css",
-      "headers": [
-        {
-          "key": "Content-Type", 
-          "value": "text/css"
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
         }
       ]
     }
