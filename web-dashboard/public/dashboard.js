@@ -1032,10 +1032,14 @@ class AudioDashboard {
         const possibleLangs = langMapping[langCode] || [langCode];
         
         // Filter PlayHT voices for the requested language
-        let playhtVoices = allVoices.filter(voice => 
-            voice.service === 'PlayHT' && 
-            langMapping[langCode] && langMapping[langCode].includes(voice.language_code)
-        );
+        let playhtVoices = allVoices.filter(voice => {
+            if (voice.service !== 'PlayHT') return false;
+            
+            // PlayHT voices use the 'language' field, not 'language_code'
+            // Check both fields to be safe
+            const voiceLang = voice.language || voice.language_code || '';
+            return langMapping[langCode] && langMapping[langCode].includes(voiceLang);
+        });
         
         // Debug: Log PlayHT filtering results
         console.log('DEBUG: PlayHT voices before filtering:', allVoices.filter(voice => voice.service === 'PlayHT').length);
@@ -1047,6 +1051,18 @@ class AudioDashboard {
             const spanishPlayHTVoices = allVoices.filter(voice => voice.service === 'PlayHT');
             console.log('DEBUG: All PlayHT voices for Spanish debugging:', spanishPlayHTVoices.map(v => ({
                 name: v.name,
+                language: v.language,
+                language_code: v.language_code,
+                service: v.service
+            })));
+        }
+        
+        // Enhanced debugging for English voices too
+        if (langCode === 'en') {
+            const englishPlayHTVoices = allVoices.filter(voice => voice.service === 'PlayHT').slice(0, 5);
+            console.log('DEBUG: First 5 PlayHT voices for English debugging:', englishPlayHTVoices.map(v => ({
+                name: v.name,
+                language: v.language,
                 language_code: v.language_code,
                 service: v.service
             })));
