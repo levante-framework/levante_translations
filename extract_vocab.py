@@ -23,13 +23,13 @@ def extract_vocab_list():
         return []
     
     # Check what columns are available for English text
-    english_columns = [col for col in df.columns if col.lower() in ['en', 'en-us', 'english', 'text', 'eo']]
+    english_columns = [col for col in df.columns if col.lower() in [conf.LANGUAGE_CODES['English'], 'en-us', 'english', 'text', 'eo']]
     print(f"Potential English columns found: {english_columns}")
     
     # Try to find the English text column
     english_col = None
-    if 'en' in df.columns:
-        english_col = 'en'
+    if conf.LANGUAGE_CODES['English'] in df.columns:
+        english_col = conf.LANGUAGE_CODES['English']
     elif 'en-US' in df.columns:
         english_col = 'en-US'
     elif 'text' in df.columns:

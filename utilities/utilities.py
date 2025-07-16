@@ -64,11 +64,11 @@ def count_audio_files(lang_code):
     
     # Map simplified codes to old codes for backward compatibility
     old_lang_codes = {
-        'en': 'en-US',
+        conf.LANGUAGE_CODES['English']: 'en-US',
         'es': 'es-CO', 
-        'de': 'de-DE',
+        conf.LANGUAGE_CODES['German']: 'de-DE',
         'fr': 'fr-CA',
-        'nl': 'nl-NL'
+        conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
     }
     
     total_count = 0
@@ -119,15 +119,15 @@ def store_stats(lang_code, errors, notask, voice):
         for row in new_rows:
             statsData.loc[len(statsData)] = row
         
-    if lang_code == 'en':
+    if lang_code == conf.LANGUAGE_CODES['English']:
         language = 'English'
-    elif lang_code == 'es':
+    elif lang_code == conf.LANGUAGE_CODES['Spanish']:
         language = 'Spanish'
-    elif lang_code == 'de':
+    elif lang_code == conf.LANGUAGE_CODES['German']:
         language = 'German'
-    elif lang_code == 'fr':
+    elif lang_code == conf.LANGUAGE_CODES['French']:
         language = 'French'
-    elif lang_code == 'nl':
+    elif lang_code == conf.LANGUAGE_CODES['Dutch']:
         language = 'Dutch'
     else:
         return()
@@ -225,11 +225,11 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
     # Handle column format mismatch - masterData might have old column names
     # Map simplified codes to old codes for backward compatibility
     old_lang_codes = {
-        'en': 'en-US',
+        conf.LANGUAGE_CODES['English']: 'en-US',
         'es': 'es-CO', 
-        'de': 'de-DE',
+        conf.LANGUAGE_CODES['German']: 'de-DE',
         'fr': 'fr-CA',
-        'nl': 'nl-NL'
+        conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
     }
     
     # Determine which column name to use in masterData

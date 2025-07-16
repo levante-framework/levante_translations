@@ -6,6 +6,7 @@ from elevenlabs import play
 from elevenlabs import save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
+import utilities.config as conf
 
 # this doesn't work?
 # from elevenlabs import set_api_key
@@ -37,13 +38,6 @@ def main(
 
     inputData = pd.read_csv(input_file_path, index_col=0)
     masterData = pd.read_csv(master_file_path, index_col=0)
-
-    # Rename columns to match lang_codes used in the script
-    masterData = masterData.rename(columns={'en': 'en-US',
-                                             'de': 'de-DE',
-                                             'es': 'es-CO',
-                                             'fr': 'fr-CA',
-                                             'nl': 'nl-NL'})
 
     # build API call
     headers = {
@@ -94,16 +88,16 @@ def processRow(index, ourRow, lang_code, voice, \
     # Check if the column exists, if not try the original column name
     if lang_code in ourRow:
         translation_text = ourRow[lang_code]
-    elif lang_code == 'en-US' and 'en' in ourRow:
-        translation_text = ourRow['en']
-    elif lang_code == 'de-DE' and 'de' in ourRow:
-        translation_text = ourRow['de']
-    elif lang_code == 'es-CO' and 'es-CO' in ourRow:
+    elif lang_code == conf.LANGUAGE_CODES['English'] and 'en-US' in ourRow:
+        translation_text = ourRow['en-US']
+    elif lang_code == conf.LANGUAGE_CODES['German'] and 'de-DE' in ourRow:
+        translation_text = ourRow['de-DE']
+    elif lang_code == conf.LANGUAGE_CODES['Spanish'] and 'es-CO' in ourRow:
         translation_text = ourRow['es-CO']
-    elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
+    elif lang_code == conf.LANGUAGE_CODES['French'] and 'fr-CA' in ourRow:
         translation_text = ourRow['fr-CA']
-    elif lang_code == 'nl-NL' and 'nl' in ourRow:
-        translation_text = ourRow['nl']
+    elif lang_code == conf.LANGUAGE_CODES['Dutch'] and 'nl-NL' in ourRow:
+        translation_text = ourRow['nl-NL']
     else:
         print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
         return 'Error'
