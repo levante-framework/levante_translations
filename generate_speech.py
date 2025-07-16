@@ -18,7 +18,7 @@ def generate_audio(language):
     #input_file_name = "translated_fixed.csv"
     input_file_name = conf.item_bank_translations
     diff_file_name = "needed_item_bank_translations.csv"
-    master_file_path = "../translation_master.csv"
+    master_file_path = "translation_master.csv"
 
 # Raw Github URL for translations uploaded from Crowdin
 # for debugging use the service branch, later change to main
@@ -41,8 +41,8 @@ def generate_audio(language):
     # labels -> task
     # Handle mixed column formats in the CSV
     translationData = translationData.rename(columns={'identifier': 'item_id'})
-    translationData = translationData.rename(columns={'es-CO': 'es-co'})
-    translationData = translationData.rename(columns={'fr': 'fr-ca'})
+    translationData = translationData.rename(columns={'es-CO': conf.LANGUAGE_CODES['Spanish']})
+    translationData = translationData.rename(columns={'fr-CA': conf.LANGUAGE_CODES['French']})
 
     #translationData = translationData.rename(columns={'labels': 'task'})
 
@@ -52,23 +52,8 @@ def generate_audio(language):
     # The "master file" of already generated strings
     # There is/may also be an existing .csv file (translation_master.csv)
     if os.path.exists(master_file_path):
+        # item_id is the index
         masterData = pd.read_csv(master_file_path)
-        
-        # Handle column format mismatch between old master file and new system
-        # The master file might have old column names, so rename them to match our new format
-        master_column_mapping = {
-            'en-US': 'en',
-            'es-CO': 'es', 
-            'de-DE': 'de',
-            'fr-CA': 'fr',
-            'nl-NL': 'nl'
-        }
-        
-        # Rename columns in master data to match our simplified format
-        for old_col, new_col in master_column_mapping.items():
-            if old_col in masterData.columns:
-                masterData = masterData.rename(columns={old_col: new_col})
-                print(f"📋 Renamed master column {old_col} -> {new_col}")
         
         # Add any missing language columns that might be needed
         for lang_config in language_dict.values():
@@ -86,8 +71,20 @@ def generate_audio(language):
         for lang_config in language_dict.values():
             lang_code = lang_config['lang_code']
             masterData[lang_code] = None
-        masterData.to_csv(master_file_path, encoding='utf-8', errors='replace')
+        masterData.to_csv(master_file_path, encoding='utf-8', errors='replace', index=False)
         # Create baseline masterData
+
+    # add blank rows in master data for any missing items that are in translation data
+    blank_row = [""] * (len(masterData.columns) - 1)
+    currently_tracked_ids = list(masterData["item_id"])
+    modified_master_data = False
+    for item in translationData["item_id"]:
+        if item not in currently_tracked_ids:
+          masterData.loc[len(masterData)] = [item, *blank_row]
+          modified_master_data = True
+    
+    if modified_master_data: 
+      masterData.to_csv(master_file_path, encoding='utf-8', errors='replace', index=False)
 
     # Now we have masterData & translationData
     # We want to compare the appropriate column to see if we need to generate
