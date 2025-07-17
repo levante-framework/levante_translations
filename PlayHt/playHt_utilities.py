@@ -83,17 +83,28 @@ def get_audio(text, voice):
     else:
         print(f"Warning: Using voice '{voice}' directly (no mapping found)")
 
-    # Convert HTML to SSML if needed
+    # Convert HTML to SSML if needed, but remove <speak> wrapper for PlayHT API v2
     ssml_text = u.html_to_ssml(text)
     
-    # API v2 data format
+    # PlayHT API v2 doesn't want the <speak> wrapper tags
+    if ssml_text.startswith('<speak>') and ssml_text.endswith('</speak>'):
+        ssml_text = ssml_text[7:-8]  # Remove <speak> and </speak>
+    
+    # API v2 data format - using PlayDialog for better emotion and natural speech
+    # Fall back to Play3.0-mini if PlayDialog fails
+    voice_engine = "PlayDialog"  # PlayDialog excels in creating highly emotive and natural speech
+        
     data = {
         "text": ssml_text,
         "voice": voice,
-        "voice_engine": "Play3.0-mini",  # Use the newer engine
+        "voice_engine": voice_engine,
         "output_format": "mp3",
         "sample_rate": 24000
     }
+    
+    # Add text_type if SSML tags are present
+    if '<' in ssml_text and '>' in ssml_text:
+        data["text_type"] = "ssml"
 
     ## Use a While loop so we can retry odd failure cases
     while True and errorCount < 5:
@@ -127,11 +138,43 @@ def get_audio(text, voice):
                 # For 400 errors, don't retry - likely a permanent issue
                 return b''
                 
-            else:
-                # Other error codes
+            elif response.status_code == 500:
                 print(f"PlayHt API error: {response.status_code} - {response.text}")
+                # Debug information for 500 errors
+                print("Debug info for 500 error:")
+                print(f"  Voice: {voice}")
+                print(f"  Text: '{text[:100]}{'...' if len(text) > 100 else ''}'")
+                print(f"  Text length: {len(text)} characters")
+                print(f"  Voice engine: {voice_engine}")
+                print(f"  Text type: {'ssml' if '<' in ssml_text and '>' in ssml_text else 'plain'}")
+                
+                # Try fallback to Play3.0-mini if using PlayDialog
+                if voice_engine == "PlayDialog" and errorCount == 0:
+                    print("Retrying with Play3.0-mini fallback...")
+                    voice_engine = "Play3.0-mini"
+                    data["voice_engine"] = voice_engine
+                    errorCount += 1
+                    continue
+                else:
+                    return b''
+                
+            else:
+                # Other error codes - add debugging for 500 errors
+                print(f"PlayHt API error: {response.status_code} - {response.text}")
+                
+                # For 500 errors, provide additional debugging context
+                if response.status_code == 500:
+                    print(f"Debug info for 500 error:")
+                    print(f"  Voice: {voice}")
+                    print(f"  Text: '{ssml_text[:100]}{'...' if len(ssml_text) > 100 else ''}'")
+                    print(f"  Text length: {len(ssml_text)} characters")
+                    print(f"  Voice engine: {data.get('voice_engine', 'N/A')}")
+                    print(f"  Text type: {data.get('text_type', 'plain')}")
+                    time.sleep(retrySeconds * 3)  # Wait longer for 500 errors
+                else:
+                    time.sleep(retrySeconds)
+                    
                 errorCount += 1
-                time.sleep(retrySeconds)
                 continue
                 
         except requests.exceptions.Timeout:

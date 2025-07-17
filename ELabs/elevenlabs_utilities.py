@@ -14,7 +14,7 @@ try:
 except:
     print("No Eleven Labs API Key")
 
-def list_voices(lang_code):
+def list_voices(lang_code, gender_filter=None):
 
     # ElevenLabs doesn't have es-CO
     if lang_code == 'es-CO':
@@ -44,6 +44,11 @@ def list_voices(lang_code):
                       if voice.category == "professional" and \
                         voice.labels.get('language') == modified_language_code]
     
+    # Apply gender filter if specified
+    if gender_filter:
+        library_voices = [voice for voice in library_voices \
+                         if voice.labels.get('gender', '').lower() == gender_filter.lower()]
+    
     # Create a dictionary with voice names as keys and voice IDs as values
     voice_dict = {voice.name: voice.voice_id for voice in library_voices}
     return voice_dict
@@ -52,6 +57,13 @@ def play_audio(text, desired_voice):
     # Generate audio from text
     # The tricky part is that we need the voice_id, not the voice name!
     # we could build a dictionary?
+    
+    # Clean the text first
+    text = text.strip()
+    
+    # Debug output
+    print(f"ElevenLabs Debug - Text: '{text}' (length: {len(text)})")
+    print(f"ElevenLabs Debug - Voice: {desired_voice}")
     
     """
     voice = Voice(
@@ -70,9 +82,12 @@ def play_audio(text, desired_voice):
 
     # Collect all audio chunks into a single bytes object
     audio_data = b"".join(audio_iterator)
+    
+    print(f"ElevenLabs Debug - Generated audio: {len(audio_data)} bytes")
 
-    # Play the generated audio
-    play(audio_data)
+    # Play the generated audio using our fixed play_data_object function
+    from utilities.utilities import play_data_object
+    play_data_object(audio_data)
 
     # Save the audio to a file
     #with open("output.mp3", "wb") as f:
