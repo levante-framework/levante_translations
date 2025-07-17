@@ -1,12 +1,14 @@
 
 ### Levante Audio Tools
 
-Our audio tools include two main utilities:
+Our audio tools include three main utilities:
 
 generate_speech.py: Designed to generate audio files for one or more languages in the voices specified in config.py. The audio files are laid out in a filesystem
 format that matches that needed for core assets and our GCP buckets.
 
 dashboard.py: This standalone utility does four things:
+
+web_dashboard.py: This utility is designed to be run as a web server that can be accessed from a browser. It is used to display the audio generation stats and the translations and audio by language.
 
 1) Shows current audio generation stats in the top frame
 2) Shows all our current translations and audio by language
@@ -38,6 +40,8 @@ pip (or pip3) install . --user
 
 [Add PlayHt credentials to your enviornment]
 [For Levante team, credentials are in Slack]
+[For python, They are placed in an environment variable called PLAY_DOT_HT_API_KEY, and PLAY_DOT_HT_USER_ID]
+[For Web Dashboard, you'll be prompted to enter them]
 
 For Mac, edit ~/.zshrc and use:
 export PLAY_DOT_HT_API_KEY=<API_KEY>
@@ -57,6 +61,7 @@ python (or py) dashboard.py
     generate_english.[sh|bat]
     generate_spanish.[sh|bat]
     generate_german.[sh|bat]
+    etc.
 
 3. By default the generated audio files will be in the audio_files
     sub-directory, in the format used for the asset repo and for serving
@@ -68,8 +73,7 @@ python (or py) dashboard.py
 
 Batch/Shell files call generate_speech.py with the appropriate language code and voice.
 
-(CURRENTLY only PlayHt is supported. We'll add ElevenLabs if we decide we want
- to use any of their voices)
+(CURRENTLY PlayHt v2 and ElevenLabs are supported.)
 
 _generate_speech.py_ compares the desired text with its persistent cache of what
 it has already generated audio for. If a string is new or changed, it is placed in
@@ -77,7 +81,9 @@ it has already generated audio for. If a string is new or changed, it is placed 
 
 Items with no assigned task are skipped, as there is nowhere to file them.
 
-The translations needed are passed to PlayHT/playHt_tts.py
+New items are added to the item_bank_translations.csv file.
+
+The translations needed are passed to PlayHT/playHt_tts.py or ElevenLabs/elevenLabs_tts.py
 
 The module iterates through the rows in the csv, requesting audio generation for each.
 
@@ -101,6 +107,12 @@ To change to a new voice or if for some other reason you want to redo
 transcriptions for a specific language, simple set the appropriate
 language column to None. You can do this by importing as a DataFrame
 and then just using a column operation. [At some point we should make this a function]
+
+## Web Dashboard
+
+The web dashboard is a standalone utility that can be run to display the audio generation stats and the translations and audio by language.
+
+It is designed to be run as a web server that can be accessed from a browser.
 
 
 
