@@ -1294,16 +1294,26 @@ class AudioDashboard {
             voiceId: voiceId
         });
 
+        // Preprocess Spanish text to reduce clipping and repetition issues
+        let processedText = text;
+        // Note: Tests show Spanish text works fine as-is, so minimal preprocessing
+        if (this.currentLanguage === 'Spanish' || 
+            this.languages[this.currentLanguage]?.lang_code === 'es-CO' ||
+            this.languages[this.currentLanguage]?.lang_code === 'es') {
+            // Only normalize excessive whitespace - don't modify punctuation
+            processedText = text.replace(/\s+/g, ' ').trim();
+        }
+
         // Convert HTML to SSML for PlayHT
-        let processedText = this.htmlToSSML(text);
+        processedText = this.htmlToSSML(processedText);
         
-        // PlayHT v2 API format
+        // PlayHT v2 API format - Use Play3.0-mini for better stability with Spanish
         const requestData = {
             text: processedText,
             voice: voiceId,
-            voice_engine: 'PlayDialog',
+            voice_engine: 'Play3.0-mini',  // More stable than PlayDialog for Spanish
             output_format: 'mp3',
-            sample_rate: 24000
+            sample_rate: 22050  // Lower sample rate reduces clipping issues
         };
 
         // Add text_type if SSML tags are present
@@ -1352,11 +1362,70 @@ class AudioDashboard {
                         userId: maskedUserId
                     }
                 });
+
+                // If Play3.0-mini fails with 500 error, try fallback to PlayDialog
+                if (response.status === 500 && requestData.voice_engine === 'Play3.0-mini') {
+                    console.log('Play3.0-mini failed, trying fallback to PlayDialog...');
+                    
+                    const fallbackData = { ...requestData, voice_engine: 'PlayDialog' };
+                    
+                    try {
+                        const fallbackResponse = await fetch('/api/playht-proxy', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': this.apiConfig.playht.apiKey,
+                                'X-USER-ID': this.apiConfig.playht.userId,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(fallbackData)
+                        });
+
+                        if (fallbackResponse.ok) {
+                            console.log('✅ Fallback to PlayDialog succeeded');
+                            return await fallbackResponse.arrayBuffer();
+                        }
+                    } catch (fallbackError) {
+                        console.warn('Fallback to PlayDialog also failed:', fallbackError);
+                    }
+                }
+                
                 throw new Error(`PlayHT API error: ${response.status} - ${errorText || response.statusText}`);
             }
 
-            // PlayHT v2 returns direct audio stream
-            return await response.arrayBuffer();
+            // Validate audio size (very small files might be corrupted)
+            const audioBuffer = await response.arrayBuffer();
+            if (audioBuffer.byteLength < 1000) {
+                console.warn(`Generated audio too small: ${audioBuffer.byteLength} bytes, retrying...`);
+                
+                // Try with PlayDialog engine if the audio is too small
+                if (requestData.voice_engine !== 'PlayDialog') {
+                    const retryData = { ...requestData, voice_engine: 'PlayDialog' };
+                    
+                    const retryResponse = await fetch('/api/playht-proxy', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': this.apiConfig.playht.apiKey,
+                            'X-USER-ID': this.apiConfig.playht.userId,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(retryData)
+                    });
+
+                    if (retryResponse.ok) {
+                        const retryBuffer = await retryResponse.arrayBuffer();
+                        if (retryBuffer.byteLength >= 1000) {
+                            console.log('✅ Retry with PlayDialog generated better audio');
+                            return retryBuffer;
+                        }
+                    }
+                }
+                
+                throw new Error(`Generated audio file too small: ${audioBuffer.byteLength} bytes`);
+            }
+
+            console.log(`✅ Generated audio: ${audioBuffer.byteLength} bytes`);
+            return audioBuffer;
+            
         } catch (error) {
             console.error('PlayHT error:', error);
             if (error.message.includes('Failed to fetch')) {
