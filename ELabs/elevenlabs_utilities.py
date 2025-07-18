@@ -93,7 +93,7 @@ def play_audio(text, desired_voice):
     #with open("output.mp3", "wb") as f:
     #    f.write(audio_data)
 
-#voice_dict = list_voices('de')
+#voice_dict = list_voices(conf.LANGUAGE_CODES['German'])
 
 #with open("voices.txt", "w", encoding="utf-8") as file: 
 #    file.write(formatted_voices) 
