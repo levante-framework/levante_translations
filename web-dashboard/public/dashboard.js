@@ -866,8 +866,8 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
@@ -878,13 +878,42 @@ class AudioDashboard {
         const possibleLangs = langMapping[langCode] || [langCode];
         
         return voices.filter(voice => {
-            // Language filter - check if voice matches any of the possible language formats
-            const matchesLang = possibleLangs.some(lang => 
+            // Language filter - with special handling for voices with empty language fields
+            let matchesLang = false;
+            
+            // First check explicit language matches
+            matchesLang = possibleLangs.some(lang => 
                 voice.language === lang || 
                 voice.language_code === lang ||
                 voice.language_code === langCode ||
                 voice.language_code === langCode.split('-')[0]
             );
+            
+            // Special handling for voices with empty language fields
+            // If language is empty, use accent to determine language
+            if (!matchesLang && (!voice.language || voice.language === '') && (!voice.language_code || voice.language_code === '')) {
+                const accent = (voice.accent || '').toLowerCase();
+                
+                if (langCode === 'en') {
+                    // English: American, British, Australian, Canadian, etc.
+                    matchesLang = accent.includes('american') || accent.includes('british') || 
+                                 accent.includes('australian') || accent.includes('canadian') ||
+                                 accent.includes('english') || accent.includes('us') || accent.includes('uk');
+                } else if (langCode === 'es' || langCode === 'es-CO') {
+                    // Spanish: Only if explicitly Spanish accent
+                    matchesLang = accent.includes('spanish') || accent.includes('mexican') || 
+                                 accent.includes('argentinian') || accent.includes('colombian');
+                } else if (langCode === 'de') {
+                    // German: Only if explicitly German accent
+                    matchesLang = accent.includes('german') || accent.includes('austrian');
+                } else if (langCode === 'fr' || langCode === 'fr-CA') {
+                    // French: Only if explicitly French accent
+                    matchesLang = accent.includes('french') || accent.includes('canadian');
+                } else if (langCode === 'nl') {
+                    // Dutch: Only if explicitly Dutch accent
+                    matchesLang = accent.includes('dutch') || accent.includes('netherlands');
+                }
+            }
             
             if (!matchesLang) {
                 return false;
@@ -1020,8 +1049,8 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
@@ -1096,8 +1125,8 @@ class AudioDashboard {
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
             'en': ['English', 'English (US)', 'English (AU)', 'English (CA)', 'English (GB)', 'English (IE)', 'English (IN)', 'English (ZA)', 'en'],
-            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
-            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es', ''],
+            'es': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
+            'es-CO': ['Spanish', 'Spanish (ES)', 'Spanish (MX)', 'Spanish (AR)', 'Spanish (CO)', 'es'],
             'de': ['German', 'German (DE)', 'de'],
             'fr': ['French', 'French (FR)', 'French (CA)', 'fr'],
             'fr-CA': ['French', 'French (FR)', 'French (CA)', 'fr'],
@@ -1147,7 +1176,7 @@ class AudioDashboard {
         }
 
         try {
-            const response = await fetch('https://raw.githubusercontent.com/levante-framework/levante_translations/main/comprehensive_female_voices_20250712_133241.csv');
+            const response = await fetch('https://raw.githubusercontent.com/levante-framework/levante_translations/main/comprehensive_female_voices_20250721_145331.csv');
             const csvText = await response.text();
             
             // Parse CSV

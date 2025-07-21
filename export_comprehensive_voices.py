@@ -129,6 +129,35 @@ def get_comprehensive_elevenlabs_voices() -> List[Dict[str, Any]]:
                     'description': description,
                     'category': voice.category if hasattr(voice, 'category') else 'personal'
                 }
+                
+                # Auto-assign language based on accent if language is empty
+                if not voice_info['language'] and not voice_info['language_code']:
+                    accent = (voice_info['accent'] or '').lower()
+                    if 'american' in accent or 'us' in accent or 'english' in accent:
+                        voice_info['language'] = 'English'
+                        voice_info['language_code'] = 'en'
+                    elif 'british' in accent or 'uk' in accent:
+                        voice_info['language'] = 'English (GB)'
+                        voice_info['language_code'] = 'en'
+                    elif 'australian' in accent:
+                        voice_info['language'] = 'English (AU)'
+                        voice_info['language_code'] = 'en'
+                    elif 'canadian' in accent:
+                        voice_info['language'] = 'English (CA)'
+                        voice_info['language_code'] = 'en'
+                    elif 'spanish' in accent:
+                        voice_info['language'] = 'Spanish'
+                        voice_info['language_code'] = 'es'
+                    elif 'german' in accent:
+                        voice_info['language'] = 'German'
+                        voice_info['language_code'] = 'de'
+                    elif 'french' in accent:
+                        voice_info['language'] = 'French'
+                        voice_info['language_code'] = 'fr'
+                    elif 'dutch' in accent:
+                        voice_info['language'] = 'Dutch'
+                        voice_info['language_code'] = 'nl'
+                
                 voices.append(voice_info)
                 seen_voice_ids.add(voice.voice_id)
                 
@@ -189,6 +218,35 @@ def get_comprehensive_elevenlabs_voices() -> List[Dict[str, Any]]:
                         'description': description,
                         'category': 'shared'
                     }
+                    
+                    # Auto-assign language based on accent if language is empty
+                    if not voice_info['language'] and not voice_info['language_code']:
+                        accent = (voice_info['accent'] or '').lower()
+                        if 'american' in accent or 'us' in accent or 'english' in accent:
+                            voice_info['language'] = 'English'
+                            voice_info['language_code'] = 'en'
+                        elif 'british' in accent or 'uk' in accent:
+                            voice_info['language'] = 'English (GB)'
+                            voice_info['language_code'] = 'en'
+                        elif 'australian' in accent:
+                            voice_info['language'] = 'English (AU)'
+                            voice_info['language_code'] = 'en'
+                        elif 'canadian' in accent:
+                            voice_info['language'] = 'English (CA)'
+                            voice_info['language_code'] = 'en'
+                        elif 'spanish' in accent:
+                            voice_info['language'] = 'Spanish'
+                            voice_info['language_code'] = 'es'
+                        elif 'german' in accent:
+                            voice_info['language'] = 'German'
+                            voice_info['language_code'] = 'de'
+                        elif 'french' in accent:
+                            voice_info['language'] = 'French'
+                            voice_info['language_code'] = 'fr'
+                        elif 'dutch' in accent:
+                            voice_info['language'] = 'Dutch'
+                            voice_info['language_code'] = 'nl'
+                
                     voices.append(voice_info)
                     seen_voice_ids.add(voice.voice_id)
                     lang_count += 1
