@@ -46,9 +46,10 @@ def is_advertising_voice(voice_name: str, voice_type: str = "", style: str = "")
 def is_old_voice(voice_name: str, age: str = "", description: str = "") -> bool:
     """Check if a voice is marked as old or elderly"""
     old_keywords = [
-        'old', 'elderly', 'senior', 'aged', 'mature', 'grandpa', 'grandma',
+        'old', 'elderly', 'senior', 'grandpa', 'grandma',
         'grandfather', 'grandmother', 'granny', 'old man', 'old woman'
     ]
+    # Note: Removed 'mature' and 'aged' as they typically mean sophisticated/professional or middle-aged, not elderly
     
     # Check voice name
     name_lower = voice_name.lower()
@@ -56,9 +57,10 @@ def is_old_voice(voice_name: str, age: str = "", description: str = "") -> bool:
         if keyword in name_lower:
             return True
     
-    # Check age field
-    if age and age.lower() in ['old', 'elderly', 'senior', 'aged']:
+    # Check age field - be more specific about what constitutes "old"
+    if age and age.lower() in ['old', 'elderly', 'senior']:
         return True
+    # Note: Don't filter 'aged', 'mature', or 'middle_aged' age descriptors as they refer to middle-aged adults
     
     # Check description
     description_lower = description.lower()
