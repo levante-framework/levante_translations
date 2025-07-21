@@ -472,87 +472,133 @@ class AudioDashboard {
     }
 
     setupEventListeners() {
-        // Credential management modal
-        document.getElementById('manageCredentials').addEventListener('click', () => {
-            this.showCredentialsModal();
-        });
-
-        document.getElementById('saveCredentials').addEventListener('click', () => {
-            this.saveCredentials();
-        });
-
-        document.getElementById('recoverCredentials').addEventListener('click', () => {
-            this.recoverCredentials();
-        });
-
-        document.getElementById('clearCredentials').addEventListener('click', () => {
-            this.clearCredentials();
-        });
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            this.searchItems(e.target.value);
-        });
-
-        // Task filter functionality
-        document.getElementById('taskFilter').addEventListener('change', (e) => {
-            this.filterByTask(e.target.value);
-        });
-
-        // Clear filters functionality
-        document.getElementById('clearFilters').addEventListener('click', () => {
-            this.clearAllFilters();
-        });
-
-        // Voice filter functionality
-        document.getElementById('ageFilter').addEventListener('change', () => {
-            this.applyVoiceFilters();
-        });
+        // Credential management modal (with null checks)
+        const manageCredentials = document.getElementById('manageCredentials');
+        const saveCredentials = document.getElementById('saveCredentials');
+        const recoverCredentials = document.getElementById('recoverCredentials');
+        const clearCredentials = document.getElementById('clearCredentials');
         
-        document.getElementById('accentFilter').addEventListener('change', () => {
-            this.applyVoiceFilters();
-        });
+        if (manageCredentials) {
+            manageCredentials.addEventListener('click', () => {
+                this.showCredentialsModal();
+            });
+        }
+
+        if (saveCredentials) {
+            saveCredentials.addEventListener('click', () => {
+                this.saveCredentials();
+            });
+        }
+
+        if (recoverCredentials) {
+            recoverCredentials.addEventListener('click', () => {
+                this.recoverCredentials();
+            });
+        }
+
+        if (clearCredentials) {
+            clearCredentials.addEventListener('click', () => {
+                this.clearCredentials();
+            });
+        }
+
+        // Search and filter functionality (with null checks)
+        const searchInput = document.getElementById('searchInput');
+        const taskFilter = document.getElementById('taskFilter');
+        const clearFilters = document.getElementById('clearFilters');
         
-        document.getElementById('styleFilter').addEventListener('change', () => {
-            this.applyVoiceFilters();
-        });
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.searchItems(e.target.value);
+            });
+        }
+
+        if (taskFilter) {
+            taskFilter.addEventListener('change', (e) => {
+                this.filterByTask(e.target.value);
+            });
+        }
+
+        if (clearFilters) {
+            clearFilters.addEventListener('click', () => {
+                this.clearAllFilters();
+            });
+        }
+
+        // Voice filter event listeners (with null checks)
+        const ageFilter = document.getElementById('ageFilter');
+        const accentFilter = document.getElementById('accentFilter');
+        const styleFilter = document.getElementById('styleFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const libraryOnlyToggle = document.getElementById('libraryOnlyToggle');
+        const clearVoiceFilters = document.getElementById('clearVoiceFilters');
+        const previewVoices = document.getElementById('previewVoices');
+        const showVoicePreview = document.getElementById('showVoicePreview');
         
-        document.getElementById('categoryFilter').addEventListener('change', () => {
-            this.applyVoiceFilters();
-        });
+        if (ageFilter) ageFilter.addEventListener('change', () => this.applyVoiceFilters());
+        if (accentFilter) accentFilter.addEventListener('change', () => this.applyVoiceFilters());
+        if (styleFilter) styleFilter.addEventListener('change', () => this.applyVoiceFilters());
+        if (categoryFilter) categoryFilter.addEventListener('change', () => this.applyVoiceFilters());
+        
+        // Library Only toggle event listener
+        if (libraryOnlyToggle) {
+            libraryOnlyToggle.addEventListener('change', () => {
+                this.voiceCache = {}; // Clear cache when toggling Library Only mode
+                this.updateVoiceDropdowns();
+                const isLibraryOnly = libraryOnlyToggle.checked;
+                this.setStatus(`ElevenLabs ${isLibraryOnly ? 'Library Only' : 'All Voices'} mode enabled`, 'info');
+            });
+        }
+        
+        if (clearVoiceFilters) clearVoiceFilters.addEventListener('click', () => this.clearVoiceFilters());
+        if (previewVoices) previewVoices.addEventListener('click', () => this.showVoicePreview());
 
-        // Clear voice filters
-        document.getElementById('clearVoiceFilters').addEventListener('click', () => {
-            this.clearVoiceFilters();
-        });
+        // Show voice preview (legacy element name)
+        if (showVoicePreview) {
+            showVoicePreview.addEventListener('click', () => {
+                this.showVoicePreview();
+            });
+        }
 
-        // Show voice preview
-        document.getElementById('showVoicePreview').addEventListener('click', () => {
-            this.showVoicePreview();
-        });
+        // Voice selection (with null checks)
+        const playhtVoice = document.getElementById('playhtVoice');
+        const elevenlabsVoice = document.getElementById('elevenlabsVoice');
+        const refreshVoices = document.getElementById('refreshVoices');
+        
+        if (playhtVoice) {
+            playhtVoice.addEventListener('change', (e) => {
+                this.onVoiceSelect('PlayHT', e.target.value);
+            });
+        }
 
-        // Voice selection
-        document.getElementById('playhtVoice').addEventListener('change', (e) => {
-            this.onVoiceSelect('PlayHT', e.target.value);
-        });
-
-        document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
-            this.onVoiceSelect('ElevenLabs', e.target.value);
-        });
+        if (elevenlabsVoice) {
+            elevenlabsVoice.addEventListener('change', (e) => {
+                this.onVoiceSelect('ElevenLabs', e.target.value);
+            });
+        }
 
         // Refresh voices
-        document.getElementById('refreshVoices').addEventListener('click', () => {
-            this.refreshVoices();
-        });
+        if (refreshVoices) {
+            refreshVoices.addEventListener('click', () => {
+                this.refreshVoices();
+            });
+        }
 
-        // SSML functionality
-        document.getElementById('ssmlHelp').addEventListener('click', () => {
-            this.showHelpModal();
-        });
+        // SSML functionality (with null checks)
+        const ssmlHelp = document.getElementById('ssmlHelp');
+        const playSSML = document.getElementById('playSSML');
+        
+        if (ssmlHelp) {
+            ssmlHelp.addEventListener('click', () => {
+                this.showHelpModal();
+            });
+        }
 
-        document.getElementById('playSSML').addEventListener('click', () => {
-            this.playSSML();
-        });
+        if (playSSML) {
+            playSSML.addEventListener('click', () => {
+                this.playSSML();
+            });
+        }
 
         // Modal close events
         window.addEventListener('click', (e) => {
@@ -803,19 +849,28 @@ class AudioDashboard {
     }
 
     applyVoiceFilters() {
-        const ageFilter = document.getElementById('ageFilter').value;
-        const accentFilter = document.getElementById('accentFilter').value;
-        const styleFilter = document.getElementById('styleFilter').value;
-        const categoryFilter = document.getElementById('categoryFilter').value;
+        const ageFilter = document.getElementById('ageFilter');
+        const accentFilter = document.getElementById('accentFilter');
+        const styleFilter = document.getElementById('styleFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const libraryOnlyToggle = document.getElementById('libraryOnlyToggle');
         
-        // Apply filters and update voice dropdowns
+        const ageValue = ageFilter ? ageFilter.value : '';
+        const accentValue = accentFilter ? accentFilter.value : '';
+        const styleValue = styleFilter ? styleFilter.value : '';
+        const categoryValue = categoryFilter ? categoryFilter.value : '';
+        const isLibraryOnly = libraryOnlyToggle ? libraryOnlyToggle.checked : false;
+        
+        // Clear cache and apply filters by updating voice dropdowns
+        this.voiceCache = {};
         this.updateVoiceDropdowns();
         
         const activeFilters = [];
-        if (ageFilter) activeFilters.push(`Age: ${ageFilter}`);
-        if (accentFilter) activeFilters.push(`Accent: ${accentFilter}`);
-        if (styleFilter) activeFilters.push(`Style: ${styleFilter}`);
-        if (categoryFilter) activeFilters.push(`Category: ${categoryFilter}`);
+        if (ageValue) activeFilters.push(`Age: ${ageValue}`);
+        if (accentValue) activeFilters.push(`Accent: ${accentValue}`);
+        if (styleValue) activeFilters.push(`Style: ${styleValue}`);
+        if (categoryValue) activeFilters.push(`Category: ${categoryValue}`);
+        if (isLibraryOnly) activeFilters.push('ElevenLabs Library Only');
         
         if (activeFilters.length > 0) {
             this.setStatus(`Voice filters applied: ${activeFilters.join(', ')}`, 'info');
@@ -825,20 +880,34 @@ class AudioDashboard {
     }
 
     clearVoiceFilters() {
-        document.getElementById('ageFilter').value = '';
-        document.getElementById('accentFilter').value = '';
-        document.getElementById('styleFilter').value = '';
-        document.getElementById('categoryFilter').value = '';
+        const ageFilter = document.getElementById('ageFilter');
+        const accentFilter = document.getElementById('accentFilter');
+        const styleFilter = document.getElementById('styleFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const libraryOnlyToggle = document.getElementById('libraryOnlyToggle');
         
-        this.applyVoiceFilters();
+        if (ageFilter) ageFilter.value = '';
+        if (accentFilter) accentFilter.value = '';
+        if (styleFilter) styleFilter.value = '';
+        if (categoryFilter) categoryFilter.value = '';
+        if (libraryOnlyToggle) libraryOnlyToggle.checked = false;
+        
+        // Clear cache and refresh voices
+        this.voiceCache = {};
+        this.updateVoiceDropdowns();
+        this.setStatus('All voice filters cleared', 'info');
     }
 
     async showVoicePreview() {
         const langCode = this.languages[this.currentLanguage].lang_code;
-        const allVoices = await this.loadComprehensiveVoices();
         
-        // Filter voices by current language and applied filters
-        const filteredVoices = this.filterVoices(allVoices, langCode);
+        // Get voices using the same logic as the dropdowns
+        const [playhtVoices, elevenlabsVoices] = await Promise.all([
+            this.getPlayHTVoices(langCode),
+            this.getElevenLabsVoices(langCode)
+        ]);
+        
+        const isLibraryOnly = document.getElementById('libraryOnlyToggle').checked;
         
         // Show modal
         const modal = document.getElementById('voicePreviewModal');
@@ -847,14 +916,33 @@ class AudioDashboard {
         // Clear existing content
         grid.innerHTML = '';
         
-        // Create voice cards
-        filteredVoices.forEach(voice => {
-            const card = this.createVoiceCard(voice);
-            grid.appendChild(card);
-        });
+        // Create section headers and voice cards
+        if (playhtVoices.length > 0) {
+            const playhtHeader = document.createElement('h3');
+            playhtHeader.textContent = `PlayHT Voices (${playhtVoices.length})`;
+            playhtHeader.style.cssText = 'grid-column: 1/-1; margin: 20px 0 10px 0; color: #333; border-bottom: 2px solid #007bff;';
+            grid.appendChild(playhtHeader);
+            
+            playhtVoices.forEach(voice => {
+                const card = this.createVoiceCard(voice);
+                grid.appendChild(card);
+            });
+        }
+        
+        if (elevenlabsVoices.length > 0) {
+            const elevenlabsHeader = document.createElement('h3');
+            elevenlabsHeader.textContent = `ElevenLabs Voices${isLibraryOnly ? ' (Library Only)' : ''} (${elevenlabsVoices.length})`;
+            elevenlabsHeader.style.cssText = 'grid-column: 1/-1; margin: 20px 0 10px 0; color: #333; border-bottom: 2px solid #28a745;';
+            grid.appendChild(elevenlabsHeader);
+            
+            elevenlabsVoices.forEach(voice => {
+                const card = this.createVoiceCard(voice);
+                grid.appendChild(card);
+            });
+        }
         
         modal.style.display = 'block';
-        this.setStatus(`Showing ${filteredVoices.length} voices for ${this.currentLanguage}`, 'info');
+        this.setStatus(`Showing ${playhtVoices.length} PlayHT + ${elevenlabsVoices.length} ElevenLabs voices for ${this.currentLanguage}${isLibraryOnly ? ' (Library Only)' : ''}`, 'info');
     }
 
     filterVoices(voices, langCode) {
@@ -1118,9 +1206,21 @@ class AudioDashboard {
         // Load comprehensive voice data
         const allVoices = await this.loadComprehensiveVoices();
         
+        // Check if Library Only mode is enabled
+        const libraryOnlyToggle = document.getElementById('libraryOnlyToggle');
+        const isLibraryOnly = libraryOnlyToggle && libraryOnlyToggle.checked;
+        
         // Debug: Log the language code and first few voices
         console.log('DEBUG: Getting ElevenLabs voices for language:', langCode);
+        console.log('DEBUG: Library Only mode:', isLibraryOnly);
         console.log('DEBUG: Total voices loaded:', allVoices.length);
+        
+        // Filter ElevenLabs voices
+        let elevenlabsVoices = allVoices.filter(voice => {
+            return voice.service === 'ElevenLabs';
+        });
+        
+        console.log('DEBUG: All ElevenLabs voices:', elevenlabsVoices.length);
         
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
@@ -1135,35 +1235,100 @@ class AudioDashboard {
         
         // Get the possible language values for this language code
         const possibleLangs = langMapping[langCode] || [langCode];
-        
-        // Debug: Log ElevenLabs filtering results
-        console.log('DEBUG: ElevenLabs voices before filtering:', allVoices.filter(v => v.service === 'ElevenLabs').length);
         console.log('DEBUG: Looking for languages:', possibleLangs);
         
-        // Filter ElevenLabs voices for the requested language
-        let elevenlabsVoices = allVoices.filter(voice => {
-            const isElevenLabs = voice.service === 'ElevenLabs';
-            const matchesLang = possibleLangs.some(lang => 
-                voice.language === lang || 
-                voice.language_code === lang ||
-                voice.language_code === langCode ||
-                voice.language_code === langCode.split('-')[0]
-            );
-            return isElevenLabs && matchesLang;
-        });
+        if (isLibraryOnly) {
+            // Library Only mode: Show only personal library voices for the current language
+            elevenlabsVoices = elevenlabsVoices.filter(voice => {
+                const isLibraryVoice = voice.category === 'personal' || voice.category === 'generated';
+                if (!isLibraryVoice) return false;
+                
+                // Still apply language filtering for Library Only mode
+                const matchesLang = possibleLangs.some(lang => 
+                    voice.language === lang || 
+                    voice.language_code === lang ||
+                    voice.language_code === langCode ||
+                    voice.language_code === langCode.split('-')[0]
+                );
+                
+                // Special handling for voices with empty language fields
+                if (!matchesLang && (!voice.language || voice.language === '') && (!voice.language_code || voice.language_code === '')) {
+                    const accent = (voice.accent || '').toLowerCase();
+                    
+                    if (langCode === 'en') {
+                        return accent.includes('american') || accent.includes('british') || 
+                               accent.includes('australian') || accent.includes('canadian') ||
+                               accent.includes('english') || accent.includes('us') || accent.includes('uk');
+                    } else if (langCode === 'es' || langCode === 'es-CO') {
+                        return accent.includes('spanish') || accent.includes('mexican') || 
+                               accent.includes('argentinian') || accent.includes('colombian');
+                    } else if (langCode === 'de') {
+                        return accent.includes('german') || accent.includes('austrian');
+                    } else if (langCode === 'fr' || langCode === 'fr-CA') {
+                        return accent.includes('french') || accent.includes('canadian');
+                    } else if (langCode === 'nl') {
+                        return accent.includes('dutch') || accent.includes('netherlands');
+                    }
+                    return false;
+                }
+                
+                return matchesLang;
+            });
+            console.log('DEBUG: ElevenLabs Library Only voices for', langCode, ':', elevenlabsVoices.length);
+        } else {
+            // Normal mode: Apply language filtering
+            elevenlabsVoices = elevenlabsVoices.filter(voice => {
+                const matchesLang = possibleLangs.some(lang => 
+                    voice.language === lang || 
+                    voice.language_code === lang ||
+                    voice.language_code === langCode ||
+                    voice.language_code === langCode.split('-')[0]
+                );
+                
+                // Special handling for voices with empty language fields
+                // If language is empty, use accent to determine language
+                if (!matchesLang && (!voice.language || voice.language === '') && (!voice.language_code || voice.language_code === '')) {
+                    const accent = (voice.accent || '').toLowerCase();
+                    
+                    if (langCode === 'en') {
+                        // English: American, British, Australian, Canadian, etc.
+                        return accent.includes('american') || accent.includes('british') || 
+                               accent.includes('australian') || accent.includes('canadian') ||
+                               accent.includes('english') || accent.includes('us') || accent.includes('uk');
+                    } else if (langCode === 'es' || langCode === 'es-CO') {
+                        // Spanish: Only if explicitly Spanish accent
+                        return accent.includes('spanish') || accent.includes('mexican') || 
+                               accent.includes('argentinian') || accent.includes('colombian');
+                    } else if (langCode === 'de') {
+                        // German: Only if explicitly German accent
+                        return accent.includes('german') || accent.includes('austrian');
+                    } else if (langCode === 'fr' || langCode === 'fr-CA') {
+                        // French: Only if explicitly French accent
+                        return accent.includes('french') || accent.includes('canadian');
+                    } else if (langCode === 'nl') {
+                        // Dutch: Only if explicitly Dutch accent
+                        return accent.includes('dutch') || accent.includes('netherlands');
+                    }
+                    return false;
+                }
+                
+                return matchesLang;
+            });
+            
+            console.log('DEBUG: ElevenLabs voices after language filtering:', elevenlabsVoices.length);
+        }
         
-        // Debug: Log ElevenLabs filtering results
-        console.log('DEBUG: ElevenLabs voices after language filtering:', elevenlabsVoices.length);
-        console.log('DEBUG: ElevenLabs voices sample:', elevenlabsVoices.slice(0, 3));
-        
-        // Apply additional filters
-        elevenlabsVoices = this.filterVoices(elevenlabsVoices, langCode);
+        // Apply additional filters (age, accent, style, category) unless in Library Only mode
+        if (!isLibraryOnly) {
+            elevenlabsVoices = this.filterVoices(elevenlabsVoices, langCode);
+        }
         
         // Debug: Log final results
         console.log('DEBUG: ElevenLabs voices after all filters:', elevenlabsVoices.length);
+        console.log('DEBUG: Sample voices:', elevenlabsVoices.slice(0, 3));
         
         // Cache the results
-        const cacheKey = `elevenlabs_${langCode}`;
+        const cacheKey = `elevenlabs_${langCode}_${isLibraryOnly ? 'library' : 'all'}`;
         this.voiceCache[cacheKey] = elevenlabsVoices;
         
         return elevenlabsVoices;
