@@ -242,18 +242,21 @@
         }
 
         .filter-select {
-            padding: 8px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 14px;
-            background: white;
-            cursor: pointer;
-            transition: border-color 0.3s;
         }
 
-        .filter-select:focus {
-            outline: none;
-            border-color: #4facfe;
+        .filter-checkbox {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+
+        .voice-filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
 
         .voice-preview-modal {
@@ -781,16 +784,24 @@
                             <label for="categoryFilter">Category:</label>
                             <select id="categoryFilter" class="filter-select">
                                 <option value="">All Categories</option>
-                                <option value="premade">Premade</option>
-                                <option value="professional">Professional</option>
+                                <option value="personal">Personal</option>
                                 <option value="shared">Shared</option>
+                                <option value="professional">Professional</option>
                                 <option value="generated">Generated</option>
                             </select>
                         </div>
+                        <div class="filter-group">
+                            <label for="libraryOnlyToggle">
+                                <input type="checkbox" id="libraryOnlyToggle" class="filter-checkbox">
+                                ElevenLabs Library Only
+                            </label>
+                        </div>
+                    </div>
+                    <div class="voice-filter-actions">
                         <button id="clearVoiceFilters" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Clear Voice Filters
                         </button>
-                        <button id="showVoicePreview" class="btn btn-info">
+                        <button id="previewVoices" class="btn btn-primary">
                             <i class="fas fa-eye"></i> Preview Voices
                         </button>
                     </div>
