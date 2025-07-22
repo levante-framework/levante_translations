@@ -1203,6 +1203,363 @@ class AudioDashboard {
     }
 
     async getElevenLabsVoices(langCode) {
+        // Check if we have ElevenLabs API credentials
+        const hasApiKey = this.apiConfig.elevenlabs.apiKey && this.apiConfig.elevenlabs.apiKey.trim() !== '';
+        
+        if (hasApiKey) {
+            // Use live API to get voices from the user's account
+            console.log('DEBUG: Using ElevenLabs API to fetch voices from your account');
+            return await this.fetchElevenLabsVoicesFromAPI(langCode);
+        } else {
+            // Fall back to CSV data
+            console.log('DEBUG: No ElevenLabs API key found, using CSV data');
+            return await this.getElevenLabsVoicesFromCSV(langCode);
+        }
+    }
+
+    async fetchElevenLabsVoicesFromAPI(langCode) {
+        try {
+            console.log('DEBUG: Fetching ElevenLabs voices from API for language:', langCode);
+            console.log('DEBUG: Using API key:', this.apiConfig.elevenlabs.apiKey.substring(0, 10) + '...');
+            
+            // First, let's check the user info to see which account we're accessing
+            try {
+                console.log('DEBUG: Checking user account info...');
+                const userResponse = await fetch('https://api.elevenlabs.io/v1/user', {
+                    headers: {
+                        'xi-api-key': this.apiConfig.elevenlabs.apiKey
+                    }
+                });
+                
+                if (userResponse.ok) {
+                    const userInfo = await userResponse.json();
+                    console.log('DEBUG: User account info:', userInfo);
+                    console.log('DEBUG: Account ID:', userInfo.subscription?.tier || 'unknown');
+                    console.log('DEBUG: User ID:', userInfo.xi_api_key?.substring(0, 10) + '...' || 'unknown');
+                } else {
+                    console.log('DEBUG: Could not fetch user info:', userResponse.status);
+                }
+            } catch (userError) {
+                console.log('DEBUG: Error fetching user info:', userError);
+            }
+            
+            // Try to get user's personal voice library first
+            let response;
+            let data;
+            
+            try {
+                // First try the user's personal voice library endpoint
+                console.log('DEBUG: Attempting to fetch from user voice library...');
+                response = await fetch('https://api.elevenlabs.io/v1/voices?show_legacy=false', {
+                    headers: {
+                        'xi-api-key': this.apiConfig.elevenlabs.apiKey
+                    }
+                });
+                
+                if (response.ok) {
+                    data = await response.json();
+                    console.log('DEBUG: Successfully fetched from user voice library');
+                    console.log('DEBUG: User library response:', data);
+                } else {
+                    throw new Error(`User library API error: ${response.status}`);
+                }
+            } catch (userLibError) {
+                console.log('DEBUG: User library fetch failed, trying general voices endpoint...');
+                // Fallback to general voices endpoint
+                response = await fetch('https://api.elevenlabs.io/v1/voices', {
+                    headers: {
+                        'xi-api-key': this.apiConfig.elevenlabs.apiKey
+                    }
+                });
+                
+                if (!response.ok) {
+                    console.error('DEBUG: General API response not OK:', response.status, response.statusText);
+                    throw new Error(`ElevenLabs API error: ${response.status} - ${response.statusText}`);
+                }
+                
+                data = await response.json();
+                console.log('DEBUG: Using general voices endpoint as fallback');
+            }
+
+            console.log('DEBUG: Raw API response:', data);
+            console.log('DEBUG: Number of voices in API response:', data.voices ? data.voices.length : 0);
+            
+            // Search specifically for Spanish voices like Julia
+            if (data.voices && data.voices.length > 0) {
+                console.log('DEBUG: Searching for Spanish voices...');
+                const spanishVoices = data.voices.filter(voice => {
+                    const name = voice.name.toLowerCase();
+                    const lang = (voice.labels?.language || '').toLowerCase();
+                    const isSpanish = name.includes('julia') || 
+                                     name.includes('spanish') ||
+                                     name.includes('ana maría') ||
+                                     name.includes('ana maria') ||
+                                     lang.includes('spanish') ||
+                                     lang.includes('es');
+                    return isSpanish;
+                });
+                console.log('DEBUG: Found Spanish voices:', spanishVoices);
+                
+                if (spanishVoices.length === 0) {
+                    console.log('DEBUG: NO SPANISH VOICES FOUND! This suggests API key is accessing wrong account.');
+                    console.log('DEBUG: Expected to find voices like "Julia" but none found.');
+                }
+            }
+            
+            // If we have exactly 27 voices, these are likely your My Voices
+            if (data.voices && data.voices.length === 27) {
+                console.log('DEBUG: Found exactly 27 voices - this appears to be your My Voices library!');
+            } else if (data.voices && data.voices.length > 27) {
+                console.log(`DEBUG: Found ${data.voices.length} voices - filtering to identify your My Voices...`);
+            }
+            
+            // COMPREHENSIVE VOICE ANALYSIS - Show complete lab account overview
+            if (data.voices && data.voices.length > 0) {
+                console.log('\n=== 🎤 MY VOICES LIBRARY ANALYSIS ===');
+                console.log(`Total voices returned by API: ${data.voices.length}`);
+                
+                // Group by language
+                const voicesByLanguage = {};
+                const voicesByCategory = {};
+                
+                data.voices.forEach((voice, index) => {
+                    const lang = voice.labels?.language || 'unknown';
+                    const category = voice.category || 'unknown';
+                    
+                    if (!voicesByLanguage[lang]) voicesByLanguage[lang] = [];
+                    if (!voicesByCategory[category]) voicesByCategory[category] = [];
+                    
+                    voicesByLanguage[lang].push(voice);
+                    voicesByCategory[category].push(voice);
+                    
+                    console.log(`${index + 1}. "${voice.name}" - Language: "${lang}", Category: "${category}", ID: ${voice.voice_id}`);
+                });
+                
+                console.log('\n=== 📊 MY VOICES LANGUAGE BREAKDOWN ===');
+                Object.keys(voicesByLanguage).sort().forEach(lang => {
+                    console.log(`${lang.toUpperCase()}: ${voicesByLanguage[lang].length} voices`);
+                    voicesByLanguage[lang].forEach(voice => {
+                        console.log(`  - ${voice.name} (${voice.category})`);
+                    });
+                });
+                
+                console.log('\n=== 📂 MY VOICES CATEGORY BREAKDOWN ===');
+                Object.keys(voicesByCategory).sort().forEach(category => {
+                    console.log(`\n${category.toUpperCase()}: ${voicesByCategory[category].length} voices`);
+                    voicesByCategory[category].forEach(voice => {
+                        console.log(`  - "${voice.name}" (Language: ${voice.labels?.language || 'unknown'})`);
+                    });
+                });
+                console.log('=== END MY VOICES ANALYSIS ===\n');
+            }
+            
+            // Log first few voices to see their structure (original debug code)
+            if (data.voices && data.voices.length > 0) {
+                console.log('DEBUG: First 3 voices from API:', data.voices.slice(0, 3));
+                console.log('DEBUG: Sample voice labels:', data.voices[0].labels);
+                console.log('DEBUG: Sample voice category:', data.voices[0].category);
+                
+                // Check for ownership indicators
+                console.log('DEBUG: Full structure of first voice:');
+                console.log(data.voices[0]);
+                
+                // Look for potential ownership fields
+                data.voices.slice(0, 5).forEach((voice, index) => {
+                    console.log(`DEBUG: Voice ${index + 1} detailed structure:`, {
+                        name: voice.name,
+                        voice_id: voice.voice_id,
+                        category: voice.category,
+                        available_for_tiers: voice.available_for_tiers,
+                        sharing: voice.sharing,
+                        high_quality_base_model_ids: voice.high_quality_base_model_ids,
+                        labels: voice.labels,
+                        preview_url: voice.preview_url,
+                        available_models: voice.available_models
+                    });
+                });
+            }
+            
+            // Check if Library Only mode is enabled
+            const libraryOnlyToggle = document.getElementById('libraryOnlyToggle');
+            const isLibraryOnly = libraryOnlyToggle && libraryOnlyToggle.checked;
+            console.log('DEBUG: Library Only mode:', isLibraryOnly);
+            
+            // Create a mapping from standard language codes to API language formats
+            const langMapping = {
+                'en': ['en', 'english'],
+                'es': ['es', 'spanish'],
+                'es-CO': ['es', 'spanish'],
+                'de': ['de', 'german'],
+                'fr': ['fr', 'french'],
+                'fr-CA': ['fr', 'french'],
+                'nl': ['nl', 'dutch']
+            };
+            
+            const possibleLangs = langMapping[langCode] || [langCode];
+            console.log('DEBUG: Looking for API languages:', possibleLangs);
+            
+            let filteredVoices = data.voices || [];
+            console.log('DEBUG: Starting with voices:', filteredVoices.length);
+            
+            if (isLibraryOnly) {
+                // Library Only mode: Show all available voices (owned + professional) filtered by language
+                console.log('DEBUG: Library Only mode - showing all available voices filtered by language');
+                
+                // Skip category filtering completely - show all voices available to this account
+                console.log(`DEBUG: Starting with all ${filteredVoices.length} available voices`);
+                
+                // Apply language filtering to all available voices
+                const beforeLangFilter = filteredVoices.length;
+                filteredVoices = filteredVoices.filter(voice => {
+                    const labels = voice.labels || {};
+                    const voiceLang = (labels.language || '').toLowerCase();
+                    
+                    // Check if voice language matches any of the possible languages
+                    let matchesLang = possibleLangs.some(lang => 
+                        voiceLang.includes(lang.toLowerCase())
+                    );
+                    
+                    // Enhanced Spanish detection
+                    if (!matchesLang && (langCode === 'es' || langCode === 'es-CO')) {
+                        // Accept various Spanish language formats
+                        matchesLang = voiceLang.includes('spanish') || 
+                                     voiceLang.includes('español') ||
+                                     voiceLang === 'es' ||
+                                     voiceLang === 'es-es' ||
+                                     voiceLang === 'es-mx' ||
+                                     voiceLang === 'es-ar' ||
+                                     voiceLang === 'es-co' ||
+                                     voiceLang.startsWith('es-');
+                        
+                        if (matchesLang) {
+                            console.log(`DEBUG: Found Spanish voice: "${voice.name}" with language: "${voiceLang}"`);
+                        }
+                    }
+                    
+                    // Enhanced German detection
+                    if (!matchesLang && langCode === 'de') {
+                        matchesLang = voiceLang.includes('german') || 
+                                     voiceLang.includes('deutsch') ||
+                                     voiceLang === 'de' ||
+                                     voiceLang === 'de-de' ||
+                                     voiceLang === 'de-at' ||
+                                     voiceLang === 'de-ch' ||
+                                     voiceLang.startsWith('de-');
+                    }
+                    
+                    // Enhanced French detection
+                    if (!matchesLang && (langCode === 'fr' || langCode === 'fr-CA')) {
+                        matchesLang = voiceLang.includes('french') || 
+                                     voiceLang.includes('français') ||
+                                     voiceLang === 'fr' ||
+                                     voiceLang === 'fr-fr' ||
+                                     voiceLang === 'fr-ca' ||
+                                     voiceLang === 'fr-ch' ||
+                                     voiceLang === 'fr-be' ||
+                                     voiceLang.startsWith('fr-');
+                    }
+                    
+                    // Enhanced Dutch detection
+                    if (!matchesLang && langCode === 'nl') {
+                        matchesLang = voiceLang.includes('dutch') || 
+                                     voiceLang.includes('nederlands') ||
+                                     voiceLang === 'nl' ||
+                                     voiceLang === 'nl-nl' ||
+                                     voiceLang === 'nl-be' ||
+                                     voiceLang.startsWith('nl-');
+                    }
+                    
+                    // Also include voices with unknown/empty language on all tabs for now
+                    if (!matchesLang && (voiceLang === '' || voiceLang === 'unknown')) {
+                        console.log(`DEBUG: Including unknown language voice "${voice.name}" on ${langCode} tab for debugging`);
+                        matchesLang = true; // Temporarily include all unknown voices to see what you have
+                    }
+                    
+                    console.log(`DEBUG: Voice "${voice.name}" - Language: "${voiceLang}", Target: "${langCode}", Category: "${voice.category}", Matches: ${matchesLang}`);
+                    return matchesLang;
+                });
+                
+                console.log(`DEBUG: AFTER language filter: ${beforeLangFilter} -> ${filteredVoices.length} voices for ${langCode} tab`);
+                console.log(`DEBUG: Library Only mode - Final voice count for ${langCode} tab: ${filteredVoices.length}`);
+            } else {
+                // Apply language filtering - be more flexible with language matching
+                const beforeLangFilter = filteredVoices.length;
+                filteredVoices = filteredVoices.filter(voice => {
+                    const labels = voice.labels || {};
+                    const voiceLang = (labels.language || '').toLowerCase();
+                    
+                    // Check if voice language matches any of the possible languages
+                    let matchesLang = possibleLangs.some(lang => 
+                        voiceLang.includes(lang.toLowerCase())
+                    );
+                    
+                    // If no language match and we're looking for Spanish, also check if the voice can handle Spanish
+                    // Most English voices from lab accounts can handle multiple languages
+                    if (!matchesLang && (langCode === 'es' || langCode === 'es-CO')) {
+                        // For Spanish, also accept English voices since many can handle Spanish
+                        matchesLang = voiceLang === 'en' || voiceLang === 'english';
+                    }
+                    
+                    // Similarly for other languages - English voices are often multilingual
+                    if (!matchesLang && langCode !== 'en') {
+                        // Accept English voices for any language as they're often multilingual
+                        matchesLang = voiceLang === 'en' || voiceLang === 'english';
+                    }
+                    
+                    console.log(`DEBUG: Voice "${voice.name}" - Language: "${voiceLang}", Target: "${langCode}", Matches: ${matchesLang}`);
+                    return matchesLang;
+                });
+                
+                console.log(`DEBUG: After language filter: ${beforeLangFilter} -> ${filteredVoices.length} voices`);
+            }
+            
+            // If no voices match, let's see what languages are actually available
+            if (filteredVoices.length === 0 && data.voices && data.voices.length > 0) {
+                console.log('DEBUG: No voices matched language filter. Available languages in your account:');
+                const availableLanguages = [...new Set(data.voices.map(v => v.labels?.language || 'unknown'))];
+                console.log('DEBUG: Available languages:', availableLanguages);
+                
+                // For debugging, let's also check without language filtering
+                console.log('DEBUG: All voices without language filtering:');
+                data.voices.forEach((voice, i) => {
+                    if (i < 5) { // Show first 5
+                        console.log(`DEBUG: Voice ${i + 1}: "${voice.name}" - Language: "${voice.labels?.language || 'unknown'}", Category: "${voice.category}"`);
+                    }
+                });
+            }
+            
+            // Transform to match expected format
+            const transformedVoices = filteredVoices.map(voice => ({
+                service: 'ElevenLabs',
+                voice_id: voice.voice_id,
+                id: voice.voice_id,
+                name: voice.name,
+                display_name: voice.name,
+                language: voice.labels?.language || langCode,
+                language_code: langCode,
+                gender: voice.labels?.gender || 'unknown',
+                accent: voice.labels?.accent || '',
+                age: voice.labels?.age || '',
+                category: voice.category || 'professional',
+                description: voice.description || ''
+            }));
+            
+            console.log(`DEBUG: Final filtered ElevenLabs voices from API for ${langCode}:`, transformedVoices.length);
+            if (transformedVoices.length > 0) {
+                console.log('DEBUG: Sample transformed voices:', transformedVoices.slice(0, 3));
+            }
+            
+            return transformedVoices;
+            
+        } catch (error) {
+            console.error('Error fetching ElevenLabs voices from API:', error);
+            // Fall back to CSV data if API fails
+            console.log('DEBUG: API failed, falling back to CSV data');
+            return await this.getElevenLabsVoicesFromCSV(langCode);
+        }
+    }
+
+    async getElevenLabsVoicesFromCSV(langCode) {
         // Load comprehensive voice data
         const allVoices = await this.loadComprehensiveVoices();
         
@@ -1211,7 +1568,7 @@ class AudioDashboard {
         const isLibraryOnly = libraryOnlyToggle && libraryOnlyToggle.checked;
         
         // Debug: Log the language code and first few voices
-        console.log('DEBUG: Getting ElevenLabs voices for language:', langCode);
+        console.log('DEBUG: Getting ElevenLabs voices from CSV for language:', langCode);
         console.log('DEBUG: Library Only mode:', isLibraryOnly);
         console.log('DEBUG: Total voices loaded:', allVoices.length);
         
@@ -1220,7 +1577,7 @@ class AudioDashboard {
             return voice.service === 'ElevenLabs';
         });
         
-        console.log('DEBUG: All ElevenLabs voices:', elevenlabsVoices.length);
+        console.log('DEBUG: All ElevenLabs voices from CSV:', elevenlabsVoices.length);
         
         // Create a mapping from standard language codes to CSV language formats
         const langMapping = {
@@ -1238,12 +1595,12 @@ class AudioDashboard {
         console.log('DEBUG: Looking for languages:', possibleLangs);
         
         if (isLibraryOnly) {
-            // Library Only mode: Show only personal library voices for the current language
+            // Library Only mode: Show all available voices filtered by language
+            console.log('DEBUG: Library Only mode (CSV) - showing all available voices filtered by language');
+            
+            // Skip category filtering - use all ElevenLabs voices and filter by language
+            // Apply language filtering
             elevenlabsVoices = elevenlabsVoices.filter(voice => {
-                const isLibraryVoice = voice.category === 'personal' || voice.category === 'generated';
-                if (!isLibraryVoice) return false;
-                
-                // Still apply language filtering for Library Only mode
                 const matchesLang = possibleLangs.some(lang => 
                     voice.language === lang || 
                     voice.language_code === lang ||
@@ -1251,7 +1608,7 @@ class AudioDashboard {
                     voice.language_code === langCode.split('-')[0]
                 );
                 
-                // Special handling for voices with empty language fields
+                // Special handling for voices with empty language fields (use accent to determine language)
                 if (!matchesLang && (!voice.language || voice.language === '') && (!voice.language_code || voice.language_code === '')) {
                     const accent = (voice.accent || '').toLowerCase();
                     
@@ -1274,7 +1631,9 @@ class AudioDashboard {
                 
                 return matchesLang;
             });
+            
             console.log('DEBUG: ElevenLabs Library Only voices for', langCode, ':', elevenlabsVoices.length);
+            console.log('DEBUG: Library Only mode - showing language-filtered voices on', langCode, 'tab');
         } else {
             // Normal mode: Apply language filtering
             elevenlabsVoices = elevenlabsVoices.filter(voice => {
@@ -1285,28 +1644,22 @@ class AudioDashboard {
                     voice.language_code === langCode.split('-')[0]
                 );
                 
-                // Special handling for voices with empty language fields
-                // If language is empty, use accent to determine language
+                // Special handling for voices with empty language fields (use accent to determine language)
                 if (!matchesLang && (!voice.language || voice.language === '') && (!voice.language_code || voice.language_code === '')) {
                     const accent = (voice.accent || '').toLowerCase();
                     
                     if (langCode === 'en') {
-                        // English: American, British, Australian, Canadian, etc.
                         return accent.includes('american') || accent.includes('british') || 
                                accent.includes('australian') || accent.includes('canadian') ||
                                accent.includes('english') || accent.includes('us') || accent.includes('uk');
                     } else if (langCode === 'es' || langCode === 'es-CO') {
-                        // Spanish: Only if explicitly Spanish accent
                         return accent.includes('spanish') || accent.includes('mexican') || 
                                accent.includes('argentinian') || accent.includes('colombian');
                     } else if (langCode === 'de') {
-                        // German: Only if explicitly German accent
                         return accent.includes('german') || accent.includes('austrian');
                     } else if (langCode === 'fr' || langCode === 'fr-CA') {
-                        // French: Only if explicitly French accent
                         return accent.includes('french') || accent.includes('canadian');
                     } else if (langCode === 'nl') {
-                        // Dutch: Only if explicitly Dutch accent
                         return accent.includes('dutch') || accent.includes('netherlands');
                     }
                     return false;
@@ -1315,21 +1668,13 @@ class AudioDashboard {
                 return matchesLang;
             });
             
-            console.log('DEBUG: ElevenLabs voices after language filtering:', elevenlabsVoices.length);
+            console.log('DEBUG: ElevenLabs voices after language filtering for', langCode, ':', elevenlabsVoices.length);
         }
         
-        // Apply additional filters (age, accent, style, category) unless in Library Only mode
-        if (!isLibraryOnly) {
-            elevenlabsVoices = this.filterVoices(elevenlabsVoices, langCode);
+        // Debug: Show sample voices
+        if (elevenlabsVoices.length > 0) {
+            console.log('DEBUG: Sample ElevenLabs voices:', elevenlabsVoices.slice(0, 3));
         }
-        
-        // Debug: Log final results
-        console.log('DEBUG: ElevenLabs voices after all filters:', elevenlabsVoices.length);
-        console.log('DEBUG: Sample voices:', elevenlabsVoices.slice(0, 3));
-        
-        // Cache the results
-        const cacheKey = `elevenlabs_${langCode}_${isLibraryOnly ? 'library' : 'all'}`;
-        this.voiceCache[cacheKey] = elevenlabsVoices;
         
         return elevenlabsVoices;
     }
@@ -1633,7 +1978,9 @@ class AudioDashboard {
         // Debug: Check credentials
         console.log('DEBUG: ElevenLabs credentials check:', {
             apiKey: this.apiConfig.elevenlabs.apiKey ? 'Present' : 'Missing',
-            apiKeyLength: this.apiConfig.elevenlabs.apiKey?.length || 0
+            apiKeyLength: this.apiConfig.elevenlabs.apiKey?.length || 0,
+            apiKeyStart: this.apiConfig.elevenlabs.apiKey?.substring(0, 15) + '...' || 'None',
+            fullApiKey: this.apiConfig.elevenlabs.apiKey // TEMPORARY: Show full key for debugging
         });
 
         if (!this.apiConfig.elevenlabs.apiKey) {
