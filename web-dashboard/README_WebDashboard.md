@@ -15,9 +15,9 @@ A modern web-based dashboard for comparing and generating TTS audio across multi
 
 ## Files
 
-- `dashboard.html` - Main HTML interface
-- `dashboard.js` - Core JavaScript functionality and API integrations
-- `config.js` - Configuration file with language and API settings
+- `public/dashboard.html` - Main HTML interface
+- `public/dashboard.js` - Core JavaScript functionality and API integrations
+- `public/config.js` - Configuration file with language and API settings
 - `README_WebDashboard.md` - This documentation file
 
 ## Setup
@@ -46,7 +46,7 @@ ConfigHelper.setApiKey('elevenlabs', 'apiKey', 'your-elevenlabs-api-key');
 ### 3. Running the Dashboard
 
 1. Serve the files through a web server (due to CORS restrictions)
-2. Open `dashboard.html` in your browser
+2. Open `public/dashboard.html` in your browser (or just the root URL if using Vercel)
 3. Enter your API keys when prompted
 4. Start using the dashboard!
 
@@ -67,7 +67,7 @@ npx http-server
 php -S localhost:8000
 ```
 
-Then open `http://localhost:8000/dashboard.html`
+Then open `http://localhost:8000/public/dashboard.html`
 
 ## Usage
 
@@ -161,7 +161,7 @@ CONFIG.curatedVoices.playht['it'] = [
 
 ### Styling
 
-The dashboard uses CSS custom properties for easy theming. Modify the CSS variables in `dashboard.html`:
+The dashboard uses CSS custom properties for easy theming. Modify the CSS variables in `public/dashboard.html`:
 
 ```css
 :root {
