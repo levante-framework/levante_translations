@@ -379,9 +379,9 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['album'] = f"{ourRow['labels']}"  # Task name as album
         tags['date'] = str(pd.Timestamp.now().year)  # Current year
         tags['genre'] = "Speech Synthesis"
-        tags['created'] = str(pd.Timestamp.now())  # Full timestamp when file was created
         
         # Add our custom tags
+        tags['created'] = str(pd.Timestamp.now())  # Full timestamp when file was created
         tags['lang_code'] = lang_code
         tags['service'] = service
         tags['voice'] = voice
