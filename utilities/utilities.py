@@ -27,13 +27,17 @@ except ImportError:
 # Standard ID3v2 tags
 audio_tags = {
     'title': None,
-    'artist': None,
+    'artist': 'Levante Project',
     'album': None,
-    'date': None,
-    'genre': None,
+    'genre': 'Speech Synthesis',
     'comment': None,
-    'created': None
 
+    # our custom tags
+    'text': None,
+    'created': None,
+    'lang_code': None,
+    'service': None,
+    'voice': None
 }
 
 # Standard ID3v2 tag fields (these use specific ID3 frames)
@@ -381,13 +385,10 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['lang_code'] = lang_code
         tags['service'] = service
         tags['voice'] = voice
+        tags['text'] = ourRow.get(lang_code, '')
+        tags['comment'] = f"Levante Project - {service} - {voice} - {lang_code}"
 
-        # Create a descriptive comment with translation text
-        comment_text = str(ourRow.get(lang_code, ''))[:100]  # First 100 chars of text
-        if len(str(ourRow.get(lang_code, ''))) > 100:
-            comment_text += "..."
-        tags['comment'] = comment_text
-        
+
         # Write ID3 tags using the tags dictionary
         write_id3_tags(file_path=file_path, tags=tags)
         
