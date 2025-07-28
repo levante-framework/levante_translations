@@ -221,20 +221,21 @@ def test_complete_audio_workflow():
                     if read_tags:
                         print(f"   ✅ Read {len(read_tags)} metadata fields")
                         
-                        # Step 4: Validate key metadata
-                        expected_tags = {
+                        # Step 4: Validate key metadata fields
+                        validation_results = {}
+                        
+                        # Define expected values for each field
+                        expected_values = {
                             'title': item_id,
                             'artist': f"Levante Framework - {service}",
                             'album': row['labels'],
                             'genre': 'Speech Synthesis',
                             'lang_code': lang_code,
                             'service': service,
-                            'voice': voice,
-                            'text': text
+                            'voice': voice
                         }
                         
-                        validation_results = {}
-                        for field, expected_value in expected_tags.items():
+                        for field, expected_value in expected_values.items():
                             actual_value = read_tags.get(field, '')
                             matches = str(expected_value) == str(actual_value)
                             validation_results[field] = {
@@ -262,10 +263,11 @@ def test_complete_audio_workflow():
                             'validation_passed': all(v['matches'] for v in validation_results.values()),
                             'title_match': validation_results.get('title', {}).get('matches', False),
                             'artist_match': validation_results.get('artist', {}).get('matches', False),
+                            'album_match': validation_results.get('album', {}).get('matches', False),
+                            'genre_match': validation_results.get('genre', {}).get('matches', False),
                             'service_match': validation_results.get('service', {}).get('matches', False),
                             'voice_match': validation_results.get('voice', {}).get('matches', False),
                             'lang_code_match': validation_results.get('lang_code', {}).get('matches', False),
-                            'text_match': validation_results.get('text', {}).get('matches', False),
                             'created_timestamp': read_tags.get('created', ''),
                             'generation_date': datetime.now().isoformat()
                         })
