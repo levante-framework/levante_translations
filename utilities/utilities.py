@@ -13,6 +13,17 @@ from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
 import numpy as np
 
+# Add mutagen for ID3v2 tag handling
+try:
+    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM
+    from mutagen.mp3 import MP3
+    MUTAGEN_AVAILABLE = True
+except ImportError:
+    MUTAGEN_AVAILABLE = False
+    print("Warning: mutagen not available. ID3 tag functions will not work.")
+    print("Install with: pip install mutagen")
+
+
 def create_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -221,10 +232,134 @@ def show_ssml_tips(self):
 
         
 
+def read_id3_tags(file_path):
+    """
+    Read ID3v2 tags from an MP3 file.
+    
+    Args:
+        file_path (str): Path to the MP3 file
+        
+    Returns:
+        dict: Dictionary containing ID3 tag information, or empty dict if no tags or error
+    """
+    if not MUTAGEN_AVAILABLE:
+        print("Warning: mutagen not available. Cannot read ID3 tags.")
+        return {}
+    
+    if not os.path.exists(file_path):
+        print(f"Warning: File {file_path} does not exist.")
+        return {}
+    
+    try:
+        audio_file = MP3(file_path, ID3=ID3)
+        tags = {}
+        
+        # Read common tags
+        if audio_file.tags:
+            tags['title'] = str(audio_file.tags.get('TIT2', [''])[0]) if audio_file.tags.get('TIT2') else ''
+            tags['artist'] = str(audio_file.tags.get('TPE1', [''])[0]) if audio_file.tags.get('TPE1') else ''
+            tags['album'] = str(audio_file.tags.get('TALB', [''])[0]) if audio_file.tags.get('TALB') else ''
+            tags['date'] = str(audio_file.tags.get('TDRC', [''])[0]) if audio_file.tags.get('TDRC') else ''
+            tags['genre'] = str(audio_file.tags.get('TCON', [''])[0]) if audio_file.tags.get('TCON') else ''
+            
+            # Read comment (if any)
+            comment_frames = audio_file.tags.getall('COMM')
+            tags['comment'] = str(comment_frames[0].text[0]) if comment_frames else ''
+        
+        return tags
+        
+    except Exception as e:
+        print(f"Error reading ID3 tags from {file_path}: {e}")
+        return {}
+
+
+def write_id3_tags(file_path, title=None, artist=None, album=None, date=None, genre=None, comment=None):
+    """
+    Write ID3v2 tags to an MP3 file.
+    
+    Args:
+        file_path (str): Path to the MP3 file
+        title (str): Track title
+        artist (str): Artist name
+        album (str): Album name
+        date (str): Release date (YYYY format)
+        genre (str): Genre
+        comment (str): Comment text
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    if not MUTAGEN_AVAILABLE:
+        print("Warning: mutagen not available. Cannot write ID3 tags.")
+        return False
+    
+    if not os.path.exists(file_path):
+        print(f"Warning: File {file_path} does not exist.")
+        return False
+    
+    try:
+        audio_file = MP3(file_path, ID3=ID3)
+        
+        # Create ID3 tag if it doesn't exist
+        if audio_file.tags is None:
+            audio_file.add_tags()
+        
+        # Write tags if provided
+        if title:
+            audio_file.tags.add(TIT2(encoding=3, text=title))
+        if artist:
+            audio_file.tags.add(TPE1(encoding=3, text=artist))
+        if album:
+            audio_file.tags.add(TALB(encoding=3, text=album))
+        if date:
+            audio_file.tags.add(TDRC(encoding=3, text=date))
+        if genre:
+            audio_file.tags.add(TCON(encoding=3, text=genre))
+        if comment:
+            audio_file.tags.add(COMM(encoding=3, lang='eng', desc='', text=comment))
+        
+        # Save the tags
+        audio_file.save()
+        return True
+        
+    except Exception as e:
+        print(f"Error writing ID3 tags to {file_path}: {e}")
+        return False
+
+
 def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData):
-    with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
-        audio_base_dir, lang_code), "wb") as file:
+    file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)
+    
+    with open(file_path, "wb") as file:
         file.write(audioData.content)
+
+    # Add ID3v2 tags to the saved MP3 file
+    try:
+        # Extract metadata from the row data
+        title = f"{ourRow['item_id']}"  # Use item_id as title
+        artist = f"Levante Framework - {service}"  # Service used
+        album = f"{ourRow['labels']}"  # Task name as album
+        date = str(pd.Timestamp.now().year)  # Current year
+        genre = "Speech Synthesis"
+        
+        # Create a descriptive comment with translation text
+        comment_text = str(ourRow.get(lang_code, ''))[:100]  # First 100 chars of text
+        if len(str(ourRow.get(lang_code, ''))) > 100:
+            comment_text += "..."
+        
+        # Write ID3 tags
+        write_id3_tags(
+            file_path=file_path,
+            title=title,
+            artist=artist,
+            album=album,
+            date=date,
+            genre=genre,
+            comment=comment_text
+        )
+        
+    except Exception as e:
+        print(f"Warning: Could not add ID3 tags to {file_path}: {e}")
 
     # Handle column format mismatch - masterData might have old column names
     # Map simplified codes to old codes for backward compatibility
