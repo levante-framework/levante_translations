@@ -15,13 +15,29 @@ import numpy as np
 
 # Add mutagen for ID3v2 tag handling
 try:
-    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM
+    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX
     from mutagen.mp3 import MP3
     MUTAGEN_AVAILABLE = True
 except ImportError:
     MUTAGEN_AVAILABLE = False
     print("Warning: mutagen not available. ID3 tag functions will not work.")
     print("Install with: pip install mutagen")
+
+# Default audio tags template - create copies when needed
+# Standard ID3v2 tags
+audio_tags = {
+    'title': None,
+    'artist': None,
+    'album': None,
+    'date': None,
+    'genre': None,
+    'comment': None,
+    'created': None
+
+}
+
+# Standard ID3v2 tag fields (these use specific ID3 frames)
+STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment'}
 
 
 def create_directory(path):
@@ -234,7 +250,7 @@ def show_ssml_tips(self):
 
 def read_id3_tags(file_path):
     """
-    Read ID3v2 tags from an MP3 file.
+    Read ID3v2 tags from an MP3 file, including custom fields.
     
     Args:
         file_path (str): Path to the MP3 file
@@ -254,7 +270,7 @@ def read_id3_tags(file_path):
         audio_file = MP3(file_path, ID3=ID3)
         tags = {}
         
-        # Read common tags
+        # Read standard ID3v2 tags
         if audio_file.tags:
             tags['title'] = str(audio_file.tags.get('TIT2', [''])[0]) if audio_file.tags.get('TIT2') else ''
             tags['artist'] = str(audio_file.tags.get('TPE1', [''])[0]) if audio_file.tags.get('TPE1') else ''
@@ -265,6 +281,15 @@ def read_id3_tags(file_path):
             # Read comment (if any)
             comment_frames = audio_file.tags.getall('COMM')
             tags['comment'] = str(comment_frames[0].text[0]) if comment_frames else ''
+            
+            # Read custom fields (TXXX frames)
+            txxx_frames = audio_file.tags.getall('TXXX')
+            for frame in txxx_frames:
+                if frame.desc and frame.text:
+                    # Use the description as the field name
+                    custom_field_name = frame.desc
+                    custom_field_value = str(frame.text[0]) if frame.text else ''
+                    tags[custom_field_name] = custom_field_value
         
         return tags
         
@@ -273,18 +298,14 @@ def read_id3_tags(file_path):
         return {}
 
 
-def write_id3_tags(file_path, title=None, artist=None, album=None, date=None, genre=None, comment=None):
+def write_id3_tags(file_path, tags):
     """
-    Write ID3v2 tags to an MP3 file.
+    Write ID3v2 tags to an MP3 file, including custom fields.
     
     Args:
         file_path (str): Path to the MP3 file
-        title (str): Track title
-        artist (str): Artist name
-        album (str): Album name
-        date (str): Release date (YYYY format)
-        genre (str): Genre
-        comment (str): Comment text
+        tags (dict): Dictionary of tags to write (uses audio_tags template structure)
+                    Any fields beyond standard ID3v2 fields will be stored as custom TXXX frames
         
     Returns:
         bool: True if successful, False otherwise
@@ -297,6 +318,10 @@ def write_id3_tags(file_path, title=None, artist=None, album=None, date=None, ge
         print(f"Warning: File {file_path} does not exist.")
         return False
     
+    if not tags:
+        print("Warning: No tags dictionary provided.")
+        return False
+    
     try:
         audio_file = MP3(file_path, ID3=ID3)
         
@@ -304,19 +329,25 @@ def write_id3_tags(file_path, title=None, artist=None, album=None, date=None, ge
         if audio_file.tags is None:
             audio_file.add_tags()
         
-        # Write tags if provided
-        if title:
-            audio_file.tags.add(TIT2(encoding=3, text=title))
-        if artist:
-            audio_file.tags.add(TPE1(encoding=3, text=artist))
-        if album:
-            audio_file.tags.add(TALB(encoding=3, text=album))
-        if date:
-            audio_file.tags.add(TDRC(encoding=3, text=date))
-        if genre:
-            audio_file.tags.add(TCON(encoding=3, text=genre))
-        if comment:
-            audio_file.tags.add(COMM(encoding=3, lang='eng', desc='', text=comment))
+        # Write standard ID3v2 tags
+        if tags.get('title'):
+            audio_file.tags.add(TIT2(encoding=3, text=tags['title']))
+        if tags.get('artist'):
+            audio_file.tags.add(TPE1(encoding=3, text=tags['artist']))
+        if tags.get('album'):
+            audio_file.tags.add(TALB(encoding=3, text=tags['album']))
+        if tags.get('date'):
+            audio_file.tags.add(TDRC(encoding=3, text=tags['date']))
+        if tags.get('genre'):
+            audio_file.tags.add(TCON(encoding=3, text=tags['genre']))
+        if tags.get('comment'):
+            audio_file.tags.add(COMM(encoding=3, lang='eng', desc='', text=tags['comment']))
+        
+        # Write custom fields as TXXX frames
+        for field_name, field_value in tags.items():
+            if field_name not in STANDARD_ID3_FIELDS and field_value:
+                # Store custom fields as user-defined text frames (TXXX)
+                audio_file.tags.add(TXXX(encoding=3, desc=field_name, text=str(field_value)))
         
         # Save the tags
         audio_file.save()
@@ -327,7 +358,7 @@ def write_id3_tags(file_path, title=None, artist=None, album=None, date=None, ge
         return False
 
 
-def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData):
+def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice=""):
     file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)
     
     with open(file_path, "wb") as file:
@@ -335,28 +366,30 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
 
     # Add ID3v2 tags to the saved MP3 file
     try:
-        # Extract metadata from the row data
-        title = f"{ourRow['item_id']}"  # Use item_id as title
-        artist = f"Levante Framework - {service}"  # Service used
-        album = f"{ourRow['labels']}"  # Task name as album
-        date = str(pd.Timestamp.now().year)  # Current year
-        genre = "Speech Synthesis"
+        # Create a copy of the default audio_tags template
+        tags = audio_tags.copy()
         
+        # Populate the tags with metadata from the row data
+        tags['title'] = f"{ourRow['item_id']}"  # Use item_id as title
+        tags['artist'] = f"Levante Framework - {service}"  # Service used
+        tags['album'] = f"{ourRow['labels']}"  # Task name as album
+        tags['date'] = str(pd.Timestamp.now().year)  # Current year
+        tags['genre'] = "Speech Synthesis"
+        tags['created'] = str(pd.Timestamp.now())  # Full timestamp when file was created
+        
+        # Add our custom tags
+        tags['lang_code'] = lang_code
+        tags['service'] = service
+        tags['voice'] = voice
+
         # Create a descriptive comment with translation text
         comment_text = str(ourRow.get(lang_code, ''))[:100]  # First 100 chars of text
         if len(str(ourRow.get(lang_code, ''))) > 100:
             comment_text += "..."
+        tags['comment'] = comment_text
         
-        # Write ID3 tags
-        write_id3_tags(
-            file_path=file_path,
-            title=title,
-            artist=artist,
-            album=album,
-            date=date,
-            genre=genre,
-            comment=comment_text
-        )
+        # Write ID3 tags using the tags dictionary
+        write_id3_tags(file_path=file_path, tags=tags)
         
     except Exception as e:
         print(f"Warning: Could not add ID3 tags to {file_path}: {e}")

@@ -97,7 +97,7 @@ def processRow(index, ourRow, lang_code, voice, \
                 audioData = AudioResponse(response.content)
                 
                 if ourRow['labels'] != float('nan'):
-                    return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData)
+                    return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice)
                 else:
                     return 'Success'
                     
