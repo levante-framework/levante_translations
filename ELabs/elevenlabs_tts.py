@@ -115,24 +115,32 @@ def processRow(index, ourRow, lang_code, voice, \
             model="eleven_multilingual_v2"
         )
 
-        # Eleven labs wants a filename
-        audio_filename = u.audio_file_path(ourRow["labels"], ourRow["item_id"], \
-                audio_base_dir, lang_code)
-        save(audio, audio_filename)
-        print(f'Generated {audio_filename}')
+        # Create a response object that mimics what PlayHT returns for consistency
+        class AudioResponse:
+            def __init__(self, content):
+                self.content = content
+                self.status_code = 200
         
-        # Update our "cache" of successful transcriptions                            
-        masterData[lang_code] = \
-            np.where(masterData["item_id"] == ourRow["item_id"], \
-            translation_text, masterData[lang_code])
+        # Convert the generator to bytes
+        audio_bytes = b''.join(audio)
+        audioData = AudioResponse(audio_bytes)
+        
+        # Use our unified save_audio function with ID3 tags
+        service = 'ElevenLabs'
+        if ourRow['labels'] != float('nan'):
+            return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice)
+        else:
+            print(f'Generated audio for {ourRow["item_id"]}')
+            
+            # Still need to update master data for tracking
+            masterData[lang_code] = \
+                np.where(masterData["item_id"] == ourRow["item_id"], \
+                translation_text, masterData[lang_code])
+            
+            # write as we go, so erroring out doesn't lose progress
+            masterData.to_csv("translation_master.csv")
+            return 'Success'
 
-        # write as we go, so erroring out doesn't lose progress
-        # Translated, so we can save it to a master sheet
-        masterData.to_csv("translation_master.csv")
-        # finished with the if statement        
-        return 'Success'    
-
-    except:
-        # u is not defined - need to import utilities as u at top of file
-        print(f'Failed to generate {translation_text} for voice {voice}\n')
+    except Exception as e:
+        print(f'Failed to generate {translation_text} for voice {voice}: {e}\n')
         return 'Failure'
