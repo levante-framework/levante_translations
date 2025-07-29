@@ -49,14 +49,21 @@ def rebuild_master_from_audio():
         
         # Mark items that have audio in the master file
         if column_name in master_df.columns:
-            # Set values for items that have audio - keep original translation text
+            # Set values for items that have audio - use the actual translation text from source
             for item_id in items_with_audio:
                 if item_id in master_df['item_id'].values:
                     idx = master_df[master_df['item_id'] == item_id].index[0]
-                    # Keep the original text (already there from source)
-                    # Just ensure it's not empty for items with audio
-                    if pd.isna(master_df.at[idx, column_name]) or master_df.at[idx, column_name] == '':
-                        # If somehow empty, mark as "HAS_AUDIO" placeholder
+                    # Get the actual translation text from the source data
+                    if item_id in source_df['item_id'].values:
+                        source_idx = source_df[source_df['item_id'] == item_id].index[0]
+                        if column_name in source_df.columns:
+                            actual_text = source_df.at[source_idx, column_name]
+                            master_df.at[idx, column_name] = actual_text
+                        else:
+                            # Fallback to placeholder if source text not found
+                            master_df.at[idx, column_name] = "HAS_AUDIO"
+                    else:
+                        # Fallback to placeholder if item not found in source
                         master_df.at[idx, column_name] = "HAS_AUDIO"
         else:
             # Add column if it doesn't exist
@@ -64,7 +71,18 @@ def rebuild_master_from_audio():
             for item_id in items_with_audio:
                 if item_id in master_df['item_id'].values:
                     idx = master_df[master_df['item_id'] == item_id].index[0]
-                    master_df.at[idx, column_name] = "HAS_AUDIO"
+                    # Get the actual translation text from the source data
+                    if item_id in source_df['item_id'].values:
+                        source_idx = source_df[source_df['item_id'] == item_id].index[0]
+                        if column_name in source_df.columns:
+                            actual_text = source_df.at[source_idx, column_name]
+                            master_df.at[idx, column_name] = actual_text
+                        else:
+                            # Fallback to placeholder if source text not found
+                            master_df.at[idx, column_name] = "HAS_AUDIO"
+                    else:
+                        # Fallback to placeholder if item not found in source
+                        master_df.at[idx, column_name] = "HAS_AUDIO"
     
     # Save the rebuilt master file
     print("Saving rebuilt translation_master.csv...")
