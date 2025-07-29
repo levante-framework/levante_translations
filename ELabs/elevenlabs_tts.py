@@ -35,8 +35,8 @@ def main(
     # columnts might be:
     # item_id,labels,en,es-CO,de,context
 
-    inputData = pd.read_csv(input_file_path, index_col=0)
-    masterData = pd.read_csv(master_file_path, index_col=0)
+    inputData = pd.read_csv(input_file_path)
+    masterData = pd.read_csv(master_file_path)
 
     # Rename columns to match lang_codes used in the script
     masterData = masterData.rename(columns={'en': 'en-US',
