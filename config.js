@@ -33,7 +33,7 @@ const CONFIG = {
         'Spanish': {
             lang_code: 'es-CO',
             service: 'ElevenLabs',
-            voice: 'Alexandra - Conversational and Real',
+            voice: 'Julia',
             display_name: 'Spanish'
         },
         'German': {
