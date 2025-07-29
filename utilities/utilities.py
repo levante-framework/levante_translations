@@ -454,6 +454,6 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
 
     # write as we go, so erroring out doesn't lose progress
     # Translated, so we can save it to a master sheet
-    masterData.to_csv("translation_master.csv")
+    masterData.to_csv("translation_master.csv", index=False)
     # finished with the if statement        
     return 'Success'    

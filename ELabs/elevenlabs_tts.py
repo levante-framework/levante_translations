@@ -148,7 +148,7 @@ def processRow(index, ourRow, lang_code, voice, \
                 translation_text, masterData[lang_code])
             
             # write as we go, so erroring out doesn't lose progress
-            masterData.to_csv("translation_master.csv")
+            masterData.to_csv("translation_master.csv", index=False)
             return 'Success'
 
     except Exception as e:
