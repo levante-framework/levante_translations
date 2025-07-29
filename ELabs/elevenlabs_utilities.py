@@ -39,9 +39,9 @@ def list_voices(lang_code, gender_filter=None):
     voice_list = response.voices
 
 
-    # Filter for just the voices we've added ourselves!
+    # Filter for voices we've added ourselves or shared voices available to us
     library_voices = [voice for voice in voice_list \
-                      if voice.category == "professional" and \
+                      if (voice.category == "professional" or voice.category == "shared" or voice.category == "premade" or voice.category == "generated" or voice.category == "personal") and \
                         voice.labels.get('language') == modified_language_code]
     
     # Apply gender filter if specified
