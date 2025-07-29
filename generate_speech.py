@@ -99,7 +99,7 @@ def generate_audio(language):
         for lang_config in language_dict.values():
             lang_code = lang_config['lang_code']
             masterData[lang_code] = None
-        masterData.to_csv(master_file_path, encoding='utf-8', errors='replace')
+        masterData.to_csv(master_file_path, index=False, encoding='utf-8', errors='replace')
         # Create baseline masterData
 
     # Now we have masterData & translationData
