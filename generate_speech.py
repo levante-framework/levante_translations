@@ -78,17 +78,19 @@ def generate_audio(language):
         }
         
         # Rename columns in master data to match our simplified format
+        # BUT skip renaming the column we're currently working with to avoid cache issues
+        current_lang_code = our_language['lang_code']  # Get the current language we're processing
         for old_col, new_col in master_column_mapping.items():
-            if old_col in masterData.columns:
+            if old_col in masterData.columns and old_col != current_lang_code:
                 masterData = masterData.rename(columns={old_col: new_col})
-                print(f"📋 Renamed master column {old_col} -> {new_col}")
+                print(f"Renamed master column {old_col} -> {new_col}")
         
         # Add any missing language columns that might be needed
         for lang_config in language_dict.values():
             lang_code = lang_config['lang_code']
             if lang_code not in masterData.columns:
                 masterData[lang_code] = None
-                print(f"📋 Added missing column {lang_code} to master data")
+                print(f"Added missing column {lang_code} to master data")
                 
     else:
         # Create a "null state" generation status file
@@ -184,6 +186,14 @@ def generate_audio(language):
             print(f"Error finding translation for {item_id}: {e}")
             translationCurrent = None
     
+        # Debug output to see exactly what's being compared
+        print(f"DEBUG for {item_id}:")
+        print(f"   lang_code: '{lang_code}'")
+        print(f"   master_lang_col: '{master_lang_col}'")
+        print(f"   translationNeeded: '{translationNeeded[:100]}...' ({len(translationNeeded)} chars)")
+        print(f"   translationCurrent: '{translationCurrent[:100] if translationCurrent else translationCurrent}...' ({len(str(translationCurrent))} chars)")
+        print(f"   Match: {translationCurrent == translationNeeded}")
+    
         if translationCurrent == translationNeeded:
             continue
 
@@ -218,8 +228,8 @@ def generate_audio(language):
             diffData.to_csv(f)
         retry_seconds = 1
         
-        print(f"\n🎯 Starting audio generation for {language}...")
-        print(f"📊 Processing {len(diffData)} items that need audio generation")
+        print(f"\nStarting audio generation for {language}...")
+        print(f"Processing {len(diffData)} items that need audio generation")
         
         if service == 'PlayHt':
             result = playHt_tts.main(
@@ -238,13 +248,13 @@ def generate_audio(language):
                 voice=voice, 
                 audio_base_dir = audio_base_dir)
         
-        print(f"✅ Audio generation completed for {language}")
+        print(f"Audio generation completed for {language}")
         
     else:
-        print(f"✅ No new audio files needed for {language} - all translations are up to date!")
+        print(f"No new audio files needed for {language} - all translations are up to date!")
     
     # Display final statistics
-    print(f"\n📈 Final Statistics for {language}:")
+    print(f"\nFinal Statistics for {language}:")
     print(f"   Language: {language}")
     print(f"   Language Code: {lang_code}")
     print(f"   Service: {service}")
@@ -261,7 +271,7 @@ def generate_audio(language):
     print(f"   Items processed this run: {len(diffData) if not diffData.empty else 0}")
     print(f"   Total items in dataset: {len(translationData)}")
     
-    print(f"\n🎉 Audio generation for {language} complete!")
+    print(f"\nAudio generation for {language} complete!")
     print("=" * 60)
 
 """
