@@ -133,8 +133,18 @@ def generate_audio(language):
         if lang_code in ourRow:
             translation_text = ourRow[lang_code]
         else:
-            print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
-            continue
+            # Check if we renamed the column - map back to simplified version
+            simplified_lang_codes = {
+                'es-CO': 'es',
+                'fr-CA': 'fr', 
+                'nl-NL': 'nl'
+            }
+            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+            if simplified_code in ourRow:
+                translation_text = ourRow[simplified_code]
+            else:
+                print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+                continue
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         # check to see if our lang_code is already matched 
@@ -144,11 +154,32 @@ def generate_audio(language):
 
         # Find what we have generated for that phrase currently
         try:
-            matched_rows = masterData.loc[masterData['item_id'] == item_id, lang_code]
-            if len(matched_rows) > 0:
-                translationCurrent = matched_rows.iloc[0]
+            # Handle column mapping - check both original and simplified lang codes
+            master_lang_col = lang_code
+            if lang_code not in masterData.columns:
+                # Try simplified version
+                simplified_lang_codes = {
+                    'es-CO': 'es',
+                    'fr-CA': 'fr', 
+                    'nl-NL': 'nl'
+                }
+                simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+                if simplified_code in masterData.columns:
+                    master_lang_col = simplified_code
+                else:
+                    # Column doesn't exist, treat as no current translation
+                    translationCurrent = None
+                    matched_rows = []
+            
+            if master_lang_col in masterData.columns:
+                matched_rows = masterData.loc[masterData['item_id'] == item_id, master_lang_col]
+                if len(matched_rows) > 0:
+                    translationCurrent = matched_rows.iloc[0]
+                else:
+                    translationCurrent = None
             else:
                 translationCurrent = None
+                matched_rows = []
         except Exception as e:
             print(f"Error finding translation for {item_id}: {e}")
             translationCurrent = None

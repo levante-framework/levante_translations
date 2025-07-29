@@ -32,22 +32,25 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
-    # Check if the column exists, if not try the original column name
+    # Handle column mapping for translation text lookup
+    translation_text = ''
     if lang_code in ourRow:
         translation_text = ourRow[lang_code]
-    elif lang_code == 'en-US' and 'en' in ourRow:
-        translation_text = ourRow['en']
-    elif lang_code == 'de-DE' and 'de' in ourRow:
-        translation_text = ourRow['de']
-    elif lang_code == 'es-CO' and 'es-CO' in ourRow:
-        translation_text = ourRow['es-CO']
-    elif lang_code == 'fr-CA' and 'fr-CA' in ourRow:
-        translation_text = ourRow['fr-CA']
-    elif lang_code == 'nl-NL' and 'nl' in ourRow:
-        translation_text = ourRow['nl']
     else:
-        print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
-        return 'Error'
+        # Try simplified version mapping
+        simplified_lang_codes = {
+            'en-US': 'en',
+            'es-CO': 'es',
+            'de-DE': 'de', 
+            'fr-CA': 'fr',
+            'nl-NL': 'nl'
+        }
+        simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+        if simplified_code in ourRow:
+            translation_text = ourRow[simplified_code]
+        else:
+            print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+            return 'Error'
 
     # Assemble data packet for PlayHT API v2
     # see https://docs.play.ht/reference/api-generate-tts-audio-stream

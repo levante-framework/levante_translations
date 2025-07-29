@@ -1,1 +1,0 @@
-python ..\generate_speech.py "Spanish" "Spanish_Violeta Narrative"
