@@ -67,30 +67,12 @@ def generate_audio(language):
     if os.path.exists("translation_master.csv"):
         masterData = pd.read_csv(master_file_path)
         
-        # Handle column format mismatch between old master file and new system
-        # The master file might have old column names, so rename them to match our new format
-        master_column_mapping = {
-            'en-US': 'en',
-            'es-CO': 'es', 
-            'de-DE': 'de',
-            'fr-CA': 'fr',
-            'nl-NL': 'nl'
-        }
-        
-        # Rename columns in master data to match our simplified format
-        # BUT skip renaming the column we're currently working with to avoid cache issues
-        current_lang_code = our_language['lang_code']  # Get the current language we're processing
-        for old_col, new_col in master_column_mapping.items():
-            if old_col in masterData.columns and old_col != current_lang_code:
-                masterData = masterData.rename(columns={old_col: new_col})
-                print(f"Renamed master column {old_col} -> {new_col}")
-        
         # Add any missing language columns that might be needed
         for lang_config in language_dict.values():
-            lang_code = lang_config['lang_code']
-            if lang_code not in masterData.columns:
-                masterData[lang_code] = None
-                print(f"Added missing column {lang_code} to master data")
+            lang_code_temp = lang_config['lang_code']
+            if lang_code_temp not in masterData.columns:
+                masterData[lang_code_temp] = None
+                print(f"Added missing column {lang_code_temp} to master data")
                 
     else:
         # Create a "null state" generation status file
@@ -116,6 +98,24 @@ def generate_audio(language):
     # We need to support different services for different languages
     service = our_language['service']
     voice = our_language['voice']
+
+    # Now that we have the current language, handle column renaming carefully
+    # Don't rename the column we're currently working with to avoid cache issues
+    if os.path.exists("translation_master.csv"):
+        master_column_mapping = {
+            'en-US': 'en',
+            'es-CO': 'es', 
+            'de-DE': 'de',
+            'fr-CA': 'fr',
+            'nl-NL': 'nl'
+        }
+        
+        # Rename columns in master data to match our simplified format
+        # BUT skip renaming the column we're currently working with to avoid cache issues
+        for old_col, new_col in master_column_mapping.items():
+            if old_col in masterData.columns and old_col != lang_code:
+                masterData = masterData.rename(columns={old_col: new_col})
+                print(f"Renamed master column {old_col} -> {new_col}")
 
     # remove the diff file to reset
     if os.path.exists(diff_file_name):
@@ -185,14 +185,6 @@ def generate_audio(language):
         except Exception as e:
             print(f"Error finding translation for {item_id}: {e}")
             translationCurrent = None
-    
-        # Debug output to see exactly what's being compared
-        print(f"DEBUG for {item_id}:")
-        print(f"   lang_code: '{lang_code}'")
-        print(f"   master_lang_col: '{master_lang_col}'")
-        print(f"   translationNeeded: '{translationNeeded[:100]}...' ({len(translationNeeded)} chars)")
-        print(f"   translationCurrent: '{translationCurrent[:100] if translationCurrent else translationCurrent}...' ({len(str(translationCurrent))} chars)")
-        print(f"   Match: {translationCurrent == translationNeeded}")
     
         if translationCurrent == translationNeeded:
             continue
