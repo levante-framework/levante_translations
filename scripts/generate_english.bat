@@ -1,1 +1,0 @@
-python ..\generate_speech.py "English" "Alexandra - Conversational and Real"

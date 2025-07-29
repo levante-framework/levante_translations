@@ -385,7 +385,22 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['lang_code'] = lang_code
         tags['service'] = service
         tags['voice'] = voice
-        tags['text'] = ourRow.get(lang_code, '')
+        # Handle column mapping for text field - check both original and simplified lang codes
+        text_value = ''
+        if lang_code in ourRow:
+            text_value = ourRow[lang_code]
+        else:
+            # Try simplified version
+            simplified_lang_codes = {
+                'es-CO': 'es',
+                'fr-CA': 'fr', 
+                'nl-NL': 'nl'
+            }
+            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+            if simplified_code in ourRow:
+                text_value = ourRow[simplified_code]
+        
+        tags['text'] = text_value
         tags['comment'] = f"Levante Project - {service} - {voice} - {lang_code}"
 
 
@@ -418,9 +433,24 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
             master_lang_col = lang_code
 
     # Update our "cache" of successful transcriptions                            
+    # Handle column mapping for masterData update - get the text value correctly
+    text_for_master = ''
+    if lang_code in ourRow:
+        text_for_master = ourRow[lang_code]
+    else:
+        # Try simplified version
+        simplified_lang_codes = {
+            'es-CO': 'es',
+            'fr-CA': 'fr', 
+            'nl-NL': 'nl'
+        }
+        simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+        if simplified_code in ourRow:
+            text_for_master = ourRow[simplified_code]
+    
     masterData[master_lang_col] = \
         np.where(masterData["item_id"] == ourRow["item_id"], \
-        ourRow[lang_code], masterData[master_lang_col])
+        text_for_master, masterData[master_lang_col])
 
     # write as we go, so erroring out doesn't lose progress
     # Translated, so we can save it to a master sheet

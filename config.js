@@ -32,8 +32,8 @@ const CONFIG = {
         },
         'Spanish': {
             lang_code: 'es-CO',
-            service: 'PlayHT',
-            voice: 'Spanish_Violeta Narrative',
+            service: 'ElevenLabs',
+            voice: 'Alexandra - Conversational and Real',
             display_name: 'Spanish'
         },
         'German': {
