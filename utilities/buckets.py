@@ -38,6 +38,8 @@ TASK_BUCKET_NAMES_PROD = {
     'shared': 'levante-tasks-shared-prod',
 }
 
+AUDIO_BUCKET_NAME_DEV = 'levante-audio-dev'
+AUDIO_BUCKET_NAME_PROD = 'levante-audio-prod'
 
 def get_bucket_name(task_name: str, environment: str = 'dev') -> str:
     """
