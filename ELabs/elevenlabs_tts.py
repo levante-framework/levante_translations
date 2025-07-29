@@ -111,6 +111,9 @@ def processRow(index, ourRow, lang_code, voice, \
             print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
             return 'Error'
 
+    # Show what we're about to generate
+    print(f"🎵 Generating audio for '{ourRow['item_id']}': {translation_text[:100]}{'...' if len(translation_text) > 100 else ''}")
+    
     try:
         audio = audio_client.generate(
             text=translation_text,
@@ -128,10 +131,14 @@ def processRow(index, ourRow, lang_code, voice, \
         audio_bytes = b''.join(audio)
         audioData = AudioResponse(audio_bytes)
         
+        print(f"✅ Successfully generated {len(audio_bytes)} bytes of audio for '{ourRow['item_id']}'")
+        
         # Use our unified save_audio function with ID3 tags
         service = 'ElevenLabs'
         if ourRow['labels'] != float('nan'):
-            return u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice)
+            result = u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice)
+            print(f"💾 Saved audio file for '{ourRow['item_id']}' with result: {result}")
+            return result
         else:
             print(f'Generated audio for {ourRow["item_id"]}')
             
@@ -145,5 +152,5 @@ def processRow(index, ourRow, lang_code, voice, \
             return 'Success'
 
     except Exception as e:
-        print(f'Failed to generate {translation_text} for voice {voice}: {e}\n')
+        print(f'❌ Failed to generate audio for {ourRow["item_id"]}: {translation_text[:50]}... - Error: {e}')
         return 'Failure'
