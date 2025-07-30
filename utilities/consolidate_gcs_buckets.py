@@ -31,7 +31,28 @@ TASK_BUCKET_NAMES_DEV = {
     'shared': 'levante-tasks-shared-dev',
 }
 
+TASK_BUCKET_NAMES_PROD = {
+    'intro': 'levante-intro-prod',
+    'vocab': 'levante-vocabulary-prod',
+    'memorygame': 'levante-memory-prod',
+    'roarinference': 'roar-inference',
+    'adultreasoning': 'levante-math-prod',
+    'heartsandflowers': 'levante-hearts-and-flowers-prod',
+    'egmamath': 'levante-math-prod',
+    'matrixreasoning': 'levante-pattern-matching-prod',
+    'samedifferentselection': 'levante-same-different-prod',
+    'trog': 'levante-sentence-understanding-prod',
+    'mentalrotation': 'levante-shape-rotation-prod',
+    'theoryofmind': 'levante-stories-prod',
+    'shared': 'levante-tasks-shared-prod',
+}
+
 AUDIO_BUCKET_NAME_DEV = 'levante-audio-dev'
+AUDIO_BUCKET_NAME_PROD = 'levante-audio-prod'
+
+# Project IDs for each environment
+PROJECT_ID_DEV = 'hs-levante-admin-dev'
+PROJECT_ID_PROD = 'hs-levante-admin-prod'
 
 # Language codes to consolidate
 LANGUAGE_CODES = ['en', 'en-US', 'es', 'es-CO', 'de', 'de-DE', 'fr', 'fr-CA', 'nl', 'nl-NL']
@@ -40,20 +61,40 @@ LANGUAGE_CODES = ['en', 'en-US', 'es', 'es-CO', 'de', 'de-DE', 'fr', 'fr-CA', 'n
 class GCSBucketConsolidator:
     """Class to handle Google Cloud Storage bucket consolidation operations."""
     
-    def __init__(self, project_id: Optional[str] = None):
+    def __init__(self, project_id: Optional[str] = None, environment: str = 'dev'):
         """
         Initialize the GCS client.
         
         Args:
-            project_id: Google Cloud Project ID. If None, uses default from environment.
+            project_id: Google Cloud Project ID. If None, uses environment-specific default.
+            environment: Target environment ('dev' or 'prod'). Defaults to 'dev'.
         """
         try:
-            if project_id:
-                self.client = storage.Client(project=project_id)
-            else:
-                self.client = storage.Client()
-            self.project_id = self.client.project
+            # Set environment and determine project ID
+            self.environment = environment.lower()
+            
+            # Use environment-specific project ID if not explicitly provided
+            if not project_id:
+                if self.environment == 'prod':
+                    project_id = PROJECT_ID_PROD
+                else:
+                    project_id = PROJECT_ID_DEV
+            
+            # Initialize client with appropriate project
+            self.client = storage.Client(project=project_id)
+            self.project_id = project_id
             print(f"Initialized GCS client for project: {self.project_id}")
+            
+            # Set bucket names based on environment
+            if self.environment == 'prod':
+                self.task_bucket_names = TASK_BUCKET_NAMES_PROD
+                self.audio_bucket_name = AUDIO_BUCKET_NAME_PROD
+                print(f"Environment: PRODUCTION")
+            else:
+                self.task_bucket_names = TASK_BUCKET_NAMES_DEV
+                self.audio_bucket_name = AUDIO_BUCKET_NAME_DEV
+                print(f"Environment: DEVELOPMENT")
+                
         except Exception as e:
             print(f"Error initializing GCS client: {e}")
             print("Make sure you have Google Cloud credentials configured.")
@@ -192,19 +233,20 @@ class GCSBucketConsolidator:
                            dry_run: bool = False,
                            force_copy: bool = False) -> None:
         """
-        Main function to consolidate audio files from all dev task buckets.
+        Main function to consolidate audio files from all task buckets.
         Files are organized as: language/filename.mp3 (no "shared" subfolder)
         
         Args:
-            target_bucket_name: Name of target bucket (defaults to AUDIO_BUCKET_NAME_DEV)
+            target_bucket_name: Name of target bucket (defaults to environment-specific bucket)
             add_task_prefix: Whether to add task name prefix to avoid filename conflicts
             dry_run: If True, only show what would be copied without actually copying
             force_copy: If True, copy all files regardless of timestamps
         """
         if not target_bucket_name:
-            target_bucket_name = AUDIO_BUCKET_NAME_DEV
+            target_bucket_name = self.audio_bucket_name
         
         print(f"Starting GCS bucket consolidation to: {target_bucket_name}")
+        print(f"Environment: {self.environment.upper()}")
         print(f"Using simplified structure: language/filename.mp3 (no 'shared' subfolder)")
         print(f"Add task prefix: {add_task_prefix}")
         print(f"Dry run: {dry_run}")
@@ -223,7 +265,7 @@ class GCSBucketConsolidator:
         total_tasks_processed = 0
         
         # Process each task bucket
-        for task_name, bucket_name in TASK_BUCKET_NAMES_DEV.items():
+        for task_name, bucket_name in self.task_bucket_names.items():
             print(f"\nProcessing task: {task_name} (bucket: {bucket_name})")
             
             # Get audio files for this task
@@ -403,7 +445,7 @@ class GCSBucketConsolidator:
             target_bucket_name: Name of target bucket to analyze
         """
         if not target_bucket_name:
-            target_bucket_name = AUDIO_BUCKET_NAME_DEV
+            target_bucket_name = self.audio_bucket_name
         
         print(f"Consolidation summary for bucket: {target_bucket_name}")
         print("Structure: language/filename.mp3 (simplified)")
@@ -435,7 +477,7 @@ class GCSBucketConsolidator:
             confirm: Whether to skip confirmation prompt
         """
         if not target_bucket_name:
-            target_bucket_name = AUDIO_BUCKET_NAME_DEV
+            target_bucket_name = self.audio_bucket_name
         
         if not confirm:
             response = input(f"Are you sure you want to delete all files from bucket {target_bucket_name}? (yes/no): ")
@@ -468,8 +510,10 @@ def main():
     parser = argparse.ArgumentParser(description="Consolidate audio files from GCS task buckets")
     parser.add_argument('--action', choices=['consolidate', 'summary', 'clean'], 
                        default='consolidate', help='Action to perform')
+    parser.add_argument('--environment', choices=['dev', 'prod'], 
+                       default='dev', help='Target environment (dev or prod). Defaults to dev.')
     parser.add_argument('--target-bucket', type=str, 
-                       help=f'Target bucket name (default: {AUDIO_BUCKET_NAME_DEV})')
+                       help='Target bucket name (default: environment-specific bucket)')
     parser.add_argument('--add-prefix', action='store_true', 
                        help='Add task name prefix to filenames to avoid conflicts')
     parser.add_argument('--confirm-clean', action='store_true',
@@ -479,13 +523,13 @@ def main():
     parser.add_argument('--force-copy', action='store_true',
                        help='Force copy files regardless of timestamp checks')
     parser.add_argument('--project-id', type=str,
-                       help='Google Cloud Project ID (if not using default)')
+                       help=f'Google Cloud Project ID (defaults: dev={PROJECT_ID_DEV}, prod={PROJECT_ID_PROD})')
     
     args = parser.parse_args()
     
     try:
         # Initialize the consolidator
-        consolidator = GCSBucketConsolidator(project_id=args.project_id)
+        consolidator = GCSBucketConsolidator(project_id=args.project_id, environment=args.environment)
         
         if args.action == 'consolidate':
             consolidator.consolidate_buckets(
