@@ -672,7 +672,7 @@ class AudioDashboard {
 
             const translatedText = item[langCode] || 'No translation available';
             const englishText = item.en || 'No English text';
-            const audioFilePath = `audio_files/${item.labels}/${langCode}/shared/${item.item_id}.mp3`;
+            const audioFilePath = `${langCode}/${item.item_id}.mp3`;
             
             row.innerHTML = `
                 <td>${item.item_id}</td>
@@ -2098,11 +2098,8 @@ class AudioDashboard {
 
     async playExistingAudio(itemId, langCode) {
         try {
-            // Get the task from the selected item
-            const task = this.selectedRow?.labels || 'general';
-            
-            // Construct GitHub raw URL for audio file
-            const audioUrl = `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${task}/${langCode}/shared/${itemId}.mp3`;
+            // Construct GCS bucket URL for audio file using new simplified structure
+            const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${langCode}/${itemId}.mp3`;
             
             this.setStatus(`Loading existing audio for ${itemId} (${langCode})...`);
             
