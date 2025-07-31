@@ -31,7 +31,7 @@ class App(ctk.CTk):
         self.ourData = self.ourData.rename(columns={'identifier': 'item_id'})
 
         # Updated for simplified language codes
-        self.ourData = self.ourData.rename(columns={'text': 'en'})
+        self.ourData = self.ourData.rename(columns={'text': conf.LANGUAGE_CODES['English']})
         # Keep the original column names as they are now (en, de, es, fr, nl)
 
         self.title("Levante Translation and Audio Generation Dashboard")
@@ -207,7 +207,7 @@ class App(ctk.CTk):
         headerTwo.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
 
         # First row
-        generated_english = u.count_audio_files('en')
+        generated_english = u.count_audio_files(conf.LANGUAGE_CODES['English'])
         self.generatedEnglish = ctk.CTkLabel(self.top_frame, text=f'English Audio: {generated_english}')
         self.generatedEnglish.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
@@ -215,7 +215,7 @@ class App(ctk.CTk):
         self.generatedSpanish = ctk.CTkLabel(self.top_frame, text=f'Spanish Audio: {generated_spanish}')
         self.generatedSpanish.grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
 
-        generated_german = u.count_audio_files('de')
+        generated_german = u.count_audio_files(conf.LANGUAGE_CODES['German'])
         self.generatedGerman = ctk.CTkLabel(self.top_frame, text=f'German Audio: {generated_german}')
         self.generatedGerman.grid(row=0, column=3, padx=5, pady=5, sticky="nsew")
 
@@ -406,7 +406,7 @@ class App(ctk.CTk):
                 audio_file_name = u.audio_file_path(row['labels'], row['item_id'], base, lang_code)
                 if not isinstance(row[lang_code], str) and isnan(row[lang_code]):
                     row[lang_code] = ''; # Don't want a Nan value
-                values = [row['item_id'], row['labels'], row['en'], row[lang_code], audio_file_name]
+                values = [row['item_id'], row['labels'], row[conf.LANGUAGE_CODES['English']], row[lang_code], audio_file_name]
 
                 # Hack for column numbers
                 values[2] = u.wrap_text(values[2])
@@ -505,7 +505,7 @@ class App(ctk.CTk):
                     return getattr(self, voice_list_attr)
         except:
             # assume we will show english when created
-            lang_code = 'en'
+            lang_code = conf.LANGUAGE_CODES['English']
             # HACK
             service = "ElevenLabs"
             

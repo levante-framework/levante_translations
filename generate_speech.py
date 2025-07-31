@@ -41,21 +41,8 @@ def generate_audio(language):
     # labels -> task
     # Handle mixed column formats in the CSV
     translationData = translationData.rename(columns={'identifier': 'item_id'})
-    
-    # Rename columns to match our simplified language codes
-    column_mapping = {
-        'text': 'en',        # English text column
-        'es-CO': 'es',       # Spanish: es-CO -> es
-        'fr-CA': 'fr',       # French: fr-CA -> fr
-        'nl-NL': 'nl'        # Dutch: nl-NL -> nl (if it exists)
-    }
-    
-    # Only rename columns that actually exist in the data
-    for old_col, new_col in column_mapping.items():
-        if old_col in translationData.columns:
-            translationData = translationData.rename(columns={old_col: new_col})
-    
-    # Note: 'de' and 'nl' are already in the correct format in the CSV
+    translationData = translationData.rename(columns={'es-CO': conf.LANGUAGE_CODES['Spanish']})
+    translationData = translationData.rename(columns={'fr-CA': conf.LANGUAGE_CODES['French']})
 
     #translationData = translationData.rename(columns={'labels': 'task'})
 
@@ -64,7 +51,8 @@ def generate_audio(language):
 
     # The "master file" of already generated strings
     # There is/may also be an existing .csv file (translation_master.csv)
-    if os.path.exists("translation_master.csv"):
+    if os.path.exists(master_file_path):
+        # item_id is the index
         masterData = pd.read_csv(master_file_path)
         
         # Add any missing language columns that might be needed
@@ -85,6 +73,18 @@ def generate_audio(language):
             masterData[lang_code] = None
         masterData.to_csv(master_file_path, index=False, encoding='utf-8', errors='replace')
         # Create baseline masterData
+
+    # add blank rows in master data for any missing items that are in translation data
+    blank_row = [""] * (len(masterData.columns) - 1)
+    currently_tracked_ids = list(masterData["item_id"])
+    modified_master_data = False
+    for item in translationData["item_id"]:
+        if item not in currently_tracked_ids:
+          masterData.loc[len(masterData)] = [item, *blank_row]
+          modified_master_data = True
+    
+    if modified_master_data: 
+      masterData.to_csv(master_file_path, encoding='utf-8', errors='replace', index=False)
 
     # Now we have masterData & translationData
     # We want to compare the appropriate column to see if we need to generate
