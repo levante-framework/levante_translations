@@ -16,6 +16,15 @@ item_bank_translations = translatedTextURL
 
 stats_file_path = 'stats.csv'
 
+# define language codes as a constant here``
+LANGUAGE_CODES = {
+  'English': 'en', 
+  'Spanish': 'es-co', 
+  'German': 'de', 
+  'French': 'fr-ca', 
+  'Dutch': 'nl',
+}
+
 def get_languages(): 
 
 # Updated for PlayHt API v2 with correct voice IDs and language codes
