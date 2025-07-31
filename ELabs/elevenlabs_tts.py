@@ -6,6 +6,7 @@ from elevenlabs import play
 from elevenlabs import save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
+import utilities.config as conf
 
 # this doesn't work?
 # from elevenlabs import set_api_key
@@ -37,13 +38,6 @@ def main(
 
     inputData = pd.read_csv(input_file_path)
     masterData = pd.read_csv(master_file_path)
-
-    # Rename columns to match lang_codes used in the script
-    masterData = masterData.rename(columns={'en': 'en-US',
-                                             'de': 'de-DE',
-                                             'es': 'es-CO',
-                                             'fr': 'fr-CA',
-                                             'nl': 'nl-NL'})
 
     # build API call
     headers = {

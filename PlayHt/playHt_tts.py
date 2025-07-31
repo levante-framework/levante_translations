@@ -11,19 +11,27 @@ from dataclasses import dataclass, replace
 from datetime import datetime
 import utilities.utilities as u
 from . import voice_mapping
+import utilities.config as conf
 
 # Constants for API v2 - Updated to new PlayHt API
 API_URL = "https://api.play.ht/api/v2/tts/stream"
+RATE_LIMIT = 10
 
+start_time = time.perf_counter()
+request_count = 0
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, \
-               masterData, audio_base_dir, headers):
-
+               masterData, audio_base_dir, headers, ssml):
     # reset local error count for new row
     errorCount = 0
     retrySeconds = 1 # sort of arbitrary backoff to recheck status
     service = 'PlayHt'
+
+    # used to limit number of requests to < 10 per minute
+    global request_count
+    global start_time
+    global rate_limit
 
     # we should potentially filter these out when we generate diffs
     # instead of waiting until now. But at some point we might
@@ -69,7 +77,7 @@ def processRow(index, ourRow, lang_code, voice, \
         print(f"Warning: Using voice '{voice}' directly (no mapping found)")
     
     data = {
-        "text": ssml_text,
+        "text": ssml_text if ssml else translation_text,
         "voice": voice,
         "voice_engine": "PlayDialog",  # Use PlayDialog for better emotion and natural speech
         "output_format": "mp3",
@@ -80,8 +88,17 @@ def processRow(index, ourRow, lang_code, voice, \
     if '<' in ssml_text and '>' in ssml_text:
         data["text_type"] = "ssml"
 
+    # current plan allows 10 requests per minute, so wait for end of minute after 10 requests
+    request_count += 1
+    if request_count > RATE_LIMIT:
+      print(f"🕒 Waiting to avoid exceeding rate limit of {RATE_LIMIT} requests per minute...")
+      end_time = time.perf_counter()
+      time_left = 60 - (end_time - start_time)
+      time.sleep(time_left)
+      start_time = time.perf_counter()
+      request_count = 1
 
-        ## Use a While loop so we can retry odd failure cases
+    ## Use a While loop so we can retry odd failure cases
     while True and errorCount < 5:
         try:
             response = requests.post(API_URL, headers=headers, json=data, timeout=30)
@@ -168,20 +185,19 @@ def processRow(index, ourRow, lang_code, voice, \
     print(f"❌ PlayHt API failed after 5 retries for item {ourRow['item_id']}")
     return 'Error'
     
-    """
-    The main function to process the transcription jobs.
-    NOTE: Not all arguments are impleented!
-    Args:
-        input_file_path (str): The path of the input CSV file where details of text and of past tts transactions are extracted.
-        lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
-        voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
-        retry_seconds (float64): How many seconds to wait to retry translation
-        user_id (str, optional): The user ID for authentication. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_USER_ID'.
-        api_key (str, optional): The api key authenticating our API calls. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_API_KEY'.
-        item_id_column (str, optional): column name in the input file for stable and unique item ID. Defaults to 'item_id'.
-        audio_dir (str, optional): The directory to store the audio files. Defaults to "audio_files/{lang_code}/".
-    """
-
+"""
+The main function to process the transcription jobs.
+NOTE: Not all arguments are impleented!
+Args:
+    input_file_path (str): The path of the input CSV file where details of text and of past tts transactions are extracted.
+    lang_code (str): A locale code, e.g.: 'es-CO' and the name for the column to select for tts transcription
+    voice (str): The name of the play.ht voice to use, e.g.: 'es-CO-SalomeNeural'
+    retry_seconds (float64): How many seconds to wait to retry translation
+    user_id (str, optional): The user ID for authentication. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_USER_ID'.
+    api_key (str, optional): The api key authenticating our API calls. If not provided, it will be read from the environment variable 'PLAY_DOT_HT_API_KEY'.
+    item_id_column (str, optional): column name in the input file for stable and unique item ID. Defaults to 'item_id'.
+    audio_dir (str, optional): The directory to store the audio files. Defaults to "audio_files/{lang_code}/".
+"""
 def main(
         input_file_path: str,
         master_file_path: str,
@@ -234,7 +250,7 @@ def main(
 
         result = processRow(index, ourRow, lang_code=lang_code, voice=voice, \
                             audio_base_dir=audio_base_dir, masterData=masterData, \
-                            headers=headers)
+                            headers=headers, ssml=False)
         
         # replace with match once we are past python 3.10
         if result == 'Error':
