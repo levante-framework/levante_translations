@@ -65,6 +65,10 @@ def read_spanish_audio_tags():
     
     # Find Spanish audio files (check both es-CO and es directories)
     spanish_patterns = [
+        # New simplified structure
+        'audio_files/es-CO/*.mp3',
+        'audio_files/es/*.mp3',
+        # Old structure for backward compatibility
         'audio_files/*/es-CO/shared/*.mp3',
         'audio_files/*/es/shared/*.mp3'
     ]
