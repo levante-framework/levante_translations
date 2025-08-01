@@ -7,6 +7,7 @@ from elevenlabs import save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
 import utilities.config as conf
+from ELabs import elevenlabs_utilities
 
 # this doesn't work?
 # from elevenlabs import set_api_key
@@ -15,6 +16,26 @@ import utilities.config as conf
 # set_api_key(os.getenv('ELEVEN_API_KEY'))
 
 audio_client = ElevenLabs(api_key=os.getenv('elevenlabs_test'))
+
+def get_voice_id(voice_name, lang_code):
+    """
+    Get the voice ID from voice name using the elevenlabs_utilities function
+    """
+    try:
+        # Get the voice dictionary for the language
+        voice_dict = elevenlabs_utilities.list_voices(lang_code)
+        
+        if voice_name in voice_dict:
+            voice_id = voice_dict[voice_name]
+            print(f"✓ Found voice '{voice_name}' with ID: {voice_id}")
+            return voice_id
+        else:
+            print(f"❌ Voice '{voice_name}' not found in available voices for {lang_code}")
+            print(f"Available voices: {list(voice_dict.keys())}")
+            return None
+    except Exception as e:
+        print(f"❌ Error looking up voice '{voice_name}': {e}")
+        return None
 
 # This is called to generate audio for the passed string
 def main(
@@ -48,10 +69,17 @@ def main(
     }
     
     stats = {'Errors': 0, 'Processed' : 0, 'NoTask': 0}
+    
+    # Look up voice ID once at the beginning to avoid repeated API calls
+    print(f"Looking up voice '{voice}' for language '{lang_code}'...")
+    voice_id = get_voice_id(voice, lang_code)
+    if voice_id is None:
+        print(f"❌ Cannot proceed: voice '{voice}' not found for {lang_code}")
+        return {'Errors': len(inputData), 'Processed': 0, 'NoTask': 0, 'Voice': voice}
 
     for index, ourRow in inputData.iterrows():
 
-        result = processRow(index, ourRow, lang_code=lang_code, voice=voice, \
+        result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
                             audio_base_dir=audio_base_dir, masterData=masterData, \
                             headers=headers)
         
@@ -62,6 +90,10 @@ def main(
             stats['NoTask']+= 1
         elif result == 'Success':
             stats['Processed']+= 1
+        else:
+            # Handle any unexpected return values as errors
+            print(f"⚠️ Unexpected result from processRow: {result} - counting as error")
+            stats['Errors']+= 1
     
     # start tracking voice
     stats['Voice'] = voice
@@ -71,10 +103,13 @@ def main(
 
     print(f"Processed: {stats['Processed']}, Errors: {stats['Errors']}, \
           No Task: {stats['NoTask']}")
+    
+    # Return stats for use by the calling function
+    return stats
 
 
 # Called to process each row of the input csv (now dataframe)
-def processRow(index, ourRow, lang_code, voice, \
+def processRow(index, ourRow, lang_code, voice, voice_id, \
                masterData, audio_base_dir, headers):
 
     # reset local error count for new row
@@ -111,7 +146,7 @@ def processRow(index, ourRow, lang_code, voice, \
     try:
         audio = audio_client.generate(
             text=translation_text,
-            voice=voice,
+            voice=voice_id,
             model="eleven_multilingual_v2"
         )
 
@@ -147,4 +182,4 @@ def processRow(index, ourRow, lang_code, voice, \
 
     except Exception as e:
         print(f'❌ Failed to generate audio for {ourRow["item_id"]}: {translation_text[:50]}... - Error: {e}')
-        return 'Failure'
+        return 'Error'

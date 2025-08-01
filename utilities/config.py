@@ -19,9 +19,9 @@ stats_file_path = 'stats.csv'
 # define language codes as a constant here``
 LANGUAGE_CODES = {
   'English': 'en', 
-  'Spanish': 'es-co', 
+  'Spanish': 'es-CO', 
   'German': 'de', 
-  'French': 'fr-ca', 
+  'French': 'fr-CA', 
   'Dutch': 'nl',
 }
 
@@ -29,7 +29,7 @@ def get_languages():
 
 # Updated for PlayHt API v2 with correct voice IDs and language codes
     language_list = {\
-        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Alexandra - Conversational and Real'},
+        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
         'Spanish': {'lang_code': 'es-CO', 'service' : 'ElevenLabs', 'voice': 'Malena Tango'},
         'German': {'lang_code': 'de', 'service' : 'ElevenLabs', 'voice': 'Julia'},
         'French': {'lang_code': 'fr-CA', 'service' : 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},

@@ -35,12 +35,20 @@ def rebuild_master_from_audio():
         
         items_with_audio = set()
         
-        # Check both possible directory formats
+        # Check both old and new directory formats
         for lang_code in possible_codes:
-            pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
-            audio_files = glob.glob(pattern)
+            # Check new simplified structure: audio_files/<lang_code>/*.mp3
+            new_pattern = f'audio_files/{lang_code}/*.mp3'
+            new_audio_files = glob.glob(new_pattern)
             
-            for audio_file in audio_files:
+            # Check old structure: audio_files/*/<lang_code>/shared/*.mp3
+            old_pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
+            old_audio_files = glob.glob(old_pattern)
+            
+            # Combine files from both structures
+            all_audio_files = new_audio_files + old_audio_files
+            
+            for audio_file in all_audio_files:
                 # Extract item_id from filename (remove .mp3 extension)
                 item_id = os.path.basename(audio_file).replace('.mp3', '')
                 items_with_audio.add(item_id)
