@@ -77,10 +77,10 @@ def html_to_ssml(html):
 
 # find the full path for an audio file to write
 # we want to echo the repo & GCP heirarchy to save re-doing later
-# e.g. <base>/task/language/shared/<item>.mp3
+# Simplified structure: <base>/<language>/<item>.mp3
 def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
-    full_file_folder = \
-        os.path.join(audio_base_dir, task_name, lang_code, "shared")
+    # Use simplified structure without task folder and shared subfolder
+    full_file_folder = os.path.join(audio_base_dir, lang_code)
     if not os.path.exists(full_file_folder):
         os.makedirs(full_file_folder, exist_ok=True)
     full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
@@ -104,17 +104,22 @@ def count_audio_files(lang_code):
     
     total_count = 0
     
-    # Check new simplified directory structure
-    new_pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
+    # Check new simplified directory structure: audio_files/<lang_code>/*.mp3
+    new_pattern = f'audio_files/{lang_code}/*.mp3'
     new_files = glob.glob(new_pattern)
     total_count += len(new_files)
     
-    # Check old directory structure for backward compatibility
+    # Check old directory structure for backward compatibility: audio_files/<task>/<lang_code>/shared/*.mp3
+    old_pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
+    old_files = glob.glob(old_pattern)
+    total_count += len(old_files)
+    
+    # Also check with old language codes for extra backward compatibility
     old_lang_code = old_lang_codes.get(lang_code, lang_code)
     if old_lang_code != lang_code:  # Only check if there's a different old format
-        old_pattern = f'audio_files/*/{old_lang_code}/shared/*.mp3'
-        old_files = glob.glob(old_pattern)
-        total_count += len(old_files)
+        old_pattern_with_old_code = f'audio_files/*/{old_lang_code}/shared/*.mp3'
+        old_files_with_old_code = glob.glob(old_pattern_with_old_code)
+        total_count += len(old_files_with_old_code)
     
     return str(total_count)
 
