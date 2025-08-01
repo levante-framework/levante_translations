@@ -273,9 +273,10 @@ const ConfigHelper = {
         return Date.now() - timestamp > CONFIG.ui.cacheTimeout;
     },
     
-    // Audio file path generation
+    // Audio file path generation - simplified structure
     getAudioFilePath(taskName, itemName, langCode) {
-        return `${CONFIG.paths.audioFiles}/${taskName}/${langCode}/shared/${itemName}.mp3`;
+        // Use simplified structure: audio_files/<langCode>/<itemName>.mp3
+        return `${CONFIG.paths.audioFiles}/${langCode}/${itemName}.mp3`;
     },
     
     // Statistics helpers
