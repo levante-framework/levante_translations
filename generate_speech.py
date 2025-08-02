@@ -263,6 +263,9 @@ def generate_audio(language):
         print(f"\nStarting audio generation for {language}...")
         print(f"Processing {len(diffData)} items that need audio generation")
         
+        # Initialize result variable
+        result = None
+        
         if service == 'PlayHt':
             result = playHt_tts.main(
                 input_file_path = diff_file_name, 
@@ -284,6 +287,7 @@ def generate_audio(language):
         
     else:
         print(f"No new audio files needed for {language} - all translations are up to date!")
+        result = None  # No processing occurred
     
     # Display final statistics
     print(f"\nFinal Statistics for {language}:")
@@ -293,7 +297,7 @@ def generate_audio(language):
     print(f"   Voice: {voice[:50]}..." if len(voice) > 50 else f"   Voice: {voice}")
     
     # Show actual processing results if available
-    if hasattr(result, '__getitem__') and result:
+    if result and hasattr(result, '__getitem__') and result:
         print(f"   Items successfully processed: {result.get('Processed', 0)}")
         print(f"   Items with errors: {result.get('Errors', 0)}")
         print(f"   Items with no task assigned: {result.get('NoTask', 0)}")
