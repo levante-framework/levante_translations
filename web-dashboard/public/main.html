@@ -41,13 +41,16 @@
         .data-table { background: white; border-radius: 8px; overflow: hidden; margin-top: 20px; border: 2px solid #e9ecef; }
         .table-header { background: #f8f9fa; padding: 15px; border-bottom: 2px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; }
         .search-box { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
-        .table-content { max-height: 400px; overflow-y: auto; }
-        .data-row { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background-color 0.2s; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 15px; align-items: center; }
+        .table-content { max-height: 600px; overflow-y: auto; }
+        .data-row { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background-color 0.2s; display: grid; grid-template-columns: 1fr 1fr 2fr 1fr; gap: 15px; align-items: center; }
         .data-row:hover { background-color: #f8f9fa; }
         .data-row.selected { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
         .item_id { font-weight: 600; color: #495057; }
         .item-text { color: #6c757d; }
         .item-task { background: #e9ecef; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #495057; }
+        .audio-controls { display: flex; gap: 8px; align-items: center; }
+        .play-btn { background: #28a745; color: white; border: none; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .generate-btn { background: #007bff; color: white; border: none; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 12px; }
         .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #343a40; color: white; padding: 12px 20px; font-size: 14px; z-index: 1000; display: flex; align-items: center; gap: 10px; }
         .status-icon { font-size: 16px; }
         .loading { color: #ffc107; }
@@ -59,7 +62,58 @@
             .tab-buttons { justify-content: center; }
             .language-info { grid-template-columns: 1fr; }
             .data-row { grid-template-columns: 1fr; }
+            .audio-controls { flex-direction: column; gap: 4px; }
         }
+        
+        /* Validation Styles */
+        .validation-controls { margin-left: 20px; padding-left: 20px; border-left: 2px solid #9b59b6; }
+        .validation-button { background: #9b59b6; color: white; }
+        .validation-button:hover { background: #8e44ad; }
+        .validation-button:disabled { background: #6c757d; cursor: not-allowed; opacity: 0.6; }
+        
+        .validation-status { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; }
+        .status-indicator { width: 16px; height: 16px; border-radius: 50%; cursor: pointer; }
+        .status-good { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-error { background: #dc3545; }
+        .status-pending { background: #6c757d; }
+        
+        .validate-btn { background: #6f42c1; color: white; border: none; padding: 4px 8px; border-radius: 3px; font-size: 12px; cursor: pointer; }
+        .validate-btn:disabled { background: #6c757d; cursor: not-allowed; }
+        
+        .validation-panel { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; margin: 15px 0; overflow: hidden; }
+        .validation-header { background: #6c757d; color: white; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .validation-content { padding: 15px; display: none; }
+        .validation-content.expanded { display: block; }
+        .collapse-icon { transition: transform 0.3s; }
+        .collapsed .collapse-icon { transform: rotate(-90deg); }
+        
+        .back-translation { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 10px; margin-top: 8px; font-size: 13px; }
+        .similarity-score { font-weight: bold; color: #495057; }
+        .score-high { color: #28a745; }
+        .score-medium { color: #ffc107; }
+        .score-low { color: #dc3545; }
+        
+        .text-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .comparison-section { background: white; padding: 8px; border-radius: 3px; border: 1px solid #dee2e6; }
+        .comparison-label { font-weight: bold; font-size: 11px; color: #6c757d; margin-bottom: 4px; text-transform: uppercase; }
+        .diff-highlight { background: #ffeaa7; padding: 2px 4px; border-radius: 2px; }
+        
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 0; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: modalFadeIn 0.3s; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; position: relative; }
+        .modal-header h2 { margin: 0; font-size: 1.5em; }
+        .close { color: white; float: right; font-size: 28px; font-weight: bold; position: absolute; right: 20px; top: 15px; cursor: pointer; transition: opacity 0.3s; }
+        .close:hover { opacity: 0.7; }
+        .credentials-form { padding: 25px; }
+        .credential-group { margin-bottom: 20px; }
+        .credential-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .credential-group input { width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
+        .credential-group input:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
+        .credentials-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e1e5e9; }
+        .btn-secondary { background: #6c757d; color: white; }
     </style>
 </head>
 <body>
@@ -88,6 +142,47 @@
                         <button id="refreshVoices" class="btn btn-info">
                             <i class="fas fa-sync-alt"></i> Refresh Voices
                         </button>
+                        
+                        <!-- Validation Controls -->
+                        <div class="validation-controls">
+                            <button id="validateSelected" class="btn validation-button" onclick="validateSelected()">
+                                <i class="fas fa-check-double"></i> Validate Selected
+                            </button>
+                            <button id="validateAll" class="btn validation-button" onclick="validateAll()">
+                                <i class="fas fa-check-circle"></i> Validate All
+                            </button>
+                            <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()">
+                                <i class="fas fa-key"></i> Manage Credentials
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Validation Summary Panel -->
+            <div class="validation-panel">
+                <div class="validation-header collapsed" onclick="toggleValidationPanel()">
+                    <span><i class="fas fa-chart-bar"></i> Validation Summary</span>
+                    <span class="collapse-icon">▼</span>
+                </div>
+                <div class="validation-content" id="validationSummary">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center;">
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #28a745;" id="goodCount">0</div>
+                            <div style="color: #6c757d;">Good (>85%)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #ffc107;" id="warningCount">0</div>
+                            <div style="color: #6c757d;">Warning (70-85%)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #dc3545;" id="errorCount">0</div>
+                            <div style="color: #6c757d;">Needs Review (<70%)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: bold; color: #6c757d;" id="pendingCount">0</div>
+                            <div style="color: #6c757d;">Not Validated</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +195,45 @@
         <div class="status-bar" id="statusBar">
             <i class="fas fa-circle status-icon loading"></i>
             <span>Loading dashboard...</span>
+                </div>
+    </div>
+    
+    <!-- Credentials Modal -->
+    <div id="credentialsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> API Credentials</h2>
+                <span class="close" onclick="closeCredentialsModal()">&times;</span>
+            </div>
+            <div class="credentials-form">
+                <div class="credential-group">
+                    <label for="playhtApiKey">PlayHT API Key:</label>
+                    <input type="text" id="playhtApiKey" placeholder="Enter PlayHT API Key">
+                </div>
+                <div class="credential-group">
+                    <label for="playhtUserId">PlayHT User ID:</label>
+                    <input type="text" id="playhtUserId" placeholder="Enter PlayHT User ID">
+                </div>
+                <div class="credential-group">
+                    <label for="elevenlabsApiKey">ElevenLabs API Key:</label>
+                    <input type="text" id="elevenlabsApiKey" placeholder="Enter ElevenLabs API Key">
+                </div>
+                <div class="credential-group">
+                    <label for="googleTranslateApiKey">Google Translate API Key:</label>
+                    <input type="text" id="googleTranslateApiKey" placeholder="Enter Google Translate API Key">
+                </div>
+                <div class="credentials-buttons">
+                    <button id="saveCredentials" class="btn btn-primary" onclick="saveCredentials()">
+                        <i class="fas fa-save"></i> Save Credentials
+                    </button>
+                    <button id="recoverCredentials" class="btn btn-success" onclick="loadCredentials()">
+                        <i class="fas fa-history"></i> Load Credentials
+                    </button>
+                    <button id="clearCredentials" class="btn btn-secondary" onclick="clearCredentials()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -148,23 +282,80 @@
 
             async loadData() {
                 try {
-                    // Use the exact URL from config.py
-                    const csvUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
-                    this.setStatus('Loading translation data from GitHub...', 'loading');
+                    // Try loading in order of preference:
+                    // 1. Local complete CSV (if downloaded)
+                    // 2. GitHub CSV (complete dataset)
+                    // 3. localStorage cache
+                    // 4. Sample data fallback
                     
-                    const response = await fetch(csvUrl);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                    let csvText = null;
+                    let source = '';
+                    
+                    // Try local complete CSV first (faster)
+                    try {
+                        this.setStatus('Checking for local complete CSV...', 'loading');
+                        const localResponse = await fetch('./translation_text/complete_translations.csv');
+                        if (localResponse.ok) {
+                            csvText = await localResponse.text();
+                            source = 'local complete CSV';
+                        }
+                    } catch (localError) {
+                        console.log('Local complete CSV not found, trying GitHub...');
                     }
                     
-                    const csvText = await response.text();
+                    // Fallback to GitHub if local not available
+                    if (!csvText) {
+                        const githubUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
+                        this.setStatus('Loading complete translation data from GitHub...', 'loading');
+                        
+                        const githubResponse = await fetch(githubUrl);
+                        if (!githubResponse.ok) {
+                            throw new Error(`GitHub HTTP error! status: ${githubResponse.status}`);
+                        }
+                        
+                        csvText = await githubResponse.text();
+                        source = 'GitHub';
+                    }
+                    
+                    if (csvText) {
                     this.data = this.parseCSV(csvText);
-                    console.log(`Loaded ${this.data.length} translation items from GitHub`);
-                    this.setStatus(`Loaded ${this.data.length} items from GitHub CSV`, 'success');
+                        console.log(`Loaded ${this.data.length} complete translation items from ${source}`);
+                        this.setStatus(`Loaded ${this.data.length} items from ${source} (complete dataset)`, 'success');
+                        
+                        // Cache for offline use
+                        this.cacheDataLocally(csvText);
+                    } else {
+                        throw new Error('No CSV data source available');
+                    }
+                    
                 } catch (error) {
-                    console.warn('Could not load from GitHub, using sample data:', error);
+                    console.warn('Could not load CSV data, trying cache...', error);
+                    
+                    // Try to load from localStorage cache if all else fails
+                    try {
+                        const cachedData = localStorage.getItem('levante_translations_cache');
+                        if (cachedData) {
+                            this.data = JSON.parse(cachedData);
+                            console.log(`Loaded ${this.data.length} items from local cache`);
+                            this.setStatus(`Loaded ${this.data.length} items from cache (offline)`, 'success');
+                        } else {
+                            throw new Error('No cached data available');
+                        }
+                    } catch (cacheError) {
+                        console.warn('Cache also failed, using sample data:', cacheError);
                     this.data = this.loadSampleData();
-                    this.setStatus('Using sample data - GitHub load failed', 'error');
+                        this.setStatus('Using sample data - all sources failed', 'error');
+                    }
+                }
+            }
+            
+            cacheDataLocally(csvText) {
+                try {
+                    // Cache the parsed data in localStorage for offline use
+                    localStorage.setItem('levante_translations_cache', JSON.stringify(this.data));
+                    console.log('Translation data cached locally for offline use');
+                } catch (error) {
+                    console.warn('Could not cache data locally:', error);
                 }
             }
 
@@ -195,7 +386,24 @@
                 }
                 
                 console.log('Sample parsed data:', data.slice(0, 3));
-                return data;
+                
+                // Normalize data to ensure consistent field names
+                const normalizedData = data.map(item => {
+                    // Handle different possible column names for ID
+                    const itemId = item.identifier || item.item_id || item.id || item.ID || item.Item_ID || null;
+                    
+                    // Handle different possible column names for task/labels
+                    const task = item.task || item.labels || item.category || item.type || 'general';
+                    
+                    return {
+                        ...item,
+                        item_id: itemId,
+                        labels: task
+                    };
+                });
+                
+                console.log('Normalized data sample:', normalizedData.slice(0, 3));
+                return normalizedData;
             }
 
             parseCSVLine(line) {
@@ -417,7 +625,7 @@
                         </div>
                         <div class="data-table">
                             <div class="table-header">
-                                <h4><i class="fas fa-table"></i> Translation Items</h4>
+                                <h4><i class="fas fa-table"></i> Translation Items <span id="item-count-${language}" class="item-count">(Loading...)</span></h4>
                                 <input type="text" class="search-box" placeholder="Search items..." id="search-${language}">
                             </div>
                             <div class="table-content" id="table-${language}">
@@ -440,15 +648,56 @@
 
                 tableContent.innerHTML = '';
                 
+                console.log(`Populating table for ${this.currentLanguage} (${langCode}) with ${this.data.length} items`);
+                
+                // Update item count in header
+                const itemCountSpan = document.getElementById(`item-count-${this.currentLanguage}`);
+                if (itemCountSpan) {
+                    itemCountSpan.textContent = `(${this.data.length} items)`;
+                    itemCountSpan.style.color = '#6c757d';
+                    itemCountSpan.style.fontSize = '0.9em';
+                }
+                
                 this.data.forEach((item, index) => {
                     const text = item[langCode] || item.en || 'No translation available';
                     
                     const row = document.createElement('div');
                     row.className = 'data-row';
+                    
+                    // Debug logging for first few items
+                    if (index < 3) {
+                        console.log(`Item ${index}:`, {
+                            raw_item: item,
+                            item_id: item.item_id,
+                            labels: item.labels,
+                            available_keys: Object.keys(item)
+                        });
+                    }
+                    
+                    const itemId = item.item_id || `fallback_${index}`;
+                    const taskName = item.labels || item.task || 'general';
+                    const escapedItemId = itemId.replace(/'/g, "\\'");
+                    const escapedOriginal = (item.en || '').replace(/'/g, "\\'").replace(/"/g, '\\"');
+                    const escapedTranslation = text.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                    
                     row.innerHTML = `
-                        <div class="item_id">${item.item_id || `item_${index}`}</div>
-                        <div class="item-text">${text}</div>
-                        <div class="item-task">${item.labels || 'general'}</div>
+                        <div class="item_id">${itemId}</div>
+                        <div class="item-task">${taskName}</div>
+                        <div class="item-text">
+                            ${text}
+                            <div class="validation-status">
+                                <div class="status-indicator status-pending" title="Not validated yet" data-item-id="${itemId}"></div>
+                                <button class="validate-btn" onclick="validateSingle('${escapedItemId}', '${escapedOriginal}', '${escapedTranslation}', '${langCode}')">Validate</button>
+                            </div>
+                        </div>
+                        <div class="audio-controls">
+                            <button class="btn btn-success play-btn" onclick="playAudio('${escapedItemId}', '${langCode}')">
+                                <i class="fas fa-play"></i> Play
+                            </button>
+                            <button class="btn btn-primary generate-btn" onclick="generateAudio('${escapedItemId}', '${escapedTranslation}', '${langCode}')">
+                                <i class="fas fa-microphone"></i> Generate
+                            </button>
+                        </div>
                     `;
                     
                     row.addEventListener('click', () => this.selectRow(row, item));
@@ -466,7 +715,10 @@
                 
                 const langCode = this.languages[this.currentLanguage].lang_code;
                 const text = item[langCode] || item.en || 'No translation available';
-                this.setStatus(`Selected: ${item.item_id} - "${text.substring(0, 50)}..."`, 'success');
+                const itemId = item.item_id || 'unknown_id';
+                
+                console.log('Selected item:', { item, itemId, langCode, text: text.substring(0, 50) });
+                this.setStatus(`Selected: ${itemId} - "${text.substring(0, 50)}..."`, 'success');
             }
 
             switchTab(language, button) {
@@ -556,7 +808,343 @@
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
             new Dashboard();
+            loadCredentials(); // Load existing credentials on startup
         });
+        
+        // Validation Functions
+        function toggleValidationPanel() {
+            const header = document.querySelector('.validation-header');
+            const content = document.getElementById('validationSummary');
+            
+            header.classList.toggle('collapsed');
+            content.classList.toggle('expanded');
+        }
+        
+        function validateSelected() {
+            const credentials = getCredentials();
+            if (!credentials.googleTranslateApiKey) {
+                alert('Please add your Google Translate API key in the credentials manager.');
+                return;
+            }
+            
+            const selectedRows = document.querySelectorAll('.data-row.selected');
+            if (selectedRows.length === 0) {
+                alert('Please select one or more translations to validate.');
+                return;
+            }
+            
+            selectedRows.forEach(row => {
+                const validateBtn = row.querySelector('.validate-btn');
+                if (validateBtn && validateBtn.onclick) {
+                    validateBtn.click();
+                }
+            });
+        }
+        
+        function validateAll() {
+            const credentials = getCredentials();
+            if (!credentials.googleTranslateApiKey) {
+                alert('Please add your Google Translate API key in the credentials manager.');
+                return;
+            }
+            
+            const validateBtns = document.querySelectorAll('.validate-btn');
+            if (validateBtns.length === 0) {
+                alert('No translations available to validate.');
+                return;
+            }
+            
+            if (confirm(`This will validate ${validateBtns.length} translations. This may take some time. Continue?`)) {
+                let currentIndex = 0;
+                const validateNext = () => {
+                    if (currentIndex < validateBtns.length) {
+                        const btn = validateBtns[currentIndex];
+                        if (btn && !btn.disabled) {
+                            btn.click();
+                        }
+                        currentIndex++;
+                        setTimeout(validateNext, 1000); // Delay between requests
+                    }
+                };
+                validateNext();
+            }
+        }
+        
+        async function validateSingle(itemId, originalText, translatedText, langCode) {
+            console.log('validateSingle called with:', {itemId, originalText: originalText.substring(0, 50), translatedText: translatedText.substring(0, 50), langCode});
+            
+            const credentials = getCredentials();
+            console.log('Credentials check:', {hasGoogleTranslateApiKey: !!credentials.googleTranslateApiKey});
+            
+            if (!credentials.googleTranslateApiKey) {
+                alert('Please add your Google Translate API key in the credentials manager.');
+                return;
+            }
+            
+            // Skip validation for English (source language)
+            if (langCode === 'en' || langCode.startsWith('en-')) {
+                const indicator = document.querySelector(`[data-item-id="${itemId}"]`);
+                const button = event.target;
+                
+                indicator.className = 'status-indicator status-success';
+                indicator.title = 'English source text - no validation needed';
+                button.textContent = 'Source';
+                button.disabled = true;
+                
+                console.log('Skipping validation for English source text');
+                return;
+            }
+            
+            const indicator = document.querySelector(`[data-item-id="${itemId}"]`);
+            const button = event.target;
+            
+            console.log('UI elements found:', {indicator: !!indicator, button: !!button});
+            
+            // Update UI to show validation in progress
+            button.textContent = 'Validating...';
+            button.disabled = true;
+            indicator.className = 'status-indicator status-pending';
+            indicator.title = 'Validation in progress...';
+            
+            try {
+                // Prepare language code for Google Translate (convert es-CO to es, fr-CA to fr, etc.)
+                let sourceLanguage = langCode;
+                if (langCode.includes('-')) {
+                    sourceLanguage = langCode.split('-')[0];
+                }
+                
+                const requestBody = {
+                    text: translatedText,
+                    source: sourceLanguage,
+                    target: 'en',
+                    operation: 'back_translate',
+                    original_text: originalText
+                };
+                
+                console.log('Validation request:', requestBody);
+                
+                // Test CORS proxy connectivity first
+                console.log('Testing CORS proxy connection...');
+                
+                // Call our CORS proxy for Google Translate
+                const response = await fetch('http://localhost:8001/proxy/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': credentials.googleTranslateApiKey
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Validation error response:', response.status, response.statusText, errorText);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}${errorText ? ' - ' + errorText : ''}`);
+                }
+                
+                const result = await response.json();
+                const similarity = result.similarity_score || 0;
+                
+                // Update status indicator based on similarity score
+                let statusClass, statusTitle;
+                if (similarity >= 85) {
+                    statusClass = 'status-good';
+                    statusTitle = `Validation: ${similarity}% similarity - Good translation`;
+                } else if (similarity >= 70) {
+                    statusClass = 'status-warning';
+                    statusTitle = `Validation: ${similarity}% similarity - Minor concerns`;
+                } else {
+                    statusClass = 'status-error';
+                    statusTitle = `Validation: ${similarity}% similarity - Needs review`;
+                }
+                
+                indicator.className = `status-indicator ${statusClass}`;
+                indicator.title = statusTitle;
+                button.textContent = 'View';
+                button.disabled = false;
+                
+                // Store validation result and change button behavior
+                button.setAttribute('data-validation-result', JSON.stringify(result));
+                button.onclick = () => showValidationResult(itemId, result);
+                
+                updateValidationSummary();
+                
+            } catch (error) {
+                console.error('Validation error:', error);
+                indicator.className = 'status-indicator status-error';
+                
+                let errorMessage = error.message;
+                if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Cannot connect to CORS proxy server. Make sure it\'s running on port 8001.';
+                } else if (error.message.includes('400')) {
+                    errorMessage = 'Google Translate API error. Check your API key.';
+                }
+                
+                indicator.title = `Validation failed: ${errorMessage}`;
+                button.textContent = 'Retry';
+                button.disabled = false;
+                alert(`Validation failed: ${errorMessage}\n\nCheck the console for details.`);
+            }
+        }
+        
+        function showValidationResult(itemId, result) {
+            const existingResult = document.querySelector(`#validation-result-${itemId}`);
+            if (existingResult) {
+                existingResult.style.display = existingResult.style.display === 'none' ? 'block' : 'none';
+                return;
+            }
+            
+            const row = document.querySelector(`[data-item-id="${itemId}"]`).closest('.data-row');
+            const resultDiv = document.createElement('div');
+            resultDiv.id = `validation-result-${itemId}`;
+            resultDiv.className = 'back-translation';
+            resultDiv.innerHTML = `
+                <div class="similarity-score ${result.similarity_score >= 85 ? 'score-high' : result.similarity_score >= 70 ? 'score-medium' : 'score-low'}">
+                    Similarity: ${result.similarity_score}%
+                </div>
+                <div class="text-comparison">
+                    <div class="comparison-section">
+                        <div class="comparison-label">Original English</div>
+                        <div>${result.original || 'N/A'}</div>
+                    </div>
+                    <div class="comparison-section">
+                        <div class="comparison-label">Back-translated</div>
+                        <div>${result.translated}</div>
+                    </div>
+                </div>
+                ${result.similarity_score < 70 ? `
+                    <div style="margin-top: 8px; font-size: 12px; color: #856404; background: #fff3cd; padding: 6px; border-radius: 3px;">
+                        ⚠️ Low similarity detected. Consider reviewing this translation.
+                    </div>
+                ` : ''}
+            `;
+            
+            row.appendChild(resultDiv);
+        }
+        
+        function updateValidationSummary() {
+            const indicators = document.querySelectorAll('.status-indicator');
+            let good = 0, warning = 0, error = 0, pending = 0;
+            
+            indicators.forEach(indicator => {
+                if (indicator.classList.contains('status-good')) good++;
+                else if (indicator.classList.contains('status-warning')) warning++;
+                else if (indicator.classList.contains('status-error')) error++;
+                else pending++;
+            });
+            
+            document.getElementById('goodCount').textContent = good;
+            document.getElementById('warningCount').textContent = warning;
+            document.getElementById('errorCount').textContent = error;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+        
+        // Credentials Management Functions
+        function openCredentialsModal() {
+            document.getElementById('credentialsModal').style.display = 'block';
+            loadCredentials();
+        }
+        
+        function closeCredentialsModal() {
+            document.getElementById('credentialsModal').style.display = 'none';
+        }
+        
+        function saveCredentials() {
+            const credentials = {
+                playhtApiKey: document.getElementById('playhtApiKey').value,
+                playhtUserId: document.getElementById('playhtUserId').value,
+                elevenlabsApiKey: document.getElementById('elevenlabsApiKey').value,
+                googleTranslateApiKey: document.getElementById('googleTranslateApiKey').value
+            };
+            
+            localStorage.setItem('levante_credentials', JSON.stringify(credentials));
+            alert('Credentials saved successfully!');
+            updateValidationAvailability(!!credentials.googleTranslateApiKey);
+        }
+        
+        function loadCredentials() {
+            try {
+                const credentials = JSON.parse(localStorage.getItem('levante_credentials') || '{}');
+                
+                document.getElementById('playhtApiKey').value = credentials.playhtApiKey || '';
+                document.getElementById('playhtUserId').value = credentials.playhtUserId || '';
+                document.getElementById('elevenlabsApiKey').value = credentials.elevenlabsApiKey || '';
+                document.getElementById('googleTranslateApiKey').value = credentials.googleTranslateApiKey || '';
+                
+                updateValidationAvailability(!!credentials.googleTranslateApiKey);
+            } catch (error) {
+                console.error('Error loading credentials:', error);
+            }
+        }
+        
+        function clearCredentials() {
+            if (confirm('Are you sure you want to clear all credentials?')) {
+                localStorage.removeItem('levante_credentials');
+                
+                document.getElementById('playhtApiKey').value = '';
+                document.getElementById('playhtUserId').value = '';
+                document.getElementById('elevenlabsApiKey').value = '';
+                document.getElementById('googleTranslateApiKey').value = '';
+                
+                updateValidationAvailability(false);
+                alert('All credentials cleared.');
+            }
+        }
+        
+        function getCredentials() {
+            try {
+                return JSON.parse(localStorage.getItem('levante_credentials') || '{}');
+            } catch (error) {
+                return {};
+            }
+        }
+        
+        function updateValidationAvailability(hasGoogleTranslateKey) {
+            const validateButtons = document.querySelectorAll('.validation-button');
+            const validateBtns = document.querySelectorAll('.validate-btn');
+            
+            validateButtons.forEach(btn => {
+                btn.disabled = !hasGoogleTranslateKey;
+                btn.title = hasGoogleTranslateKey ? 'Validation enabled' : 'Add Google Translate API key';
+            });
+            validateBtns.forEach(btn => {
+                btn.disabled = !hasGoogleTranslateKey;
+                btn.title = hasGoogleTranslateKey ? 'Click to validate' : 'Add Google Translate API key';
+            });
+        }
+        
+        // Audio Functions
+        function playAudio(itemId, langCode) {
+            // Check for existing audio file
+            const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${langCode}/${itemId}.mp3`;
+            
+            const audio = new Audio(audioUrl);
+            audio.addEventListener('canplaythrough', () => {
+                audio.play();
+            });
+            audio.addEventListener('error', () => {
+                alert(`Audio file not found for ${itemId} in ${langCode}. Please generate it first.`);
+            });
+        }
+        
+        function generateAudio(itemId, text, langCode) {
+            const credentials = getCredentials();
+            if (!credentials.playhtApiKey && !credentials.elevenlabsApiKey) {
+                alert('Please add your TTS API credentials in the credentials manager.');
+                return;
+            }
+            
+            // This would integrate with your existing TTS generation logic
+            alert(`Audio generation for ${itemId} in ${langCode} would be implemented here.\nText: ${text.substring(0, 50)}...`);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('credentialsModal');
+            if (event.target === modal) {
+                closeCredentialsModal();
+            }
+        }
     </script>
 </body>
 </html> 
