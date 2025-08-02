@@ -73,13 +73,13 @@
         .validation-button:disabled { background: #6c757d; cursor: not-allowed; opacity: 0.6; }
         
         .validation-status { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-        .status-indicator { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; flex-shrink: 0; }
-        .status-good { background: #28a745; }
-        .status-success { background: #28a745; }
-        .status-warning { background: #ffc107; }
-        .status-error { background: #dc3545; }
-        .status-pending { background: #6c757d; }
-        .status-info { background: #17a2b8; }
+        .status-indicator { width: 14px; height: 14px; border-radius: 50%; cursor: pointer; flex-shrink: 0; border: 2px solid transparent; transition: all 0.3s; }
+        .status-good { background: #28a745; border-color: #1e7e34; box-shadow: 0 0 8px rgba(40, 167, 69, 0.5); }
+        .status-success { background: #28a745; border-color: #1e7e34; box-shadow: 0 0 8px rgba(40, 167, 69, 0.5); }
+        .status-warning { background: #ffc107; border-color: #e0a800; box-shadow: 0 0 8px rgba(255, 193, 7, 0.5); }
+        .status-error { background: #dc3545; border-color: #c82333; box-shadow: 0 0 8px rgba(220, 53, 69, 0.5); }
+        .status-pending { background: #6c757d; border-color: #545b62; }
+        .status-info { background: #17a2b8; border-color: #138496; box-shadow: 0 0 8px rgba(23, 162, 184, 0.5); }
         
         .validate-btn { background: #6f42c1; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; }
         .validate-btn:disabled { background: #6c757d; cursor: not-allowed; }
@@ -91,15 +91,19 @@
         .collapse-icon { transition: transform 0.3s; }
         .collapsed .collapse-icon { transform: rotate(-90deg); }
         
-        .back-translation { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 10px; margin-top: 8px; font-size: 13px; }
-        .similarity-score { font-weight: bold; color: #495057; }
-        .score-high { color: #28a745; }
-        .score-medium { color: #ffc107; }
-        .score-low { color: #dc3545; }
+        /* Validation result styles */
+        .back-translation { background: #f8f9fa; border: 1px solid #e9ecef; margin-top: 8px; padding: 12px; border-radius: 6px; font-size: 0.9em; }
+        .similarity-score { font-weight: bold; margin-bottom: 8px; padding: 4px 8px; border-radius: 4px; text-align: center; }
+        .score-high { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .score-medium { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .score-low { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .text-comparison { display: flex; gap: 15px; }
+        .comparison-section { flex: 1; }
+        .comparison-label { font-weight: bold; color: #495057; margin-bottom: 4px; font-size: 0.8em; }
+        .comparison-section > div:last-child { background: white; padding: 8px; border-radius: 4px; border: 1px solid #dee2e6; }
         
-        .text-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .comparison-section { background: white; padding: 8px; border-radius: 3px; border: 1px solid #dee2e6; }
-        .comparison-label { font-weight: bold; font-size: 11px; color: #6c757d; margin-bottom: 4px; text-transform: uppercase; }
+
+        
         .diff-highlight { background: #ffeaa7; padding: 2px 4px; border-radius: 2px; }
         
         /* Modal Styles */
@@ -868,12 +872,13 @@
         }
         
         async function validateSingle(itemId, originalText, translatedText, langCode) {
-            console.log('validateSingle called with:', {itemId, originalText: originalText.substring(0, 50), translatedText: translatedText.substring(0, 50), langCode});
+            console.log('🎯 VALIDATION START:', {itemId, langCode, textLength: translatedText.length});
             
             const credentials = getCredentials();
-            console.log('Credentials check:', {hasGoogleTranslateApiKey: !!credentials.googleTranslateApiKey});
+            console.log('🔑 Credentials check:', {hasGoogleTranslateApiKey: !!credentials.googleTranslateApiKey});
             
             if (!credentials.googleTranslateApiKey) {
+                console.error('❌ No Google Translate API key found');
                 alert('Please add your Google Translate API key in the credentials manager.');
                 return;
             }
@@ -888,20 +893,26 @@
                 button.textContent = 'Source';
                 button.disabled = true;
                 
-                console.log('Skipping validation for English source text');
+                console.log('✅ Skipping validation for English source text');
                 return;
             }
             
             const indicator = document.querySelector(`[data-item-id="${itemId}"]`);
             const button = event.target;
             
-            console.log('UI elements found:', {indicator: !!indicator, button: !!button});
+            console.log('🎛️ UI elements found:', {indicator: !!indicator, button: !!button});
+            
+            if (!indicator || !button) {
+                console.error('❌ Could not find UI elements for validation');
+                alert('Error: Could not find validation UI elements');
+                return;
+            }
             
             // Update UI to show validation in progress
             button.textContent = 'Validating...';
             button.disabled = true;
-            indicator.className = 'status-indicator status-pending';
-            indicator.title = 'Validation in progress...';
+            indicator.className = 'status-indicator status-info';
+            indicator.title = '🔄 Validation in progress...';
             
             try {
                 // Prepare language code for Google Translate (convert es-CO to es, fr-CA to fr, etc.)
@@ -918,12 +929,10 @@
                     original_text: originalText
                 };
                 
-                console.log('Validation request:', requestBody);
-                
-                // Test CORS proxy connectivity first
-                console.log('Testing CORS proxy connection...');
+                console.log('📤 Validation request:', requestBody);
                 
                 // Call our CORS proxy for Google Translate
+                console.log('🌐 Calling CORS proxy...');
                 const response = await fetch('http://localhost:8001/proxy/translate', {
                     method: 'POST',
                     headers: {
@@ -933,90 +942,324 @@
                     body: JSON.stringify(requestBody)
                 });
                 
+                console.log('📥 Response status:', response.status, response.statusText);
+                
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('Validation error response:', response.status, response.statusText, errorText);
+                    console.error('❌ Validation error response:', {
+                        status: response.status,
+                        statusText: response.statusText,
+                        errorText: errorText
+                    });
                     throw new Error(`HTTP ${response.status}: ${response.statusText}${errorText ? ' - ' + errorText : ''}`);
                 }
                 
                 const result = await response.json();
+                console.log('✅ Validation result:', result);
+                
                 const similarity = result.similarity_score || 0;
                 
                 // Update status indicator based on similarity score
-                let statusClass, statusTitle;
+                let statusClass, statusTitle, buttonText;
                 if (similarity >= 85) {
                     statusClass = 'status-good';
-                    statusTitle = `Validation: ${similarity}% similarity - Good translation`;
+                    statusTitle = `✅ Excellent: ${similarity}% similarity`;
+                    buttonText = 'View Good';
                 } else if (similarity >= 70) {
                     statusClass = 'status-warning';
-                    statusTitle = `Validation: ${similarity}% similarity - Minor concerns`;
+                    statusTitle = `⚠️ Warning: ${similarity}% similarity`;
+                    buttonText = 'View Warning';
                 } else {
                     statusClass = 'status-error';
-                    statusTitle = `Validation: ${similarity}% similarity - Needs review`;
+                    statusTitle = `❌ Poor: ${similarity}% similarity`;
+                    buttonText = 'View Issues';
                 }
                 
                 indicator.className = `status-indicator ${statusClass}`;
                 indicator.title = statusTitle;
-                button.textContent = 'View';
+                button.textContent = buttonText;
                 button.disabled = false;
                 
                 // Store validation result and change button behavior
                 button.setAttribute('data-validation-result', JSON.stringify(result));
-                button.onclick = () => showValidationResult(itemId, result);
+                button.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('🖱️ View button clicked for:', itemId);
+                    showValidationResult(itemId, result);
+                };
                 
+                console.log(`🎯 Validation complete: ${statusTitle}`);
                 updateValidationSummary();
                 
             } catch (error) {
-                console.error('Validation error:', error);
+                console.error('💥 VALIDATION ERROR:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                
                 indicator.className = 'status-indicator status-error';
                 
-                let errorMessage = error.message;
+                let errorMessage = 'Unknown error';
+                let buttonText = 'Retry';
+                
                 if (error.message.includes('Failed to fetch')) {
-                    errorMessage = 'Cannot connect to CORS proxy server. Make sure it\'s running on port 8001.';
+                    errorMessage = 'Cannot connect to CORS proxy server (port 8001)';
+                    buttonText = 'Retry Connection';
                 } else if (error.message.includes('400')) {
-                    errorMessage = 'Google Translate API error. Check your API key.';
+                    errorMessage = 'Google Translate API error (check API key)';
+                    buttonText = 'Retry API';
+                } else if (error.message.includes('401')) {
+                    errorMessage = 'Invalid Google Translate API key';
+                    buttonText = 'Fix API Key';
+                } else if (error.message.includes('403')) {
+                    errorMessage = 'Google Translate API access denied';
+                    buttonText = 'Check Permissions';
+                } else {
+                    errorMessage = error.message;
                 }
                 
-                indicator.title = `Validation failed: ${errorMessage}`;
-                button.textContent = 'Retry';
+                indicator.title = `❌ Validation failed: ${errorMessage}`;
+                button.textContent = buttonText;
                 button.disabled = false;
-                alert(`Validation failed: ${errorMessage}\n\nCheck the console for details.`);
+                
+                // Store error for viewing
+                const errorResult = {
+                    error: true,
+                    message: errorMessage,
+                    details: error.message,
+                    original: originalText,
+                    translation: translatedText
+                };
+                button.setAttribute('data-validation-result', JSON.stringify(errorResult));
+                button.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('🖱️ Error view button clicked for:', itemId);
+                    showValidationResult(itemId, errorResult);
+                };
+                
+                console.log('🚨 Error stored for viewing');
             }
         }
         
         function showValidationResult(itemId, result) {
+            console.log('👁️ SHOW VALIDATION RESULT START:', itemId, result);
+            
+            // Check if result already exists and toggle it
             const existingResult = document.querySelector(`#validation-result-${itemId}`);
             if (existingResult) {
-                existingResult.style.display = existingResult.style.display === 'none' ? 'block' : 'none';
+                console.log('🔄 Found existing result, checking visibility...');
+                const computedStyle = window.getComputedStyle(existingResult);
+                const isHidden = computedStyle.display === 'none' || existingResult.style.display === 'none';
+                
+                console.log('🔍 Existing result state:', {
+                    computedDisplay: computedStyle.display,
+                    styleDisplay: existingResult.style.display,
+                    isHidden: isHidden
+                });
+                
+                // Update button text to reflect state
+                const button = document.querySelector(`[data-item-id="${itemId}"]`).closest('.data-row').querySelector('.validate-btn');
+                if (button) {
+                    const originalText = button.getAttribute('data-original-text') || button.textContent;
+                    if (!button.getAttribute('data-original-text')) {
+                        button.setAttribute('data-original-text', originalText);
+                    }
+                    button.textContent = isHidden ? 'Hide Result' : originalText;
+                }
+                
+                if (isHidden) {
+                    // Show with professional styling (same as new results)
+                    existingResult.style.cssText = `
+                        background: white !important;
+                        border: 2px solid #007bff !important;
+                        border-radius: 8px !important;
+                        padding: 20px !important;
+                        font-size: 0.9em !important;
+                        color: #333 !important;
+                        box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+                        position: fixed !important;
+                        top: 100px !important;
+                        left: 50% !important;
+                        transform: translateX(-50%) !important;
+                        z-index: 99999 !important;
+                        display: block !important;
+                        width: 600px !important;
+                        max-width: 90vw !important;
+                        max-height: 500px !important;
+                        opacity: 1 !important;
+                        overflow: auto !important;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                    `;
+                    console.log('✅ Showing existing result with professional styling');
+                    
+                } else {
+                    // Hide with fade out
+                    existingResult.style.opacity = '0';
+                    console.log('✅ Hiding existing result');
+                    
+                    // Wait for fade to complete before hiding
+                    setTimeout(() => {
+                        existingResult.style.display = 'none';
+                    }, 300);
+                }
+                
                 return;
             }
             
-            const row = document.querySelector(`[data-item-id="${itemId}"]`).closest('.data-row');
+            // Find the row element
+            console.log('🔍 Looking for row with data-item-id:', itemId);
+            const indicator = document.querySelector(`[data-item-id="${itemId}"]`);
+            console.log('🎯 Found indicator:', !!indicator);
+            
+            if (!indicator) {
+                console.error('❌ Could not find indicator for item:', itemId);
+                // Try alternative selector
+                const allIndicators = document.querySelectorAll('.status-indicator');
+                console.log('🔍 All indicators:', Array.from(allIndicators).map(i => i.getAttribute('data-item-id')));
+                alert('Error: Could not find validation indicator');
+                return;
+            }
+            
+            const row = indicator.closest('.data-row');
+            console.log('📋 Found row:', !!row);
+            
+            if (!row) {
+                console.error('❌ Could not find row for item:', itemId);
+                alert('Error: Could not find row to display result');
+                return;
+            }
+            
             const resultDiv = document.createElement('div');
             resultDiv.id = `validation-result-${itemId}`;
             resultDiv.className = 'back-translation';
-            resultDiv.innerHTML = `
-                <div class="similarity-score ${result.similarity_score >= 85 ? 'score-high' : result.similarity_score >= 70 ? 'score-medium' : 'score-low'}">
-                    Similarity: ${result.similarity_score}%
-                </div>
-                <div class="text-comparison">
-                    <div class="comparison-section">
-                        <div class="comparison-label">Original English</div>
-                        <div>${result.original || 'N/A'}</div>
+            
+            if (result.error) {
+                // Handle error case
+                resultDiv.innerHTML = `
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0; color: #dc3545;">❌ Validation Error</h3>
+                        <button onclick="this.closest('div[id*=\"validation-result\"]').remove()" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
                     </div>
-                    <div class="comparison-section">
-                        <div class="comparison-label">Back-translated</div>
-                        <div>${result.translated}</div>
+                    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                        <strong>Error:</strong> ${result.message}<br>
+                        <small style="opacity: 0.8;">Details: ${result.details}</small>
                     </div>
-                </div>
-                ${result.similarity_score < 70 ? `
-                    <div style="margin-top: 8px; font-size: 12px; color: #856404; background: #fff3cd; padding: 6px; border-radius: 3px;">
-                        ⚠️ Low similarity detected. Consider reviewing this translation.
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Original English</div>
+                            <div style="color: #495057;">${result.original || 'N/A'}</div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Translation Attempted</div>
+                            <div style="color: #495057;">${result.translation || 'N/A'}</div>
+                        </div>
                     </div>
-                ` : ''}
+                `;
+            } else {
+                // Handle successful validation
+                const similarity = result.similarity_score || 0;
+                const scoreColor = similarity >= 85 ? '#28a745' : similarity >= 70 ? '#ffc107' : '#dc3545';
+                const bgColor = similarity >= 85 ? '#d4edda' : similarity >= 70 ? '#fff3cd' : '#f8d7da';
+                const textColor = similarity >= 85 ? '#155724' : similarity >= 70 ? '#856404' : '#721c24';
+                const recommendation = similarity >= 85 ? '✅ Translation looks excellent!' : 
+                                     similarity >= 70 ? '⚠️ Translation has minor differences.' : 
+                                     '❌ Translation may need review.';
+                
+                resultDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0; color: #495057;">Translation Validation Result</h3>
+                        <button onclick="this.closest('div[id*=\"validation-result\"]').remove()" style="background: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
+                    </div>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <div style="font-size: 2em; font-weight: bold; color: ${scoreColor}; margin-bottom: 5px;">
+                            ${similarity}%
+                        </div>
+                        <div style="font-size: 0.9em; color: #6c757d;">Similarity Score</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Original English</div>
+                            <div style="color: #495057; line-height: 1.4;">${result.original || 'N/A'}</div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Back-translated</div>
+                            <div style="color: #495057; line-height: 1.4;">${result.translated || 'N/A'}</div>
+                        </div>
+                    </div>
+                    <div style="padding: 12px; border-radius: 6px; text-align: center; background: ${bgColor}; color: ${textColor}; font-weight: 500;">
+                        ${recommendation}
+                    </div>
+                `;
+            }
+            
+            // Add close button
+            const closeButton = document.createElement('button');
+            closeButton.textContent = '×';
+            closeButton.style.cssText = 'position: absolute; top: 5px; right: 8px; background: none; border: none; font-size: 18px; cursor: pointer; color: #666;';
+            closeButton.onclick = () => resultDiv.remove();
+            resultDiv.style.position = 'relative';
+            resultDiv.appendChild(closeButton);
+            
+            // Style the result div professionally now that we know fixed positioning works
+            resultDiv.style.cssText = `
+                background: white !important;
+                border: 2px solid #007bff !important;
+                border-radius: 8px !important;
+                padding: 20px !important;
+                font-size: 0.9em !important;
+                color: #333 !important;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+                position: fixed !important;
+                top: 100px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                z-index: 99999 !important;
+                display: block !important;
+                width: 600px !important;
+                max-width: 90vw !important;
+                max-height: 500px !important;
+                opacity: 1 !important;
+                overflow: auto !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             `;
             
-            row.appendChild(resultDiv);
+            console.log('✅ Applied professional styling with fixed positioning');
+            
+            // Add animation keyframes if not already present
+            if (!document.querySelector('#validation-animations')) {
+                const style = document.createElement('style');
+                style.id = 'validation-animations';
+                style.textContent = `
+                    @keyframes slideDown {
+                        from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+                        to { opacity: 1; transform: translateY(0); max-height: 500px; }
+                    }
+                    @keyframes slideUp {
+                        from { opacity: 1; transform: translateY(0); max-height: 500px; }
+                        to { opacity: 0; transform: translateY(-10px); max-height: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Add to document body for reliable positioning
+            document.body.appendChild(resultDiv);
+            console.log('✅ Validation panel added to page');
+            
+            // Update button text to show it can be hidden
+            const button = row.querySelector('.validate-btn');
+            if (button && !button.getAttribute('data-original-text')) {
+                button.setAttribute('data-original-text', button.textContent);
+                button.textContent = 'Hide Result';
+            }
+            
+            console.log('✅ Validation result displayed successfully');
+            
+            console.log('✅ Validation result panel created and displayed');
         }
         
         function updateValidationSummary() {
