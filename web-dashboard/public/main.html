@@ -956,6 +956,12 @@
                 
                 const result = await response.json();
                 console.log('✅ Validation result:', result);
+                console.log('📝 Result breakdown:', {
+                    originalEnglish: result.original_english,
+                    sourceText: result.source_text,  
+                    backTranslated: result.back_translated,
+                    similarityScore: result.similarity_score
+                });
                 
                 const similarity = result.similarity_score || 0;
                 
@@ -1151,11 +1157,11 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
                             <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Original English</div>
-                            <div style="color: #495057;">${result.original || 'N/A'}</div>
+                            <div style="color: #495057;">${result.original_english || result.original || 'N/A'}</div>
                         </div>
                         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
-                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Translation Attempted</div>
-                            <div style="color: #495057;">${result.translation || 'N/A'}</div>
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Back-translated English</div>
+                            <div style="color: #495057;">${result.back_translated || result.translated || 'N/A'}</div>
                         </div>
                     </div>
                 `;
@@ -1183,11 +1189,11 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
                         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
                             <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Original English</div>
-                            <div style="color: #495057; line-height: 1.4;">${result.original || 'N/A'}</div>
+                            <div style="color: #495057; line-height: 1.4;">${result.original_english || result.original || 'N/A'}</div>
                         </div>
                         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
-                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Back-translated</div>
-                            <div style="color: #495057; line-height: 1.4;">${result.translated || 'N/A'}</div>
+                            <div style="font-weight: bold; font-size: 0.8em; color: #6c757d; margin-bottom: 8px; text-transform: uppercase;">Back-translated English</div>
+                            <div style="color: #495057; line-height: 1.4;">${result.back_translated || result.translated || 'N/A'}</div>
                         </div>
                     </div>
                     <div style="padding: 12px; border-radius: 6px; text-align: center; background: ${bgColor}; color: ${textColor}; font-weight: 500;">

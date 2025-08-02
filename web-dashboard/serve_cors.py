@@ -161,10 +161,12 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                         'operation': operation
                     }
                     
-                    # For back-translation, add similarity calculation placeholder
+                    # For back-translation, add similarity calculation and proper text structure
                     if operation == 'back_translate':
+                        original_english = request_data.get('original_text', '')
+                        
                         # Basic similarity calculation (can be enhanced later)
-                        original_words = set(request_data.get('original_text', '').lower().split())
+                        original_words = set(original_english.lower().split())
                         back_translated_words = set(translated_text.lower().split())
                         
                         if original_words:
@@ -172,6 +174,13 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                             result['similarity_score'] = round(similarity * 100, 1)
                         else:
                             result['similarity_score'] = 0
+                        
+                        # Update result structure for back-translation display
+                        result.update({
+                            'original_english': original_english,  # Original English text
+                            'source_text': text,  # The translated text that was sent back
+                            'back_translated': translated_text,  # Back-translated English
+                        })
                     
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
