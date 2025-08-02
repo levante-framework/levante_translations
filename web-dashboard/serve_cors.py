@@ -124,9 +124,10 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
             # Prepare Google Translate API request
             translate_url = f'https://translation.googleapis.com/language/translate/v2?key={api_key}'
             
-            # For back-translation, we reverse source and target languages
-            if operation == 'back_translate':
-                source_lang, target_lang = target_lang, source_lang
+            # For back-translation, we keep the languages as intended:
+            # source_lang = the language of the text we're translating FROM
+            # target_lang = the language we want to translate TO
+            # No reversal needed - we want Spanish->English for back-translation
             
             translate_data = {
                 'q': text,
@@ -181,6 +182,13 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                             'source_text': text,  # The translated text that was sent back
                             'back_translated': translated_text,  # Back-translated English
                         })
+                        
+                        # Debug logging
+                        print(f"🔍 Back-translation processed:")
+                        print(f"   Original English: {original_english[:50]}...")
+                        print(f"   Source text (Spanish): {text[:50]}...")
+                        print(f"   Back-translated: {translated_text[:50]}...")
+                        print(f"   Similarity: {result['similarity_score']}%")
                     
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
