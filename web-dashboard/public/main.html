@@ -11,7 +11,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
         .dashboard-container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; text-align: center; }
+        .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; text-align: center; }
         .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 300; }
         .header p { font-size: 1.2em; opacity: 0.9; }
         .main-content { padding: 30px; }
@@ -21,16 +21,16 @@
         .voice-controls { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
         .voice-control { display: flex; flex-direction: column; gap: 5px; }
         .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-info { background: #17a2b8; color: white; }
-        .voice-select { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
+        .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
         .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
         .tabs { margin-bottom: 30px; }
         .tab-buttons { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-button { padding: 15px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; color: #495057; }
+        .tab-button { padding: 12px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; color: #495057; }
         .tab-button:hover { background: #e9ecef; transform: translateY(-2px); }
         .tab-button.active { background: #007bff; color: white; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
         .tab-content { display: none; padding: 25px; background: #f8f9fa; border-radius: 0 10px 10px 10px; border: 2px solid #e9ecef; }
@@ -42,7 +42,7 @@
         .info-card span { color: #6c757d; font-size: 0.9em; }
         .data-table { background: white; border-radius: 8px; overflow: hidden; margin-top: 20px; border: 2px solid #e9ecef; }
         .table-header { background: #f8f9fa; padding: 15px; border-bottom: 2px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; }
-        .search-box { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
+        .search-box { padding: 7px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
         .table-content { max-height: 600px; overflow-y: auto; }
         .data-row { padding: 8px 12px; border-bottom: 1px solid #eee; cursor: pointer; transition: background-color 0.2s; display: grid; grid-template-columns: 0.5fr 0.5fr 2fr 2fr 0.6fr; gap: 12px; align-items: center; font-size: 0.9em; }
         .data-row:hover { background-color: #f8f9fa; }
@@ -74,7 +74,7 @@
         
         /* Validation Styles */
         .validation-controls { margin-left: 20px; padding-left: 20px; border-left: 2px solid #9b59b6; }
-        .validation-button { background: #9b59b6; color: white; }
+        .validation-button { background: #9b59b6; color: white; padding: 8px 20px; }
         .validation-button:hover { background: #8e44ad; }
         .validation-button:disabled { background: #6c757d; cursor: not-allowed; opacity: 0.6; }
         
@@ -105,7 +105,7 @@
             50% { box-shadow: 0 0 20px rgba(23, 162, 184, 1); }
         }
         
-        .validate-btn { background: #6f42c1; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; }
+        .validate-btn { background: #6f42c1; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; }
         .validate-btn:disabled { background: #6c757d; cursor: not-allowed; }
         
         .score-badge { 
@@ -122,7 +122,7 @@
         }
         
         .validation-panel { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; margin: 15px 0; overflow: hidden; }
-        .validation-header { background: #6c757d; color: white; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .validation-header { background: #6c757d; color: white; padding: 10px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .validation-content { padding: 15px; display: none; }
         .validation-content.expanded { display: block; }
         .collapse-icon { transition: transform 0.3s; }
@@ -163,7 +163,7 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="faas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
             <p>Multi-language Translation Validation and TTS audio generation</p>
         </div>
         <div class="main-content">
@@ -194,7 +194,7 @@
                     <label><i class="fas fa-edit"></i> Text to Speech Generation:</label>
                     <div style="display: flex; gap: 15px; width: 100%; align-items: flex-start;">
                         <textarea id="textInput" placeholder="Enter text to convert to speech, or select an item from the table below..." 
-                                  style="flex: 1; min-height: 120px; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
+                                  style="flex: 1; min-height: 100px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
                         <div style="display: flex; flex-direction: column; gap: 10px; min-width: 180px;">
                             <button id="generateAudio" class="btn btn-success">
                                 <i class="fas fa-play"></i> Generate Audio
@@ -236,24 +236,26 @@
                     </div>
                     
                     <!-- Validation Summary -->
-                    <div id="validationSummary" style="border-top: 1px solid #e0e0e0; padding-top: 20px;">
-                        <h4 style="margin: 0 0 15px 0; color: #333;"><i class="fas fa-chart-bar"></i> Validation Summary</h4>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center;">
-                            <div>
-                                <div style="font-size: 24px; font-weight: bold; color: #28a745;" id="goodCount">0</div>
-                                <div style="color: #6c757d;">Good (>85%)</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 24px; font-weight: bold; color: #ffc107;" id="warningCount">0</div>
-                                <div style="color: #6c757d;">Warning (70-85%)</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 24px; font-weight: bold; color: #dc3545;" id="errorCount">0</div>
-                                <div style="color: #6c757d;">Needs Review (<70%)</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 24px; font-weight: bold; color: #6c757d;" id="pendingCount">0</div>
-                                <div style="color: #6c757d;">Not Validated</div>
+                    <div id="validationSummary" style="border-top: 1px solid #e0e0e0; padding-top: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <h4 style="margin: 0; color: #333; font-size: 1.1em;"><i class="fas fa-chart-bar"></i> Validation Summary</h4>
+                            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #28a745;" id="goodCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Good</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #ffc107;" id="warningCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Warning</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #dc3545;" id="errorCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Review</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #6c757d;" id="pendingCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Pending</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -328,6 +330,18 @@
                 this.voices = { playht: [], elevenlabs: [] };
                 
                 this.init();
+            }
+
+            getFlagForLanguage(language) {
+                // Use small flag images (50% bigger than before)
+                const flagMap = {
+                    'English': '<img src="https://flagcdn.com/24x18/us.png" alt="US" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'Spanish': '<img src="https://flagcdn.com/24x18/co.png" alt="CO" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'German': '<img src="https://flagcdn.com/24x18/de.png" alt="DE" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'French': '<img src="https://flagcdn.com/24x18/ca.png" alt="CA" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'Dutch': '<img src="https://flagcdn.com/24x18/nl.png" alt="NL" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">'
+                };
+                return flagMap[language] || '🌐'; // fallback to globe emoji
             }
 
             async init() {
@@ -750,7 +764,7 @@
                     
                     const langConfig = this.languages[language];
                     content.innerHTML = `
-                        <h3><i class="fas fa-globe"></i> ${language} Configuration</h3>
+                        <h3>${this.getFlagForLanguage(language)}${language} Configuration</h3>
                         <div class="language-info">
                             <div class="info-card">
                                 <strong>Language Code</strong>
@@ -931,11 +945,11 @@
                     }
                 });
 
-                                 document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
-                     if (e.target.value) {
-                         this.setStatus(`ElevenLabs voice selected: ${e.target.options[e.target.selectedIndex].text}`, 'success');
-                     }
-                 });
+                document.getElementById('elevenlabsVoice').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.setStatus(`ElevenLabs voice selected: ${e.target.options[e.target.selectedIndex].text}`, 'success');
+                    }
+                });
 
                  // Text generation controls
                  document.getElementById('generateAudio').addEventListener('click', () => {
