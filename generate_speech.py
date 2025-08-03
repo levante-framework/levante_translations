@@ -33,21 +33,30 @@ def generate_audio(language):
     # Turn into dataframe so we can do any needed edits
     print(f"Loading source translations from: {conf.item_bank_translations}")
     try:
-        # Try with explicit UTF-8 encoding
-        translationData = pd.read_csv(conf.item_bank_translations, encoding='utf-8')
-        print(f"SUCCESS: Loaded {len(translationData)} translation items")
-    except UnicodeDecodeError:
-        print("UTF-8 encoding failed, trying latin1...")
-        # If UTF-8 fails, try with a more permissive encoding
-        translationData = pd.read_csv(conf.item_bank_translations, encoding='latin1')
-        print(f"SUCCESS: Loaded {len(translationData)} translation items with latin1 encoding")
-    except FileNotFoundError:
-        print(f"ERROR: Source translation file not found: {conf.item_bank_translations}")
-        print(f"Make sure the file exists in the correct location.")
-        return
-    except Exception as e:
-        print(f"ERROR: Failed to load source translations: {str(e)}")
-        return
+        # Try with robust CSV parser first
+        from utilities.robust_csv_parser import parse_csv_robust
+        data_list = parse_csv_robust(conf.item_bank_translations)
+        translationData = pd.DataFrame(data_list)
+        print(f"SUCCESS: Loaded {len(translationData)} translation items with robust parser")
+    except Exception as robust_error:
+        print(f"Robust parser failed: {robust_error}")
+        print("Falling back to standard pandas parsing...")
+        try:
+            # Try with explicit UTF-8 encoding
+            translationData = pd.read_csv(conf.item_bank_translations, encoding='utf-8')
+            print(f"SUCCESS: Loaded {len(translationData)} translation items")
+        except UnicodeDecodeError:
+            print("UTF-8 encoding failed, trying latin1...")
+            # If UTF-8 fails, try with a more permissive encoding
+            translationData = pd.read_csv(conf.item_bank_translations, encoding='latin1')
+            print(f"SUCCESS: Loaded {len(translationData)} translation items with latin1 encoding")
+        except FileNotFoundError:
+            print(f"ERROR: Source translation file not found: {conf.item_bank_translations}")
+            print(f"Make sure the file exists in the correct location.")
+            return
+        except Exception as e:
+            print(f"ERROR: Failed to load source translations: {str(e)}")
+            return
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
@@ -91,21 +100,30 @@ def generate_audio(language):
     if os.path.exists(master_file_path):
         try:
             print(f"Loading existing master file: {master_file_path}")
-            # item_id is the index
-            masterData = pd.read_csv(master_file_path)
-            print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns")
+            # Try robust parser first
+            try:
+                from utilities.robust_csv_parser import parse_csv_robust
+                master_data_list = parse_csv_robust(master_file_path)
+                masterData = pd.DataFrame(master_data_list)
+                print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns using robust parser")
+            except Exception as robust_error:
+                print(f"Robust parser failed for master file: {robust_error}")
+                print("Falling back to standard pandas parsing...")
+                masterData = pd.read_csv(master_file_path)
+                print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns")
             
         except pd.errors.ParserError as e:
             print(f"ERROR: The master CSV file '{master_file_path}' is corrupted or has formatting issues.")
             print(f"Details: {str(e)}")
-            print(f"Solution: Delete '{master_file_path}' and run the script again to create a fresh one.")
-            print(f"Or fix the CSV formatting manually.")
+            print(f"Solution: Use the robust CSV parser to fix it:")
+            print(f"  python utilities/robust_csv_parser.py {master_file_path} {master_file_path}_fixed")
+            print(f"Or delete '{master_file_path}' and run the script again to create a fresh one.")
             return
             
         except Exception as e:
             print(f"ERROR: Failed to read master file '{master_file_path}'")
             print(f"Details: {str(e)}")
-            print(f"Solution: Check file permissions or delete the file to create a fresh one.")
+            print(f"Solution: Check file permissions, try the robust parser, or delete the file to create a fresh one.")
             return
         
         # Add any missing language columns that might be needed

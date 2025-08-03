@@ -480,31 +480,46 @@
             }
 
             parseCSV(csvText) {
-                const lines = csvText.split('\n').filter(line => line.trim());
-                if (lines.length === 0) return [];
+                if (!csvText || !csvText.trim()) return [];
                 
-                // Parse header line - handle quoted headers
-                const headerLine = lines[0];
-                const headers = this.parseCSVLine(headerLine);
+                console.log('🔧 Robust CSV Parser: Starting parse...');
+                
+                // First, try to parse with proper CSV logic that handles embedded newlines
+                const rows = this.parseCSVWithEmbeddedNewlines(csvText);
+                
+                if (rows.length === 0) return [];
+                
+                const headers = rows[0];
                 console.log('CSV Headers:', headers);
                 
                 const data = [];
                 
-                // Parse data lines
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (!line) continue;
+                // Parse data rows (skip header)
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i];
                     
-                    const values = this.parseCSVLine(line);
                     if (values.length >= headers.length) {
                         const row = {};
                         headers.forEach((header, index) => {
-                            row[header] = values[index] || '';
+                            let value = values[index] || '';
+                            
+                            // Clean up embedded newlines in the value
+                            if (typeof value === 'string') {
+                                // Replace literal \n characters with <br> for display
+                                value = value.replace(/\n/g, '<br>');
+                                // Clean up extra whitespace
+                                value = value.replace(/\s+/g, ' ').trim();
+                            }
+                            
+                            row[header] = value;
                         });
                         data.push(row);
+                    } else {
+                        console.warn(`Row ${i} has ${values.length} columns, expected ${headers.length}:`, values);
                     }
                 }
                 
+                console.log(`🔧 Robust CSV Parser: Parsed ${data.length} rows successfully`);
                 console.log('Sample parsed data:', data.slice(0, 3));
                 
                 // Normalize data to ensure consistent field names
@@ -524,6 +539,75 @@
                 
                 console.log('Normalized data sample:', normalizedData.slice(0, 3));
                 return normalizedData;
+            }
+
+            parseCSVWithEmbeddedNewlines(csvText) {
+                // Robust CSV parser that properly handles quoted fields with embedded newlines
+                const rows = [];
+                let currentRow = [];
+                let currentField = '';
+                let inQuotes = false;
+                let i = 0;
+                
+                while (i < csvText.length) {
+                    const char = csvText[i];
+                    const nextChar = i + 1 < csvText.length ? csvText[i + 1] : null;
+                    
+                    if (char === '"') {
+                        if (inQuotes && nextChar === '"') {
+                            // Escaped quote - add literal quote to field
+                            currentField += '"';
+                            i += 2; // Skip both quotes
+                        } else {
+                            // Toggle quote state
+                            inQuotes = !inQuotes;
+                            i++;
+                        }
+                    } else if (char === ',' && !inQuotes) {
+                        // Field separator outside quotes
+                        currentRow.push(currentField.trim());
+                        currentField = '';
+                        i++;
+                    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+                        // Row separator outside quotes
+                        if (currentField.trim() || currentRow.length > 0) {
+                            currentRow.push(currentField.trim());
+                            if (currentRow.some(field => field.length > 0)) {
+                                rows.push(currentRow);
+                            }
+                            currentRow = [];
+                            currentField = '';
+                        }
+                        // Skip \r\n combinations
+                        if (char === '\r' && nextChar === '\n') {
+                            i += 2;
+                        } else {
+                            i++;
+                        }
+                    } else {
+                        // Regular character or newline inside quotes
+                        currentField += char;
+                        i++;
+                    }
+                }
+                
+                // Handle final field/row
+                if (currentField.trim() || currentRow.length > 0) {
+                    currentRow.push(currentField.trim());
+                    if (currentRow.some(field => field.length > 0)) {
+                        rows.push(currentRow);
+                    }
+                }
+                
+                console.log(`🔧 Robust CSV Parser: Found ${rows.length} rows`);
+                
+                // Filter out empty rows
+                const validRows = rows.filter(row => 
+                    row.length > 0 && row.some(field => field && field.trim().length > 0)
+                );
+                
+                console.log(`🔧 Robust CSV Parser: ${validRows.length} valid rows after filtering`);
+                return validRows;
             }
 
             parseCSVLine(line) {
