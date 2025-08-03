@@ -4,10 +4,20 @@
  * This allows validation results to be shared between users
  */
 
-import { promises as fs } from 'fs';
-import path from 'path';
+// Note: Vercel serverless functions run on read-only filesystem
+// We'll use a simple in-memory storage with reset on cold starts
+// This provides session-based sharing but not persistent storage
 
-const VALIDATION_FILE = path.join(process.cwd(), 'validation_results.json');
+let inMemoryValidationData = {
+    validation_results: {},
+    metadata: {
+        created: new Date().toISOString(),
+        version: '1.0',
+        item_count: 0,
+        validation_count: 0,
+        description: 'In-memory validation results for Levante Translation Dashboard'
+    }
+};
 
 export default async function handler(req, res) {
     // Set CORS headers
@@ -42,33 +52,13 @@ export default async function handler(req, res) {
 
 async function getValidationResults(req, res) {
     try {
-        // Check if validation file exists
-        try {
-            const fileContent = await fs.readFile(VALIDATION_FILE, 'utf8');
-            const validationData = JSON.parse(fileContent);
-            
-            console.log(`📖 Loaded validation results: ${Object.keys(validationData.validation_results || {}).length} items`);
-            
-            return res.status(200).json({
-                success: true,
-                data: validationData,
-                timestamp: new Date().toISOString()
-            });
-        } catch (fileError) {
-            // File doesn't exist or is invalid, return empty structure
-            console.log('📝 No validation file found, returning empty structure');
-            return res.status(200).json({
-                success: true,
-                data: {
-                    validation_results: {},
-                    metadata: {
-                        created: new Date().toISOString(),
-                        version: '1.0'
-                    }
-                },
-                timestamp: new Date().toISOString()
-            });
-        }
+        console.log(`📖 Loading validation results from memory: ${Object.keys(inMemoryValidationData.validation_results || {}).length} items`);
+        
+        return res.status(200).json({
+            success: true,
+            data: inMemoryValidationData,
+            timestamp: new Date().toISOString()
+        });
     } catch (error) {
         throw new Error(`Failed to load validation results: ${error.message}`);
     }
@@ -90,7 +80,8 @@ async function saveValidationResults(req, res) {
             totalValidations += Object.keys(validation_results[itemId] || {}).length;
         });
 
-        const validationData = {
+        // Update in-memory storage
+        inMemoryValidationData = {
             validation_results,
             metadata: {
                 ...metadata,
@@ -100,16 +91,13 @@ async function saveValidationResults(req, res) {
                 validation_count: totalValidations
             }
         };
-
-        // Save to file
-        await fs.writeFile(VALIDATION_FILE, JSON.stringify(validationData, null, 2), 'utf8');
         
-        console.log(`💾 Saved validation results: ${validationData.metadata.item_count} items, ${validationData.metadata.validation_count} validations`);
+        console.log(`💾 Saved validation results to memory: ${inMemoryValidationData.metadata.item_count} items, ${inMemoryValidationData.metadata.validation_count} validations`);
 
         return res.status(200).json({
             success: true,
-            message: 'Validation results saved successfully',
-            metadata: validationData.metadata,
+            message: 'Validation results saved successfully (in-memory)',
+            metadata: inMemoryValidationData.metadata,
             timestamp: new Date().toISOString()
         });
 
@@ -128,53 +116,34 @@ async function updateValidationResults(req, res) {
             });
         }
 
-        // Load existing data
-        let existingData;
-        try {
-            const fileContent = await fs.readFile(VALIDATION_FILE, 'utf8');
-            existingData = JSON.parse(fileContent);
-        } catch (fileError) {
-            // File doesn't exist, create new structure
-            existingData = {
-                validation_results: {},
-                metadata: {
-                    created: new Date().toISOString(),
-                    version: '1.0'
-                }
-            };
+        // Update specific validation entry in memory
+        if (!inMemoryValidationData.validation_results[item_id]) {
+            inMemoryValidationData.validation_results[item_id] = {};
         }
 
-        // Update specific validation entry
-        if (!existingData.validation_results[item_id]) {
-            existingData.validation_results[item_id] = {};
-        }
-
-        existingData.validation_results[item_id][language] = {
+        inMemoryValidationData.validation_results[item_id][language] = {
             ...validation_data,
             updated: new Date().toISOString()
         };
 
         // Update metadata
-        existingData.metadata.last_updated = new Date().toISOString();
-        existingData.metadata.item_count = Object.keys(existingData.validation_results).length;
+        inMemoryValidationData.metadata.last_updated = new Date().toISOString();
+        inMemoryValidationData.metadata.item_count = Object.keys(inMemoryValidationData.validation_results).length;
 
         let totalValidations = 0;
-        Object.keys(existingData.validation_results).forEach(itemId => {
-            totalValidations += Object.keys(existingData.validation_results[itemId] || {}).length;
+        Object.keys(inMemoryValidationData.validation_results).forEach(itemId => {
+            totalValidations += Object.keys(inMemoryValidationData.validation_results[itemId] || {}).length;
         });
-        existingData.metadata.validation_count = totalValidations;
+        inMemoryValidationData.metadata.validation_count = totalValidations;
 
-        // Save updated data
-        await fs.writeFile(VALIDATION_FILE, JSON.stringify(existingData, null, 2), 'utf8');
-
-        console.log(`🔄 Updated validation for ${item_id} (${language})`);
+        console.log(`🔄 Updated validation for ${item_id} (${language}) in memory`);
 
         return res.status(200).json({
             success: true,
-            message: 'Validation entry updated successfully',
+            message: 'Validation entry updated successfully (in-memory)',
             item_id,
             language,
-            metadata: existingData.metadata,
+            metadata: inMemoryValidationData.metadata,
             timestamp: new Date().toISOString()
         });
 
