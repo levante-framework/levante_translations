@@ -23,9 +23,12 @@
         .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
         .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-compact { padding: 6px 12px; font-size: 13px; gap: 4px; }
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-info { background: #17a2b8; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
         .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
         .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
         .tabs { margin-bottom: 30px; }
@@ -186,6 +189,9 @@
                         <button id="refreshVoices" class="btn btn-info">
                             <i class="fas fa-sync-alt"></i> Refresh Voices
                         </button>
+                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
+                            <i class="fas fa-key"></i> Manage Credentials
+                        </button>
                     </div>
                 </div>
                 
@@ -220,29 +226,26 @@
                 </div>
                 <div class="validation-content expanded" id="validationContent">
                     <!-- Validation Controls -->
-                    <div class="validation-controls" style="margin-bottom: 20px;">
-                        <button id="validateSelected" class="btn validation-button" onclick="validateSelected()">
+                    <div class="validation-controls" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                        <button id="validateSelected" class="btn validation-button btn-compact" onclick="validateSelected()">
                             <i class="fas fa-check-double"></i> Validate Selected
                         </button>
-                        <button id="validateAll" class="btn validation-button" onclick="validateAll()">
+                        <button id="validateAll" class="btn validation-button btn-compact" onclick="validateAll()">
                             <i class="fas fa-check-circle"></i> Validate All
                         </button>
-                        <button id="saveValidations" class="btn btn-success" onclick="saveValidationsManually()" title="Save validation results to browser storage and shared team storage">
-                            <i class="fas fa-save"></i> Save Validations
+                        <button id="saveValidations" class="btn btn-success btn-compact" onclick="saveValidationsManually()" title="Save validation results to browser storage and shared team storage">
+                            <i class="fas fa-save"></i> Save
                         </button>
-                        <button id="loadValidations" class="btn btn-info" onclick="loadValidationsFromShared()" title="Load latest validation results from shared team storage">
-                            <i class="fas fa-cloud-download-alt"></i> Load Shared
+                        <button id="loadValidations" class="btn btn-info btn-compact" onclick="loadValidationsFromShared()" title="Load latest validation results from shared team storage">
+                            <i class="fas fa-cloud-download-alt"></i> Load
                         </button>
-                        <button id="exportValidations" class="btn btn-secondary" onclick="exportValidationsToJSONFile()" title="Download validation results as JSON file for backup">
-                            <i class="fas fa-download"></i> Export JSON
+                        <button id="exportValidations" class="btn btn-secondary btn-compact" onclick="exportValidationsToJSONFile()" title="Download validation results as JSON file for backup">
+                            <i class="fas fa-download"></i> Export
                         </button>
-                        <button id="viewValidations" class="btn btn-info" onclick="showValidationSummaryReport()" title="View summary of all validation results">
-                            <i class="fas fa-chart-bar"></i> View Validations
+                        <button id="viewValidations" class="btn btn-info btn-compact" onclick="showValidationSummaryReport()" title="View summary of all validation results">
+                            <i class="fas fa-chart-bar"></i> View
                         </button>
-                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()">
-                            <i class="fas fa-key"></i> Manage Credentials
-                        </button>
-                        <button class="btn btn-warning" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
+                        <button class="btn btn-warning btn-compact" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
                             <i class="fas fa-trash"></i> Clear Cache
                         </button>
                     </div>
