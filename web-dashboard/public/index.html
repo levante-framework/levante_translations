@@ -1813,29 +1813,45 @@
         
         // Audio Functions
         function playAudio(itemId, langCode) {
-            // Map frontend language codes to bucket language codes
+            // Try to play audio with fallback for es-CO -> es
+            function tryPlayAudio(bucketLangCode, isRetry = false) {
+                const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${bucketLangCode}/${itemId}.mp3`;
+                console.log(`🎵 ${isRetry ? 'Trying fallback' : 'Playing'} audio: ${audioUrl}`);
+                
+                const audio = new Audio(audioUrl);
+                audio.addEventListener('canplaythrough', () => {
+                    audio.play();
+                    console.log(`✅ Audio playing: ${itemId} in ${bucketLangCode}`);
+                });
+                audio.addEventListener('error', (e) => {
+                    console.error(`❌ Audio not found: ${audioUrl}`);
+                    
+                    // If es-CO failed, try es as fallback
+                    if (langCode === 'es-CO' && bucketLangCode === 'es-CO' && !isRetry) {
+                        console.log('🔄 Trying es fallback for es-CO...');
+                        tryPlayAudio('es', true);
+                    } else if (langCode === 'es-CO' && bucketLangCode === 'es' && !isRetry) {
+                        // If we already mapped es-CO to es and it failed, try es-CO directly
+                        console.log('🔄 Trying es-CO directly...');
+                        tryPlayAudio('es-CO', true);
+                    } else {
+                        // Final failure
+                        alert(`Audio file not found for ${itemId} in ${langCode}. Please generate it first.`);
+                    }
+                });
+            }
+            
+            // Map frontend language codes to bucket language codes with fallback logic
             const bucketLangCodeMap = {
                 'en': 'en',
-                'es-CO': 'es',  // Spanish files are stored as 'es' in bucket
+                'es-CO': 'es-CO',  // Try es-CO first, fallback to es
                 'de': 'de', 
                 'fr-CA': 'fr-CA',
                 'nl': 'nl'
             };
             
             const bucketLangCode = bucketLangCodeMap[langCode] || langCode;
-            const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${bucketLangCode}/${itemId}.mp3`;
-            
-            console.log(`🎵 Playing audio: ${audioUrl}`);
-            
-            const audio = new Audio(audioUrl);
-            audio.addEventListener('canplaythrough', () => {
-                audio.play();
-                console.log(`✅ Audio playing: ${itemId} in ${bucketLangCode}`);
-            });
-            audio.addEventListener('error', (e) => {
-                console.error(`❌ Audio not found: ${audioUrl}`);
-                alert(`Audio file not found for ${itemId} in ${langCode}. Please generate it first.`);
-            });
+            tryPlayAudio(bucketLangCode);
         }
         
         function generateAudio(itemId, text, langCode) {
