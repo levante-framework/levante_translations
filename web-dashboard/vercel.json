@@ -3,11 +3,29 @@
   "functions": {
     "api/playht-proxy.js": {
       "maxDuration": 30
+    },
+    "api/elevenlabs-proxy.js": {
+      "maxDuration": 30
+    },
+    "api/translate-proxy.js": {
+      "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/proxy/(.*)",
+      "source": "/proxy/elevenlabs/voices",
+      "destination": "/api/elevenlabs-proxy"
+    },
+    {
+      "source": "/proxy/elevenlabs/(.*)",
+      "destination": "/api/elevenlabs-proxy?voice_id=$1"
+    },
+    {
+      "source": "/proxy/translate",
+      "destination": "/api/translate-proxy"
+    },
+    {
+      "source": "/proxy/playht",
       "destination": "/api/playht-proxy"
     },
     {

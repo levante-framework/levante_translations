@@ -1,5 +1,5 @@
 /**
- * Configuration file for the Levante Audio Dashboard
+ * Configuration file for the Levante Translation &  Dashboard
  * JavaScript equivalent of utilities/config.py
  */
 
