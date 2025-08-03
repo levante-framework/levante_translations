@@ -1,13 +1,10 @@
 /**
  * Validation Storage API Endpoint
- * Handles saving and loading validation results to/from a shared JSON file
- * This allows validation results to be shared between users
+ * Handles saving and loading validation results to/from Google Cloud Storage
+ * Falls back to in-memory storage if GCS is not available
  */
 
-// Note: Vercel serverless functions run on read-only filesystem
-// We'll use a simple in-memory storage with reset on cold starts
-// This provides session-based sharing but not persistent storage
-
+// In-memory fallback storage
 let inMemoryValidationData = {
     validation_results: {},
     metadata: {
@@ -15,9 +12,43 @@ let inMemoryValidationData = {
         version: '1.0',
         item_count: 0,
         validation_count: 0,
-        description: 'In-memory validation results for Levante Translation Dashboard'
+        description: 'Fallback in-memory validation results for Levante Translation Dashboard'
     }
 };
+
+// GCS configuration
+const BUCKET_NAME = 'levante-translations-dev';
+const FILE_PATH = 'validations/validation_results.json';
+
+let gcsStorage = null;
+
+// Initialize Google Cloud Storage
+async function initializeGCS() {
+    if (gcsStorage) return gcsStorage;
+
+    try {
+        const credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+        if (!credentials) {
+            console.log('🟡 No GCS credentials found, using in-memory storage');
+            return null;
+        }
+
+        // Dynamic import of @google-cloud/storage
+        const { Storage } = await import('@google-cloud/storage');
+        
+        const credentialsObj = JSON.parse(credentials);
+        gcsStorage = new Storage({
+            projectId: credentialsObj.project_id,
+            credentials: credentialsObj
+        });
+
+        console.log('✅ Google Cloud Storage initialized successfully');
+        return gcsStorage;
+    } catch (error) {
+        console.error('❌ Failed to initialize GCS:', error.message);
+        return null;
+    }
+}
 
 export default async function handler(req, res) {
     // Set CORS headers
@@ -50,13 +81,67 @@ export default async function handler(req, res) {
     }
 }
 
+async function loadFromGCS() {
+    const storage = await initializeGCS();
+    if (!storage) return null;
+
+    try {
+        const bucket = storage.bucket(BUCKET_NAME);
+        const file = bucket.file(FILE_PATH);
+        
+        const [exists] = await file.exists();
+        if (!exists) {
+            console.log('📁 No validation file found in GCS, creating new one');
+            return null;
+        }
+
+        const [data] = await file.download();
+        const validationData = JSON.parse(data.toString());
+        console.log(`☁️ Loaded validation results from GCS: ${Object.keys(validationData.validation_results || {}).length} items`);
+        return validationData;
+    } catch (error) {
+        console.error('Failed to load from GCS:', error.message);
+        return null;
+    }
+}
+
+async function saveToGCS(validationData) {
+    const storage = await initializeGCS();
+    if (!storage) return false;
+
+    try {
+        const bucket = storage.bucket(BUCKET_NAME);
+        const file = bucket.file(FILE_PATH);
+        
+        await file.save(JSON.stringify(validationData, null, 2), {
+            metadata: {
+                contentType: 'application/json'
+            }
+        });
+
+        console.log(`☁️ Saved validation results to GCS: ${validationData.metadata.item_count} items, ${validationData.metadata.validation_count} validations`);
+        return true;
+    } catch (error) {
+        console.error('Failed to save to GCS:', error.message);
+        return false;
+    }
+}
+
 async function getValidationResults(req, res) {
     try {
-        console.log(`📖 Loading validation results from memory: ${Object.keys(inMemoryValidationData.validation_results || {}).length} items`);
+        // Try to load from GCS first
+        let validationData = await loadFromGCS();
+        
+        if (!validationData) {
+            // Fall back to in-memory storage
+            validationData = inMemoryValidationData;
+            console.log(`📖 Loading validation results from memory: ${Object.keys(validationData.validation_results || {}).length} items`);
+        }
         
         return res.status(200).json({
             success: true,
-            data: inMemoryValidationData,
+            data: validationData,
+            source: validationData === inMemoryValidationData ? 'memory' : 'gcs',
             timestamp: new Date().toISOString()
         });
     } catch (error) {
@@ -80,8 +165,8 @@ async function saveValidationResults(req, res) {
             totalValidations += Object.keys(validation_results[itemId] || {}).length;
         });
 
-        // Update in-memory storage
-        inMemoryValidationData = {
+        // Prepare validation data
+        const validationData = {
             validation_results,
             metadata: {
                 ...metadata,
@@ -91,13 +176,21 @@ async function saveValidationResults(req, res) {
                 validation_count: totalValidations
             }
         };
+
+        // Try to save to GCS first
+        const gcsSuccess = await saveToGCS(validationData);
         
-        console.log(`💾 Saved validation results to memory: ${inMemoryValidationData.metadata.item_count} items, ${inMemoryValidationData.metadata.validation_count} validations`);
+        // Always update in-memory as backup
+        inMemoryValidationData = validationData;
+        
+        const source = gcsSuccess ? 'Google Cloud Storage' : 'session storage';
+        console.log(`💾 Saved validation results to ${source}`);
 
         return res.status(200).json({
             success: true,
-            message: 'Validation results saved successfully (in-memory)',
-            metadata: inMemoryValidationData.metadata,
+            message: `Validation results saved successfully (${source})`,
+            source: gcsSuccess ? 'gcs' : 'memory',
+            metadata: validationData.metadata,
             timestamp: new Date().toISOString()
         });
 
@@ -116,34 +209,48 @@ async function updateValidationResults(req, res) {
             });
         }
 
-        // Update specific validation entry in memory
-        if (!inMemoryValidationData.validation_results[item_id]) {
-            inMemoryValidationData.validation_results[item_id] = {};
+        // Load current data (from GCS or memory)
+        let currentData = await loadFromGCS();
+        if (!currentData) {
+            currentData = inMemoryValidationData;
         }
 
-        inMemoryValidationData.validation_results[item_id][language] = {
+        // Update specific validation entry
+        if (!currentData.validation_results[item_id]) {
+            currentData.validation_results[item_id] = {};
+        }
+
+        currentData.validation_results[item_id][language] = {
             ...validation_data,
             updated: new Date().toISOString()
         };
 
         // Update metadata
-        inMemoryValidationData.metadata.last_updated = new Date().toISOString();
-        inMemoryValidationData.metadata.item_count = Object.keys(inMemoryValidationData.validation_results).length;
+        currentData.metadata.last_updated = new Date().toISOString();
+        currentData.metadata.item_count = Object.keys(currentData.validation_results).length;
 
         let totalValidations = 0;
-        Object.keys(inMemoryValidationData.validation_results).forEach(itemId => {
-            totalValidations += Object.keys(inMemoryValidationData.validation_results[itemId] || {}).length;
+        Object.keys(currentData.validation_results).forEach(itemId => {
+            totalValidations += Object.keys(currentData.validation_results[itemId] || {}).length;
         });
-        inMemoryValidationData.metadata.validation_count = totalValidations;
+        currentData.metadata.validation_count = totalValidations;
 
-        console.log(`🔄 Updated validation for ${item_id} (${language}) in memory`);
+        // Save updated data
+        const gcsSuccess = await saveToGCS(currentData);
+        
+        // Always update in-memory as backup
+        inMemoryValidationData = currentData;
+
+        const source = gcsSuccess ? 'Google Cloud Storage' : 'session storage';
+        console.log(`🔄 Updated validation for ${item_id} (${language}) in ${source}`);
 
         return res.status(200).json({
             success: true,
-            message: 'Validation entry updated successfully (in-memory)',
+            message: `Validation entry updated successfully (${source})`,
+            source: gcsSuccess ? 'gcs' : 'memory',
             item_id,
             language,
-            metadata: inMemoryValidationData.metadata,
+            metadata: currentData.metadata,
             timestamp: new Date().toISOString()
         });
 
