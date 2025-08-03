@@ -23,9 +23,12 @@
         .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
         .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-compact { padding: 6px 12px; font-size: 13px; gap: 4px; }
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-info { background: #17a2b8; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
         .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
         .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
         .tabs { margin-bottom: 30px; }
@@ -186,6 +189,9 @@
                         <button id="refreshVoices" class="btn btn-info">
                             <i class="fas fa-sync-alt"></i> Refresh Voices
                         </button>
+                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
+                            <i class="fas fa-key"></i> Manage Credentials
+                        </button>
                     </div>
                 </div>
                 
@@ -220,17 +226,26 @@
                 </div>
                 <div class="validation-content expanded" id="validationContent">
                     <!-- Validation Controls -->
-                    <div class="validation-controls" style="margin-bottom: 20px;">
-                        <button id="validateSelected" class="btn validation-button" onclick="validateSelected()">
+                    <div class="validation-controls" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                        <button id="validateSelected" class="btn validation-button btn-compact" onclick="validateSelected()">
                             <i class="fas fa-check-double"></i> Validate Selected
                         </button>
-                        <button id="validateAll" class="btn validation-button" onclick="validateAll()">
+                        <button id="validateAll" class="btn validation-button btn-compact" onclick="validateAll()">
                             <i class="fas fa-check-circle"></i> Validate All
                         </button>
-                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()">
-                            <i class="fas fa-key"></i> Manage Credentials
+                        <button id="saveValidations" class="btn btn-success btn-compact" onclick="saveValidationsManually()" title="Save validation results to browser storage and shared team storage">
+                            <i class="fas fa-save"></i> Save
                         </button>
-                        <button class="btn btn-warning" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
+                        <button id="loadValidations" class="btn btn-info btn-compact" onclick="loadValidationsFromShared()" title="Load latest validation results from shared team storage">
+                            <i class="fas fa-cloud-download-alt"></i> Load
+                        </button>
+                        <button id="exportValidations" class="btn btn-secondary btn-compact" onclick="exportValidationsToJSONFile()" title="Download validation results as JSON file for backup">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button id="viewValidations" class="btn btn-info btn-compact" onclick="showValidationSummaryReport()" title="View summary of all validation results">
+                            <i class="fas fa-chart-bar"></i> View
+                        </button>
+                        <button class="btn btn-warning btn-compact" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
                             <i class="fas fa-trash"></i> Clear Cache
                         </button>
                     </div>
@@ -329,6 +344,10 @@
                 this.selectedRow = null;
                 this.voices = { playht: [], elevenlabs: [] };
                 
+                // Persistent validation results dictionary
+                // Structure: { item_id: { lang_code: { score: number, notes: string } } }
+                this.validation_results = {};
+                
                 this.init();
             }
 
@@ -359,6 +378,12 @@
                     
                     // Load comprehensive voices
                     await this.loadComprehensiveVoices();
+                    
+                    // Load validation results from previous sessions (but don't apply yet)
+                    await this.loadValidationResults();
+                    
+                    // Setup auto-save on page unload
+                    this.setupAutoSave();
                     
                     this.setStatus('Dashboard ready - Select a language to begin', 'success');
                 } catch (error) {
@@ -551,7 +576,7 @@
 
                 try {
                     // Create a proxy endpoint to get ElevenLabs voices
-                    const response = await fetch('/proxy/elevenlabs/voices', {
+                    const response = await fetch('/api/elevenlabs-proxy', {
                         method: 'GET',
                         headers: {
                             'X-API-KEY': credentials.elevenlabsApiKey
@@ -745,6 +770,292 @@
                 this.setStatus(`Loaded ${this.voices.playht.length + this.voices.elevenlabs.length} comprehensive voices`, 'success');
             }
 
+            // ===== VALIDATION PERSISTENCE METHODS =====
+            
+            async loadValidationResults() {
+                try {
+                    console.log('🔄 Loading validation results...');
+                    
+                    // Try to load from shared storage first
+                    const sharedLoaded = await this.loadFromSharedStorage();
+                    
+                    if (!sharedLoaded) {
+                        console.log('📝 No shared storage found, checking static JSON file...');
+                        
+                        // Try loading from JSON file
+                        try {
+                            const jsonResponse = await fetch('./validation_results.json');
+                            if (jsonResponse.ok) {
+                                const jsonData = await jsonResponse.json();
+                                if (jsonData.validation_results) {
+                                    this.validation_results = jsonData.validation_results;
+                                    console.log(`✅ Loaded ${Object.keys(this.validation_results).length} validation results from JSON file`);
+                                    console.log(`📅 File exported: ${jsonData.metadata?.exported_at || 'Unknown date'}`);
+                                    return; // Successfully loaded from file
+                                }
+                            }
+                        } catch (jsonError) {
+                            console.log('📝 No validation_results.json file found, checking localStorage...');
+                        }
+                        
+                        // Fallback to localStorage if JSON file not found
+                        console.log('🔄 Loading validation results from localStorage...');
+                        const storedResults = localStorage.getItem('validation_results');
+                        
+                        if (storedResults) {
+                            this.validation_results = JSON.parse(storedResults);
+                            console.log(`✅ Loaded ${Object.keys(this.validation_results).length} validation results from localStorage`);
+                        } else {
+                            console.log('📝 No previous validation results found, starting fresh');
+                            this.validation_results = {};
+                        }
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading validation results:', error);
+                    this.validation_results = {};
+                }
+            }
+            
+            saveValidationResults() {
+                try {
+                    console.log('💾 Saving validation results to localStorage and shared storage...');
+                    
+                    // Count total validation entries
+                    let totalValidations = 0;
+                    Object.keys(this.validation_results).forEach(itemId => {
+                        totalValidations += Object.keys(this.validation_results[itemId]).length;
+                    });
+                    
+                    // Save to localStorage (immediate backup)
+                    localStorage.setItem('validation_results', JSON.stringify(this.validation_results));
+                    
+                    // Also save to shared storage (async, don't wait)
+                    this.saveToSharedStorage();
+                    
+                    console.log(`✅ Saved ${Object.keys(this.validation_results).length} items with ${totalValidations} total validations`);
+                    
+                    return {
+                        success: true,
+                        itemCount: Object.keys(this.validation_results).length,
+                        validationCount: totalValidations
+                    };
+                } catch (error) {
+                    console.error('❌ Error saving validation results:', error);
+                    return {
+                        success: false,
+                        error: error.message
+                    };
+                }
+            }
+
+            async saveToSharedStorage() {
+                try {
+                    console.log('🌐 Saving validation results to shared storage...');
+                    
+                    const exportData = {
+                        validation_results: this.validation_results,
+                        metadata: {
+                            saved_by: 'Levante Translation Dashboard',
+                            version: '1.0',
+                            total_items: Object.keys(this.validation_results).length,
+                            languages: Object.keys(this.languages),
+                            saved_at: new Date().toISOString()
+                        }
+                    };
+
+                    const response = await fetch('/api/validation-storage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(exportData)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('✅ Successfully saved to shared storage:', result.metadata);
+                        this.setStatus('💾 Validation results saved to shared session storage for team access', 'success');
+                    } else {
+                        console.warn('⚠️ Failed to save to shared storage, but localStorage backup is available');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Could not save to shared storage:', error.message);
+                    // Don't throw error - localStorage save is the primary backup
+                }
+            }
+
+            async loadFromSharedStorage() {
+                try {
+                    console.log('🌐 Loading validation results from shared storage...');
+                    
+                    const response = await fetch('/api/validation-storage');
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.success && result.data.validation_results) {
+                            // Merge with local results (shared storage takes precedence for newer data)
+                            const sharedResults = result.data.validation_results;
+                            const localResults = this.validation_results;
+                            
+                            // Smart merge: keep newer validations
+                            Object.keys(sharedResults).forEach(itemId => {
+                                if (!localResults[itemId]) {
+                                    localResults[itemId] = sharedResults[itemId];
+                                } else {
+                                    // Merge language validations, keeping newer ones
+                                    Object.keys(sharedResults[itemId]).forEach(lang => {
+                                        const sharedValidation = sharedResults[itemId][lang];
+                                        const localValidation = localResults[itemId][lang];
+                                        
+                                        if (!localValidation || 
+                                            (sharedValidation.updated && 
+                                             (!localValidation.updated || sharedValidation.updated > localValidation.updated))) {
+                                            localResults[itemId][lang] = sharedValidation;
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            this.validation_results = localResults;
+                            console.log(`✅ Loaded shared validation results: ${Object.keys(sharedResults).length} items`);
+                            this.setStatus('🌐 Loaded validation results from shared session storage', 'success');
+                            return true;
+                        }
+                    }
+                } catch (error) {
+                    console.log('⚠️ Could not load from shared storage:', error.message);
+                }
+                return false;
+            }
+            
+            setupAutoSave() {
+                // Auto-save disabled per user request
+                // Users can manually save using the "Save Validations" button
+                
+                console.log('🔧 Auto-save disabled - use manual save button');
+            }
+            
+            applyStoredValidationResults() {
+                // Deprecated: Use applyStoredValidationResultsForCurrentLanguage() instead
+                console.log('⚠️ applyStoredValidationResults is deprecated, use applyStoredValidationResultsForCurrentLanguage');
+                this.applyStoredValidationResultsForCurrentLanguage();
+            }
+            
+            applyStoredValidationResultsForCurrentLanguage() {
+                const currentLangCode = this.languages[this.currentLanguage].lang_code;
+                console.log(`🎯 Applying stored validation results for ${this.currentLanguage} (${currentLangCode})...`);
+                let appliedCount = 0;
+                
+                Object.keys(this.validation_results).forEach(itemId => {
+                    if (this.validation_results[itemId][currentLangCode]) {
+                        const result = this.validation_results[itemId][currentLangCode];
+                        if (result.score !== undefined) {
+                            this.updateValidationUI(itemId, currentLangCode, result.score, result.notes || '');
+                            appliedCount++;
+                        }
+                    }
+                });
+                
+                console.log(`✅ Applied ${appliedCount} stored validation results for ${this.currentLanguage}`);
+                
+                // Update summary for current language
+                if (typeof updateValidationSummary === 'function') {
+                    updateValidationSummary();
+                }
+            }
+            
+            storeValidationResult(itemId, langCode, score, notes = '') {
+                // Initialize item if it doesn't exist
+                if (!this.validation_results[itemId]) {
+                    this.validation_results[itemId] = {};
+                }
+                
+                // Store the result
+                this.validation_results[itemId][langCode] = {
+                    score: score,
+                    notes: notes,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log(`📝 Stored validation result: ${itemId}[${langCode}] = ${score}%`);
+            }
+            
+            updateValidationUI(itemId, langCode, score, notes) {
+                // Map langCode to language name to target the correct tab
+                const langCodeToLanguage = {
+                    'en': 'English',
+                    'es-CO': 'Spanish', 
+                    'de': 'German',
+                    'fr-CA': 'French',
+                    'nl': 'Dutch'
+                };
+                
+                const languageName = langCodeToLanguage[langCode];
+                if (!languageName) {
+                    console.warn(`Unknown langCode: ${langCode}`);
+                    return;
+                }
+                
+                // Look for indicator within the specific language tab
+                const languageTab = document.getElementById(`table-${languageName}`);
+                if (!languageTab) {
+                    console.warn(`Language tab not found: table-${languageName}`);
+                    return;
+                }
+                
+                const indicator = languageTab.querySelector(`[data-item-id="${itemId}"]`);
+                if (!indicator) {
+                    console.warn(`Indicator not found for ${itemId} in ${languageName} tab`);
+                    return;
+                }
+                
+                // Determine status based on score
+                let statusClass, statusTitle, buttonText, scoreEmoji;
+                if (score >= 85) {
+                    statusClass = 'status-good';
+                    statusTitle = `✅ Excellent: ${score}% similarity`;
+                    buttonText = 'View Results';
+                    scoreEmoji = '✅';
+                } else if (score >= 70) {
+                    statusClass = 'status-warning';
+                    statusTitle = `⚠️ Warning: ${score}% similarity`;
+                    buttonText = 'View Warning';
+                    scoreEmoji = '⚠️';
+                } else {
+                    statusClass = 'status-error';
+                    statusTitle = `❌ Poor: ${score}% similarity`;
+                    buttonText = 'View Issues';
+                    scoreEmoji = '❌';
+                }
+                
+                // Update indicator
+                indicator.className = `status-indicator ${statusClass}`;
+                indicator.title = statusTitle;
+                
+                // Update or create score badge
+                const existingBadge = indicator.parentElement.querySelector('.score-badge');
+                if (existingBadge) existingBadge.remove();
+                
+                const scoreBadge = document.createElement('span');
+                scoreBadge.className = 'score-badge';
+                scoreBadge.textContent = `${score}%`;
+                scoreBadge.style.cssText = `
+                    font-size: 10px;
+                    font-weight: bold;
+                    color: ${score >= 85 ? '#155724' : score >= 70 ? '#856404' : '#721c24'};
+                    margin-left: 4px;
+                    opacity: 0.9;
+                `;
+                indicator.parentElement.appendChild(scoreBadge);
+                
+                // Update button if it exists
+                const button = indicator.parentElement.querySelector('.validate-btn');
+                if (button) {
+                    button.textContent = `${scoreEmoji} ${buttonText}`;
+                    button.disabled = false;
+                }
+            }
+
             createTabs() {
                 const tabButtons = document.getElementById('tabButtons');
                 const tabContent = document.getElementById('tabContent');
@@ -860,6 +1171,11 @@
                     row.addEventListener('click', () => this.selectRow(row, item));
                     tableContent.appendChild(row);
                 });
+                
+                // Apply stored validation results after table is populated, but only for current language
+                setTimeout(() => {
+                    this.applyStoredValidationResultsForCurrentLanguage();
+                }, 100);
                 
                 // Update validation summary after populating table
                 updateValidationSummary();
@@ -1034,7 +1350,7 @@
                 
                 console.log('Calling PlayHT API with:', requestData);
                 
-                const response = await fetch('/proxy/playht', {
+                const response = await fetch('/api/playht-proxy', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1090,7 +1406,7 @@
                 
                 console.log('Calling ElevenLabs API with:', requestData);
                 
-                const response = await fetch(`/proxy/elevenlabs/${voiceId}`, {
+                const response = await fetch(`/api/elevenlabs-proxy?voice_id=${voiceId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1242,6 +1558,306 @@
             }
         }
         
+        function saveValidationsManually() {
+            const result = window.dashboard.saveValidationResults();
+            
+            // Show success feedback
+            const button = document.getElementById('saveValidations');
+            const originalText = button.innerHTML;
+            
+            if (result.success) {
+                button.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                button.disabled = true;
+                
+                // Update status bar with detailed info
+                window.dashboard.setStatus(`💾 Saved ${result.itemCount} items (${result.validationCount} validations) to browser storage & shared team storage`, 'success');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            } else {
+                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                button.disabled = true;
+                
+                // Update status bar with error
+                window.dashboard.setStatus(`❌ Error saving validations: ${result.error}`, 'error');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+
+        async function loadValidationsFromShared() {
+            const button = document.getElementById('loadValidations');
+            const originalText = button.innerHTML;
+            
+            try {
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                button.disabled = true;
+                
+                const success = await window.dashboard.loadFromSharedStorage();
+                
+                if (success) {
+                    // Apply the newly loaded validation results to the current view
+                    window.dashboard.applyStoredValidationResultsForCurrentLanguage();
+                    
+                    button.innerHTML = '<i class="fas fa-check"></i> Loaded!';
+                    window.dashboard.setStatus('🌐 Successfully loaded validation results from shared session storage', 'success');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 2000);
+                } else {
+                    button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> No Data';
+                    window.dashboard.setStatus('⚠️ No shared validation data found', 'warning');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 2000);
+                }
+            } catch (error) {
+                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                window.dashboard.setStatus(`❌ Error loading shared validations: ${error.message}`, 'error');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+        
+        function exportValidationsToJSONFile() {
+            // Count current validation entries
+            let totalValidations = 0;
+            Object.keys(window.dashboard.validation_results).forEach(itemId => {
+                totalValidations += Object.keys(window.dashboard.validation_results[itemId]).length;
+            });
+            
+            const exportData = {
+                metadata: {
+                    exported_at: new Date().toISOString(),
+                    exported_by: 'Levante Translation Dashboard',
+                    version: '1.0',
+                    total_items: Object.keys(window.dashboard.validation_results).length,
+                    total_validations: totalValidations,
+                    languages: Object.keys(window.dashboard.languages)
+                },
+                validation_results: window.dashboard.validation_results
+            };
+            
+            // Create and download file with consistent name
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', 'validation_results.json');
+            linkElement.click();
+            
+            console.log('📦 Exported validation results to validation_results.json');
+        }
+        
+        function showValidationSummaryReport() {
+            const results = window.dashboard.validation_results;
+            const languages = window.dashboard.languages;
+            
+            if (Object.keys(results).length === 0) {
+                alert('No validation results to display. Please run some validations first.');
+                return;
+            }
+            
+            // Calculate statistics
+            const stats = {};
+            let totalValidations = 0;
+            
+            // Initialize stats for each language
+            Object.keys(languages).forEach(langName => {
+                const langCode = languages[langName].lang_code;
+                stats[langName] = {
+                    langCode: langCode,
+                    total: 0,
+                    excellent: 0,
+                    warning: 0,
+                    poor: 0,
+                    items: []
+                };
+            });
+            
+            // Process validation results
+            Object.keys(results).forEach(itemId => {
+                Object.keys(results[itemId]).forEach(langCode => {
+                    const result = results[itemId][langCode];
+                    const score = result.score;
+                    
+                    // Find language name from code
+                    const langName = Object.keys(languages).find(name => 
+                        languages[name].lang_code === langCode
+                    );
+                    
+                    if (langName && stats[langName]) {
+                        stats[langName].total++;
+                        totalValidations++;
+                        
+                        if (score >= 85) stats[langName].excellent++;
+                        else if (score >= 70) stats[langName].warning++;
+                        else stats[langName].poor++;
+                        
+                        stats[langName].items.push({
+                            itemId: itemId,
+                            score: score,
+                            timestamp: result.timestamp
+                        });
+                    }
+                });
+            });
+            
+            // Sort items by score (poorest first) for each language
+            Object.keys(stats).forEach(langName => {
+                stats[langName].items.sort((a, b) => a.score - b.score);
+            });
+            
+            // Create modal content
+            const modalHtml = createValidationSummaryModal(stats, totalValidations);
+            
+            // Show modal
+            const existingModal = document.getElementById('validationSummaryModal');
+            if (existingModal) existingModal.remove();
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.getElementById('validationSummaryModal').style.display = 'block';
+        }
+        
+        function createValidationSummaryModal(stats, totalValidations) {
+            const langStats = Object.keys(stats)
+                .filter(langName => stats[langName].total > 0)
+                .map(langName => {
+                    const s = stats[langName];
+                    const excellentPct = Math.round((s.excellent / s.total) * 100);
+                    const warningPct = Math.round((s.warning / s.total) * 100);
+                    const poorPct = Math.round((s.poor / s.total) * 100);
+                    
+                    const flag = window.dashboard.getFlagForLanguage(langName);
+                    
+                    // Show top 5 items needing attention (lowest scores, excluding excellent ones)
+                    const itemsNeedingAttention = s.items.filter(item => item.score < 85);
+                    const needsAttention = itemsNeedingAttention.slice(0, 5).map(item => 
+                        `<li>${item.itemId}: <span style="color: ${item.score >= 70 ? '#ffc107' : '#dc3545'}">${item.score}%</span></li>`
+                    ).join('');
+                    
+                    return `
+                        <div class="lang-summary">
+                            <h4>${flag}${langName} (${s.langCode}) - ${s.total} validations</h4>
+                            <div class="score-breakdown">
+                                <div class="score-bar">
+                                    <div class="excellent" style="width: ${excellentPct}%" title="Excellent: ${s.excellent}"></div>
+                                    <div class="warning" style="width: ${warningPct}%" title="Warning: ${s.warning}"></div>
+                                    <div class="poor" style="width: ${poorPct}%" title="Poor: ${s.poor}"></div>
+                                </div>
+                                <div class="score-legend">
+                                    <span class="excellent">✅ ${s.excellent} Excellent (≥85%)</span>
+                                    <span class="warning">⚠️ ${s.warning} Warning (70-84%)</span>
+                                    <span class="poor">❌ ${s.poor} Poor (<70%)</span>
+                                </div>
+                            </div>
+                            ${itemsNeedingAttention.length > 0 ? `
+                                <details>
+                                    <summary>Items needing attention (lowest scores first) - ${itemsNeedingAttention.length} items</summary>
+                                    <ul class="attention-list">${needsAttention}</ul>
+                                </details>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            
+            return `
+                <div id="validationSummaryModal" class="modal" style="display: none;">
+                    <div class="modal-content" style="max-width: 900px; max-height: 80vh; overflow-y: auto;">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-chart-bar"></i> Validation Summary Report</h2>
+                            <span class="close" onclick="document.getElementById('validationSummaryModal').remove()">&times;</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div class="summary-overview">
+                                <h3>📊 Overview</h3>
+                                <p><strong>Total Validations:</strong> ${totalValidations} across ${Object.keys(stats).filter(lang => stats[lang].total > 0).length} languages</p>
+                                <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                            </div>
+                            
+                            <div class="language-summaries">
+                                <h3>🌍 By Language</h3>
+                                ${langStats || '<p>No validation data available.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                .lang-summary {
+                    margin-bottom: 25px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    padding: 15px;
+                    background: #f9f9f9;
+                }
+                
+                .score-breakdown {
+                    margin: 10px 0;
+                }
+                
+                .score-bar {
+                    display: flex;
+                    height: 20px;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    border: 1px solid #ddd;
+                    margin-bottom: 8px;
+                }
+                
+                .score-bar .excellent { background: #28a745; }
+                .score-bar .warning { background: #ffc107; }
+                .score-bar .poor { background: #dc3545; }
+                
+                .score-legend {
+                    display: flex;
+                    gap: 15px;
+                    font-size: 0.85em;
+                    flex-wrap: wrap;
+                }
+                
+                .score-legend .excellent { color: #28a745; }
+                .score-legend .warning { color: #856404; }
+                .score-legend .poor { color: #dc3545; }
+                
+                .attention-list {
+                    margin: 8px 0;
+                    padding-left: 20px;
+                }
+                
+                .attention-list li {
+                    margin: 4px 0;
+                    font-family: monospace;
+                }
+                
+                .summary-overview {
+                    background: #e7f3ff;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 20px;
+                }
+                </style>
+            `;
+        }
+        
         async function validateSingle(itemId, originalText, translatedText, langCode) {
             console.log('🎯 VALIDATION START:', {itemId, langCode, textLength: translatedText.length});
             
@@ -1323,7 +1939,7 @@
                 
                 // Call our CORS proxy for Google Translate
                 console.log('🌐 Calling CORS proxy...');
-                const response = await fetch('/proxy/translate', {
+                const response = await fetch('/api/translate-proxy', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1354,6 +1970,9 @@
                 });
                 
                 const similarity = result.similarity_score || 0;
+                
+                // Store validation result for persistence
+                window.dashboard.storeValidationResult(itemId, langCode, similarity);
                 
                 // Update status indicator based on similarity score
                 let statusClass, statusTitle, buttonText, scoreEmoji;
@@ -1813,30 +2432,74 @@
         
         // Audio Functions
         function playAudio(itemId, langCode) {
+            console.log(`🎯 Attempting to play audio for: ${itemId} in ${langCode}`);
+            window.dashboard.setStatus(`🔄 Loading audio: ${itemId}...`, 'info');
+            
             // Try to play audio with fallback for es-CO -> es
             function tryPlayAudio(bucketLangCode, isRetry = false) {
                 const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${bucketLangCode}/${itemId}.mp3`;
                 console.log(`🎵 ${isRetry ? 'Trying fallback' : 'Playing'} audio: ${audioUrl}`);
                 
                 const audio = new Audio(audioUrl);
+                
+                // Set volume to ensure it's audible
+                audio.volume = 0.8;
+                
+                // Add timeout to detect loading issues
+                const timeout = setTimeout(() => {
+                    console.warn('⏰ Audio loading timeout');
+                    window.dashboard.setStatus('⏰ Audio loading timeout - check your internet connection', 'warning');
+                }, 10000);
+                
                 audio.addEventListener('canplaythrough', () => {
-                    audio.play();
-                    console.log(`✅ Audio playing: ${itemId} in ${bucketLangCode}`);
+                    clearTimeout(timeout);
+                    console.log(`🎵 Audio loaded, attempting to play: ${audioUrl}`);
+                    
+                    audio.play().then(() => {
+                        console.log(`✅ Audio playing: ${itemId} in ${bucketLangCode}`);
+                        window.dashboard.setStatus(`🎵 Playing audio: ${itemId}`, 'success');
+                    }).catch((error) => {
+                        console.error('❌ Audio play failed (likely autoplay restriction):', error);
+                        
+                        // Handle autoplay restriction
+                        if (error.name === 'NotAllowedError') {
+                            const message = `🔇 Browser blocked autoplay. Click here to play audio for "${itemId}"`;
+                            window.dashboard.setStatus(message, 'warning');
+                            
+                            // Create a click-to-play button
+                            if (confirm(`Browser blocked autoplay. Click OK to play audio for "${itemId}"`)) {
+                                audio.play().then(() => {
+                                    console.log(`✅ Audio playing after user interaction: ${itemId}`);
+                                    window.dashboard.setStatus(`🎵 Playing audio: ${itemId}`, 'success');
+                                }).catch((playError) => {
+                                    console.error('❌ Manual play also failed:', playError);
+                                    window.dashboard.setStatus(`❌ Audio play failed: ${playError.message}`, 'error');
+                                });
+                            }
+                        } else {
+                            window.dashboard.setStatus(`❌ Audio play failed: ${error.message}`, 'error');
+                        }
+                    });
                 });
                 audio.addEventListener('error', (e) => {
+                    clearTimeout(timeout);
                     console.error(`❌ Audio not found: ${audioUrl}`);
                     
                     // If es-CO failed, try es as fallback
                     if (langCode === 'es-CO' && bucketLangCode === 'es-CO' && !isRetry) {
                         console.log('🔄 Trying es fallback for es-CO...');
+                        window.dashboard.setStatus('🔄 Trying es fallback for es-CO audio...', 'info');
                         tryPlayAudio('es', true);
                     } else if (langCode === 'es-CO' && bucketLangCode === 'es' && !isRetry) {
                         // If we already mapped es-CO to es and it failed, try es-CO directly
                         console.log('🔄 Trying es-CO directly...');
+                        window.dashboard.setStatus('🔄 Trying es-CO direct audio...', 'info');
                         tryPlayAudio('es-CO', true);
                     } else {
                         // Final failure
-                        alert(`Audio file not found for ${itemId} in ${langCode}. Please generate it first.`);
+                        const message = `Audio file not found for ${itemId} in ${langCode}. Please generate it first using the "Generate Audio" button.`;
+                        alert(message);
+                        window.dashboard.setStatus(`❌ ${message}`, 'error');
                     }
                 });
             }

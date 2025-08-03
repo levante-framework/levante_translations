@@ -12,6 +12,8 @@ A modern web-based dashboard for comparing and generating TTS audio across multi
 - **Responsive Design**: Works on desktop and mobile devices
 - **Voice Filtering**: Female-only voices, excluding advertising voices
 - **Cache Management**: Efficient voice caching with refresh capabilities
+- **Translation Validation**: Back-translation quality assessment with similarity scoring
+- **Shared Validation Storage**: Team-based validation result sharing across users
 
 ## Files
 
@@ -204,6 +206,27 @@ If voices aren't updating:
 - **API Dependent**: Requires active internet connection
 - **Rate Limits**: Subject to API rate limits
 - **Storage**: Uses localStorage for settings (limited storage)
+
+## Translation Validation System
+
+The dashboard includes a comprehensive translation validation system that uses back-translation to assess translation quality:
+
+### How Validation Works
+1. **Back-Translation**: Human translations are sent to Google Translate API to convert back to English
+2. **Similarity Scoring**: The original English is compared with the back-translated English using word-based similarity
+3. **Quality Assessment**: Results are categorized as Excellent (≥85%), Warning (70-84%), or Poor (<70%)
+
+### Shared Validation Storage
+- **Save Validations**: Saves validation results to both browser storage and shared team storage
+- **Load Shared**: Loads the latest validation results shared by your team
+- **Automatic Sync**: The system automatically loads shared validations on startup
+
+### Validation Controls
+- **Validate Selected**: Validates only the currently selected translation row
+- **Validate All**: Processes all translations in the current language
+- **View Validations**: Shows a comprehensive summary of all validation results
+
+For detailed information about the validation system, see [`README_VALIDATION.md`](README_VALIDATION.md).
 
 ## Future Enhancements
 
