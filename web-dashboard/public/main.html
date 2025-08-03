@@ -889,7 +889,7 @@
                  });
              }
 
-            generateAudioFromText() {
+            async generateAudioFromText() {
                 const textInput = document.getElementById('textInput');
                 const text = textInput.value.trim();
                 
@@ -927,21 +927,128 @@
                 
                 this.setStatus(`Generating audio with ${selectedService}...`, 'loading');
                 
-                // For now, show what would be generated (you can implement actual API calls later)
-                console.log('Generating audio:', {
+                try {
+                    if (selectedService === 'PlayHT') {
+                        await this.generatePlayHTAudio(text, selectedVoice);
+                    } else if (selectedService === 'ElevenLabs') {
+                        await this.generateElevenLabsAudio(text, selectedVoice);
+                    }
+                } catch (error) {
+                    console.error('Audio generation error:', error);
+                    this.setStatus(`Error generating audio: ${error.message}`, 'error');
+                    alert(`Failed to generate audio: ${error.message}`);
+                }
+            }
+            
+            async generatePlayHTAudio(text, voiceId) {
+                const credentials = getCredentials();
+                if (!credentials.playhtApiKey || !credentials.playhtUserId) {
+                    throw new Error('PlayHT credentials not found. Please add them in the credentials manager.');
+                }
+                
+                const requestData = {
                     text: text,
-                    service: selectedService,
-                    voice: selectedVoice,
-                    language: this.currentLanguage,
-                    langCode: currentLangConfig.lang_code
+                    voice: voiceId,
+                    quality: 'medium',
+                    output_format: 'mp3',
+                    speed: 1,
+                    sample_rate: 24000
+                };
+                
+                console.log('Calling PlayHT API with:', requestData);
+                
+                const response = await fetch('http://localhost:8001/proxy/playht', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'AUTHORIZATION': credentials.playhtApiKey,
+                        'X-USER-ID': credentials.playhtUserId
+                    },
+                    body: JSON.stringify(requestData)
                 });
                 
-                // Simulate generation process
-                setTimeout(() => {
-                    this.setStatus(`Audio generated successfully with ${selectedService}!`, 'success');
-                    // Here you would typically play the generated audio or provide a download link
-                    alert(`Audio generated successfully!\n\nService: ${selectedService}\nVoice: ${selectedVoice}\nText: "${text.substring(0, 50)}..."`);
-                }, 1500);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`PlayHT API error: ${response.status} - ${errorText}`);
+                }
+                
+                // Get the audio blob
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                this.setStatus('Audio generated successfully! Playing now...', 'success');
+                
+                // Play the generated audio
+                const audio = new Audio(audioUrl);
+                audio.addEventListener('canplaythrough', () => {
+                    audio.play();
+                    this.setStatus('Playing generated audio...', 'success');
+                });
+                audio.addEventListener('ended', () => {
+                    this.setStatus('Audio playback completed.', 'success');
+                    // Clean up the blob URL
+                    URL.revokeObjectURL(audioUrl);
+                });
+                audio.addEventListener('error', (e) => {
+                    console.error('Audio playback error:', e);
+                    this.setStatus('Error playing generated audio.', 'error');
+                    URL.revokeObjectURL(audioUrl);
+                });
+            }
+            
+            async generateElevenLabsAudio(text, voiceId) {
+                const credentials = getCredentials();
+                if (!credentials.elevenlabsApiKey) {
+                    throw new Error('ElevenLabs API key not found. Please add it in the credentials manager.');
+                }
+                
+                const requestData = {
+                    text: text,
+                    model_id: "eleven_monolingual_v1",
+                    voice_settings: {
+                        stability: 0.5,
+                        similarity_boost: 0.75
+                    }
+                };
+                
+                console.log('Calling ElevenLabs API with:', requestData);
+                
+                const response = await fetch(`http://localhost:8001/proxy/elevenlabs/${voiceId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': credentials.elevenlabsApiKey
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`);
+                }
+                
+                // Get the audio blob
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                this.setStatus('Audio generated successfully! Playing now...', 'success');
+                
+                // Play the generated audio
+                const audio = new Audio(audioUrl);
+                audio.addEventListener('canplaythrough', () => {
+                    audio.play();
+                    this.setStatus('Playing generated audio...', 'success');
+                });
+                audio.addEventListener('ended', () => {
+                    this.setStatus('Audio playback completed.', 'success');
+                    // Clean up the blob URL
+                    URL.revokeObjectURL(audioUrl);
+                });
+                audio.addEventListener('error', (e) => {
+                    console.error('Audio playback error:', e);
+                    this.setStatus('Error playing generated audio.', 'error');
+                    URL.revokeObjectURL(audioUrl);
+                });
             }
             
             populateSelectedText() {
