@@ -1,31 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    }
-  ],
   "alias": [
     "audio-dashboard-levante.vercel.app",
-    "levante-audio-dashboard.vercel.app"
-  ],
-  "routes": [
-    {
-      "src": "/comprehensive-voices.js",
-      "dest": "/comprehensive-voices.js"
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    "levante-audio-dashboard.vercel.app",
+    "web-dashboard-digitalpros-projects.vercel.app"
   ]
 } 
