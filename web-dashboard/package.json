@@ -10,11 +10,18 @@
     "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1",
     "deploy-bat": "deploy.bat"
   },
-  "keywords": ["audio", "dashboard", "tts", "translations"],
+  "keywords": [
+    "audio",
+    "dashboard",
+    "tts",
+    "translations"
+  ],
   "author": "Levante Team",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@google-cloud/storage": "^7.16.0"
+  },
   "devDependencies": {
     "serve": "^14.0.0"
   }
-} 
+}
