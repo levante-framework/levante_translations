@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Levante Translation & Audio Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -161,7 +163,7 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <h1><i class="faas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
             <p>Multi-language Translation Validation and TTS audio generation</p>
         </div>
         <div class="main-content">
@@ -526,8 +528,69 @@
                 ];
             }
 
+            async loadRealElevenLabsVoices() {
+                const credentials = getCredentials();
+                if (!credentials.elevenlabsApiKey) {
+                    console.warn('No ElevenLabs API key - skipping real voice loading');
+                    return {}; // Return empty object if no API key
+                }
+
+                try {
+                    // Create a proxy endpoint to get ElevenLabs voices
+                    const response = await fetch('http://localhost:8001/proxy/elevenlabs/voices', {
+                        method: 'GET',
+                        headers: {
+                            'X-API-KEY': credentials.elevenlabsApiKey
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to load ElevenLabs voices: ${response.status}`);
+                    }
+
+                    const voicesData = await response.json();
+                    
+                    // Process voices and organize by language like the utility function does
+                    const organizedVoices = {};
+                    const supportedLanguages = ['en', 'es-CO', 'de', 'fr-CA', 'nl'];
+                    
+                    for (const langCode of supportedLanguages) {
+                        // Map es-CO to es for ElevenLabs API
+                        const apiLangCode = langCode === 'es-CO' ? 'es' : langCode.split('-')[0];
+                        
+                        // Filter voices for this language from our library
+                        const languageVoices = voicesData.voices.filter(voice => {
+                            const voiceLanguage = voice.labels?.language;
+                            return voiceLanguage === apiLangCode && 
+                                   (voice.category === "professional" || 
+                                    voice.category === "shared" || 
+                                    voice.category === "premade" || 
+                                    voice.category === "generated" || 
+                                    voice.category === "personal");
+                        });
+
+                        organizedVoices[langCode] = languageVoices.map(voice => ({
+                            voice_id: voice.voice_id,
+                            name: voice.name,
+                            language: langCode,
+                            gender: voice.labels?.gender || 'unknown'
+                        }));
+                    }
+
+                    console.log('Loaded real ElevenLabs voices:', organizedVoices);
+                    return organizedVoices;
+                    
+                } catch (error) {
+                    console.error('Failed to load real ElevenLabs voices:', error);
+                    return {}; // Return empty object on error
+                }
+            }
+
             async loadComprehensiveVoices() {
                 this.setStatus('Loading comprehensive voices...', 'loading');
+                
+                // Load real ElevenLabs voices from your actual voice library
+                const realElevenLabsVoices = await this.loadRealElevenLabsVoices();
                 
                 // Comprehensive voice data with hundreds of voices (restored from working version)
                 const comprehensiveVoices = {
@@ -578,7 +641,7 @@
                             {"voice_id": "s3://voice-cloning-zero-shot/c7a1f5e8-3d9b-8f2c-6a1e-9f5d3c8a2e7f/original/manifest.json", "name": "Fleur", "language": "nl", "gender": "female"}
                         ]
                     },
-                    elevenlabs: {
+                    elevenlabs: realElevenLabsVoices || {
                         "en": [
                             {"voice_id": "kdmDKE6EkgrWrrykO9Qt", "name": "Alexandra - Conversational and Real", "language": "en", "gender": "female"},
                             {"voice_id": "yu4eXTP5aod8KAQzTI3T", "name": "Claudia - Credible, Competent & Authentic", "language": "en", "gender": "female"},
@@ -1488,9 +1551,8 @@
             if (result.error) {
                 // Handle error case
                 resultDiv.innerHTML = `
-                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
                         <h3 style="margin: 0; color: #dc3545;">❌ Validation Error</h3>
-                        <button onclick="this.closest('div[id*=\"validation-result\"]').remove()" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
                     </div>
                     <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin: 10px 0;">
                         <strong>Error:</strong> ${result.message}<br>
@@ -1518,9 +1580,8 @@
                                      '❌ Translation may need review.';
                 
                 resultDiv.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
                         <h3 style="margin: 0; color: #495057;">Translation Validation Result</h3>
-                        <button onclick="this.closest('div[id*=\"validation-result\"]').remove()" style="background: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
                     </div>
                     <div style="text-align: center; margin: 15px 0;">
                         <div style="font-size: 2em; font-weight: bold; color: ${scoreColor}; margin-bottom: 5px;">
@@ -1544,13 +1605,18 @@
                 `;
             }
             
-            // Add close button
+            // Add working close button (the good one!)
             const closeButton = document.createElement('button');
             closeButton.textContent = '×';
-            closeButton.style.cssText = 'position: absolute; top: 5px; right: 8px; background: none; border: none; font-size: 18px; cursor: pointer; color: #666;';
-            closeButton.onclick = () => resultDiv.remove();
-            resultDiv.style.position = 'relative';
-            resultDiv.appendChild(closeButton);
+            closeButton.style.cssText = 'position: absolute; top: 10px; right: 10px; background: #f8f9fa; border: 1px solid #dee2e6; font-size: 18px; cursor: pointer; color: #6c757d; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 100000;';
+            closeButton.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                resultDiv.remove();
+                console.log('🗑️ Modal closed via close button');
+            };
+            closeButton.onmouseover = () => closeButton.style.background = '#e9ecef';
+            closeButton.onmouseout = () => closeButton.style.background = '#f8f9fa';
             
             // Style the result div professionally now that we know fixed positioning works
             resultDiv.style.cssText = `
@@ -1558,6 +1624,7 @@
                 border: 2px solid #007bff !important;
                 border-radius: 8px !important;
                 padding: 20px !important;
+                padding-top: 40px !important;
                 font-size: 0.9em !important;
                 color: #333 !important;
                 box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
@@ -1574,6 +1641,9 @@
                 overflow: auto !important;
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             `;
+            
+            // Append the close button after styling
+            resultDiv.appendChild(closeButton);
             
             console.log('✅ Applied professional styling with fixed positioning');
             

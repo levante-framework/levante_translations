@@ -28,6 +28,13 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
     
+    def do_GET(self):
+        # Handle ElevenLabs voices endpoint
+        if self.path.startswith('/proxy/elevenlabs/voices'):
+            self.handle_elevenlabs_voices()
+        else:
+            super().do_GET()
+    
     def do_POST(self):
         # Handle PlayHT API proxy requests
         if self.path.startswith('/proxy/playht'):
@@ -39,7 +46,11 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
         elif self.path.startswith('/proxy/translate'):
             self.handle_translate_proxy()
         else:
-            super().do_POST()
+            # SimpleHTTPRequestHandler doesn't support POST by default
+            self.send_response(405)  # Method Not Allowed
+            self.send_header('Allow', 'GET, HEAD, OPTIONS')
+            self.end_headers()
+            self.wfile.write(b'POST method not supported for this endpoint')
     
     def handle_playht_proxy(self):
         try:
@@ -66,7 +77,13 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                     'Content-Type': 'application/json',
                     'AUTHORIZATION': auth_header,
                     'X-USER-ID': user_id_header,
-                    'Accept': 'audio/mpeg'
+                    'Accept': 'audio/mpeg',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
                 }
             )
             
@@ -122,6 +139,10 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                 
             voice_id = path_parts[3]
             
+            # Debug the request
+            print(f"🔍 ElevenLabs request: voice_id={voice_id}")
+            print(f"🔍 ElevenLabs request body: {post_data.decode('utf-8', errors='replace')}")
+            
             # Create the request to ElevenLabs API
             elevenlabs_url = f'https://api.elevenlabs.io/v1/text-to-speech/{voice_id}'
             req = urllib.request.Request(
@@ -130,7 +151,13 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                 headers={
                     'Content-Type': 'application/json',
                     'xi-api-key': api_key,
-                    'Accept': 'audio/mpeg'
+                    'Accept': 'audio/mpeg',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
                 }
             )
             
@@ -150,13 +177,74 @@ class CORSProxyHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(response.read())
                 
         except HTTPError as e:
-            print(f"ElevenLabs API error: {e.code} - {e.reason}")
+            error_body = ""
+            try:
+                if hasattr(e, 'read'):
+                    error_body = e.read().decode('utf-8', errors='replace')
+                print(f"ElevenLabs API error: {e.code} - {e.reason}")
+                print(f"ElevenLabs error body: {error_body}")
+            except Exception as decode_error:
+                print(f"Error reading ElevenLabs error response: {decode_error}")
+            
+            self.send_response(e.code)
+            self.end_headers()
+            error_response = error_body.encode('utf-8') if error_body else str(e).encode()
+            self.wfile.write(error_response)
+        except Exception as e:
+            print(f"ElevenLabs proxy error: {e}")
+            self.send_response(500)
+            self.end_headers()
+            self.wfile.write(f"Proxy error: {str(e)}".encode())
+    
+    def handle_elevenlabs_voices(self):
+        try:
+            # Get API key from headers
+            api_key = self.headers.get('X-API-KEY')
+            if not api_key:
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b'Missing ElevenLabs API key')
+                return
+            
+            # Create the request to ElevenLabs voices API
+            elevenlabs_url = 'https://api.elevenlabs.io/v1/voices'
+            req = urllib.request.Request(
+                elevenlabs_url,
+                headers={
+                    'xi-api-key': api_key,
+                    'Accept': 'application/json',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
+                }
+            )
+            
+            # Make the request to ElevenLabs
+            with urllib.request.urlopen(req) as response:
+                # Send the response back to the client
+                self.send_response(response.getcode())
+                
+                # Copy relevant headers
+                for header, value in response.headers.items():
+                    if header.lower() not in ['connection', 'transfer-encoding']:
+                        self.send_header(header, value)
+                
+                self.end_headers()
+                
+                # Copy the response body
+                self.wfile.write(response.read())
+                
+        except HTTPError as e:
+            print(f"ElevenLabs voices API error: {e.code} - {e.reason}")
             self.send_response(e.code)
             self.end_headers()
             error_response = e.read() if hasattr(e, 'read') else str(e).encode()
             self.wfile.write(error_response)
         except Exception as e:
-            print(f"ElevenLabs proxy error: {e}")
+            print(f"ElevenLabs voices proxy error: {e}")
             self.send_response(500)
             self.end_headers()
             self.wfile.write(f"Proxy error: {str(e)}".encode())
@@ -283,9 +371,10 @@ if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), CORSProxyHandler) as httpd:
         print(f"CORS Proxy server running at http://localhost:{PORT}")
         print("Available endpoints:")
-        print("  - /proxy/playht     : PlayHT API for text-to-speech")
-        print("  - /proxy/elevenlabs : ElevenLabs API for text-to-speech")
-        print("  - /proxy/translate  : Google Translate API for validation")
+        print("  - /proxy/playht            : PlayHT API for text-to-speech")
+        print("  - /proxy/elevenlabs        : ElevenLabs API for text-to-speech")
+        print("  - /proxy/elevenlabs/voices : ElevenLabs voices list")
+        print("  - /proxy/translate         : Google Translate API for validation")
         print("  - Static files served from public/ directory")
         print("Press Ctrl+C to stop the server")
         try:
