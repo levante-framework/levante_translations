@@ -29,6 +29,10 @@
       "destination": "/api/playht-proxy"
     },
     {
+      "source": "/",
+      "destination": "/public/main.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/public/$1"
     }

@@ -227,6 +227,12 @@
                         <button id="validateAll" class="btn validation-button" onclick="validateAll()">
                             <i class="fas fa-check-circle"></i> Validate All
                         </button>
+                        <button id="saveValidations" class="btn btn-success" onclick="saveValidationsManually()" title="Save validation results to browser storage">
+                            <i class="fas fa-save"></i> Save Validations
+                        </button>
+                        <button id="viewValidations" class="btn btn-info" onclick="showValidationSummaryReport()" title="View summary of all validation results">
+                            <i class="fas fa-chart-bar"></i> View Validations
+                        </button>
                         <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()">
                             <i class="fas fa-key"></i> Manage Credentials
                         </button>
@@ -329,6 +335,10 @@
                 this.selectedRow = null;
                 this.voices = { playht: [], elevenlabs: [] };
                 
+                // Persistent validation results dictionary
+                // Structure: { item_id: { lang_code: { score: number, notes: string } } }
+                this.validation_results = {};
+                
                 this.init();
             }
 
@@ -359,6 +369,12 @@
                     
                     // Load comprehensive voices
                     await this.loadComprehensiveVoices();
+                    
+                    // Load validation results from previous sessions (but don't apply yet)
+                    await this.loadValidationResults();
+                    
+                    // Setup auto-save on page unload
+                    this.setupAutoSave();
                     
                     this.setStatus('Dashboard ready - Select a language to begin', 'success');
                 } catch (error) {
@@ -745,6 +761,202 @@
                 this.setStatus(`Loaded ${this.voices.playht.length + this.voices.elevenlabs.length} comprehensive voices`, 'success');
             }
 
+            // ===== VALIDATION PERSISTENCE METHODS =====
+            
+            async loadValidationResults() {
+                try {
+                    // Try loading from JSON file first
+                    console.log('🔄 Checking for validation_results.json file...');
+                    
+                    try {
+                        const jsonResponse = await fetch('./validation_results.json');
+                        if (jsonResponse.ok) {
+                            const jsonData = await jsonResponse.json();
+                            if (jsonData.validation_results) {
+                                this.validation_results = jsonData.validation_results;
+                                console.log(`✅ Loaded ${Object.keys(this.validation_results).length} validation results from JSON file`);
+                                console.log(`📅 File exported: ${jsonData.metadata?.exported_at || 'Unknown date'}`);
+                                return; // Successfully loaded from file
+                            }
+                        }
+                    } catch (jsonError) {
+                        console.log('📝 No validation_results.json file found, checking localStorage...');
+                    }
+                    
+                    // Fallback to localStorage if JSON file not found
+                    console.log('🔄 Loading validation results from localStorage...');
+                    const storedResults = localStorage.getItem('validation_results');
+                    
+                    if (storedResults) {
+                        this.validation_results = JSON.parse(storedResults);
+                        console.log(`✅ Loaded ${Object.keys(this.validation_results).length} validation results from localStorage`);
+                        
+                        // Apply stored results will be called after tables are populated
+                    } else {
+                        console.log('📝 No previous validation results found in localStorage either');
+                        this.validation_results = {};
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading validation results:', error);
+                    this.validation_results = {};
+                }
+            }
+            
+            saveValidationResults() {
+                try {
+                    console.log('💾 Saving validation results to localStorage...');
+                    
+                    // Count total validation entries
+                    let totalValidations = 0;
+                    Object.keys(this.validation_results).forEach(itemId => {
+                        totalValidations += Object.keys(this.validation_results[itemId]).length;
+                    });
+                    
+                    localStorage.setItem('validation_results', JSON.stringify(this.validation_results));
+                    console.log(`✅ Saved ${Object.keys(this.validation_results).length} items with ${totalValidations} total validations`);
+                    
+                    return {
+                        success: true,
+                        itemCount: Object.keys(this.validation_results).length,
+                        validationCount: totalValidations
+                    };
+                } catch (error) {
+                    console.error('❌ Error saving validation results:', error);
+                    return {
+                        success: false,
+                        error: error.message
+                    };
+                }
+            }
+            
+            setupAutoSave() {
+                // Auto-save disabled per user request
+                // Users can manually save using the "Save Validations" button
+                
+                console.log('🔧 Auto-save disabled - use manual save button');
+            }
+            
+            applyStoredValidationResults() {
+                // Deprecated: Use applyStoredValidationResultsForCurrentLanguage() instead
+                console.log('⚠️ applyStoredValidationResults is deprecated, use applyStoredValidationResultsForCurrentLanguage');
+                this.applyStoredValidationResultsForCurrentLanguage();
+            }
+            
+            applyStoredValidationResultsForCurrentLanguage() {
+                const currentLangCode = this.languages[this.currentLanguage].lang_code;
+                console.log(`🎯 Applying stored validation results for ${this.currentLanguage} (${currentLangCode})...`);
+                let appliedCount = 0;
+                
+                Object.keys(this.validation_results).forEach(itemId => {
+                    if (this.validation_results[itemId][currentLangCode]) {
+                        const result = this.validation_results[itemId][currentLangCode];
+                        if (result.score !== undefined) {
+                            this.updateValidationUI(itemId, currentLangCode, result.score, result.notes || '');
+                            appliedCount++;
+                        }
+                    }
+                });
+                
+                console.log(`✅ Applied ${appliedCount} stored validation results for ${this.currentLanguage}`);
+                
+                // Update summary for current language
+                if (typeof updateValidationSummary === 'function') {
+                    updateValidationSummary();
+                }
+            }
+            
+            storeValidationResult(itemId, langCode, score, notes = '') {
+                // Initialize item if it doesn't exist
+                if (!this.validation_results[itemId]) {
+                    this.validation_results[itemId] = {};
+                }
+                
+                // Store the result
+                this.validation_results[itemId][langCode] = {
+                    score: score,
+                    notes: notes,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log(`📝 Stored validation result: ${itemId}[${langCode}] = ${score}%`);
+            }
+            
+            updateValidationUI(itemId, langCode, score, notes) {
+                // Map langCode to language name to target the correct tab
+                const langCodeToLanguage = {
+                    'en': 'English',
+                    'es-CO': 'Spanish', 
+                    'de': 'German',
+                    'fr-CA': 'French',
+                    'nl': 'Dutch'
+                };
+                
+                const languageName = langCodeToLanguage[langCode];
+                if (!languageName) {
+                    console.warn(`Unknown langCode: ${langCode}`);
+                    return;
+                }
+                
+                // Look for indicator within the specific language tab
+                const languageTab = document.getElementById(`table-${languageName}`);
+                if (!languageTab) {
+                    console.warn(`Language tab not found: table-${languageName}`);
+                    return;
+                }
+                
+                const indicator = languageTab.querySelector(`[data-item-id="${itemId}"]`);
+                if (!indicator) {
+                    console.warn(`Indicator not found for ${itemId} in ${languageName} tab`);
+                    return;
+                }
+                
+                // Determine status based on score
+                let statusClass, statusTitle, buttonText, scoreEmoji;
+                if (score >= 85) {
+                    statusClass = 'status-good';
+                    statusTitle = `✅ Excellent: ${score}% similarity`;
+                    buttonText = 'View Results';
+                    scoreEmoji = '✅';
+                } else if (score >= 70) {
+                    statusClass = 'status-warning';
+                    statusTitle = `⚠️ Warning: ${score}% similarity`;
+                    buttonText = 'View Warning';
+                    scoreEmoji = '⚠️';
+                } else {
+                    statusClass = 'status-error';
+                    statusTitle = `❌ Poor: ${score}% similarity`;
+                    buttonText = 'View Issues';
+                    scoreEmoji = '❌';
+                }
+                
+                // Update indicator
+                indicator.className = `status-indicator ${statusClass}`;
+                indicator.title = statusTitle;
+                
+                // Update or create score badge
+                const existingBadge = indicator.parentElement.querySelector('.score-badge');
+                if (existingBadge) existingBadge.remove();
+                
+                const scoreBadge = document.createElement('span');
+                scoreBadge.className = 'score-badge';
+                scoreBadge.textContent = `${score}%`;
+                scoreBadge.style.cssText = `
+                    font-size: 10px;
+                    font-weight: bold;
+                    color: ${score >= 85 ? '#155724' : score >= 70 ? '#856404' : '#721c24'};
+                    margin-left: 4px;
+                    opacity: 0.9;
+                `;
+                indicator.parentElement.appendChild(scoreBadge);
+                
+                // Update button if it exists
+                const button = indicator.parentElement.querySelector('.validate-btn');
+                if (button) {
+                    button.textContent = `${scoreEmoji} ${buttonText}`;
+                    button.disabled = false;
+                }
+            }
+
             createTabs() {
                 const tabButtons = document.getElementById('tabButtons');
                 const tabContent = document.getElementById('tabContent');
@@ -860,6 +1072,11 @@
                     row.addEventListener('click', () => this.selectRow(row, item));
                     tableContent.appendChild(row);
                 });
+                
+                // Apply stored validation results after table is populated, but only for current language
+                setTimeout(() => {
+                    this.applyStoredValidationResultsForCurrentLanguage();
+                }, 100);
                 
                 // Update validation summary after populating table
                 updateValidationSummary();
@@ -1242,6 +1459,258 @@
             }
         }
         
+        function saveValidationsManually() {
+            const result = window.dashboard.saveValidationResults();
+            
+            // Show success feedback
+            const button = document.getElementById('saveValidations');
+            const originalText = button.innerHTML;
+            
+            if (result.success) {
+                // Also export to JSON file for team sharing
+                exportValidationsToJSONFile(result);
+                
+                button.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                button.disabled = true;
+                
+                // Update status bar with detailed info
+                window.dashboard.setStatus(`💾 Saved ${result.itemCount} items (${result.validationCount} validations) to browser storage & JSON file`, 'success');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            } else {
+                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                button.disabled = true;
+                
+                // Update status bar with error
+                window.dashboard.setStatus(`❌ Error saving validations: ${result.error}`, 'error');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+        
+        function exportValidationsToJSONFile(result) {
+            const exportData = {
+                metadata: {
+                    exported_at: new Date().toISOString(),
+                    exported_by: 'Levante Translation Dashboard',
+                    version: '1.0',
+                    total_items: result.itemCount,
+                    total_validations: result.validationCount,
+                    languages: Object.keys(window.dashboard.languages)
+                },
+                validation_results: window.dashboard.validation_results
+            };
+            
+            // Create and download file with consistent name
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', 'validation_results.json');
+            linkElement.click();
+            
+            console.log('📦 Exported validation results to validation_results.json');
+        }
+        
+        function showValidationSummaryReport() {
+            const results = window.dashboard.validation_results;
+            const languages = window.dashboard.languages;
+            
+            if (Object.keys(results).length === 0) {
+                alert('No validation results to display. Please run some validations first.');
+                return;
+            }
+            
+            // Calculate statistics
+            const stats = {};
+            let totalValidations = 0;
+            
+            // Initialize stats for each language
+            Object.keys(languages).forEach(langName => {
+                const langCode = languages[langName].lang_code;
+                stats[langName] = {
+                    langCode: langCode,
+                    total: 0,
+                    excellent: 0,
+                    warning: 0,
+                    poor: 0,
+                    items: []
+                };
+            });
+            
+            // Process validation results
+            Object.keys(results).forEach(itemId => {
+                Object.keys(results[itemId]).forEach(langCode => {
+                    const result = results[itemId][langCode];
+                    const score = result.score;
+                    
+                    // Find language name from code
+                    const langName = Object.keys(languages).find(name => 
+                        languages[name].lang_code === langCode
+                    );
+                    
+                    if (langName && stats[langName]) {
+                        stats[langName].total++;
+                        totalValidations++;
+                        
+                        if (score >= 85) stats[langName].excellent++;
+                        else if (score >= 70) stats[langName].warning++;
+                        else stats[langName].poor++;
+                        
+                        stats[langName].items.push({
+                            itemId: itemId,
+                            score: score,
+                            timestamp: result.timestamp
+                        });
+                    }
+                });
+            });
+            
+            // Sort items by score (poorest first) for each language
+            Object.keys(stats).forEach(langName => {
+                stats[langName].items.sort((a, b) => a.score - b.score);
+            });
+            
+            // Create modal content
+            const modalHtml = createValidationSummaryModal(stats, totalValidations);
+            
+            // Show modal
+            const existingModal = document.getElementById('validationSummaryModal');
+            if (existingModal) existingModal.remove();
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.getElementById('validationSummaryModal').style.display = 'block';
+        }
+        
+        function createValidationSummaryModal(stats, totalValidations) {
+            const langStats = Object.keys(stats)
+                .filter(langName => stats[langName].total > 0)
+                .map(langName => {
+                    const s = stats[langName];
+                    const excellentPct = Math.round((s.excellent / s.total) * 100);
+                    const warningPct = Math.round((s.warning / s.total) * 100);
+                    const poorPct = Math.round((s.poor / s.total) * 100);
+                    
+                    const flag = window.dashboard.getFlagForLanguage(langName);
+                    
+                    // Show top 5 items needing attention (lowest scores)
+                    const needsAttention = s.items.slice(0, 5).map(item => 
+                        `<li>${item.itemId}: <span style="color: ${item.score >= 85 ? '#28a745' : item.score >= 70 ? '#ffc107' : '#dc3545'}">${item.score}%</span></li>`
+                    ).join('');
+                    
+                    return `
+                        <div class="lang-summary">
+                            <h4>${flag}${langName} (${s.langCode}) - ${s.total} validations</h4>
+                            <div class="score-breakdown">
+                                <div class="score-bar">
+                                    <div class="excellent" style="width: ${excellentPct}%" title="Excellent: ${s.excellent}"></div>
+                                    <div class="warning" style="width: ${warningPct}%" title="Warning: ${s.warning}"></div>
+                                    <div class="poor" style="width: ${poorPct}%" title="Poor: ${s.poor}"></div>
+                                </div>
+                                <div class="score-legend">
+                                    <span class="excellent">✅ ${s.excellent} Excellent (≥85%)</span>
+                                    <span class="warning">⚠️ ${s.warning} Warning (70-84%)</span>
+                                    <span class="poor">❌ ${s.poor} Poor (<70%)</span>
+                                </div>
+                            </div>
+                            ${needsAttention ? `
+                                <details>
+                                    <summary>Items needing attention (lowest scores first)</summary>
+                                    <ul class="attention-list">${needsAttention}</ul>
+                                </details>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            
+            return `
+                <div id="validationSummaryModal" class="modal" style="display: none;">
+                    <div class="modal-content" style="max-width: 900px; max-height: 80vh; overflow-y: auto;">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-chart-bar"></i> Validation Summary Report</h2>
+                            <span class="close" onclick="document.getElementById('validationSummaryModal').remove()">&times;</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div class="summary-overview">
+                                <h3>📊 Overview</h3>
+                                <p><strong>Total Validations:</strong> ${totalValidations} across ${Object.keys(stats).filter(lang => stats[lang].total > 0).length} languages</p>
+                                <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                            </div>
+                            
+                            <div class="language-summaries">
+                                <h3>🌍 By Language</h3>
+                                ${langStats || '<p>No validation data available.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                .lang-summary {
+                    margin-bottom: 25px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    padding: 15px;
+                    background: #f9f9f9;
+                }
+                
+                .score-breakdown {
+                    margin: 10px 0;
+                }
+                
+                .score-bar {
+                    display: flex;
+                    height: 20px;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    border: 1px solid #ddd;
+                    margin-bottom: 8px;
+                }
+                
+                .score-bar .excellent { background: #28a745; }
+                .score-bar .warning { background: #ffc107; }
+                .score-bar .poor { background: #dc3545; }
+                
+                .score-legend {
+                    display: flex;
+                    gap: 15px;
+                    font-size: 0.85em;
+                    flex-wrap: wrap;
+                }
+                
+                .score-legend .excellent { color: #28a745; }
+                .score-legend .warning { color: #856404; }
+                .score-legend .poor { color: #dc3545; }
+                
+                .attention-list {
+                    margin: 8px 0;
+                    padding-left: 20px;
+                }
+                
+                .attention-list li {
+                    margin: 4px 0;
+                    font-family: monospace;
+                }
+                
+                .summary-overview {
+                    background: #e7f3ff;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 20px;
+                }
+                </style>
+            `;
+        }
+        
         async function validateSingle(itemId, originalText, translatedText, langCode) {
             console.log('🎯 VALIDATION START:', {itemId, langCode, textLength: translatedText.length});
             
@@ -1354,6 +1823,9 @@
                 });
                 
                 const similarity = result.similarity_score || 0;
+                
+                // Store validation result for persistence
+                window.dashboard.storeValidationResult(itemId, langCode, similarity);
                 
                 // Update status indicator based on similarity score
                 let statusClass, statusTitle, buttonText, scoreEmoji;
