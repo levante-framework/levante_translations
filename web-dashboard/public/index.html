@@ -874,7 +874,13 @@
                     if (response.ok) {
                         const result = await response.json();
                         console.log('✅ Successfully saved to shared storage:', result.metadata);
-                        this.setStatus('💾 Validation results saved to shared session storage for team access', 'success');
+                        
+                        // Show source-specific status message
+                        if (result.source === 'session storage') {
+                            this.setStatus('📂 Validation results saved to shared session storage for team access', 'success');
+                        } else {
+                            this.setStatus('💾 Validation results saved to shared storage for team access', 'success');
+                        }
                     } else {
                         console.warn('⚠️ Failed to save to shared storage, but localStorage backup is available');
                     }
@@ -918,7 +924,13 @@
                             
                             this.validation_results = localResults;
                             console.log(`✅ Loaded shared validation results: ${Object.keys(sharedResults).length} items`);
-                            this.setStatus('🌐 Loaded validation results from shared session storage', 'success');
+                            
+                            // Show source-specific status message
+                            if (result.source === 'session storage') {
+                                this.setStatus('📂 Loaded validation results from shared session storage', 'success');
+                            } else {
+                                this.setStatus('💾 Loaded validation results from shared storage', 'success');
+                            }
                             return true;
                         }
                     }
