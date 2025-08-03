@@ -162,6 +162,7 @@
         .credentials-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e1e5e9; }
         .btn-secondary { background: #6c757d; color: white; }
     </style>
+    <script src="web-dashboard/public/config.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -681,15 +682,15 @@
                         // Map es-CO to es for ElevenLabs API
                         const apiLangCode = langCode === 'es-CO' ? 'es' : langCode.split('-')[0];
                         
-                        // Filter voices for this language from our library
+                        // Get curated voice names for this language from our voice library
+                        const curatedVoiceNames = CONFIG?.curatedVoices?.elevenlabs?.[langCode] || [];
+                        
+                        // Filter voices to only include those in our curated voice library
                         const languageVoices = voicesData.voices.filter(voice => {
                             const voiceLanguage = voice.labels?.language;
-                            return voiceLanguage === apiLangCode && 
-                                   (voice.category === "professional" || 
-                                    voice.category === "shared" || 
-                                    voice.category === "premade" || 
-                                    voice.category === "generated" || 
-                                    voice.category === "personal");
+                            const voiceInLibrary = curatedVoiceNames.includes(voice.name);
+                            
+                            return voiceLanguage === apiLangCode && voiceInLibrary;
                         });
 
                         organizedVoices[langCode] = languageVoices.map(voice => ({
@@ -698,6 +699,8 @@
                             language: langCode,
                             gender: voice.labels?.gender || 'unknown'
                         }));
+                        
+                        console.log(`🔧 ElevenLabs ${langCode}: Found ${languageVoices.length} library voices out of ${voicesData.voices.filter(v => v.labels?.language === apiLangCode).length} total`);
                     }
 
                     console.log('Loaded real ElevenLabs voices:', organizedVoices);
