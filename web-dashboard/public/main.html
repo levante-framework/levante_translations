@@ -551,7 +551,7 @@
 
                 try {
                     // Create a proxy endpoint to get ElevenLabs voices
-                    const response = await fetch('http://localhost:8001/proxy/elevenlabs/voices', {
+                    const response = await fetch('/proxy/elevenlabs/voices', {
                         method: 'GET',
                         headers: {
                             'X-API-KEY': credentials.elevenlabsApiKey
@@ -1034,7 +1034,7 @@
                 
                 console.log('Calling PlayHT API with:', requestData);
                 
-                const response = await fetch('http://localhost:8001/proxy/playht', {
+                const response = await fetch('/proxy/playht', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1090,7 +1090,7 @@
                 
                 console.log('Calling ElevenLabs API with:', requestData);
                 
-                const response = await fetch(`http://localhost:8001/proxy/elevenlabs/${voiceId}`, {
+                const response = await fetch(`/proxy/elevenlabs/${voiceId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1313,18 +1313,17 @@
                 }
                 
                 const requestBody = {
-                    text: translatedText,
-                    source: sourceLanguage,
-                    target: 'en',
-                    operation: 'back_translate',
-                    original_text: originalText
+                    original_english: originalText,
+                    source_text: translatedText,
+                    source_lang: sourceLanguage,
+                    target_lang: 'en'
                 };
                 
                 console.log('📤 Validation request:', requestBody);
                 
                 // Call our CORS proxy for Google Translate
                 console.log('🌐 Calling CORS proxy...');
-                const response = await fetch('http://localhost:8001/proxy/translate', {
+                const response = await fetch('/proxy/translate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1814,14 +1813,27 @@
         
         // Audio Functions
         function playAudio(itemId, langCode) {
-            // Check for existing audio file
-            const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${langCode}/${itemId}.mp3`;
+            // Map frontend language codes to bucket language codes
+            const bucketLangCodeMap = {
+                'en': 'en',
+                'es-CO': 'es',  // Spanish files are stored as 'es' in bucket
+                'de': 'de', 
+                'fr-CA': 'fr-CA',
+                'nl': 'nl'
+            };
+            
+            const bucketLangCode = bucketLangCodeMap[langCode] || langCode;
+            const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${bucketLangCode}/${itemId}.mp3`;
+            
+            console.log(`🎵 Playing audio: ${audioUrl}`);
             
             const audio = new Audio(audioUrl);
             audio.addEventListener('canplaythrough', () => {
                 audio.play();
+                console.log(`✅ Audio playing: ${itemId} in ${bucketLangCode}`);
             });
-            audio.addEventListener('error', () => {
+            audio.addEventListener('error', (e) => {
+                console.error(`❌ Audio not found: ${audioUrl}`);
                 alert(`Audio file not found for ${itemId} in ${langCode}. Please generate it first.`);
             });
         }
