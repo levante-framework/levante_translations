@@ -15,13 +15,23 @@ import numpy as np
 
 # Add mutagen for ID3v2 tag handling
 try:
-    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX
+    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX, TCOP
     from mutagen.mp3 import MP3
     MUTAGEN_AVAILABLE = True
+    TCOP_AVAILABLE = True
 except ImportError:
-    MUTAGEN_AVAILABLE = False
-    print("Warning: mutagen not available. ID3 tag functions will not work.")
-    print("Install with: pip install mutagen")
+    try:
+        # Try without TCOP in case it's not available in older versions
+        from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX
+        from mutagen.mp3 import MP3
+        MUTAGEN_AVAILABLE = True
+        TCOP_AVAILABLE = False
+        print("Note: TCOP (copyright) frame not available in this mutagen version.")
+    except ImportError:
+        MUTAGEN_AVAILABLE = False
+        TCOP_AVAILABLE = False
+        print("Warning: mutagen not available. ID3 tag functions will not work.")
+        print("Install with: pip install mutagen")
 
 # Default audio tags template - create copies when needed
 # Standard ID3v2 tags
@@ -31,6 +41,7 @@ audio_tags = {
     'album': None,
     'genre': 'Speech Synthesis',
     'comment': None,
+    'copyright': 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
 
     # our custom tags
     'text': None,
@@ -41,7 +52,7 @@ audio_tags = {
 }
 
 # Standard ID3v2 tag fields (these use specific ID3 frames)
-STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment'}
+STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment', 'copyright'}
 
 
 def create_directory(path):
@@ -291,6 +302,20 @@ def read_id3_tags(file_path):
             comment_frames = audio_file.tags.getall('COMM')
             tags['comment'] = str(comment_frames[0].text[0]) if comment_frames else ''
             
+            # Read copyright (TCOP frame or fallback to TXXX COPYRIGHT)
+            copyright_frames = audio_file.tags.getall('TCOP')
+            if copyright_frames:
+                tags['copyright'] = str(copyright_frames[0].text[0]) if copyright_frames[0].text else ''
+            else:
+                # Try to find COPYRIGHT in TXXX frames as fallback
+                txxx_frames = audio_file.tags.getall('TXXX')
+                for frame in txxx_frames:
+                    if frame.desc and frame.desc.upper() == 'COPYRIGHT' and frame.text:
+                        tags['copyright'] = str(frame.text[0]) if frame.text else ''
+                        break
+                else:
+                    tags['copyright'] = ''
+            
             # Read custom fields (TXXX frames)
             txxx_frames = audio_file.tags.getall('TXXX')
             for frame in txxx_frames:
@@ -351,6 +376,12 @@ def write_id3_tags(file_path, tags):
             audio_file.tags.add(TCON(encoding=3, text=tags['genre']))
         if tags.get('comment'):
             audio_file.tags.add(COMM(encoding=3, lang='eng', desc='', text=tags['comment']))
+        if tags.get('copyright'):
+            if TCOP_AVAILABLE:
+                audio_file.tags.add(TCOP(encoding=3, text=tags['copyright']))
+            else:
+                # Fall back to custom TXXX frame if TCOP not available
+                audio_file.tags.add(TXXX(encoding=3, desc='COPYRIGHT', text=tags['copyright']))
         
         # Write custom fields as TXXX frames
         for field_name, field_value in tags.items():

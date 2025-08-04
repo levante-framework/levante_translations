@@ -138,13 +138,13 @@ def test_id3_metadata():
         
         print("\n📝 Writing metadata to MP3 file...")
         print("Standard ID3v2 tags:")
-        for field in ['title', 'artist', 'album', 'date', 'genre', 'comment', 'created']:
+        for field in ['title', 'artist', 'album', 'date', 'genre', 'comment', 'copyright', 'created']:
             if test_tags.get(field):
                 print(f"  {field}: {test_tags[field]}")
         
         print("\nCustom fields:")
         custom_fields = {k: v for k, v in test_tags.items() 
-                        if k not in ['title', 'artist', 'album', 'date', 'genre', 'comment', 'created'] and v}
+                        if k not in ['title', 'artist', 'album', 'date', 'genre', 'comment', 'copyright', 'created'] and v}
         for field, value in custom_fields.items():
             print(f"  {field}: {value}")
         
@@ -197,7 +197,7 @@ def test_id3_metadata():
         # Validate that key fields were preserved
         print("\n🔍 Validation Results:")
         validation_fields = [
-            'title', 'artist', 'album', 'service', 'lang_code', 
+            'title', 'artist', 'album', 'copyright', 'service', 'lang_code', 
             'voice', 'item_difficulty', 'translation_quality'
         ]
         
