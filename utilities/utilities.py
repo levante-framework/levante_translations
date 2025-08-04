@@ -13,6 +13,37 @@ from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
 import numpy as np
 
+# Add mutagen for ID3v2 tag handling
+try:
+    from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX
+    from mutagen.mp3 import MP3
+    MUTAGEN_AVAILABLE = True
+except ImportError:
+    MUTAGEN_AVAILABLE = False
+    print("Warning: mutagen not available. ID3 tag functions will not work.")
+    print("Install with: pip install mutagen")
+
+# Default audio tags template - create copies when needed
+# Standard ID3v2 tags
+audio_tags = {
+    'title': None,
+    'artist': 'Levante Project',
+    'album': None,
+    'genre': 'Speech Synthesis',
+    'comment': None,
+
+    # our custom tags
+    'text': None,
+    'created': None,
+    'lang_code': None,
+    'service': None,
+    'voice': None
+}
+
+# Standard ID3v2 tag fields (these use specific ID3 frames)
+STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment'}
+
+
 def create_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -46,10 +77,10 @@ def html_to_ssml(html):
 
 # find the full path for an audio file to write
 # we want to echo the repo & GCP heirarchy to save re-doing later
-# e.g. <base>/task/language/shared/<item>.mp3
+# Simplified structure: <base>/<language>/<item>.mp3
 def audio_file_path(task_name, item_name, audio_base_dir, lang_code):
-    full_file_folder = \
-        os.path.join(audio_base_dir, task_name, lang_code, "shared")
+    # Use simplified structure without task folder and shared subfolder
+    full_file_folder = os.path.join(audio_base_dir, lang_code)
     if not os.path.exists(full_file_folder):
         os.makedirs(full_file_folder, exist_ok=True)
     full_file_path = os.path.join(full_file_folder, item_name + ".mp3")
@@ -59,9 +90,38 @@ def wrap_text(text, width=40):
     return "\n".join(textwrap.wrap(text, width=width))
 
 def count_audio_files(lang_code):
-# Execute the command and capture the output
-    raw_result = subprocess.run(f'ls audio_files/*/{lang_code}/shared/* | wc -l', shell=True, capture_output=True, text=True)
-    return raw_result.stdout.strip()
+    """Count audio files for a given language code, checking both old and new directory formats"""
+    import glob
+    
+    # Map simplified codes to old codes for backward compatibility
+    old_lang_codes = {
+        conf.LANGUAGE_CODES['English']: 'en-US',
+        'es': 'es-CO', 
+        conf.LANGUAGE_CODES['German']: 'de-DE',
+        'fr': 'fr-CA',
+        conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
+    }
+    
+    total_count = 0
+    
+    # Check new simplified directory structure: audio_files/<lang_code>/*.mp3
+    new_pattern = f'audio_files/{lang_code}/*.mp3'
+    new_files = glob.glob(new_pattern)
+    total_count += len(new_files)
+    
+    # Check old directory structure for backward compatibility: audio_files/<task>/<lang_code>/shared/*.mp3
+    old_pattern = f'audio_files/*/{lang_code}/shared/*.mp3'
+    old_files = glob.glob(old_pattern)
+    total_count += len(old_files)
+    
+    # Also check with old language codes for extra backward compatibility
+    old_lang_code = old_lang_codes.get(lang_code, lang_code)
+    if old_lang_code != lang_code:  # Only check if there's a different old format
+        old_pattern_with_old_code = f'audio_files/*/{old_lang_code}/shared/*.mp3'
+        old_files_with_old_code = glob.glob(old_pattern_with_old_code)
+        total_count += len(old_files_with_old_code)
+    
+    return str(total_count)
 
 def play_audio_from_text(service, language, voice, text ):
     if service == 'PlayHt':
@@ -87,18 +147,24 @@ def store_stats(lang_code, errors, notask, voice):
         new_rows = [
             ['English', 0, 0 ,''],
             ['Spanish', 0, 0, ''],
-            ['German', 0, 0, '']
+            ['German', 0, 0, ''],
+            ['French', 0, 0, ''],
+            ['Dutch', 0, 0, '']
         ]
     
         for row in new_rows:
             statsData.loc[len(statsData)] = row
         
-    if lang_code == 'en':
+    if lang_code == conf.LANGUAGE_CODES['English']:
         language = 'English'
-    elif lang_code == 'es-CO':
+    elif lang_code == conf.LANGUAGE_CODES['Spanish']:
         language = 'Spanish'
-    elif lang_code == 'de':
+    elif lang_code == conf.LANGUAGE_CODES['German']:
         language = 'German'
+    elif lang_code == conf.LANGUAGE_CODES['French']:
+        language = 'French'
+    elif lang_code == conf.LANGUAGE_CODES['Dutch']:
+        language = 'Dutch'
     else:
         return()
             
@@ -122,15 +188,19 @@ def play_data_object(audio_data):
     temp_filename = temp_file.name
 
     try:
-    # Write the audio data to the temporary file
+        # Write the audio data to the temporary file
         temp_file.write(audio_data)
         temp_file.close()
     
-        # Play the temporary file
-        playsound.playsound(temp_filename)
+        # Play the temporary file - block=True ensures it waits for completion
+        playsound.playsound(temp_filename, block=True)
     finally:
-        # Clean up the temporary file
-        os.unlink(temp_filename)
+        # Clean up the temporary file after playback completes
+        try:
+            os.unlink(temp_filename)
+        except OSError:
+            # File might already be deleted or in use, ignore the error
+            pass
 
 def show_intro_messagebox(self):
     dialog = tk.Toplevel(self)
@@ -187,18 +257,208 @@ def show_ssml_tips(self):
 
         
 
-def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData):
-    with open(audio_file_path(ourRow["labels"], ourRow["item_id"], \
-        audio_base_dir, lang_code), "wb") as file:
+def read_id3_tags(file_path):
+    """
+    Read ID3v2 tags from an MP3 file, including custom fields.
+    
+    Args:
+        file_path (str): Path to the MP3 file
+        
+    Returns:
+        dict: Dictionary containing ID3 tag information, or empty dict if no tags or error
+    """
+    if not MUTAGEN_AVAILABLE:
+        print("Warning: mutagen not available. Cannot read ID3 tags.")
+        return {}
+    
+    if not os.path.exists(file_path):
+        print(f"Warning: File {file_path} does not exist.")
+        return {}
+    
+    try:
+        audio_file = MP3(file_path, ID3=ID3)
+        tags = {}
+        
+        # Read standard ID3v2 tags
+        if audio_file.tags:
+            tags['title'] = str(audio_file.tags.get('TIT2', [''])[0]) if audio_file.tags.get('TIT2') else ''
+            tags['artist'] = str(audio_file.tags.get('TPE1', [''])[0]) if audio_file.tags.get('TPE1') else ''
+            tags['album'] = str(audio_file.tags.get('TALB', [''])[0]) if audio_file.tags.get('TALB') else ''
+            tags['date'] = str(audio_file.tags.get('TDRC', [''])[0]) if audio_file.tags.get('TDRC') else ''
+            tags['genre'] = str(audio_file.tags.get('TCON', [''])[0]) if audio_file.tags.get('TCON') else ''
+            
+            # Read comment (if any)
+            comment_frames = audio_file.tags.getall('COMM')
+            tags['comment'] = str(comment_frames[0].text[0]) if comment_frames else ''
+            
+            # Read custom fields (TXXX frames)
+            txxx_frames = audio_file.tags.getall('TXXX')
+            for frame in txxx_frames:
+                if frame.desc and frame.text:
+                    # Use the description as the field name
+                    custom_field_name = frame.desc
+                    custom_field_value = str(frame.text[0]) if frame.text else ''
+                    tags[custom_field_name] = custom_field_value
+        
+        return tags
+        
+    except Exception as e:
+        print(f"Error reading ID3 tags from {file_path}: {e}")
+        return {}
+
+
+def write_id3_tags(file_path, tags):
+    """
+    Write ID3v2 tags to an MP3 file, including custom fields.
+    
+    Args:
+        file_path (str): Path to the MP3 file
+        tags (dict): Dictionary of tags to write (uses audio_tags template structure)
+                    Any fields beyond standard ID3v2 fields will be stored as custom TXXX frames
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    if not MUTAGEN_AVAILABLE:
+        print("Warning: mutagen not available. Cannot write ID3 tags.")
+        return False
+    
+    if not os.path.exists(file_path):
+        print(f"Warning: File {file_path} does not exist.")
+        return False
+    
+    if not tags:
+        print("Warning: No tags dictionary provided.")
+        return False
+    
+    try:
+        audio_file = MP3(file_path, ID3=ID3)
+        
+        # Create ID3 tag if it doesn't exist
+        if audio_file.tags is None:
+            audio_file.add_tags()
+        
+        # Write standard ID3v2 tags
+        if tags.get('title'):
+            audio_file.tags.add(TIT2(encoding=3, text=tags['title']))
+        if tags.get('artist'):
+            audio_file.tags.add(TPE1(encoding=3, text=tags['artist']))
+        if tags.get('album'):
+            audio_file.tags.add(TALB(encoding=3, text=tags['album']))
+        if tags.get('date'):
+            audio_file.tags.add(TDRC(encoding=3, text=tags['date']))
+        if tags.get('genre'):
+            audio_file.tags.add(TCON(encoding=3, text=tags['genre']))
+        if tags.get('comment'):
+            audio_file.tags.add(COMM(encoding=3, lang='eng', desc='', text=tags['comment']))
+        
+        # Write custom fields as TXXX frames
+        for field_name, field_value in tags.items():
+            if field_name not in STANDARD_ID3_FIELDS and field_value:
+                # Store custom fields as user-defined text frames (TXXX)
+                audio_file.tags.add(TXXX(encoding=3, desc=field_name, text=str(field_value)))
+        
+        # Save the tags
+        audio_file.save()
+        return True
+        
+    except Exception as e:
+        print(f"Error writing ID3 tags to {file_path}: {e}")
+        return False
+
+
+def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice=""):
+    file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)
+    
+    with open(file_path, "wb") as file:
         file.write(audioData.content)
 
+    # Add ID3v2 tags to the saved MP3 file
+    try:
+        # Create a copy of the default audio_tags template
+        tags = audio_tags.copy()
+        
+        # Populate the tags with metadata from the row data
+        tags['title'] = f"{ourRow['item_id']}"  # Use item_id as title
+        tags['artist'] = f"Levante Framework - {service}"  # Service used
+        tags['album'] = f"{ourRow['labels']}"  # Task name as album
+        tags['date'] = str(pd.Timestamp.now().year)  # Current year
+        tags['genre'] = "Speech Synthesis"
+        
+        # Add our custom tags
+        tags['created'] = str(pd.Timestamp.now())  # Full timestamp when file was created
+        tags['lang_code'] = lang_code
+        tags['service'] = service
+        tags['voice'] = voice
+        # Handle column mapping for text field - check both original and simplified lang codes
+        text_value = ''
+        if lang_code in ourRow:
+            text_value = ourRow[lang_code]
+        else:
+            # Try simplified version
+            simplified_lang_codes = {
+                'es-CO': 'es',
+                'fr-CA': 'fr', 
+                'nl-NL': 'nl'
+            }
+            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+            if simplified_code in ourRow:
+                text_value = ourRow[simplified_code]
+        
+        tags['text'] = text_value
+        tags['comment'] = f"Levante Project - {service} - {voice} - {lang_code}"
+
+
+        # Write ID3 tags using the tags dictionary
+        write_id3_tags(file_path=file_path, tags=tags)
+        
+    except Exception as e:
+        print(f"Warning: Could not add ID3 tags to {file_path}: {e}")
+
+    # Handle column format mismatch - masterData might have old column names
+    # Map simplified codes to old codes for backward compatibility
+    old_lang_codes = {
+        conf.LANGUAGE_CODES['English']: 'en-US',
+        'es': 'es-CO', 
+        conf.LANGUAGE_CODES['German']: 'de-DE',
+        'fr': 'fr-CA',
+        conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
+    }
+    
+    # Determine which column name to use in masterData
+    master_lang_col = lang_code
+    if lang_code not in masterData.columns:
+        # Try the old format
+        old_lang_code = old_lang_codes.get(lang_code, lang_code)
+        if old_lang_code in masterData.columns:
+            master_lang_col = old_lang_code
+        else:
+            # Add the new column if neither exists
+            masterData[lang_code] = None
+            master_lang_col = lang_code
+
     # Update our "cache" of successful transcriptions                            
-    masterData[lang_code] = \
+    # Handle column mapping for masterData update - get the text value correctly
+    text_for_master = ''
+    if lang_code in ourRow:
+        text_for_master = ourRow[lang_code]
+    else:
+        # Try simplified version
+        simplified_lang_codes = {
+            'es-CO': 'es',
+            'fr-CA': 'fr', 
+            'nl-NL': 'nl'
+        }
+        simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+        if simplified_code in ourRow:
+            text_for_master = ourRow[simplified_code]
+    
+    masterData[master_lang_col] = \
         np.where(masterData["item_id"] == ourRow["item_id"], \
-        ourRow[lang_code], masterData[lang_code])
+        text_for_master, masterData[master_lang_col])
 
     # write as we go, so erroring out doesn't lose progress
     # Translated, so we can save it to a master sheet
-    masterData.to_csv("translation_master.csv")
+    masterData.to_csv("translation_master.csv", index=False)
     # finished with the if statement        
     return 'Success'    
