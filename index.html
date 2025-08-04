@@ -162,7 +162,7 @@
         .credentials-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e1e5e9; }
         .btn-secondary { background: #6c757d; color: white; }
     </style>
-    <script src="web-dashboard/public/config.js"></script>
+    <script src="config.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -682,16 +682,56 @@
                         // Map es-CO to es for ElevenLabs API
                         const apiLangCode = langCode === 'es-CO' ? 'es' : langCode.split('-')[0];
                         
+                        // Emergency fallback if CONFIG doesn't load
+                        const fallbackVoices = {
+                            'en': ['Alexandra - Conversational and Real', 'Yasmine', 'Aunt Annie - calm and professional'],
+                            'es-CO': ['Julia', 'Ana María - Calm & natural neutral Spanish'],
+                            'de': ['German Voice'],
+                            'fr-CA': ['Caroline - Top France - Narrative, warm, sweet'],
+                            'nl': ['Emma - Natural conversations in Dutch']
+                        };
+                        
                         // Get curated voice names for this language from our voice library
-                        const curatedVoiceNames = CONFIG?.curatedVoices?.elevenlabs?.[langCode] || [];
+                        const curatedVoiceNames = CONFIG?.curatedVoices?.elevenlabs?.[langCode] || fallbackVoices[langCode] || [];
+                        console.log(`🔧 CONFIG check for ${langCode}:`, {
+                            configExists: !!CONFIG,
+                            curatedVoicesExists: !!CONFIG?.curatedVoices,
+                            elevenlabsExists: !!CONFIG?.curatedVoices?.elevenlabs,
+                            langCodeExists: !!CONFIG?.curatedVoices?.elevenlabs?.[langCode],
+                            curatedVoiceNames,
+                            usingFallback: !CONFIG?.curatedVoices?.elevenlabs?.[langCode]
+                        });
+                        
+                        // Get all voices for this language
+                        const allLanguageVoices = voicesData.voices.filter(voice => {
+                            const voiceLanguage = voice.labels?.language;
+                            return voiceLanguage === apiLangCode;
+                        });
+                        
+                        console.log(`🔧 Available ${langCode} voices:`, allLanguageVoices.map(v => v.name));
                         
                         // Filter voices to only include those in our curated voice library
-                        const languageVoices = voicesData.voices.filter(voice => {
-                            const voiceLanguage = voice.labels?.language;
+                        const languageVoices = allLanguageVoices.filter(voice => {
                             const voiceInLibrary = curatedVoiceNames.includes(voice.name);
-                            
-                            return voiceLanguage === apiLangCode && voiceInLibrary;
+                            return voiceInLibrary;
                         });
+                        
+                        // If no curated voices found, fall back to category filtering for this language only
+                        if (languageVoices.length === 0) {
+                            console.warn(`⚠️ No curated voices found for ${langCode}, falling back to category filtering`);
+                            const fallbackVoices = allLanguageVoices.filter(voice => 
+                                voice.category === "personal" || 
+                                voice.category === "generated" ||
+                                voice.category === "professional"
+                            );
+                            languageVoices.push(...fallbackVoices);
+                            
+                            // If still no voices, just take the first few available
+                            if (languageVoices.length === 0) {
+                                console.warn(`⚠️ No voices found with categories, taking first 5 available for ${langCode}`);
+                                languageVoices.push(...allLanguageVoices.slice(0, 5));
+                            }
+                        }
 
                         organizedVoices[langCode] = languageVoices.map(voice => ({
                             voice_id: voice.voice_id,
@@ -700,7 +740,7 @@
                             gender: voice.labels?.gender || 'unknown'
                         }));
                         
-                        console.log(`🔧 ElevenLabs ${langCode}: Found ${languageVoices.length} library voices out of ${voicesData.voices.filter(v => v.labels?.language === apiLangCode).length} total`);
+                        console.log(`🔧 ElevenLabs ${langCode}: Found ${languageVoices.length} library voices out of ${allLanguageVoices.length} total`);
                     }
 
                     console.log('Loaded real ElevenLabs voices:', organizedVoices);

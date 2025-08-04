@@ -1,5 +1,5 @@
 /**
- * Configuration file for the Levante Translation &  Dashboard
+ * Configuration file for the Levante Audio Dashboard
  * JavaScript equivalent of utilities/config.py
  */
 
@@ -32,8 +32,8 @@ const CONFIG = {
         },
         'Spanish': {
             lang_code: 'es-CO',
-            service: 'ElevenLabs',
-            voice: 'Julia',
+            service: 'PlayHT',
+            voice: 'Spanish_Violeta Narrative',
             display_name: 'Spanish'
         },
         'German': {
