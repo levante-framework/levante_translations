@@ -110,6 +110,8 @@
         
         .validate-btn { background: #6f42c1; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; }
         .validate-btn:disabled { background: #6c757d; cursor: not-allowed; }
+        .info-btn { background: #17a2b8; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; margin-left: 4px; }
+        .info-btn:hover { background: #138496; }
         
         .score-badge { 
             background: rgba(255,255,255,0.9); 
@@ -161,6 +163,19 @@
         .credential-group input:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
         .credentials-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e1e5e9; }
         .btn-secondary { background: #6c757d; color: white; }
+        
+        /* Audio Info Modal Styles */
+        .audio-info-content { padding: 25px; max-height: 70vh; overflow-y: auto; }
+        .loading-spinner { text-align: center; padding: 40px; color: #17a2b8; font-size: 16px; }
+        .info-section { margin-bottom: 25px; }
+        .info-section h3 { color: #333; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #e1e5e9; }
+        .info-grid { display: grid; gap: 12px; }
+        .info-item { display: flex; padding: 8px 0; border-bottom: 1px solid #f8f9fa; }
+        .info-item label { font-weight: 600; color: #666; min-width: 120px; margin-right: 15px; }
+        .info-item span { color: #333; word-break: break-word; flex: 1; }
+        .info-note { background: #e7f3ff; padding: 12px; border-radius: 6px; color: #0c5460; font-style: italic; }
+        .error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; text-align: center; }
+        .error-message i { margin-right: 8px; }
     </style>
 </head>
 <body>
@@ -322,6 +337,86 @@
                     <button id="clearCredentials" class="btn btn-secondary" onclick="clearCredentials()">
                         <i class="fas fa-trash"></i> Clear All
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Info Modal -->
+    <div id="audioInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Audio Metadata</h2>
+                <span class="close" onclick="closeAudioInfoModal()">&times;</span>
+            </div>
+            <div class="audio-info-content">
+                <div id="audioInfoLoading" class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i> Loading metadata...
+                </div>
+                <div id="audioInfoData" style="display: none;">
+                    <div class="info-section">
+                        <h3><i class="fas fa-file-audio"></i> File Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>File Name:</label>
+                                <span id="info-fileName"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Size:</label>
+                                <span id="info-size"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Content Type:</label>
+                                <span id="info-contentType"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Created:</label>
+                                <span id="info-created"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Language:</label>
+                                <span id="info-language"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h3><i class="fas fa-tags"></i> ID3 Tags</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Title:</label>
+                                <span id="info-title"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Artist:</label>
+                                <span id="info-artist"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Album:</label>
+                                <span id="info-album"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Genre:</label>
+                                <span id="info-genre"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Service:</label>
+                                <span id="info-service"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Voice:</label>
+                                <span id="info-voice"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <div class="info-note" id="info-note"></div>
+                    </div>
+                </div>
+                <div id="audioInfoError" style="display: none;">
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="errorMessage"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1243,6 +1338,7 @@
                             <div class="validation-status">
                                 <div class="status-indicator status-pending" title="Not validated yet" data-item-id="${itemId}"></div>
                                 <button class="validate-btn" onclick="validateSingle('${escapedItemId}', '${escapedOriginal}', '${escapedTranslation}', '${langCode}')">Validate</button>
+                                <button class="info-btn" onclick="showAudioInfo('${escapedItemId}', '${langCode}')" title="Show audio metadata">Info</button>
                             </div>
                         </div>
                         <div class="audio-controls">
@@ -2483,6 +2579,101 @@
             }
         }
         
+        // Audio Info Modal Functions
+        function showAudioInfo(itemId, langCode) {
+            console.log(`🔍 Showing audio info for: ${itemId} in ${langCode}`);
+            
+            // Open modal and show loading
+            document.getElementById('audioInfoModal').style.display = 'block';
+            document.getElementById('audioInfoLoading').style.display = 'block';
+            document.getElementById('audioInfoData').style.display = 'none';
+            document.getElementById('audioInfoError').style.display = 'none';
+            
+            // Call API to get metadata
+            fetchAudioMetadata(itemId, langCode);
+        }
+        
+        function closeAudioInfoModal() {
+            document.getElementById('audioInfoModal').style.display = 'none';
+        }
+        
+        async function fetchAudioMetadata(itemId, langCode) {
+            try {
+                const response = await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(langCode)}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    showAudioInfoError(data.error, data.details);
+                } else {
+                    showAudioInfoData(data);
+                }
+            } catch (error) {
+                console.error('❌ Error fetching audio metadata:', error);
+                showAudioInfoError('Network Error', `Failed to fetch metadata: ${error.message}`);
+            }
+        }
+        
+        function showAudioInfoData(metadata) {
+            // Hide loading, show data
+            document.getElementById('audioInfoLoading').style.display = 'none';
+            document.getElementById('audioInfoError').style.display = 'none';
+            document.getElementById('audioInfoData').style.display = 'block';
+            
+            // Populate file information
+            document.getElementById('info-fileName').textContent = metadata.fileName || 'N/A';
+            document.getElementById('info-size').textContent = formatFileSize(metadata.size) || 'N/A';
+            document.getElementById('info-contentType').textContent = metadata.contentType || 'N/A';
+            document.getElementById('info-created').textContent = formatDate(metadata.created) || 'N/A';
+            document.getElementById('info-language').textContent = metadata.language || 'N/A';
+            
+            // Populate ID3 tags
+            const id3Tags = metadata.id3Tags || {};
+            document.getElementById('info-title').textContent = id3Tags.title || 'Not set';
+            document.getElementById('info-artist').textContent = id3Tags.artist || 'Not set';
+            document.getElementById('info-album').textContent = id3Tags.album || 'Not set';
+            document.getElementById('info-genre').textContent = id3Tags.genre || 'Not set';
+            document.getElementById('info-service').textContent = id3Tags.service || 'Not set';
+            document.getElementById('info-voice').textContent = id3Tags.voice || 'Not set';
+            
+            // Show note if present
+            const noteElement = document.getElementById('info-note');
+            if (metadata.note || id3Tags.note) {
+                noteElement.textContent = metadata.note || id3Tags.note;
+                noteElement.style.display = 'block';
+            } else {
+                noteElement.style.display = 'none';
+            }
+        }
+        
+        function showAudioInfoError(error, details) {
+            // Hide loading and data, show error
+            document.getElementById('audioInfoLoading').style.display = 'none';
+            document.getElementById('audioInfoData').style.display = 'none';
+            document.getElementById('audioInfoError').style.display = 'block';
+            
+            document.getElementById('errorMessage').textContent = `${error}: ${details}`;
+        }
+        
+        function formatFileSize(bytes) {
+            if (!bytes) return 'N/A';
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            let i = 0;
+            while (bytes >= 1024 && i < sizes.length - 1) {
+                bytes /= 1024;
+                i++;
+            }
+            return `${bytes.toFixed(1)} ${sizes[i]}`;
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                return new Date(dateString).toLocaleString();
+            } catch (error) {
+                return dateString;
+            }
+        }
+        
         function clearCacheAndReload() {
             if (confirm('Clear translation data cache and reload? This will fetch fresh data from GitHub.')) {
                 console.log('🗑️ Clearing localStorage cache and reloading...');
@@ -2614,9 +2805,14 @@
         
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const modal = document.getElementById('credentialsModal');
-            if (event.target === modal) {
+            const credentialsModal = document.getElementById('credentialsModal');
+            const audioInfoModal = document.getElementById('audioInfoModal');
+            
+            if (event.target === credentialsModal) {
                 closeCredentialsModal();
+            }
+            if (event.target === audioInfoModal) {
+                closeAudioInfoModal();
             }
         }
     </script>
