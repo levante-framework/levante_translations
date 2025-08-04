@@ -1,1 +1,0 @@
-python generate_speech.py "Spanish" "es-CO-SalomeNeural"

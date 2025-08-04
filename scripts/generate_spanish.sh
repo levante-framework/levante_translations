@@ -1,1 +1,1 @@
-python generate_speech.py "Spanish" "es-CO-SalomeNeural"
+python generate_speech.py "Spanish" "Spanish_Violeta Narrative"
