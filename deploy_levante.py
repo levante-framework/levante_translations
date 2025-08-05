@@ -74,13 +74,21 @@ class LevanteDeployer:
         """Initialize Google Cloud Storage client."""
         try:
             if self.google_credentials:
+                print(f"🔧 Initializing GCS client with service account credentials...")
                 credentials_dict = json.loads(self.google_credentials)
-                return storage.Client.from_service_account_info(credentials_dict)
+                client = storage.Client.from_service_account_info(credentials_dict)
+                print(f"✅ GCS client initialized successfully with project: {credentials_dict.get('project_id', 'unknown')}")
+                return client
             else:
-                # Try default credentials
-                return storage.Client()
+                print(f"🔧 No explicit credentials found, trying default credentials...")
+                client = storage.Client()
+                print(f"✅ GCS client initialized with default credentials")
+                return client
         except Exception as e:
-            print(f"Warning: Failed to initialize GCS client: {e}")
+            print(f"❌ Failed to initialize GCS client: {e}")
+            print(f"   Error type: {type(e).__name__}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def find_itembank_translations(self):
@@ -170,9 +178,14 @@ class LevanteDeployer:
         if not self.gcs_client:
             raise Exception("GCS client not initialized")
         
+        print(f"🔧 About to upload using GCS client...")
+        print(f"   Client project: {getattr(self.gcs_client, 'project', 'unknown')}")
+        print(f"   Target bucket: {self.bucket_name}")
+        
         try:
             bucket = self.gcs_client.bucket(self.bucket_name)
             blob = bucket.blob('itembank_translations.csv')
+            print(f"   Blob created: {blob.name} in bucket {bucket.name}")
             
             # Upload with metadata
             blob.upload_from_filename(file_path, content_type='text/csv')
