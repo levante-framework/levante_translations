@@ -58,20 +58,28 @@ python (or py) dashboard.py
 1. Create/Update item_bank_translations.csv with the translations you'd like to use
 
 2. Depending on your desired language, run:
-    generate_english.[sh|bat]
-    generate_spanish.[sh|bat]
-    generate_german.[sh|bat]
+    commands/generate_english.[sh|bat]
+    commands/generate_spanish.[sh|bat]
+    commands/generate_german.[sh|bat]
     etc.
 
+### Command Scripts
+
+The `commands/` directory contains convenient shell and batch scripts for common operations:
+
+- **Language Generation**: `generate_english.[sh|bat]`, `generate_spanish.[sh|bat]`, `generate_german.[sh|bat]`
+- **Audio Counting**: `count_audio.[sh|bat]` - counts generated audio files for each language
+- **Translation Fetching**: `get_translation_text.bat` - downloads translation data
+
 3. By default the generated audio files will be in the audio_files
-    sub-directory, in the format used for the asset repo and for serving
+   sub-directory, in the format used for the asset repo and for serving
 
 4. Optionally push/merge the audio files to the asset repo, and/or
     sync them to the appropriate google bucket using 'gsutil rsync -r <src> <bucket>'
 
 ## Code Flow:
 
-Batch/Shell files call generate_speech.py with the appropriate language code and voice.
+Command files (batch/shell) call generate_speech.py with the appropriate language code and voice.
 
 (CURRENTLY PlayHt v2 and ElevenLabs are supported.)
 
@@ -95,10 +103,10 @@ do that 5 times before giving up.
 ## Error Handling
 
 Errors aren't a problem for English and Spanish, but happen for German and French.
-There doesn't seem to be a pattern, but it means that sometimes the batch/shell
+There doesn't seem to be a pattern, but it means that sometimes the command
 file has to be re-run. After a couple/few runs, everything gets translated.
 
-There is a helper script count_audio.[bat|sh] that counts the number of
+There is a helper command file commands/count_audio.[bat|sh] that counts the number of
 audio files generated for each language, as a sanity check.
 
 ## Resetting audio transcriptions
@@ -110,10 +118,100 @@ and then just using a column operation. [At some point we should make this a fun
 
 ## Web Dashboard
 
-The web dashboard is a standalone utility that can be run to display the audio generation stats and the translations and audio by language.
+The web dashboard is a modern web application for audio generation and translation management. It provides:
 
-It is designed to be run as a web server that can be accessed from a browser.
+- Audio generation stats and visualization
+- Translation and audio management by language  
+- Voice comparison tools for PlayHT and ElevenLabs
+- Real-time audio generation and playback
+- Translation validation with similarity scoring
 
+The web dashboard is located in the `web-dashboard/` directory and deployed via Vercel. See the deployment section below for instructions.
 
+## Utility Scripts
 
+The `utilities/` folder contains various helper scripts for data management and voice analysis:
+
+### Voice Export Tools
+- **`export_comprehensive_voices.py`**: Exports comprehensive voice data from ElevenLabs including personal library, shared library, and professional voices. Filters out advertising voices and searches across multiple languages.
+- **`export_female_voices.py`**: Exports only female voices from PlayHT and ElevenLabs to CSV format, excluding advertising voices. Useful for curating voice libraries.
+
+### CSV Formatting Tools
+- **`fix_csv_formatting.py`**: Fixes general CSV formatting issues in translation files, removes embedded newlines and aligns fields.
+- **`fix_csv_newlines.py`**: Simple script to fix embedded newlines in CSV files without requiring pandas dependency.
+- **`fix_embedded_newlines.py`**: Fixes embedded newlines in CSV files by replacing them with `<br>` tags or spaces.
+
+### Data Management Tools  
+- **`deploy_dashboard.py`**: Advanced deployment tool for custom GCS bucket deployments (internal use).
+- **`crowdin_to_gcs.py`**: Downloads translation files from Crowdin and uploads them to appropriate GCS buckets.
+- **`buckets.py`**: Configuration for Google Cloud Storage bucket names and helper functions.
+
+### Usage Examples
+
+```bash
+# Export comprehensive voice data
+python utilities/export_comprehensive_voices.py
+
+# Export female voices only
+python utilities/export_female_voices.py  
+
+# Fix CSV formatting issues
+python utilities/fix_csv_formatting.py input.csv output.csv
+
+# Deploy Levante dashboard (itembank_translations.csv only)
+python deploy_levante.py -dev
+
+# Deploy web dashboard (via Vercel)
+cd web-dashboard && npm run deploy
+
+# Advanced deployment options
+python utilities/deploy_dashboard.py --env dev --dashboard-only
+
+# Download from Crowdin to GCS
+python utilities/crowdin_to_gcs.py --bundle-id 18
+```
+
+## Deployment
+
+There are two different deployment scripts for different purposes:
+
+### Levante Dashboard Deployment
+Use `deploy_levante.py` to deploy **only** the `itembank_translations.csv` file to the Levante dashboard buckets:
+
+```bash
+# Deploy to dev environment
+python deploy_levante.py -dev
+
+# Deploy to prod environment  
+python deploy_levante.py -prod
+
+# Test deployment (dry run)
+python deploy_levante.py -dev --dry-run
+```
+
+**Target buckets**: `levante-dashboard-dev` / `levante-dashboard-prod`  
+**Files deployed**: `itembank_translations.csv` only
+
+### Web Dashboard Deployment
+The web dashboard is deployed through Vercel using npm scripts:
+
+```bash
+# Navigate to web dashboard directory
+cd web-dashboard
+
+# Deploy to production (recommended)
+npm run deploy
+
+# Alternative deployment method
+npm run deploy-bat
+
+# Local development server
+npm start
+```
+
+**Target**: Vercel hosting with automatic aliasing  
+**URLs**: 
+- Primary: https://audio-dashboard-levante.vercel.app
+- Secondary: https://levante-audio-dashboard.vercel.app  
+**Files deployed**: HTML, CSS, JavaScript, API functions, web assets
 
