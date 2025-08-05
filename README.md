@@ -159,16 +159,23 @@ python utilities/export_female_voices.py
 python utilities/fix_csv_formatting.py input.csv output.csv
 
 # Deploy Levante dashboard (itembank_translations.csv only)
-python deploy_levante.py -dev
+npm run deploy:levante-dev
 
 # Deploy web dashboard (via Vercel)
-cd web-dashboard && npm run deploy
-
-# Advanced deployment options
-python utilities/deploy_dashboard.py --env dev --dashboard-only
+npm run deploy:web
 
 # Download from Crowdin to GCS
-python utilities/crowdin_to_gcs.py --bundle-id 18
+npm run deploy:crowdin-dev
+
+# Generate audio files
+npm run generate:english
+npm run generate:spanish
+
+# Fix CSV formatting
+npm run fix:csv
+
+# Export voice data
+npm run export:voices
 ```
 
 ## Deployment
@@ -176,37 +183,32 @@ python utilities/crowdin_to_gcs.py --bundle-id 18
 There are two different deployment scripts for different purposes:
 
 ### Levante Dashboard Deployment
-Use `deploy_levante.py` to deploy **only** the `itembank_translations.csv` file to the Levante dashboard buckets:
+Deploy **only** the `itembank_translations.csv` file to the Levante dashboard buckets:
 
 ```bash
 # Deploy to dev environment
-python deploy_levante.py -dev
+npm run deploy:levante-dev
 
 # Deploy to prod environment  
-python deploy_levante.py -prod
+npm run deploy:levante-prod
 
 # Test deployment (dry run)
-python deploy_levante.py -dev --dry-run
+npm run deploy:levante-dev-dry
+npm run deploy:levante-prod-dry
 ```
 
 **Target buckets**: `levante-dashboard-dev` / `levante-dashboard-prod`  
 **Files deployed**: `itembank_translations.csv` only
 
 ### Web Dashboard Deployment
-The web dashboard is deployed through Vercel using npm scripts:
+The web dashboard is deployed through Vercel:
 
 ```bash
-# Navigate to web dashboard directory
-cd web-dashboard
+# Deploy web dashboard to production
+npm run deploy:web
 
-# Deploy to production (recommended)
-npm run deploy
-
-# Alternative deployment method
-npm run deploy-bat
-
-# Local development server
-npm start
+# Start local development server
+npm run start:web
 ```
 
 **Target**: Vercel hosting with automatic aliasing  
@@ -214,4 +216,49 @@ npm start
 - Primary: https://audio-dashboard-levante.vercel.app
 - Secondary: https://levante-audio-dashboard.vercel.app  
 **Files deployed**: HTML, CSS, JavaScript, API functions, web assets
+
+## NPM Scripts Reference
+
+The project provides convenient npm scripts for all common operations:
+
+### Deployment Commands
+```bash
+# Levante Dashboard
+npm run deploy:levante-dev          # Deploy to dev
+npm run deploy:levante-prod         # Deploy to prod  
+npm run deploy:levante-dev-dry      # Test dev deployment
+npm run deploy:levante-prod-dry     # Test prod deployment
+
+# Web Dashboard
+npm run deploy:web                  # Deploy web dashboard
+npm run start:web                   # Local development server
+
+# Crowdin Integration
+npm run deploy:crowdin-dev          # Download from Crowdin to GCS
+npm run deploy:crowdin-dry          # Test Crowdin download
+```
+
+### Audio Generation Commands
+```bash
+npm run generate:english            # Generate English audio
+npm run generate:spanish            # Generate Spanish audio  
+npm run generate:german             # Generate German audio
+```
+
+### Utility Commands
+```bash
+npm run fix:csv                     # Fix CSV formatting issues
+npm run export:voices               # Export comprehensive voice data
+npm run export:female-voices        # Export female voices only
+npm run test:dry-run-all           # Test all deployments
+npm run help                       # Show available commands
+```
+
+### Why Use npm Scripts?
+
+✅ **Consistent Interface**: Same `npm run` pattern for all commands  
+✅ **Cross-Platform**: Works on Windows, Mac, and Linux  
+✅ **Easy to Remember**: Descriptive command names  
+✅ **No Path Issues**: Scripts run from project root  
+✅ **Team Friendly**: Everyone uses the same commands
 
