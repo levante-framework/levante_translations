@@ -121,9 +121,22 @@ jobs:
         echo "⏭️ Skipping dev deployment - no dev credentials configured"
         echo "To enable dev deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV secret"
         
-    # Trigger core-tasks e2e tests after successful main branch push (regardless of deployment)
-    - name: Trigger core-tasks e2e tests
+    # Check if we can trigger core-tasks e2e tests
+    - name: Check e2e test trigger availability
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      id: check-e2e-trigger
+      run: |
+        if [ -n "${{ secrets.REPO_DISPATCH_TOKEN }}" ]; then
+          echo "e2e-trigger-available=true" >> $GITHUB_OUTPUT
+          echo "✅ E2E test triggering is configured"
+        else
+          echo "e2e-trigger-available=false" >> $GITHUB_OUTPUT
+          echo "⚠️ E2E test triggering not configured - REPO_DISPATCH_TOKEN secret missing"
+        fi
+    
+    # Trigger core-tasks e2e tests after successful main branch push
+    - name: Trigger core-tasks e2e tests
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-e2e-trigger.outputs.e2e-trigger-available == 'true'
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.REPO_DISPATCH_TOKEN }}
@@ -156,11 +169,9 @@ jobs:
             echo "   - Action: ✅ Tested (dev deployment skipped - no dev credentials)"
           fi
         elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
-          if [ "${{ steps.check-creds.outputs.dev-credentials-available }}" = "true" ]; then
-            echo "   - Action: ✅ Tested, deployed to dev, and triggered core-tasks e2e tests"
-          else
-            echo "   - Action: ✅ Tested and triggered core-tasks e2e tests (dev deployment skipped - no dev credentials)"
-          fi
+          dev_deployed="${{ steps.check-creds.outputs.dev-credentials-available == 'true' && '✅ deployed to dev' || '⚠️ dev deployment skipped' }}"
+          e2e_triggered="${{ steps.check-e2e-trigger.outputs.e2e-trigger-available == 'true' && '✅ triggered e2e tests' || '⚠️ e2e trigger skipped' }}"
+          echo "   - Action: ✅ Tested, $dev_deployed, $e2e_triggered"
         else
           echo "   - Action: ✅ Testing only"
         fi
@@ -181,10 +192,11 @@ jobs:
         if [ "${{ github.ref }}" = "refs/heads/main" ]; then
           echo ""
           echo "🔗 Core-tasks e2e tests:"
-          if [ -n "${{ secrets.REPO_DISPATCH_TOKEN }}" ]; then
+          if [ "${{ steps.check-e2e-trigger.outputs.e2e-trigger-available }}" = "true" ]; then
             echo "   ✅ Will trigger automatically after main branch merge"
           else
             echo "   ⚠️ Requires REPO_DISPATCH_TOKEN secret to trigger core-tasks e2e tests"
+            echo "   💡 Create a GitHub PAT with 'repo' scope and add as REPO_DISPATCH_TOKEN secret"
           fi
         fi
     - name: Test CSV fix utility
