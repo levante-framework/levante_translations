@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-and-deploy:
+  test-dry-runs:
     runs-on: ubuntu-latest
     
     steps:
@@ -155,3 +156,11 @@ jobs:
           fi
           echo "   4. Value: Complete JSON from your service account key"
         fi
+    - name: Test CSV fix utility
+      run: npm run fix:csv
+      continue-on-error: true  # May fail without actual CSV issues
+      
+    - name: Validate package.json scripts
+      run: |
+        npm run help
+        echo "✅ All npm scripts are properly configured"

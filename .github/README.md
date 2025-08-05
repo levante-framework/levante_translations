@@ -4,8 +4,7 @@ This directory contains GitHub-specific configuration files and templates to imp
 
 ## Contents
 
-### Workflows (`.github/workflows/`)
-- **`test-deployments.yml`**: GitHub Actions workflow that tests and automatically deploys on PRs (dev) and main branch (prod)
+- **`test-deployments.yml`**: GitHub Actions workflow that runs on PRs and pushes to test deployment scripts and validate npm scripts
 
 ### Issue Templates (`.github/ISSUE_TEMPLATE/`)
 - **`bug_report.md`**: Template for reporting bugs with structured fields
@@ -40,3 +39,9 @@ The workflow automatically:
 To enable automatic deployment, add the `GOOGLE_APPLICATION_CREDENTIALS_JSON` secret to your repository. See [DEPLOYMENT.md](DEPLOYMENT.md) for details.
 
 This helps maintain code quality and provides seamless deployment automation while preventing issues before they reach production.
+=======
+- Runs deployment dry-runs
+- Validates npm scripts
+- Ensures code quality on pull requests
+
+This helps maintain code quality and prevents deployment issues before they reach production.
