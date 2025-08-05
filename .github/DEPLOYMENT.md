@@ -31,10 +31,14 @@ If you don't have a service account yet, follow the guide in [`create_dashboard_
 **`GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD`** (for production deployments)
 The complete JSON content of your Google Cloud service account key.
 
-### For E2E Test Triggering: Repository Dispatch Token
+### For E2E Test Triggering: GitHub App (Recommended)
 
-**`REPO_DISPATCH_TOKEN`** (for triggering core-tasks tests)
-A GitHub Personal Access Token with `repo` scope to trigger workflows in other repositories.
+**GitHub App Secrets** (for triggering core-tasks tests)
+- **`GITHUB_APP_ID`**: Your GitHub App's ID number
+- **`GITHUB_APP_PRIVATE_KEY`**: The private key (.pem file contents)
+
+**Alternative: Personal Access Token (Fallback)**
+- **`REPO_DISPATCH_TOKEN`**: A GitHub PAT with `repo` scope
 
 **To add these secrets:**
 1. Go to your repository → **Settings** → **Secrets and variables** → **Actions**
@@ -42,8 +46,10 @@ A GitHub Personal Access Token with `repo` scope to trigger workflows in other r
 3. Add each secret:
    - **Name**: `GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV` / `GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD`
    - **Value**: Paste the entire JSON content of your service account key file
-   - **Name**: `REPO_DISPATCH_TOKEN`
-   - **Value**: Your GitHub Personal Access Token (see below for setup)
+   - **Name**: `GITHUB_APP_ID` / `GITHUB_APP_PRIVATE_KEY`
+   - **Value**: Your GitHub App credentials (see below for setup)
+   - **Name**: `REPO_DISPATCH_TOKEN` (optional fallback)
+   - **Value**: Your GitHub Personal Access Token
 
 Example JSON structure:
 ```json
@@ -61,22 +67,31 @@ Example JSON structure:
 }
 ```
 
-#### Setting up REPO_DISPATCH_TOKEN
+#### Setting up GitHub App (Recommended)
 
-1. **Create a Personal Access Token**:
-   - Go to GitHub → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
-   - Click **"Generate new token (classic)"**
-   - **Note**: "Levante cross-repo workflows"
-   - **Expiration**: Choose appropriate duration (90 days recommended)
-   - **Scopes**: Select **`repo`** (Full control of private repositories)
-   - Click **"Generate token"**
-   - **Copy the token immediately** (you won't see it again)
+1. **Create GitHub App** (Organization admin required):
+   - Go to Organization → **Settings** → **Developer settings** → **GitHub Apps**
+   - **New GitHub App** with these settings:
+     - **Name**: "Levante Workflow Automation"
+     - **Repository permissions**: Actions (Read & write), Contents (Read), Metadata (Read)
+     - **Install on**: `levante_translations` and `core-tasks` repositories
 
-2. **Add to Repository Secret**:
-   - Name: `REPO_DISPATCH_TOKEN`
-   - Value: The PAT you just created
+2. **Generate Private Key**:
+   - In the GitHub App settings → **Generate a private key**
+   - Download the `.pem` file
 
-**Note**: This token allows triggering workflows in the `core-tasks` repository. For team use, consider using a shared organization token or GitHub App instead of a personal token.
+3. **Add to Repository Secrets**:
+   - **`GITHUB_APP_ID`**: The App ID from the GitHub App settings page
+   - **`GITHUB_APP_PRIVATE_KEY`**: Complete contents of the `.pem` file
+
+#### Alternative: Personal Access Token (Fallback)
+
+If you prefer not to use a GitHub App:
+1. **Create PAT**: GitHub → Settings → Developer settings → Personal access tokens
+2. **Scopes**: Select `repo` (Full control of private repositories)  
+3. **Add Secret**: `REPO_DISPATCH_TOKEN` with the PAT value
+
+**Note**: GitHub App is more secure and team-friendly than PATs.
 
 ## Workflow Behavior
 
