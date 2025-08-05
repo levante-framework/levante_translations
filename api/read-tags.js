@@ -29,7 +29,7 @@ async function initializeGCS() {
 async function readAudioMetadata(audioUrl) {
     try {
         // Extract bucket and file path from URL
-        // URL format: https://storage.googleapis.com/levante-audio-dev/es/item-id.mp3
+        // URL format: https://storage.googleapis.com/levante-audio-dev/es/itemid.mp3
         const urlParts = audioUrl.replace('https://storage.googleapis.com/', '').split('/');
         const bucketName = urlParts[0];
         const filePath = urlParts.slice(1).join('/');

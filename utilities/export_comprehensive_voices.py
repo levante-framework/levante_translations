@@ -16,8 +16,8 @@ import requests
 from datetime import datetime
 from typing import List, Dict, Any, Set
 
-# Add the current directory to the path so we can import modules
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add the parent directory to the path so we can import modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ELabs import elevenlabs_utilities
 from elevenlabs.client import ElevenLabs
