@@ -120,6 +120,25 @@ jobs:
       run: |
         echo "⏭️ Skipping production deployment - no prod credentials configured"
         echo "To enable prod deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD secret"
+        
+    # Trigger core-tasks e2e tests after successful main branch push (regardless of deployment)
+    - name: Trigger core-tasks e2e tests
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+        repository: levante-framework/core-tasks
+        event-type: translations-updated
+        client-payload: |
+          {
+            "ref": "${{ github.ref }}",
+            "sha": "${{ github.sha }}",
+            "repository": "${{ github.repository }}",
+            "deployment_environment": "dev",
+            "translations_bucket": "levante-dashboard-dev",
+            "triggered_by": "${{ github.actor }}",
+            "workflow_run_id": "${{ github.run_id }}"
+          }
       
     - name: Summary
       run: |
@@ -138,9 +157,9 @@ jobs:
           fi
         elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
           if [ "${{ steps.check-creds.outputs.prod-credentials-available }}" = "true" ]; then
-            echo "   - Action: ✅ Tested and deployed to production"
+            echo "   - Action: ✅ Tested, deployed to production, and triggered core-tasks e2e tests"
           else
-            echo "   - Action: ✅ Tested (prod deployment skipped - no prod credentials)"
+            echo "   - Action: ✅ Tested and triggered core-tasks e2e tests (prod deployment skipped - no prod credentials)"
           fi
         else
           echo "   - Action: ✅ Testing only"
@@ -157,6 +176,16 @@ jobs:
             echo "   3. Add secret: GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD"
           fi
           echo "   4. Value: Complete JSON from your service account key"
+        fi
+        
+        if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          echo ""
+          echo "🔗 Core-tasks e2e tests:"
+          if [ -n "${{ secrets.REPO_DISPATCH_TOKEN }}" ]; then
+            echo "   ✅ Will trigger automatically after main branch merge"
+          else
+            echo "   ⚠️ Requires REPO_DISPATCH_TOKEN secret to trigger core-tasks e2e tests"
+          fi
         fi
     - name: Test CSV fix utility
       run: npm run fix:csv

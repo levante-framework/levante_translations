@@ -14,24 +14,36 @@ The `Deploy and Test` workflow automatically:
 ### On Main Branch Push
 1. **Tests**: Runs the same validation tests
 2. **Deploys to Production**: Deploys to `levante-dashboard-prod` after successful tests
+3. **Triggers E2E Tests**: Automatically triggers Cypress e2e tests in the `core-tasks` repository
 
 ## Required Secrets
 
-To enable automatic deployment, you need to set up Google Cloud credentials and add them as a GitHub secret.
+To enable automatic deployment and e2e test triggering, you need to set up credentials as GitHub secrets.
 
-### Step 1: Create Google Cloud Service Account
+### For Deployment: Google Cloud Service Account
+
+#### Step 1: Create Google Cloud Service Account
 If you don't have a service account yet, follow the guide in [`create_dashboard_service_account.md`](../create_dashboard_service_account.md) to create one with the proper permissions.
 
-### Step 2: Add GitHub Secret
+#### Step 2: Add Deployment Secrets
 
-**`GOOGLE_APPLICATION_CREDENTIALS_JSON`**
+**`GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV`** (for dev deployments)
+**`GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD`** (for production deployments)
 The complete JSON content of your Google Cloud service account key.
 
-**To add this secret:**
+### For E2E Test Triggering: Repository Dispatch Token
+
+**`REPO_DISPATCH_TOKEN`** (for triggering core-tasks tests)
+A GitHub Personal Access Token with `repo` scope to trigger workflows in other repositories.
+
+**To add these secrets:**
 1. Go to your repository → **Settings** → **Secrets and variables** → **Actions**
 2. Click **"New repository secret"**
-3. **Name**: `GOOGLE_APPLICATION_CREDENTIALS_JSON`
-4. **Value**: Paste the entire JSON content of your service account key file
+3. Add each secret:
+   - **Name**: `GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV` / `GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD`
+   - **Value**: Paste the entire JSON content of your service account key file
+   - **Name**: `REPO_DISPATCH_TOKEN`
+   - **Value**: Your GitHub Personal Access Token (see below for setup)
 
 Example JSON structure:
 ```json
@@ -49,17 +61,36 @@ Example JSON structure:
 }
 ```
 
+#### Setting up REPO_DISPATCH_TOKEN
+
+1. **Create a Personal Access Token**:
+   - Go to GitHub → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
+   - Click **"Generate new token (classic)"**
+   - **Note**: "Levante cross-repo workflows"
+   - **Expiration**: Choose appropriate duration (90 days recommended)
+   - **Scopes**: Select **`repo`** (Full control of private repositories)
+   - Click **"Generate token"**
+   - **Copy the token immediately** (you won't see it again)
+
+2. **Add to Repository Secret**:
+   - Name: `REPO_DISPATCH_TOKEN`
+   - Value: The PAT you just created
+
+**Note**: This token allows triggering workflows in the `core-tasks` repository. For team use, consider using a shared organization token or GitHub App instead of a personal token.
+
 ## Workflow Behavior
 
-### With Secrets Configured
+### With All Secrets Configured
 - ✅ Full deployment automation
 - ✅ PR deploys to dev bucket for testing
 - ✅ Main branch deploys to production
+- ✅ Main branch triggers core-tasks e2e tests
 - ✅ All tests run
 
-### Without Secrets
+### With Partial Configuration
 - ✅ All tests still run (with mock credentials)
-- ⚠️ Deployment steps are skipped (continue-on-error)
+- ⚠️ Missing deployment secrets: deployment steps are skipped
+- ⚠️ Missing REPO_DISPATCH_TOKEN: e2e test triggering is skipped
 - ✅ CI still passes for development
 
 ## Safety Features
@@ -112,6 +143,11 @@ To add more deployment targets or tests:
 **"Permission denied"**
 - Verify the service account has `Storage Object Admin` role
 - Check bucket names match the configured ones in `deploy_levante.py`
+
+**"Repository dispatch failed"**
+- Ensure `REPO_DISPATCH_TOKEN` secret is set correctly
+- Verify the token has `repo` scope
+- Check that the token owner has access to the `core-tasks` repository
 
 ### Debug Steps
 1. Check the workflow logs in GitHub Actions
