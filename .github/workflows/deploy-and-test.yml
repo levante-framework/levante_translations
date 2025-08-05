@@ -17,10 +17,10 @@ jobs:
       - name: Deploy to bucket
         run: |
           # Your existing deployment logic
-          gsutil cp item_bank_translations.csv gs://levante-dashboard-dev/
+          gsutil cp translation_text/item_bank_translations.csv gs://levante-dashboard-dev/
 
           # DON"T AUTO DEPLOY TO PROD
-          # gsutil cp item_bank_translations.csv gs://levante-dashboard-prod/
+          # gsutil cp translation_text/item_bank_translations.csv gs://levante-dashboard-prod/
       
       # Trigger core-tasks tests
       - name: Trigger core-tasks tests
