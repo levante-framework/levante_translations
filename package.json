@@ -22,6 +22,7 @@
     "generate:english": "python3 generate_speech.py English \"Alexandra - Conversational and Real\"",
     "generate:spanish": "python3 generate_speech.py Spanish \"Malena Tango\"",
     "generate:german": "python3 generate_speech.py German \"Julia\"",
+    "detect:languages": "python3 utilities/detect_new_languages.py",
     "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry",
     "help": "echo \"Available commands:\\n  deploy:levante-dev/prod - Deploy Levante dashboard\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
   },
