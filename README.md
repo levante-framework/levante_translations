@@ -280,3 +280,4 @@ This project welcomes contributions! Please see:
 
 Before contributing, run `npm run test:dry-run-all` to ensure your changes work correctly.
 
+# Permissions fixed - testing deployment
