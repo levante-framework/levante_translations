@@ -105,21 +105,21 @@ jobs:
         echo "⏭️ Skipping dev deployment - no dev credentials configured"
         echo "To enable dev deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV secret"
       
-    # Deploy to prod bucket on main branch merge
-    - name: Deploy to production (main branch)
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.prod-credentials-available == 'true'
+    # Deploy to dev bucket on main branch merge (for testing before prod)
+    - name: Deploy to dev (main branch)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.dev-credentials-available == 'true'
       run: |
-        echo "🚀 Deploying to production..."
-        npm run deploy:levante-prod
-        echo "✅ Production deployment completed"
+        echo "🚀 Deploying to dev environment..."
+        npm run deploy:levante-dev
+        echo "✅ Dev deployment completed"
       env:
-        GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD }}
+        GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}
         
-    - name: Skip production deployment (no credentials)
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.prod-credentials-available == 'false'
+    - name: Skip dev deployment (no credentials)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.dev-credentials-available == 'false'
       run: |
-        echo "⏭️ Skipping production deployment - no prod credentials configured"
-        echo "To enable prod deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD secret"
+        echo "⏭️ Skipping dev deployment - no dev credentials configured"
+        echo "To enable dev deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV secret"
         
     # Trigger core-tasks e2e tests after successful main branch push (regardless of deployment)
     - name: Trigger core-tasks e2e tests
@@ -156,10 +156,10 @@ jobs:
             echo "   - Action: ✅ Tested (dev deployment skipped - no dev credentials)"
           fi
         elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
-          if [ "${{ steps.check-creds.outputs.prod-credentials-available }}" = "true" ]; then
-            echo "   - Action: ✅ Tested, deployed to production, and triggered core-tasks e2e tests"
+          if [ "${{ steps.check-creds.outputs.dev-credentials-available }}" = "true" ]; then
+            echo "   - Action: ✅ Tested, deployed to dev, and triggered core-tasks e2e tests"
           else
-            echo "   - Action: ✅ Tested and triggered core-tasks e2e tests (prod deployment skipped - no prod credentials)"
+            echo "   - Action: ✅ Tested and triggered core-tasks e2e tests (dev deployment skipped - no dev credentials)"
           fi
         else
           echo "   - Action: ✅ Testing only"

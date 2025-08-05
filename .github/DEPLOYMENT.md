@@ -13,8 +13,8 @@ The `Deploy and Test` workflow automatically:
 
 ### On Main Branch Push
 1. **Tests**: Runs the same validation tests
-2. **Deploys to Production**: Deploys to `levante-dashboard-prod` after successful tests
-3. **Triggers E2E Tests**: Automatically triggers Cypress e2e tests in the `core-tasks` repository
+2. **Deploys to Dev**: Deploys to `levante-dashboard-dev` for testing (production requires manual deployment)
+3. **Triggers E2E Tests**: Automatically triggers Cypress e2e tests in the `core-tasks` repository against dev environment
 
 ## Required Secrets
 
@@ -83,8 +83,8 @@ Example JSON structure:
 ### With All Secrets Configured
 - ✅ Full deployment automation
 - ✅ PR deploys to dev bucket for testing
-- ✅ Main branch deploys to production
-- ✅ Main branch triggers core-tasks e2e tests
+- ✅ Main branch deploys to dev bucket and triggers e2e tests
+- ✅ Production deployment requires manual trigger
 - ✅ All tests run
 
 ### With Partial Configuration
