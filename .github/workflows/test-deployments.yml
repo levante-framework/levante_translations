@@ -60,10 +60,8 @@ jobs:
     - name: Check deployment credentials
       id: check-creds
       run: |
-        dev_creds="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}"
-        prod_creds="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD }}"
-        
-        if [ -n "$dev_creds" ]; then
+        # Check dev credentials
+        if [ -n "$DEV_CREDS" ]; then
           echo "dev-credentials-available=true" >> $GITHUB_OUTPUT
           echo "✅ Dev deployment credentials are configured"
         else
@@ -71,7 +69,8 @@ jobs:
           echo "⚠️ Dev deployment credentials not configured"
         fi
         
-        if [ -n "$prod_creds" ]; then
+        # Check prod credentials  
+        if [ -n "$PROD_CREDS" ]; then
           echo "prod-credentials-available=true" >> $GITHUB_OUTPUT
           echo "✅ Prod deployment credentials are configured"
         else
@@ -79,12 +78,16 @@ jobs:
           echo "⚠️ Prod deployment credentials not configured"
         fi
         
-        if [ -n "$dev_creds" ] || [ -n "$prod_creds" ]; then
+        # Set overall credentials flag
+        if [ -n "$DEV_CREDS" ] || [ -n "$PROD_CREDS" ]; then
           echo "credentials-available=true" >> $GITHUB_OUTPUT
         else
           echo "credentials-available=false" >> $GITHUB_OUTPUT
           echo "To enable deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV and/or GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD secrets"
         fi
+      env:
+        DEV_CREDS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}
+        PROD_CREDS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD }}
     
     # Deploy to dev bucket on PR for testing
     - name: Deploy to dev bucket (PR)
