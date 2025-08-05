@@ -16,11 +16,14 @@
     "fix:csv": "python3 utilities/fix_csv_newlines.py",
     "export:voices": "python3 utilities/export_comprehensive_voices.py",
     "export:female-voices": "python3 utilities/export_female_voices.py",
+    "setup:service-account-dev": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\"",
+    "setup:service-account-prod": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\" --prod",
+    "setup:service-account-both": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\" --both",
     "generate:english": "python3 generate_speech.py English \"Alexandra - Conversational and Real\"",
     "generate:spanish": "python3 generate_speech.py Spanish \"Malena Tango\"",
     "generate:german": "python3 generate_speech.py German \"Julia\"",
     "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry",
-    "help": "echo \"Available commands:\\n  deploy:levante-dev/prod - Deploy Levante dashboard\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  generate:english/spanish/german - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\""
+    "help": "echo \"Available commands:\\n  deploy:levante-dev/prod - Deploy Levante dashboard\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0"
