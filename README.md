@@ -221,6 +221,14 @@ npm run start:web
 
 The project provides convenient npm scripts for all common operations:
 
+### Setup Commands
+```bash
+# Google Cloud Service Account Creation
+npm run setup:service-account-dev --project_id=YOUR_PROJECT     # Create dev service account
+npm run setup:service-account-prod --project_id=YOUR_PROJECT    # Create prod service account
+npm run setup:service-account-both --project_id=YOUR_PROJECT    # Create both dev and prod
+```
+
 ### Deployment Commands
 ```bash
 # Levante Dashboard

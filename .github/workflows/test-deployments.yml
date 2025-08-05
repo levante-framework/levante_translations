@@ -1,4 +1,4 @@
-name: Test Deployments
+name: Deploy and Test
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
+  test-and-deploy:
   test-dry-runs:
     runs-on: ubuntu-latest
     
@@ -31,12 +32,130 @@ jobs:
     - name: Install Node dependencies
       run: npm install
       
+    - name: Validate CSV files exist
+      run: |
+        if [ -f "translation_text/item_bank_translations.csv" ]; then
+          echo "✅ Translation file found"
+          wc -l translation_text/item_bank_translations.csv
+        else
+          echo "❌ Translation file missing"
+          exit 1
+        fi
+      
     - name: Test Levante deployment (dry run)
       run: npm run deploy:levante-dev-dry
       env:
         # Mock credentials for testing
         GOOGLE_APPLICATION_CREDENTIALS_JSON: '{"type":"service_account","project_id":"test"}'
       
+    - name: Test CSV utilities
+      run: npm run fix:csv
+      continue-on-error: true  # May fail without actual CSV issues
+      
+    - name: Validate npm scripts
+      run: |
+        npm run help
+        echo "✅ All npm scripts are properly configured"
+    
+    # Check if credentials are available
+    - name: Check deployment credentials
+      id: check-creds
+      run: |
+        dev_creds="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}"
+        prod_creds="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD }}"
+        
+        if [ -n "$dev_creds" ]; then
+          echo "dev-credentials-available=true" >> $GITHUB_OUTPUT
+          echo "✅ Dev deployment credentials are configured"
+        else
+          echo "dev-credentials-available=false" >> $GITHUB_OUTPUT
+          echo "⚠️ Dev deployment credentials not configured"
+        fi
+        
+        if [ -n "$prod_creds" ]; then
+          echo "prod-credentials-available=true" >> $GITHUB_OUTPUT
+          echo "✅ Prod deployment credentials are configured"
+        else
+          echo "prod-credentials-available=false" >> $GITHUB_OUTPUT
+          echo "⚠️ Prod deployment credentials not configured"
+        fi
+        
+        if [ -n "$dev_creds" ] || [ -n "$prod_creds" ]; then
+          echo "credentials-available=true" >> $GITHUB_OUTPUT
+        else
+          echo "credentials-available=false" >> $GITHUB_OUTPUT
+          echo "To enable deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV and/or GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD secrets"
+        fi
+    
+    # Deploy to dev bucket on PR for testing
+    - name: Deploy to dev bucket (PR)
+      if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && steps.check-creds.outputs.dev-credentials-available == 'true'
+      run: |
+        echo "🚀 Deploying to dev environment..."
+        npm run deploy:levante-dev
+        echo "✅ Dev deployment completed"
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}
+      
+    - name: Skip dev deployment (no credentials)
+      if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && steps.check-creds.outputs.dev-credentials-available == 'false'
+      run: |
+        echo "⏭️ Skipping dev deployment - no dev credentials configured"
+        echo "To enable dev deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV secret"
+      
+    # Deploy to prod bucket on main branch merge
+    - name: Deploy to production (main branch)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.prod-credentials-available == 'true'
+      run: |
+        echo "🚀 Deploying to production..."
+        npm run deploy:levante-prod
+        echo "✅ Production deployment completed"
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD }}
+        
+    - name: Skip production deployment (no credentials)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-creds.outputs.prod-credentials-available == 'false'
+      run: |
+        echo "⏭️ Skipping production deployment - no prod credentials configured"
+        echo "To enable prod deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD secret"
+      
+    - name: Summary
+      run: |
+        echo "🎉 Workflow completed successfully!"
+        echo "📊 Summary:"
+        echo "   - Event: ${{ github.event_name }}"
+        echo "   - Branch: ${{ github.ref }}"
+        echo "   - Dev Credentials: ${{ steps.check-creds.outputs.dev-credentials-available == 'true' && '✅ Configured' || '⚠️ Missing' }}"
+        echo "   - Prod Credentials: ${{ steps.check-creds.outputs.prod-credentials-available == 'true' && '✅ Configured' || '⚠️ Missing' }}"
+        
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          if [ "${{ steps.check-creds.outputs.dev-credentials-available }}" = "true" ]; then
+            echo "   - Action: ✅ Tested and deployed to dev"
+          else
+            echo "   - Action: ✅ Tested (dev deployment skipped - no dev credentials)"
+          fi
+        elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          if [ "${{ steps.check-creds.outputs.prod-credentials-available }}" = "true" ]; then
+            echo "   - Action: ✅ Tested and deployed to production"
+          else
+            echo "   - Action: ✅ Tested (prod deployment skipped - no prod credentials)"
+          fi
+        else
+          echo "   - Action: ✅ Testing only"
+        fi
+        
+        if [ "${{ steps.check-creds.outputs.dev-credentials-available }}" = "false" ] || [ "${{ steps.check-creds.outputs.prod-credentials-available }}" = "false" ]; then
+          echo ""
+          echo "💡 To enable automatic deployment:"
+          echo "   1. Go to repository Settings → Secrets and variables → Actions"
+          if [ "${{ steps.check-creds.outputs.dev-credentials-available }}" = "false" ]; then
+            echo "   2. Add secret: GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV"
+          fi
+          if [ "${{ steps.check-creds.outputs.prod-credentials-available }}" = "false" ]; then
+            echo "   3. Add secret: GOOGLE_APPLICATION_CREDENTIALS_JSON_PROD"
+          fi
+          echo "   4. Value: Complete JSON from your service account key"
+        fi
     - name: Test CSV fix utility
       run: npm run fix:csv
       continue-on-error: true  # May fail without actual CSV issues
