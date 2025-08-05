@@ -1,0 +1,30 @@
+# .github/workflows/deploy-and-test.yml
+name: Deploy translations and test core-tasks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy-translations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Deploy translations to bucket
+      - name: Deploy to bucket
+        run: |
+          # Your existing deployment logic
+          gsutil cp itembank_translations.csv gs://levante-dashboard-dev/
+          gsutil cp itembank_translations.csv gs://levante-dashboard-prod/
+      
+      # Trigger core-tasks tests
+      - name: Trigger core-tasks tests
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: levante-framework/core-tasks
+          event-type: translations-updated
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

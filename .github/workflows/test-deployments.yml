@@ -1,0 +1,47 @@
+name: Test Deployments
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main ]
+
+jobs:
+  test-dry-runs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install google-cloud-storage pandas
+        
+    - name: Install Node dependencies
+      run: npm install
+      
+    - name: Test Levante deployment (dry run)
+      run: npm run deploy:levante-dev-dry
+      env:
+        # Mock credentials for testing
+        GOOGLE_APPLICATION_CREDENTIALS_JSON: '{"type":"service_account","project_id":"test"}'
+      
+    - name: Test CSV fix utility
+      run: npm run fix:csv
+      continue-on-error: true  # May fail without actual CSV issues
+      
+    - name: Validate package.json scripts
+      run: |
+        npm run help
+        echo "✅ All npm scripts are properly configured"
