@@ -41,6 +41,12 @@ TASK_BUCKET_NAMES_PROD = {
 AUDIO_BUCKET_NAME_DEV = 'levante-audio-dev'
 AUDIO_BUCKET_NAME_PROD = 'levante-audio-prod'
 
+# Dashboard and translations bucket names
+DASHBOARD_BUCKET_NAME_DEV = 'levante-dashboard-dev'
+DASHBOARD_BUCKET_NAME_PROD = 'levante-dashboard-prod'
+TRANSLATIONS_BUCKET_NAME_DEV = 'levante-translations-dev'
+TRANSLATIONS_BUCKET_NAME_PROD = 'levante-translations-prod'
+
 def get_bucket_name(task_name: str, environment: str = 'dev') -> str:
     """
     Get the bucket name for a specific task and environment.
@@ -99,6 +105,54 @@ def is_valid_task(task_name: str) -> bool:
         True if task exists, False otherwise
     """
     return task_name.lower() in TASK_BUCKET_NAMES_DEV
+
+
+def get_dashboard_bucket_name(environment: str = 'dev') -> str:
+    """
+    Get the dashboard bucket name for the specified environment.
+    
+    Args:
+        environment: Environment ('dev' or 'prod'), defaults to 'dev'
+        
+    Returns:
+        Dashboard bucket name
+    """
+    if environment.lower() == 'prod':
+        return DASHBOARD_BUCKET_NAME_PROD
+    else:
+        return DASHBOARD_BUCKET_NAME_DEV
+
+
+def get_translations_bucket_name(environment: str = 'dev') -> str:
+    """
+    Get the translations bucket name for the specified environment.
+    
+    Args:
+        environment: Environment ('dev' or 'prod'), defaults to 'dev'
+        
+    Returns:
+        Translations bucket name
+    """
+    if environment.lower() == 'prod':
+        return TRANSLATIONS_BUCKET_NAME_PROD
+    else:
+        return TRANSLATIONS_BUCKET_NAME_DEV
+
+
+def get_audio_bucket_name(environment: str = 'dev') -> str:
+    """
+    Get the audio bucket name for the specified environment.
+    
+    Args:
+        environment: Environment ('dev' or 'prod'), defaults to 'dev'
+        
+    Returns:
+        Audio bucket name
+    """
+    if environment.lower() == 'prod':
+        return AUDIO_BUCKET_NAME_PROD
+    else:
+        return AUDIO_BUCKET_NAME_DEV
 
 
 if __name__ == "__main__":
