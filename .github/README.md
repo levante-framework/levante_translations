@@ -5,7 +5,7 @@ This directory contains GitHub-specific configuration files and templates to imp
 ## Contents
 
 ### Workflows (`.github/workflows/`)
-- **`test-deployments.yml`**: GitHub Actions workflow that runs on PRs and pushes to test deployment scripts and validate npm scripts
+- **`test-deployments.yml`**: GitHub Actions workflow that tests and automatically deploys on PRs (dev) and main branch (prod)
 
 ### Issue Templates (`.github/ISSUE_TEMPLATE/`)
 - **`bug_report.md`**: Template for reporting bugs with structured fields
@@ -16,6 +16,7 @@ This directory contains GitHub-specific configuration files and templates to imp
 
 ### Documentation
 - **`CONTRIBUTING.md`**: Comprehensive guide for contributors including setup, workflow, and guidelines
+- **`DEPLOYMENT.md`**: Guide for setting up automated deployment with GitHub Actions
 
 ## Benefits
 
@@ -29,8 +30,13 @@ This directory contains GitHub-specific configuration files and templates to imp
 
 The workflow automatically:
 - Tests Python and Node.js dependencies
-- Runs deployment dry-runs
-- Validates npm scripts
-- Ensures code quality on pull requests
+- Validates that required CSV files exist
+- Runs deployment dry-runs and npm script validation
+- **Deploys to dev bucket** on pull requests (for testing)
+- **Deploys to production bucket** on main branch pushes
+- Provides detailed summaries of actions taken
 
-This helps maintain code quality and prevents deployment issues before they reach production.
+### Setup Required
+To enable automatic deployment, add the `GOOGLE_APPLICATION_CREDENTIALS_JSON` secret to your repository. See [DEPLOYMENT.md](DEPLOYMENT.md) for details.
+
+This helps maintain code quality and provides seamless deployment automation while preventing issues before they reach production.
