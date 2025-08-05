@@ -49,6 +49,14 @@ class LevanteDeployer:
         # Initialize GCS client
         self.google_credentials = google_credentials or os.getenv(GOOGLE_CREDENTIALS_ENV)
         
+        # Debug output
+        if self.google_credentials:
+            print(f"✅ Found credentials (length: {len(self.google_credentials)} chars)")
+            print(f"   Starts with: {self.google_credentials[:20]}...")
+        else:
+            print(f"❌ No credentials found in environment variable: {GOOGLE_CREDENTIALS_ENV}")
+            print(f"   Available env vars: {[k for k in os.environ.keys() if 'GOOGLE' in k or 'CRED' in k]}")
+        
         if not GCS_AVAILABLE:
             raise ImportError("google-cloud-storage is required. Install with: pip install google-cloud-storage")
         
