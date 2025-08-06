@@ -18,6 +18,19 @@ def generate_audio(language, force_regenerate=False):
         print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
     print("="*60)
     
+    # Fetch the latest translations from l10n_pending branch
+    print("📥 Fetching latest translations from l10n_pending branch...")
+    try:
+        from utilities.fetch_latest_translations import fetch_translations
+        if not fetch_translations(force=True):
+            print("❌ Failed to fetch latest translations - continuing with local copy")
+        else:
+            print("✅ Successfully updated to latest translations")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not fetch latest translations: {e}")
+        print("   Continuing with local copy...")
+    print("="*60)
+    
 # Retrieve translations.csv from the repo
 # NOTE: If special characters get munged, will need to
 #       arrange for an export/download directly from Crowdin

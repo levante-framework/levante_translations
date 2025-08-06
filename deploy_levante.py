@@ -154,6 +154,19 @@ class LevanteDeployer:
         """
         print(f"📊 Deploying itembank_translations.csv to {self.environment} environment...")
         
+        # Fetch the latest translations from l10n_pending branch
+        print("📥 Fetching latest translations from l10n_pending branch...")
+        try:
+            sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+            from utilities.fetch_latest_translations import fetch_translations
+            if not fetch_translations(force=True):
+                print("❌ Failed to fetch latest translations - using local copy")
+            else:
+                print("✅ Successfully updated to latest translations")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not fetch latest translations: {e}")
+            print("   Using local copy...")
+        
         # Find the file
         file_path = self.find_itembank_translations()
         if not file_path:
