@@ -21,10 +21,12 @@
     "setup:service-account-dev": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\"",
     "setup:service-account-prod": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\" --prod",
     "setup:service-account-both": "python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\" --both",
-    "generate:english": "python3 generate_speech.py English \"Alexandra - Conversational and Real\"",
-    "generate:spanish": "python3 generate_speech.py Spanish \"Malena Tango\"",
-    "generate:german": "python3 generate_speech.py German \"Julia\"",
-    "generate:german-switzerland": "python3 generate_speech.py \"German (Switzerland)\" \"Julia\"",
+    "generate:english": "python3 generate_speech.py English",
+    "generate:spanish": "python3 generate_speech.py Spanish",
+    "generate:german": "python3 generate_speech.py German",
+    "generate:german-switzerland": "python3 generate_speech.py \"German (Switzerland)\"",
+    "fetch:translations": "python3 utilities/fetch_latest_translations.py --force",
+    "fetch:translations-check": "python3 utilities/fetch_latest_translations.py --check-only",
     "detect:languages": "python3 utilities/detect_new_languages.py",
     "auto:add-languages": "python3 utilities/auto_add_languages.py",
     "deploy:translations-dev": "python3 deploy_translations.py dev",
@@ -41,7 +43,7 @@
     "validate:core-tasks-single": "python3 validate_core_tasks_single.py",
     "validate:core-tasks-list": "python3 validate_core_tasks_single.py --list",
     "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry && npm run deploy:translations-dev-dry",
-    "help": "echo \"Available commands:\\n  deploy:translations-dev/prod - Deploy CSV + audio files\\n  deploy:levante-dev/prod - Deploy Levante dashboard (CSV only)\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german/german-switzerland - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nTranslation Deployment Options:\\n  npm run deploy:translations-dev - Deploy both CSV and audio to dev\\n  npm run deploy:translations-dev-validate - Deploy + validate core-tasks\\n  npm run deploy:translations-csv-only-dev - Deploy only CSV\\n  npm run deploy:translations-audio-only-dev - Deploy only audio\\n\\nValidation Commands:\\n  npm run validate:core-tasks - Run core-tasks Cypress tests\\n  npm run validate:core-tasks-interactive - Run tests interactively\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
+    "help": "echo \"Available commands:\\n  deploy:translations-dev/prod - Deploy CSV + audio files\\n  deploy:levante-dev/prod - Deploy Levante dashboard (CSV only)\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german/german-switzerland - Generate audio\\n  fetch:translations - Fetch latest translations from l10n_pending (auto maps identifier→item_id)\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nTranslation Deployment Options:\\n  npm run deploy:translations-dev - Deploy both CSV and audio to dev\\n  npm run deploy:translations-dev-validate - Deploy + validate core-tasks\\n  npm run deploy:translations-csv-only-dev - Deploy only CSV\\n  npm run deploy:translations-audio-only-dev - Deploy only audio\\n\\nValidation Commands:\\n  npm run validate:core-tasks - Run core-tasks Cypress tests\\n  npm run validate:core-tasks-interactive - Run tests interactively\\n\\nTranslation Management:\\n  npm run fetch:translations - Get latest translations from l10n_pending\\n  npm run detect:languages - Detect new language columns\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0"
