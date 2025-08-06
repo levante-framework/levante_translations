@@ -36,7 +36,10 @@ cd levante_translations
 git checkout main
 
 [Install all the needed packages:]
-pip (or pip3) install . --user
+pip (or pip3) install -r requirements.txt --user
+
+# If you get externally-managed-environment error:
+pip3 install -r requirements.txt --break-system-packages
 
 [Add PlayHt credentials to your enviornment]
 [For Levante team, credentials are in Slack]
@@ -62,6 +65,22 @@ python (or py) dashboard.py
     commands/generate_spanish.[sh|bat]
     commands/generate_german.[sh|bat]
     etc.
+
+#### Force Regeneration
+
+To regenerate all audio files even if they already exist (useful when switching voices or improving audio quality):
+
+```bash
+# Using Python directly
+python generate_speech.py English --force
+python generate_speech.py Spanish -f
+
+# Using npm scripts with force flag  
+npm run generate:english -- --force
+npm run generate:spanish -- -f
+```
+
+The `--force` (or `-f`) flag will regenerate all audio files using the current voice configuration, regardless of whether files already exist.
 
 ### Command Scripts
 
@@ -108,6 +127,19 @@ file has to be re-run. After a couple/few runs, everything gets translated.
 
 There is a helper command file commands/count_audio.[bat|sh] that counts the number of
 audio files generated for each language, as a sanity check.
+
+## Recent Updates
+
+### ElevenLabs API Compatibility (January 2025)
+- **Fixed ElevenLabs SDK compatibility**: Updated to work with ElevenLabs Python SDK v2.9.1
+- **Updated API calls**: Migrated from deprecated `generate()` function to `text_to_speech.convert()` method
+- **Improved error handling**: Better handling of different audio response formats
+- **Backwards compatible**: No changes needed to voice configurations
+
+### Force Regeneration Feature
+- **Added `--force` flag**: `generate_speech.py` now supports `--force` or `-f` to regenerate existing audio files
+- **Use cases**: Voice updates, quality improvements, troubleshooting
+- **CLI improvement**: Better argument parsing with `argparse` for cleaner usage
 
 ## Resetting audio transcriptions
 
@@ -268,6 +300,10 @@ npm run deploy:crowdin-dry          # Test Crowdin download
 npm run generate:english            # Generate English audio
 npm run generate:spanish            # Generate Spanish audio  
 npm run generate:german             # Generate German audio
+
+# Force regeneration (rebuild all audio files)
+npm run generate:english -- --force # Force regenerate English audio
+npm run generate:spanish -- -f      # Force regenerate Spanish audio (short flag)
 ```
 
 ### Utility Commands
@@ -296,5 +332,45 @@ This project welcomes contributions! Please see:
 - **[GitHub Workflows](.github/workflows/)**: Automated testing and quality checks
 
 Before contributing, run `npm run test:dry-run-all` to ensure your changes work correctly.
+
+## Troubleshooting
+
+### Common Issues
+
+#### ElevenLabs API Errors
+```bash
+# Error: 'ElevenLabs' object has no attribute 'generate'
+# Solution: Update to latest code (fixed in January 2025)
+git pull origin main
+```
+
+#### Missing Dependencies
+```bash
+# Error: ModuleNotFoundError: No module named 'pandas'
+sudo apt install python3-pandas
+
+# Error: ModuleNotFoundError: No module named 'playsound'  
+sudo apt install python3-playsound
+# OR
+pip3 install playsound --break-system-packages
+```
+
+#### Force Regeneration Not Working
+```bash
+# Make sure to use -- before the flag with npm
+npm run generate:english -- --force
+
+# Or use Python directly
+python generate_speech.py English --force
+```
+
+#### Environment Management Issues
+```bash
+# If pip install fails with externally-managed-environment
+pip3 install -r requirements.txt --break-system-packages
+
+# For system packages
+sudo apt install python3-pandas python3-playsound
+```
 
 # Permissions fixed - testing deployment
