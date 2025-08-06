@@ -56,30 +56,40 @@ python deploy.py -dev --dry-run
 
 ### Advanced Interface
 
-Use the full `utilities/deploy_dashboard.py` script:
+> ⚠️ **Important**: The `utilities/deploy_dashboard.py` script is for **WEB DASHBOARD files only**!
+> For Levante dashboard CSV files, use `deploy_levante.py` instead.
+
+Use the full `utilities/deploy_dashboard.py` script for web dashboard deployment:
 
 ```bash
-# Deploy everything to dev
+# Deploy web dashboard files to dev
 python utilities/deploy_dashboard.py --env dev
 
-# Deploy everything to prod
+# Deploy web dashboard files to prod  
 python utilities/deploy_dashboard.py --env prod
 
-# Deploy only dashboard files
+# Deploy only web dashboard files
 python utilities/deploy_dashboard.py --env dev --dashboard-only
 
-# Deploy only translation files
+# Deploy only translation archive files
 python utilities/deploy_dashboard.py --env dev --translations-only
 
 # Test deployment without uploading
 python utilities/deploy_dashboard.py --env dev --dry-run
 ```
 
+For Levante dashboard CSV deployment:
+```bash
+# Deploy itembank_translations.csv to levante-dashboard buckets
+python deploy_levante.py -dev
+python deploy_levante.py -prod
+```
+
 ## 📁 Files Deployed
 
-### Dashboard Files
+### Web Dashboard Files (utilities/deploy_dashboard.py)
 
-The deployment includes:
+> **Target**: Web hosting buckets (NOT levante-dashboard buckets)
 
 - **`index.html`**: Main dashboard interface
 - **`config.js`**: Configuration file
@@ -90,13 +100,19 @@ The deployment includes:
   - `playht-proxy.js`
   - `translate-proxy.js`
   - `validation-storage.js`
-- **`translation_text/`**: CSV files for the dashboard
 
-### Translation Files
+### Translation Archive Files (utilities/deploy_dashboard.py)
+
+> **Target**: `levante-translations-dev/prod` buckets
 
 - **`translation_master.csv`**: Main translation dataset
-- **`translation_text/item_bank_translations.csv`**: Item bank translations
 - **`translation_text/complete_translations.csv`**: Complete translation dataset
+
+### Levante Dashboard CSV (deploy_levante.py)
+
+> **Target**: `levante-dashboard-dev/prod` buckets (**CSV ONLY**)
+
+- **`translation_text/item_bank_translations.csv`**: Item bank translations **ONLY**
 
 ## 🔄 Deployment Process
 
@@ -141,19 +157,19 @@ Cache headers are optimized by file type:
 ==================================================
 ✅ Initialized DashboardDeployer
    Environment: dev
-   Dashboard Bucket: levante-dashboard-dev
+   Web Dashboard Bucket: levante-web-dashboard-dev
    Translations Bucket: levante-translations-dev
    GCS Client: ✅ Ready
 
-🌐 Deploying dashboard to dev environment...
+🌐 Deploying WEB dashboard to dev environment...
 🔍 Validating files...
 ✅ All 8 files validated (total size: 1,234,567 bytes)
-📤 Uploading 8 dashboard files to levante-dashboard-dev...
+📤 Uploading 8 web dashboard files to levante-web-dashboard-dev...
    ✅ index.html (45,678 bytes) → index.html
    ✅ config.js (1,234 bytes) → config.js
    ✅ package.json (567 bytes) → package.json
    ... uploading remaining files...
-✅ dashboard files: uploaded 8/8 files to levante-dashboard-dev
+✅ web dashboard files: uploaded 8/8 files to levante-web-dashboard-dev
 
 📊 Deploying translations to dev environment...
 🔍 Validating files...
@@ -169,7 +185,7 @@ Cache headers are optimized by file type:
    Translations: ✅ Success
 
 🌐 Dashboard URLs:
-   Dashboard: https://storage.googleapis.com/levante-dashboard-dev/index.html
+   Web Dashboard: https://storage.googleapis.com/levante-web-dashboard-dev/index.html
    Translations: https://storage.googleapis.com/levante-translations-dev/translation_master.csv
 ```
 
@@ -188,7 +204,7 @@ For web hosting, buckets may need public read access:
 
 ```bash
 # Make bucket publicly readable (if needed for web hosting)
-gsutil iam ch allUsers:objectViewer gs://levante-dashboard-dev
+gsutil iam ch allUsers:objectViewer gs://levante-web-dashboard-dev
 ```
 
 ## 🛠️ Troubleshooting
@@ -215,12 +231,12 @@ gsutil iam ch allUsers:objectViewer gs://levante-dashboard-dev
 
 ```bash
 # Test GCS access
-gsutil ls gs://levante-dashboard-dev
+gsutil ls gs://levante-web-dashboard-dev
 
 # Test file uploads
 echo "test" > test.txt
-gsutil cp test.txt gs://levante-dashboard-dev/
-gsutil rm gs://levante-dashboard-dev/test.txt
+gsutil cp test.txt gs://levante-web-dashboard-dev/
+gsutil rm gs://levante-web-dashboard-dev/test.txt
 rm test.txt
 
 # Dry run deployment

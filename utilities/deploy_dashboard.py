@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-Deploy Dashboard and Translations to Google Cloud Storage
+Deploy Web Dashboard Files to Google Cloud Storage
 
-This script deploys the Levante dashboard files and translation CSV to the appropriate
-GCS buckets based on the specified environment (dev/prod).
+⚠️  IMPORTANT: This script is for WEB DASHBOARD files only!
+    For Levante dashboard (CSV files), use deploy_levante.py instead.
+
+This script deploys web dashboard files (HTML, CSS, JS) to GCS buckets.
+It should NOT be used for levante-dashboard buckets - those only contain CSV files.
 
 Features:
-- Uploads dashboard HTML, CSS, JS files to dashboard bucket
-- Uploads translation CSV to translations bucket  
+- Uploads web dashboard HTML, CSS, JS files to web hosting buckets
+- Uploads translation CSV to translation-specific buckets  
 - Supports dev and prod environments
 - Validates files before upload
 - Sets appropriate content types and cache headers
@@ -16,6 +19,8 @@ Features:
 Usage:
     python utilities/deploy_dashboard.py --env dev
     python utilities/deploy_dashboard.py --env prod --dry-run
+
+Note: For Levante CSV deployment, use: python deploy_levante.py -dev
 """
 
 import os
@@ -42,17 +47,18 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 buckets_path = os.path.join(current_dir, 'buckets.py')
 
 # Import bucket configuration constants directly
-DASHBOARD_BUCKET_NAME_DEV = 'levante-dashboard-dev'
-DASHBOARD_BUCKET_NAME_PROD = 'levante-dashboard-prod'
+# ⚠️  These are for WEB DASHBOARD files only, NOT levante-dashboard buckets!
+WEB_DASHBOARD_BUCKET_NAME_DEV = 'levante-web-dashboard-dev'
+WEB_DASHBOARD_BUCKET_NAME_PROD = 'levante-web-dashboard-prod'
 TRANSLATIONS_BUCKET_NAME_DEV = 'levante-translations-dev'
 TRANSLATIONS_BUCKET_NAME_PROD = 'levante-translations-prod'
 
 def get_dashboard_bucket_name(environment: str = 'dev') -> str:
-    """Get the dashboard bucket name for the specified environment."""
+    """Get the WEB dashboard bucket name for the specified environment."""
     if environment.lower() == 'prod':
-        return DASHBOARD_BUCKET_NAME_PROD
+        return WEB_DASHBOARD_BUCKET_NAME_PROD
     else:
-        return DASHBOARD_BUCKET_NAME_DEV
+        return WEB_DASHBOARD_BUCKET_NAME_DEV
 
 def get_translations_bucket_name(environment: str = 'dev') -> str:
     """Get the translations bucket name for the specified environment."""
@@ -121,10 +127,13 @@ class DashboardDeployer:
     
     def get_dashboard_files(self) -> List[Tuple[str, str]]:
         """
-        Get list of dashboard files to deploy.
+        Get list of WEB dashboard files to deploy.
+        
+        ⚠️  IMPORTANT: This deploys to WEB DASHBOARD buckets, NOT levante-dashboard buckets!
+        For levante-dashboard CSV files, use deploy_levante.py instead.
         
         Returns:
-            List of (local_path, gcs_path) tuples
+            List of (local_path, gcs_path) tuples for web dashboard files
         """
         files_to_deploy = []
         base_dir = Path(".")
@@ -362,7 +371,9 @@ class DashboardDeployer:
     
     def deploy_dashboard(self, dry_run: bool = False) -> bool:
         """
-        Deploy dashboard files to GCS.
+        Deploy WEB dashboard files to GCS.
+        
+        ⚠️  This deploys to WEB buckets, NOT levante-dashboard buckets!
         
         Args:
             dry_run: If True, show what would be deployed without uploading
@@ -370,7 +381,7 @@ class DashboardDeployer:
         Returns:
             True if deployment successful
         """
-        print(f"🌐 Deploying dashboard to {self.environment} environment...")
+        print(f"🌐 Deploying WEB dashboard to {self.environment} environment...")
         
         # Get files to deploy
         dashboard_files = self.get_dashboard_files()

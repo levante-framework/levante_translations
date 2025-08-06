@@ -8,6 +8,8 @@
     "deploy:levante-prod": "python3 deploy_levante.py -prod",
     "deploy:levante-dev-dry": "python3 deploy_levante.py -dev --dry-run",
     "deploy:levante-prod-dry": "python3 deploy_levante.py -prod --dry-run",
+    "deploy:levante-dev-validate": "python3 deploy_levante.py -dev --validate",
+    "deploy:levante-prod-validate": "python3 deploy_levante.py -prod --validate",
     "deploy:web": "cd web-dashboard && npm run deploy",
     "deploy:web-dev": "cd web-dashboard && npm run deploy-dev",
     "deploy:crowdin-dev": "python3 utilities/crowdin_to_gcs.py --bundle-id 18",
@@ -25,8 +27,18 @@
     "generate:german-switzerland": "python3 generate_speech.py \"German (Switzerland)\" \"Julia\"",
     "detect:languages": "python3 utilities/detect_new_languages.py",
     "auto:add-languages": "python3 utilities/auto_add_languages.py",
-    "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry",
-    "help": "echo \"Available commands:\\n  deploy:levante-dev/prod - Deploy Levante dashboard\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german/german-switzerland - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
+    "deploy:translations-dev": "python3 deploy_translations.py dev",
+    "deploy:translations-prod": "python3 deploy_translations.py prod",
+    "deploy:translations-dev-dry": "python3 deploy_translations.py dev --dry-run",
+    "deploy:translations-prod-dry": "python3 deploy_translations.py prod --dry-run",
+    "deploy:translations-csv-only-dev": "python3 deploy_translations.py dev --csv-only",
+    "deploy:translations-audio-only-dev": "python3 deploy_translations.py dev --audio-only",
+    "deploy:translations-dev-validate": "python3 deploy_translations.py dev --validate-core-tasks",
+    "deploy:translations-prod-validate": "python3 deploy_translations.py prod --validate-core-tasks",
+    "validate:core-tasks": "python3 validate_core_tasks.py",
+    "validate:core-tasks-interactive": "python3 validate_core_tasks.py --interactive",
+    "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry && npm run deploy:translations-dev-dry",
+    "help": "echo \"Available commands:\\n  deploy:translations-dev/prod - Deploy CSV + audio files\\n  deploy:levante-dev/prod - Deploy Levante dashboard (CSV only)\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german/german-switzerland - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nTranslation Deployment Options:\\n  npm run deploy:translations-dev - Deploy both CSV and audio to dev\\n  npm run deploy:translations-dev-validate - Deploy + validate core-tasks\\n  npm run deploy:translations-csv-only-dev - Deploy only CSV\\n  npm run deploy:translations-audio-only-dev - Deploy only audio\\n\\nValidation Commands:\\n  npm run validate:core-tasks - Run core-tasks Cypress tests\\n  npm run validate:core-tasks-interactive - Run tests interactively\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0"
