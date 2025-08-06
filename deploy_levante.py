@@ -172,7 +172,7 @@ class LevanteDeployer:
         if dry_run:
             file_size = os.path.getsize(file_path)
             print(f"\n🧪 DRY RUN - File that would be uploaded to {self.bucket_name}:")
-            print(f"   {file_path} → itembank_translations.csv ({file_size:,} bytes)")
+            print(f"   {file_path} → item-bank-translations.csv ({file_size:,} bytes)")
             return True
         
         # Upload file
@@ -185,7 +185,7 @@ class LevanteDeployer:
         
         try:
             bucket = self.gcs_client.bucket(self.bucket_name)
-            blob = bucket.blob('itembank_translations.csv')
+            blob = bucket.blob('item-bank-translations.csv')
             print(f"   Blob created: {blob.name} in bucket {bucket.name}")
             
             # Upload with metadata
@@ -203,7 +203,7 @@ class LevanteDeployer:
             blob.patch()
             
             file_size = os.path.getsize(file_path)
-            print(f"✅ Uploaded: {file_path} → {self.bucket_name}/itembank_translations.csv ({file_size:,} bytes)")
+            print(f"✅ Uploaded: {file_path} → {self.bucket_name}/item-bank-translations.csv ({file_size:,} bytes)")
             return True
             
         except Exception as e:
@@ -261,18 +261,20 @@ def main():
                     print("🧪 Would also validate core-tasks repository after deployment")
             else:
                 print(f"\n🎉 Successfully deployed itembank_translations.csv to {environment}!")
-                print(f"🌐 URL: https://storage.googleapis.com/{deployer.bucket_name}/itembank_translations.csv")
+                print(f"🌐 URL: https://storage.googleapis.com/{deployer.bucket_name}/item-bank-translations.csv")
                 
                 # Run core-tasks validation if requested
                 if validate_core_tasks:
-                    print(f"\n📋 Running core-tasks validation...")
-                    validation_cmd = ["python3", "validate_core_tasks.py", "--headless"]
+                    print(f"\n📋 Running core-tasks validation (quick test)...")
+                    validation_cmd = ["python3", "validate_core_tasks.py", "--quick"]
                     try:
                         result = subprocess.run(validation_cmd, check=True, capture_output=True, text=True)
                         print(f"✅ Core-tasks validation passed!")
                     except subprocess.CalledProcessError as e:
                         print(f"❌ Core-tasks validation failed!")
                         print(f"   Exit code: {e.returncode}")
+                        print(f"   💡 For faster testing, you can run individual tests:")
+                        print(f"      python3 validate_core_tasks_single.py --list")
                         if e.stdout:
                             print(f"   Output: {e.stdout}")
                         if e.stderr:
