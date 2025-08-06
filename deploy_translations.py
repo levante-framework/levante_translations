@@ -323,6 +323,20 @@ Examples:
     print(f"🎵 Deploy Audio: {'Yes' if deploy_audio_flag else 'No'}")
     print(f"🧪 Dry Run: {'Yes' if args.dry_run else 'No'}")
     
+    # Fetch the latest translations from l10n_pending branch
+    if deploy_csv_flag:
+        print("\n📥 Fetching latest translations from l10n_pending branch...")
+        try:
+            sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+            from utilities.fetch_latest_translations import fetch_translations
+            if not fetch_translations(force=True):
+                print("❌ Failed to fetch latest translations - using local copy")
+            else:
+                print("✅ Successfully updated to latest translations")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not fetch latest translations: {e}")
+            print("   Using local copy...")
+    
     # Check prerequisites
     if not check_prerequisites(args.environment, deploy_audio_flag):
         print("\n❌ Prerequisites check failed. Please resolve the issues above.")
