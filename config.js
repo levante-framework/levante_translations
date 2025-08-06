@@ -27,7 +27,7 @@ const CONFIG = {
         'English': {
             lang_code: 'en',
             service: 'ElevenLabs',
-            voice: 'Alexandra - Conversational and Real',
+            voice: 'Clara',
             display_name: 'English'
         },
         'Spanish': {

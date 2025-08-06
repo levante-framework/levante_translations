@@ -5,14 +5,17 @@ import pandas as pd
 import os
 import numpy as np
 import sys
+import argparse
 import utilities.config as conf
 
 language_dict = conf.get_languages()
 
-def generate_audio(language): 
+def generate_audio(language, force_regenerate=False): 
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
     print(f"Using simplified folder structure: audio_files/<language_code>/")
+    if force_regenerate:
+        print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
     print("="*60)
     
 # Retrieve translations.csv from the repo
@@ -239,14 +242,16 @@ def generate_audio(language):
         
         item_id = ourRow['item_id']
         
-        # Check if audio file already exists for this item
+        # Check if audio file already exists for this item (unless force mode is enabled)
         from utilities.utilities import audio_file_path
         task_name = ourRow.get('labels', 'general')  # Use labels as task name, fallback to 'general'
         expected_audio_path = audio_file_path(task_name, item_id, audio_base_dir, lang_code)
         
-        if os.path.exists(expected_audio_path):
+        if os.path.exists(expected_audio_path) and not force_regenerate:
             print(f'Audio file already exists: {expected_audio_path}')
             continue
+        elif os.path.exists(expected_audio_path) and force_regenerate:
+            print(f'🔄 FORCE MODE: Regenerating existing file: {expected_audio_path}')
         
         print(f'Need to generate audio for: {item_id} -> {expected_audio_path}')
 
@@ -347,20 +352,28 @@ def generate_audio(language):
 def main(
     language: str,
     user_id: str = None,
-    api_key: str = None
+    api_key: str = None,
+    force_regenerate: bool = False
 ):
     
     # is a language which can then
     # trigger the lang_code and voice
-    generate_audio(language=language)
+    generate_audio(language=language, force_regenerate=force_regenerate)
         
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("❌ ERROR: No language specified!")
-        print("Usage: python generate_speech.py <language>")
-        print("Available languages: German, Spanish, French, Dutch, English")
-        sys.exit(1)
-    main(*sys.argv[1:])
+    parser = argparse.ArgumentParser(description='Generate speech audio for translations')
+    parser.add_argument('language', help='Language to generate audio for (e.g., German, Spanish, French, Dutch, English)')
+    parser.add_argument('--force', '-f', action='store_true', 
+                        help='Force regeneration of audio files even if they already exist')
+    parser.add_argument('--user-id', help='User ID (optional)')
+    parser.add_argument('--api-key', help='API key (optional)')
+    
+    args = parser.parse_args()
+    
+    main(language=args.language, 
+         user_id=args.user_id, 
+         api_key=args.api_key,
+         force_regenerate=args.force)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 

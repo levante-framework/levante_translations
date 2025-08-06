@@ -2,10 +2,29 @@
 
 import os
 import sys
-import pandas as pd
 import logging
 import time
-import numpy as np
+
+try:
+    import pandas as pd
+    import numpy as np
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
+    print("Warning: pandas and numpy not available. Some functionality may be limited.")
+    # Create mock objects for basic functionality
+    class MockPandas:
+        def read_csv(self, *args, **kwargs):
+            raise ImportError("pandas not available - install with: pip install pandas")
+        def DataFrame(self, *args, **kwargs):
+            raise ImportError("pandas not available - install with: pip install pandas")
+    
+    class MockNumpy:
+        def array(self, *args, **kwargs):
+            raise ImportError("numpy not available - install with: pip install numpy")
+    
+    pd = MockPandas()
+    np = MockNumpy()
 import requests
 from dataclasses import dataclass, replace
 from datetime import datetime
@@ -227,6 +246,9 @@ def main(
     # columnts might be:
     # item_id,labels,en,es-CO,de,context
 
+    if not PANDAS_AVAILABLE:
+        raise ImportError("pandas is required for CSV processing. Install with: pip install pandas")
+    
     inputData = pd.read_csv(input_file_path)
     masterData = pd.read_csv(master_file_path)
 

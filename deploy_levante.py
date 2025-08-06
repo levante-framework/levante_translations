@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Levante Dashboard Deployment Script
+Levante Translations Deployment Script
 
 Deploys only the itembank_translations.csv file to the Levante dashboard buckets.
 This is specifically for the Levante dashboard, not the web dashboard.
