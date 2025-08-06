@@ -180,6 +180,21 @@ npm run export:voices
 
 ## Deployment
 
+### Bucket Overview
+
+Our Google Cloud Storage buckets have specific purposes:
+
+| Bucket | Purpose | Files | Deployment Method |
+|--------|---------|-------|------------------|
+| `levante-dashboard-dev/prod` | **Translation CSV only** | `itembank_translations.csv` | `deploy_levante.py` |
+| `levante-translations-dev/prod` | Translation archives | CSV files | `crowdin_to_gcs.py` |
+| `levante-audio-dev/prod` | Generated audio files | MP3s with ID3 tags | `generate_speech.py` |
+| Web hosting buckets | Web dashboard files | HTML, CSS, JS, API | Vercel |
+
+> ⚠️ **Critical**: Never upload code files to `levante-dashboard` buckets - they are CSV-only!
+
+### Deployment Scripts
+
 There are two different deployment scripts for different purposes:
 
 ### Levante Dashboard Deployment
@@ -189,7 +204,7 @@ Deploy **only** the `itembank_translations.csv` file to the Levante dashboard bu
 # Deploy to dev environment
 npm run deploy:levante-dev
 
-# Deploy to prod environment  
+# Deploy to prod environment
 npm run deploy:levante-prod
 
 # Test deployment (dry run)
@@ -197,8 +212,10 @@ npm run deploy:levante-dev-dry
 npm run deploy:levante-prod-dry
 ```
 
-**Target buckets**: `levante-dashboard-dev` / `levante-dashboard-prod`  
+**Target buckets**: `levante-dashboard-dev` / `levante-dashboard-prod`
 **Files deployed**: `itembank_translations.csv` only
+
+> ⚠️ **Important**: The `levante-dashboard` buckets contain **ONLY translation CSV files**. Never upload code files (HTML, JS, CSS) to these buckets.
 
 ### Web Dashboard Deployment
 The web dashboard is deployed through Vercel:

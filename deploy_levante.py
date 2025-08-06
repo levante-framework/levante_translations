@@ -14,6 +14,7 @@ Usage:
 import sys
 import os
 import json
+import subprocess
 from pathlib import Path
 from datetime import datetime
 
@@ -215,16 +216,18 @@ def main():
     
     # Parse simple arguments
     if len(sys.argv) < 2:
-        print("Usage: python deploy_levante.py [-dev|-prod] [--dry-run]")
+        print("Usage: python deploy_levante.py [-dev|-prod] [--dry-run] [--validate]")
         print("Examples:")
         print("  python deploy_levante.py -dev")
         print("  python deploy_levante.py -prod")
         print("  python deploy_levante.py -dev --dry-run")
+        print("  python deploy_levante.py -dev --validate")
         sys.exit(1)
     
     # Determine environment
     environment = None
     dry_run = False
+    validate_core_tasks = False
     
     for arg in sys.argv[1:]:
         if arg == '-dev':
@@ -233,6 +236,8 @@ def main():
             environment = 'prod'
         elif arg == '--dry-run':
             dry_run = True
+        elif arg == '--validate':
+            validate_core_tasks = True
     
     if not environment:
         print("❌ Environment required: use -dev or -prod")
@@ -252,9 +257,31 @@ def main():
         if success:
             if dry_run:
                 print(f"\n✅ Dry run completed - ready to deploy to {environment}!")
+                if validate_core_tasks:
+                    print("🧪 Would also validate core-tasks repository after deployment")
             else:
                 print(f"\n🎉 Successfully deployed itembank_translations.csv to {environment}!")
                 print(f"🌐 URL: https://storage.googleapis.com/{deployer.bucket_name}/itembank_translations.csv")
+                
+                # Run core-tasks validation if requested
+                if validate_core_tasks:
+                    print(f"\n📋 Running core-tasks validation...")
+                    validation_cmd = ["python3", "validate_core_tasks.py", "--headless"]
+                    try:
+                        result = subprocess.run(validation_cmd, check=True, capture_output=True, text=True)
+                        print(f"✅ Core-tasks validation passed!")
+                    except subprocess.CalledProcessError as e:
+                        print(f"❌ Core-tasks validation failed!")
+                        print(f"   Exit code: {e.returncode}")
+                        if e.stdout:
+                            print(f"   Output: {e.stdout}")
+                        if e.stderr:
+                            print(f"   Error: {e.stderr}")
+                        sys.exit(1)
+                    except FileNotFoundError:
+                        print(f"❌ validate_core_tasks.py script not found")
+                        print("   Please ensure the validation script is in the current directory")
+                        sys.exit(1)
         else:
             print(f"\n❌ Deployment failed!")
             sys.exit(1)

@@ -40,7 +40,7 @@ except ImportError:
     GCS_AVAILABLE = False
     print("Warning: google-cloud-storage not available. Install with: pip install google-cloud-storage")
 
-from utilities.buckets import get_bucket_name, get_all_task_names, AUDIO_BUCKET_NAME_DEV
+from utilities.legacy.buckets import get_bucket_name, get_all_task_names, AUDIO_BUCKET_NAME_DEV
 
 # Configuration constants
 DEFAULT_BUNDLE_ID = 18  # From crowdin.yml
