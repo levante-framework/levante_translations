@@ -36,7 +36,10 @@
     "deploy:translations-dev-validate": "python3 deploy_translations.py dev --validate-core-tasks",
     "deploy:translations-prod-validate": "python3 deploy_translations.py prod --validate-core-tasks",
     "validate:core-tasks": "python3 validate_core_tasks.py",
+    "validate:core-tasks-quick": "python3 validate_core_tasks.py --quick",
     "validate:core-tasks-interactive": "python3 validate_core_tasks.py --interactive",
+    "validate:core-tasks-single": "python3 validate_core_tasks_single.py",
+    "validate:core-tasks-list": "python3 validate_core_tasks_single.py --list",
     "test:dry-run-all": "npm run deploy:levante-dev-dry && npm run deploy:crowdin-dry && npm run deploy:translations-dev-dry",
     "help": "echo \"Available commands:\\n  deploy:translations-dev/prod - Deploy CSV + audio files\\n  deploy:levante-dev/prod - Deploy Levante dashboard (CSV only)\\n  deploy:web - Deploy web dashboard\\n  deploy:crowdin-dev - Download from Crowdin\\n  setup:service-account-* - Create Google Cloud service accounts\\n  generate:english/spanish/german/german-switzerland - Generate audio\\n  fix:csv - Fix CSV formatting\\n  export:voices - Export voice data\\n  test:dry-run-all - Test all deployments\\n\\nTranslation Deployment Options:\\n  npm run deploy:translations-dev - Deploy both CSV and audio to dev\\n  npm run deploy:translations-dev-validate - Deploy + validate core-tasks\\n  npm run deploy:translations-csv-only-dev - Deploy only CSV\\n  npm run deploy:translations-audio-only-dev - Deploy only audio\\n\\nValidation Commands:\\n  npm run validate:core-tasks - Run core-tasks Cypress tests\\n  npm run validate:core-tasks-interactive - Run tests interactively\\n\\nService Account Setup:\\n  npm run setup:service-account-dev --project_id=YOUR_PROJECT\\n  npm run setup:service-account-both --project_id=YOUR_PROJECT\""
   },
