@@ -2,8 +2,7 @@
 import os
 import pandas as pd
 import numpy as np
-from elevenlabs import play
-from elevenlabs import save
+from elevenlabs import play, save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
 import utilities.config as conf
@@ -144,10 +143,10 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
     print(f"🎵 Generating audio for '{ourRow['item_id']}': {translation_text[:100]}{'...' if len(translation_text) > 100 else ''}")
     
     try:
-        audio = audio_client.generate(
+        audio = audio_client.text_to_speech.convert(
             text=translation_text,
-            voice=voice_id,
-            model="eleven_multilingual_v2"
+            voice_id=voice_id,
+            model_id="eleven_multilingual_v2"
         )
 
         # Create a response object that mimics what PlayHT returns for consistency
@@ -156,8 +155,16 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
                 self.content = content
                 self.status_code = 200
         
-        # Convert the generator to bytes
-        audio_bytes = b''.join(audio)
+        # The new API returns audio data directly as bytes
+        if hasattr(audio, 'content'):
+            audio_bytes = audio.content
+        elif hasattr(audio, '__iter__') and not isinstance(audio, (str, bytes)):
+            # If it's a generator, convert to bytes
+            audio_bytes = b''.join(audio)
+        else:
+            # If it's already bytes
+            audio_bytes = audio
+            
         audioData = AudioResponse(audio_bytes)
         
         print(f"✅ Successfully generated {len(audio_bytes)} bytes of audio for '{ourRow['item_id']}'")
