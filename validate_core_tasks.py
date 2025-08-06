@@ -28,7 +28,7 @@ from datetime import datetime
 DEFAULT_CORE_TASKS_PATH = "../core-tasks"
 TASK_LAUNCHER_SUBDIR = "task-launcher"
 DEV_SERVER_STARTUP_WAIT = 10  # seconds to wait for dev server to start
-CYPRESS_TIMEOUT = 300  # 5 minutes timeout for Cypress tests
+CYPRESS_TIMEOUT = 900  # 15 minutes timeout for Cypress tests (some tests can be slow)
 
 def print_header(title: str):
     """Print a formatted header."""
@@ -240,34 +240,45 @@ def start_dev_server(task_launcher_path: Path) -> subprocess.Popen:
         print(f"❌ Failed to start dev server: {e}")
         return None
 
-def run_cypress_tests(task_launcher_path: Path, headless: bool = True) -> bool:
+def run_cypress_tests(task_launcher_path: Path, headless: bool = True, timeout: int = None) -> bool:
     """
     Run Cypress tests for the core-tasks project.
     
     Args:
         task_launcher_path: Path to the task-launcher directory
         headless: Whether to run tests in headless mode
+        timeout: Custom timeout in seconds (defaults to CYPRESS_TIMEOUT)
         
     Returns:
         True if tests passed
     """
     print_section("Running Cypress Tests")
     
+    if timeout is None:
+        timeout = CYPRESS_TIMEOUT
+    
     if headless:
-        cmd = ["npx", "cypress", "run", "--browser", "chrome", "--headless"]
-        description = "Run Cypress tests (headless)"
+        cmd = ["npx", "cypress", "run", "--browser", "chrome", "--headless", "--reporter", "spec"]
+        description = f"Run Cypress tests (headless, timeout: {timeout}s)"
     else:
         print("⚠️  Running Cypress in interactive mode. Tests will open browser windows.")
         cmd = ["npx", "cypress", "open"]
         description = "Open Cypress test runner"
     
-    success, result = run_command(
-        cmd,
-        description,
-        cwd=str(task_launcher_path),
-        timeout=CYPRESS_TIMEOUT,
-        capture_output=headless  # Only capture output in headless mode
-    )
+    print(f"⏱️  Test timeout: {timeout} seconds ({timeout//60} minutes)")
+    print(f"📋 Running command: {' '.join(cmd)}")
+    
+    # For headless mode, run with real-time output to show progress
+    if headless:
+        success = run_cypress_with_progress(cmd, task_launcher_path, timeout)
+    else:
+        success, result = run_command(
+            cmd,
+            description,
+            cwd=str(task_launcher_path),
+            timeout=timeout,
+            capture_output=False  # Don't capture in interactive mode
+        )
     
     if success:
         print("🎉 All Cypress tests passed!")
@@ -275,6 +286,92 @@ def run_cypress_tests(task_launcher_path: Path, headless: bool = True) -> bool:
         print("💥 Some Cypress tests failed. Check the output above for details.")
     
     return success
+
+def run_cypress_with_progress(cmd: list, task_launcher_path: Path, timeout: int) -> bool:
+    """
+    Run Cypress with real-time progress output.
+    
+    Args:
+        cmd: Command to run
+        task_launcher_path: Working directory
+        timeout: Timeout in seconds
+        
+    Returns:
+        True if tests passed
+    """
+    print(f"🔧 Starting Cypress tests with real-time output...")
+    
+    try:
+        process = subprocess.Popen(
+            cmd,
+            cwd=str(task_launcher_path),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+            universal_newlines=True
+        )
+        
+        # Read output in real-time
+        import select
+        import time
+        
+        start_time = time.time()
+        output_lines = []
+        
+        while True:
+            # Check if process is still running
+            if process.poll() is not None:
+                # Process finished, read any remaining output
+                remaining_output = process.stdout.read()
+                if remaining_output:
+                    for line in remaining_output.split('\n'):
+                        if line.strip():
+                            print(f"   📤 {line}")
+                            output_lines.append(line)
+                break
+            
+            # Check for timeout
+            if time.time() - start_time > timeout:
+                print(f"⏰ Timeout reached ({timeout}s), terminating process...")
+                process.terminate()
+                try:
+                    process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait()
+                return False
+            
+            # Check for available output
+            if select.select([process.stdout], [], [], 1.0)[0]:
+                line = process.stdout.readline()
+                if line:
+                    line = line.strip()
+                    if line:
+                        print(f"   📤 {line}")
+                        output_lines.append(line)
+            
+        # Check exit code
+        return_code = process.returncode
+        
+        if return_code == 0:
+            print(f"✅ Cypress tests completed successfully!")
+            return True
+        else:
+            print(f"❌ Cypress tests failed with exit code: {return_code}")
+            
+            # Show summary of important output
+            print("\n📋 Test Summary:")
+            important_lines = [line for line in output_lines[-20:] if any(keyword in line.lower() 
+                             for keyword in ['failing', 'passing', 'error', 'fail', 'pass', 'spec'])]
+            for line in important_lines[-10:]:  # Last 10 important lines
+                print(f"   {line}")
+            
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error running Cypress tests: {e}")
+        return False
 
 def stop_dev_server(process: subprocess.Popen):
     """
@@ -343,6 +440,19 @@ Examples:
         help='Run Cypress in interactive mode (opens browser)'
     )
     
+    parser.add_argument(
+        '--timeout',
+        type=int,
+        default=CYPRESS_TIMEOUT,
+        help=f'Timeout for Cypress tests in seconds (default: {CYPRESS_TIMEOUT})'
+    )
+    
+    parser.add_argument(
+        '--quick',
+        action='store_true',
+        help='Run with shorter timeout (5 minutes) for quick validation'
+    )
+    
     args = parser.parse_args()
     
     # Resolve path
@@ -351,6 +461,12 @@ Examples:
     
     # Determine run mode
     headless_mode = args.headless and not args.interactive
+    
+    # Determine timeout
+    if args.quick:
+        test_timeout = 300  # 5 minutes for quick validation
+    else:
+        test_timeout = args.timeout
     
     # Print header
     mode = "DEV SERVER ONLY" if args.dev_server_only else ("INTERACTIVE TESTS" if args.interactive else "HEADLESS TESTS")
@@ -392,7 +508,7 @@ Examples:
                 
         else:
             # Run Cypress tests
-            tests_passed = run_cypress_tests(task_launcher_path, headless_mode)
+            tests_passed = run_cypress_tests(task_launcher_path, headless_mode, test_timeout)
             
             if tests_passed:
                 print_section("Validation Summary")
