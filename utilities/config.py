@@ -23,6 +23,7 @@ LANGUAGE_CODES = {
   'German': 'de', 
   'French': 'fr-CA', 
   'Dutch': 'nl',
+  'German (Switzerland)': 'de-CH',  # NEW
 }
 
 def get_languages(): 
@@ -34,6 +35,7 @@ def get_languages():
         'German': {'lang_code': 'de', 'service' : 'ElevenLabs', 'voice': 'Julia'},
         'French': {'lang_code': 'fr-CA', 'service' : 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
         'Dutch': {'lang_code': 'nl', 'service' : 'ElevenLabs', 'voice' : 'Emma - Natural conversations in Dutch'},
+        'German (Switzerland)': {'lang_code': 'de-CH', 'service' : 'ElevenLabs', 'voice': 'Julia'},  # NEW - using same German voice for now
     }
 
     # Later we can add HT voices and Eleven voices to each of these

@@ -41,18 +41,48 @@ def load_translation_data():
     try:
         import csv
         
-        # Use local file
-        local_file = "translation_text/item_bank_translations.csv"
-        if not os.path.exists(local_file):
-            print(f"❌ File not found: {local_file}")
-            return None
+        # Try remote file first (to get latest version)
+        import urllib.request
+        try:
+            remote_url = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv"
+            print(f"Trying to fetch from: {remote_url}")
             
-        data_list = []
-        with open(local_file, 'r', encoding='utf-8') as file:
-            # Use csv.DictReader for simple parsing
-            reader = csv.DictReader(file)
-            for row in reader:
-                data_list.append(row)
+            with urllib.request.urlopen(remote_url) as response:
+                content = response.read().decode('utf-8')
+                
+            # Parse the CSV content
+            data_list = []
+            lines = content.strip().split('\n')
+            if lines:
+                headers = lines[0].split(',')
+                for line in lines[1:]:
+                    if line.strip():
+                        values = line.split(',')
+                        # Pad with empty strings if not enough values
+                        while len(values) < len(headers):
+                            values.append('')
+                        row = dict(zip(headers, values))
+                        data_list.append(row)
+                        
+            print(f"✅ Loaded {len(data_list)} translation items from remote file")
+            return data_list
+            
+        except Exception as remote_error:
+            print(f"Remote fetch failed: {remote_error}")
+            print("Falling back to local file...")
+            
+            # Fall back to local file
+            local_file = "translation_text/item_bank_translations.csv"
+            if not os.path.exists(local_file):
+                print(f"❌ File not found: {local_file}")
+                return None
+                
+            data_list = []
+            with open(local_file, 'r', encoding='utf-8') as file:
+                # Use csv.DictReader for simple parsing
+                reader = csv.DictReader(file)
+                for row in reader:
+                    data_list.append(row)
                 
         print(f"✅ Loaded {len(data_list)} translation items from {local_file}")
         return data_list
