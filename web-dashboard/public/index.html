@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Levante Translation & Audio Dashboard</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,7 +17,7 @@
         .controls-section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4facfe; }
         .control-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
         .control-group label { font-weight: 600; color: #495057; }
-        .voice-controls { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .voice-controls { display: flex; gap: 20px; flex-wrap: nowrap; align-items: center; }
         .voice-control { display: flex; flex-direction: column; gap: 5px; }
         .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
         .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
@@ -68,7 +67,7 @@
         .error { color: #dc3545; }
         @media (max-width: 768px) {
             .control-group { flex-direction: column; align-items: stretch; }
-            .voice-controls { flex-direction: column; }
+            .voice-controls { flex-direction: column; flex-wrap: wrap; }
             .tab-buttons { justify-content: center; }
             .language-info { flex-direction: column; align-items: flex-start; gap: 10px; }
             .data-row { grid-template-columns: 1fr; }
@@ -191,15 +190,25 @@
                     <div class="voice-controls">
                         <div class="voice-control">
                             <label for="playhtVoice">PlayHT Voice</label>
-                            <select id="playhtVoice" class="voice-select">
-                                <option value="">Select PlayHT Voice...</option>
-                            </select>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <select id="playhtVoice" class="voice-select">
+                                    <option value="">Select PlayHT Voice...</option>
+                                </select>
+                                <button id="copyPlayhtVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="voice-control">
                             <label for="elevenlabsVoice">ElevenLabs Voice</label>
-                            <select id="elevenlabsVoice" class="voice-select">
-                                <option value="">Select ElevenLabs Voice...</option>
-                            </select>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <select id="elevenlabsVoice" class="voice-select">
+                                    <option value="">Select ElevenLabs Voice...</option>
+                                </select>
+                                <button id="copyElevenlabsVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
                         </div>
                         <button id="refreshVoices" class="btn btn-info">
                             <i class="fas fa-sync-alt"></i> Refresh Voices
@@ -207,6 +216,9 @@
                         <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
                             <i class="fas fa-key"></i> Manage Credentials
                         </button>
+                         <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration">
+                             <i class="fas fa-language"></i> Edit Language Config
+                         </button>
                     </div>
                 </div>
                 
@@ -225,9 +237,6 @@
                             </button>
                             <button id="clearText" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Clear Text
-                            </button>
-                            <button id="editLanguageConfig" class="btn btn-warning" onclick="openLanguageConfigModal()" title="Edit shared language configuration">
-                                <i class="fas fa-language"></i> Edit Language Config
                             </button>
                         </div>
                     </div>
@@ -356,20 +365,11 @@
                 <div id="language-config-app">
                     <div v-if="loading" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading configuration...</div>
                     <div v-else>
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-                            <div>
-                                <button class="btn btn-secondary btn-compact" @click="addLanguage"><i class="fas fa-plus"></i> Add Language</button>
-                            </div>
-                            <div>
-                                <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
-                            </div>
+                        <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px; margin-bottom:12px;">
+                            <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
                         </div>
                         <div v-for="(cfg, name) in config.languages" :key="name" class="info-section">
-                            <h3 style="display:flex; align-items:center; gap:8px;">
-                                <input v-model="renameBuffer[name]" @input="onRenameBuffer(name)" :placeholder="name" style="padding:6px; border:1px solid #ccc; border-radius:4px; min-width:260px;" />
-                                <button class="btn btn-secondary btn-compact" @click="applyRename(name)"><i class="fas fa-i-cursor"></i> Rename</button>
-                                <button class="btn btn-warning btn-compact" @click="removeLanguage(name)"><i class="fas fa-trash"></i> Remove</button>
-                            </h3>
+                            <h3 style="display:flex; align-items:center; gap:8px;">{{ name }}</h3>
                             <div class="info-grid">
                                 <div class="info-item">
                                     <label>Language Code</label>
@@ -385,10 +385,6 @@
                                 <div class="info-item">
                                     <label>Default Voice</label>
                                     <input v-model="cfg.voice" />
-                                </div>
-                                <div class="info-item">
-                                    <label>Display Name</label>
-                                    <input v-model="cfg.display_name" />
                                 </div>
                             </div>
                         </div>
@@ -1526,6 +1522,32 @@
                     }
                 });
 
+                // Copy buttons for voice names
+                document.getElementById('copyPlayhtVoice').addEventListener('click', () => {
+                    const select = document.getElementById('playhtVoice');
+                    if (select.selectedIndex > 0) {
+                        const voiceName = select.options[select.selectedIndex].text;
+                        navigator.clipboard.writeText(voiceName).then(() => {
+                            this.setStatus(`Copied PlayHT voice: ${voiceName}`, 'success');
+                        });
+                    } else {
+                        this.setStatus('No PlayHT voice selected', 'error');
+                    }
+                });
+
+                document.getElementById('copyElevenlabsVoice').addEventListener('click', () => {
+                    const select = document.getElementById('elevenlabsVoice');
+                    if (select.selectedIndex > 0) {
+                        const voiceName = select.options[select.selectedIndex].text;
+                        navigator.clipboard.writeText(voiceName).then(() => {
+                            this.setStatus(`Copied ElevenLabs voice: ${voiceName}`, 'success');
+                        });
+                    } else {
+                        this.setStatus('No ElevenLabs voice selected', 'error');
+                    }
+                });
+
+
                  // Text generation controls
                  document.getElementById('generateAudio').addEventListener('click', () => {
                      this.generateAudioFromText();
@@ -1782,39 +1804,7 @@
                             this.loading = false;
                         }
                     },
-                    addLanguage() {
-                        const name = prompt('New language display name (e.g., "Italian")');
-                        if (!name) return;
-                        if (this.config.languages[name]) {
-                            alert('Language already exists');
-                            return;
-                        }
-                        this.$set?.(this.config.languages, name, { lang_code: '', service: 'ElevenLabs', voice: '', display_name: name });
-                        if (!this.$set) {
-                            // Vue 3 proxy workaround
-                            this.config.languages = { ...this.config.languages, [name]: { lang_code: '', service: 'ElevenLabs', voice: '', display_name: name } };
-                        }
-                    },
-                    removeLanguage(name) {
-                        if (!confirm(`Remove ${name}?`)) return;
-                        const { [name]: _, ...rest } = this.config.languages;
-                        this.config.languages = rest;
-                    },
-                    onRenameBuffer(name) {
-                        if (!this.renameBuffer[name]) this.renameBuffer[name] = name;
-                    },
-                    applyRename(oldName) {
-                        const newName = this.renameBuffer[oldName];
-                        if (!newName || newName === oldName) return;
-                        if (this.config.languages[newName]) {
-                            alert('Target name already exists');
-                            return;
-                        }
-                        const entry = this.config.languages[oldName];
-                        const { [oldName]: _, ...rest } = this.config.languages;
-                        this.config.languages = { ...rest, [newName]: { ...entry, display_name: newName } };
-                        delete this.renameBuffer[oldName];
-                    },
+                    // rename/remove/add functionality intentionally omitted per request
                     async saveConfig() {
                         this.saving = true;
                         try {
