@@ -422,16 +422,18 @@
         </div>
     </div>
 
+    <script src="./config.js"></script>
     <script>
         class Dashboard {
             constructor() {
-                // Match exact config.py language settings
-                this.languages = {
-                    'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
-                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Ana María - Calm & natural neutral Spanish' },
-                    'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
+                // Load languages from external config if available; fallback to defaults
+                this.languages = (window.CONFIG && window.CONFIG.languages) ? window.CONFIG.languages : {
+                    'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Clara - Children\'s Storyteller' },
+                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Malena Tango' },
+                    'German': { lang_code: 'de', service: 'ElevenLabs', voice: 'Julia' },
                     'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
-                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' }
+                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' },
+                    'German (Switzerland)': { lang_code: 'de-CH', service: 'ElevenLabs', voice: 'Julia' }
                 };
                 
                 this.data = [];

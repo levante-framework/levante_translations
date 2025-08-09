@@ -27,32 +27,38 @@ const CONFIG = {
         'English': {
             lang_code: 'en',
             service: 'ElevenLabs',
-            voice: 'Clara',
+            voice: 'Clara - Children\'s Storyteller',
             display_name: 'English'
         },
         'Spanish': {
             lang_code: 'es-CO',
             service: 'ElevenLabs',
-            voice: 'Julia',
+            voice: 'Malena Tango',
             display_name: 'Spanish'
         },
         'German': {
             lang_code: 'de',
-            service: 'PlayHT',
-            voice: 'German_Anke Narrative',
+            service: 'ElevenLabs',
+            voice: 'Julia',
             display_name: 'German'
         },
         'French': {
             lang_code: 'fr-CA',
-            service: 'PlayHT',
-            voice: 'French_Ange Narrative',
+            service: 'ElevenLabs',
+            voice: 'Caroline - Top France - Narrative, warm, sweet',
             display_name: 'French'
         },
         'Dutch': {
             lang_code: 'nl',
             service: 'ElevenLabs',
-            voice: 'Xander',
+            voice: 'Emma - Natural conversations in Dutch',
             display_name: 'Dutch'
+        },
+        'German (Switzerland)': {
+            lang_code: 'de-CH',
+            service: 'ElevenLabs',
+            voice: 'Julia',
+            display_name: 'German (Switzerland)'
         }
     },
     
@@ -85,6 +91,10 @@ const CONFIG = {
             'nl': [
                 'Dutch_Lotte Narrative',
                 'Dutch_Lotte Conversational'
+            ],
+            'de-CH': [
+                'German_Anke Narrative',
+                'German_Anke Conversational'
             ]
         },
         elevenlabs: {
@@ -124,6 +134,14 @@ const CONFIG = {
             ],
             'nl': [
                 'Yasmine',
+                'Alexandra - Conversational and Real',
+                'Aunt Annie - calm and professional',
+                'Claudia - Credible, Competent & Authentic',
+                'Zuri - New Yorker',
+                'Nia Davis- Black Female'
+            ],
+            'de-CH': [
+                'Julia',
                 'Alexandra - Conversational and Real',
                 'Aunt Annie - calm and professional',
                 'Claudia - Credible, Competent & Authentic',
