@@ -10,6 +10,8 @@
     "build:ts": "tsc",
     "build:ts-watch": "tsc --watch",
     "type-check": "tsc --noEmit",
+    "test:ts": "node test-typescript.js",
+    "test": "npm run test:ts",
     "deploy": "node scripts/deploy-and-alias.js",
     "deploy-dev": "vercel --yes",
     "deploy-bat": "deploy.bat"
