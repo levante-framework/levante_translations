@@ -149,15 +149,11 @@ function initLanguageConfigApp(): void {
     }
 }
 
-// Language configuration types (re-exported from types.ts)
-import type { LanguageConfig } from './types.js';
+// Language configuration interface
+interface LanguageConfig {
+    lang_code: string;
+    service: 'ElevenLabs' | 'PlayHT';
+    voice: string;
+}
 
-// Export functions
-export {
-    openLanguageConfigModal,
-    closeLanguageConfigModal,
-    initLanguageConfigApp
-};
-
-// Export types for use by other modules
-export type { LanguageConfig };
+// Functions are globally available - no exports needed in non-module mode

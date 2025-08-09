@@ -1,3 +1,4 @@
+"use strict";
 // Type definitions for the utilities module
 /**
  * Retrieves stored credentials from localStorage
@@ -15,9 +16,10 @@ function getCredentials() {
 }
 /**
  * Updates the availability/state of validation buttons based on API key presence
- * @param {boolean} hasGoogleTranslateKey - Whether Google Translate API key is available
  */
-function updateValidationAvailability(hasGoogleTranslateKey) {
+function updateValidationAvailability() {
+    const creds = getCredentials();
+    const hasGoogleTranslateKey = !!(creds.google_translate_api_key);
     const validateButtons = document.querySelectorAll('.validation-button');
     const validateBtns = document.querySelectorAll('.validate-btn');
     const enabledTitle = 'Validation enabled';
@@ -82,5 +84,5 @@ function clearCacheAndReload() {
         location.reload();
     }
 }
-export { getCredentials, updateValidationAvailability, formatFileSize, formatDate, clearCacheAndReload };
+// Functions and types are globally available - no exports needed in non-module mode
 //# sourceMappingURL=utils.js.map

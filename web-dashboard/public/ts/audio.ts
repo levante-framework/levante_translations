@@ -1,5 +1,4 @@
-// Import utilities
-import { formatFileSize, formatDate } from './utils.js';
+// Utilities are available globally - no imports needed in non-module mode
 
 // Audio metadata types
 interface AudioMetadata {
@@ -265,20 +264,5 @@ function showAudioInfoError(error: string, details: string): void {
     setElementText('errorMessage', `${error}: ${details}`);
 }
 
-// Export functions
-export {
-    playAudio,
-    showAudioInfo,
-    closeAudioInfoModal,
-    fetchAudioMetadata,
-    showAudioInfoData,
-    showAudioInfoError
-};
-
-// Export types
-export type {
-    AudioMetadata,
-    AudioMetadataResponse,
-    LanguageCode,
-    BucketLanguageCode
-};
+// Functions are globally available - no exports needed in non-module mode
+// Types are available through declaration files

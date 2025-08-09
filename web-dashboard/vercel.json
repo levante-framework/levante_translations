@@ -9,6 +9,15 @@
     },
     "api/translate-proxy.js": {
       "maxDuration": 30
+    },
+    "api/read-tags.js": {
+      "maxDuration": 30
+    },
+    "api/language-config.js": {
+      "maxDuration": 30
+    },
+    "api/validation-storage.js": {
+      "maxDuration": 30
     }
   },
   "rewrites": [

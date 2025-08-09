@@ -1,10 +1,10 @@
 // Type definitions for the utilities module
 
 interface Credentials {
-    playhtApiKey?: string;
-    playhtUserId?: string;
-    elevenlabsApiKey?: string;
-    googleTranslateApiKey?: string;
+    playht_api_key?: string;
+    playht_user_id?: string;
+    elevenlabs_api_key?: string;
+    google_translate_api_key?: string;
 }
 
 /**
@@ -23,9 +23,10 @@ function getCredentials(): Credentials {
 
 /**
  * Updates the availability/state of validation buttons based on API key presence
- * @param {boolean} hasGoogleTranslateKey - Whether Google Translate API key is available
  */
-function updateValidationAvailability(hasGoogleTranslateKey: boolean): void {
+function updateValidationAvailability(): void {
+    const creds = getCredentials();
+    const hasGoogleTranslateKey = !!(creds.google_translate_api_key);
     const validateButtons = document.querySelectorAll<HTMLButtonElement>('.validation-button');
     const validateBtns = document.querySelectorAll<HTMLButtonElement>('.validate-btn');
     
@@ -99,12 +100,4 @@ function clearCacheAndReload(): void {
     }
 }
 
-// Export types for use in other modules
-export type { Credentials };
-export {
-    getCredentials,
-    updateValidationAvailability,
-    formatFileSize,
-    formatDate,
-    clearCacheAndReload
-};
+// Functions and types are globally available - no exports needed in non-module mode
