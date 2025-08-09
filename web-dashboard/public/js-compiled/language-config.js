@@ -40,6 +40,7 @@ function initLanguageConfigApp() {
         return;
     }
     const { createApp, reactive } = Vue;
+    // Create Vue app with proper typing by using 'any' for component methods
     const app = createApp({
         data() {
             return {
@@ -59,13 +60,14 @@ function initLanguageConfigApp() {
              * Loads language configuration from the API
              */
             async load() {
-                this.loading = true;
+                const self = this;
+                self.loading = true;
                 try {
                     const response = await fetch('/api/language-config');
                     if (response.ok) {
                         const data = await response.json();
                         if (data && data.languages) {
-                            this.config.languages = data.languages;
+                            self.config.languages = data.languages;
                         }
                     }
                 }
@@ -73,17 +75,18 @@ function initLanguageConfigApp() {
                     console.warn('Failed to load remote language config, using local fallback:', error);
                 }
                 finally {
-                    this.loading = false;
+                    self.loading = false;
                 }
             },
             /**
              * Saves the language configuration to the API
              */
             async saveConfig() {
-                this.saving = true;
+                const self = this;
+                self.saving = true;
                 try {
                     const requestData = {
-                        languages: this.config.languages,
+                        languages: self.config.languages,
                         metadata: { source: 'web-dashboard' }
                     };
                     const response = await fetch('/api/language-config', {
@@ -98,7 +101,7 @@ function initLanguageConfigApp() {
                     // Update global CONFIG
                     const windowAny = window;
                     windowAny.CONFIG = windowAny.CONFIG || {};
-                    windowAny.CONFIG.languages = JSON.parse(JSON.stringify(this.config.languages));
+                    windowAny.CONFIG.languages = JSON.parse(JSON.stringify(self.config.languages));
                     // Update dashboard if it exists
                     if (windowAny.dashboard) {
                         windowAny.dashboard.languages = windowAny.CONFIG.languages;
@@ -122,7 +125,7 @@ function initLanguageConfigApp() {
                     alert(`Failed to save: ${errorMessage}`);
                 }
                 finally {
-                    this.saving = false;
+                    self.saving = false;
                 }
             }
         }

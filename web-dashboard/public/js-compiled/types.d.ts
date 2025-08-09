@@ -1,5 +1,9 @@
-import type { LanguageConfig } from './language-config.js';
 import type { Credentials } from './utils.js';
+interface LanguageConfig {
+    lang_code: string;
+    service: 'ElevenLabs' | 'PlayHT';
+    voice: string;
+}
 type StatusType = 'success' | 'error' | 'warning' | 'info' | 'loading';
 interface Voice {
     voice_id: string;

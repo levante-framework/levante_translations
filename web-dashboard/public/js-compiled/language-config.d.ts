@@ -11,5 +11,7 @@ declare function closeLanguageConfigModal(): void;
  * Uses dynamic typing to avoid Vue type complexity
  */
 declare function initLanguageConfigApp(): void;
+import type { LanguageConfig } from './types.js';
 export { openLanguageConfigModal, closeLanguageConfigModal, initLanguageConfigApp };
+export type { LanguageConfig };
 //# sourceMappingURL=language-config.d.ts.map
