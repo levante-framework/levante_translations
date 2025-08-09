@@ -28,6 +28,19 @@ interface AudioMetadataResponse {
 }
 type LanguageCode = 'en' | 'es-CO' | 'de' | 'fr-CA' | 'nl';
 type BucketLanguageCode = 'en' | 'es-CO' | 'es' | 'de' | 'fr-CA' | 'nl';
+declare const BUCKET_LANG_CODE_MAP: Record<LanguageCode, BucketLanguageCode>;
+/**
+ * Safely gets an element by ID with proper type checking
+ */
+declare function getElementByIdSafe<T extends HTMLElement = HTMLElement>(id: string): T | null;
+/**
+ * Sets text content for an element if it exists
+ */
+declare function setElementText(id: string, text: string): void;
+/**
+ * Sets display style for an element if it exists
+ */
+declare function setElementDisplay(id: string, display: string): void;
 /**
  * Plays audio for a specific item and language
  * @param itemId - The item identifier
@@ -40,10 +53,6 @@ declare function playAudio(itemId: string, langCode: string): void;
  * @param langCode - The language code
  */
 declare function showAudioInfo(itemId: string, langCode: string): void;
-/**
- * Closes the audio info modal
- */
-declare function closeAudioInfoModal(): void;
 /**
  * Fetches audio metadata from the API
  * @param itemId - The item identifier
@@ -61,6 +70,4 @@ declare function showAudioInfoData(metadata: AudioMetadata): void;
  * @param details - Additional error details
  */
 declare function showAudioInfoError(error: string, details: string): void;
-export { playAudio, showAudioInfo, closeAudioInfoModal, fetchAudioMetadata, showAudioInfoData, showAudioInfoError };
-export type { AudioMetadata, AudioMetadataResponse, LanguageCode, BucketLanguageCode };
 //# sourceMappingURL=audio.d.ts.map

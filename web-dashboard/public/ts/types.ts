@@ -1,6 +1,12 @@
 // Shared types for the dashboard application
 
-import type { Credentials } from './utils.js';
+// Re-declare Credentials interface here to avoid imports
+interface Credentials {
+    playht_api_key?: string;
+    playht_user_id?: string;
+    elevenlabs_api_key?: string;
+    google_translate_api_key?: string;
+}
 
 // Language configuration interface (defined here to avoid circular imports)
 interface LanguageConfig {
