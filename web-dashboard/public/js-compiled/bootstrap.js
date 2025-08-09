@@ -1,6 +1,7 @@
 // Import functions from other modules
-import { loadCredentials } from './credentials.js';
-import { closeCredentialsModal } from './credentials.js';
+import { loadCredentials, closeCredentialsModal } from './credentials.js';
+import { closeAudioInfoModal } from './audio.js';
+import { initLanguageConfigApp } from './language-config.js';
 /**
  * Initializes the dashboard after DOM content is loaded
  */
@@ -20,10 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const credentialsModal = document.getElementById('credentialsModal');
         if (credentialsModal) {
             loadCredentials();
-            // Call initLanguageConfigApp if it exists
-            if (typeof initLanguageConfigApp === 'function') {
-                initLanguageConfigApp();
-            }
+            // Initialize language config app
+            initLanguageConfigApp();
         }
         else {
             // Retry in 50ms if modals aren't loaded yet
