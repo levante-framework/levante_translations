@@ -1,3 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levante Translation & Audio Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .dashboard-container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 300; }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .main-content { padding: 30px; }
+        .controls-section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4facfe; }
+        .control-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .control-group label { font-weight: 600; color: #495057; }
+        .voice-controls { display: flex; gap: 20px; flex-wrap: nowrap; align-items: center; }
+        .voice-control { display: flex; flex-direction: column; gap: 5px; }
+        .voice-control label { font-size: 14px; font-weight: 500; color: #6c757d; }
+        .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-compact { padding: 6px 12px; font-size: 13px; gap: 4px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
+        .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
+        .tabs { margin-bottom: 30px; }
+        .tab-buttons { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-button { padding: 12px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; color: #495057; }
+        .tab-button:hover { background: #e9ecef; transform: translateY(-2px); }
+        .tab-button.active { background: #007bff; color: white; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
+        .tab-content { display: none; padding: 25px; background: #f8f9fa; border-radius: 0 10px 10px 10px; border: 2px solid #e9ecef; }
+        .tab-content.active { display: block; }
+        .tab-content h3 { color: #495057; margin-bottom: 15px; font-size: 1.5em; }
+        .language-info { display: flex; gap: 20px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .info-card { background: white; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #4facfe; display: flex; align-items: center; gap: 8px; }
+        .info-card strong { color: #495057; font-size: 0.9em; }
+        .info-card span { color: #6c757d; font-size: 0.9em; }
+        .data-table { background: white; border-radius: 8px; overflow: hidden; margin-top: 20px; border: 2px solid #e9ecef; }
+        .table-header { background: #f8f9fa; padding: 15px; border-bottom: 2px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; }
+        .search-box { padding: 7px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
+        .table-content { max-height: 600px; overflow-y: auto; }
+        .data-row { padding: 8px 12px; border-bottom: 1px solid #eee; cursor: pointer; transition: background-color 0.2s; display: grid; grid-template-columns: 0.5fr 0.5fr 2fr 2fr 0.6fr; gap: 12px; align-items: center; font-size: 0.9em; }
+        .data-row:hover { background-color: #f8f9fa; }
+        .data-row.selected { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
+        .item_id { font-weight: 600; color: #495057; font-size: 0.85em; }
+        .item-text { color: #6c757d; font-size: 0.85em; line-height: 1.3; }
+        .item-english { color: #8a8a8a; font-size: 0.8em; line-height: 1.3; font-style: italic; }
+        .item-task { background: #e9ecef; padding: 3px 6px; border-radius: 3px; font-size: 0.75em; color: #495057; white-space: nowrap; }
+        
+        /* Audio Controls */
+        .audio-controls { display: flex; gap: 6px; align-items: center; justify-content: center; }
+        .play-btn { background: #28a745; color: white; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .play-btn:hover { background: #218838; }
+        .play-btn:disabled { background: #6c757d; cursor: not-allowed; }
+
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #343a40; color: white; padding: 12px 20px; font-size: 14px; z-index: 1000; display: flex; align-items: center; gap: 10px; }
+        .status-icon { font-size: 16px; }
+        .loading { color: #ffc107; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        @media (max-width: 768px) {
+            .control-group { flex-direction: column; align-items: stretch; }
+            .voice-controls { flex-direction: column; flex-wrap: wrap; }
+            .tab-buttons { justify-content: center; }
+            .language-info { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .data-row { grid-template-columns: 1fr; }
+            .audio-controls { flex-direction: column; gap: 4px; }
+        }
+        
+        /* Validation Styles */
+        .validation-controls { margin-left: 20px; padding-left: 20px; border-left: 2px solid #9b59b6; }
+        .validation-button { background: #9b59b6; color: white; padding: 8px 20px; }
+        .validation-button:hover { background: #8e44ad; }
+        .validation-button:disabled { background: #6c757d; cursor: not-allowed; opacity: 0.6; }
+        
+        .validation-status { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+        .status-indicator { width: 16px; height: 16px; border-radius: 50%; cursor: pointer; flex-shrink: 0; border: 3px solid transparent; transition: all 0.3s; position: relative; }
+        .status-indicator:hover { transform: scale(1.2); filter: brightness(1.1); }
+        .status-good { background: #155724; border-color: #c3e6cb; box-shadow: 0 0 12px rgba(21, 87, 36, 0.8); animation: pulse-good 2s infinite; }
+        .status-success { background: #155724; border-color: #c3e6cb; box-shadow: 0 0 12px rgba(21, 87, 36, 0.8); animation: pulse-good 2s infinite; }
+        .status-warning { background: #856404; border-color: #ffeaa7; box-shadow: 0 0 12px rgba(133, 100, 4, 0.8); animation: pulse-warning 2s infinite; }
+        .status-error { background: #721c24; border-color: #f5c6cb; box-shadow: 0 0 12px rgba(114, 28, 36, 0.8); animation: pulse-error 2s infinite; }
+        .status-pending { background: #6c757d; border-color: #545b62; opacity: 0.7; }
+        .status-info { background: #17a2b8; border-color: #138496; box-shadow: 0 0 12px rgba(23, 162, 184, 0.8); animation: pulse-info 1s infinite; }
+        
+        @keyframes pulse-good {
+            0%, 100% { box-shadow: 0 0 12px rgba(21, 87, 36, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(21, 87, 36, 1); }
+        }
+        @keyframes pulse-warning {
+            0%, 100% { box-shadow: 0 0 12px rgba(133, 100, 4, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(133, 100, 4, 1); }
+        }
+        @keyframes pulse-error {
+            0%, 100% { box-shadow: 0 0 12px rgba(114, 28, 36, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(114, 28, 36, 1); }
+        }
+        @keyframes pulse-info {
+            0%, 100% { box-shadow: 0 0 12px rgba(23, 162, 184, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(23, 162, 184, 1); }
+        }
+        
+        .validate-btn { background: #6f42c1; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; }
+        .validate-btn:disabled { background: #6c757d; cursor: not-allowed; }
+        .info-btn { background: #17a2b8; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; flex-shrink: 0; margin-left: 4px; }
+        .info-btn:hover { background: #138496; }
+        
+        .score-badge { 
+            background: rgba(255,255,255,0.9); 
+            padding: 2px 4px; 
+            border-radius: 3px; 
+            font-size: 9px; 
+            font-weight: bold; 
+            margin-left: 4px; 
+            border: 1px solid rgba(0,0,0,0.1);
+            display: inline-block;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .validation-panel { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; margin: 15px 0; overflow: hidden; }
+        .validation-header { background: #6c757d; color: white; padding: 10px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .validation-content { padding: 15px; display: none; }
+        .validation-content.expanded { display: block; }
+        .collapse-icon { transition: transform 0.3s; }
+        .collapsed .collapse-icon { transform: rotate(-90deg); }
+        
+        /* Validation result styles */
+        .back-translation { background: #f8f9fa; border: 1px solid #e9ecef; margin-top: 8px; padding: 12px; border-radius: 6px; font-size: 0.9em; }
+        .similarity-score { font-weight: bold; margin-bottom: 8px; padding: 4px 8px; border-radius: 4px; text-align: center; }
+        .score-high { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .score-medium { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .score-low { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .text-comparison { display: flex; gap: 15px; }
+        .comparison-section { flex: 1; }
+        .comparison-label { font-weight: bold; color: #495057; margin-bottom: 4px; font-size: 0.8em; }
+        .comparison-section > div:last-child { background: white; padding: 8px; border-radius: 4px; border: 1px solid #dee2e6; }
+        
+
+        
+        .diff-highlight { background: #ffeaa7; padding: 2px 4px; border-radius: 2px; }
+        
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 0; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: modalFadeIn 0.3s; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; position: relative; }
+        .modal-header h2 { margin: 0; font-size: 1.5em; }
+        .close { color: white; float: right; font-size: 28px; font-weight: bold; position: absolute; right: 20px; top: 15px; cursor: pointer; transition: opacity 0.3s; }
+        .close:hover { opacity: 0.7; }
+        .credentials-form { padding: 25px; }
+        .credential-group { margin-bottom: 20px; }
+        .credential-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .credential-group input { width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 6px; font-size: 14px; transition: border-color 0.3s; }
+        .credential-group input:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
+        .credentials-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #e1e5e9; }
+        .btn-secondary { background: #6c757d; color: white; }
+        
+        /* Audio Info Modal Styles */
+        .audio-info-content { padding: 25px; max-height: 70vh; overflow-y: auto; }
+        .loading-spinner { text-align: center; padding: 40px; color: #17a2b8; font-size: 16px; }
+        .info-section { margin-bottom: 25px; }
+        .info-section h3 { color: #333; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #e1e5e9; }
+        .info-grid { display: grid; gap: 12px; }
+        .info-item { display: flex; padding: 8px 0; border-bottom: 1px solid #f8f9fa; }
+        .info-item label { font-weight: 600; color: #666; min-width: 120px; margin-right: 15px; }
+        .info-item span { color: #333; word-break: break-word; flex: 1; }
+        .info-note { background: #e7f3ff; padding: 12px; border-radius: 6px; color: #0c5460; font-style: italic; }
+        .error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; text-align: center; }
+        .error-message i { margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <p>Multi-language Translation Validation and TTS audio generation</p>
+        </div>
+        <div class="main-content">
+            <div class="controls-section">
+                <div class="control-group">
+                    <label><i class="fas fa-volume-up"></i> Voice Comparison Tools:</label>
+                    <div class="voice-controls">
+                        <div class="voice-control">
+                            <label for="playhtVoice">PlayHT Voice</label>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <select id="playhtVoice" class="voice-select">
+                                    <option value="">Select PlayHT Voice...</option>
+                                </select>
+                                <button id="copyPlayhtVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="voice-control">
+                            <label for="elevenlabsVoice">ElevenLabs Voice</label>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <select id="elevenlabsVoice" class="voice-select">
+                                    <option value="">Select ElevenLabs Voice...</option>
+                                </select>
+                                <button id="copyElevenlabsVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button id="refreshVoices" class="btn btn-info">
+                            <i class="fas fa-sync-alt"></i> Refresh Voices
+                        </button>
+                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
+                            <i class="fas fa-key"></i> Manage Credentials
+                        </button>
+                         <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration">
+                             <i class="fas fa-language"></i> Edit Language Config
+                         </button>
+                    </div>
+                </div>
+                
+                <!-- Text Generation Section -->
+                <div class="control-group">
+                    <label><i class="fas fa-edit"></i> Text to Speech Generation:</label>
+                    <div style="display: flex; gap: 15px; width: 100%; align-items: flex-start;">
+                        <textarea id="textInput" placeholder="Enter text to convert to speech, or select an item from the table below..." 
+                                  style="flex: 1; min-height: 100px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
+                        <div style="display: flex; flex-direction: column; gap: 10px; min-width: 180px;">
+                            <button id="generateAudio" class="btn btn-success">
+                                <i class="fas fa-play"></i> Generate Audio
+                            </button>
+                            <button id="populateSelected" class="btn btn-primary">
+                                <i class="fas fa-arrow-down"></i> Use Selected Item
+                            </button>
+                            <button id="clearText" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Clear Text
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+            
+            <!-- Translation Validation Panel -->
+            <div class="validation-panel">
+                <div class="validation-header" onclick="toggleValidationPanel()">
+                    <span><i class="fas fa-check-circle"></i> Translation Validation</span>
+                    <span class="collapse-icon">▲</span>
+                </div>
+                <div class="validation-content expanded" id="validationContent">
+                    <!-- Validation Controls -->
+                    <div class="validation-controls" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                        <button id="validateSelected" class="btn validation-button btn-compact" onclick="validateSelected()">
+                            <i class="fas fa-check-double"></i> Validate Selected
+                        </button>
+                        <button id="validateAll" class="btn validation-button btn-compact" onclick="validateAll()">
+                            <i class="fas fa-check-circle"></i> Validate All
+                        </button>
+                        <button id="saveValidations" class="btn btn-success btn-compact" onclick="saveValidationsManually()" title="Save validation results to browser storage and shared team storage">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button id="loadValidations" class="btn btn-info btn-compact" onclick="loadValidationsFromShared()" title="Load latest validation results from shared team storage">
+                            <i class="fas fa-cloud-download-alt"></i> Load
+                        </button>
+                        <button id="exportValidations" class="btn btn-secondary btn-compact" onclick="exportValidationsToJSONFile()" title="Download validation results as JSON file for backup">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button id="viewValidations" class="btn btn-info btn-compact" onclick="showValidationSummaryReport()" title="View summary of all validation results">
+                            <i class="fas fa-chart-bar"></i> View
+                        </button>
+                        <button class="btn btn-warning btn-compact" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
+                            <i class="fas fa-trash"></i> Clear Cache
+                        </button>
+                    </div>
+                    
+                    <!-- Validation Summary -->
+                    <div id="validationSummary" style="border-top: 1px solid #e0e0e0; padding-top: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                            <h4 style="margin: 0; color: #333; font-size: 1.1em;"><i class="fas fa-chart-bar"></i> Validation Summary</h4>
+                            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #28a745;" id="goodCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Good</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #ffc107;" id="warningCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Warning</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #dc3545;" id="errorCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Review</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #6c757d;" id="pendingCount">0</span>
+                                    <span style="color: #6c757d; font-size: 0.9em;">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab-buttons" id="tabButtons"></div>
+            </div>
+            <div id="tabContent"></div>
+        </div>
+        <div class="status-bar" id="statusBar">
+            <i class="fas fa-circle status-icon loading"></i>
+            <span>Loading dashboard...</span>
+                </div>
+    </div>
+    
+    <!-- Credentials Modal -->
+    <div id="credentialsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> API Credentials</h2>
+                <span class="close" onclick="closeCredentialsModal()">&times;</span>
+            </div>
+            <div class="credentials-form">
+                <div class="credential-group">
+                    <label for="playhtApiKey">PlayHT API Key:</label>
+                    <input type="text" id="playhtApiKey" placeholder="Enter PlayHT API Key">
+                </div>
+                <div class="credential-group">
+                    <label for="playhtUserId">PlayHT User ID:</label>
+                    <input type="text" id="playhtUserId" placeholder="Enter PlayHT User ID">
+                </div>
+                <div class="credential-group">
+                    <label for="elevenlabsApiKey">ElevenLabs API Key:</label>
+                    <input type="text" id="elevenlabsApiKey" placeholder="Enter ElevenLabs API Key">
+                </div>
+                <div class="credential-group">
+                    <label for="googleTranslateApiKey">Google Translate API Key:</label>
+                    <input type="text" id="googleTranslateApiKey" placeholder="Enter Google Translate API Key">
+                </div>
+                <div class="credentials-buttons">
+                    <button id="saveCredentials" class="btn btn-primary" onclick="saveCredentials()">
+                        <i class="fas fa-save"></i> Save Credentials
+                    </button>
+                    <button id="recoverCredentials" class="btn btn-success" onclick="loadCredentials()">
+                        <i class="fas fa-history"></i> Load Credentials
+                    </button>
+                    <button id="clearCredentials" class="btn btn-secondary" onclick="clearCredentials()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Config Modal (Vue-powered) -->
+    <div id="languageConfigModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-language"></i> Language Configuration</h2>
+                <span class="close" onclick="closeLanguageConfigModal()">&times;</span>
+            </div>
+            <div class="audio-info-content">
+                <div id="language-config-app">
+                    <div v-if="loading" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading configuration...</div>
+                    <div v-else>
+                        <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px; margin-bottom:12px;">
+                            <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
+                        </div>
+                        <div v-for="(cfg, name) in config.languages" :key="name" class="info-section">
+                            <h3 style="display:flex; align-items:center; gap:8px;">{{ name }}</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Language Code</label>
+                                    <input v-model="cfg.lang_code" />
+                                </div>
+                                <div class="info-item">
+                                    <label>Default Service</label>
+                                    <select v-model="cfg.service">
+                                        <option>ElevenLabs</option>
+                                        <option>PlayHT</option>
+                                    </select>
+                                </div>
+                                <div class="info-item">
+                                    <label>Default Voice</label>
+                                    <input v-model="cfg.voice" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Info Modal -->
+    <div id="audioInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Audio Metadata</h2>
+                <span class="close" onclick="closeAudioInfoModal()">&times;</span>
+            </div>
+            <div class="audio-info-content">
+                <div id="audioInfoLoading" class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i> Loading metadata...
+                </div>
+                <div id="audioInfoData" style="display: none;">
+                    <div class="info-section">
+                        <h3><i class="fas fa-file-audio"></i> File Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>File Name:</label>
+                                <span id="info-fileName"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Size:</label>
+                                <span id="info-size"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Content Type:</label>
+                                <span id="info-contentType"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Created:</label>
+                                <span id="info-created"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Language:</label>
+                                <span id="info-language"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h3><i class="fas fa-tags"></i> ID3 Tags</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Title:</label>
+                                <span id="info-title"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Artist:</label>
+                                <span id="info-artist"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Album:</label>
+                                <span id="info-album"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Genre:</label>
+                                <span id="info-genre"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Service:</label>
+                                <span id="info-service"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Voice:</label>
+                                <span id="info-voice"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <div class="info-note" id="info-note"></div>
+                    </div>
+                </div>
+                <div id="audioInfoError" style="display: none;">
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./config.js"></script>
+    <script>
+        async function loadRemoteLanguagesIntoConfig() {
+            try {
+                const resp = await fetch('/api/language-config');
+                if (!resp.ok) return;
+                const data = await resp.json();
+                if (data && data.languages && typeof data.languages === 'object') {
+                    window.CONFIG = window.CONFIG || {};
+                    window.CONFIG.languages = data.languages;
+                    console.log('Loaded languages from remote language_config.json');
+                } else {
+                    console.log('No remote language_config.json found; using local config.js');
+                }
+            } catch (e) {
+                console.log('Failed to load remote language_config.json; using local config.js');
+            }
+        }
+        // fire and forget; dashboard constructor will pick up window.CONFIG.languages
+        loadRemoteLanguagesIntoConfig();
+    </script>
+    <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
+    <script>
         class Dashboard {
             constructor() {
                 // Load languages from external config if available; fallback to defaults
@@ -2484,6 +2983,6 @@
                 closeAudioInfoModal();
             }
         }
-    
+    </script>
 </body>
 </html> 
