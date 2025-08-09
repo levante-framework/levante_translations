@@ -26,21 +26,23 @@ LANGUAGE_CODES = {
   'German (Switzerland)': 'de-CH',  # NEW
 }
 
-def get_languages(): 
-
-# Updated for PlayHt API v2 with correct voice IDs and language codes
-    language_list = {\
-        'English': {'lang_code':'en', 'service' : 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
-        'Spanish': {'lang_code': 'es-CO', 'service' : 'ElevenLabs', 'voice': 'Malena Tango'},
-        'German': {'lang_code': 'de', 'service' : 'ElevenLabs', 'voice': 'Julia'},
-        'French': {'lang_code': 'fr-CA', 'service' : 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
-        'Dutch': {'lang_code': 'nl', 'service' : 'ElevenLabs', 'voice' : 'Emma - Natural conversations in Dutch'},
-        'German (Switzerland)': {'lang_code': 'de-CH', 'service' : 'ElevenLabs', 'voice': 'Julia'},  # NEW - using same German voice for now
+def get_languages():
+    """Return language configuration, preferring shared GCS JSON when available."""
+    # Local fallback
+    local_languages = {
+        'English': {'lang_code': 'en', 'service': 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
+        'Spanish': {'lang_code': 'es-CO', 'service': 'ElevenLabs', 'voice': 'Malena Tango'},
+        'German': {'lang_code': 'de', 'service': 'ElevenLabs', 'voice': 'Julia'},
+        'French': {'lang_code': 'fr-CA', 'service': 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
+        'Dutch': {'lang_code': 'nl', 'service': 'ElevenLabs', 'voice': 'Emma - Natural conversations in Dutch'},
+        'German (Switzerland)': {'lang_code': 'de-CH', 'service': 'ElevenLabs', 'voice': 'Julia'},
     }
 
-    # Later we can add HT voices and Eleven voices to each of these
-    # e.g. language_list['English']['ht_voices' : ht_english_voice_list]
-    return language_list       
+    try:
+        from .config_from_gcs import get_languages_config  # type: ignore
+        return get_languages_config(local_languages)
+    except Exception:
+        return local_languages
 
 def get_default_voice(language):
     language_index = get_languages()
