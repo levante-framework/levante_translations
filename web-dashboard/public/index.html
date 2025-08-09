@@ -168,25 +168,6 @@
     <!-- Scripts -->
     <script src="./config.js"></script>
     <script>
-        async function loadRemoteLanguagesIntoConfig() {
-            try {
-                const resp = await fetch('/api/language-config');
-                if (!resp.ok) return;
-                const data = await resp.json();
-                if (data && data.languages && typeof data.languages === 'object') {
-                    window.CONFIG = window.CONFIG || {};
-                    window.CONFIG.languages = data.languages;
-                    console.log('Loaded languages from remote language_config.json');
-                } else {
-                    console.log('No remote language_config.json found; using local config.js');
-                }
-            } catch (e) {
-                console.log('Failed to load remote language_config.json; using local config.js');
-            }
-        }
-        loadRemoteLanguagesIntoConfig();
-
-        // Markdown help: fetch and render
         async function openHelp(docPath) {
             const helpModal = document.getElementById('helpModal');
             const helpLoading = document.getElementById('helpLoading');
@@ -209,7 +190,13 @@
     </script>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/credentials.js"></script>
+    <script src="./js/validation.js"></script>
+    <script src="./js/audio.js"></script>
+    <script src="./js/language-config.js"></script>
     <script src="./dashboard.js"></script>
+    <script src="./js/bootstrap.js"></script>
     
     <script>
         // Load modals dynamically

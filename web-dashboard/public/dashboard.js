@@ -1253,29 +1253,12 @@
             }
         }
 
-        // Initialize dashboard when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            window.dashboard = new Dashboard();
-            loadCredentials(); // Load existing credentials on startup
-            initLanguageConfigApp();
-        });
+        // Initialization moved to js/bootstrap.js
         
         // Validation Functions
-        function toggleValidationPanel() {
-            const header = document.querySelector('.validation-header');
-            const content = document.getElementById('validationContent');
-            
-            header.classList.toggle('collapsed');
-            content.classList.toggle('expanded');
-        }
 
         // ===== Language Config Modal (Vue) =====
-        function openLanguageConfigModal() {
-            document.getElementById('languageConfigModal').style.display = 'block';
-        }
-        function closeLanguageConfigModal() {
-            document.getElementById('languageConfigModal').style.display = 'none';
-        }
+        // Language config app moved to js/language-config.js
         function initLanguageConfigApp() {
             const { createApp, reactive } = Vue;
             const app = createApp({
@@ -1407,114 +1390,9 @@
             }
         }
         
-        function saveValidationsManually() {
-            const result = window.dashboard.saveValidationResults();
-            
-            // Show success feedback
-            const button = document.getElementById('saveValidations');
-            const originalText = button.innerHTML;
-            
-            if (result.success) {
-                button.innerHTML = '<i class="fas fa-check"></i> Saved!';
-                button.disabled = true;
-                
-                // Update status bar with detailed info
-                window.dashboard.setStatus(`💾 Saved ${result.itemCount} items (${result.validationCount} validations) to browser storage & shared team storage`, 'success');
-                
-                // Reset button after 2 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 2000);
-            } else {
-                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
-                button.disabled = true;
-                
-                // Update status bar with error
-                window.dashboard.setStatus(`❌ Error saving validations: ${result.error}`, 'error');
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 3000);
-            }
-        }
 
-        async function loadValidationsFromShared() {
-            const button = document.getElementById('loadValidations');
-            const originalText = button.innerHTML;
-            
-            try {
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-                button.disabled = true;
-                
-                const success = await window.dashboard.loadFromSharedStorage();
-                
-                if (success) {
-                    // Apply the newly loaded validation results to the current view
-                    window.dashboard.applyStoredValidationResultsForCurrentLanguage();
-                    
-                    button.innerHTML = '<i class="fas fa-check"></i> Loaded!';
-                    window.dashboard.setStatus('🌐 Successfully loaded validation results from shared session storage', 'success');
-                    
-                    // Reset button after 2 seconds
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }, 2000);
-                } else {
-                    button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> No Data';
-                    window.dashboard.setStatus('⚠️ No shared validation data found', 'warning');
-                    
-                    // Reset button after 2 seconds
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }, 2000);
-                }
-            } catch (error) {
-                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
-                window.dashboard.setStatus(`❌ Error loading shared validations: ${error.message}`, 'error');
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                }, 3000);
-            }
-        }
+
         
-        function exportValidationsToJSONFile() {
-            // Count current validation entries
-            let totalValidations = 0;
-            Object.keys(window.dashboard.validation_results).forEach(itemId => {
-                totalValidations += Object.keys(window.dashboard.validation_results[itemId]).length;
-            });
-            
-            const exportData = {
-                metadata: {
-                    exported_at: new Date().toISOString(),
-                    exported_by: 'Levante Translation Dashboard',
-                    version: '1.0',
-                    total_items: Object.keys(window.dashboard.validation_results).length,
-                    total_validations: totalValidations,
-                    languages: Object.keys(window.dashboard.languages)
-                },
-                validation_results: window.dashboard.validation_results
-            };
-            
-            // Create and download file with consistent name
-            const dataStr = JSON.stringify(exportData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', 'validation_results.json');
-            linkElement.click();
-            
-            console.log('📦 Exported validation results to validation_results.json');
-        }
         
         function showValidationSummaryReport() {
             const results = window.dashboard.validation_results;
@@ -2198,56 +2076,7 @@
         
         // Credentials Management Functions
         function openCredentialsModal() {
-            document.getElementById('credentialsModal').style.display = 'block';
-            loadCredentials();
-        }
-        
-        function closeCredentialsModal() {
-            document.getElementById('credentialsModal').style.display = 'none';
-        }
-        
-        function saveCredentials() {
-            const credentials = {
-                playhtApiKey: document.getElementById('playhtApiKey').value,
-                playhtUserId: document.getElementById('playhtUserId').value,
-                elevenlabsApiKey: document.getElementById('elevenlabsApiKey').value,
-                googleTranslateApiKey: document.getElementById('googleTranslateApiKey').value
-            };
-            
-            localStorage.setItem('levante_credentials', JSON.stringify(credentials));
-            alert('Credentials saved successfully!');
-            updateValidationAvailability(!!credentials.googleTranslateApiKey);
-        }
-        
-        function loadCredentials() {
-            try {
-                const credentials = JSON.parse(localStorage.getItem('levante_credentials') || '{}');
-                
-                document.getElementById('playhtApiKey').value = credentials.playhtApiKey || '';
-                document.getElementById('playhtUserId').value = credentials.playhtUserId || '';
-                document.getElementById('elevenlabsApiKey').value = credentials.elevenlabsApiKey || '';
-                document.getElementById('googleTranslateApiKey').value = credentials.googleTranslateApiKey || '';
-                
-                updateValidationAvailability(!!credentials.googleTranslateApiKey);
-            } catch (error) {
-                console.error('Error loading credentials:', error);
-            }
-        }
-        
-        function clearCredentials() {
-            if (confirm('Are you sure you want to clear all credentials?')) {
-                localStorage.removeItem('levante_credentials');
-                
-                document.getElementById('playhtApiKey').value = '';
-                document.getElementById('playhtUserId').value = '';
-                document.getElementById('elevenlabsApiKey').value = '';
-                document.getElementById('googleTranslateApiKey').value = '';
-                
-                updateValidationAvailability(false);
-                alert('All credentials cleared.');
-            }
-        }
-        
+
         // Audio Info Modal Functions
         function showAudioInfo(itemId, langCode) {
             console.log(`🔍 Showing audio info for: ${itemId} in ${langCode}`);
@@ -2374,7 +2203,7 @@
             });
         }
         
-        // Audio Functions
+        // Audio functions moved to js/audio.js
         function playAudio(itemId, langCode) {
             console.log(`🎯 Attempting to play audio for: ${itemId} in ${langCode}`);
             window.dashboard.setStatus(`🔄 Loading audio: ${itemId}...`, 'info');
@@ -2484,6 +2313,4 @@
                 closeAudioInfoModal();
             }
         }
-    
-</body>
-</html> 
+         
