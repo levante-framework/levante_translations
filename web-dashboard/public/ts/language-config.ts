@@ -43,6 +43,7 @@ function initLanguageConfigApp(): void {
     
     const { createApp, reactive } = Vue;
     
+    // Create Vue app with proper typing by using 'any' for component methods
     const app = createApp({
         data() {
             return {
@@ -56,7 +57,7 @@ function initLanguageConfigApp(): void {
         },
         
         mounted() { 
-            this.load(); 
+            (this as any).load(); 
         },
         
         methods: {
@@ -64,20 +65,21 @@ function initLanguageConfigApp(): void {
              * Loads language configuration from the API
              */
             async load() {
-                this.loading = true;
+                const self = this as any;
+                self.loading = true;
                 try {
                     const response = await fetch('/api/language-config');
                     
                     if (response.ok) {
                         const data = await response.json();
                         if (data && data.languages) {
-                            this.config.languages = data.languages;
+                            self.config.languages = data.languages;
                         }
                     }
                 } catch (error) {
                     console.warn('Failed to load remote language config, using local fallback:', error);
                 } finally {
-                    this.loading = false;
+                    self.loading = false;
                 }
             },
             
@@ -85,10 +87,11 @@ function initLanguageConfigApp(): void {
              * Saves the language configuration to the API
              */
             async saveConfig() {
-                this.saving = true;
+                const self = this as any;
+                self.saving = true;
                 try {
                     const requestData = { 
-                        languages: this.config.languages, 
+                        languages: self.config.languages, 
                         metadata: { source: 'web-dashboard' } 
                     };
                     
@@ -106,7 +109,7 @@ function initLanguageConfigApp(): void {
                     // Update global CONFIG
                     const windowAny = window as any;
                     windowAny.CONFIG = windowAny.CONFIG || {};
-                    windowAny.CONFIG.languages = JSON.parse(JSON.stringify(this.config.languages));
+                    windowAny.CONFIG.languages = JSON.parse(JSON.stringify(self.config.languages));
                     
                     // Update dashboard if it exists
                     if (windowAny.dashboard) {
@@ -132,7 +135,7 @@ function initLanguageConfigApp(): void {
                     console.error('Failed to save language config:', error);
                     alert(`Failed to save: ${errorMessage}`);
                 } finally {
-                    this.saving = false;
+                    self.saving = false;
                 }
             }
         }
@@ -146,9 +149,15 @@ function initLanguageConfigApp(): void {
     }
 }
 
+// Language configuration types (re-exported from types.ts)
+import type { LanguageConfig } from './types.js';
+
 // Export functions
 export {
     openLanguageConfigModal,
     closeLanguageConfigModal,
     initLanguageConfigApp
 };
+
+// Export types for use by other modules
+export type { LanguageConfig };

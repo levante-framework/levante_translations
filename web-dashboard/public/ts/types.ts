@@ -1,7 +1,13 @@
 // Shared types for the dashboard application
 
-import type { LanguageConfig } from './language-config.js';
 import type { Credentials } from './utils.js';
+
+// Language configuration interface (defined here to avoid circular imports)
+interface LanguageConfig {
+    lang_code: string;
+    service: 'ElevenLabs' | 'PlayHT';
+    voice: string;
+}
 
 // Status types for the dashboard
 type StatusType = 'success' | 'error' | 'warning' | 'info' | 'loading';
