@@ -167,3 +167,33 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .info-note { background: #e7f3ff; padding: 12px; border-radius: 6px; color: #0c5460; font-style: italic; }
 .error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; text-align: center; }
 .error-message i { margin-right: 8px; }
+
+/* Help Dropdown */
+.dropdown { position: relative; }
+.dropdown-toggle::after { content: ' \25BE'; font-size: 10px; }
+.dropdown-menu { 
+  position: absolute; 
+  right: 0; 
+  top: 110%; 
+  background: #fff; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 8px; 
+  min-width: 220px; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+  display: none; 
+  z-index: 1000;
+}
+.dropdown-menu a { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  padding: 10px 12px; 
+  color: #333; 
+  text-decoration: none; 
+  font-weight: 500;
+}
+.dropdown-menu a:hover { background: #f8f9fa; }
+.dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
+
+/* Ensure Help dropdown aligns nicely within the voice-controls row */
+.help-dropdown { margin-left: 4px; }

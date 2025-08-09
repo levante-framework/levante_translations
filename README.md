@@ -1,6 +1,8 @@
 
 ### Levante Audio Tools
 
+[Help: Add a New Language Guide](https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md) · [Project README on GitHub](https://github.com/levante-framework/levante_translations#readme)
+
 Our audio tools include three main utilities:
 
 generate_speech.py: Designed to generate audio files for one or more languages in the voices specified in config.py. The audio files are laid out in a filesystem
