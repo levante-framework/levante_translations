@@ -1,0 +1,158 @@
+<!-- Credentials Modal -->
+<div id="credentialsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-key"></i> API Credentials</h2>
+            <span class="close" onclick="closeCredentialsModal()">&times;</span>
+        </div>
+        <div class="credentials-form">
+            <div class="credential-group">
+                <label for="playhtApiKey">PlayHT API Key:</label>
+                <input type="text" id="playhtApiKey" placeholder="Enter PlayHT API Key">
+            </div>
+            <div class="credential-group">
+                <label for="playhtUserId">PlayHT User ID:</label>
+                <input type="text" id="playhtUserId" placeholder="Enter PlayHT User ID">
+            </div>
+            <div class="credential-group">
+                <label for="elevenlabsApiKey">ElevenLabs API Key:</label>
+                <input type="text" id="elevenlabsApiKey" placeholder="Enter ElevenLabs API Key">
+            </div>
+            <div class="credential-group">
+                <label for="googleTranslateApiKey">Google Translate API Key:</label>
+                <input type="text" id="googleTranslateApiKey" placeholder="Enter Google Translate API Key">
+            </div>
+            <div class="credentials-buttons">
+                <button id="saveCredentials" class="btn btn-primary" onclick="saveCredentials()">
+                    <i class="fas fa-save"></i> Save Credentials
+                </button>
+                <button id="recoverCredentials" class="btn btn-success" onclick="loadCredentials()">
+                    <i class="fas fa-history"></i> Load Credentials
+                </button>
+                <button id="clearCredentials" class="btn btn-secondary" onclick="clearCredentials()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Language Config Modal (Vue-powered) -->
+<div id="languageConfigModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-language"></i> Language Configuration</h2>
+            <span class="close" onclick="closeLanguageConfigModal()">&times;</span>
+        </div>
+        <div class="audio-info-content">
+            <div id="language-config-app">
+                <div v-if="loading" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading configuration...</div>
+                <div v-else>
+                    <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px; margin-bottom:12px;">
+                        <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
+                    </div>
+                    <div v-for="(cfg, name) in config.languages" :key="name" class="info-section">
+                        <h3 style="display:flex; align-items:center; gap:8px;">{{ name }}</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Language Code</label>
+                                <input v-model="cfg.lang_code" />
+                            </div>
+                            <div class="info-item">
+                                <label>Default Service</label>
+                                <select v-model="cfg.service">
+                                    <option>ElevenLabs</option>
+                                    <option>PlayHT</option>
+                                </select>
+                            </div>
+                            <div class="info-item">
+                                <label>Default Voice</label>
+                                <input v-model="cfg.voice" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Audio Info Modal -->
+<div id="audioInfoModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-info-circle"></i> Audio Metadata</h2>
+            <span class="close" onclick="closeAudioInfoModal()">&times;</span>
+        </div>
+        <div class="audio-info-content">
+            <div id="audioInfoLoading" class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Loading metadata...
+            </div>
+            <div id="audioInfoData" style="display: none;">
+                <div class="info-section">
+                    <h3><i class="fas fa-file-audio"></i> File Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>File Name:</label>
+                            <span id="info-fileName"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Size:</label>
+                            <span id="info-size"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Content Type:</label>
+                            <span id="info-contentType"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Created:</label>
+                            <span id="info-created"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Language:</label>
+                            <span id="info-language"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3><i class="fas fa-tags"></i> ID3 Tags</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Title:</label>
+                            <span id="info-title"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Artist:</label>
+                            <span id="info-artist"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Album:</label>
+                            <span id="info-album"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Genre:</label>
+                            <span id="info-genre"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Service:</label>
+                            <span id="info-service"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Voice:</label>
+                            <span id="info-voice"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-note" id="info-note"></div>
+                </div>
+            </div>
+            <div id="audioInfoError" style="display: none;">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="errorMessage"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
