@@ -1260,3 +1260,6 @@
         // - js/audio.js (playAudio, showAudioInfo, etc.)
         // - js/language-config.js (Vue config modal)
         // - js/bootstrap.js (initialization)
+
+        // Make Dashboard class available globally for bootstrap
+        window.Dashboard = Dashboard;
