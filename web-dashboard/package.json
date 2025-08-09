@@ -7,7 +7,8 @@
   "scripts": {
     "start": "serve .",
     "build": "echo 'No build step needed'",
-    "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1",
+    "deploy": "node scripts/deploy-and-alias.js",
+    "deploy-dev": "vercel --yes",
     "deploy-bat": "deploy.bat"
   },
   "keywords": [

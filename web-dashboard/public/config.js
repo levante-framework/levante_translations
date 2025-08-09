@@ -27,32 +27,38 @@ const CONFIG = {
         'English': {
             lang_code: 'en',
             service: 'ElevenLabs',
-            voice: 'Alexandra - Conversational and Real',
+            voice: 'Clara - Children\'s Storyteller',
             display_name: 'English'
         },
         'Spanish': {
             lang_code: 'es-CO',
-            service: 'PlayHT',
-            voice: 'Spanish_Violeta Narrative',
+            service: 'ElevenLabs',
+            voice: 'Malena Tango',
             display_name: 'Spanish'
         },
         'German': {
             lang_code: 'de',
-            service: 'PlayHT',
-            voice: 'German_Anke Narrative',
+            service: 'ElevenLabs',
+            voice: 'Julia',
             display_name: 'German'
         },
         'French': {
             lang_code: 'fr-CA',
-            service: 'PlayHT',
-            voice: 'French_Ange Narrative',
+            service: 'ElevenLabs',
+            voice: 'Caroline - Top France - Narrative, warm, sweet',
             display_name: 'French'
         },
         'Dutch': {
             lang_code: 'nl',
             service: 'ElevenLabs',
-            voice: 'Xander',
+            voice: 'Emma - Natural conversations in Dutch',
             display_name: 'Dutch'
+        },
+        'German (Switzerland)': {
+            lang_code: 'de-CH',
+            service: 'ElevenLabs',
+            voice: 'Julia',
+            display_name: 'German (Switzerland)'
         }
     },
     
