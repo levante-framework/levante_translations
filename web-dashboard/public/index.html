@@ -12,6 +12,24 @@
     <div class="dashboard-container">
         <div class="header">
             <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <div class="header-actions">
+                <div class="dropdown help-dropdown" tabindex="0">
+                    <button class="btn btn-secondary dropdown-toggle" title="Help and documentation">
+                        <i class="fas fa-question-circle"></i> Help
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="openHelp('docs/README_WebDashboard.md'); return false;">
+                            <i class="fas fa-book"></i> Web Dashboard README
+                        </a>
+                        <a href="#" onclick="openHelp('docs/README_ADD_LANGUAGE.md'); return false;">
+                            <i class="fas fa-language"></i> Add Language Guide
+                        </a>
+                        <a href="#" onclick="openHelp('docs/README_VALIDATION.md'); return false;">
+                            <i class="fas fa-clipboard-check"></i> Validation Guide
+                        </a>
+                    </div>
+                </div>
+            </div>
             <p>Multi-language Translation Validation and TTS audio generation</p>
         </div>
         <div class="main-content">
@@ -50,20 +68,6 @@
                         <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration">
                             <i class="fas fa-language"></i> Edit Language Config
                         </button>
-                        <!-- Help Dropdown -->
-                        <div class="dropdown help-dropdown" tabindex="0">
-                            <button class="btn btn-secondary dropdown-toggle" title="Help and documentation">
-                                <i class="fas fa-question-circle"></i> Help
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="https://github.com/levante-framework/levante_translations#readme" target="_blank" rel="noopener">
-                                    <i class="fas fa-book"></i> Project README
-                                </a>
-                                <a href="https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md" target="_blank" rel="noopener">
-                                    <i class="fas fa-language"></i> Add Language Guide
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -180,10 +184,31 @@
                 console.log('Failed to load remote language_config.json; using local config.js');
             }
         }
-        // fire and forget; dashboard constructor will pick up window.CONFIG.languages
         loadRemoteLanguagesIntoConfig();
+
+        // Markdown help: fetch and render
+        async function openHelp(docPath) {
+            const helpModal = document.getElementById('helpModal');
+            const helpLoading = document.getElementById('helpLoading');
+            const helpContent = document.getElementById('helpContent');
+            helpContent.innerHTML = '';
+            helpLoading.style.display = 'block';
+            helpModal.style.display = 'block';
+
+            try {
+                const resp = await fetch(docPath);
+                const md = await resp.text();
+                helpContent.innerHTML = window.marked ? window.marked.parse(md) : md;
+            } catch (e) {
+                helpContent.innerHTML = '<p style="color:#dc3545;">Failed to load documentation.</p>';
+            } finally {
+                helpLoading.style.display = 'none';
+            }
+        }
+        function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
     </script>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="./dashboard.js"></script>
     
     <script>
