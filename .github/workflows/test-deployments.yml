@@ -121,9 +121,28 @@ jobs:
         echo "⏭️ Skipping dev deployment - no dev credentials configured"
         echo "To enable dev deployment, add GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV secret"
         
-    # Generate GitHub App token for cross-repo access
-    - name: Generate GitHub App Token
+    # Check if we can trigger core-tasks e2e tests
+    - name: Check e2e test trigger availability
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      id: check-e2e-trigger
+      run: |
+        if [ -n "${{ secrets.GITHUB_APP_ID }}" ] && [ -n "${{ secrets.GITHUB_APP_PRIVATE_KEY }}" ]; then
+          echo "e2e-trigger-available=true" >> $GITHUB_OUTPUT
+          echo "e2e-trigger-method=github-app" >> $GITHUB_OUTPUT
+          echo "✅ E2E test triggering is configured (GitHub App)"
+        elif [ -n "${{ secrets.REPO_DISPATCH_TOKEN }}" ]; then
+          echo "e2e-trigger-available=true" >> $GITHUB_OUTPUT
+          echo "e2e-trigger-method=pat-token" >> $GITHUB_OUTPUT
+          echo "✅ E2E test triggering is configured (PAT - fallback)"
+        else
+          echo "e2e-trigger-available=false" >> $GITHUB_OUTPUT
+          echo "e2e-trigger-method=none" >> $GITHUB_OUTPUT
+          echo "⚠️ E2E test triggering not configured - GitHub App or REPO_DISPATCH_TOKEN secrets missing"
+        fi
+    
+    # Generate GitHub App token for cross-repo access (only if GitHub App method is available)
+    - name: Generate GitHub App Token
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-e2e-trigger.outputs.e2e-trigger-method == 'github-app'
       id: app-token
       uses: actions/create-github-app-token@v1
       with:
@@ -132,28 +151,12 @@ jobs:
         owner: levante-framework
         repositories: core-tasks
     
-    # Check if we can trigger core-tasks e2e tests
-    - name: Check e2e test trigger availability
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      id: check-e2e-trigger
-      run: |
-        if [ -n "${{ secrets.GITHUB_APP_ID }}" ] && [ -n "${{ secrets.GITHUB_APP_PRIVATE_KEY }}" ]; then
-          echo "e2e-trigger-available=true" >> $GITHUB_OUTPUT
-          echo "✅ E2E test triggering is configured (GitHub App)"
-        elif [ -n "${{ secrets.REPO_DISPATCH_TOKEN }}" ]; then
-          echo "e2e-trigger-available=true" >> $GITHUB_OUTPUT
-          echo "✅ E2E test triggering is configured (PAT - fallback)"
-        else
-          echo "e2e-trigger-available=false" >> $GITHUB_OUTPUT
-          echo "⚠️ E2E test triggering not configured - GitHub App or REPO_DISPATCH_TOKEN secrets missing"
-        fi
-    
     # Trigger core-tasks e2e tests after successful main branch push
     - name: Trigger core-tasks e2e tests
       if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.check-e2e-trigger.outputs.e2e-trigger-available == 'true'
       uses: peter-evans/repository-dispatch@v2
       with:
-        token: ${{ steps.app-token.outputs.token || secrets.REPO_DISPATCH_TOKEN }}
+        token: ${{ (steps.check-e2e-trigger.outputs.e2e-trigger-method == 'github-app' && steps.app-token.outputs.token) || secrets.REPO_DISPATCH_TOKEN }}
         repository: levante-framework/core-tasks
         event-type: translations-updated
         client-payload: |
