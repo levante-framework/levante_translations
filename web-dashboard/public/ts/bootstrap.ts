@@ -1,11 +1,7 @@
 // Import functions from other modules
-import { loadCredentials } from './credentials.js';
-import { closeCredentialsModal } from './credentials.js';
-// Import audio functions - declared here to avoid circular dependencies
-declare function closeAudioInfoModal(): void;
-
-// Simple language config functions without Vue typing complexity
-declare function initLanguageConfigApp(): void;
+import { loadCredentials, closeCredentialsModal } from './credentials.js';
+import { closeAudioInfoModal } from './audio.js';
+import { initLanguageConfigApp } from './language-config.js';
 
 // Language configuration API response type
 interface LanguageConfigResponse {
@@ -33,10 +29,8 @@ document.addEventListener('DOMContentLoaded', (): void => {
         if (credentialsModal) {
             loadCredentials();
             
-            // Call initLanguageConfigApp if it exists
-            if (typeof initLanguageConfigApp === 'function') {
-                initLanguageConfigApp();
-            }
+            // Initialize language config app
+            initLanguageConfigApp();
         } else {
             // Retry in 50ms if modals aren't loaded yet
             setTimeout(initializeAfterModals, 50);
