@@ -226,6 +226,9 @@
                             <button id="clearText" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Clear Text
                             </button>
+                            <button id="editLanguageConfig" class="btn btn-warning" onclick="openLanguageConfigModal()" title="Edit shared language configuration">
+                                <i class="fas fa-language"></i> Edit Language Config
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -342,6 +345,59 @@
         </div>
     </div>
 
+    <!-- Language Config Modal (Vue-powered) -->
+    <div id="languageConfigModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-language"></i> Language Configuration</h2>
+                <span class="close" onclick="closeLanguageConfigModal()">&times;</span>
+            </div>
+            <div class="audio-info-content">
+                <div id="language-config-app">
+                    <div v-if="loading" class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading configuration...</div>
+                    <div v-else>
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                            <div>
+                                <button class="btn btn-secondary btn-compact" @click="addLanguage"><i class="fas fa-plus"></i> Add Language</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
+                            </div>
+                        </div>
+                        <div v-for="(cfg, name) in config.languages" :key="name" class="info-section">
+                            <h3 style="display:flex; align-items:center; gap:8px;">
+                                <input v-model="renameBuffer[name]" @input="onRenameBuffer(name)" :placeholder="name" style="padding:6px; border:1px solid #ccc; border-radius:4px; min-width:260px;" />
+                                <button class="btn btn-secondary btn-compact" @click="applyRename(name)"><i class="fas fa-i-cursor"></i> Rename</button>
+                                <button class="btn btn-warning btn-compact" @click="removeLanguage(name)"><i class="fas fa-trash"></i> Remove</button>
+                            </h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Language Code</label>
+                                    <input v-model="cfg.lang_code" />
+                                </div>
+                                <div class="info-item">
+                                    <label>Default Service</label>
+                                    <select v-model="cfg.service">
+                                        <option>ElevenLabs</option>
+                                        <option>PlayHT</option>
+                                    </select>
+                                </div>
+                                <div class="info-item">
+                                    <label>Default Voice</label>
+                                    <input v-model="cfg.voice" />
+                                </div>
+                                <div class="info-item">
+                                    <label>Display Name</label>
+                                    <input v-model="cfg.display_name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Audio Info Modal -->
     <div id="audioInfoModal" class="modal">
         <div class="modal-content">
@@ -423,6 +479,27 @@
     </div>
 
     <script src="./config.js"></script>
+    <script>
+        async function loadRemoteLanguagesIntoConfig() {
+            try {
+                const resp = await fetch('/api/language-config');
+                if (!resp.ok) return;
+                const data = await resp.json();
+                if (data && data.languages && typeof data.languages === 'object') {
+                    window.CONFIG = window.CONFIG || {};
+                    window.CONFIG.languages = data.languages;
+                    console.log('Loaded languages from remote language_config.json');
+                } else {
+                    console.log('No remote language_config.json found; using local config.js');
+                }
+            } catch (e) {
+                console.log('Failed to load remote language_config.json; using local config.js');
+            }
+        }
+        // fire and forget; dashboard constructor will pick up window.CONFIG.languages
+        loadRemoteLanguagesIntoConfig();
+    </script>
+    <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
     <script>
         class Dashboard {
             constructor() {
@@ -1657,6 +1734,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             window.dashboard = new Dashboard();
             loadCredentials(); // Load existing credentials on startup
+            initLanguageConfigApp();
         });
         
         // Validation Functions
@@ -1666,6 +1744,104 @@
             
             header.classList.toggle('collapsed');
             content.classList.toggle('expanded');
+        }
+
+        // ===== Language Config Modal (Vue) =====
+        function openLanguageConfigModal() {
+            document.getElementById('languageConfigModal').style.display = 'block';
+        }
+        function closeLanguageConfigModal() {
+            document.getElementById('languageConfigModal').style.display = 'none';
+        }
+        function initLanguageConfigApp() {
+            const { createApp, reactive } = Vue;
+            const app = createApp({
+                data() {
+                    return {
+                        loading: true,
+                        saving: false,
+                        config: reactive({ languages: JSON.parse(JSON.stringify(window.CONFIG?.languages || {})) }),
+                        renameBuffer: {}
+                    };
+                },
+                mounted() {
+                    this.load();
+                },
+                methods: {
+                    async load() {
+                        this.loading = true;
+                        try {
+                            const resp = await fetch('/api/language-config');
+                            const data = await resp.json();
+                            if (data && data.languages) {
+                                this.config.languages = data.languages;
+                            }
+                        } catch (e) {
+                            // ignore; fallback to local
+                        } finally {
+                            this.loading = false;
+                        }
+                    },
+                    addLanguage() {
+                        const name = prompt('New language display name (e.g., "Italian")');
+                        if (!name) return;
+                        if (this.config.languages[name]) {
+                            alert('Language already exists');
+                            return;
+                        }
+                        this.$set?.(this.config.languages, name, { lang_code: '', service: 'ElevenLabs', voice: '', display_name: name });
+                        if (!this.$set) {
+                            // Vue 3 proxy workaround
+                            this.config.languages = { ...this.config.languages, [name]: { lang_code: '', service: 'ElevenLabs', voice: '', display_name: name } };
+                        }
+                    },
+                    removeLanguage(name) {
+                        if (!confirm(`Remove ${name}?`)) return;
+                        const { [name]: _, ...rest } = this.config.languages;
+                        this.config.languages = rest;
+                    },
+                    onRenameBuffer(name) {
+                        if (!this.renameBuffer[name]) this.renameBuffer[name] = name;
+                    },
+                    applyRename(oldName) {
+                        const newName = this.renameBuffer[oldName];
+                        if (!newName || newName === oldName) return;
+                        if (this.config.languages[newName]) {
+                            alert('Target name already exists');
+                            return;
+                        }
+                        const entry = this.config.languages[oldName];
+                        const { [oldName]: _, ...rest } = this.config.languages;
+                        this.config.languages = { ...rest, [newName]: { ...entry, display_name: newName } };
+                        delete this.renameBuffer[oldName];
+                    },
+                    async saveConfig() {
+                        this.saving = true;
+                        try {
+                            const body = { languages: this.config.languages, metadata: { source: 'web-dashboard' } };
+                            const resp = await fetch('/api/language-config', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                            if (!resp.ok) throw new Error(await resp.text());
+                            // Update in-memory CONFIG and refresh dashboard tabs
+                            window.CONFIG = window.CONFIG || {};
+                            window.CONFIG.languages = JSON.parse(JSON.stringify(this.config.languages));
+                            if (window.dashboard) {
+                                window.dashboard.languages = window.CONFIG.languages;
+                                document.getElementById('tabButtons').innerHTML = '';
+                                document.getElementById('tabContent').innerHTML = '';
+                                window.dashboard.createTabs();
+                                window.dashboard.populateVoices();
+                            }
+                            alert('Saved language configuration.');
+                            closeLanguageConfigModal();
+                        } catch (e) {
+                            alert(`Failed to save: ${e.message}`);
+                        } finally {
+                            this.saving = false;
+                        }
+                    }
+                }
+            });
+            app.mount('#language-config-app');
         }
         
         function validateSelected() {
