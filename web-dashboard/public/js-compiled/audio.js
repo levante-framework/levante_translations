@@ -1,5 +1,5 @@
-// Import utilities
-import { formatFileSize, formatDate } from './utils.js';
+"use strict";
+// Utilities are available globally - no imports needed in non-module mode
 const BUCKET_LANG_CODE_MAP = {
     'en': 'en',
     'es-CO': 'es-CO', // Try es-CO first, fallback to es
@@ -204,6 +204,6 @@ function showAudioInfoError(error, details) {
     setElementDisplay('audioInfoError', 'block');
     setElementText('errorMessage', `${error}: ${details}`);
 }
-// Export functions
-export { playAudio, showAudioInfo, closeAudioInfoModal, fetchAudioMetadata, showAudioInfoData, showAudioInfoError };
+// Functions are globally available - no exports needed in non-module mode
+// Types are available through declaration files
 //# sourceMappingURL=audio.js.map

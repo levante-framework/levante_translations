@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Opens the language configuration modal
  */
@@ -138,6 +139,5 @@ function initLanguageConfigApp() {
         console.error('Failed to mount language config Vue app:', error);
     }
 }
-// Export functions
-export { openLanguageConfigModal, closeLanguageConfigModal, initLanguageConfigApp };
+// Functions are globally available - no exports needed in non-module mode
 //# sourceMappingURL=language-config.js.map

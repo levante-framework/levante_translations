@@ -1,7 +1,4 @@
-// Import functions from other modules
-import { loadCredentials, closeCredentialsModal } from './credentials.js';
-import { closeAudioInfoModal } from './audio.js';
-import { initLanguageConfigApp } from './language-config.js';
+"use strict";
 /**
  * Initializes the dashboard after DOM content is loaded
  */
@@ -75,6 +72,5 @@ window.onclick = function (event) {
         closeAudioInfoModal();
     }
 };
-// Export for module system
-export { loadRemoteLanguagesIntoConfig };
+// Function is globally available - no exports needed in non-module mode
 //# sourceMappingURL=bootstrap.js.map

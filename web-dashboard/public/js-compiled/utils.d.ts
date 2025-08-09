@@ -1,19 +1,9 @@
 interface Credentials {
-    playhtApiKey?: string;
-    playhtUserId?: string;
-    elevenlabsApiKey?: string;
-    googleTranslateApiKey?: string;
+    playht_api_key?: string;
+    playht_user_id?: string;
+    elevenlabs_api_key?: string;
+    google_translate_api_key?: string;
 }
-/**
- * Retrieves stored credentials from localStorage
- * @returns {Credentials} The stored credentials object, or empty object if none found
- */
-declare function getCredentials(): Credentials;
-/**
- * Updates the availability/state of validation buttons based on API key presence
- * @param {boolean} hasGoogleTranslateKey - Whether Google Translate API key is available
- */
-declare function updateValidationAvailability(hasGoogleTranslateKey: boolean): void;
 /**
  * Formats a byte count into human-readable file size
  * @param {number | null | undefined} bytes - The number of bytes
@@ -30,6 +20,4 @@ declare function formatDate(dateString: string | null | undefined): string;
  * Clears the translation cache and reloads the page after user confirmation
  */
 declare function clearCacheAndReload(): void;
-export type { Credentials };
-export { getCredentials, updateValidationAvailability, formatFileSize, formatDate, clearCacheAndReload };
 //# sourceMappingURL=utils.d.ts.map

@@ -1,4 +1,4 @@
-import { updateValidationAvailability } from './utils.js';
+"use strict";
 // DOM element IDs for type safety
 const CREDENTIAL_ELEMENT_IDS = {
     modal: 'credentialsModal',
@@ -56,15 +56,15 @@ function saveCredentials() {
         return;
     }
     const credentials = {
-        playhtApiKey: playhtApiKeyInput.value.trim() || undefined,
-        playhtUserId: playhtUserIdInput.value.trim() || undefined,
-        elevenlabsApiKey: elevenlabsApiKeyInput.value.trim() || undefined,
-        googleTranslateApiKey: googleTranslateApiKeyInput.value.trim() || undefined
+        playht_api_key: playhtApiKeyInput.value.trim() || undefined,
+        playht_user_id: playhtUserIdInput.value.trim() || undefined,
+        elevenlabs_api_key: elevenlabsApiKeyInput.value.trim() || undefined,
+        google_translate_api_key: googleTranslateApiKeyInput.value.trim() || undefined
     };
     try {
         localStorage.setItem('levante_credentials', JSON.stringify(credentials));
         alert('Credentials saved successfully!');
-        updateValidationAvailability(!!credentials.googleTranslateApiKey);
+        updateValidationAvailability();
     }
     catch (error) {
         console.error('Error saving credentials:', error);
@@ -87,18 +87,18 @@ function loadCredentials() {
         };
         // Safely set values only if elements exist
         if (elements.playhtApiKey) {
-            elements.playhtApiKey.value = credentials.playhtApiKey || '';
+            elements.playhtApiKey.value = credentials.playht_api_key || '';
         }
         if (elements.playhtUserId) {
-            elements.playhtUserId.value = credentials.playhtUserId || '';
+            elements.playhtUserId.value = credentials.playht_user_id || '';
         }
         if (elements.elevenlabsApiKey) {
-            elements.elevenlabsApiKey.value = credentials.elevenlabsApiKey || '';
+            elements.elevenlabsApiKey.value = credentials.elevenlabs_api_key || '';
         }
         if (elements.googleTranslateApiKey) {
-            elements.googleTranslateApiKey.value = credentials.googleTranslateApiKey || '';
+            elements.googleTranslateApiKey.value = credentials.google_translate_api_key || '';
         }
-        updateValidationAvailability(!!credentials.googleTranslateApiKey);
+        updateValidationAvailability();
     }
     catch (error) {
         console.error('Error loading credentials:', error);
@@ -125,7 +125,7 @@ function clearCredentials() {
                 input.value = '';
             }
         });
-        updateValidationAvailability(false);
+        updateValidationAvailability();
         alert('All credentials cleared.');
     }
     catch (error) {
@@ -133,6 +133,5 @@ function clearCredentials() {
         alert('Error clearing credentials. Please try again.');
     }
 }
-// Export functions for use in other modules
-export { openCredentialsModal, closeCredentialsModal, saveCredentials, loadCredentials, clearCredentials };
+// Functions are globally available - no exports needed in non-module mode
 //# sourceMappingURL=credentials.js.map

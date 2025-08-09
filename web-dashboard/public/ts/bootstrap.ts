@@ -1,7 +1,8 @@
-// Import functions from other modules
-import { loadCredentials, closeCredentialsModal } from './credentials.js';
-import { closeAudioInfoModal } from './audio.js';
-import { initLanguageConfigApp } from './language-config.js';
+// Global function declarations
+declare function loadCredentials(): void;
+declare function closeCredentialsModal(): void;
+declare function closeAudioInfoModal(): void;
+declare function initLanguageConfigApp(): void;
 
 // Language configuration API response type
 interface LanguageConfigResponse {
@@ -87,5 +88,4 @@ window.onclick = function(event: MouseEvent): void {
     }
 };
 
-// Export for module system
-export { loadRemoteLanguagesIntoConfig };
+// Function is globally available - no exports needed in non-module mode

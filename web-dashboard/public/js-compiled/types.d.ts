@@ -1,4 +1,9 @@
-import type { Credentials } from './utils.js';
+interface Credentials {
+    playht_api_key?: string;
+    playht_user_id?: string;
+    elevenlabs_api_key?: string;
+    google_translate_api_key?: string;
+}
 interface LanguageConfig {
     lang_code: string;
     service: 'ElevenLabs' | 'PlayHT';
