@@ -186,6 +186,20 @@ def generate_audio(language, force_regenerate=False):
     service = our_language['service']
     voice = our_language['voice']
     
+    # If force-regenerate is enabled, clear master cache for this language
+    if force_regenerate:
+        try:
+            if lang_code not in masterData.columns:
+                print(f"Master data missing column {lang_code}; creating it before clearing cache...")
+                masterData[lang_code] = None
+            else:
+                print(f"🧹 Clearing translation cache for language column '{lang_code}' in {master_file_path}")
+                masterData[lang_code] = None
+            masterData.to_csv(master_file_path, index=False, encoding='utf-8', errors='replace')
+            print(f"✅ Cleared master cache for {lang_code}")
+        except Exception as e:
+            print(f"⚠️  Warning: Failed to clear master cache for {lang_code}: {e}")
+
     # DEBUG: Show language column status
     print(f"Looking for language column: {lang_code}")
     if lang_code in translationData.columns:
@@ -377,7 +391,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate speech audio for translations')
     parser.add_argument('language', help='Language to generate audio for (e.g., German, Spanish, French, Dutch, English)')
     parser.add_argument('--force', '-f', action='store_true', 
-                        help='Force regeneration of audio files even if they already exist')
+                        help='Force regenerate: clears translation cache for the language and regenerates ALL audio items using the current voice from config')
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
     
