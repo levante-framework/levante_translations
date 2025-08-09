@@ -5,6 +5,13 @@ function closeLanguageConfigModal() {
     document.getElementById('languageConfigModal').style.display = 'none';
 }
 function initLanguageConfigApp() {
+    // Check if the Vue app mount point exists
+    const mountPoint = document.getElementById('language-config-app');
+    if (!mountPoint) {
+        console.warn('Language config app mount point not found, skipping Vue initialization');
+        return;
+    }
+    
     const { createApp, reactive } = Vue;
     const app = createApp({
         data() {

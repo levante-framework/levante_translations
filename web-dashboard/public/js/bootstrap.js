@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     window.dashboard = new Dashboard();
-    loadCredentials();
-    initLanguageConfigApp();
+    
+    // Wait for modals to load before initializing credentials and language config
+    function initializeAfterModals() {
+        // Check if modals are loaded by looking for a modal element
+        if (document.getElementById('credentialsModal')) {
+            loadCredentials();
+            initLanguageConfigApp();
+        } else {
+            // Retry in 50ms if modals aren't loaded yet
+            setTimeout(initializeAfterModals, 50);
+        }
+    }
+    
+    setTimeout(initializeAfterModals, 100);
 });
 
 function loadRemoteLanguagesIntoConfig() {

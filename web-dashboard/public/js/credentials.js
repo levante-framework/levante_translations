@@ -22,10 +22,18 @@ function saveCredentials() {
 function loadCredentials() {
     try {
         const credentials = JSON.parse(localStorage.getItem('levante_credentials') || '{}');
-        document.getElementById('playhtApiKey').value = credentials.playhtApiKey || '';
-        document.getElementById('playhtUserId').value = credentials.playhtUserId || '';
-        document.getElementById('elevenlabsApiKey').value = credentials.elevenlabsApiKey || '';
-        document.getElementById('googleTranslateApiKey').value = credentials.googleTranslateApiKey || '';
+        
+        // Check if credential input elements exist before setting values
+        const playhtApiKey = document.getElementById('playhtApiKey');
+        const playhtUserId = document.getElementById('playhtUserId');
+        const elevenlabsApiKey = document.getElementById('elevenlabsApiKey');
+        const googleTranslateApiKey = document.getElementById('googleTranslateApiKey');
+        
+        if (playhtApiKey) playhtApiKey.value = credentials.playhtApiKey || '';
+        if (playhtUserId) playhtUserId.value = credentials.playhtUserId || '';
+        if (elevenlabsApiKey) elevenlabsApiKey.value = credentials.elevenlabsApiKey || '';
+        if (googleTranslateApiKey) googleTranslateApiKey.value = credentials.googleTranslateApiKey || '';
+        
         updateValidationAvailability(!!credentials.googleTranslateApiKey);
     } catch (error) {
         console.error('Error loading credentials:', error);
