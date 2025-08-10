@@ -8,7 +8,9 @@ interface AudioMetadata {
     created?: string;
     language?: string;
     note?: string;
+    comment?: string;
     id3Tags?: {
+        // Standard ID3 tags
         title?: string;
         artist?: string;
         album?: string;
@@ -16,6 +18,16 @@ interface AudioMetadata {
         service?: string;
         voice?: string;
         note?: string;
+        
+        // Custom Levante ID3 tags
+        lang_code?: string;
+        text?: string;
+        created?: string;
+        copyright?: string;
+        comment?: string;
+        
+        // Debug information
+        debug_raw_tags?: Record<string, any>;
     };
 }
 
@@ -29,6 +41,7 @@ interface AudioMetadataResponse {
     created?: string;
     language?: string;
     note?: string;
+    comment?: string;
     id3Tags?: AudioMetadata['id3Tags'];
 }
 
@@ -237,9 +250,24 @@ function showAudioInfoData(metadata: AudioMetadata): void {
     setElementText('info-service', id3Tags.service || 'Not set');
     setElementText('info-voice', id3Tags.voice || 'Not set');
     
+    // Set custom Levante ID3 tag information
+    setElementText('info-lang-code', id3Tags.lang_code || metadata.language || 'Not set');
+    setElementText('info-text', id3Tags.text || 'Not available');
+    setElementText('info-created-date', id3Tags.created || 'Not set');
+    setElementText('info-copyright', id3Tags.copyright || 'Not set');
+    setElementText('info-comment', id3Tags.comment || metadata.comment || 'Not set');
+    
     // Handle note display
     const noteElement = getElementByIdSafe('info-note');
-    const noteText = metadata.note || id3Tags.note;
+    let noteText = metadata.note || id3Tags.note;
+    
+    // Add debug information if available
+    if (id3Tags.debug_raw_tags) {
+        const debugInfo = Object.entries(id3Tags.debug_raw_tags)
+            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+            .join('\n');
+        noteText += `\n\nDebug - Raw ID3 Tags Found:\n${debugInfo}`;
+    }
     
     if (noteElement) {
         if (noteText) {
