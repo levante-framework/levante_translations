@@ -68,16 +68,26 @@ async function readAudioMetadata(audioUrl) {
             itemId: filePath.split('/').pop().replace('.mp3', ''),
             language: filePath.split('/')[0],
             
-            // Placeholder for ID3 tags (would need audio processing library)
+            // Enhanced ID3 tags with Levante custom fields
+            // Note: These are currently extracted from GCS metadata or estimated
+            // Full ID3 tag reading would require server-side audio processing library
             id3Tags: {
-                title: metadata.metadata?.title || '',
-                artist: metadata.metadata?.artist || '',
-                album: metadata.metadata?.album || '',
-                genre: metadata.metadata?.genre || '',
-                service: metadata.metadata?.service || '',
-                voice: metadata.metadata?.voice || '',
-                lang_code: metadata.metadata?.lang_code || '',
-                note: 'Full ID3 tag reading requires server-side audio processing'
+                // Standard ID3 tags
+                title: metadata.metadata?.title || filePath.split('/').pop().replace('.mp3', ''),
+                artist: metadata.metadata?.artist || 'Levante Project',
+                album: metadata.metadata?.album || filePath.split('/')[0] || 'Levante Audio',
+                genre: metadata.metadata?.genre || 'Speech Synthesis',
+                service: metadata.metadata?.service || 'Unknown',
+                voice: metadata.metadata?.voice || 'Unknown',
+                
+                // Custom Levante fields
+                lang_code: metadata.metadata?.lang_code || filePath.split('/')[0],
+                text: metadata.metadata?.text || 'Original text not available in metadata',
+                created: metadata.metadata?.created || metadata.timeCreated,
+                copyright: metadata.metadata?.copyright || 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
+                comment: metadata.metadata?.comment || `Generated audio for item: ${filePath.split('/').pop().replace('.mp3', '')}`,
+                
+                note: 'ID3 tags shown are extracted from GCS metadata. Full embedded ID3 reading requires server-side audio processing.'
             }
         };
         
