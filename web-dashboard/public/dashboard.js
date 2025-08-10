@@ -858,6 +858,9 @@
                     tabContent.appendChild(content);
                 });
                 
+                // Setup search listeners for the newly created search boxes
+                setTimeout(() => this.setupSearchListeners(), 100);
+                
                 // Populate initial data
                 this.populateDataTable();
             }
@@ -1062,6 +1065,66 @@
                      document.getElementById('textInput').value = '';
                      this.setStatus('Text cleared', 'success');
                  });
+
+                 // Setup search functionality for all language tabs
+                 this.setupSearchListeners();
+             }
+
+             setupSearchListeners() {
+                 // Add search event listeners for each language
+                 Object.keys(this.languages).forEach(language => {
+                     const searchBox = document.getElementById(`search-${language}`);
+                     if (searchBox) {
+                         searchBox.addEventListener('input', (e) => {
+                             this.filterTable(language, e.target.value);
+                         });
+                     }
+                 });
+             }
+
+             filterTable(language, searchTerm) {
+                 const tableContent = document.getElementById(`table-${language}`);
+                 if (!tableContent) return;
+
+                 const rows = tableContent.querySelectorAll('.data-row');
+                 const searchLower = searchTerm.toLowerCase();
+                 let visibleCount = 0;
+
+                 rows.forEach(row => {
+                     const itemId = row.querySelector('.item_id')?.textContent || '';
+                     const itemText = row.querySelector('.item-text')?.textContent || '';
+                     const itemEnglish = row.querySelector('.item-english')?.textContent || '';
+                     const itemTask = row.querySelector('.item-task')?.textContent || '';
+
+                     const matches = 
+                         itemId.toLowerCase().includes(searchLower) ||
+                         itemText.toLowerCase().includes(searchLower) ||
+                         itemEnglish.toLowerCase().includes(searchLower) ||
+                         itemTask.toLowerCase().includes(searchLower);
+
+                     if (matches) {
+                         row.style.display = '';
+                         visibleCount++;
+                     } else {
+                         row.style.display = 'none';
+                     }
+                 });
+
+                 // Update item count to show filtered results
+                 const itemCountSpan = document.getElementById(`item-count-${language}`);
+                 if (itemCountSpan) {
+                     if (searchTerm) {
+                         itemCountSpan.textContent = `(${visibleCount} of ${rows.length} items)`;
+                         itemCountSpan.style.color = '#007bff';
+                     } else {
+                         itemCountSpan.textContent = `(${rows.length} items)`;
+                         itemCountSpan.style.color = '#6c757d';
+                     }
+                 }
+
+                 if (searchTerm) {
+                     this.setStatus(`Showing ${visibleCount} items matching "${searchTerm}" in ${language}`, 'success');
+                 }
              }
 
             async generateAudioFromText() {
