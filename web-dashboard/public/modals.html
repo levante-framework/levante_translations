@@ -177,6 +177,87 @@
     </div>
 </div>
 
+<!-- Validation Results Modal -->
+<div id="validationResultsModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h2 id="validationModalTitle"><i class="fas fa-clipboard-check"></i> Validation Results</h2>
+            <span class="close" onclick="closeValidationResultsModal()">&times;</span>
+        </div>
+        <div class="validation-results-content">
+            <div class="validation-score-header">
+                <div class="score-display">
+                    <span id="validationScoreEmoji">✅</span>
+                    <span id="validationScoreText">85% Similarity</span>
+                </div>
+                <div class="validation-status-badge" id="validationStatusBadge">Excellent</div>
+            </div>
+            
+            <div class="text-comparison-container">
+                <div class="comparison-side">
+                    <h3><i class="fas fa-language"></i> Original Text (English)</h3>
+                    <div class="text-display original-text" id="validationOriginalText">
+                        Original text will appear here...
+                    </div>
+                </div>
+                
+                <div class="comparison-divider">
+                    <div class="comparison-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                
+                <div class="comparison-side">
+                    <h3><i class="fas fa-globe"></i> Translated Text (<span id="validationTargetLang">Spanish</span>)</h3>
+                    <div class="text-display translated-text" id="validationTranslatedText">
+                        Translated text will appear here...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-translation-section">
+                <h3><i class="fas fa-undo"></i> Back-Translation Analysis</h3>
+                <div class="text-display back-translated-text" id="validationBackTranslation">
+                    Back-translated text will appear here...
+                </div>
+                <div class="validation-notes" id="validationNotes">
+                    Analysis notes will appear here...
+                </div>
+            </div>
+            
+            <div class="validation-metadata">
+                <div class="metadata-item">
+                    <strong>Item ID:</strong> <span id="validationItemId">item-id</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Language Code:</strong> <span id="validationLangCode">es-CO</span>
+                </div>
+                <div class="metadata-item">
+                    <strong>Validated:</strong> <span id="validationTimestamp">timestamp</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Summary Modal -->
+<div id="validationSummaryModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-header">
+            <h2><i class="fas fa-chart-bar"></i> Validation Summary</h2>
+            <span class="close" onclick="closeValidationSummaryModal()">&times;</span>
+        </div>
+        <div class="validation-summary-content">
+            <div id="validationSummaryHeader" class="summary-header">
+                <!-- Filled by JS: totals per language -->
+            </div>
+            <div id="validationSummaryBody" class="summary-body">
+                <!-- Filled by JS: table of items and statuses -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal">
     <div class="modal-content" style="max-width: 900px; max-height: 80vh; overflow-y: auto;">

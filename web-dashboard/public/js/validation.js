@@ -1,3 +1,27 @@
+// Map Levante language codes to Google Translate compatible codes
+function mapToGoogleTranslateCode(langCode) {
+    const langMapping = {
+        'es-CO': 'es',      // Colombian Spanish -> Spanish
+        'fr-CA': 'fr',      // Canadian French -> French
+        'de-CH': 'de',      // Swiss German -> German
+        'en': 'en',         // English
+        'es': 'es',         // Spanish
+        'fr': 'fr',         // French
+        'de': 'de',         // German
+        'nl': 'nl',         // Dutch
+        'pt': 'pt',         // Portuguese
+        'it': 'it',         // Italian
+        'ja': 'ja',         // Japanese
+        'ko': 'ko',         // Korean
+        'zh': 'zh',         // Chinese
+        'ar': 'ar',         // Arabic
+        'hi': 'hi',         // Hindi
+        'ru': 'ru',         // Russian
+    };
+    
+    return langMapping[langCode] || langCode.split('-')[0]; // Fallback: use base language code
+}
+
 function toggleValidationPanel() {
     const header = document.querySelector('.validation-header');
     const content = document.getElementById('validationContent');
@@ -7,7 +31,7 @@ function toggleValidationPanel() {
 
 function validateSelected() {
     const credentials = getCredentials();
-    if (!credentials.googleTranslateApiKey) {
+    if (!credentials.google_translate_api_key) {
         alert('Please add your Google Translate API key in the credentials manager.');
         return;
     }
@@ -24,7 +48,7 @@ function validateSelected() {
 
 function validateAll() {
     const credentials = getCredentials();
-    if (!credentials.googleTranslateApiKey) {
+    if (!credentials.google_translate_api_key) {
         alert('Please add your Google Translate API key in the credentials manager.');
         return;
     }
@@ -100,32 +124,143 @@ async function loadValidationsFromShared() {
 
 async function validateSingle(itemId, originalText, translatedText, langCode) {
     const credentials = getCredentials();
-    if (!credentials.googleTranslateApiKey) {
+    console.log('🔍 Validation credentials check:', { 
+        hasGoogleKey: !!credentials.google_translate_api_key,
+        credentialsKeys: Object.keys(credentials),
+        langCode: langCode,
+        currentDashboardLanguage: window.dashboard?.currentLanguage,
+        itemId: itemId
+    });
+    
+    if (!credentials.google_translate_api_key) {
         alert('Please add your Google Translate API key in the credentials manager.');
         return;
     }
 
-    const button = document.querySelector(`[onclick*="${itemId}"]`);
-    const indicator = button.parentElement.querySelector('.status-indicator');
+    // Find the status indicator by data-item-id - but only in the current active tab
+    const currentLanguage = window.dashboard?.currentLanguage;
+    const activeTabContent = document.getElementById(`tab-${currentLanguage}`);
+    const indicator = activeTabContent ? 
+        activeTabContent.querySelector(`.status-indicator[data-item-id="${itemId}"]`) :
+        document.querySelector(`.status-indicator[data-item-id="${itemId}"]`);
+    // Find the validate button in the same validation-status container
+    const button = indicator ? indicator.parentElement.querySelector('.validate-btn') : null;
+    
+    console.log('🎯 DOM elements found:', { 
+        button: !!button, 
+        indicator: !!indicator,
+        itemId: itemId,
+        buttonText: button?.textContent,
+        indicatorClass: indicator?.className,
+        indicatorTitle: indicator?.title,
+        validationStatusContainer: !!indicator?.parentElement,
+        isConnected: indicator?.isConnected,
+        parentRow: indicator?.closest('.data-row')?.style.display || 'visible'
+    });
+
+    if (!button || !indicator) {
+        console.error('❌ Could not find button or indicator for item:', itemId);
+        window.dashboard.setStatus(`❌ UI error: Could not find validation elements for ${itemId}`, 'error');
+        return;
+    }
     
     // Show loading state
     const originalButtonText = button.innerHTML;
+    let updatedButtonText = false; // prevents finally from restoring old label after success
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     button.disabled = true;
     indicator.className = 'status-indicator status-info';
     indicator.title = 'Validating...';
 
     try {
+        // Skip validation for English (can't back-translate English to English)
+        if (langCode === 'en') {
+            // For English, just mark as good since it's the source language
+            const similarity = 1.0; // Perfect score for source language
+            
+            // Store validation result
+            if (!window.dashboard.validation_results[itemId]) {
+                window.dashboard.validation_results[itemId] = {};
+            }
+            
+            window.dashboard.validation_results[itemId][langCode] = {
+                score: similarity,
+                originalText: originalText,
+                translatedText: translatedText,
+                backTranslation: 'N/A (source language)',
+                timestamp: new Date().toISOString(),
+                notes: 'Source language - no translation validation needed'
+            };
+
+            // Update UI
+            console.log('🔄 Updating English indicator:', {
+                beforeClass: indicator.className,
+                afterClass: 'status-indicator status-good'
+            });
+            
+            indicator.className = 'status-indicator status-good';
+            indicator.title = 'Source language - 100% accuracy';
+
+            // Add score badge
+            let scoreBadge = indicator.querySelector('.score-badge');
+            if (!scoreBadge) {
+                scoreBadge = document.createElement('span');
+                scoreBadge.className = 'score-badge';
+                indicator.appendChild(scoreBadge);
+            }
+            scoreBadge.textContent = '100';
+
+            // Update the validate button text and functionality
+            if (button) {
+                button.textContent = 'Good match';
+                button.title = 'Source text (no validation needed)';
+                // Remove the original onclick attribute and replace with our handler
+                button.removeAttribute('onclick');
+                button.onclick = () => {
+                    const result = window.dashboard.validation_results[itemId][langCode];
+                    showValidationResults(itemId, langCode, result, '✅', 100, 'status-good');
+                };
+            }
+
+            console.log('✅ Updated English validation UI:', {
+                indicatorClass: indicator.className,
+                scoreBadgeText: scoreBadge.textContent,
+                buttonText: button?.textContent
+            });
+
+            // Add click handler to show details (keeping both button and indicator clickable)
+            indicator.onclick = () => {
+                const result = window.dashboard.validation_results[itemId][langCode];
+                showValidationResults(itemId, langCode, result, '✅', 100, 'status-good');
+            };
+
+            window.dashboard.setStatus(`✅ Validated ${itemId}: Source language (100%)`, 'success');
+            updatedButtonText = true;
+            return;
+        }
+
+        // Map language codes to Google Translate compatible codes
+        const googleLangCode = mapToGoogleTranslateCode(langCode);
+        console.log('🌍 Language mapping:', { original: langCode, mapped: googleLangCode });
+
         // Call Google Translate API to back-translate from target language to English
-        const response = await fetch(`/api/google-translate?text=${encodeURIComponent(translatedText)}&from=${encodeURIComponent(langCode)}&to=en`, {
+        const response = await fetch(`/api/google-translate?text=${encodeURIComponent(translatedText)}&from=${encodeURIComponent(googleLangCode)}&to=en`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${credentials.googleTranslateApiKey}`
+                'Authorization': `Bearer ${credentials.google_translate_api_key}`
             }
         });
 
         if (!response.ok) {
-            throw new Error(`Translation API error: ${response.status}`);
+            let errorDetails = `Translation API error: ${response.status}`;
+            try {
+                const errorData = await response.json();
+                console.error('🚨 Translation API error details:', errorData);
+                errorDetails += ` - ${errorData.details || errorData.error || 'Unknown error'}`;
+            } catch (e) {
+                console.error('🚨 Could not parse error response');
+            }
+            throw new Error(errorDetails);
         }
 
         const data = await response.json();
@@ -136,6 +271,7 @@ async function validateSingle(itemId, originalText, translatedText, langCode) {
         const backTranslatedWords = backTranslation.toLowerCase().split(/\s+/);
         const commonWords = originalWords.filter(word => backTranslatedWords.includes(word));
         const similarity = commonWords.length / Math.max(originalWords.length, backTranslatedWords.length);
+        const score = Math.round(similarity * 100);
 
         // Store validation result
         if (!window.dashboard.validation_results[itemId]) {
@@ -148,51 +284,100 @@ async function validateSingle(itemId, originalText, translatedText, langCode) {
             translatedText: translatedText,
             backTranslation: backTranslation,
             timestamp: new Date().toISOString(),
-            notes: similarity > 0.7 ? 'Good translation' : similarity > 0.4 ? 'Review recommended' : 'Poor translation quality'
+            notes: score >= 85 ? 'Excellent translation' : score >= 70 ? 'Good translation, review recommended' : 'Poor translation quality'
         };
 
-        // Update UI based on score
-        if (similarity > 0.7) {
-            indicator.className = 'status-indicator status-good';
-            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Good translation`;
-        } else if (similarity > 0.4) {
-            indicator.className = 'status-indicator status-warning';
-            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Review recommended`;
+        // Determine status based on score (using original dashboard-core.js logic)
+        let statusClass, statusTitle, buttonText, scoreEmoji;
+        if (score >= 85) {
+            statusClass = 'status-good';
+            statusTitle = `✅ Excellent: ${score}% similarity`;
+            buttonText = 'Good match';
+            scoreEmoji = '✅';
+        } else if (score >= 70) {
+            statusClass = 'status-warning';
+            statusTitle = `⚠️ Warning: ${score}% similarity`;
+            buttonText = 'View Warning';
+            scoreEmoji = '⚠️';
         } else {
-            indicator.className = 'status-indicator status-error';
-            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Poor translation quality`;
+            statusClass = 'status-error';
+            statusTitle = `❌ Poor: ${score}% similarity`;
+            buttonText = 'View Issues';
+            scoreEmoji = '❌';
         }
-
-        // Add score badge
-        let scoreBadge = indicator.querySelector('.score-badge');
-        if (!scoreBadge) {
-            scoreBadge = document.createElement('span');
-            scoreBadge.className = 'score-badge';
-            indicator.appendChild(scoreBadge);
+        
+        // Update indicator
+        console.log('🔄 Updating indicator:', {
+            beforeClass: indicator.className,
+            afterClass: `status-indicator ${statusClass}`,
+            statusTitle: statusTitle,
+            score: score,
+            buttonText: buttonText
+        });
+        
+        indicator.className = `status-indicator ${statusClass}`;
+        indicator.title = statusTitle;
+        
+        // Update the validate button text and functionality
+        if (button) {
+            button.textContent = buttonText;
+            // Remove the original onclick attribute and replace with our handler
+            button.removeAttribute('onclick');
+            button.onclick = () => {
+                const result = window.dashboard.validation_results[itemId][langCode];
+                showValidationResults(itemId, langCode, result, scoreEmoji, score, statusClass);
+            };
+            console.log('🔄 Updated button:', { 
+                oldText: 'Validate', 
+                newText: buttonText,
+                hasNewClickHandler: true 
+            });
+            updatedButtonText = true;
         }
-        scoreBadge.textContent = Math.round(similarity * 100);
+        
+        // Update or create score badge
+        const existingBadge = indicator.parentElement.querySelector('.score-badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        const scoreBadge = document.createElement('span');
+        scoreBadge.className = 'score-badge';
+        scoreBadge.textContent = score;
+        indicator.appendChild(scoreBadge);
 
-        // Add click handler to show details
+        console.log('✅ Updated validation UI:', {
+            indicatorClass: indicator.className,
+            scoreBadgeText: scoreBadge.textContent,
+            buttonText: button?.textContent,
+            hasClickHandler: true
+        });
+
+        // Add click handler to show detailed results
         indicator.onclick = () => {
             const result = window.dashboard.validation_results[itemId][langCode];
-            alert(`Validation Results for ${itemId}:\n\nOriginal: ${result.originalText}\nTranslated: ${result.translatedText}\nBack-translation: ${result.backTranslation}\nSimilarity Score: ${(result.score * 100).toFixed(1)}%\nNotes: ${result.notes}`);
+            showValidationResults(itemId, langCode, result, scoreEmoji, score, statusClass);
         };
 
-        window.dashboard.setStatus(`✅ Validated ${itemId}: ${(similarity * 100).toFixed(1)}% similarity`, 'success');
+        window.dashboard.setStatus(`${scoreEmoji} Validated ${itemId}: ${score}% similarity`, 'success');
 
     } catch (error) {
         console.error('Validation error:', error);
         indicator.className = 'status-indicator status-error';
         indicator.title = `Validation failed: ${error.message}`;
         window.dashboard.setStatus(`❌ Validation failed for ${itemId}: ${error.message}`, 'error');
-    } finally {
-        // Restore button
-        button.innerHTML = originalButtonText;
-        button.disabled = false;
-        
-        // Update summary counts
-        setTimeout(updateValidationSummary, 100);
-    }
+            } finally {
+            // Restore button state without clobbering new label if we updated it
+            if (button) {
+                if (!updatedButtonText) {
+                    button.innerHTML = originalButtonText;
+                }
+                button.disabled = false;
+            }
+            
+            // Update summary counts
+            setTimeout(updateValidationSummary, 100);
+        }
 }
 
 function exportValidationsToJSONFile() {
