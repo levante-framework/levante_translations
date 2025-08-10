@@ -571,7 +571,7 @@
                 }
             }
             
-            saveValidationResults() {
+            async saveValidationResults() {
                 try {
                     console.log('💾 Saving validation results to localStorage and shared storage...');
                     
@@ -584,8 +584,8 @@
                     // Save to localStorage (immediate backup)
                     localStorage.setItem('validation_results', JSON.stringify(this.validation_results));
                     
-                    // Also save to shared storage (async, don't wait)
-                    this.saveToSharedStorage();
+                    // Also save to shared storage (await to ensure persistence before UI update)
+                    await this.saveToSharedStorage();
                     
                     console.log(`✅ Saved ${Object.keys(this.validation_results).length} items with ${totalValidations} total validations`);
                     
