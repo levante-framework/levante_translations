@@ -81,19 +81,26 @@ function validateAll() {
     }
 }
 
-function saveValidationsManually() {
-    const result = window.dashboard.saveValidationResults();
+async function saveValidationsManually() {
     const button = document.getElementById('saveValidations');
     const originalText = button.innerHTML;
-    if (result.success) {
-        button.innerHTML = '<i class="fas fa-check"></i> Saved!';
+    try {
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
         button.disabled = true;
-        window.dashboard.setStatus(`💾 Saved ${result.itemCount} items (${result.validationCount} validations) to browser storage & shared team storage`, 'success');
-        setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 2000);
-    } else {
+        const result = await window.dashboard.saveValidationResults();
+        if (result && result.success) {
+            button.innerHTML = '<i class="fas fa-check"></i> Saved!';
+            window.dashboard.setStatus(`💾 Saved ${result.itemCount} items (${result.validationCount} validations) to browser storage & shared team storage`, 'success');
+            setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 2000);
+        } else {
+            const errMsg = (result && result.error) ? result.error : 'Unknown error';
+            button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+            window.dashboard.setStatus(`❌ Error saving validations: ${errMsg}`, 'error');
+            setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 3000);
+        }
+    } catch (error) {
         button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
-        button.disabled = true;
-        window.dashboard.setStatus(`❌ Error saving validations: ${result.error}`, 'error');
+        window.dashboard.setStatus(`❌ Error saving validations: ${error.message}`, 'error');
         setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 3000);
     }
 }

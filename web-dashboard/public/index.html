@@ -257,8 +257,22 @@
                 });
                 const chip = document.createElement('div');
                 chip.className = 'summary-chip';
-                chip.innerHTML = `<span class="label">${code.toUpperCase()}</span>
-                    <span class="value">✅ ${good}  ⚠️ ${warning}  ❌ ${error}  ⏳ ${pending}</span>`;
+                const total = good + warning + error + pending || 1;
+                const goodPct = Math.round((good / total) * 100);
+                const warnPct = Math.round((warning / total) * 100);
+                const errPct = Math.round((error / total) * 100);
+                const pendPct = 100 - goodPct - warnPct - errPct;
+                chip.innerHTML = `
+                    <div class="summary-line">
+                        <span class="label">${code.toUpperCase()}</span>
+                        <span class="value">✅ ${good}  ⚠️ ${warning}  ❌ ${error}  ⏳ ${pending}</span>
+                    </div>
+                    <div class="bar" aria-hidden="true">
+                        <div class="bar-seg bar-good" style="width:${goodPct}%"></div>
+                        <div class="bar-seg bar-warning" style="width:${warnPct}%"></div>
+                        <div class="bar-seg bar-error" style="width:${errPct}%"></div>
+                        <div class="bar-seg bar-pending" style="width:${pendPct}%"></div>
+                    </div>`;
                 header.appendChild(chip);
             });
             
