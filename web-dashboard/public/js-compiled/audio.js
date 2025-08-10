@@ -188,7 +188,14 @@ function showAudioInfoData(metadata) {
     setElementText('info-comment', id3Tags.comment || metadata.comment || 'Not set');
     // Handle note display
     const noteElement = getElementByIdSafe('info-note');
-    const noteText = metadata.note || id3Tags.note;
+    let noteText = metadata.note || id3Tags.note;
+    // Add debug information if available
+    if (id3Tags.debug_raw_tags) {
+        const debugInfo = Object.entries(id3Tags.debug_raw_tags)
+            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+            .join('\n');
+        noteText += `\n\nDebug - Raw ID3 Tags Found:\n${debugInfo}`;
+    }
     if (noteElement) {
         if (noteText) {
             noteElement.textContent = noteText;

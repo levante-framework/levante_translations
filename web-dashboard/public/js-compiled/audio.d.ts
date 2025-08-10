@@ -19,6 +19,7 @@ interface AudioMetadata {
         created?: string;
         copyright?: string;
         comment?: string;
+        debug_raw_tags?: Record<string, any>;
     };
 }
 interface AudioMetadataResponse {
