@@ -1,0 +1,792 @@
+item_id,source,translation,score
+general-rotate-device,Please rotate your device for the best view of the activities.,nan,0.29395976662635803
+general-device-type,"Please use a tablet in landscape mode, or a desktop computer or a laptop to complete the activities.",nan,0.3236556947231293
+general-intro1,Hi! We are excited to have you play some games with us today!,nan,0.3555929362773895
+general-intro2,"First, you get to choose a buddy to play along with you. As you complete the different games, you will get to pick an accessory like a hat or glasses to decorate your buddy.",nan,0.2921784818172455
+pick-buddy,Pick a buddy to play with!,nan,0.3787706792354584
+general-intro3,"Now that you have your buddy, we want to explain how the games work.",nan,0.2944846749305725
+general-intro4,"During the games you will need to listen to instructions so make sure your speakers are on and the volume is the way you like it. If you need to hear the instructions again, you can click the speaker button up in the corner of your screen.",nan,0.3454914689064026
+general-intro5,"You can choose your answers in different ways depending on the type of tablet or computer you are using. You can use a mouse or touchpad to click your choice, you can use the arrow keys on your keyboard, or you can touch your screen if you are using a tablet. You can pick the way that works best for you.
+
+If you have any questions or need help getting started, please ask the adult who is nearby to help you. ",nan,0.3850649297237396
+task-finished,You've completed the game. Thank you!,nan,0.28804776072502136
+continue-button-text,OK,nan,0.6973096132278442
+close-button-text,Close,nan,0.4096464216709137
+general-footer,Click the button below or press <b>ANY KEY</b> to continue,nan,0.34581294655799866
+instructions,instructions,nan,0.4481048882007599
+general-encourage,Keep Going!,nan,0.3621758222579956
+feedbackCorrect,Great! That's right.,nan,0.4435935914516449
+feedback-not-quite-right,That's not quite right. Please try again.,nan,0.3602486848831177
+feedback-try-again,Please try again!,nan,0.5245538353919983
+feedback-good-job,Good job!,nan,0.442836731672287
+feedback-nice-work,Nice work!,nan,0.5094448328018188
+replay-button,Press the speaker button if you want the question repeated.,nan,0.3249772787094116
+general-fullscreen,Switch to full screen mode,nan,0.44283097982406616
+general-repeat-instructions,Looks like this is a little tricky! Let’s review the instructions.,nan,0.2880935072898865
+general-keyboard-instructions,"If you want to use your keyboard to answer a question, press the arrow key shown next to your choice.",nan,0.31950679421424866
+intro-finished,You've finished the instructions. Thank you!,nan,0.29270488023757935
+general-exit,Exit,nan,0.36223113536834717
+task-completion,You've completed this game. Thank you!,nan,0.2821959853172302
+general-your-turn,Nice job with the practice! Let's try some more on your own.,nan,0.2778383791446686
+matrix-reasoning-instruct1,"We’re going to show you a puzzle, and your job is to pick the best piece to complete the puzzle. Let's get started!",nan,0.3352689743041992
+matrix-reasoning-instruct2,See this big puzzle? It's missing a piece! Which piece goes in the puzzle?,nan,0.29644694924354553
+matrix-reasoning-prompt1,Choose the best pattern to fill in the blank.,nan,0.3117830455303192
+mental-rotation,Do you see these two outlines? One goes with this shape. Let’s see which one goes with the shape.,nan,0.2536541819572449
+mental-rotation-training-instruct2,Let's see if this shape goes with the outline. This shape doesn’t go with the outline.,nan,0.2514227330684662
+mental-rotation-training-instruct3,Let's see if this shape goes with the outline. This shape does go with the outline.,nan,0.25641122460365295
+mental-rotation-test-instruct4,Now you try! Can you find the shape that goes with the outline?,nan,0.2964239716529846
+mental-rotation-instruct-3D,Now you will see pictures that show blocks with three sides. Your task is to choose the matching picture.,nan,0.29870378971099854
+mental-rotation-prompt2,Choose the picture that matches this one.,nan,0.32882964611053467
+mental-rotation-prompt1,Choose the matching picture.,nan,0.35602816939353943
+math-instructions1,"In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!",nan,0.46573254466056824
+math-intro1,Here is the first section of the game. Let's start with some practice!,nan,0.3036925494670868
+math-intro2,Here is another section. The first few are for practice.,nan,0.2756151854991913
+math-intro-fractions,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,nan,0.27291762828826904
+number-comparison-prompt1,Which number is larger?,nan,0.3438379764556885
+number-comparison-prompt2,Which is larger?,nan,0.4205112159252167
+number-identification-prompt1,Choose the number you hear.,nan,0.30946919322013855
+missing-number-prompt1,What number goes in the blank?,nan,0.30947673320770264
+missing-number-prompt2,What number goes here?,nan,0.30651354789733887
+missing-number-prompt3,What numbers go in the blanks?,nan,0.29240235686302185
+addition-prompt1,Add the numbers and choose the correct answer.,nan,0.31593143939971924
+addition-prompt2,Add the numbers.,nan,0.3006857633590698
+subtraction-prompt1,Subtract the numbers and choose the correct answer.,nan,0.29403582215309143
+subtraction-prompt2,Subtract the numbers.,nan,0.274204820394516
+multiplication-prompt1,Multiply the numbers and choose the correct answer.,nan,0.29758933186531067
+multiplication-prompt2,Multiply the numbers.,nan,0.3167916238307953
+number-line-instruct1,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,nan,0.23538178205490112
+number-line-prompt1,Choose the number that is marked on the number line.,nan,0.2802630066871643
+number-line-slider-prompt1,Move the slider to mark the number.,nan,0.2813720107078552
+number-identification-1,Choose the number 1.,nan,0.39116647839546204
+number-identification-2,Choose the 2.,nan,0.33791032433509827
+number-identification-3,Choose the 9.,nan,0.33800390362739563
+number-identification-4,Choose the 0.,nan,0.33720508217811584
+number-identification-5,Choose the 12.,nan,0.33296889066696167
+number-identification-6,Choose the 30.,nan,0.33402419090270996
+number-identification-7,Choose the 22.,nan,0.3243969976902008
+number-identification-8,Choose the 45.,nan,0.30684342980384827
+number-identification-9,Choose the 39.,nan,0.3220042586326599
+number-identification-10,Choose the 23.,nan,0.32114890217781067
+number-identification-11,Choose the 48.,nan,0.30698874592781067
+number-identification-12,Choose the 91.,nan,0.30514851212501526
+number-identification-13,Choose the 33.,nan,0.3383379876613617
+number-identification-14,Choose the 74.,nan,0.33421868085861206
+number-identification-15,Choose the 87.,nan,0.3054273724555969
+number-identification-16,Choose the 65.,nan,0.31742390990257263
+number-identification-17,Choose the 108.,nan,0.29826244711875916
+number-identification-18,Choose the 245.,nan,0.2948421835899353
+number-identification-19,Choose the 587.,nan,0.2920510172843933
+number-identification-20,Choose the 731.,nan,0.3030697703361511
+number-identification-21,Choose the 989.,nan,0.3010908365249634
+number-identification-22,Choose the 6.,nan,0.3328321576118469
+number-identification-23,Choose the 14.,nan,0.32611918449401855
+number-identification-24,Choose the 18.,nan,0.32513150572776794
+number-identification-25,Choose the 26.,nan,0.3396410048007965
+number-identification-26,Choose the 35.,nan,0.31344205141067505
+number-identification-27,Choose the 41.,nan,0.3189559280872345
+number-identification-28,Choose the 47.,nan,0.3252522349357605
+number-identification-29,Choose the 50.,nan,0.3286008834838867
+number-identification-30,Choose the 55.,nan,0.30785131454467773
+number-identification-31,Choose the 66.,nan,0.34176018834114075
+number-identification-32,Choose the 67.,nan,0.3420397937297821
+number-identification-33,Choose the 88.,nan,0.29022011160850525
+number-identification-34,Choose the 101.,nan,0.3147949278354645
+number-identification-35,Choose the 426.,nan,0.30610522627830505
+number-identification-36,Choose the 131.,nan,0.30948731303215027
+number-identification-37,Choose the 256.,nan,0.29900693893432617
+number-identification-38,Choose the 349.,nan,0.31443992257118225
+number-identification-39,Choose the 543.,nan,0.30577537417411804
+number-identification-40,Choose the 617.,nan,0.31144168972969055
+number-identification-41,Choose the 877.,nan,0.2837986946105957
+trog-instruct1,"Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started!",nan,0.31054773926734924
+trog-prompt1,Choose the picture of the...,nan,0.33729085326194763
+trog-prompt2,Choose the picture of...,nan,0.36990782618522644
+trog-prompt3,Choose the picture that shows...,nan,0.32990795373916626
+trog-item-1,Choose the picture of the shoe.,nan,0.29974839091300964
+trog-item-2,Choose the picture of the bird.,nan,0.3272460699081421
+trog-item-3,Choose the picture of the comb.,nan,0.2988091707229614
+trog-item-4,Choose the picture of the apple.,nan,0.30726301670074463
+trog-item-5,Choose the picture that shows eating.,nan,0.30161187052726746
+trog-item-6,Choose the picture that shows picking.,nan,0.2777298390865326
+trog-item-7,Choose the picture that shows sitting.,nan,0.2997622787952423
+trog-item-8,Choose the picture that shows running.,nan,0.27907612919807434
+trog-item-9,Choose the picture that shows long.,nan,0.2973867952823639
+trog-item-10,Choose the picture that shows tall.,nan,0.3051896393299103
+trog-item-11,Choose the picture that shows red.,nan,0.3098375201225281
+trog-item-12,Choose the picture that shows black.,nan,0.3136780261993408
+trog-item-13,the boy is running,nan,0.33098921179771423
+trog-item-14,the big cup,nan,0.3475169241428375
+trog-item-15,the dog is sitting,nan,0.3334676921367645
+trog-item-16,the red ball,nan,0.29991498589515686
+trog-item-17,the boy is not running,nan,0.2740590274333954
+trog-item-18,the dog is not drinking,nan,0.30499765276908875
+trog-item-19,the girl is not jumping,nan,0.2905558943748474
+trog-item-20,the dog is not sitting,nan,0.2881350815296173
+trog-item-21,the boy is jumping over the box,nan,0.30092182755470276
+trog-item-22,the girl is sitting on the table,nan,0.3208266794681549
+trog-item-23,the man is eating the apple,nan,0.29450541734695435
+trog-item-24,the lady is carrying the bag,nan,0.31741422414779663
+trog-item-25,they are sitting on the table,nan,0.28640487790107727
+trog-item-26,the cow is looking at them,nan,0.2918229401111603
+trog-item-27,they are jumping over the wall,nan,0.2614220380783081
+trog-item-28,the elephant is carrying them,nan,0.272237628698349
+trog-item-29,the girl is pushing the horse,nan,0.2986602783203125
+trog-item-30,the boy is chasing the sheep,nan,0.32455405592918396
+trog-item-31,the man is chasing the dog,nan,0.2785804569721222
+trog-item-32,the cow is pushing the lady,nan,0.2564223110675812
+trog-item-33,she is sitting on the chair,nan,0.33516037464141846
+trog-item-34,the lady is carrying him,nan,0.3087333142757416
+trog-item-35,he is sitting in the tree,nan,0.2790447175502777
+trog-item-36,the horse is looking at her,nan,0.29118654131889343
+trog-item-37,the cats look at the ball,nan,0.30102354288101196
+trog-item-38,the boy stands on the chairs,nan,0.29754525423049927
+trog-item-39,the boys pick the apples,nan,0.2939138114452362
+trog-item-40,the girl drops the cups,nan,0.3020317554473877
+trog-item-41,the fork is longer than the pencil,nan,0.2582140862941742
+trog-item-42,the box is bigger than the cup,nan,0.28863826394081116
+trog-item-43,the shoe is bigger than the bird,nan,0.2762366831302643
+trog-item-44,the horse is taller than the wall,nan,0.26434266567230225
+trog-item-45,the girl is chased by the horse,nan,0.2995680868625641
+trog-item-46,the elephant is pushed by the boy,nan,0.2635030448436737
+trog-item-47,the horse is chased by the man,nan,0.26887062191963196
+trog-item-48,the cow is pushed by the man,nan,0.24830830097198486
+trog-item-49,the cup is in the box,nan,0.269320547580719
+trog-item-50,the pencil is on the box,nan,0.2716142237186432
+trog-item-51,the circle is in the star,nan,0.2625338137149811
+trog-item-52,the fork is on the shoe,nan,0.277686208486557
+trog-item-53,the boy chasing the horse is tall,nan,0.27929481863975525
+trog-item-54,the pencil on the shoe is blue,nan,0.2803996801376343
+trog-item-55,the cow chasing the cat is brown,nan,0.27438491582870483
+trog-item-56,the circle in the star is yellow,nan,0.28209248185157776
+trog-item-57,the box but not the chair is red,nan,0.2559729814529419
+trog-item-58,the cat is big but not black,nan,0.27270767092704773
+trog-item-59,the horse but not the boy is standing,nan,0.24392643570899963
+trog-item-60,the boy is sitting but not eating,nan,0.29188787937164307
+trog-item-61,the pencil is above the flower,nan,0.2791438698768616
+trog-item-62,the comb is below the spoon,nan,0.27245602011680603
+trog-item-63,the star is above the circle,nan,0.2737099230289459
+trog-item-64,the square is below the star,nan,0.2731776237487793
+trog-item-65,not only the bird but also the flower is blue,nan,0.293947696685791
+trog-item-66,the box is not only big but also blue,nan,0.28541573882102966
+trog-item-67,not only the girl but also the cat is sitting,nan,0.28365930914878845
+trog-item-68,the girl has not only food but also a drink,nan,0.3250342607498169
+trog-item-69,the pencil is on the book that is yellow,nan,0.25290754437446594
+trog-item-70,the girl chases the dog that is big,nan,0.2905375361442566
+trog-item-71,the square is in the star that is blue,nan,0.25091156363487244
+trog-item-72,the dog chases the horse that is brown,nan,0.26342588663101196
+trog-item-73,neither the dog nor the ball is brown,nan,0.2613148093223572
+trog-item-74,the pencil is neither long nor red,nan,0.2170957326889038
+trog-item-75,neither the boy nor the horse is running,nan,0.24316483736038208
+trog-item-76,the boy has neither hat nor shoes,nan,0.31050482392311096
+trog-item-77,the book the pencil is on is red,nan,0.24608460068702698
+trog-item-78,the cat the cow chases is black,nan,0.250161737203598
+trog-item-79,the circle the star is in is red,nan,0.24841061234474182
+trog-item-80,the boy the dog chases is big,nan,0.27240756154060364
+trog-item-81,the horse drank water by the barn and the sheep ate grass by the fence,nan,0.23081320524215698
+trog-item-82,the student opened the notebook and drew a tree,nan,0.30175328254699707
+trog-item-83,we will have a picnic in the park if it is sunny,nan,0.3633491098880768
+trog-item-84,he found his keys under the couch with the pillows,nan,0.28547030687332153
+trog-item-85,she is the gardener who wears the hat that has a flower,nan,0.23190981149673462
+trog-item-86,She tripped on a rock and dropped her books.,nan,0.27198976278305054
+trog-item-87,The teacher will give the students cake if they stand in a line.,nan,0.25319573283195496
+trog-item-88,We will dance together if there is music playing.,nan,0.3055970072746277
+trog-item-89,"Although it is hot outside, I am wearing a jacket with a hood.",nan,0.3034350872039795
+trog-item-90,"He likes swimming. However, he chose to play soccer with his friends.",nan,0.3134739100933075
+trog-item-91,"Despite the noise in the classroom, she focused on reading her notebook.",nan,0.2977694869041443
+trog-item-92,He wore the clown's hat despite its large size.,nan,0.26391392946243286
+trog-item-93,The duck following the turtle is walking across the bridge.,nan,0.2588540017604828
+trog-item-94,Bumping the table with my foot caused a book to fall.,nan,0.2847687005996704
+trog-item-95,The person chases the dog that is big.,nan,0.27065205574035645
+trog-item-96,The girl wearing a backpack was shown a flower by her friend.,nan,0.2898111641407013
+trog-item-97,"The kids cleaned the room, but forgot to put away the train.",nan,0.2419854998588562
+trog-item-98,The monkey neither ate the banana nor swung on the vine.,nan,0.24600210785865784
+trog-item-99,"Her mom said it would be sunny. However, it rained heavily.",nan,0.297740638256073
+trog-item-100,The plane that is gray is above the clouds.,nan,0.2726978063583374
+trog-item-101,The fish swim beneath a whale and a sea turtle.,nan,0.2833460867404938
+trog-item-102,The car that the truck followed is driving toward the tunnel.,nan,0.26829993724823
+trog-item-103,Instead of doing homework she did a puzzle in her room.,nan,0.2830369472503662
+yes,yes,nan,0.7285422086715698
+no,no,nan,0.5807145237922668
+happy,happy,nan,0.4499802887439728
+sad,sad,nan,0.4136364758014679
+angry,angry,nan,0.647305965423584
+scared,scared,nan,0.47550472617149353
+calm,calm,nan,0.5183280110359192
+proud,proud,nan,0.4373956620693207
+disgusted,disgusted,nan,0.39578449726104736
+surprised,surprised,nan,0.42851516604423523
+ToM-intro,"This is the Stories Game. In this game, you will listen to some stories. Then you will answer questions about the stories.",nan,0.3263130486011505
+ToM-transition,Nice work! Here is a new story.,nan,0.3099210560321808
+ToM-scene1-instruct1,"Here is Madison. This morning, Madison put her book behind the chair, because she didn’t want anyone to find it. ",nan,0.31600406765937805
+ToM-scene1-instruct2,"But when Madison was outside playing, someone did find it! And hid it under the rug. ",nan,0.27934616804122925
+ToM-scene1-instruct3,So now it’s reading time and Madison wants her book.,nan,0.300665944814682
+ToM-scene1-q1-false_belief,Where will Madison look first for her book?,nan,0.3174476623535156
+chair,Behind the chair,nan,0.3532075583934784
+rug,Under the rug,nan,0.41395172476768494
+ToM-scene1-q2-reality_check,And where is her book really?,nan,0.32091882824897766
+ToM-scene2-instruct1,"This morning when he came to school, Ethan put his book on the shelf above the coat hooks. Ethan’s book is blue! ",nan,0.24214491248130798
+ToM-scene2-instruct2,"And then he went outside to play, see? Here’s Ethan playing outside. And while he was outside playing, Ethan’s book fell down from above the coat hooks onto the floor under the coats, see? ",nan,0.25141867995262146
+ToM-scene2-instruct3,"Then Hannah comes in and Hannah puts her book up above the coat hooks. Hannah's book is also blue! Ethan is still outside playing, so he didn't see what Hannah was doing.",nan,0.24759528040885925
+ToM-scene2-q1-false_belief,"Now, when Ethan comes in from outside, where will he look first for his book?",nan,0.28720271587371826
+shelf,On the shelf,nan,0.3650504946708679
+coats,Under the coats,nan,0.349827378988266
+ToM-scene2-instruct4,"Let’s see what he does. Oh look, here is Ethan reaching for this book up on the shelf. And now Hannah sees Ethan reaching for that book... the book that is Hannah's!",nan,0.23009610176086426
+ToM-scene2-q2-emotion_reasoning,How do you think Hannah feels about Ethan reaching for that book? ,nan,0.3413691222667694
+ToM-scene2-q7-emotion_reasoning,How do you think Hannah would feel if she had not seen Ethan reaching for the book?,nan,0.3514639735221863
+ToM-scene2-q3-false_belief,Is Ethan being mean and naughty for taking Hannah's book?,nan,0.307210236787796
+ToM-scene2-q4-false_belief,Should Ethan get in trouble with the teacher for taking Hannah's book?,nan,0.31258296966552734
+ToM-scene2-q5-reality_check,Can you help Hannah find her book? Is it on the shelf or under the coats?,nan,0.2938883304595947
+ToM-scene2-q6-reality_check,Can you help Ethan find his book? Is it on the shelf or under the coats?,nan,0.29332196712493896
+ToM-scene3-instruct1,"Joshua, Isabel, and Ivan are playing a game. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. ",nan,0.2818082273006439
+ToM-scene3-instruct2,"So Ivan is going first. He draws this clue in the sandbox, and then he goes to hide. ",nan,0.25625884532928467
+ToM-scene3-instruct3,"Now it's Joshua's turn to leave a clue, and hide. Isabel and Ivan will then try to use the clue to find him.",nan,0.2419789731502533
+ToM-scene3-instruct4,"Joshua decides to hide behind the fountain. He draws a clue in the sand. He tries to draw the fountain, with the bottom part and the water coming out of it. But the drawing looks like a tree instead! Then Joshua goes and hides behind the fountain.",nan,0.2857728600502014
+ToM-scene3-q1,What did Joshua mean to draw?,nan,0.295789897441864
+fountain,A fountain,nan,0.7217574119567871
+tree,A tree,nan,0.6663978695869446
+ToM-scene3-q2-false_belief,"When Isabel and Ivan see this clue, where will they look first for Joshua? ",nan,0.3024212718009949
+ToM-scene3-q2-reality_check,Can you help them find where Joshua really is?,nan,0.3562260568141937
+behind-fountain,Behind the fountain,nan,0.39874815940856934
+behind-tree,Behind the tree,nan,0.34854787588119507
+ToM-scene3-q3-emotion_reasoning,"Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game?",nan,0.3058331310749054
+ToM-scene4-instruct1,"Now the games are over, and it's almost time to go home. Mother tells the kids to find all of their toys. ",nan,0.3229370713233948
+ToM-scene4-instruct2,"Joshua brought his toy truck with him to the park, but now he can't find it. He's looking everywhere but he can't find it. ",nan,0.25918278098106384
+ToM-scene4-q1-emotion_reasoning,How does Joshua feel about losing his truck?,nan,0.367011696100235
+ToM-scene4-q8-emotion_reasoning,How would Joshua feel if he found his truck?,nan,0.3188340961933136
+ToM-scene4-instruct3,"Joshua can't find his truck because earlier in the day, when no one was looking, Isabel took the toy truck and buried it in the sandbox. ",nan,0.2659298777580261
+ToM-scene4-instruct4,"So Joshua looks everywhere and he can't find his toy truck. Mother gets mad at Joshua, because he lost his truck.",nan,0.2708917260169983
+ToM-scene4-q2,Is it fair that Mother is mad at Joshua for losing his truck?,nan,0.2675001621246338
+ToM-scene4-q3,Is Mother mad at Isabel? ,nan,0.3517405688762665
+ToM-scene4-q4-false_belief,Is Joshua mad at Isabel? ,nan,0.4259512424468994
+ToM-scene4-instruct5,"When Isabel sees that Mother is mad at Joshua, she goes to the sandbox and digs up the toy truck, and gives it back to Joshua.",nan,0.28919553756713867
+ToM-scene4-q5,Is Mother mad at Joshua now?,nan,0.34300804138183594
+ToM-scene4-q6,Is Mother mad at Isabel now?,nan,0.3533872663974762
+ToM-scene4-q7,Is Joshua mad at Isabel now?,nan,0.43583473563194275
+ToM-scene4-instruct6,"Isabel tells Joshua that she’s very sorry, and she gives him a big hug. Joshua gives her a big hug back, and Mother joins in.",nan,0.27493396401405334
+ToM-scene5-instruct1,"This is Katie. Earlier today, Katie's mom was cleaning the house, while Katie watched. Mom left three cups in the kitchen. There is a small cup on the counter, a medium sized cup on the table, and a big cup that she put away up high, on the shelf. ",nan,0.23304593563079834
+ToM-scene5-instruct2,"Katie and Dad just walked in and Katie asks her dad to get her a cup. Katie tells her Dad, “I want the big cup!”",nan,0.25898292660713196
+ToM-scene5-q1,Which cup will Dad give Katie?,nan,0.30357059836387634
+ToM-scene5-q2-reality_check,Which cup does Katie want?,nan,0.33510780334472656
+small_cup,The small cup,nan,0.4182346761226654
+medium_cup,The medium sized cup,nan,0.34957531094551086
+large_cup,The big cup,nan,0.3723531663417816
+ToM-scene5-q3-emotion_reasoning,How does Katie feel about not getting the cup she wanted?,nan,0.3163190484046936
+ToM-scene5-q4-emotion_reasoning,How would Katie feel if she had received the cup she wanted?,nan,0.3097754418849945
+ToM-scene6-instruct1,"Sam and Maria are playing together. They look outside and see a new shop across the street. Maria tells Sam: “I am going to buy new shirts for us there,” and she walks away.",nan,0.30119025707244873
+ToM-scene6-instruct2,"Mom comes home and she tells Sam that she just walked by the shop. “Are they selling shirts?” Sam asks. “No,” Mom says, “They are only selling shoes”. “Maria will probably now get shoes at the shop,” Sam says.",nan,0.2520025372505188
+ToM-scene6-q1,Does Maria know that they are selling shoes in the shop?,nan,0.3133307695388794
+ToM-scene6-instruct3,"Maria has arrived at the shop. “I would like to buy shirts,” she says. “All we have left are socks,” says the shopkeeper. Since Maria also needs socks, she decides to get some socks.",nan,0.25927117466926575
+ToM-scene6-q2,Does Sam know that Maria bought some socks?,nan,0.35993561148643494
+ToM-scene6-q3,What does Sam think they are selling at the shop?,nan,0.3108961880207062
+shoes,Shoes,nan,0.38848841190338135
+socks,Socks,nan,0.4901846647262573
+shirts,Shirts,nan,0.35896867513656616
+ToM-scene6-instruct4,"On her way back, Maria meets her dad. She tells her dad: “I have just bought some socks. I am going to share them with my brother Sam. It is a surprise.”
+“That is nice of you,” says Dad. Then he asks Maria: “Does Sam know what you bought him?”",nan,0.28945741057395935
+ToM-scene6-q4,What does Maria tell Dad?,nan,0.34711918234825134
+ToM-scene6-instruct5,Then Dad asks: “What does Sam think they are selling at the shop?”,nan,0.29406827688217163
+ToM-scene6-q5,What does Maria tell Dad?,nan,0.34711918234825134
+ToM-scene6-q6,What does Sam think they are selling at the shop?,nan,0.3108961880207062
+ToM-scene6-instruct6,Sam is very happy to get his new socks.,nan,0.3173891603946686
+hostile-attribution-scene1-instruct1,Imagine that you are walking to school and you’re wearing your new shoes. You really like your new shoes and this is the first day you have worn them.,nan,0.3264016807079315
+hostile-attribution-scene1-instruct2,"Suddenly, you are bumped from behind by a boy. You stumble and fall into a mud puddle and your new shoes get muddy.",nan,0.2680584490299225
+hostile-attribution-scene1-q1,Do you think that the boy bumped you on purpose or by accident?,nan,0.41286635398864746
+hostile-attribution-scene1-q2,Now pick one of the three choices as the one you would do:,nan,0.3231064975261688
+hostile-attribution-scene1-q2-ans1,clean up my shoes,nan,0.31126898527145386
+hostile-attribution-scene1-q2-ans2,walk away from the boy,nan,0.32331979274749756
+hostile-attribution-scene1-q2-ans3,push the boy in the mud,nan,0.2816706895828247
+hostile-attribution-scene2-instruct1,"Imagine that you are on the playground. You and some other kids are having a race. A boy is standing on the side, bouncing a basketball.",nan,0.257363498210907
+hostile-attribution-scene2-instruct2,"The next thing you know, the boy has bounced the ball and it has rolled under your feet, making you fall. You skin your knee and someone else wins the race.",nan,0.23986142873764038
+hostile-attribution-scene2-q1,Do you think that the boy made you fall on purpose or by accident?,nan,0.3814994990825653
+hostile-attribution-scene2-q2,Now pick one of the three choices as the one you would do:,nan,0.3231064975261688
+hostile-attribution-scene2-q2-ans1,go to another area of the playground,nan,0.30845779180526733
+hostile-attribution-scene2-q2-ans2,say something mean to him,nan,0.34786155819892883
+hostile-attribution-scene2-q2-ans3,take care of my knee,nan,0.33825045824050903
+hostile-attribution-scene3-instruct1,Imagine that you are working on an assignment at your desk. ,nan,0.29774710536003113
+hostile-attribution-scene3-instruct2,"You go to sharpen your pencil, and as you walk back to your desk there is a boy walking just in front of you. The boy passes your desk before you get there. ",nan,0.2315446436405182
+hostile-attribution-scene3-instruct3,"The next thing you know, the boy has knocked all of your papers off of your desk, and they are all over the floor.",nan,0.2981610894203186
+hostile-attribution-scene3-q1,Do you think the boy knocked your papers onto the floor on purpose or by accident?,nan,0.3428346812725067
+hostile-attribution-scene3-q2,Now pick one of the three choices as the one you would do:,nan,0.3231064975261688
+hostile-attribution-scene3-q2-ans1,call him a name,nan,0.3009416460990906
+hostile-attribution-scene3-q2-ans2,pick up the papers,nan,0.28941282629966736
+hostile-attribution-scene3-q2-ans3,do nothing,nan,0.4346684515476227
+hostile-attribution-scene1-by-accident,by accident,nan,0.4187999367713928
+hostile-attribution-scene1-on-purpose,on purpose,nan,0.39632806181907654
+hostile-attribution-scene2-by-accident,by accident,nan,0.4187999367713928
+hostile-attribution-scene2-on-purpose,on purpose,nan,0.39632806181907654
+hostile-attribution-scene3-by-accident,by accident,nan,0.4189245402812958
+hostile-attribution-scene3-on-purpose,on purpose,nan,0.39632806181907654
+same-different-selection-instruct1,"This is the matching game. In this game, you're going to choose sets of cards that match in some way. First, let's look at some of the cards you are going to see.",nan,0.30105289816856384
+same-different-selection-touch-circle,Choose the card with a circle.,nan,0.29978930950164795
+same-different-selection-touch-square,Choose the card with a square.,nan,0.2913627624511719
+same-different-selection-touch-triangle,Choose the card with a triangle.,nan,0.2875404357910156
+same-different-selection-touch-star,Choose the card with a star.,nan,0.29704001545906067
+same-different-selection-touch-green,Choose the card with a green shape.,nan,0.3121137320995331
+same-different-selection-touch-red,Choose the card with a red shape.,nan,0.3093641996383667
+same-different-selection-touch-blue,Choose the card with a blue shape.,nan,0.3027224540710449
+same-different-selection-touch-yellow,Choose the card with a yellow shape.,nan,0.300809770822525
+same-different-selection-touch-small,Choose the card with a small shape.,nan,0.3178316056728363
+same-different-selection-touch-medium,Choose the card with a medium-sized shape.,nan,0.31113627552986145
+same-different-selection-touch-large,Choose the card with a large shape.,nan,0.31910815834999084
+same-different-selection-touch-white,Choose the star on the white card.,nan,0.3037969172000885
+same-different-selection-touch-gray,Choose the star on the gray card.,nan,0.2790835499763489
+same-different-selection-touch-black,Choose the star on the black card.,nan,0.29812055826187134
+same-different-selection-touch-striped,Choose the star on the striped card.,nan,0.29212042689323425
+same-different-selection-touch-1,Choose the card with 1 star.,nan,0.3193112909793854
+same-different-selection-touch-2,Choose the card with 2 stars.,nan,0.3118668496608734
+same-different-selection-touch-3,Choose the card with 3 stars.,nan,0.3109230697154999
+same-different-selection-touch-4,Choose the card with 4 stars.,nan,0.3056487441062927
+same-different-selection-instruct2,Now you're going to see two cards that are the same in one way. Then you will see a new card that is similar to one of those cards. Your job is to choose the card that is similar to the new card.,nan,0.3019932508468628
+same-different-selection-instruct3,"Now you're going to see three cards, and you're going to choose two that are the same in some way. Then you're going to see the same cards again, and pick two cards that are the same in a different way.",nan,0.22582226991653442
+same-different-selection-both-circles,Here are two cards. Something's the same. They both have circles.,nan,0.23792323470115662
+same-different-selection-both-squares,Here are two cards. Something's the same. They both have squares.,nan,0.2279452383518219
+same-different-selection-both-triangles,Here are two cards. Something's the same. They both have triangles.,nan,0.22674715518951416
+same-different-selection-both-red,Here are two cards. Something's the same. They both have red shapes.,nan,0.25255322456359863
+same-different-selection-both-green,Here are two cards. Something's the same. They both have green shapes.,nan,0.25209832191467285
+same-different-selection-both-yellow,Here are two cards. Something's the same. They both have yellow shapes.,nan,0.2499682903289795
+same-different-selection-both-blue,Here are two cards. Something's the same. They both have blue shapes.,nan,0.24297764897346497
+same-different-selection-both-small,Here are two cards. Something's the same. They both have small shapes.,nan,0.2516466975212097
+same-different-selection-both-medium,Here are two cards. Something's the same. They both have medium-sized shapes.,nan,0.2521371841430664
+same-different-selection-both-large,Here are two cards. Something's the same. They both have large shapes.,nan,0.25434064865112305
+sds-prompt3,Here is another card. Which of these is similar to this one?,nan,0.28508004546165466
+sds-3match-prompt2,Here is the same set of cards again. Choose two cards that are the same in a different way.,nan,0.2773286700248718
+sds-2match-prompt1,Here is a new set of cards. Choose two cards that are the same in some way.,nan,0.29826056957244873
+sds-2match-prompt2,Choose two cards that are the same in a different way.,nan,0.29902714490890503
+sds-3unique-prompt1,Choose three cards that are the same in only one way.,nan,0.29583731293678284
+sds-3unique-prompt2,Choose another three cards that are the same in only one way.,nan,0.2877825200557709
+memory-game-display,Watch the squares light up.,nan,0.294859915971756
+memory-game-input,Choose the squares in the same order.,nan,0.30192747712135315
+memory-game-instruct1,This is the memory game. Here's how you play it.,nan,0.26549533009529114
+memory-game-instruct2,You will see squares light up.,nan,0.27290791273117065
+memory-game-instruct3,You're going to choose the squares in the same order.,nan,0.26523205637931824
+memory-game-instruct4,Watch carefully! Try to remember the order.,nan,0.3067868649959564
+memory-game-forward-prompt,Choose the squares in the same order.,nan,0.30192747712135315
+memory-game-forward-try-again,That's not quite right. Please try again. Choose the squares in the same order.,nan,0.2968136966228485
+memory-game-instruct5,This time the game won't tell you if you're right or wrong. Let’s start playing the memory game!,nan,0.2942878305912018
+memory-game-instruct6,Now let's play the memory game in reverse!,nan,0.36257800459861755
+memory-game-instruct7,Let’s start playing the memory game!,nan,0.3770517408847809
+memory-game-backward-prompt,Choose the squares in the backward order.,nan,0.29111143946647644
+memory-game-backward-try-again,That's not quite right. Please try again. Choose the squares in the backward order.,nan,0.2935201823711395
+heart-instruct1,This is the heart game. Here's how you play it.,nan,0.2309119701385498
+heart-instruct2,"When you see a heart, press the button on the same side.",nan,0.2645801603794098
+hearts-and-flowers-try-again,That's not quite right. Please try again.,nan,0.3602486848831177
+heart-practice-feedback1,The heart is on the right side. Press the right button.,nan,0.24630877375602722
+hearts-and-flowers-practice-time,Time to practice!,nan,0.49148011207580566
+heart-practice-feedback2,"Remember! When you see a HEART, press the button on the SAME side.",nan,0.2630566656589508
+hearts-and-flowers-instruct1,This time the game will go faster. It won't tell you if you are right or wrong. Try to keep up!,nan,0.280576229095459
+hearts-and-flowers-instruct2,"Try to answer as fast as you can without making mistakes. If you make a mistake, just keep going!",nan,0.2899126708507538
+hearts-and-flowers-play-time,Time to play!,nan,0.40439653396606445
+flower-instruct1,This is the flower game. Here's how you play it.,nan,0.23841726779937744
+flower-instruct2,"When you see a flower, press the button on the opposite side.",nan,0.2655726969242096
+flower-practice-feedback1,The flower is on the left side. Press the right button.,nan,0.25390416383743286
+flower-practice-feedback2,"When you see a FLOWER, press the button on the OPPOSITE side.",nan,0.24712136387825012
+hearts-and-flowers-instruct3,"Now, we're going to play a game with hearts and flowers.",nan,0.2789563834667206
+hearts-and-flowers-encourage1,Try to keep up!,nan,0.3393495976924896
+hearts-and-flowers-encourage2,"If you make a mistake, just keep going!",nan,0.3410218060016632
+hearts-and-flowers-end,Great job! You completed the game!,nan,0.31637346744537354
+vocab-item-001,the acorn,nan,0.3791588842868805
+vocab-item-002,the aloe,nan,0.5213103294372559
+vocab-item-003,the antenna,nan,0.4840796887874603
+vocab-item-004,the artichoke,nan,0.4693576395511627
+vocab-item-005,the bamboo,nan,0.47115543484687805
+vocab-item-006,the barrel,nan,0.3545747697353363
+vocab-item-007,the blender,nan,0.3588818609714508
+vocab-item-008,the blower,nan,0.3269328773021698
+vocab-item-009,the bouquet,nan,0.39849063754081726
+vocab-item-010,the buffet,nan,0.3862208425998688
+vocab-item-011,the bulldozer,nan,0.2778845727443695
+vocab-item-012,the cake,nan,0.42467284202575684
+vocab-item-013,the caramel,nan,0.4312742054462433
+vocab-item-014,the carousel,nan,0.366575688123703
+vocab-item-015,the carrot,nan,0.4142979085445404
+vocab-item-016,the cassette,nan,0.36320018768310547
+vocab-item-017,the cheese,nan,0.4055215120315552
+vocab-item-018,the cloak,nan,0.398493230342865
+vocab-item-019,the clothespin,nan,0.36925265192985535
+vocab-item-020,the coaster,nan,0.3743823170661926
+vocab-item-021,the cork,nan,0.3543950617313385
+vocab-item-022,the cornbread,nan,0.3916116952896118
+vocab-item-023,the corset,nan,0.36912670731544495
+vocab-item-024,the dumpling,nan,0.3855200707912445
+vocab-item-025,the elbow,nan,0.4217962920665741
+vocab-item-026,the fan,nan,0.38893452286720276
+vocab-item-027,the foam,nan,0.448175847530365
+vocab-item-028,the footbath,nan,0.32635536789894104
+vocab-item-029,the fruitcake,nan,0.37659159302711487
+vocab-item-030,the gutter,nan,0.4063873589038849
+vocab-item-031,the hamster,nan,0.6623510122299194
+vocab-item-032,the hedgehog,nan,0.40565434098243713
+vocab-item-033,the hoe,nan,0.3795497715473175
+vocab-item-034,the hopscotch,nan,0.3164849877357483
+vocab-item-035,the kimono,nan,0.4314783811569214
+vocab-item-036,the latch,nan,0.35744816064834595
+vocab-item-037,the locker,nan,0.366707444190979
+vocab-item-038,the lollipop,nan,0.4192429184913635
+vocab-item-039,the map,nan,0.37236061692237854
+vocab-item-040,the marshmallow,nan,0.44722476601600647
+vocab-item-041,the net,nan,0.3884723484516144
+vocab-item-042,the oil,nan,0.3629210889339447
+vocab-item-043,the omelet,nan,0.4622746407985687
+vocab-item-044,the pie,nan,0.3744679391384125
+vocab-item-045,the pistachio,nan,0.33860158920288086
+vocab-item-046,the pitcher,nan,0.3723169267177582
+vocab-item-047,the potato,nan,0.5481550693511963
+vocab-item-048,the prism,nan,0.4231221079826355
+vocab-item-049,the puddle,nan,0.5115956664085388
+vocab-item-050,the pump,nan,0.36030176281929016
+vocab-item-051,the rice,nan,0.3965696394443512
+vocab-item-052,the saddle,nan,0.38792434334754944
+vocab-item-053,the sandbag,nan,0.3646126091480255
+vocab-item-054,the scaffolding,nan,0.3126178979873657
+vocab-item-055,the scoop,nan,0.40185341238975525
+vocab-item-056,the seagull,nan,0.46647265553474426
+vocab-item-057,the ship,nan,0.37325480580329895
+vocab-item-058,the shower,nan,0.4070660173892975
+vocab-item-059,the silverware,nan,0.3268122673034668
+vocab-item-060,the sink,nan,0.37108635902404785
+vocab-item-061,the ski,nan,0.37304210662841797
+vocab-item-062,the sloth,nan,0.43588829040527344
+vocab-item-063,the snail,nan,0.783248782157898
+vocab-item-064,the sorbet,nan,0.4272729158401489
+vocab-item-065,the spatula,nan,0.4098877012729645
+vocab-item-066,the sprinkler,nan,0.3724304437637329
+vocab-item-067,the squash,nan,0.37189069390296936
+vocab-item-068,the squirrel,nan,0.49130669236183167
+vocab-item-069,the stew,nan,0.3590417206287384
+vocab-item-070,the rubber band,nan,0.34262993931770325
+vocab-item-071,the stump,nan,0.4031459391117096
+vocab-item-072,the sunflower,nan,0.38542988896369934
+vocab-item-073,the swordfish,nan,0.36254221200942993
+vocab-item-074,the tapestry,nan,0.43622708320617676
+vocab-item-075,the teabag,nan,0.37048712372779846
+vocab-item-076,the telescope,nan,0.4709848463535309
+vocab-item-077,the thermos,nan,0.39509889483451843
+vocab-item-078,the treasure,nan,0.41365131735801697
+vocab-item-079,the trumpet,nan,0.4051506817340851
+vocab-item-080,the tulip,nan,0.5436256527900696
+vocab-item-081,the turbine,nan,0.32632002234458923
+vocab-item-082,the turkey,nan,0.49491652846336365
+vocab-item-083,the turtle,nan,0.5574324727058411
+vocab-item-084,the typewriter,nan,0.35494452714920044
+vocab-item-085,the watermelon,nan,0.45075535774230957
+vocab-item-086,the waterwheel,nan,0.3512882888317108
+vocab-item-087,the ant,nan,0.7516183853149414
+vocab-item-088,the ball,nan,0.362701416015625
+vocab-item-089,the bear,nan,0.5878720879554749
+vocab-item-090,the duck,nan,0.6955941319465637
+vocab-item-091,the fork,nan,0.3601374328136444
+vocab-item-092,the kitten,nan,0.7351545095443726
+vocab-item-093,the knee,nan,0.4019186794757843
+vocab-item-094,the milkshake,nan,0.4168173372745514
+vocab-item-095,the skin,nan,0.5208672881126404
+vocab-item-096,the wall,nan,0.39534103870391846
+vocab-item-097,the wheel,nan,0.4101366698741913
+vocab-item-098,the farm,nan,0.4397302567958832
+vocab-item-099,juggling,nan,0.35808461904525757
+vocab-item-100,the dressing,nan,0.38479700684547424
+vocab-item-101,the roof,nan,0.42296624183654785
+vocab-item-102,peeking,nan,0.3720504939556122
+vocab-item-103,the ruler,nan,0.3640001714229584
+vocab-item-104,the tunnel,nan,0.37712305784225464
+vocab-item-105,the envelope,nan,0.391591340303421
+vocab-item-106,the diamond,nan,0.36917367577552795
+vocab-item-107,the calendar,nan,0.4263013005256653
+vocab-item-108,the panda,nan,0.4944382905960083
+vocab-item-109,the arrow,nan,0.351541131734848
+vocab-item-110,picking,nan,0.39343181252479553
+vocab-item-111,dripping,nan,0.3590450584888458
+vocab-item-112,the knight,nan,0.48156216740608215
+vocab-item-113,delivering,nan,0.40018001198768616
+vocab-item-114,the dentist,nan,0.5295045971870422
+vocab-item-115,the claw,nan,0.3569273054599762
+vocab-item-116,the uniform,nan,0.3864830434322357
+vocab-item-117,furry,nan,0.41231900453567505
+vocab-item-118,the cormorant,nan,0.5275634527206421
+vocab-item-119,fetch,nan,0.3492771089076996
+vocab-item-120,the arcade,nan,0.381032794713974
+vocab-item-121,the artifact,nan,0.4537372887134552
+vocab-item-122,aversion,nan,0.41095682978630066
+vocab-item-123,the beret,nan,0.332620769739151
+vocab-item-124,applaud,nan,0.4208444058895111
+vocab-item-125,timid,nan,0.5381474494934082
+vocab-item-126,the camp,nan,0.4266350567340851
+vocab-item-127,tumble,nan,0.37848538160324097
+vocab-item-128,concentric,nan,0.3910540044307709
+vocab-item-129,the confectionery,nan,0.37280362844467163
+vocab-item-130,the couturier,nan,0.3289722204208374
+vocab-item-131,degression,nan,0.3147592842578888
+vocab-item-132,the divan,nan,0.46759364008903503
+vocab-item-133,the wetland,nan,0.4924321174621582
+vocab-item-134,the baywindow,nan,0.3513319492340088
+vocab-item-135,the aesthete,nan,0.34857282042503357
+vocab-item-136,ecstatic,nan,0.4002481997013092
+vocab-item-137,rickety,nan,0.3529202342033386
+vocab-item-138,gourmet,nan,0.4078729450702667
+vocab-item-139,gesticulate,nan,0.45373091101646423
+vocab-item-140,the facade,nan,0.47773709893226624
+vocab-item-141,the slope,nan,0.46504533290863037
+vocab-item-142,the habit,nan,0.4271985590457916
+vocab-item-143,the intersection,nan,0.37190940976142883
+vocab-item-144,the irrigation,nan,0.3258172273635864
+vocab-item-145,the kazoo,nan,0.4268329441547394
+vocab-item-146,chat,nan,0.40429922938346863
+vocab-item-147,the colony,nan,0.35435059666633606
+vocab-item-148,preserve,nan,0.37322133779525757
+vocab-item-149,the awning,nan,0.49336937069892883
+vocab-item-150,mammalogy,nan,0.42004451155662537
+vocab-item-151,the metronome,nan,0.40376800298690796
+vocab-item-152,the paleontologist,nan,0.37714913487434387
+vocab-item-153,the percussion,nan,0.3458574116230011
+vocab-item-154,the posterior,nan,0.38428226113319397
+vocab-item-155,precarious,nan,0.4126744270324707
+vocab-item-156,the arbor,nan,0.36853787302970886
+vocab-item-157,resuscitation,nan,0.3453819751739502
+vocab-item-158,the rosette,nan,0.4161757528781891
+vocab-item-159,the saffron,nan,0.4011640250682831
+vocab-item-160,mischievous,nan,0.3771321177482605
+vocab-item-161,the skimmer,nan,0.3338293433189392
+vocab-item-162,sedentary,nan,0.48701563477516174
+vocab-item-163,the suede,nan,0.38223081827163696
+vocab-item-164,the turnstile,nan,0.3438529074192047
+vocab-item-165,the triad,nan,0.35586968064308167
+vocab-item-166,dredging,nan,0.35714396834373474
+vocab-item-167,urban,nan,0.43880000710487366
+vocab-item-168,the steam,nan,0.3939136564731598
+vocab-item-169,the vertebra,nan,0.4264416992664337
+vocab-item-170,the bandage,nan,0.39030909538269043
+vocab-instruct-1,"In this game, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word!",nan,0.3534186780452728
+vocab-practice-1,"You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word!",nan,0.2950088083744049
+vocab-instruct-2,"Some words are hard, and that's okay. If you're not sure, just give your best guess!",nan,0.2767689526081085
+vocab-instruct-3,"If you need to hear the word again, press the speaker button.",nan,0.28560370206832886
+shared-intro-devices,"You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.",nan,0.2832282483577728
+shared-choose-picture-press-arrow,"To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.",nan,0.26125386357307434
+shared-intro-replay,You can press the replay button to hear things again. Try it now.,nan,0.32551074028015137
+trog-instr1-matching,"This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.",nan,0.29422837495803833
+ChildSurveyIntro,"These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time. The first two are for practice.",nan,0.3382891118526459
+Example1Comic,Do you like to read comic books?,nan,0.4309927523136139
+Example2Neat,Are you neat and tidy at school?,nan,0.3583526611328125
+TeacherNice,Is your teacher nice to you?,nan,0.3883599638938904
+TeacherLike,Does your teacher like you?,nan,0.31911221146583557
+TeacherListen,Does your teacher listen to you?,nan,0.30486416816711426
+SchoolFun,Is school fun?,nan,0.3835327625274658
+SchoolEnjoy,Do you enjoy school?,nan,0.3658893406391144
+SchoolHappy,Are you happy at school?,nan,0.3615470230579376
+SchoolSafe,Do you feel safe at school?,nan,0.45783981680870056
+ClassFriends,Do you have friends in your class?,nan,0.42198967933654785
+ClassHelp,Do the kids in your class help you when you need it?,nan,0.4246930181980133
+ClassPlay,Do the kids in your class play with you?,nan,0.3790062963962555
+ClassNice,Are the kids in your class nice to you?,nan,0.3971840441226959
+LonelySchool,Do you feel lonely at school?,nan,0.41220131516456604
+LearningGood,Are you good at learning things in school?,nan,0.30285701155662537
+SchoolGiveUp,"When schoolwork is hard, do you give up right away?",nan,0.31004849076271057
+ReadingEnjoy,Do you enjoy doing reading activities at school?,nan,0.3108825087547302
+MathEnjoy,Do you enjoy doing math activities at school?,nan,0.306039422750473
+ReadingGood,Are you good at reading?,nan,0.42008304595947266
+MathGood,Are you good at math?,nan,0.4302751123905182
+GrowthMindSmart,Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?,nan,0.39239171147346497
+GrowthMindRead,Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?,nan,0.3609549105167389
+GrowthMindMath,Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?,nan,0.3692934513092041
+ChildSurveyRespoonses,"No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time",nan,0.33322790265083313
+ToM-scene7-instruct1,"Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it.",nan,0.2893502116203308
+ToM-scene7-instruct2,"But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk.",nan,0.23560723662376404
+ToM-scene7-instruct3,So now it’s playtime and Diana wants her toy.,nan,0.2775081992149353
+ToM-scene7-q1-false_belief,Where will Diana look for her toy?,nan,0.3334693908691406
+ToM-scene7-q2-reality_check,And where is her toy really?,nan,0.31458809971809387
+desk,In the desk,nan,0.36969083547592163
+drawer,In the drawer,nan,0.3739815056324005
+ToM-scene8-instruct1,"This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf.",nan,0.2567923665046692
+ToM-scene8-instruct2,"And then she went outside to play, see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the shelf to behind the backpack shelf, see?",nan,0.23531889915466309
+ToM-scene8-instruct3,"Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing.",nan,0.24966546893119812
+ToM-scene8-q1-false_belief,"Now, when Allie comes in from outside, where will she look first for her pencil?",nan,0.27414795756340027
+top,On top of the shelf above the backpack shelf,nan,0.28870847821235657
+behind,Behind the backpack shelf,nan,0.3270188271999359
+ToM-scene-8-instruct4,"Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's!",nan,0.20389971137046814
+ToM-scene-8-q2-emotion_reasoning,How do you think Mike feels about Allie reaching for that pencil?,nan,0.4132271707057953
+ToM-scene-8-q3-emotion_reasoning,How do you think Mike would feel if he had not seen Allie reaching for the pencil?,nan,0.4615838825702667
+ToM-scene-8-q4-false_belief,Is Allie being mean and naughty for taking Mike’s pencil?,nan,0.30207547545433044
+ToM-scene-8-q5-false_belief,Should Allie get in trouble with the teacher for taking Mike’s pencil?,nan,0.2893732786178589
+ToM-scene-8-q6-reality_check,Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?,nan,0.3518947660923004
+ToM-scene-8-q7-reality_check,Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?,nan,0.3190919756889343
+ToM-scene-9-instruct1,"This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark is drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books, a book about cups and a book about hills.",nan,0.2563195526599884
+ToM-scene-9-instruct2,"Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup!",nan,0.22924795746803284
+ToM-scene-9-q1-reality_check,What did Mark mean to draw?,nan,0.28529781103134155
+hill,A hill,nan,0.5544130802154541
+cup,A cup,nan,0.40553122758865356
+ToM-scene-9-q2-false_belief,"When Mom sees the picture, what book will she give Mark? ",nan,0.2754882276058197
+ToM-scene-9-q3-reality_check,What book does Mark really want? ,nan,0.31058984994888306
+hillsbook,The book about hills,nan,0.31762707233428955
+cupbook,The book about cups,nan,0.315573126077652
+ToM-scene-9-q4-emotion_reasoning,"Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted?",nan,0.3215196132659912
+ToM-scene-10-instruct1,Teacher Sarah tells all of the kids to take one storybook from the bag that she brought. There is one storybook for every kid.,nan,0.32611390948295593
+ToM-scene-10-instruct2,"Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk.",nan,0.26318982243537903
+ToM-scene-10-q1-emotion_reasoning,How does Megan feel about being the only child without a storybook?,nan,0.3685149848461151
+ToM-scene-10-q2-emotion_reasoning,How would Megan feel if she received a book?,nan,0.3408777415752411
+ToM-scene-10-instruct3,"Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”",nan,0.25959938764572144
+ToM-scene-10-q3-reality_check,Is Brian lying?,nan,0.383928507566452
+ToM-scene-10-q4-reality_check,"Is there still a storybook left, that isn’t being used right now?",nan,0.28135254979133606
+ToM-scene-10-instruct4,"Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah, ""is there an extra storybook for me?"" Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.”",nan,0.2790144383907318
+ToM-scene-10-q5-false_belief,Is Teacher Sarah lying?,nan,0.3691845238208771
+ToM-scene-10-q6-reality_check,"Is there still a storybook left, that isn’t being used right now?",nan,0.28135254979133606
+ToM-scene-11-instruct1,"This is Josh. Earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf.",nan,0.27428755164146423
+ToM-scene-11-instruct2,"Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”",nan,0.2685200870037079
+ToM-scene-11-q1-reference,Which ball will mom get for Josh?,nan,0.2868945598602295
+ToM-scene-11-q2-reality_check,Which ball does Josh want?,nan,0.3380909860134125
+baseball,The small baseball,nan,0.34895047545433044
+soccerball,The medium sized soccer ball,nan,0.33210769295692444
+big-basketball,The big basketball,nan,0.3444634974002838
+ToM-scene-11-q3-emotion_reasoning,Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy?,nan,0.36901089549064636
+ToM-scene-11-q4-emotion_reasoning,How do you think Josh would feel if he had received the correct toy?,nan,0.45787593722343445
+ToM-scene-12-instruct1,"This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.",nan,0.31482067704200745
+ToM-scene-12-instruct2,"Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball.",nan,0.2496117353439331
+ToM-scene-12-q1-false_belief,Which toy does Dad think Emma wants to bring to school?,nan,0.5250040888786316
+ToM-scene-12-instruct3,"Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.",nan,0.24478602409362793
+ToM-scene-12-q2-false_belief,Does Emma know that Dad packed the blue ball?,nan,0.29319214820861816
+ToM-scene-12-q3-false_belief,Which ball does Emma think Dad packed?,nan,0.28184470534324646
+yellowball,The yellow ball,nan,0.35143253207206726
+redball,The red ball,nan,0.33564093708992004
+blueball,The blue ball,nan,0.3837805986404419
+ToM-scene-12-instruct4,"On the way to school, Dad tells Emma, “I’m so sorry, I couldn’t pack the toy that you wanted because I couldn’t find it”.",nan,0.32172438502311707
+ToM-scene-12-q4-reality_check,What toy does Emma want?,nan,0.4396737813949585
+ToM-scene-12-q5-reality_check,What toy did Dad pack for Emma?,nan,0.3560989797115326
+ToM-scene-12-instruct5,Emma is very happy to play with her ball.,nan,0.3345727026462555
+ToM-scene13-instruct1,"Here is Gabriel. This afternoon at school, Gabriel put his pencil in his pencil box.",nan,0.2702057957649231
+ToM-scene13-instruct2,"But while Gabriel was outside, someone used his pencil! After using Gabriel’s pencil, the person put the pencil in a basket.",nan,0.28021976351737976
+ToM-scene13-instruct3,"So now it’s time for class, and Gabriel wants his pencil.",nan,0.2674912214279175
+ToM-scene13-q1-false_belief,Where will Gabriel look for his pencil?,nan,0.3285517990589142
+box,In the box,nan,0.365736722946167
+basket,In the basket,nan,0.3735022246837616
+ToM-scene13-q2-reality_check,And where is his pencil really?,nan,0.30709242820739746
+ToM-scene14-instruct1,"This afternoon when he came home, Bobby put his soccer ball on the table.",nan,0.2976239025592804
+ToM-scene14-instruct2,"And then he went outside to play, see? Here’s Bobby playing outside. And while he was outside playing, Bobby’s soccer ball fell off the table and onto the floor.",nan,0.2653660178184509
+ToM-scene14-instruct3,"Then Bobby’s sister Anna comes in. Anna also has a soccer ball! Anna puts her soccer ball on the table. Bobby is still outside playing, so he didn’t see what Anna was doing.",nan,0.2760041356086731
+ToM-scene14-q1-false_belief,"Now, when Bobby comes in from outside, where will he look first for his soccer ball?",nan,0.29767879843711853
+table,On the table,nan,0.3579961359500885
+floor,On the floor,nan,0.3875870108604431
+ToM-scene-14-instruct4,"Let’s see what he does. Oh look, here is Bobby reaching for the soccer ball on the table. And now Anna sees Bobby reaching for that soccer ball... the soccer ball that is Anna's!",nan,0.22492173314094543
+ToM-scene-14-q2-emotion_reasoning,How do you think Anna feels about Bobby reaching for that soccer ball?,nan,0.4147375822067261
+ToM-scene-14-q3-emotion_reasoning,How do you think Anna would feel if she had not seen Bobby reaching for the soccer ball?,nan,0.4440203607082367
+ToM-scene-14-q4-false_belief,Is Bobby being mean and naughty for taking Anna’s soccer ball?,nan,0.32755792140960693
+ToM-scene-14-q5-false_belief,Should Bobby get in trouble with their mom for taking Anna’s soccer ball?,nan,0.3231145739555359
+ToM-scene-14-q6-reality_check,Can you help Anna find her soccer ball? Is it on the table or on the floor?,nan,0.3379970192909241
+ToM-scene-14-q7-reality_check,Can you help Bobby find his soccer ball? Is it on the table or on the floor?,nan,0.37527236342430115
+ToM-scene-15-instruct1,"Alex, Beth, and Johnny are playing a game at the park. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. ",nan,0.287008136510849
+ToM-scene-15-instruct2,"Johnny decides to hide behind the flower bush. He draws a clue in the sand. Johnny means to draw the flower bush, but the drawing looks like a rock instead! Then Johnny goes to hide behind the flower bush.",nan,0.2754337787628174
+ToM-scene-15-q1-reality_check,What did Johnny mean to draw?,nan,0.30151450634002686
+flowerbush,A flower bush,nan,0.36560916900634766
+rocks,A rock,nan,0.4505591094493866
+ToM-scene-15-q2-false_belief,"When Alex and Beth see this clue, where will they look first for Johnny? Behind the flower bush or behind the rock?",nan,0.30137401819229126
+ToM-scene-15-q3-reality_check,Can you help them find where Johnny really is?,nan,0.39150968194007874
+behind-flowerbush,Behind the flower bush,nan,0.3334275186061859
+behind-rock,Behind the rock,nan,0.3626299798488617
+ToM-scene-15-q4-emotion_reasoning,"Look, Alex and Beth found Johnny, and won the game! How do you think Alex and Beth feel about winning the game?",nan,0.30620643496513367
+ToM-scene-16-instruct1,Dad tells James and Sophie to get ready for school. Dad tells them to put on their shoes.,nan,0.31703415513038635
+ToM-scene-16-instruct2,Sophie can’t find one of her shoes! She’s looking everywhere but she can't find it.,nan,0.2885732352733612
+ToM-scene-16-q1-emotion_reasoning,How does Sophie feel about losing her shoe? ,nan,0.40901049971580505
+ToM-scene-16-q2-emotion_reasoning,How would Sophie feel if she found her shoe?,nan,0.34638041257858276
+ToM-scene-16-instruct3,"Sophie can't find her shoe because earlier in the day, when no one was looking, James played a trick on Sophie and hid her shoe in the toy box.",nan,0.33127573132514954
+ToM-scene-16-instruct4,"So Sophie looks everywhere and she can’t find her shoe. Dad gets mad at Sophie, because she lost her shoe and now they are late for school.",nan,0.2869381904602051
+ToM-scene-16-q3-false_belief,Is it fair that Dad is mad at Sophie for losing her shoe?,nan,0.29912930727005005
+ToM-scene-16-q4-reference,Is Dad mad at James?,nan,0.42717745900154114
+ToM-scene-16-q5-reference,Is Sophie mad at James?,nan,0.46455520391464233
+ToM-scene-16-instruct5,"When James sees that Dad is mad at Sophie, he goes to the toy box and gets the shoe, and gives it back to Sophie.",nan,0.3152424991130829
+ToM-scene-16-q6-reference,Is Dad mad at Sophie now?,nan,0.41841426491737366
+ToM-scene-16-q7-reference,Is Dad mad at James now?,nan,0.4305945634841919
+ToM-scene-16-q8-reference,Is Sophie mad at James now?,nan,0.47952547669410706
+ToM-scene-16-instruct6,"James tells Sophie that he’s very sorry, and Sophie and Dad forgive James. They all hug.",nan,0.35983115434646606
+ToM-scene-17-instruct1,"This is Mika. Mika’s mom owns a bookshop, and sometimes Mika helps out. Earlier today, Mika was organizing books on tables and shelves. Mika put a very large stack of blue books on the desk, a medium-sized stack of red books on the table, and a small stack of yellow books on the shelf.",nan,0.30011409521102905
+ToM-scene-17-instruct2,"Mika’s mom just walked in. Mom asks Mika for one of the books. Mika remembers where the book is, and tells mom, “The book is in the small stack!”",nan,0.3051392138004303
+ToM-scene-17-q1-reference,Which stack of books will mom look in?,nan,0.32508987188339233
+ToM-scene-17-q2-reality_check,Which stack of books was Mika talking about?,nan,0.3990268409252167
+bluestack,The large blue stack,nan,0.3161725699901581
+redstack,The medium sized red stack,nan,0.3032606542110443
+yellowstack,The small yellow stack,nan,0.31718358397483826
+ToM-scene-17-q3-emotion_reasoning,Mom looks in the wrong stack of books and can’t find the book that she wanted. How do you think Mom feels about not finding the book she wanted?,nan,0.29213106632232666
+ToM-scene-17-q4-emotion_reasoning,How do you think Mom would feel if she could find the book she wanted?,nan,0.3719925582408905
+ToM-scene-18-instruct1,"George and Kat are playing together. They look outside and see a new toy shop across the street. Kat decides to go buy some new toys at the toy shop. Kat asks George what toy he would like to have, and George says he would like a new basketball.",nan,0.36208266019821167
+ToM-scene-18-instruct2,"While Kat is walking to the toy shop, George changes his mind and yells to Kat, “Actually, can I please have some crayons?” But Kat did not hear George ask for crayons.",nan,0.2682720720767975
+ToM-scene-18-q1-false_belief,Which toy does Kat think George wants from the toy shop?,nan,0.43714725971221924
+ToM-scene-18-instruct3,"Kat didn’t hear George say that he wanted crayons. So Kat thinks George wants a basketball. Kat goes to the toy shop, but then the shop owner says that they don’t have any basketballs! But they do have storybooks, so Kat buys a storybook for George instead.",nan,0.32698261737823486
+ToM-scene-18-q2-false_belief,Does George know that Kat bought a storybook?,nan,0.3510180115699768
+ToM-scene-18-q3-false_belief,What does George think Kat bought at the toy shop?,nan,0.362995982170105
+basketball,A basketball,nan,0.3583982288837433
+storybook,A storybook,nan,0.37853047251701355
+crayons,Crayons,nan,0.35571032762527466
+ToM-scene-18-instruct4,"Kat comes back and tells George, “I’m so sorry, I couldn’t buy you a basketball because the store didn’t have any.”",nan,0.30511799454689026
+ToM-scene-18-q4-reality_check,What toy does George want?,nan,0.40794888138771057
+ToM-scene-18-q5-reality_check,What toy did Kat buy for George?,nan,0.4386421740055084
+ToM-scene-18-instruct5,George is very happy to play with his new storybook.,nan,0.33263909816741943
+inferenceInstructions2,Welcome to ROAR - Inference,nan,0.3317326605319977
+inferenceInstructions,Read each story carefully. Think about what happened in the story and what you know. Choose the best answer for each question.,nan,0.38719555735588074
+sds-your-turn,Now it's your turn!,nan,0.5083415508270264
+sds-prompt3-demo-heavy,Here is another picture. I have to choose which of these pictures is the same as this new picture.,nan,0.279358446598053
+sds-pick-square-demo-heavy,I will pick this one! This one is the same as the new picture because they are both squares.,nan,0.2442256212234497
+same-different-selection-instruct1-heavy,"This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way.",nan,0.2690037190914154
+same-different-selection-instruct2-heavy,Now we're going to look at more pictures and find things about them that are the same. Let's learn how to play!,nan,0.2702287435531616
+same-different-selection-instruct3-heavy,Now you're going to play the rest of the game on your own!,nan,0.3413430154323578
+same-different-selection-instruct4-heavy,Now we're going to try something new! You're going to find pairs of shapes that are the same in some way. Let's learn how!,nan,0.28344038128852844
+same-different-selection-instruct5-heavy,Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles.,nan,0.25257155299186707
+same-different-selection-instruct6-heavy,Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red.,nan,0.25817784667015076
+same-different-selection-touch-circle-heavy,Show me the circle.,nan,0.3709103763103485
+same-different-selection-touch-square-heavy,Show me the square.,nan,0.31046929955482483
+same-different-selection-touch-triangle-heavy,Show me the triangle.,nan,0.3499544560909271
+same-different-selection-touch-star-heavy,Show me the star.,nan,0.336309552192688
+same-different-selection-touch-green-heavy,Show me the green one.,nan,0.31686165928840637
+same-different-selection-touch-red-heavy,Show me the red one.,nan,0.290689080953598
+same-different-selection-touch-blue-heavy,Show me the blue one.,nan,0.300588458776474
+same-different-selection-touch-yellow-heavy,Show me the yellow one.,nan,0.30730050802230835
+same-different-selection-touch-small-heavy,Show me the small one.,nan,0.32721784710884094
+same-different-selection-touch-medium-heavy,Show me the medium one.,nan,0.3068157434463501
+same-different-selection-touch-large-heavy,Show me the large one.,nan,0.32201847434043884
+same-different-selection-touch-white-heavy,Show me the picture with the white background.,nan,0.2877431809902191
+same-different-selection-touch-gray-heavy,Show me the picture with the gray background.,nan,0.27106770873069763
+same-different-selection-touch-black-heavy,Show me the picture with the black background.,nan,0.28842803835868835
+same-different-selection-touch-striped-heavy,Show me the picture with the striped background.,nan,0.28097620606422424
+same-different-selection-touch-1-heavy,Show me the picture with one shape.,nan,0.3069397211074829
+same-different-selection-touch-2-heavy,Show me the picture with two shapes.,nan,0.2925262451171875
+same-different-selection-touch-3-heavy,Show me the picture with three shapes.,nan,0.28541287779808044
+same-different-selection-touch-4-heavy,Show me the picture with four shapes.,nan,0.27750083804130554
+same-different-selection-both-circles-heavy,Here are two pictures. Something's the same. They're both circles.,nan,0.24439144134521484
+same-different-selection-both-squares-heavy,Here are two pictures. Something's the same. They're both squares.,nan,0.23267999291419983
+same-different-selection-both-triangles-heavy,Here are two pictures. Something's the same. They're both triangles.,nan,0.2281932532787323
+same-different-selection-both-red-heavy,Here are two pictures. Something's the same. They're both red.,nan,0.2579527497291565
+same-different-selection-both-green-heavy,Here are two pictures. Something's the same. They're both green.,nan,0.2551453411579132
+same-different-selection-both-yellow-heavy,Here are two pictures. Something's the same. They're both yellow.,nan,0.2557685673236847
+same-different-selection-both-blue-heavy,Here are two pictures. Something's the same. They're both blue.,nan,0.24933314323425293
+same-different-selection-both-small-heavy,Here are two pictures. Something's the same. They're both small.,nan,0.25311335921287537
+same-different-selection-both-medium-heavy,Here are two pictures. Something's the same. They're both medium.,nan,0.2487279772758484
+same-different-selection-both-large-heavy,Here are two pictures. Something's the same. They're both large.,nan,0.2533961534500122
+sds-prompt3-heavy,Here is another picture. Which of these pictures is the same as this new picture?,nan,0.29022732377052307
+sds-3match-prompt2-heavy,Here are the same pictures. Choose two of them that are the same in a different way.,nan,0.28041672706604004
+sds-2match-prompt1-heavy,Here are some new pictures. Choose two of them that are the same in some way.,nan,0.2983696460723877
+sds-2match-prompt2-heavy,Now choose two pictures that are the same in a different way.,nan,0.30216526985168457
+sds-3unique-prompt1-heavy,Choose three pictures that are the same in only one way.,nan,0.31225502490997314
+sds-3unique-prompt2-heavy,Choose another three pictures that are the same in only one way.,nan,0.2990582287311554
+sds-match-demo1-heavy,Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles.,nan,0.25363320112228394
+sds-match-demo2-heavy,Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small.,nan,0.257352352142334
+data-questionnaire-button-text1,"I have SERIOUS CONCERNS about these data (e.g., the child did not seem to understand the task, was frequently distracted/interrupted, etc.)",nan,0.3320334851741791
+data-questionnaire-button-text2,"I feel OK about these data (e.g., the child seemed to understand the task pretty well, only experienced a few distractions/interruptions, etc.)",nan,0.30877450108528137
+data-questionnaire-button-text3,"I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.)",nan,0.29530492424964905
+math-instructions1-heavy,"In this game, you will play with numbers.
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!",nan,0.3831283152103424
+math-intro1-heavy,It's time for the first number game! Let's practice.,nan,0.2661784291267395
+math-intro2-heavy,It's time for the next number game! Let's practice.,nan,0.2654188573360443
+counting-intro,"In this number game, you will say how many things are in the picture! The grownup helping you will press the button.",nan,0.23457658290863037
+counting-intro-afc,"This time, you will choose the button with the right number!",nan,0.3179910182952881
+memory-game-instruct1-heavy,This is the memory game. ,nan,0.3263929784297943
+memory-game-instruct2-heavy,"In this game, we are going to see squares light up. Your job is to touch the squares that light up. ",nan,0.25696033239364624
+memory-game-instruct3-heavy,Now we will see two squares light up. Your job is to touch the squares in the same order as they light up!,nan,0.25605106353759766
+memory-game-instruct4-heavy,Watch the squares light up. I will touch the squares in the same order.,nan,0.2398245930671692
+memory-game-instruct5-heavy,"OK, now you're going to play the rest of the memory game on your own. More squares will light up each time the longer you play, so watch carefully!",nan,0.3241363763809204
+memory-game-instruct6-heavy,"If you make a mistake, just keep going!",nan,0.3410218060016632
+ns-number-identification-1,Choose the card that shows 1 apple.,nan,0.3023030757904053
+ns-number-identification-2,Choose the card that shows 2 cars.,nan,0.3008970618247986
+ns-number-identification-5,Choose the card that shows 5 apples.,nan,0.3045949339866638
+ns-number-identification-7,Choose the card that shows 7 cars.,nan,0.2973383665084839
+ns-number-identification-10,Choose the card that shows 10 apples.,nan,0.30262547731399536
+counting-1,How many cars is this?,nan,0.32524096965789795
+counting-2,How many apples is this?,nan,0.34886887669563293
+ns-number-comp-1,Which card has more apples?,nan,0.317186176776886
+ns-number-comp-2,Which card has more cars?,nan,0.3075278103351593
