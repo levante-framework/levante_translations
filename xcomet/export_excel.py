@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Optional
 
 import pandas as pd
-from openpyxl.styles import PatternFill
+from openpyxl.styles import PatternFill, Font, Alignment
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -39,6 +39,32 @@ def auto_width(worksheet):
                 pass
         adjusted_width = min(max_length + 2, 80)
         worksheet.column_dimensions[column].width = adjusted_width
+
+
+def apply_header_and_alignment(ws):
+    # Bold header row
+    for cell in ws[1]:
+        cell.font = Font(bold=True)
+    # Right-align header cells except the first
+    for col in range(2, ws.max_column + 1):
+        ws.cell(row=1, column=col).alignment = Alignment(horizontal='right')
+    # Right-align all columns except the first (data rows)
+    for row in range(2, ws.max_row + 1):
+        for col in range(2, ws.max_column + 1):
+            c = ws.cell(row=row, column=col)
+            c.alignment = Alignment(horizontal='right')
+
+
+def shrink_first_column_if_item_id(ws):
+    # If first header is item_id, halve the width
+    first_header = ws.cell(row=1, column=1).value
+    if isinstance(first_header, str) and first_header.strip() == 'item_id':
+        col_dim = ws.column_dimensions['A']
+        try:
+            current = float(col_dim.width or 10)
+        except Exception:
+            current = 10.0
+        col_dim.width = max(6.0, current / 2.0)
 
 
 def export_excel(lang: str, input_csv: Path, output_xlsx: Path, sheet_name: str):
@@ -95,7 +121,9 @@ def export_excel(lang: str, input_csv: Path, output_xlsx: Path, sheet_name: str)
                 for col in range(1, ws.max_column + 1):
                     ws.cell(row=row, column=col).fill = fill
 
+        apply_header_and_alignment(ws)
         auto_width(ws)
+        shrink_first_column_if_item_id(ws)
 
     print(f'Wrote Excel: {output_xlsx}')
 

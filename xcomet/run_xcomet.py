@@ -69,7 +69,7 @@ def run_cli(model: str, src: Path, hyp: Path, ref: Optional[Path], out_json: Pat
     subprocess.check_call(cmd)
 
 
-def run_api(model: str, inputs: Inputs, out_json: Path, spans: bool, force_gpu: Optional[bool] = None):
+def run_api(model: str, inputs: Inputs, out_json: Path, spans: bool, force_gpu: Optional[bool] = None, matmul: Optional[str] = None):
     from comet import download_model, load_from_checkpoint
     model_path = download_model(model)
     comet_model = load_from_checkpoint(model_path)
@@ -93,6 +93,9 @@ def run_api(model: str, inputs: Inputs, out_json: Path, spans: bool, force_gpu: 
         try:
             import torch
             use_gpu = torch.cuda.is_available()
+            if use_gpu and matmul and hasattr(torch, 'set_float32_matmul_precision'):
+                # Enable Tensor Core matmul precision for speed
+                torch.set_float32_matmul_precision(matmul)
         except Exception:
             use_gpu = False
 
@@ -250,8 +253,19 @@ def main():
     p.add_argument('--ref_txt', type=Path, help='Optional ref.txt parallel to src/hyp order')
     p.add_argument('--allow_qe_fallback', action='store_true', help='If no ref, allow fallback to QE model')
     p.add_argument('--gpu', action='store_true', help='Force GPU if available (Python API); CLI path adds --gpus 1')
+    p.add_argument('--matmul', choices=['medium','high'], help="If using GPU (API), set torch.set_float32_matmul_precision to this value for Tensor Cores")
 
     args = p.parse_args()
+
+    # If requested, set matmul precision early (before any model loading)
+    if args.gpu and args.matmul:
+        try:
+            import torch
+            if hasattr(torch, 'set_float32_matmul_precision'):
+                torch.set_float32_matmul_precision(args.matmul)
+                print(f"Set torch.set_float32_matmul_precision('{args.matmul}')")
+        except Exception as e:
+            print(f"Warning: could not set matmul precision: {e}")
 
     item_ids, src, hyp = load_csv_rows(args.csv, args.lang)
 
@@ -298,7 +312,7 @@ def main():
     if args.use_cli:
         run_cli(model, src_path, hyp_path, ref_path, scores_json, use_gpu=args.gpu)
     else:
-        run_api(model, inputs, scores_json, spans=args.spans, force_gpu=args.gpu)
+        run_api(model, inputs, scores_json, spans=args.spans, force_gpu=args.gpu, matmul=args.matmul)
 
     report_md = lang_dir / 'report.md'
     generate_report(item_ids, scores_json, report_md)

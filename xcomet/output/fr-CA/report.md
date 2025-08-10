@@ -1,9 +1,19 @@
 # XCOMET Report
 
-System score: 0.7710490054926094
+System score: 0.7633624723447221
 
 
 ## Worst 25 segments
+
+- number-line-instruct1 | score=0.1602991223335266
+  - src: Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.
+  - hyp: Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.
+  - ref: 
+
+- math-intro-fractions | score=0.1915094554424286
+  - src: In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.
+  - hyp: In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.
+  - ref: 
 
 - same-different-selection-instruct5-heavy | score=0.19433587789535522
   - src: Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles.
@@ -25,14 +35,31 @@ System score: 0.7710490054926094
   - hyp: Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small.
   - ref: 
 
-- shared-choose-picture-press-arrow | score=0.2062758207321167
-  - src: To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.
-  - hyp: To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.
+- ToM-scene-8-q7-reality_check | score=0.20414310693740845
+  - src: Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?
+  - hyp: Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?
+  - ref: 
+
+- ToM-scene-10-instruct3 | score=0.2084568738937378
+  - src: Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”
+  - hyp: Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”
   - ref: 
 
 - memory-game-instruct2-heavy | score=0.20996928215026855
   - src: In this game, we are going to see squares light up. Your job is to touch the squares that light up. 
   - hyp: In this game, we are going to see squares light up. Your job is to touch the squares that light up. 
+  - ref: 
+
+- math-instructions1 | score=0.21143639087677002
+  - src: In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!
+  - hyp: In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. <br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!
+  - ref: 
+
+- ToM-scene-12-instruct3 | score=0.21534523367881775
+  - src: Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.
+  - hyp: Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.
   - ref: 
 
 - memory-game-instruct3-heavy | score=0.2165471613407135
@@ -60,12 +87,12 @@ System score: 0.7710490054926094
   - hyp: This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way.
   - ref: 
 
-- trog-instr1-matching | score=0.22970134019851685
-  - src: This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.
-  - hyp: This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.
+- ToM-scene-8-q6-reality_check | score=0.2328457534313202
+  - src: Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?
+  - hyp: Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?
   - ref: 
 
-- math-instructions1-heavy | score=0.23352140188217163
+- math-instructions1-heavy | score=0.23355501890182495
   - src: In this game, you will play with numbers.
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
@@ -77,9 +104,19 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
   - hyp: Here are two pictures. Something's the same. They're both triangles.
   - ref: 
 
+- ToM-scene-12-instruct1 | score=0.2339206337928772
+  - src: This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.
+  - hyp: This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.
+  - ref: 
+
 - same-different-selection-both-squares-heavy | score=0.2367268204689026
   - src: Here are two pictures. Something's the same. They're both squares.
   - hyp: Here are two pictures. Something's the same. They're both squares.
+  - ref: 
+
+- memory-game-backward-try-again | score=0.23731780052185059
+  - src: That's not quite right. Please try again. Choose the squares in the backward order.
+  - hyp: That's not quite right. Please try again. Choose the squares in the backward order.
   - ref: 
 
 - same-different-selection-both-small-heavy | score=0.23789915442466736
@@ -87,55 +124,20 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
   - hyp: Here are two pictures. Something's the same. They're both small.
   - ref: 
 
+- ToM-scene-11-instruct2 | score=0.2382284700870514
+  - src: Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”
+  - hyp: Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”
+  - ref: 
+
 - same-different-selection-both-large-heavy | score=0.23976069688796997
   - src: Here are two pictures. Something's the same. They're both large.
   - hyp: Here are two pictures. Something's the same. They're both large.
   - ref: 
 
-- same-different-selection-both-red-heavy | score=0.24218633770942688
-  - src: Here are two pictures. Something's the same. They're both red.
-  - hyp: Here are two pictures. Something's the same. They're both red.
-  - ref: 
-
-- same-different-selection-both-blue-heavy | score=0.24259603023529053
-  - src: Here are two pictures. Something's the same. They're both blue.
-  - hyp: Here are two pictures. Something's the same. They're both blue.
-  - ref: 
-
-- data-questionnaire-button-text3 | score=0.24278774857521057
-  - src: I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.)
-  - hyp: I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.)
-  - ref: 
-
-- same-different-selection-both-green-heavy | score=0.24283957481384277
-  - src: Here are two pictures. Something's the same. They're both green.
-  - hyp: Here are two pictures. Something's the same. They're both green.
-  - ref: 
-
-- same-different-selection-both-medium-heavy | score=0.24650317430496216
-  - src: Here are two pictures. Something's the same. They're both medium.
-  - hyp: Here are two pictures. Something's the same. They're both medium.
-  - ref: 
-
-- same-different-selection-both-yellow-heavy | score=0.2470300793647766
-  - src: Here are two pictures. Something's the same. They're both yellow.
-  - hyp: Here are two pictures. Something's the same. They're both yellow.
-  - ref: 
-
-- same-different-selection-both-circles-heavy | score=0.24839866161346436
-  - src: Here are two pictures. Something's the same. They're both circles.
-  - hyp: Here are two pictures. Something's the same. They're both circles.
-  - ref: 
-
-- shared-intro-devices | score=0.24851301312446594
-  - src: You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.
-  - hyp: You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.
-  - ref: 
-
 
 ## Score distribution
 
-- <0.3: 38 (4.8%) ██
-- 0.3-0.6: 57 (7.3%) ███
-- 0.6-0.75: 65 (8.3%) ████
-- >=0.75: 624 (79.6%) ███████████████████████████████████████
+- <0.3: 51 (6.5%) ███
+- 0.3-0.6: 64 (8.2%) ████
+- 0.6-0.75: 41 (5.2%) ██
+- >=0.75: 628 (80.1%) ████████████████████████████████████████

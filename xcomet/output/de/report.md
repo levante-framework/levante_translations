@@ -1,6 +1,6 @@
 # XCOMET Report
 
-System score: 0.7710490054926094
+System score: 0.7506481255879816
 
 
 ## Worst 25 segments
@@ -65,11 +65,13 @@ System score: 0.7710490054926094
   - hyp: This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.
   - ref: 
 
-- math-instructions1-heavy | score=0.23352140188217163
+- math-instructions1-heavy | score=0.23344463109970093
   - src: In this game, you will play with numbers.
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
-  - hyp: In this game, you will play with numbers.<br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
+  - hyp: In this game, you will play with numbers.
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
   - ref: 
 
 - same-different-selection-both-triangles-heavy | score=0.23368248343467712
@@ -135,7 +137,7 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
 
 ## Score distribution
 
-- <0.3: 38 (4.8%) ██
-- 0.3-0.6: 57 (7.3%) ███
-- 0.6-0.75: 65 (8.3%) ████
-- >=0.75: 624 (79.6%) ███████████████████████████████████████
+- <0.3: 41 (5.2%) ██
+- 0.3-0.6: 64 (8.2%) ████
+- 0.6-0.75: 76 (9.7%) ████
+- >=0.75: 603 (76.9%) ██████████████████████████████████████
