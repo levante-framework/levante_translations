@@ -1,0 +1,786 @@
+| item_id | source | translation | score |
+| --- | --- | --- | --- |
+| general-rotate-device | Please rotate your device for the best view of the activities. | Please rotate your device for the best view of the activities. | 0.32323792576789856 |
+| general-device-type | Please use a tablet in landscape mode, or a desktop computer or a laptop to complete the activities. | Please use a tablet in landscape mode, a desktop computer, or a laptop to complete the activities. | 0.30473944544792175 |
+| general-intro1 | Hi! We are excited to have you play some games with us today! | Salut ! Nous sommes ravis que tu joues à des jeux avec nous aujourd'hui ! | 0.8860716223716736 |
+| general-intro2 | First, you get to choose a buddy to play along with you. As you complete the different games, you will get to pick an accessory like a hat or glasses to decorate your buddy. | Tout d'abord, vous devez choisir un partenaire pour jouer avec vous. Au fil des jeux, vous pourrez choisir un accessoire, comme un chapeau ou des lunettes, pour décorer votre partenaire. | 0.8691442012786865 |
+| pick-buddy | Pick a buddy to play with! | Choisissez un ami avec qui jouer ! | 0.885630190372467 |
+| general-intro3 | Now that you have your buddy, we want to explain how the games work. | Maintenant que tu as ton copain, nous voulons t'expliquer comment fonctionnent les jeux. | 0.8722054958343506 |
+| general-intro4 | During the games you will need to listen to instructions so make sure your speakers are on and the volume is the way you like it. If you need to hear the instructions again, you can click the speaker button up in the corner of your screen. | Pendant les jeux, tu devras écouter les instructions, alors assure-toi que les haut-parleurs sont activés et que le volume te convient. Si tu souhaites réécouter les instructions, tu peux cliquer sur le bouton haut-parleur dans le coin de ton écran. | 0.881076455116272 |
+| general-intro5 | You can choose your answers in different ways depending on the type of tablet or computer you are using. You can use a mouse or touchpad to click your choice, you can use the arrow keys on your keyboard, or you can touch your screen if you are using a tablet. You can pick the way that works best for you.  If you have any questions or need help getting started, please ask the adult who is nearby to help you. | Tu peux choisir tes réponses de différentes manières selon le type de tablette ou d'ordinateur que tu utilises. Tu peux utiliser une souris ou un pavé tactile pour cliquer sur ton choix, utiliser les touches fléchées de ton clavier ou toucher l'écran si tu utilises une tablette. Tu peux choisir la méthode qui te convient le mieux.<br><br>Si tu as des questions ou si tu as besoin d'aide pour commencer, demande à l'adulte à proximité de t'aider. | 0.8782356381416321 |
+| task-finished | You've completed the game. Thank you! | Tu as terminé le jeu. Merci ! | 0.8880598545074463 |
+| continue-button-text | OK | D'accord | 0.8607876300811768 |
+| close-button-text | Close | Fermer | 0.40082070231437683 |
+| general-footer | Click the button below or press <b>ANY KEY</b> to continue | Clique sur le bouton ci-dessous ou appuie sur <b>N'IMPORTE QUELLE TOUCHE</b> pour continuer | 0.6983197927474976 |
+| instructions | instructions | instructions | 0.6368014812469482 |
+| general-encourage | Keep Going! | Continuez ! | 0.8192543387413025 |
+| feedbackCorrect | Great! That's right. | Super ! C'est ça. | 0.8415045738220215 |
+| feedback-not-quite-right | That's not quite right. Please try again. | That's not quite right. Please try again. | 0.6971194744110107 |
+| feedback-try-again | Please try again! | Veuillez essayer à nouveau ! | 0.8771342635154724 |
+| feedback-good-job | Good job! | Bien joué ! | 0.8123279213905334 |
+| feedback-nice-work | Nice work! | Bon travail ! | 0.8730639815330505 |
+| replay-button | Press the speaker button if you want the question repeated. | Appuie sur le bouton haut-parleur si tu veux que la question soit répétée. | 0.8787100315093994 |
+| general-fullscreen | Switch to full screen mode | Passer en mode plein écran | 0.8613878488540649 |
+| general-repeat-instructions | Looks like this is a little tricky! Let’s review the instructions. | Cela semble un peu compliqué ! Révisons les instructions. | 0.8714675903320312 |
+| general-keyboard-instructions | If you want to use your keyboard to answer a question, press the arrow key shown next to your choice. | Si tu veux utiliser ton clavier pour répondre à une question, appuie sur la touche fléchée indiquée à côté de ton choix. | 0.884288489818573 |
+| intro-finished | You've finished the instructions. Thank you! | Tu as terminé les instructions. Merci ! | 0.8817911148071289 |
+| general-exit | Exit | Quitter | 0.44557711482048035 |
+| task-completion | You've completed this game. Thank you! | You've completed this game. Thank you! | 0.27467623353004456 |
+| general-your-turn | Nice job with the practice! Let's try some more on your own. | Nice job with the practice! Let's try some more on your own. | 0.2963009178638458 |
+| matrix-reasoning-instruct1 | We’re going to show you a puzzle, and your job is to pick the best piece to complete the puzzle. Let's get started! | Nous allons te montrer un puzzle, et ton travail est de choisir la meilleure pièce pour compléter le puzzle. Commençons ! | 0.8749380707740784 |
+| matrix-reasoning-instruct2 | See this big puzzle? It's missing a piece! Which piece goes in the puzzle? | Vois ce grand puzzle ? Il manque une pièce ! Quelle pièce va dans le puzzle ? | 0.8536953926086426 |
+| matrix-reasoning-prompt1 | Choose the best pattern to fill in the blank. | Choisis le meilleur motif pour remplir le vide. | 0.8512126207351685 |
+| mental-rotation | Do you see these two outlines? One goes with this shape. Let’s see which one goes with the shape. | Tu vois ces deux contours ? L'un va avec cette forme. Voyons lequel va avec la forme. EDIT EDIT. | 0.688693106174469 |
+| mental-rotation-training-instruct2 | Let's see if this shape goes with the outline. This shape doesn’t go with the outline. | Voyons si cette forme va avec le contour. Cette forme ne va pas avec le contour. | 0.8345819711685181 |
+| mental-rotation-training-instruct3 | Let's see if this shape goes with the outline. This shape does go with the outline. | Voyons si cette forme va avec le contour. Cette forme va avec le contour. | 0.787071704864502 |
+| mental-rotation-test-instruct4 | Now you try! Can you find the shape that goes with the outline? | À toi de jouer ! Peux-tu trouver la forme qui va avec le contour ? | 0.8234528303146362 |
+| mental-rotation-instruct-3D | Now you will see pictures that show blocks with three sides. Your task is to choose the matching picture. | Maintenant, tu verras des images montrant des blocs avec trois côtés. Ta tâche est de choisir l'image correspondante. | 0.8720481991767883 |
+| mental-rotation-prompt2 | Choose the picture that matches this one. | Choisis l'image qui correspond à celle-ci. | 0.868465781211853 |
+| mental-rotation-prompt1 | Choose the matching picture. | Choisissez l'image correspondante. | 0.8691177368164062 |
+| math-instructions1 | In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school.   Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started! | In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. <br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started! | 0.21143639087677002 |
+| math-intro1 | Here is the first section of the game. Let's start with some practice! | Here is the first section. Let's start with some practice! | 0.2607330083847046 |
+| math-intro2 | Here is another section. The first few are for practice. | Here is another section. The first few are for practice. | 0.2835097908973694 |
+| math-intro-fractions | In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice. | In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice. | 0.1915094554424286 |
+| number-comparison-prompt1 | Which number is larger? | Quel nombre est plus grand ? | 0.8706638216972351 |
+| number-comparison-prompt2 | Which is larger? | Lequel est plus grand ? | 0.8671213984489441 |
+| number-identification-prompt1 | Choose the number you hear. | Choisis le numéro que tu entends. | 0.8089836835861206 |
+| missing-number-prompt1 | What number goes in the blank? | Quel nombre va dans l'espace vide ? | 0.7936083078384399 |
+| missing-number-prompt2 | What number goes here? | Quel nombre va ici ? | 0.757960855960846 |
+| missing-number-prompt3 | What numbers go in the blanks? | What numbers go in the blanks? | 0.2729920744895935 |
+| addition-prompt1 | Add the numbers and choose the correct answer. | Ajoute les chiffres et choisis la réponse correcte. | 0.87763911485672 |
+| addition-prompt2 | Add the numbers. | Ajoute les chiffres. | 0.8299582600593567 |
+| subtraction-prompt1 | Subtract the numbers and choose the correct answer. | Soustrais les chiffres et choisis la réponse correcte. | 0.8487809896469116 |
+| subtraction-prompt2 | Subtract the numbers. | Soustrais les chiffres. | 0.605415403842926 |
+| multiplication-prompt1 | Multiply the numbers and choose the correct answer. | Multiplie les chiffres et choisis la réponse correcte. | 0.8847410678863525 |
+| multiplication-prompt2 | Multiply the numbers. | Multiplie les chiffres. | 0.8456881046295166 |
+| number-line-instruct1 | Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider. | Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider. | 0.1602991223335266 |
+| number-line-prompt1 | Choose the number that is marked on the number line. | Choisis le chiffre qui est marqué sur la ligne numérique. | 0.8526856899261475 |
+| number-line-slider-prompt1 | Move the slider to mark the number. | Move the slider to mark the number. | 0.3533407747745514 |
+| number-identification-1 | Choose the number 1. | Choisis le numéro 1. | 0.8728064298629761 |
+| number-identification-2 | Choose the 2. | Choisis le 2. | 0.8699406385421753 |
+| number-identification-3 | Choose the 9. | Choisis le 9. | 0.8646202087402344 |
+| number-identification-4 | Choose the 0. | Choisis le 0. | 0.8630249500274658 |
+| number-identification-5 | Choose the 12. | Choisis le 12. | 0.863070547580719 |
+| number-identification-6 | Choose the 30. | Choisis le 30. | 0.8464159965515137 |
+| number-identification-7 | Choose the 22. | Choisis le 22. | 0.8584899306297302 |
+| number-identification-8 | Choose the 45. | Choisis le 45. | 0.8328148126602173 |
+| number-identification-9 | Choose the 39. | Choisis le 39. | 0.8471150398254395 |
+| number-identification-10 | Choose the 23. | Choisis le 23. | 0.8628146052360535 |
+| number-identification-11 | Choose the 48. | Choisis le 48. | 0.8466408848762512 |
+| number-identification-12 | Choose the 91. | Choisis le 91. | 0.8539310693740845 |
+| number-identification-13 | Choose the 33. | Choisis le 33. | 0.8607149720191956 |
+| number-identification-14 | Choose the 74. | Choisis le 74. | 0.8569126129150391 |
+| number-identification-15 | Choose the 87. | Choisis le 87. | 0.8629395961761475 |
+| number-identification-16 | Choose the 65. | Choisis le 65. | 0.843742847442627 |
+| number-identification-17 | Choose the 108. | Choisis le 108. | 0.8458205461502075 |
+| number-identification-18 | Choose the 245. | Choisis le 245. | 0.8528159856796265 |
+| number-identification-19 | Choose the 587. | Choisis le 587. | 0.847905695438385 |
+| number-identification-20 | Choose the 731. | Choisis le 731. | 0.8585092425346375 |
+| number-identification-21 | Choose the 989. | Choisis le 989. | 0.8482248187065125 |
+| number-identification-22 | Choose the 6. | Choisis le 6. | 0.8727990388870239 |
+| number-identification-23 | Choose the 14. | Choisis le 14. | 0.8653213381767273 |
+| number-identification-24 | Choose the 18. | Choisis le 18. | 0.8590009212493896 |
+| number-identification-25 | Choose the 26. | Choisis le 26. | 0.8664118051528931 |
+| number-identification-26 | Choose the 35. | Choisis le 35. | 0.8460336923599243 |
+| number-identification-27 | Choose the 41. | Choisis le 41. | 0.8562745451927185 |
+| number-identification-28 | Choose the 47. | Choisis le 47. | 0.8405451774597168 |
+| number-identification-29 | Choose the 50. | Choisis le 50. | 0.8434723019599915 |
+| number-identification-30 | Choose the 55. | Choisis le 55. | 0.8446845412254333 |
+| number-identification-31 | Choose the 66. | Choisis le 66. | 0.8541121482849121 |
+| number-identification-32 | Choose the 67. | Choisis le 67. | 0.8500648736953735 |
+| number-identification-33 | Choose the 88. | Choisis le 88. | 0.8583810329437256 |
+| number-identification-34 | Choose the 101. | Choisis le 101. | 0.8434226512908936 |
+| number-identification-35 | Choose the 426. | Choisis le 426. | 0.8419495820999146 |
+| number-identification-36 | Choose the 131. | Choisis le 131. | 0.8626405000686646 |
+| number-identification-37 | Choose the 256. | Choisis le 256. | 0.8559657335281372 |
+| number-identification-38 | Choose the 349. | Choisis le 349. | 0.8521363735198975 |
+| number-identification-39 | Choose the 543. | Choisis le 543. | 0.8417165875434875 |
+| number-identification-40 | Choose the 617. | Choisis le 617. | 0.8636102080345154 |
+| number-identification-41 | Choose the 877. | Choisis le 877. | 0.8566744923591614 |
+| trog-instruct1 | Now we're going to play a matching game! I'm going to say some words, and you choose the picture that goes with what I say. Let's get started! | Nous allons maintenant jouer à un jeu d'association ! Je vais dire quelques mots et tu choisirais l'image qui correspond à ce que je dis. Commençons ! | 0.8244818449020386 |
+| trog-prompt1 | Choose the picture of the... | Choisissez l'image du... | 0.7968662977218628 |
+| trog-prompt2 | Choose the picture of... | Choisissez l'image de... | 0.8238886594772339 |
+| trog-prompt3 | Choose the picture that shows... | Choisissez l'image qui montre... | 0.8142200112342834 |
+| trog-item-1 | Choose the picture of the shoe. | Choisis l'image de la chaussure. | 0.8682279586791992 |
+| trog-item-2 | Choose the picture of the bird. | Choisis l'image de l'oiseau. | 0.8709374070167542 |
+| trog-item-3 | Choose the picture of the comb. | Choisis l'image du peigne. | 0.8443635702133179 |
+| trog-item-4 | Choose the picture of the apple. | Choisis l'image de la pomme. | 0.87380051612854 |
+| trog-item-5 | Choose the picture that shows eating. | Choisissez l'image qui montre manger. | 0.8480327129364014 |
+| trog-item-6 | Choose the picture that shows picking. | Choisissez l'image qui montre ramasser. | 0.7368171215057373 |
+| trog-item-7 | Choose the picture that shows sitting. | Choisissez l'image qui montre une personne assise. | 0.8554778695106506 |
+| trog-item-8 | Choose the picture that shows running. | Choisissez l'image qui montre la course. | 0.8208996057510376 |
+| trog-item-9 | Choose the picture that shows long. | Choisissez l'image qui montre longue. | 0.5520396828651428 |
+| trog-item-10 | Choose the picture that shows tall. | Choisissez l'image qui montre grande. | 0.600504994392395 |
+| trog-item-11 | Choose the picture that shows red. | Choisissez l'image qui montre rouge. | 0.8048467636108398 |
+| trog-item-12 | Choose the picture that shows black. | Choisissez l'image qui montre noire. | 0.6921912431716919 |
+| trog-item-13 | the boy is running | le garçon court | 0.8620666265487671 |
+| trog-item-14 | the big cup | la grande tasse | 0.8086915016174316 |
+| trog-item-15 | the dog is sitting | le chien est assis | 0.858047604560852 |
+| trog-item-16 | the red ball | la balle rouge | 0.8501206040382385 |
+| trog-item-17 | the boy is not running | le garçon ne court pas | 0.8382081985473633 |
+| trog-item-18 | the dog is not drinking | le chien ne boit pas | 0.8568532466888428 |
+| trog-item-19 | the girl is not jumping | la fille ne saute pas | 0.7910285592079163 |
+| trog-item-20 | the dog is not sitting | le chien ne s'assied pas | 0.8409814834594727 |
+| trog-item-21 | the boy is jumping over the box | le garçon saute par-dessus la boîte | 0.8009278178215027 |
+| trog-item-22 | the girl is sitting on the table | la fille est assise sur la table | 0.8670992255210876 |
+| trog-item-23 | the man is eating the apple | l'homme mange la pomme | 0.8513967990875244 |
+| trog-item-24 | the lady is carrying the bag | la dame porte le sac | 0.8108083009719849 |
+| trog-item-25 | they are sitting on the table | ils sont assis sur la table | 0.7765251398086548 |
+| trog-item-26 | the cow is looking at them | la vache les regarde | 0.8549275398254395 |
+| trog-item-27 | they are jumping over the wall | ils sautent par-dessus le mur | 0.8327269554138184 |
+| trog-item-28 | the elephant is carrying them | l'éléphant les transporte | 0.8620810508728027 |
+| trog-item-29 | the girl is pushing the horse | la fille pousse le cheval | 0.8132018446922302 |
+| trog-item-30 | the boy is chasing the sheep | le garçon poursuit le mouton | 0.860180675983429 |
+| trog-item-31 | the man is chasing the dog | l'homme poursuit le chien | 0.860200047492981 |
+| trog-item-32 | the cow is pushing the lady | la vache pousse la dame | 0.7944961190223694 |
+| trog-item-33 | she is sitting on the chair | elle est assise sur la chaise | 0.8617699146270752 |
+| trog-item-34 | the lady is carrying him | la dame le porte | 0.821046769618988 |
+| trog-item-35 | he is sitting in the tree | il est assis dans l'arbre | 0.8563662171363831 |
+| trog-item-36 | the horse is looking at her | le cheval la regarde | 0.8655977249145508 |
+| trog-item-37 | the cats look at the ball | les chats regardent la balle | 0.8413928747177124 |
+| trog-item-38 | the boy stands on the chairs | le garçon se tient sur les chaises | 0.8321317434310913 |
+| trog-item-39 | the boys pick the apples | les garçons cueillent les pommes | 0.870785117149353 |
+| trog-item-40 | the girl drops the cups | la fille laisse tomber les tasses | 0.817396879196167 |
+| trog-item-41 | the fork is longer than the pencil | la fourchette est plus longue que le crayon | 0.8555993437767029 |
+| trog-item-42 | the box is bigger than the cup | la boîte est plus grande que la tasse | 0.7628436088562012 |
+| trog-item-43 | the shoe is bigger than the bird | la chaussure est plus grande que l'oiseau | 0.7692828178405762 |
+| trog-item-44 | the horse is taller than the wall | le cheval est plus grand que le mur | 0.8373895883560181 |
+| trog-item-45 | the girl is chased by the horse | la fille est poursuivie par le cheval | 0.8435772657394409 |
+| trog-item-46 | the elephant is pushed by the boy | l'éléphant est poussé par le garçon | 0.8590985536575317 |
+| trog-item-47 | the horse is chased by the man | le cheval est poursuivi par l'homme | 0.8509253263473511 |
+| trog-item-48 | the cow is pushed by the man | la vache est poussée par l'homme | 0.848581075668335 |
+| trog-item-49 | the cup is in the box | la tasse est dans la boîte | 0.8544282913208008 |
+| trog-item-50 | the pencil is on the box | le crayon est sur la boîte | 0.7924801707267761 |
+| trog-item-51 | the circle is in the star | le cercle est dans l'étoile | 0.7527955174446106 |
+| trog-item-52 | the fork is on the shoe | la fourchette est sur la chaussure | 0.8386903405189514 |
+| trog-item-53 | the boy chasing the horse is tall | le garçon qui poursuit le cheval est grand | 0.8555201888084412 |
+| trog-item-54 | the pencil on the shoe is blue | le crayon sur la chaussure est bleu | 0.8529734015464783 |
+| trog-item-55 | the cow chasing the cat is brown | la vache qui poursuit le chat est brune | 0.8762510418891907 |
+| trog-item-56 | the circle in the star is yellow | le cercle dans l'étoile est jaune | 0.8510671854019165 |
+| trog-item-57 | the box but not the chair is red | la boîte mais pas la chaise est rouge | 0.8240779042243958 |
+| trog-item-58 | the cat is big but not black | le chat est grand mais pas noir | 0.8731705546379089 |
+| trog-item-59 | the horse but not the boy is standing | le cheval mais pas le garçon se tient | 0.7388108968734741 |
+| trog-item-60 | the boy is sitting but not eating | le garçon s'assied mais ne mange pas | 0.8741257190704346 |
+| trog-item-61 | the pencil is above the flower | le crayon est au-dessus de la fleur | 0.8546397089958191 |
+| trog-item-62 | the comb is below the spoon | le peigne est en-dessous de la cuillère | 0.8292403817176819 |
+| trog-item-63 | the star is above the circle | l'étoile est au-dessus du cercle | 0.8605340123176575 |
+| trog-item-64 | the square is below the star | le carré est en-dessous de l'étoile | 0.8298162221908569 |
+| trog-item-65 | not only the bird but also the flower is blue | non seulement l'oiseau mais aussi la fleur est bleue | 0.867746114730835 |
+| trog-item-66 | the box is not only big but also blue | la boîte n'est pas seulement grande mais aussi bleue | 0.8516430854797363 |
+| trog-item-67 | not only the girl but also the cat is sitting | non seulement la fille mais aussi le chat est assis | 0.8400269746780396 |
+| trog-item-68 | the girl has not only food but also a drink | la fille n'a pas seulement de la nourriture mais aussi une boisson | 0.8563882112503052 |
+| trog-item-69 | the pencil is on the book that is yellow | le crayon est sur le livre qui est jaune | 0.7431819438934326 |
+| trog-item-70 | the girl chases the dog that is big | la fille poursuit le chien qui est grand | 0.8083122372627258 |
+| trog-item-71 | the square is in the star that is blue | le carré est dans l'étoile qui est bleue | 0.6861711144447327 |
+| trog-item-72 | the dog chases the horse that is brown | le chien poursuit le cheval qui est brun | 0.863298773765564 |
+| trog-item-73 | neither the dog nor the ball is brown | ni le chien ni la balle ne sont bruns | 0.8587481379508972 |
+| trog-item-74 | the pencil is neither long nor red | le crayon n'est ni long ni rouge | 0.8516279458999634 |
+| trog-item-75 | neither the boy nor the horse is running | ni le garçon ni le cheval ne courent | 0.8088856339454651 |
+| trog-item-76 | the boy has neither hat nor shoes | le garçon n'a ni chapeau ni chaussures | 0.8775904774665833 |
+| trog-item-77 | the book the pencil is on is red | le livre sur lequel est le crayon est rouge | 0.8286603689193726 |
+| trog-item-78 | the cat the cow chases is black | le chat que poursuit la vache est noir | 0.8517390489578247 |
+| trog-item-79 | the circle the star is in is red | le cercle dans lequel est l'étoile est rouge | 0.8646695017814636 |
+| trog-item-80 | the boy the dog chases is big | le garçon que poursuit le chien est grand | 0.852219820022583 |
+| trog-item-81 | the horse drank water by the barn and the sheep ate grass by the fence | le cheval a bu de l'eau près de la grange et le mouton a mangé de l'herbe près de la clôture | 0.8761517405509949 |
+| trog-item-82 | the student opened the notebook and drew a tree | l'étudiant a ouvert le cahier et a dessiné un arbre | 0.87784743309021 |
+| trog-item-83 | we will have a picnic in the park if it is sunny | nous ferons un pique-nique dans le parc s'il fait soleil | 0.8854091167449951 |
+| trog-item-84 | he found his keys under the couch with the pillows | il a trouvé ses clés sous le canapé avec les coussins | 0.8633351922035217 |
+| trog-item-85 | she is the gardener who wears the hat that has a flower | elle est la jardinière qui porte le chapeau qui a une fleur | 0.8596396446228027 |
+| trog-item-86 | She tripped on a rock and dropped her books. | Elle a trébuché sur une pierre et a laissé tomber ses livres. | 0.8112573623657227 |
+| trog-item-87 | The teacher will give the students cake if they stand in a line. | Le professeur donnera du gâteau aux élèves s'ils se tiennent en ligne. | 0.8302163481712341 |
+| trog-item-88 | We will dance together if there is music playing. | Nous danserons ensemble s'il y a de la musique qui joue. | 0.8424780368804932 |
+| trog-item-89 | Although it is hot outside, I am wearing a jacket with a hood. | Bien qu'il fasse chaud dehors, je porte une veste avec une capuche. | 0.8826709985733032 |
+| trog-item-90 | He likes swimming. However, he chose to play soccer with his friends. | Il aime nager. Cependant, il a choisi de jouer au soccer avec ses amis. | 0.8931264281272888 |
+| trog-item-91 | Despite the noise in the classroom, she focused on reading her notebook. | Malgré le bruit en classe, elle s'est concentrée sur la lecture de son cahier. | 0.8771355152130127 |
+| trog-item-92 | He wore the clown's hat despite its large size. | Il a porté le chapeau du clown malgré sa grande taille. | 0.8596338033676147 |
+| trog-item-93 | The duck following the turtle is walking across the bridge. | Le canard suivant la tortue marche sur le pont. | 0.7898778915405273 |
+| trog-item-94 | Bumping the table with my foot caused a book to fall. | Heurter la table avec mon pied a causé la chute d'un livre. | 0.8361425399780273 |
+| trog-item-95 | The person chases the dog that is big. | La personne poursuit le chien qui est grand. | 0.7729975581169128 |
+| trog-item-96 | The girl wearing a backpack was shown a flower by her friend. | La fille portant un sac à dos a vu une fleur montrée par son amie. | 0.7829012870788574 |
+| trog-item-97 | The kids cleaned the room, but forgot to put away the train. | Les enfants ont nettoyé la chambre, mais ont oublié de ranger le train. | 0.8503295183181763 |
+| trog-item-98 | The monkey neither ate the banana nor swung on the vine. | Le singe n'a ni mangé la banane ni se balancé sur la liane. | 0.8209244012832642 |
+| trog-item-99 | Her mom said it would be sunny. However, it rained heavily. | Sa mère a dit qu'il ferait soleil. Cependant, il a plu abondamment. | 0.8753483295440674 |
+| trog-item-100 | The plane that is gray is above the clouds. | L'avion gris est au-dessus des nuages. | 0.8699098825454712 |
+| trog-item-101 | The fish swim beneath a whale and a sea turtle. | Les poissons nagent sous une baleine et une tortue de mer. | 0.8778161406517029 |
+| trog-item-102 | The car that the truck followed is driving toward the tunnel. | La voiture que le camion a suivie se dirige vers le tunnel. | 0.8665356040000916 |
+| trog-item-103 | Instead of doing homework she did a puzzle in her room. | Au lieu de faire ses devoirs, elle a fait un casse-tête dans sa chambre. | 0.8780664801597595 |
+| yes | yes | oui | 0.8458471298217773 |
+| no | no | non | 0.8311068415641785 |
+| happy | happy | heureux | 0.8374014496803284 |
+| sad | sad | triste | 0.7912283539772034 |
+| angry | angry | fâché | 0.8284960985183716 |
+| scared | scared | effrayé | 0.8288916349411011 |
+| calm | calm | calme | 0.7093872427940369 |
+| proud | proud | fier | 0.6857553720474243 |
+| disgusted | disgusted | dégoûté | 0.8266912698745728 |
+| surprised | surprised | surpris | 0.7259926795959473 |
+| ToM-intro | This is the Stories Game. In this game, you will listen to some stories. Then you will answer questions about the stories. | Ceci est le jeu des histoires. Dans ce jeu, tu écouteras des histoires. Ensuite, tu répondras aux questions sur les histoires. | 0.8798781633377075 |
+| ToM-transition | Nice work! Here is a new story. | Bon travail! Voici une nouvelle histoire. | 0.8771412372589111 |
+| ToM-scene1-instruct1 | Here is Madison. This morning, Madison put her book behind the chair, because she didn’t want anyone to find it. | Voici Madison. Ce matin, Madison a mis son livre derrière la chaise parce qu'elle ne voulait pas que quelqu'un le trouve. | 0.8854354619979858 |
+| ToM-scene1-instruct2 | But when Madison was outside playing, someone did find it! And hid it under the rug. | Mais quand Madison était dehors à jouer, quelqu'un l'a trouvé et l'a caché sous le tapis. | 0.8572782278060913 |
+| ToM-scene1-instruct3 | So now it’s reading time and Madison wants her book. | Alors maintenant, c'est l'heure de la lecture et Madison veut son livre. | 0.8783873319625854 |
+| ToM-scene1-q1-false_belief | Where will Madison look first for her book? | Où Madison regardera-t-elle en premier pour trouver son livre? | 0.8193652033805847 |
+| chair | Behind the chair | Derrière la chaise | 0.8457402586936951 |
+| rug | Under the rug | Sous le tapis | 0.8178566694259644 |
+| ToM-scene1-q2-reality_check | And where is her book really? | Et où est vraiment son livre? | 0.8475614786148071 |
+| ToM-scene2-instruct1 | This morning when he came to school, Ethan put his book on the shelf above the coat hooks. Ethan’s book is blue! | Ce matin, lorsqu'il est arrivé à l'école, Ethan a mis son livre sur l'étagère au-dessus des crochets à manteaux. Le livre d'Ethan est bleu. | 0.8656433820724487 |
+| ToM-scene2-instruct2 | And then he went outside to play, see? Here’s Ethan playing outside. And while he was outside playing, Ethan’s book fell down from above the coat hooks onto the floor under the coats, see? | Et puis il est allé jouer dehors, tu vois ? Voici Ethan en train de jouer dehors. Et pendant qu'il jouait dehors, le livre d'Ethan est tombé des crochets pour manteaux et s'est retrouvé par terre sous les manteaux, tu vois ? | 0.8502146005630493 |
+| ToM-scene2-instruct3 | Then Hannah comes in and Hannah puts her book up above the coat hooks. Hannah's book is also blue! Ethan is still outside playing, so he didn't see what Hannah was doing. | Puis Hannah entre et met son livre sur les crochets à manteaux. Le livre d'Hannah est aussi bleu! Ethan est toujours dehors en train de jouer, il n'a donc pas vu ce qu'Hannah faisait. | 0.8426299095153809 |
+| ToM-scene2-q1-false_belief | Now, when Ethan comes in from outside, where will he look first for his book? | Maintenant, quand Ethan rentrera de dehors, où cherchera-t-il d'abord son livre? | 0.8270217180252075 |
+| shelf | On the shelf | Sur l'étagère | 0.8288503289222717 |
+| coats | Under the coats | Sous les manteaux | 0.8170484304428101 |
+| ToM-scene2-instruct4 | Let’s see what he does. Oh look, here is Ethan reaching for this book up on the shelf. And now Hannah sees Ethan reaching for that book... the book that is Hannah's! | Voyons ce qu'il fait. Oh regarde, voici Ethan qui prend ce livre sur l'étagère. Et maintenant Hannah voit Ethan qui prend ce livre... le livre qui est à Hannah! | 0.8338862657546997 |
+| ToM-scene2-q2-emotion_reasoning | How do you think Hannah feels about Ethan reaching for that book? | Comment penses-tu qu'Hannah se sent face à Ethan qui prend ce livre ? | 0.729433000087738 |
+| ToM-scene2-q7-emotion_reasoning | How do you think Hannah would feel if she had not seen Ethan reaching for the book? | Comment penses-tu qu'Hannah se sentirait si elle n'avait pas vu Ethan prendre le livre? | 0.8712441921234131 |
+| ToM-scene2-q3-false_belief | Is Ethan being mean and naughty for taking Hannah's book? | Ethan est-il méchant et vilain de prendre le livre de Hannah? | 0.819214940071106 |
+| ToM-scene2-q4-false_belief | Should Ethan get in trouble with the teacher for taking Hannah's book? | Ethan devrait-il avoir des ennuis avec l'enseignant pour avoir pris le livre de Hannah? | 0.868123471736908 |
+| ToM-scene2-q5-reality_check | Can you help Hannah find her book? Is it on the shelf or under the coats? | Peux-tu aider Hannah à trouver son livre? Est-il sur l'étagère ou sous les manteaux? | 0.8811912536621094 |
+| ToM-scene2-q6-reality_check | Can you help Ethan find his book? Is it on the shelf or under the coats? | Peux-tu aider Ethan à trouver son livre? Est-il sur l'étagère ou sous les manteaux? | 0.8800531625747681 |
+| ToM-scene3-instruct1 | Joshua, Isabel, and Ivan are playing a game. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. | Joshua, Isabel, et Ivan jouent à un jeu. Voici comment le jeu fonctionne : Un enfant se cache, mais dessine un indice dans le bac à sable pour que les autres enfants puissent le trouver. | 0.8810636401176453 |
+| ToM-scene3-instruct2 | So Ivan is going first. He draws this clue in the sandbox, and then he goes to hide. | Alors, Ivan passe en premier. Il dessine cet indice dans le bac à sable, puis il va se cacher. | 0.8485396504402161 |
+| ToM-scene3-instruct3 | Now it's Joshua's turn to leave a clue, and hide. Isabel and Ivan will then try to use the clue to find him. | C'est maintenant au tour de Joshua de laisser un indice et de se cacher. Isabel et Ivan essaieront alors d'utiliser l'indice pour le trouver. | 0.8740286827087402 |
+| ToM-scene3-instruct4 | Joshua decides to hide behind the fountain. He draws a clue in the sand. He tries to draw the fountain, with the bottom part and the water coming out of it. But the drawing looks like a tree instead! Then Joshua goes and hides behind the fountain. | Joshua décide de se cacher derrière la fontaine. Il dessine un indice dans le sable. Il essaie de dessiner la fontaine, avec la partie inférieure et l'eau qui en sort. Mais le dessin ressemble à un arbre à la place! Puis Joshua va se cacher derrière la fontaine. | 0.8757690191268921 |
+| ToM-scene3-q1 | What did Joshua mean to draw? | Que voulait dessiner Joshua? | 0.8520669341087341 |
+| fountain | A fountain | Une fontaine | 0.8608946800231934 |
+| tree | A tree | Un arbre | 0.8512863516807556 |
+| ToM-scene3-q2-false_belief | When Isabel and Ivan see this clue, where will they look first for Joshua? | Quand Isabel et Ivan voient cet indice, où chercheront-ils Joshua en premier ? | 0.8705999851226807 |
+| ToM-scene3-q2-reality_check | Can you help them find where Joshua really is? | Peux-tu les aider à trouver où Joshua est vraiment? | 0.8837016224861145 |
+| behind-fountain | Behind the fountain | Derrière la fontaine | 0.8550014495849609 |
+| behind-tree | Behind the tree | Derrière l'arbre | 0.8562312126159668 |
+| ToM-scene3-q3-emotion_reasoning | Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game? | Regarde, Isabel et Ivan ont trouvé Joshua et ont gagné le jeu! Comment penses-tu qu'Isabel se sent d'avoir gagné le jeu? | 0.8798651695251465 |
+| ToM-scene4-instruct1 | Now the games are over, and it's almost time to go home. Mother tells the kids to find all of their toys. | Maintenant les jeux sont finis, et il est presque temps de rentrer. Maman dit aux enfants de retrouver tous leurs jouets. | 0.8860654830932617 |
+| ToM-scene4-instruct2 | Joshua brought his toy truck with him to the park, but now he can't find it. He's looking everywhere but he can't find it. | Joshua a apporté son camion-jouet au parc, mais maintenant il ne le trouve plus. Il cherche partout mais il ne peut pas le trouver. | 0.877751886844635 |
+| ToM-scene4-q1-emotion_reasoning | How does Joshua feel about losing his truck? | Comment Joshua se sent-il après avoir perdu son camion? | 0.8814599514007568 |
+| ToM-scene4-q8-emotion_reasoning | How would Joshua feel if he found his truck? | Comment Joshua se sentirait-il s'il trouvait son camion? | 0.878812849521637 |
+| ToM-scene4-instruct3 | Joshua can't find his truck because earlier in the day, when no one was looking, Isabel took the toy truck and buried it in the sandbox. | Joshua ne trouve pas son camion parce qu'au début de la journée, quand personne ne regardait, Isabel a pris le camion-jouet et l'a enterré dans le bac à sable. | 0.870773196220398 |
+| ToM-scene4-instruct4 | So Joshua looks everywhere and he can't find his toy truck. Mother gets mad at Joshua, because he lost his truck. | Alors Joshua cherche partout mais il ne trouve pas son camion-jouet. Maman se fâche contre Joshua, parce qu'il a perdu son camion. | 0.8765565752983093 |
+| ToM-scene4-q2 | Is it fair that Mother is mad at Joshua for losing his truck? | Est-ce juste que Maman se fâche contre Joshua parce qu'il a perdu son camion? | 0.8615177869796753 |
+| ToM-scene4-q3 | Is Mother mad at Isabel? | Maman est-elle fâchée contre Isabel ? | 0.885955274105072 |
+| ToM-scene4-q4-false_belief | Is Joshua mad at Isabel? | Joshua est-il fâché contre Isabel ? | 0.8910776376724243 |
+| ToM-scene4-instruct5 | When Isabel sees that Mother is mad at Joshua, she goes to the sandbox and digs up the toy truck, and gives it back to Joshua. | Quand Isabel voit que Maman est fâchée contre Joshua, elle va au bac à sable, déterre le camion-jouet, et le rend à Joshua. | 0.8647214770317078 |
+| ToM-scene4-q5 | Is Mother mad at Joshua now? | Maman est-elle encore fâchée contre Joshua maintenant? | 0.8770185708999634 |
+| ToM-scene4-q6 | Is Mother mad at Isabel now? | Maman est-elle encore fâchée contre Isabel maintenant? | 0.8771803379058838 |
+| ToM-scene4-q7 | Is Joshua mad at Isabel now? | Joshua est-il encore fâché contre Isabel maintenant? | 0.878330647945404 |
+| ToM-scene4-instruct6 | Isabel tells Joshua that she’s very sorry, and she gives him a big hug. Joshua gives her a big hug back, and Mother joins in. | Isabel dit à Joshua qu'elle est vraiment désolée, et elle lui fait un gros câlin. Joshua lui rend un gros câlin, et Maman se joint à eux. | 0.8666425943374634 |
+| ToM-scene5-instruct1 | This is Katie. Earlier today, Katie's mom was cleaning the house, while Katie watched. Mom left three cups in the kitchen. There is a small cup on the counter, a medium sized cup on the table, and a big cup that she put away up high, on the shelf. | Voici Katie. Plus tôt aujourd'hui, la maman de Katie nettoyait la maison pendant que Katie regardait. Maman a laissé trois tasses dans la cuisine. Il y a une petite tasse sur le comptoir, une tasse de taille moyenne sur la table, et une grande tasse qu'elle avait rangée en haut, sur l'étagère. | 0.8660194277763367 |
+| ToM-scene5-instruct2 | Katie and Dad just walked in and Katie asks her dad to get her a cup. Katie tells her Dad, “I want the big cup!” | Katie et Papa viennent d'entrer et Katie demande à son père de lui prendre une tasse. Katie dit à son père: «Je veux la grande tasse!» | 0.8825382590293884 |
+| ToM-scene5-q1 | Which cup will Dad give Katie? | Quelle tasse Papa donnera-t-il à Katie? | 0.8647860288619995 |
+| ToM-scene5-q2-reality_check | Which cup does Katie want? | Quelle tasse Katie veut-elle? | 0.865122377872467 |
+| small_cup | The small cup | La petite tasse | 0.8607032299041748 |
+| medium_cup | The medium sized cup | La tasse de taille moyenne | 0.86185622215271 |
+| large_cup | The big cup | La grande tasse | 0.8122379183769226 |
+| ToM-scene5-q3-emotion_reasoning | How does Katie feel about not getting the cup she wanted? | Comment Katie se sent-elle de ne pas recevoir la tasse qu'elle voulait? | 0.8535389304161072 |
+| ToM-scene5-q4-emotion_reasoning | How would Katie feel if she had received the cup she wanted? | Comment Katie se sentirait-elle si elle avait reçu la tasse qu'elle voulait ? | 0.8731248378753662 |
+| ToM-scene6-instruct1 | Sam and Maria are playing together. They look outside and see a new shop across the street. Maria tells Sam: “I am going to buy new shirts for us there,” and she walks away. | Sam et Maria jouent ensemble. Ils regardent dehors et voient un nouveau magasin de l'autre côté de la rue. Maria dit à Sam: «Je vais acheter de nouvelles chemises pour nous là-bas», et elle s'éloigne. | 0.8792392015457153 |
+| ToM-scene6-instruct2 | Mom comes home and she tells Sam that she just walked by the shop. “Are they selling shirts?” Sam asks. “No,” Mom says, “They are only selling shoes”. “Maria will probably now get shoes at the shop,” Sam says. | Maman rentre à la maison et elle dit à Sam qu'elle vient de passer devant le magasin. «Vendent-ils des chemises?» demande Sam. «Non», dit maman, «ils vendent seulement des chaussures». «Maria va probablement maintenant acheter des chaussures au magasin», dit Sam. | 0.8792060613632202 |
+| ToM-scene6-q1 | Does Maria know that they are selling shoes in the shop? | Maria sait-elle qu'ils vendent des chaussures dans le magasin? | 0.8874788880348206 |
+| ToM-scene6-instruct3 | Maria has arrived at the shop. “I would like to buy shirts,” she says. “All we have left are socks,” says the shopkeeper. Since Maria also needs socks, she decides to get some socks. | Maria est arrivée au magasin. «Je voudrais acheter des chemises», dit-elle. «Tout ce qu'il nous reste, ce sont des chaussettes», dit le commerçant. Comme Maria a aussi besoin de chaussettes, elle décide d'en prendre. | 0.8797683119773865 |
+| ToM-scene6-q2 | Does Sam know that Maria bought some socks? | Sam sait-il que Maria a acheté des chaussettes? | 0.8855204582214355 |
+| ToM-scene6-q3 | What does Sam think they are selling at the shop? | Que pense Sam qu'ils vendent au magasin? | 0.7836906313896179 |
+| shoes | Shoes | Chaussures | 0.8550337553024292 |
+| socks | Socks | Chaussettes | 0.8529375791549683 |
+| shirts | Shirts | Chemises | 0.7699318528175354 |
+| ToM-scene6-instruct4 | On her way back, Maria meets her dad. She tells her dad: “I have just bought some socks. I am going to share them with my brother Sam. It is a surprise.” “That is nice of you,” says Dad. Then he asks Maria: “Does Sam know what you bought him?” | Sur le chemin du retour, Maria rencontre son père. Elle lui dit: «Je viens d'acheter des chaussettes. Je vais les partager avec mon frère Sam. C'est une surprise.»<br>«C'est gentil de ta part», dit papa. Puis il demande à Maria : «Sam sait-il ce que tu lui as acheté ?» | 0.8846850991249084 |
+| ToM-scene6-q4 | What does Maria tell Dad? | Que dit Maria à Papa? | 0.875783383846283 |
+| ToM-scene6-instruct5 | Then Dad asks: “What does Sam think they are selling at the shop?” | Puis, papa demande : « Que pense Sam qu'ils vendent au magasin ? » | 0.8181034326553345 |
+| ToM-scene6-q5 | What does Maria tell Dad? | Qu'est-ce que Maria dit à Papa ? | 0.8753796219825745 |
+| ToM-scene6-q6 | What does Sam think they are selling at the shop? | Que pense Sam qu'ils vendent à la boutique ? | 0.8056063652038574 |
+| ToM-scene6-instruct6 | Sam is very happy to get his new socks. | Sam est très content de recevoir ses nouvelles chaussettes. | 0.8834428787231445 |
+| hostile-attribution-scene1-instruct1 | Imagine that you are walking to school and you’re wearing your new shoes. You really like your new shoes and this is the first day you have worn them. | Imagine que tu marches jusqu'à l'école en portant tes nouvelles chaussures. Tu aimes vraiment tes nouvelles chaussures et c'est le premier jour que tu les portes. | 0.8857105374336243 |
+| hostile-attribution-scene1-instruct2 | Suddenly, you are bumped from behind by a boy. You stumble and fall into a mud puddle and your new shoes get muddy. | Soudain, un garçon te heurte par derrière. Tu trébuches et tombes dans une flaque de boue et tes nouvelles chaussures se salissent. | 0.8721938729286194 |
+| hostile-attribution-scene1-q1 | Do you think that the boy bumped you on purpose or by accident? | Penses-tu que le garçon t'a heurté exprès ou par accident? | 0.8654991984367371 |
+| hostile-attribution-scene1-q2 | Now pick one of the three choices as the one you would do: | Maintenant, choisis l'une des trois options que tu ferais : | 0.8086628913879395 |
+| hostile-attribution-scene1-q2-ans1 | clean up my shoes | nettoyer mes chaussures | 0.8530762195587158 |
+| hostile-attribution-scene1-q2-ans2 | walk away from the boy | m'éloigner du garçon | 0.7489894032478333 |
+| hostile-attribution-scene1-q2-ans3 | push the boy in the mud | pousser le garçon dans la boue | 0.8241547346115112 |
+| hostile-attribution-scene2-instruct1 | Imagine that you are on the playground. You and some other kids are having a race. A boy is standing on the side, bouncing a basketball. | Imagine que tu es dans la cour de récréation. Toi et d'autres enfants faites une course. Un garçon est debout sur le côté, en train de faire rebondir un ballon de basket. | 0.8252477049827576 |
+| hostile-attribution-scene2-instruct2 | The next thing you know, the boy has bounced the ball and it has rolled under your feet, making you fall. You skin your knee and someone else wins the race. | Puis le garçon fait rebondir le ballon et il roule sous tes pieds, te faisant tomber. Tu écorches ton genou et quelqu'un d'autre gagne la course. | 0.8279253244400024 |
+| hostile-attribution-scene2-q1 | Do you think that the boy made you fall on purpose or by accident? | Penses-tu que le garçon t'a fait tomber exprès ou par accident? | 0.8728587031364441 |
+| hostile-attribution-scene2-q2 | Now pick one of the three choices as the one you would do: | Maintenant, choisissez une des trois options que vous feriez : | 0.7857743501663208 |
+| hostile-attribution-scene2-q2-ans1 | go to another area of the playground | aller dans une autre zone de la cour | 0.8290218710899353 |
+| hostile-attribution-scene2-q2-ans2 | say something mean to him | lui dire quelque chose de méchant | 0.8527312278747559 |
+| hostile-attribution-scene2-q2-ans3 | take care of my knee | soigner mon genou | 0.85630202293396 |
+| hostile-attribution-scene3-instruct1 | Imagine that you are working on an assignment at your desk. | Imagine que tu travailles sur une tâche à ton bureau | 0.8564820289611816 |
+| hostile-attribution-scene3-instruct2 | You go to sharpen your pencil, and as you walk back to your desk there is a boy walking just in front of you. The boy passes your desk before you get there. | Tu vas aiguiser ton crayon, et en revenant à ton bureau, un garçon marche juste devant toi. Le garçon passe devant ton bureau avant que tu y arrives | 0.8511122465133667 |
+| hostile-attribution-scene3-instruct3 | The next thing you know, the boy has knocked all of your papers off of your desk, and they are all over the floor. | Tout à coup, le garçon a fait tomber tous tes papiers de ton bureau, et ils sont éparpillés sur le sol. | 0.8479238748550415 |
+| hostile-attribution-scene3-q1 | Do you think the boy knocked your papers onto the floor on purpose or by accident? | Penses-tu que le garçon a fait tomber tes papiers par terre exprès ou par accident? | 0.8575025796890259 |
+| hostile-attribution-scene3-q2 | Now pick one of the three choices as the one you would do: | Maintenant, choisissez une des trois options que vous feriez : | 0.7857743501663208 |
+| hostile-attribution-scene3-q2-ans1 | call him a name | l'insulter | 0.31533318758010864 |
+| hostile-attribution-scene3-q2-ans2 | pick up the papers | ramasser les papiers | 0.743036150932312 |
+| hostile-attribution-scene3-q2-ans3 | do nothing | ne rien faire | 0.8201444149017334 |
+| hostile-attribution-scene1-by-accident | by accident | par accident | 0.8060201406478882 |
+| hostile-attribution-scene1-on-purpose | on purpose | exprès | 0.6358129382133484 |
+| hostile-attribution-scene2-by-accident | by accident | par accident | 0.8060201406478882 |
+| hostile-attribution-scene2-on-purpose | on purpose | exprès | 0.6358129382133484 |
+| hostile-attribution-scene3-by-accident | by accident | par accident | 0.8060201406478882 |
+| hostile-attribution-scene3-on-purpose | on purpose | exprès | 0.6358129382133484 |
+| same-different-selection-instruct1 | This is the matching game. In this game, you're going to choose sets of cards that match in some way. First, let's look at some of the cards you are going to see. | Voici le jeu de correspondance. Dans ce jeu, tu vas choisir des ensembles de cartes qui correspondent d'une certaine manière. D'abord, regardons certaines des cartes que tu vas voir. | 0.8145773410797119 |
+| same-different-selection-touch-circle | Choose the card with a circle. | Choisis la carte avec un cercle. | 0.8512125015258789 |
+| same-different-selection-touch-square | Choose the card with a square. | Choisis la carte avec un carré. | 0.8098497986793518 |
+| same-different-selection-touch-triangle | Choose the card with a triangle. | Choisis la carte avec un triangle. | 0.8564737439155579 |
+| same-different-selection-touch-star | Choose the card with a star. | Choisis la carte avec une étoile. | 0.8646465539932251 |
+| same-different-selection-touch-green | Choose the card with a green shape. | Choisis la carte avec une forme verte. | 0.8696087598800659 |
+| same-different-selection-touch-red | Choose the card with a red shape. | Choisis la carte avec une forme rouge. | 0.8660722970962524 |
+| same-different-selection-touch-blue | Choose the card with a blue shape. | Choisis la carte avec une forme bleue. | 0.8664539456367493 |
+| same-different-selection-touch-yellow | Choose the card with a yellow shape. | Choisis la carte avec une forme jaune. | 0.8671823740005493 |
+| same-different-selection-touch-small | Choose the card with a small shape. | Choisis la carte avec une petite forme. | 0.8042856454849243 |
+| same-different-selection-touch-medium | Choose the card with a medium-sized shape. | Choisis la carte avec une forme de taille moyenne. | 0.7744337320327759 |
+| same-different-selection-touch-large | Choose the card with a large shape. | Choisis la carte avec une grande forme. | 0.7891919612884521 |
+| same-different-selection-touch-white | Choose the star on the white card. | Choisis l'étoile sur la carte blanche. | 0.8401274681091309 |
+| same-different-selection-touch-gray | Choose the star on the gray card. | Choisis l'étoile sur la carte grise. | 0.8386470079421997 |
+| same-different-selection-touch-black | Choose the star on the black card. | Choisis l'étoile sur la carte noire. | 0.8527292013168335 |
+| same-different-selection-touch-striped | Choose the star on the striped card. | Choisis l'étoile sur la carte rayée. | 0.8466857671737671 |
+| same-different-selection-touch-1 | Choose the card with 1 star. | Choisis la carte avec 1 étoile. | 0.8628743886947632 |
+| same-different-selection-touch-2 | Choose the card with 2 stars. | Choisis la carte avec 2 étoiles. | 0.8666446208953857 |
+| same-different-selection-touch-3 | Choose the card with 3 stars. | Choisis la carte avec 3 étoiles. | 0.8661407232284546 |
+| same-different-selection-touch-4 | Choose the card with 4 stars. | Choisis la carte avec 4 étoiles. | 0.8660117983818054 |
+| same-different-selection-instruct2 | Now you're going to see two cards that are the same in one way. Then you will see a new card that is similar to one of those cards. Your job is to choose the card that is similar to the new card. | Maintenant, tu vas voir deux cartes qui sont les mêmes d'une certaine manière. Ensuite, tu verras une nouvelle carte semblable à l'une de ces cartes. Ta tâche est de choisir la carte qui est similaire à la nouvelle carte. | 0.8782833814620972 |
+| same-different-selection-instruct3 | Now you're going to see three cards, and you're going to choose two that are the same in some way. Then you're going to see the same cards again, and pick two cards that are the same in a different way. | Maintenant, tu vas voir trois cartes, et tu vas choisir deux qui sont similaires de quelque façon. Ensuite, tu verras à nouveau les mêmes cartes et tu choisiras deux cartes qui sont similaires d'une manière différente. | 0.881359875202179 |
+| same-different-selection-both-circles | Here are two cards. Something's the same. They both have circles. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des cercles. | 0.873280942440033 |
+| same-different-selection-both-squares | Here are two cards. Something's the same. They both have squares. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des carrés. | 0.8604179620742798 |
+| same-different-selection-both-triangles | Here are two cards. Something's the same. They both have triangles. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des triangles. | 0.8687891960144043 |
+| same-different-selection-both-red | Here are two cards. Something's the same. They both have red shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des formes rouges. | 0.8728406429290771 |
+| same-different-selection-both-green | Here are two cards. Something's the same. They both have green shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des formes vertes. | 0.874835729598999 |
+| same-different-selection-both-yellow | Here are two cards. Something's the same. They both have yellow shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des formes jaunes. | 0.8780653476715088 |
+| same-different-selection-both-blue | Here are two cards. Something's the same. They both have blue shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des formes bleues. | 0.8756226897239685 |
+| same-different-selection-both-small | Here are two cards. Something's the same. They both have small shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des petites formes. | 0.8692478537559509 |
+| same-different-selection-both-medium | Here are two cards. Something's the same. They both have medium-sized shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des formes de taille moyenne. | 0.8486993312835693 |
+| same-different-selection-both-large | Here are two cards. Something's the same. They both have large shapes. | Voici deux cartes. Elles ont quelque chose en commun. Elles ont toutes les deux des grandes formes. | 0.8627205491065979 |
+| sds-prompt3 | Here is another card. Which of these is similar to this one? | Voici une autre carte. Laquelle de ces cartes est semblable à celle-ci? | 0.8752464056015015 |
+| sds-3match-prompt2 | Here is the same set of cards again. Choose two cards that are the same in a different way. | Voici le même ensemble de cartes. Choisissez deux cartes qui sont semblables de manière différente. | 0.8653692603111267 |
+| sds-2match-prompt1 | Here is a new set of cards. Choose two cards that are the same in some way. | Voici un nouvel ensemble de cartes. Choisissez deux cartes qui sont semblables d'une certaine manière. | 0.8798588514328003 |
+| sds-2match-prompt2 | Choose two cards that are the same in a different way. | Choisissez deux cartes qui sont semblables de manière différente. | 0.8516039848327637 |
+| sds-3unique-prompt1 | Choose three cards that are the same in only one way. | Choisissez trois cartes qui sont semblables d'une seule manière. | 0.8707114458084106 |
+| sds-3unique-prompt2 | Choose another three cards that are the same in only one way. | Choisissez encore trois cartes qui sont semblables d'une seule manière. | 0.8712636232376099 |
+| memory-game-display | Watch the squares light up. | Regardez les carrés s'illuminer. | 0.8661066889762878 |
+| memory-game-input | Choose the squares in the same order. | Choisissez les carrés dans le même ordre. | 0.8436805009841919 |
+| memory-game-instruct1 | This is the memory game. Here's how you play it. | Ceci est le jeu de mémoire. Voici comment vous jouez. | 0.8655677437782288 |
+| memory-game-instruct2 | You will see squares light up. | Vous verrez les carrés s'illuminer. | 0.8594520092010498 |
+| memory-game-instruct3 | You're going to choose the squares in the same order. | You're going to choose the squares in the same order. | 0.29144251346588135 |
+| memory-game-instruct4 | Watch carefully! Try to remember the order. | Regardez attentivement! Essayez de mémoriser l'ordre. | 0.8666849732398987 |
+| memory-game-forward-prompt | Choose the squares in the same order. | Choisissez les carrés dans le même ordre. | 0.8436805009841919 |
+| memory-game-forward-try-again | That's not quite right. Please try again. Choose the squares in the same order. | That's not quite right. Please try again. Choose the squares in the same order. | 0.24224629998207092 |
+| memory-game-instruct5 | This time the game won't tell you if you're right or wrong. Let’s start playing the memory game! | Cette fois, le jeu ne vous dira pas si vous avez raison ou tort. Commençons à jouer au jeu de mémoire! | 0.8806219100952148 |
+| memory-game-instruct6 | Now let's play the memory game in reverse! | Jouons maintenant au jeu de mémoire à l'envers! | 0.847836971282959 |
+| memory-game-instruct7 | Let’s start playing the memory game! | Commençons à jouer au jeu de mémoire! | 0.8638910055160522 |
+| memory-game-backward-prompt | Choose the squares in the backward order. | Choisissez les carrés dans l'ordre inverse. | 0.842818021774292 |
+| memory-game-backward-try-again | That's not quite right. Please try again. Choose the squares in the backward order. | That's not quite right. Please try again. Choose the squares in the backward order. | 0.23731780052185059 |
+| heart-instruct1 | This is the heart game. Here's how you play it. | Ceci est le jeu de cœur. Voici comment vous jouez. | 0.8004927039146423 |
+| heart-instruct2 | When you see a heart, press the button on the same side. | Quand vous voyez un cœur, appuyez sur le bouton du même côté. | 0.8571504354476929 |
+| hearts-and-flowers-try-again | That's not quite right. Please try again. | That's not quite right. Please try again. | 0.6971194744110107 |
+| heart-practice-feedback1 | The heart is on the right side. Press the right button. | Le cœur est du côté droit. Appuyez sur le bouton droit. | 0.8524349927902222 |
+| hearts-and-flowers-practice-time | Time to practice! | Temps de pratique! | 0.8724594116210938 |
+| heart-practice-feedback2 | Remember! When you see a HEART, press the button on the SAME side. | Rappelez-vous! Lorsque vous voyez un CŒUR, appuyez sur le bouton du MÊME côté. | 0.8510897159576416 |
+| hearts-and-flowers-instruct1 | This time the game will go faster. It won't tell you if you are right or wrong. Try to keep up! | Cette fois, le jeu ira plus vite. Il ne vous dira pas si vous avez raison ou tort. Essayez de suivre! | 0.872772216796875 |
+| hearts-and-flowers-instruct2 | Try to answer as fast as you can without making mistakes. If you make a mistake, just keep going! | Essayez de répondre aussi vite que possible sans vous tromper. Si vous faites une erreur, continuez! | 0.8795310258865356 |
+| hearts-and-flowers-play-time | Time to play! | C'est l'heure de jouer! | 0.8626562356948853 |
+| flower-instruct1 | This is the flower game. Here's how you play it. | Ceci est le jeu de fleurs. Voici comment vous jouez. | 0.8603050708770752 |
+| flower-instruct2 | When you see a flower, press the button on the opposite side. | Quand vous voyez une fleur, appuyez sur le bouton du côté opposé. | 0.8563816547393799 |
+| flower-practice-feedback1 | The flower is on the left side. Press the right button. | La fleur est du côté gauche. Appuyez sur le bouton droit. | 0.8592782020568848 |
+| flower-practice-feedback2 | When you see a FLOWER, press the button on the OPPOSITE side. | Quand vous voyez une FLEUR, appuyez sur le bouton du côté OPPOSÉ. | 0.8479514718055725 |
+| hearts-and-flowers-instruct3 | Now, we're going to play a game with hearts and flowers. | Maintenant, nous allons jouer à un jeu avec des cœurs et des fleurs. | 0.8737437725067139 |
+| hearts-and-flowers-encourage1 | Try to keep up! | Essayez de suivre le rythme! | 0.8265540599822998 |
+| hearts-and-flowers-encourage2 | If you make a mistake, just keep going! | Si vous faites une erreur, continuez! | 0.8634108304977417 |
+| hearts-and-flowers-end | Great job! You completed the game! | Bien joué! Vous avez complété le jeu! | 0.8570681214332581 |
+| vocab-item-001 | the acorn | le gland | 0.44766363501548767 |
+| vocab-item-002 | the aloe | l'aloe | 0.8299382925033569 |
+| vocab-item-003 | the antenna | l'antenne | 0.831234872341156 |
+| vocab-item-004 | the artichoke | l'artichaut | 0.8452807664871216 |
+| vocab-item-005 | the bamboo | le bambou | 0.8497567176818848 |
+| vocab-item-006 | the barrel | le baril | 0.8149386644363403 |
+| vocab-item-007 | the blender | le mélangeur | 0.8356938362121582 |
+| vocab-item-008 | the blower | le souffleur | 0.83135986328125 |
+| vocab-item-009 | the bouquet | le bouquet | 0.8317838907241821 |
+| vocab-item-010 | the buffet | le buffet | 0.8323492407798767 |
+| vocab-item-011 | the bulldozer | le bulldozer | 0.8106290102005005 |
+| vocab-item-012 | the cake | le gâteau | 0.8191813230514526 |
+| vocab-item-013 | the caramel | le caramel | 0.8498712182044983 |
+| vocab-item-014 | the carousel | le carrousel | 0.828072726726532 |
+| vocab-item-015 | the carrot | la carotte | 0.8416452407836914 |
+| vocab-item-016 | the cassette | la cassette | 0.8260868787765503 |
+| vocab-item-017 | the cheese | le fromage | 0.791265606880188 |
+| vocab-item-018 | the cloak | la cape | 0.8453522324562073 |
+| vocab-item-019 | the clothespin | la pince à linge | 0.7763081192970276 |
+| vocab-item-020 | the coaster | le dessous de verre | 0.36287564039230347 |
+| vocab-item-021 | the cork | le bouchon | 0.6395114660263062 |
+| vocab-item-022 | the cornbread | le pain de maïs | 0.8334700465202332 |
+| vocab-item-023 | the corset | le corset | 0.8323699235916138 |
+| vocab-item-024 | the dumpling | le dumpling | 0.4430379569530487 |
+| vocab-item-025 | the elbow | le coude | 0.8062678575515747 |
+| vocab-item-026 | the fan | le ventilateur | 0.830926775932312 |
+| vocab-item-027 | the foam | la mousse | 0.8262941837310791 |
+| vocab-item-028 | the footbath | le bain de pieds | 0.7967647314071655 |
+| vocab-item-029 | the fruitcake | le gâteau aux fruits | 0.8510795831680298 |
+| vocab-item-030 | the gutter | la gouttière | 0.801144003868103 |
+| vocab-item-031 | the hamster | le hamster | 0.8400052189826965 |
+| vocab-item-032 | the hedgehog | le hérisson | 0.84140944480896 |
+| vocab-item-033 | the hoe | la houe | 0.7042770385742188 |
+| vocab-item-034 | the hopscotch | la marelle | 0.5071108341217041 |
+| vocab-item-035 | the kimono | le kimono | 0.8522989153862 |
+| vocab-item-036 | the latch | le loquet | 0.8242400884628296 |
+| vocab-item-037 | the locker | le casier | 0.7864964008331299 |
+| vocab-item-038 | the lollipop | la sucette | 0.6592977046966553 |
+| vocab-item-039 | the map | la carte | 0.8308908939361572 |
+| vocab-item-040 | the marshmallow | la guimauve | 0.8010281920433044 |
+| vocab-item-041 | the net | le filet | 0.8260838985443115 |
+| vocab-item-042 | the oil | l'huile | 0.7942061424255371 |
+| vocab-item-043 | the omelet | l'omelette | 0.8269006013870239 |
+| vocab-item-044 | the pie | la tourte | 0.8135856986045837 |
+| vocab-item-045 | the pistachio | la pistache | 0.8508375287055969 |
+| vocab-item-046 | the pitcher | le pichet | 0.7995249032974243 |
+| vocab-item-047 | the potato | la pomme de terre | 0.8310278654098511 |
+| vocab-item-048 | the prism | le prisme | 0.846890926361084 |
+| vocab-item-049 | the puddle | la flaque | 0.8437020778656006 |
+| vocab-item-050 | the pump | la pompe | 0.8420242667198181 |
+| vocab-item-051 | the rice | le riz | 0.8448731899261475 |
+| vocab-item-052 | the saddle | la selle | 0.7060269117355347 |
+| vocab-item-053 | the sandbag | le sac de sable | 0.8423202037811279 |
+| vocab-item-054 | the scaffolding | l'échafaudage | 0.8228005766868591 |
+| vocab-item-055 | the scoop | la cuillère à glace | 0.33707335591316223 |
+| vocab-item-056 | the seagull | la mouette | 0.8464140892028809 |
+| vocab-item-057 | the ship | le navire | 0.8287153244018555 |
+| vocab-item-058 | the shower | la douche | 0.8378772735595703 |
+| vocab-item-059 | the silverware | l'argenterie | 0.8220952153205872 |
+| vocab-item-060 | the sink | l'évier | 0.8124868869781494 |
+| vocab-item-061 | the ski | le ski | 0.8001128435134888 |
+| vocab-item-062 | the sloth | le paresseux | 0.8130561113357544 |
+| vocab-item-063 | the snail | l'escargot | 0.8270072340965271 |
+| vocab-item-064 | the sorbet | le sorbet | 0.8356237411499023 |
+| vocab-item-065 | the spatula | la spatule | 0.836280882358551 |
+| vocab-item-066 | the sprinkler | l'arroseur | 0.7999663352966309 |
+| vocab-item-067 | the squash | la courge | 0.822681188583374 |
+| vocab-item-068 | the squirrel | l'écureuil | 0.8466915488243103 |
+| vocab-item-069 | the stew | le ragoût | 0.7969871759414673 |
+| vocab-item-070 | the rubber band | l'élastique | 0.8053038120269775 |
+| vocab-item-071 | the stump | la souche | 0.7848469018936157 |
+| vocab-item-072 | the sunflower | le tournesol | 0.8402578830718994 |
+| vocab-item-073 | the swordfish | l'espadon | 0.6419216394424438 |
+| vocab-item-074 | the tapestry | la tapisserie | 0.8390714526176453 |
+| vocab-item-075 | the teabag | le sachet de thé | 0.8412916660308838 |
+| vocab-item-076 | the telescope | le télescope | 0.8486724495887756 |
+| vocab-item-077 | the thermos | le thermos | 0.8249157071113586 |
+| vocab-item-078 | the treasure | le trésor | 0.823797345161438 |
+| vocab-item-079 | the trumpet | la trompette | 0.8477599620819092 |
+| vocab-item-080 | the tulip | la tulipe | 0.8674680590629578 |
+| vocab-item-081 | the turbine | la turbine | 0.8524351119995117 |
+| vocab-item-082 | the turkey | la dinde | 0.6389867067337036 |
+| vocab-item-083 | the turtle | la tortue | 0.8540345430374146 |
+| vocab-item-084 | the typewriter | la machine à écrire | 0.8324683904647827 |
+| vocab-item-085 | the watermelon | la pastèque | 0.8221921324729919 |
+| vocab-item-086 | the waterwheel | la roue à eau | 0.8411973118782043 |
+| vocab-item-087 | the ant | la fourmi | 0.8496862649917603 |
+| vocab-item-088 | the ball | le ballon | 0.8492054343223572 |
+| vocab-item-089 | the bear | l'ours | 0.5773372054100037 |
+| vocab-item-090 | the duck | le canard | 0.8410462737083435 |
+| vocab-item-091 | the fork | la fourchette | 0.7911790013313293 |
+| vocab-item-092 | the kitten | le chaton | 0.8600801825523376 |
+| vocab-item-093 | the knee | le genou | 0.837970495223999 |
+| vocab-item-094 | the milkshake | le lait frappé | 0.42089173197746277 |
+| vocab-item-095 | the skin | la peau | 0.818684458732605 |
+| vocab-item-096 | the wall | le mur | 0.8364032506942749 |
+| vocab-item-097 | the wheel | la roue | 0.8114414215087891 |
+| vocab-item-098 | the farm | la ferme | 0.8084771633148193 |
+| vocab-item-099 | juggling | le jonglage | 0.8281530737876892 |
+| vocab-item-100 | the dressing | la vinaigrette | 0.813470184803009 |
+| vocab-item-101 | the roof | le toit | 0.8423171639442444 |
+| vocab-item-102 | peeking | espiègle | 0.5386641025543213 |
+| vocab-item-103 | the ruler | la règle | 0.6281998157501221 |
+| vocab-item-104 | the tunnel | le tunnel | 0.8289839625358582 |
+| vocab-item-105 | the envelope | l'enveloppe | 0.8329575061798096 |
+| vocab-item-106 | the diamond | le diamant | 0.8476756811141968 |
+| vocab-item-107 | the calendar | le calendrier | 0.8434012532234192 |
+| vocab-item-108 | the panda | le panda | 0.843948483467102 |
+| vocab-item-109 | the arrow | la flèche | 0.8233158588409424 |
+| vocab-item-110 | picking | ramasser | 0.508351743221283 |
+| vocab-item-111 | dripping | goutter | 0.37802717089653015 |
+| vocab-item-112 | the knight | le chevalier | 0.847935140132904 |
+| vocab-item-113 | delivering | livrer | 0.7761709094047546 |
+| vocab-item-114 | the dentist | le dentiste | 0.8537285327911377 |
+| vocab-item-115 | the claw | la griffe | 0.8007408976554871 |
+| vocab-item-116 | the uniform | l'uniforme | 0.8372975587844849 |
+| vocab-item-117 | furry | poilu | 0.547113299369812 |
+| vocab-item-118 | the cormorant | le cormoran | 0.8455021977424622 |
+| vocab-item-119 | fetch | chercher | 0.6571054458618164 |
+| vocab-item-120 | the arcade | l'arcade | 0.7967695593833923 |
+| vocab-item-121 | the artifact | l'artéfact | 0.8180146813392639 |
+| vocab-item-122 | aversion | l'aversion | 0.7023076415061951 |
+| vocab-item-123 | the beret | le béret | 0.8333257436752319 |
+| vocab-item-124 | applaud | applaudir | 0.612338662147522 |
+| vocab-item-125 | timid | timide | 0.7345418930053711 |
+| vocab-item-126 | the camp | le camp | 0.824712872505188 |
+| vocab-item-127 | tumble | culbuter | 0.3257555365562439 |
+| vocab-item-128 | concentric | concentrique | 0.8046904802322388 |
+| vocab-item-129 | the confectionery | la confiserie | 0.8252307176589966 |
+| vocab-item-130 | the couturier | le couturier | 0.816116452217102 |
+| vocab-item-131 | degression | la dégression | 0.7198894023895264 |
+| vocab-item-132 | the divan | le divan | 0.8331326842308044 |
+| vocab-item-133 | the wetland | la zone humide | 0.8571101427078247 |
+| vocab-item-134 | the baywindow | la baie vitrée | 0.7770775556564331 |
+| vocab-item-135 | the aesthete | l'esthète | 0.8480864763259888 |
+| vocab-item-136 | ecstatic | extatique | 0.8072295188903809 |
+| vocab-item-137 | rickety | branlant | 0.5780192613601685 |
+| vocab-item-138 | gourmet | gourmet | 0.7792457342147827 |
+| vocab-item-139 | gesticulate | gesticuler | 0.8141627311706543 |
+| vocab-item-140 | the facade | la façade | 0.8360092639923096 |
+| vocab-item-141 | the slope | la pente | 0.796987771987915 |
+| vocab-item-142 | the habit | l'habitude | 0.8123172521591187 |
+| vocab-item-143 | the intersection | le carrefour | 0.7698372602462769 |
+| vocab-item-144 | the irrigation | l'irrigation | 0.8167134523391724 |
+| vocab-item-145 | the kazoo | le kazoo | 0.8070405125617981 |
+| vocab-item-146 | chat | bavarder | 0.38471719622612 |
+| vocab-item-147 | the colony | la colonie | 0.8480679988861084 |
+| vocab-item-148 | preserve | préserver | 0.7829679250717163 |
+| vocab-item-149 | the awning | l'auvent | 0.8255884647369385 |
+| vocab-item-150 | mammalogy | la mammalogie | 0.8449550271034241 |
+| vocab-item-151 | the metronome | le métronome | 0.8462792634963989 |
+| vocab-item-152 | the paleontologist | le paléontologue | 0.8648682236671448 |
+| vocab-item-153 | the percussion | la percussion | 0.7809261083602905 |
+| vocab-item-154 | the posterior | la postérieure | 0.6229918599128723 |
+| vocab-item-155 | precarious | précaire | 0.8013714551925659 |
+| vocab-item-156 | the arbor | la tonnelle | 0.5841467380523682 |
+| vocab-item-157 | resuscitation | réanimation | 0.8496072292327881 |
+| vocab-item-158 | the rosette | la rosette | 0.8343499898910522 |
+| vocab-item-159 | the saffron | le safran | 0.8433337807655334 |
+| vocab-item-160 | mischievous | espiègle | 0.8133872747421265 |
+| vocab-item-161 | the skimmer | l'écumoire | 0.7711201906204224 |
+| vocab-item-162 | sedentary | sédentaire | 0.8431331515312195 |
+| vocab-item-163 | the suede | le daim | 0.618790864944458 |
+| vocab-item-164 | the turnstile | le tourniquet | 0.8061317801475525 |
+| vocab-item-165 | the triad | la triade | 0.8506832122802734 |
+| vocab-item-166 | dredging | dragage | 0.8366329669952393 |
+| vocab-item-167 | urban | urbain | 0.8186782598495483 |
+| vocab-item-168 | the steam | la vapeur | 0.8193433284759521 |
+| vocab-item-169 | the vertebra | la vertèbre | 0.8392241597175598 |
+| vocab-item-170 | the bandage | le bandage | 0.7957075834274292 |
+| vocab-instruct-1 | In this game, you are going to listen to words and look at different pictures. Your job is to pick the picture that matches the word! | Dans ce jeu, vous allez écouter des mots et regarder différentes images. Votre tâche est de choisir l'image qui correspond au mot ! | 0.879691481590271 |
+| vocab-practice-1 | You are going to see some different pictures. For example, a picture of an apple and a picture of a carrot. Then, you'll hear a word for one of the pictures. Make sure to pick the picture that matches the word! | Vous allez voir différentes images. Par exemple, une image d'une pomme et une image d'une carotte. Ensuite, vous entendrez un mot pour l'une des images. Assurez-vous de choisir l'image qui correspond au mot ! | 0.8699355721473694 |
+| vocab-instruct-2 | Some words are hard, and that's okay. If you're not sure, just give your best guess! | Certains mots sont difficiles, et c'est correct. Si vous n'êtes pas sûr, supposez le mieux que vous pouvez ! | 0.8251067399978638 |
+| vocab-instruct-3 | If you need to hear the word again, press the speaker button. | Si vous devez entendre le mot de nouveau, appuyez sur le bouton haut-parleur. | 0.8811740279197693 |
+| shared-intro-devices | You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now. | Vous pouvez appuyer sur un écran tactile, utiliser le pavé tactile ou appuyer sur les touches fléchées pour cette activité. Essayez maintenant. | 0.8697131276130676 |
+| shared-choose-picture-press-arrow | To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture. | Pour utiliser une touche fléchée pour choisir une image, appuyez sur la touche qui pointe dans la même direction que la flèche sous l'image. | 0.8542467355728149 |
+| shared-intro-replay | You can press the replay button to hear things again. Try it now. | Vous pouvez appuyer sur le bouton de relecture pour réécouter. Essayez maintenant. | 0.8368050456047058 |
+| trog-instr1-matching | This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear. | Ceci est une activité d'association. Écoutez ce que je dis, puis regardez attentivement les images. Choisissez l'image qui correspond aux mots que vous entendez. | 0.775699257850647 |
+| ChildSurveyIntro | These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time. The first two are for practice. | Ces questions vous demandent comment vous vous sentez à l'école et certaines choses que vous faites à l'école. Il n'y a pas de bonnes ou de mauvaises réponses. Choisissez la réponse qui décrit le mieux ce que vous pensez. Non, jamais ; Oui, quelquefois ; Oui, la plupart du temps ; Oui, tout le temps. Les deux premiers sont pour la pratique. | 0.8804413080215454 |
+| Example1Comic | Do you like to read comic books? | Aimez-vous lire des bandes dessinées ? | 0.890447199344635 |
+| Example2Neat | Are you neat and tidy at school? | Êtes-vous soigneux et ordonné à l'école ? | 0.850210964679718 |
+| TeacherNice | Is your teacher nice to you? | Votre enseignant est-il gentil avec vous ? | 0.8905941247940063 |
+| TeacherLike | Does your teacher like you? | Votre enseignant vous aime-t-il ? | 0.8840018510818481 |
+| TeacherListen | Does your teacher listen to you? | Votre enseignant vous écoute-t-il ? | 0.8862912654876709 |
+| SchoolFun | Is school fun? | L'école est-elle amusante ? | 0.8939374685287476 |
+| SchoolEnjoy | Do you enjoy school? | Aimez-vous l'école ? | 0.8922579884529114 |
+| SchoolHappy | Are you happy at school? | Êtes-vous heureux à l'école ? | 0.893454909324646 |
+| SchoolSafe | Do you feel safe at school? | Vous sentez-vous en sécurité à l'école ? | 0.8836911916732788 |
+| ClassFriends | Do you have friends in your class? | Avez-vous des amis dans votre classe ? | 0.896030843257904 |
+| ClassHelp | Do the kids in your class help you when you need it? | Les enfants de votre classe vous aident-ils quand vous en avez besoin ? | 0.8931095600128174 |
+| ClassPlay | Do the kids in your class play with you? | Les enfants de votre classe jouent-ils avec vous ? | 0.8898428678512573 |
+| ClassNice | Are the kids in your class nice to you? | Les enfants de votre classe sont-ils gentils avec vous ? | 0.8935143947601318 |
+| LonelySchool | Do you feel lonely at school? | Vous sentez-vous seul à l'école ? | 0.8736758232116699 |
+| LearningGood | Are you good at learning things in school? | Êtes-vous bon pour apprendre des choses à l'école ? | 0.8345361351966858 |
+| SchoolGiveUp | When schoolwork is hard, do you give up right away? | Abandonnez-vous tout de suite quand le travail scolaire est difficile ? | 0.8407342433929443 |
+| ReadingEnjoy | Do you enjoy doing reading activities at school? | Aimez-vous faire des activités de lecture à l'école ? | 0.8839713931083679 |
+| MathEnjoy | Do you enjoy doing math activities at school? | Aimez-vous faire des activités de mathématiques à l'école ? | 0.8846533298492432 |
+| ReadingGood | Are you good at reading? | Êtes-vous bon en lecture ? | 0.8839514851570129 |
+| MathGood | Are you good at math? | Êtes-vous bon en maths ? | 0.8869566321372986 |
+| GrowthMindSmart | Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard? | Certains enfants pensent qu'ils peuvent devenir plus intelligents s'ils travaillent très dur. Pensez-vous que vous pouvez devenir plus intelligent si vous travaillez très dur ? | 0.9001642465591431 |
+| GrowthMindRead | Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard? | Certains enfants pensent qu'ils peuvent s'améliorer en lecture s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en lecture si vous travaillez très dur ? | 0.8993024230003357 |
+| GrowthMindMath | Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard? | Certains enfants pensent qu'ils peuvent s'améliorer en maths s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en maths si vous travaillez très dur ? | 0.8992632627487183 |
+| ChildSurveyRespoonses | No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time | Non, jamais ; Oui, quelquefois ; Oui, la plupart du temps ; Oui, tout le temps | 0.884953498840332 |
+| ToM-scene7-instruct1 | Here is Diana. This morning at school, Diana put her toy in this drawer, because she didn’t want anyone to find it. | Voici Diana. Ce matin à l'école, Diana a mis son jouet dans ce tiroir, parce qu'elle ne voulait pas que quelqu'un le trouve. | 0.8819988965988159 |
+| ToM-scene7-instruct2 | But while Diana was outside, someone did find it! And moved it from inside the drawer, to inside the desk. | Mais pendant que Diana était dehors, quelqu'un l'a trouvé ! Et l'a déplacé de l'intérieur du tiroir à l'intérieur du bureau. | 0.8563492298126221 |
+| ToM-scene7-instruct3 | So now it’s playtime and Diana wants her toy. | C'est donc l'heure de jouer et Diana veut son jouet. | 0.8797992467880249 |
+| ToM-scene7-q1-false_belief | Where will Diana look for her toy? | Où Diana va-t-elle chercher son jouet ? | 0.8710604310035706 |
+| ToM-scene7-q2-reality_check | And where is her toy really? | Et où est vraiment son jouet ? | 0.8440324068069458 |
+| desk | In the desk | Dans le bureau | 0.7774728536605835 |
+| drawer | In the drawer | Dans le tiroir | 0.8021156191825867 |
+| ToM-scene8-instruct1 | This morning when she came to school, Allie put her yellow pencil on this shelf, above the backpack shelf. | Ce matin, quand elle est arrivée à l'école, Allie a mis son crayon jaune sur cette étagère, au-dessus de l'étagère des sacs à dos. | 0.8711986541748047 |
+| ToM-scene8-instruct2 | And then she went outside to play, see? Here’s Allie playing outside. And while she was outside playing, Allie’s yellow pencil fell down from on top of the shelf to behind the backpack shelf, see? | Puis elle est sortie pour jouer, voyez-vous ? Voici Allie en train de jouer dehors. Et pendant qu'elle jouait dehors, le crayon jaune d'Allie est tombé du dessus de l'étagère derrière l'étagère des sacs à dos, voyez ? | 0.8648713827133179 |
+| ToM-scene8-instruct3 | Then Mike comes in, and Mike puts his pencil above the backpack shelf. Mike’s pencil is also yellow! But Allie is still outside playing, so she didn’t see what Mike was doing. | Ensuite, Mike entre, et Mike met son crayon au-dessus de l'étagère des sacs à dos. Le crayon de Mike est aussi jaune ! Mais Allie est toujours dehors en train de jouer, elle n'a donc pas vu ce que Mike faisait. | 0.8635701537132263 |
+| ToM-scene8-q1-false_belief | Now, when Allie comes in from outside, where will she look first for her pencil? | Maintenant, quand Allie rentre de dehors, où va-t-elle chercher d'abord son crayon ? | 0.845523476600647 |
+| top | On top of the shelf above the backpack shelf | Au-dessus de l'étagère des sacs à dos | 0.8086714148521423 |
+| behind | Behind the backpack shelf | Derrière l'étagère des sacs à dos | 0.8380775451660156 |
+| ToM-scene-8-instruct4 | Let’s see what she does. Oh look, here is Allie reaching for this pencil up on top of the shelf. And now Mike sees Allie reaching for that pencil... the pencil that is Mike's! | Voyons ce qu'elle fait. Oh, regardez, voici Allie qui tend la main vers ce crayon en haut de l'étagère. Et maintenant, Mike voit Allie tendre la main vers ce crayon... le crayon qui est à Mike ! | 0.8572872877120972 |
+| ToM-scene-8-q2-emotion_reasoning | How do you think Mike feels about Allie reaching for that pencil? | Comment pensez-vous que Mike se sent en voyant Allie tendre la main vers ce crayon ? | 0.8538224101066589 |
+| ToM-scene-8-q3-emotion_reasoning | How do you think Mike would feel if he had not seen Allie reaching for the pencil? | Comment pensez-vous que Mike se serait senti s'il n'avait pas vu Allie tendre la main vers le crayon ? | 0.8716887831687927 |
+| ToM-scene-8-q4-false_belief | Is Allie being mean and naughty for taking Mike’s pencil? | Est-ce qu'Allie est méchante et malicieuse pour avoir pris le crayon de Mike ? | 0.8737971782684326 |
+| ToM-scene-8-q5-false_belief | Should Allie get in trouble with the teacher for taking Mike’s pencil? | Allie devrait-elle avoir des ennuis avec l'enseignant pour avoir pris le crayon de Mike ? | 0.8698517680168152 |
+| ToM-scene-8-q6-reality_check | Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf? | Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf? | 0.2328457534313202 |
+| ToM-scene-8-q7-reality_check | Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf? | Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf? | 0.20414310693740845 |
+| ToM-scene-9-instruct1 | This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark is drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books, a book about cups and a book about hills. | Voici Mark. Mark joue à un jeu vraiment idiot aujourd'hui et ne dit aucun mot toute la journée. Au lieu de cela, Mark dessine des images. Mark est à la bibliothèque, décidant quel livre il aimerait lire. Maman montre à Mark deux livres, un livre sur les tasses et un livre sur les collines. | 0.8692481517791748 |
+| ToM-scene-9-instruct2 | Mark draws a picture of a hill, to tell Mom that he wants to read the book about hills. But when Mark gives Mom the picture, she holds it upside-down, so that it looks like a cup! | Mark dessine une image d'une colline, pour dire à maman qu'il veut lire le livre sur les collines. Mais quand Mark donne l'image à maman, elle la tient à l'envers, de sorte qu'elle ressemble à une tasse ! | 0.8661442995071411 |
+| ToM-scene-9-q1-reality_check | What did Mark mean to draw? | Que voulait dessiner Mark ? | 0.8556028604507446 |
+| hill | A hill | Une colline | 0.8527685403823853 |
+| cup | A cup | Une tasse | 0.8601104021072388 |
+| ToM-scene-9-q2-false_belief | When Mom sees the picture, what book will she give Mark? | Quand maman voit l'image, quel livre donnera-t-elle à Mark ? | 0.8692626953125 |
+| ToM-scene-9-q3-reality_check | What book does Mark really want? | Quel livre Mark veut-il vraiment ? | 0.8761069774627686 |
+| hillsbook | The book about hills | Le livre sur les collines | 0.8450005650520325 |
+| cupbook | The book about cups | Le livre sur les tasses | 0.8614104986190796 |
+| ToM-scene-9-q4-emotion_reasoning | Look, Mom realized her mistake and gave Mark the book he really wanted! How do you think Mark feels about getting the book he wanted? | Regardez, maman a réalisé son erreur et a donné à Mark le livre qu'il voulait vraiment ! Comment pensez-vous que Mark se sent de recevoir le livre qu'il voulait ? | 0.8680316209793091 |
+| ToM-scene-10-instruct1 | Teacher Sarah tells all of the kids to take one storybook from the bag that she brought. There is one storybook for every kid. | L'enseignante Sarah demande à tous les enfants de prendre un livre d'histoires dans le sac qu'elle a apporté. Il y a un livre d'histoires pour chaque enfant. | 0.8662604689598083 |
+| ToM-scene-10-instruct2 | Now there are two storybooks left, and Brian and Megan are the last two kids without storybooks. But when Brian goes to get his storybook, he decides to take both storybooks, even though he knows that Megan doesn’t have a storybook yet, and that everyone is only supposed to have one. Brian hides the extra storybook in his desk. | Maintenant, il reste deux livres d'histoires, et Brian et Megan sont les deux derniers enfants sans livres d'histoires. Mais quand Brian va chercher son livre d'histoires, il décide de prendre les deux livres d'histoires, même s'il sait que Megan n'a pas encore de livre d'histoires et que tout le monde est censé en avoir qu'un seul. Brian cache le livre d'histoires supplémentaire dans son bureau. | 0.8728504776954651 |
+| ToM-scene-10-q1-emotion_reasoning | How does Megan feel about being the only child without a storybook? | Comment Megan se sent-elle d'être la seule enfant sans livre d'histoires ? | 0.8657809495925903 |
+| ToM-scene-10-q2-emotion_reasoning | How would Megan feel if she received a book? | Comment Megan se sentirait-elle si elle recevait un livre ? | 0.8844238519668579 |
+| ToM-scene-10-instruct3 | Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.” | Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.” | 0.2084568738937378 |
+| ToM-scene-10-q3-reality_check | Is Brian lying? | Est-ce que Brian ment ? | 0.8866960406303406 |
+| ToM-scene-10-q4-reality_check | Is there still a storybook left, that isn’t being used right now? | Y a-t-il encore un livre d'histoires disponible, qui n'est pas utilisé en ce moment ? | 0.8608900904655457 |
+| ToM-scene-10-instruct4 | Megan is sad that she doesn’t have a storybook, and asks Teacher Sarah, "is there an extra storybook for me?" Teacher Sarah says, “I’m so sorry Megan, but there are no storybooks left, they are all being used right now.” | Megan est triste de ne pas avoir de livre d'histoires et demande à l'enseignante Sarah : « Y a-t-il un livre d'histoires en extra pour moi ? » L'enseignante Sarah dit : « Je suis vraiment désolée Megan, mais il n'y a plus de livres d'histoires, ils sont tous utilisés en ce moment. » | 0.8721437454223633 |
+| ToM-scene-10-q5-false_belief | Is Teacher Sarah lying? | L'enseignante Sarah ment-elle ? | 0.8873985409736633 |
+| ToM-scene-10-q6-reality_check | Is there still a storybook left, that isn’t being used right now? | Reste-t-il un livre de contes qui n'est pas utilisé en ce moment ? | 0.8527928590774536 |
+| ToM-scene-11-instruct1 | This is Josh. Earlier today, Josh was tidying his room. Josh put his big basketball on his desk, his medium-sized soccer ball on his table, and his small baseball down on the bottom shelf. | Voici Josh. Plus tôt aujourd'hui, Josh rangeait sa chambre. Josh a mis son gros ballon de basketball sur son bureau, son ballon de soccer de taille moyenne sur sa table, et sa petite balle de baseball en bas de l'étagère. | 0.8684963583946228 |
+| ToM-scene-11-instruct2 | Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!” | Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!” | 0.2382284700870514 |
+| ToM-scene-11-q1-reference | Which ball will mom get for Josh? | Quelle balle la mère ira-t-elle chercher pour Josh ? | 0.7410809993743896 |
+| ToM-scene-11-q2-reality_check | Which ball does Josh want? | Quelle balle Josh veut-il ? | 0.8198652267456055 |
+| baseball | The small baseball | The small baseball | 0.5385801792144775 |
+| soccerball | The medium sized soccer ball | The medium sized soccer ball | 0.3603105843067169 |
+| big-basketball | The big basketball | The big basketball | 0.47072967886924744 |
+| ToM-scene-11-q3-emotion_reasoning | Josh wanted the baseball but mom gave him the soccer ball! How do you think Josh feels about receiving the wrong toy? | Josh voulait la balle de baseball mais sa mère lui a donné le ballon de soccer ! Que pensez-vous que Josh ressent en recevant le mauvais jouet ? | 0.8707070350646973 |
+| ToM-scene-11-q4-emotion_reasoning | How do you think Josh would feel if he had received the correct toy? | Que pensez-vous que Josh ressentirait s'il recevait le bon jouet ? | 0.8717345595359802 |
+| ToM-scene-12-instruct1 | This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess. | This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess. | 0.2339206337928772 |
+| ToM-scene-12-instruct2 | Then Emma went to her room to get ready for school. While she was getting ready, she changed her mind, so she yelled to her dad, “Actually, may I please have my red ball instead?” and kept getting ready for school. But Dad did not hear Emma ask for her red ball. | Puis Emma est allée dans sa chambre pour se préparer pour l'école. En se préparant, elle a changé d'avis, alors elle a crié à son père, « En fait, puis-je avoir ma balle rouge à la place ? » et a continué de se préparer pour l'école. Mais papa n'a pas entendu Emma demander sa balle rouge. | 0.8541914224624634 |
+| ToM-scene-12-q1-false_belief | Which toy does Dad think Emma wants to bring to school? | Quel jouet le papa pense-t-il qu'Emma veut emmener à l'école ? | 0.8795968294143677 |
+| ToM-scene-12-instruct3 | Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead. | Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead. | 0.21534523367881775 |
+| ToM-scene-12-q2-false_belief | Does Emma know that Dad packed the blue ball? | Does Emma know that Dad packed the blue ball? | 0.30877986550331116 |
+| ToM-scene-12-q3-false_belief | Which ball does Emma think Dad packed? | Quel balle Emma pense-t-elle que papa a emballée ? | 0.4826813042163849 |
+| yellowball | The yellow ball | The yellow ball | 0.38685381412506104 |
+| redball | The red ball | La balle rouge | 0.8659571409225464 |
+| blueball | The blue ball | The blue ball | 0.5775880217552185 |
+| ToM-scene-12-instruct4 | On the way to school, Dad tells Emma, “I’m so sorry, I couldn’t pack the toy that you wanted because I couldn’t find it”. | En chemin vers l'école, papa dit à Emma : « Je suis tellement désolé, je n'ai pas pu emballer le jouet que tu voulais parce que je ne l'ai pas trouvé. » | 0.8920079469680786 |
+| ToM-scene-12-q4-reality_check | What toy does Emma want? | Quel jouet veut Emma ? | 0.8801913261413574 |
+| ToM-scene-12-q5-reality_check | What toy did Dad pack for Emma? | Quel jouet papa a-t-il emballé pour Emma ? | 0.8658750057220459 |
+| ToM-scene-12-instruct5 | Emma is very happy to play with her ball. | Emma est très heureuse de jouer avec sa balle. | 0.8852068185806274 |
+| ToM-scene13-instruct1 | Here is Gabriel. This afternoon at school, Gabriel put his pencil in his pencil box. | Voici Gabriel. Cet après-midi à l'école, Gabriel a mis son crayon dans sa boîte à crayons. | 0.874881386756897 |
+| ToM-scene13-instruct2 | But while Gabriel was outside, someone used his pencil! After using Gabriel’s pencil, the person put the pencil in a basket. | Mais pendant que Gabriel était dehors, quelqu'un a utilisé son crayon ! Après avoir utilisé le crayon de Gabriel, la personne a remis le crayon dans un panier. | 0.8735057711601257 |
+| ToM-scene13-instruct3 | So now it’s time for class, and Gabriel wants his pencil. | Maintenant il est temps d'aller en classe, et Gabriel veut son crayon. | 0.879854142665863 |
+| ToM-scene13-q1-false_belief | Where will Gabriel look for his pencil? | Où Gabriel cherchera-t-il son crayon ? | 0.8681803345680237 |
+| box | In the box | Dans la boîte | 0.7098244428634644 |
+| basket | In the basket | Dans le panier | 0.7590935230255127 |
+| ToM-scene13-q2-reality_check | And where is his pencil really? | Et où est vraiment son crayon ? | 0.8585098385810852 |
+| ToM-scene14-instruct1 | This afternoon when he came home, Bobby put his soccer ball on the table. | Cet après-midi en rentrant chez lui, Bobby a mis son ballon de soccer sur la table. | 0.884929358959198 |
+| ToM-scene14-instruct2 | And then he went outside to play, see? Here’s Bobby playing outside. And while he was outside playing, Bobby’s soccer ball fell off the table and onto the floor. | Et puis il est sorti jouer, tu vois ? Voici Bobby jouant dehors. Et pendant qu'il jouait dehors, le ballon de soccer de Bobby est tombé de la table sur le sol. | 0.8841652870178223 |
+| ToM-scene14-instruct3 | Then Bobby’s sister Anna comes in. Anna also has a soccer ball! Anna puts her soccer ball on the table. Bobby is still outside playing, so he didn’t see what Anna was doing. | Ensuite, la sœur de Bobby, Anna, entre. Anna a aussi un ballon de soccer ! Anna met son ballon de soccer sur la table. Bobby est toujours dehors en train de jouer, donc il n'a pas vu ce qu'Anna faisait. | 0.8790386915206909 |
+| ToM-scene14-q1-false_belief | Now, when Bobby comes in from outside, where will he look first for his soccer ball? | Maintenant, quand Bobby rentre de dehors, où cherchera-t-il d'abord son ballon de soccer ? | 0.854902982711792 |
+| table | On the table | Sur la table | 0.7171724438667297 |
+| floor | On the floor | Sur le sol | 0.7785199880599976 |
+| ToM-scene-14-instruct4 | Let’s see what he does. Oh look, here is Bobby reaching for the soccer ball on the table. And now Anna sees Bobby reaching for that soccer ball... the soccer ball that is Anna's! | Voyons ce qu'il fait. Oh regarde, ici est Bobby tendant la main vers le ballon de soccer sur la table. Et maintenant Anna voit Bobby tendre la main vers ce ballon de soccer... le ballon de soccer qui appartient à Anna ! | 0.8568541407585144 |
+| ToM-scene-14-q2-emotion_reasoning | How do you think Anna feels about Bobby reaching for that soccer ball? | Que pensez-vous qu'Anna ressent quand Bobby tend la main vers ce ballon de soccer ? | 0.8373305201530457 |
+| ToM-scene-14-q3-emotion_reasoning | How do you think Anna would feel if she had not seen Bobby reaching for the soccer ball? | Comment pensez-vous qu'Anna se sentirait si elle n'avait pas vu Bobby tendre la main vers le ballon de soccer ? | 0.8786218166351318 |
+| ToM-scene-14-q4-false_belief | Is Bobby being mean and naughty for taking Anna’s soccer ball? | Bobby est-il méchant et vilain de prendre le ballon de soccer d'Anna ? | 0.8361677527427673 |
+| ToM-scene-14-q5-false_belief | Should Bobby get in trouble with their mom for taking Anna’s soccer ball? | Bobby devrait-il avoir des ennuis avec leur maman pour avoir pris le ballon de soccer d'Anna ? | 0.8733233213424683 |
+| ToM-scene-14-q6-reality_check | Can you help Anna find her soccer ball? Is it on the table or on the floor? | Peux-tu aider Anna à trouver son ballon de soccer ? Est-il sur la table ou sur le sol ? | 0.8848496675491333 |
+| ToM-scene-14-q7-reality_check | Can you help Bobby find his soccer ball? Is it on the table or on the floor? | Peux-tu aider Bobby à trouver son ballon de soccer ? Est-il sur la table ou sur le sol ? | 0.8853968381881714 |
+| ToM-scene-15-instruct1 | Alex, Beth, and Johnny are playing a game at the park. Here's how the game goes: One kid hides, but draws a clue in the sandbox so the other kids can find them. | Alex, Beth et Johnny jouent à un jeu au parc. Voici comment se passe le jeu : Un enfant se cache, mais trace une piste dans le bac à sable pour que les autres puissent les trouver. | 0.8821717500686646 |
+| ToM-scene-15-instruct2 | Johnny decides to hide behind the flower bush. He draws a clue in the sand. Johnny means to draw the flower bush, but the drawing looks like a rock instead! Then Johnny goes to hide behind the flower bush. | Johnny décide de se cacher derrière l'arbuste de fleurs. Il trace une piste dans le sable. Johnny a l'intention de dessiner l'arbuste de fleurs, mais le dessin ressemble plutôt à un rocher ! Puis Johnny va se cacher derrière l'arbuste de fleurs. | 0.8714818954467773 |
+| ToM-scene-15-q1-reality_check | What did Johnny mean to draw? | Qu'est-ce que Johnny voulait dessiner ? | 0.8541502952575684 |
+| flowerbush | A flower bush | Un arbuste de fleurs | 0.8628743886947632 |
+| rocks | A rock | Une roche | 0.857417106628418 |
+| ToM-scene-15-q2-false_belief | When Alex and Beth see this clue, where will they look first for Johnny? Behind the flower bush or behind the rock? | Quand Alex et Beth voient cette piste, où vont-ils chercher d'abord Johnny ? Derrière l'arbuste de fleurs ou derrière la roche ? | 0.8548567891120911 |
+| ToM-scene-15-q3-reality_check | Can you help them find where Johnny really is? | Peux-tu les aider à trouver où Johnny se cache vraiment ? | 0.8841639757156372 |
+| behind-flowerbush | Behind the flower bush | Derrière l'arbuste de fleurs | 0.8402408361434937 |
+| behind-rock | Behind the rock | Derrière la roche | 0.855697751045227 |
+| ToM-scene-15-q4-emotion_reasoning | Look, Alex and Beth found Johnny, and won the game! How do you think Alex and Beth feel about winning the game? | Regarde, Alex et Beth ont trouvé Johnny et ont gagné le jeu ! Comment penses-tu qu'Alex et Beth se sentent d'avoir gagné le jeu ? | 0.881274402141571 |
+| ToM-scene-16-instruct1 | Dad tells James and Sophie to get ready for school. Dad tells them to put on their shoes. | Papa dit à James et Sophie de se préparer pour l'école. Papa leur dit de mettre leurs chaussures. | 0.8909084796905518 |
+| ToM-scene-16-instruct2 | Sophie can’t find one of her shoes! She’s looking everywhere but she can't find it. | Sophie ne trouve pas une de ses chaussures ! Elle cherche partout mais ne peut pas la trouver. | 0.8830108642578125 |
+| ToM-scene-16-q1-emotion_reasoning | How does Sophie feel about losing her shoe? | Comment Sophie se sent-elle après avoir perdu sa chaussure ? | 0.8835226893424988 |
+| ToM-scene-16-q2-emotion_reasoning | How would Sophie feel if she found her shoe? | Comment Sophie se sentirait-elle si elle trouvait sa chaussure ? | 0.8778637647628784 |
+| ToM-scene-16-instruct3 | Sophie can't find her shoe because earlier in the day, when no one was looking, James played a trick on Sophie and hid her shoe in the toy box. | Sophie ne trouve pas sa chaussure parce qu'au début de la journée, lorsque personne ne regardait, James a joué un tour à Sophie et a caché sa chaussure dans le coffre à jouets. | 0.8749809861183167 |
+| ToM-scene-16-instruct4 | So Sophie looks everywhere and she can’t find her shoe. Dad gets mad at Sophie, because she lost her shoe and now they are late for school. | Sophie cherche partout mais ne peut pas trouver sa chaussure. Papa est fâché contre Sophie parce qu'elle a perdu sa chaussure et maintenant ils sont en retard pour l'école. | 0.8754004240036011 |
+| ToM-scene-16-q3-false_belief | Is it fair that Dad is mad at Sophie for losing her shoe? | Est-ce juste que Papa soit fâché contre Sophie pour avoir perdu sa chaussure ? | 0.8697620630264282 |
+| ToM-scene-16-q4-reference | Is Dad mad at James? | Papa est-il fâché contre James ? | 0.8905864357948303 |
+| ToM-scene-16-q5-reference | Is Sophie mad at James? | Sophie est-elle fâchée contre James ? | 0.8928443193435669 |
+| ToM-scene-16-instruct5 | When James sees that Dad is mad at Sophie, he goes to the toy box and gets the shoe, and gives it back to Sophie. | Quand James voit que Papa est fâché contre Sophie, il va au coffre à jouets, récupère la chaussure, et la rend à Sophie. | 0.8822137713432312 |
+| ToM-scene-16-q6-reference | Is Dad mad at Sophie now? | Papa est-il maintenant fâché contre Sophie ? | 0.8865695595741272 |
+| ToM-scene-16-q7-reference | Is Dad mad at James now? | Papa est-il maintenant fâché contre James ? | 0.8844994306564331 |
+| ToM-scene-16-q8-reference | Is Sophie mad at James now? | Sophie est-elle maintenant fâchée contre James ? | 0.8887097239494324 |
+| ToM-scene-16-instruct6 | James tells Sophie that he’s very sorry, and Sophie and Dad forgive James. They all hug. | James dit à Sophie qu'il est très désolé et Sophie et papa pardonnent à James. Ils s'embrassent tous. | 0.8911442756652832 |
+| ToM-scene-17-instruct1 | This is Mika. Mika’s mom owns a bookshop, and sometimes Mika helps out. Earlier today, Mika was organizing books on tables and shelves. Mika put a very large stack of blue books on the desk, a medium-sized stack of red books on the table, and a small stack of yellow books on the shelf. | Voici Mika. La mère de Mika possède une librairie et parfois Mika aide. Plus tôt aujourd'hui, Mika rangeait des livres sur les tables et les étagères. Mika a mis une pile très large de livres bleus sur le bureau, une pile de taille moyenne de livres rouges sur la table, et une petite pile de livres jaunes sur l'étagère. | 0.8766137957572937 |
+| ToM-scene-17-instruct2 | Mika’s mom just walked in. Mom asks Mika for one of the books. Mika remembers where the book is, and tells mom, “The book is in the small stack!” | La maman de Mika vient d'entrer. Maman demande à Mika un des livres. Mika se souvient où est le livre et dit à maman : « Le livre est dans la petite pile ! » | 0.8464840650558472 |
+| ToM-scene-17-q1-reference | Which stack of books will mom look in? | Dans quelle pile de livres maman regardera-t-elle ? | 0.7978225350379944 |
+| ToM-scene-17-q2-reality_check | Which stack of books was Mika talking about? | De quelle pile de livres parlait Mika ? | 0.8780414462089539 |
+| bluestack | The large blue stack | The large blue stack | 0.4041888415813446 |
+| redstack | The medium sized red stack | The medium sized red stack | 0.31469425559043884 |
+| yellowstack | The small yellow stack | The small yellow stack | 0.32851195335388184 |
+| ToM-scene-17-q3-emotion_reasoning | Mom looks in the wrong stack of books and can’t find the book that she wanted. How do you think Mom feels about not finding the book she wanted? | Maman cherche dans la mauvaise pile de livres et ne trouve pas le livre qu'elle voulait. Comment pensez-vous que maman se sent de ne pas trouver le livre qu'elle voulait ? | 0.8622652888298035 |
+| ToM-scene-17-q4-emotion_reasoning | How do you think Mom would feel if she could find the book she wanted? | Comment pensez-vous que Maman se sentirait si elle pouvait trouver le livre qu'elle voulait? | 0.8833174705505371 |
+| ToM-scene-18-instruct1 | George and Kat are playing together. They look outside and see a new toy shop across the street. Kat decides to go buy some new toys at the toy shop. Kat asks George what toy he would like to have, and George says he would like a new basketball. | George et Kat jouent ensemble. Ils regardent dehors et voient un nouveau magasin de jouets de l'autre côté de la rue. Kat décide d'aller acheter de nouveaux jouets au magasin de jouets. Kat demande à George quel jouet il aimerait avoir, et George dit qu'il aimerait un nouveau ballon de basketball. | 0.8851522207260132 |
+| ToM-scene-18-instruct2 | While Kat is walking to the toy shop, George changes his mind and yells to Kat, “Actually, can I please have some crayons?” But Kat did not hear George ask for crayons. | Alors que Kat se rend au magasin de jouets, George change d'avis et crie à Kat: "En fait, puis-je avoir des crayons s'il vous plaît?" Mais Kat n'a pas entendu George demander des crayons. | 0.8629246354103088 |
+| ToM-scene-18-q1-false_belief | Which toy does Kat think George wants from the toy shop? | Quel jouet Kat pense-t-elle que George veut du magasin de jouets? | 0.8431013822555542 |
+| ToM-scene-18-instruct3 | Kat didn’t hear George say that he wanted crayons. So Kat thinks George wants a basketball. Kat goes to the toy shop, but then the shop owner says that they don’t have any basketballs! But they do have storybooks, so Kat buys a storybook for George instead. | Kat n'a pas entendu George dire qu'il voulait des crayons. Alors Kat pense que George veut un ballon de basketball. Kat va au magasin de jouets, mais ensuite le propriétaire du magasin dit qu'ils n'ont pas de ballons de basketball! Mais ils ont des livres d'histoires, alors Kat achète un livre d'histoires pour George à la place. | 0.8781663775444031 |
+| ToM-scene-18-q2-false_belief | Does George know that Kat bought a storybook? | George sait-il que Kat a acheté un livre d'histoires? | 0.8872071504592896 |
+| ToM-scene-18-q3-false_belief | What does George think Kat bought at the toy shop? | Que pense George que Kat a acheté au magasin de jouets? | 0.8562178611755371 |
+| basketball | A basketball | Un ballon de basketball | 0.8453928232192993 |
+| storybook | A storybook | Un livre d'histoires | 0.8576922416687012 |
+| crayons | Crayons | Crayons | 0.7495774030685425 |
+| ToM-scene-18-instruct4 | Kat comes back and tells George, “I’m so sorry, I couldn’t buy you a basketball because the store didn’t have any.” | Kat revient et dit à George: "Je suis désolé, je n'ai pas pu t'acheter un ballon de basketball parce que le magasin n'en avait pas." | 0.8892381191253662 |
+| ToM-scene-18-q4-reality_check | What toy does George want? | Quel jouet veut George? | 0.8801546692848206 |
+| ToM-scene-18-q5-reality_check | What toy did Kat buy for George? | Quel jouet Kat a-t-elle acheté pour George? | 0.8826130032539368 |
+| ToM-scene-18-instruct5 | George is very happy to play with his new storybook. | George est très heureux de jouer avec son nouveau livre d'histoires. | 0.8798463344573975 |
+| inferenceInstructions2 | Welcome to ROAR - Inference | Bienvenue à ROAR - Inférence | 0.7867254018783569 |
+| inferenceInstructions | Read each story carefully. Think about what happened in the story and what you know. Choose the best answer for each question. | Lisez chaque histoire attentivement. Pensez à ce qui s'est passé dans l'histoire et à ce que vous savez. Choisissez la meilleure réponse pour chaque question. | 0.8888699412345886 |
+| sds-your-turn | Now it's your turn! | Now it's your turn! | 0.4218919575214386 |
+| sds-prompt3-demo-heavy | Here is another picture. I have to choose which of these pictures is the same as this new picture. | Here is another picture. I have to choose which of these pictures is the same as this new picture. | 0.224664568901062 |
+| sds-pick-square-demo-heavy | I will pick this one! This one is the same as the new picture because they are both squares. | I will pick this one! This one is the same as the new picture because they are both squares. | 0.2495882511138916 |
+| same-different-selection-instruct1-heavy | This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way. | This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way. | 0.2275068759918213 |
+| same-different-selection-instruct2-heavy | Now we're going to look at more pictures and find things about them that are the same. Let's learn how to play! | Now we're going to look at more pictures and find things about them that are the same. Let's learn how to play! | 0.25243982672691345 |
+| same-different-selection-instruct3-heavy | Now you're going to play the rest of the game on your own! | Now you're going to play the rest of the game on your own! | 0.28446027636528015 |
+| same-different-selection-instruct4-heavy | Now we're going to try something new! You're going to find pairs of shapes that are the same in some way. Let's learn how! | Now we're going to try something new! You're going to find pairs of shapes that are the same in some way. Let's learn how! | 0.251363068819046 |
+| same-different-selection-instruct5-heavy | Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles. | Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles. | 0.19433587789535522 |
+| same-different-selection-instruct6-heavy | Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red. | Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red. | 0.2015652060508728 |
+| same-different-selection-touch-circle-heavy | Show me the circle. | Show me the circle. | 0.5858410000801086 |
+| same-different-selection-touch-square-heavy | Show me the square. | Show me the square. | 0.39007464051246643 |
+| same-different-selection-touch-triangle-heavy | Show me the triangle. | Show me the triangle. | 0.6248618364334106 |
+| same-different-selection-touch-star-heavy | Show me the star. | Show me the star. | 0.6148536801338196 |
+| same-different-selection-touch-green-heavy | Show me the green one. | Show me the green one. | 0.4023272693157196 |
+| same-different-selection-touch-red-heavy | Show me the red one. | Show me the red one. | 0.3625750243663788 |
+| same-different-selection-touch-blue-heavy | Show me the blue one. | Show me the blue one. | 0.4189658761024475 |
+| same-different-selection-touch-yellow-heavy | Show me the yellow one. | Show me the yellow one. | 0.3863542079925537 |
+| same-different-selection-touch-small-heavy | Show me the small one. | Show me the small one. | 0.4312681257724762 |
+| same-different-selection-touch-medium-heavy | Show me the medium one. | Show me the medium one. | 0.4227716028690338 |
+| same-different-selection-touch-large-heavy | Show me the large one. | Show me the large one. | 0.40738677978515625 |
+| same-different-selection-touch-white-heavy | Show me the picture with the white background. | Show me the picture with the white background. | 0.33069974184036255 |
+| same-different-selection-touch-gray-heavy | Show me the picture with the gray background. | Show me the picture with the gray background. | 0.32399389147758484 |
+| same-different-selection-touch-black-heavy | Show me the picture with the black background. | Show me the picture with the black background. | 0.3269186019897461 |
+| same-different-selection-touch-striped-heavy | Show me the picture with the striped background. | Show me the picture with the striped background. | 0.3133584260940552 |
+| same-different-selection-touch-1-heavy | Show me the picture with one shape. | Show me the picture with one shape. | 0.3039964735507965 |
+| same-different-selection-touch-2-heavy | Show me the picture with two shapes. | Show me the picture with two shapes. | 0.32658281922340393 |
+| same-different-selection-touch-3-heavy | Show me the picture with three shapes. | Show me the picture with three shapes. | 0.3424074053764343 |
+| same-different-selection-touch-4-heavy | Show me the picture with four shapes. | Show me the picture with four shapes. | 0.3319839537143707 |
+| same-different-selection-both-circles-heavy | Here are two pictures. Something's the same. They're both circles. | Here are two pictures. Something's the same. They're both circles. | 0.24839866161346436 |
+| same-different-selection-both-squares-heavy | Here are two pictures. Something's the same. They're both squares. | Here are two pictures. Something's the same. They're both squares. | 0.2367268204689026 |
+| same-different-selection-both-triangles-heavy | Here are two pictures. Something's the same. They're both triangles. | Here are two pictures. Something's the same. They're both triangles. | 0.23368248343467712 |
+| same-different-selection-both-red-heavy | Here are two pictures. Something's the same. They're both red. | Here are two pictures. Something's the same. They're both red. | 0.24218633770942688 |
+| same-different-selection-both-green-heavy | Here are two pictures. Something's the same. They're both green. | Here are two pictures. Something's the same. They're both green. | 0.24283957481384277 |
+| same-different-selection-both-yellow-heavy | Here are two pictures. Something's the same. They're both yellow. | Here are two pictures. Something's the same. They're both yellow. | 0.2470300793647766 |
+| same-different-selection-both-blue-heavy | Here are two pictures. Something's the same. They're both blue. | Here are two pictures. Something's the same. They're both blue. | 0.24259603023529053 |
+| same-different-selection-both-small-heavy | Here are two pictures. Something's the same. They're both small. | Here are two pictures. Something's the same. They're both small. | 0.23789915442466736 |
+| same-different-selection-both-medium-heavy | Here are two pictures. Something's the same. They're both medium. | Here are two pictures. Something's the same. They're both medium. | 0.24650317430496216 |
+| same-different-selection-both-large-heavy | Here are two pictures. Something's the same. They're both large. | Here are two pictures. Something's the same. They're both large. | 0.23976069688796997 |
+| sds-prompt3-heavy | Here is another picture. Which of these pictures is the same as this new picture? | Here is another picture. Which of these pictures is the same as this new picture? | 0.2557813823223114 |
+| sds-3match-prompt2-heavy | Here are the same pictures. Choose two of them that are the same in a different way. | Here are the same pictures. Choose two of them that are the same in a different way. | 0.25783079862594604 |
+| sds-2match-prompt1-heavy | Here are some new pictures. Choose two of them that are the same in some way. | Here are some new pictures. Choose two of them that are the same in some way. | 0.27672770619392395 |
+| sds-2match-prompt2-heavy | Now choose two pictures that are the same in a different way. | Now choose two pictures that are the same in a different way. | 0.32178497314453125 |
+| sds-3unique-prompt1-heavy | Choose three pictures that are the same in only one way. | Choose three pictures that are the same in only one way. | 0.3107396364212036 |
+| sds-3unique-prompt2-heavy | Choose another three pictures that are the same in only one way. | Choose another three pictures that are the same in only one way. | 0.2860538363456726 |
+| sds-match-demo1-heavy | Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles. | Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles. | 0.19574564695358276 |
+| sds-match-demo2-heavy | Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small. | Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small. | 0.202714204788208 |
+| data-questionnaire-button-text1 | I have SERIOUS CONCERNS about these data (e.g., the child did not seem to understand the task, was frequently distracted/interrupted, etc.) | I have SERIOUS CONCERNS about these data (e.g., the child did not seem to understand the task, was frequently distracted/interrupted, etc.) | 0.3053204119205475 |
+| data-questionnaire-button-text2 | I feel OK about these data (e.g., the child seemed to understand the task pretty well, only experienced a few distractions/interruptions, etc.) | I feel OK about these data (e.g., the child seemed to understand the task pretty well, only experienced a few distractions/interruptions, etc.) | 0.25376155972480774 |
+| data-questionnaire-button-text3 | I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.) | I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.) | 0.24278774857521057 |
+| math-instructions1-heavy | In this game, you will play with numbers.  Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started! | In this game, you will play with numbers.<br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started! | 0.23355501890182495 |
+| math-intro1-heavy | It's time for the first number game! Let's practice. | It's time for the first number game! Let's practice. | 0.2855684459209442 |
+| math-intro2-heavy | It's time for the next number game! Let's practice. | It's time for the next number game! Let's practice. | 0.2665816843509674 |
+| counting-intro | In this number game, you will say how many things are in the picture! The grownup helping you will press the button. | In this number game, you will say how many things are in the picture! The grownup helping you will press the button. | 0.21881118416786194 |
+| counting-intro-afc | This time, you will choose the button with the right number! | This time, you will choose the button with the right number! | 0.3012906312942505 |
+| memory-game-instruct1-heavy | This is the memory game. | This is the memory game. | 0.38820841908454895 |
+| memory-game-instruct2-heavy | In this game, we are going to see squares light up. Your job is to touch the squares that light up. | In this game, we are going to see squares light up. Your job is to touch the squares that light up. | 0.20996928215026855 |
+| memory-game-instruct3-heavy | Now we will see two squares light up. Your job is to touch the squares in the same order as they light up! | Now we will see two squares light up. Your job is to touch the squares in the same order as they light up! | 0.2165471613407135 |
+| memory-game-instruct4-heavy | Watch the squares light up. I will touch the squares in the same order. | Watch the squares light up. I will touch the squares in the same order. | 0.22262036800384521 |
+| memory-game-instruct5-heavy | OK, now you're going to play the rest of the memory game on your own. More squares will light up each time the longer you play, so watch carefully! | OK, now you're going to play the rest of the memory game on your own. More squares will light up each time the longer you play, so watch carefully! | 0.27842020988464355 |
+| memory-game-instruct6-heavy | If you make a mistake, just keep going! | Si vous faites une erreur, continuez! | 0.8634108304977417 |
+| ns-number-identification-1 | Choose the card that shows 1 apple. | Choose the card that shows 1 apple. | 0.31636694073677063 |
+| ns-number-identification-2 | Choose the card that shows 2 cars. | Choose the card that shows 2 cars. | 0.30925676226615906 |
+| ns-number-identification-5 | Choose the card that shows 5 apples. | Choose the card that shows 5 apples. | 0.3103163242340088 |
+| ns-number-identification-7 | Choose the card that shows 7 cars. | Choose the card that shows 7 cars. | 0.3197013735771179 |
+| ns-number-identification-10 | Choose the card that shows 10 apples. | Choose the card that shows 10 apples. | 0.3152627646923065 |
+| counting-1 | How many cars is this? | How many cars is this? | 0.34691065549850464 |
+| counting-2 | How many apples is this? | How many apples is this? | 0.3448280692100525 |
+| ns-number-comp-1 | Which card has more apples? | Which card has more apples? | 0.33001598715782166 |
+| ns-number-comp-2 | Which card has more cars? | Which card has more cars? | 0.3184453547000885 |
