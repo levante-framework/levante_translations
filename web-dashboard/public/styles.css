@@ -159,17 +159,17 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .btn-secondary { background: #6c757d; color: white; }
 
 /* Audio Info Modal Styles */
-.audio-info-content { padding: 25px; max-height: 70vh; overflow-y: auto; }
-.loading-spinner { text-align: center; padding: 40px; color: #17a2b8; font-size: 16px; }
-.info-section { margin-bottom: 25px; }
-.info-section h3 { color: #333; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #e1e5e9; }
-.info-grid { display: grid; gap: 12px; }
-.info-item { display: flex; padding: 8px 0; border-bottom: 1px solid #f8f9fa; }
-.info-item label { font-weight: 600; color: #666; min-width: 120px; margin-right: 15px; }
-.info-item span { color: #333; word-break: break-word; flex: 1; }
-.info-note { background: #e7f3ff; padding: 12px; border-radius: 6px; color: #0c5460; font-style: italic; }
-.error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; text-align: center; }
-.error-message i { margin-right: 8px; }
+.audio-info-content { padding: 15px; max-height: 70vh; overflow-y: auto; }
+.loading-spinner { text-align: center; padding: 25px; color: #17a2b8; font-size: 14px; }
+.info-section { margin-bottom: 15px; }
+.info-section h3 { color: #333; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #e1e5e9; font-size: 1.1em; }
+.info-grid { display: grid; gap: 6px; }
+.info-item { display: flex; padding: 4px 0; border-bottom: 1px solid #f8f9fa; font-size: 0.9em; }
+.info-item label { font-weight: 600; color: #666; min-width: 100px; margin-right: 10px; font-size: 0.85em; }
+.info-item span { color: #333; word-break: break-word; flex: 1; font-size: 0.85em; }
+.info-note { background: #e7f3ff; padding: 8px; border-radius: 4px; color: #0c5460; font-style: italic; font-size: 0.8em; }
+.error-message { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; text-align: center; font-size: 0.9em; }
+.error-message i { margin-right: 6px; }
 
 /* Help Dropdown */
 .dropdown { position: relative; }
@@ -200,3 +200,18 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
 /* Ensure Help dropdown aligns nicely within the voice-controls row */
 .help-dropdown { margin-left: 4px; }
+
+/* Custom ID3 text content styles */
+.text-content { 
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.75em;
+    background: #f8f9fa;
+    padding: 3px 5px;
+    border-radius: 3px;
+    border: 1px solid #e9ecef;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 60px;
+    overflow-y: auto;
+    line-height: 1.2;
+}

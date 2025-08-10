@@ -1,4 +1,5 @@
 import { Storage } from '@google-cloud/storage';
+import NodeID3 from 'node-id3';
 
 // Initialize Google Cloud Storage client
 let storageClient = null;
@@ -23,6 +24,31 @@ async function initializeGCS() {
     } catch (error) {
         console.error('❌ Failed to initialize GCS client:', error);
         throw error;
+    }
+}
+
+async function downloadAndReadID3Tags(bucket, file) {
+    try {
+        console.log('📥 Downloading file to read ID3 tags...');
+        
+        // Download only the first 64KB of the file (ID3v2 tags are typically at the beginning)
+        // This is much more efficient than downloading the entire audio file
+        const [fileBuffer] = await file.download({
+            start: 0,
+            end: 65535 // First 64KB should contain ID3 tags
+        });
+        
+        console.log(`📖 Reading ID3 tags from ${fileBuffer.length} bytes...`);
+        
+        // Read ID3 tags using node-id3
+        const tags = NodeID3.read(fileBuffer);
+        
+        console.log('🏷️ ID3 tags found:', Object.keys(tags));
+        return tags;
+        
+    } catch (error) {
+        console.warn('⚠️ Could not read ID3 tags:', error.message);
+        return null;
     }
 }
 
@@ -52,9 +78,12 @@ async function readAudioMetadata(audioUrl) {
         // Get file metadata from Google Cloud Storage
         const [metadata] = await file.getMetadata();
         
-        // Try to download a small portion of the file to read ID3 tags
-        // Note: This is a simplified approach. For full ID3 tag reading,
-        // we'd need a proper audio metadata library
+        // Download and read actual ID3 tags from the MP3 file
+        const id3Tags = await downloadAndReadID3Tags(bucket, file);
+        
+        // Build comprehensive metadata combining GCS and ID3 tag data
+        const itemId = filePath.split('/').pop().replace('.mp3', '');
+        const languageCode = filePath.split('/')[0];
         
         const basicMetadata = {
             // GCS metadata
@@ -65,19 +94,40 @@ async function readAudioMetadata(audioUrl) {
             updated: metadata.updated,
             
             // Audio file info (extracted from file name and path)
-            itemId: filePath.split('/').pop().replace('.mp3', ''),
-            language: filePath.split('/')[0],
+            itemId: itemId,
+            language: languageCode,
             
-            // Placeholder for ID3 tags (would need audio processing library)
+            // Enhanced ID3 tags with actual embedded data
             id3Tags: {
-                title: metadata.metadata?.title || '',
-                artist: metadata.metadata?.artist || '',
-                album: metadata.metadata?.album || '',
-                genre: metadata.metadata?.genre || '',
-                service: metadata.metadata?.service || '',
-                voice: metadata.metadata?.voice || '',
-                lang_code: metadata.metadata?.lang_code || '',
-                note: 'Full ID3 tag reading requires server-side audio processing'
+                // Standard ID3 tags (from embedded ID3 or fallback)
+                title: id3Tags?.title || itemId,
+                artist: id3Tags?.artist || 'Levante Project',
+                album: id3Tags?.album || languageCode || 'Levante Audio',
+                genre: id3Tags?.genre || 'Speech Synthesis',
+                
+                // Custom Levante fields (check both TXXX custom frames and standard fields)
+                service: id3Tags?.userDefinedText?.find(t => t.description === 'service')?.value || 
+                        id3Tags?.service || 'Not available',
+                voice: id3Tags?.userDefinedText?.find(t => t.description === 'voice')?.value || 
+                      id3Tags?.voice || 'Not available',
+                lang_code: id3Tags?.userDefinedText?.find(t => t.description === 'lang_code')?.value || 
+                          id3Tags?.lang_code || languageCode,
+                text: id3Tags?.userDefinedText?.find(t => t.description === 'text')?.value || 
+                     id3Tags?.text || 'Original text not available',
+                created: id3Tags?.userDefinedText?.find(t => t.description === 'created')?.value || 
+                        id3Tags?.date || metadata.timeCreated,
+                copyright: id3Tags?.copyright || 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
+                comment: id3Tags?.comment?.text || id3Tags?.comment || `Generated audio for item: ${itemId}`,
+                
+                // Metadata about the reading process
+                note: id3Tags ? 
+                    `ID3 tags successfully read from embedded metadata. Found ${Object.keys(id3Tags).length} fields.` :
+                    'Could not read embedded ID3 tags. Showing fallback values.',
+                
+                // Raw ID3 data for debugging (first 10 fields)
+                debug_raw_tags: id3Tags ? 
+                    Object.fromEntries(Object.entries(id3Tags).slice(0, 10)) : 
+                    null
             }
         };
         

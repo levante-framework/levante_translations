@@ -5,6 +5,7 @@ interface AudioMetadata {
     created?: string;
     language?: string;
     note?: string;
+    comment?: string;
     id3Tags?: {
         title?: string;
         artist?: string;
@@ -13,6 +14,12 @@ interface AudioMetadata {
         service?: string;
         voice?: string;
         note?: string;
+        lang_code?: string;
+        text?: string;
+        created?: string;
+        copyright?: string;
+        comment?: string;
+        debug_raw_tags?: Record<string, any>;
     };
 }
 interface AudioMetadataResponse {
@@ -24,6 +31,7 @@ interface AudioMetadataResponse {
     created?: string;
     language?: string;
     note?: string;
+    comment?: string;
     id3Tags?: AudioMetadata['id3Tags'];
 }
 type LanguageCode = 'en' | 'es-CO' | 'de' | 'fr-CA' | 'nl';
