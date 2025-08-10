@@ -98,6 +98,103 @@ async function loadValidationsFromShared() {
     }
 }
 
+async function validateSingle(itemId, originalText, translatedText, langCode) {
+    const credentials = getCredentials();
+    if (!credentials.googleTranslateApiKey) {
+        alert('Please add your Google Translate API key in the credentials manager.');
+        return;
+    }
+
+    const button = document.querySelector(`[onclick*="${itemId}"]`);
+    const indicator = button.parentElement.querySelector('.status-indicator');
+    
+    // Show loading state
+    const originalButtonText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    button.disabled = true;
+    indicator.className = 'status-indicator status-info';
+    indicator.title = 'Validating...';
+
+    try {
+        // Call Google Translate API to back-translate from target language to English
+        const response = await fetch(`/api/google-translate?text=${encodeURIComponent(translatedText)}&from=${encodeURIComponent(langCode)}&to=en`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${credentials.googleTranslateApiKey}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Translation API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const backTranslation = data.translatedText;
+
+        // Calculate similarity score (simple word overlap for now)
+        const originalWords = originalText.toLowerCase().split(/\s+/);
+        const backTranslatedWords = backTranslation.toLowerCase().split(/\s+/);
+        const commonWords = originalWords.filter(word => backTranslatedWords.includes(word));
+        const similarity = commonWords.length / Math.max(originalWords.length, backTranslatedWords.length);
+
+        // Store validation result
+        if (!window.dashboard.validation_results[itemId]) {
+            window.dashboard.validation_results[itemId] = {};
+        }
+        
+        window.dashboard.validation_results[itemId][langCode] = {
+            score: similarity,
+            originalText: originalText,
+            translatedText: translatedText,
+            backTranslation: backTranslation,
+            timestamp: new Date().toISOString(),
+            notes: similarity > 0.7 ? 'Good translation' : similarity > 0.4 ? 'Review recommended' : 'Poor translation quality'
+        };
+
+        // Update UI based on score
+        if (similarity > 0.7) {
+            indicator.className = 'status-indicator status-good';
+            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Good translation`;
+        } else if (similarity > 0.4) {
+            indicator.className = 'status-indicator status-warning';
+            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Review recommended`;
+        } else {
+            indicator.className = 'status-indicator status-error';
+            indicator.title = `Score: ${(similarity * 100).toFixed(1)}% - Poor translation quality`;
+        }
+
+        // Add score badge
+        let scoreBadge = indicator.querySelector('.score-badge');
+        if (!scoreBadge) {
+            scoreBadge = document.createElement('span');
+            scoreBadge.className = 'score-badge';
+            indicator.appendChild(scoreBadge);
+        }
+        scoreBadge.textContent = Math.round(similarity * 100);
+
+        // Add click handler to show details
+        indicator.onclick = () => {
+            const result = window.dashboard.validation_results[itemId][langCode];
+            alert(`Validation Results for ${itemId}:\n\nOriginal: ${result.originalText}\nTranslated: ${result.translatedText}\nBack-translation: ${result.backTranslation}\nSimilarity Score: ${(result.score * 100).toFixed(1)}%\nNotes: ${result.notes}`);
+        };
+
+        window.dashboard.setStatus(`✅ Validated ${itemId}: ${(similarity * 100).toFixed(1)}% similarity`, 'success');
+
+    } catch (error) {
+        console.error('Validation error:', error);
+        indicator.className = 'status-indicator status-error';
+        indicator.title = `Validation failed: ${error.message}`;
+        window.dashboard.setStatus(`❌ Validation failed for ${itemId}: ${error.message}`, 'error');
+    } finally {
+        // Restore button
+        button.innerHTML = originalButtonText;
+        button.disabled = false;
+        
+        // Update summary counts
+        setTimeout(updateValidationSummary, 100);
+    }
+}
+
 function exportValidationsToJSONFile() {
     let totalValidations = 0;
     Object.keys(window.dashboard.validation_results).forEach(itemId => { totalValidations += Object.keys(window.dashboard.validation_results[itemId]).length; });
