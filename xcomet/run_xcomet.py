@@ -111,14 +111,37 @@ def run_api(model: str, inputs: Inputs, out_json: Path, spans: bool, force_gpu: 
         # Older signature
         predictions = comet_model.predict(data, batch_size=8, gpus=(1 if use_gpu else 0), progress_bar=True)
 
+    # Normalize output to always include per-segment entries
+    system_score = predictions.get('system_score')
+    segments_out = predictions.get('segments') or []
+    scores_list = predictions.get('scores') or []
+
+    if not segments_out and scores_list:
+        # Build segments from our inputs and returned scores (QE case)
+        segments_out = []
+        n = min(len(scores_list), len(inputs.src), len(inputs.hyp))
+        for i in range(n):
+            seg = {
+                'src': inputs.src[i],
+                'mt': inputs.hyp[i],
+                'score': scores_list[i]
+            }
+            if inputs.ref is not None and i < len(inputs.ref):
+                seg['ref'] = inputs.ref[i]
+            segments_out.append(seg)
+        if system_score is None and n > 0:
+            system_score = sum(scores_list[:n]) / float(n)
+
     result = {
-        'system_score': predictions.get('system_score'),
-        'segments': predictions.get('segments', [])
+        'system_score': system_score,
+        'segments': segments_out
     }
     if spans:
         # Some COMET models provide error span metadata under 'metadata'
         # Keep entire object if available
-        result['metadata'] = predictions.get('metadata')
+        if 'metadata' in predictions:
+            result['metadata'] = predictions.get('metadata')
+
     out_json.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
