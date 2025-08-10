@@ -1,0 +1,94 @@
+## XCOMET-XL evaluation pipeline for Levante
+
+This folder contains an end-to-end workflow to evaluate translation quality with Unbabel’s XCOMET-XL (COMET) and export results per language as CSV/Markdown and a combined Excel workbook.
+
+### What this provides
+- Per-language scoring with XCOMET-XL (with references) or COMETKiwi QE fallback (no references)
+- Segment-level outputs and a system score
+- Per-segment tables: item_id, en (source), <lang> (translation), score
+- Multi-sheet Excel with one tab per language and a Summary tab
+- Excel formatting:
+  - Header row bold
+  - First row cells right-aligned except the first column
+  - All data cells right-aligned except the first column
+  - Row color coding by score: red (< 0.30), yellow (< 0.75), green (≥ 0.75)
+  - First column width halved when the first header is item_id
+- GPU support with Tensor Core precision via `torch.set_float32_matmul_precision('medium'|'high')`
+
+### Requirements
+- Python 3.9+
+- Accept model card terms on Hugging Face for any gated models you use:
+  - `Unbabel/XCOMET-XL` (reference-based)
+  - `Unbabel/wmt22-cometkiwi-da` (QE, often gated)
+- Login locally for model downloads:
+  - `pip install -U huggingface_hub`
+  - `huggingface-cli login`
+- Install dependencies in a venv
+  - `npm run xcomet:setup` (creates `xcomet/.venv` and installs `xcomet/requirements.txt`)
+
+### Root CSV
+The pipeline uses the root `translation_master.csv` (headers include `item_id`, `en`, and language columns like `es-CO`, `de`, `fr-CA`, `nl`, ...).
+
+### CLI quick starts
+- Single language (API, QE fallback, GPU + Tensor Cores medium):
+  ```bash
+  python xcomet/run_xcomet.py \
+    --lang es-CO \
+    --csv translation_master.csv \
+    --out_dir xcomet/output \
+    --use_api --allow_qe_fallback --gpu --matmul medium
+  ```
+- All languages (detects language columns, API, QE fallback, GPU + Tensor Cores medium):
+  ```bash
+  python xcomet/run_all_and_export_excel.py \
+    --csv translation_master.csv \
+    --gpu --matmul medium
+  ```
+- XCOMET-XL with references (preferred when you have references):
+  ```bash
+  python xcomet/run_xcomet.py \
+    --lang es-CO \
+    --csv translation_master.csv \
+    --ref_csv path/to/refs_es-CO.csv \
+    --out_dir xcomet/output \
+    --use_cli --model Unbabel/XCOMET-XL --gpu
+  ```
+
+### NPM scripts
+- `npm run xcomet:setup` – sets up a venv and installs Python deps
+- `npm run xcomet:lang --lang=<code>` – run a single language (API, QE fallback, GPU, matmul medium) against root CSV
+- `npm run xcomet:export --lang=<code>` – export Excel for a single language from its per-segment CSV
+- `npm run xcomet:all` – run all languages (API, QE fallback, GPU with matmul medium) and build a multi-sheet Excel (`xcomet/output/levante_comet_scores.xlsx`)
+
+### Outputs
+For each language `<lang>` under `xcomet/output/<lang>`:
+- `scores.json` – normalized JSON with `system_score` and `segments` (each segment has `src`, `mt`, optional `ref`, and `score`)
+- `segment_scores.csv` – row per item with `item_id`, `en`, `<lang>`, `score`
+- `segment_scores.md` – same as CSV in Markdown table
+- `report.md` – system score, worst segments, coarse distribution
+
+Combined workbook:
+- `xcomet/output/levante_comet_scores.xlsx` – one sheet per language plus `Summary` with counts and mean score per language; all sheets use the formatting described above
+
+### GPU usage and Tensor Cores
+- Pass `--gpu` to enable GPU in the Python API path; the CLI path will pass a best-effort `--gpus 1` to `comet-score`
+- Pass `--matmul medium` (or `high`) to set `torch.set_float32_matmul_precision`, which optimizes Tensor Core matmul on Ada/Lovelace GPUs
+- You should see a log line: `Set torch.set_float32_matmul_precision('medium')`
+
+### Model access and fallbacks
+- XCOMET-XL is reference-based; provide `--ref_csv`/`--ref_txt`
+- If no references, the runner can automatically try QE models in order:
+  1) `Unbabel/wmt22-cometkiwi-da` (gated) → requires HF login/access
+  2) `Unbabel/wmt21-comet-qe-da` (public)
+- If neither is available, the runner exits with guidance to accept model cards or provide references
+
+### Excel formatting rules
+- Header row bold
+- Header cells right-aligned except the first
+- Data cells right-aligned except the first column
+- Row background by score: red (< 0.30), yellow (< 0.75), green (≥ 0.75)
+- First column width halved when header is `item_id`
+
+### Tips
+- If some language columns are empty in your CSV (e.g., `de`, `nl`), the corresponding sheets will have blank translations; provide a CSV with actual content to score those
+- For gated models, accept the terms on the model page and ensure `huggingface-cli login` was run inside your venv
