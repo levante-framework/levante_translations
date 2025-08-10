@@ -180,6 +180,12 @@ function showAudioInfoData(metadata) {
     setElementText('info-genre', id3Tags.genre || 'Not set');
     setElementText('info-service', id3Tags.service || 'Not set');
     setElementText('info-voice', id3Tags.voice || 'Not set');
+    // Set custom Levante ID3 tag information
+    setElementText('info-lang-code', id3Tags.lang_code || metadata.language || 'Not set');
+    setElementText('info-text', id3Tags.text || 'Not available');
+    setElementText('info-created-date', id3Tags.created || 'Not set');
+    setElementText('info-copyright', id3Tags.copyright || 'Not set');
+    setElementText('info-comment', id3Tags.comment || metadata.comment || 'Not set');
     // Handle note display
     const noteElement = getElementByIdSafe('info-note');
     const noteText = metadata.note || id3Tags.note;
