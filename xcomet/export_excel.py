@@ -52,7 +52,7 @@ def apply_header_and_alignment(ws):
     for row in range(2, ws.max_row + 1):
         for col in range(2, ws.max_column + 1):
             c = ws.cell(row=row, column=col)
-            c.alignment = Alignment(horizontal='right')
+            c.alignment = Alignment(horizontal='right', wrap_text=c.alignment.wrap_text)
 
 
 def shrink_first_column_if_item_id(ws):
@@ -65,6 +65,29 @@ def shrink_first_column_if_item_id(ws):
         except Exception:
             current = 10.0
         col_dim.width = max(6.0, current / 2.0)
+
+
+def shrink_and_wrap_text_columns(ws, lang: str):
+    # Identify column indices for 'en' and target lang
+    headers = [ws.cell(row=1, column=c).value for c in range(1, ws.max_column + 1)]
+    targets = []
+    if 'en' in headers:
+        targets.append(headers.index('en') + 1)
+    if lang in headers:
+        targets.append(headers.index(lang) + 1)
+
+    # After auto_width, shrink widths by 50% and enable wrap
+    for col_idx in targets:
+        col_letter = ws.cell(row=1, column=col_idx).column_letter
+        try:
+            current = float(ws.column_dimensions[col_letter].width or 10)
+        except Exception:
+            current = 10.0
+        ws.column_dimensions[col_letter].width = max(8.0, current / 2.0)
+        for row in range(2, ws.max_row + 1):
+            ws.cell(row=row, column=col_idx).alignment = Alignment(horizontal='right', wrap_text=True)
+            # Cap row height to ~2 lines
+            ws.row_dimensions[row].height = 30
 
 
 def export_excel(lang: str, input_csv: Path, output_xlsx: Path, sheet_name: str):
@@ -84,6 +107,19 @@ def export_excel(lang: str, input_csv: Path, output_xlsx: Path, sheet_name: str)
     # Round score to 2 decimals
     if 'score' in df.columns:
         df['score'] = pd.to_numeric(df['score'], errors='coerce').round(2)
+
+    # Reorder columns: item_id, score, en, <lang>, then rest
+    cols = list(df.columns)
+    desired = ['item_id']
+    if 'score' in cols:
+        desired.append('score')
+    if 'en' in cols:
+        desired.append('en')
+    if lang in cols:
+        desired.append(lang)
+    # Append any remaining
+    desired += [c for c in cols if c not in desired]
+    df = df[desired]
 
     # Write Excel
     with pd.ExcelWriter(output_xlsx, engine='openpyxl') as writer:
@@ -124,6 +160,7 @@ def export_excel(lang: str, input_csv: Path, output_xlsx: Path, sheet_name: str)
         apply_header_and_alignment(ws)
         auto_width(ws)
         shrink_first_column_if_item_id(ws)
+        shrink_and_wrap_text_columns(ws, lang)
 
     print(f'Wrote Excel: {output_xlsx}')
 

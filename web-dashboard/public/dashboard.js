@@ -88,10 +88,17 @@
                     
                     // Fallback to GitHub if local not available
                     if (!csvText) {
-                        const githubUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
+                        // Prefer same URL as fetch_latest_translations.py
+                        const primaryUrl = (window.CONFIG && window.CONFIG.dataSources && window.CONFIG.dataSources.remoteCSV) 
+                            ? window.CONFIG.dataSources.remoteCSV 
+                            : 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+                        const fallbackUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
                         this.setStatus('Loading complete translation data from GitHub...', 'loading');
                         
-                        const githubResponse = await fetch(githubUrl);
+                        let githubResponse = await fetch(primaryUrl);
+                        if (!githubResponse.ok) {
+                            githubResponse = await fetch(fallbackUrl);
+                        }
                         if (!githubResponse.ok) {
                             throw new Error(`GitHub HTTP error! status: ${githubResponse.status}`);
                         }
@@ -948,8 +955,20 @@
                 rowElement.classList.add('selected');
                 this.selectedRow = item;
                 
-                const langCode = this.languages[this.currentLanguage].lang_code;
-                const text = item[langCode] || item.en || 'No translation available';
+                                    const langCode = this.languages[this.currentLanguage].lang_code;
+                    // Try exact lang code, then base language (e.g., de-CH -> de), then any case variations
+                    let text = item[langCode];
+                    if (!text && langCode.includes('-')) {
+                        const base = langCode.split('-')[0];
+                        text = item[base];
+                    }
+                    if (!text) {
+                        // Attempt case-insensitive lookup of headers
+                        const keys = Object.keys(item);
+                        const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
+                        text = match ? item[match] : null;
+                    }
+                    if (!text) text = item.en || 'No translation available';
                 const itemId = item.item_id || 'unknown_id';
                 
                 console.log('Selected item:', { item, itemId, langCode, text: text.substring(0, 50) });
@@ -981,9 +1000,10 @@
                 
                 const langCode = this.languages[this.currentLanguage].lang_code;
                 
-                // Filter and populate PlayHT voices for current language
+                // Filter and populate PlayHT voices for current language (accept base language of BCP-47)
+                const baseLang = langCode.includes('-') ? langCode.split('-')[0] : langCode;
                 const playhtVoices = this.voices.playht.filter(voice => 
-                    voice.lang_code === langCode || voice.language === langCode
+                    voice.lang_code === langCode || voice.language === langCode || voice.lang_code === baseLang || voice.language === baseLang
                 );
                 
                 playhtVoices.forEach(voice => {
@@ -993,9 +1013,9 @@
                     playhtSelect.appendChild(option);
                 });
                 
-                // Filter and populate ElevenLabs voices for current language
+                // Filter and populate ElevenLabs voices for current language (accept base language of BCP-47)
                 const elevenlabsVoices = this.voices.elevenlabs.filter(voice => 
-                    voice.lang_code === langCode || voice.language === langCode
+                    voice.lang_code === langCode || voice.language === langCode || voice.lang_code === baseLang || voice.language === baseLang
                 );
                 
                 elevenlabsVoices.forEach(voice => {

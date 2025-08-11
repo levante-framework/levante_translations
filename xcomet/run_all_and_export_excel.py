@@ -12,7 +12,7 @@ from openpyxl.styles import PatternFill, Font, Alignment
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description='Run XCOMET/COMETKiwi for all languages and export a multi-sheet Excel with a Summary tab.')
-    p.add_argument('--csv', type=Path, required=True, help='Path to Levante master CSV (e.g., web-dashboard/public/translation_master.csv)')
+    p.add_argument('--csv', required=True, help='Path or URL to Levante master CSV (e.g., translation_master.csv or https://...)')
     p.add_argument('--out_dir', type=Path, default=Path('xcomet/output'), help='Base output directory (default: xcomet/output)')
     p.add_argument('--langs', help='Comma-separated language codes to process (defaults to all language-like columns except en)')
     p.add_argument('--use_api', action='store_true', help='Use Python API (default).')
@@ -28,8 +28,26 @@ def is_language_code(col: str) -> bool:
     return re.fullmatch(r'^[a-z]{2}(-[A-Z]{2})?$', col) is not None
 
 
-def infer_languages(csv_path: Path) -> List[str]:
-    df = pd.read_csv(csv_path, nrows=1)
+def fetch_remote_to_local(csv_loc: str, out_dir: Path) -> Path:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    target = out_dir / '_remote_item_bank_translations.csv'
+    try:
+        import requests
+        r = requests.get(csv_loc.strip(), timeout=60)
+        r.raise_for_status()
+        target.write_text(r.text, encoding='utf-8')
+        print(f"Downloaded remote CSV to {target}")
+        return target
+    except Exception as e:
+        raise SystemExit(f"Failed to download remote CSV: {e}")
+
+
+def infer_languages(csv_loc: str) -> List[str]:
+    # Read only headers row from URL or local path
+    if '://' in csv_loc:
+        df = pd.read_csv(csv_loc, nrows=1)
+    else:
+        df = pd.read_csv(Path(csv_loc), nrows=1)
     langs = []
     for col in df.columns:
         if col == 'en':
@@ -39,14 +57,14 @@ def infer_languages(csv_path: Path) -> List[str]:
     return langs
 
 
-def run_single_language(lang: str, csv_path: Path, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: str | None) -> Tuple[Path, Path]:
+def run_single_language(lang: str, csv_loc: str, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: str | None) -> Tuple[Path, Path]:
     lang_dir = out_dir / lang
     lang_dir.mkdir(parents=True, exist_ok=True)
 
     # Build command to run the per-language analysis
     cmd = ['python', str(Path(__file__).parent / 'run_xcomet.py'),
            '--lang', lang,
-           '--csv', str(csv_path),
+           '--csv', csv_loc,
            '--out_dir', str(out_dir)]
 
     if use_cli:
@@ -137,6 +155,27 @@ def shrink_first_column_if_item_id(ws):
         col_dim.width = max(6.0, current / 2.0)
 
 
+def shrink_and_wrap_text_columns(ws, lang: str):
+    # Identify columns by header names
+    headers = [ws.cell(row=1, column=c).value for c in range(1, ws.max_column + 1)]
+    targets = []
+    if 'en' in headers:
+        targets.append(headers.index('en') + 1)
+    if lang in headers:
+        targets.append(headers.index(lang) + 1)
+
+    for col_idx in targets:
+        col_letter = ws.cell(row=1, column=col_idx).column_letter
+        try:
+            current = float(ws.column_dimensions[col_letter].width or 10)
+        except Exception:
+            current = 10.0
+        ws.column_dimensions[col_letter].width = max(8.0, current / 2.0)
+        for row in range(2, ws.max_row + 1):
+            ws.cell(row=row, column=col_idx).alignment = Alignment(horizontal='right', wrap_text=True)
+            ws.row_dimensions[row].height = 30
+
+
 def build_summary_sheet(wb, summary_rows: List[dict]):
     if 'Summary' in wb.sheetnames:
         del wb['Summary']
@@ -159,23 +198,43 @@ def build_summary_sheet(wb, summary_rows: List[dict]):
 
 def main():
     args = parse_args()
-    langs = args.langs.split(',') if args.langs else infer_languages(args.csv)
+    csv_loc = args.csv.strip()
+    # If URL, download once to local
+    if '://' in csv_loc:
+        csv_loc = str(fetch_remote_to_local(csv_loc, args.out_dir))
+
+    langs = args.langs.split(',') if args.langs else infer_languages(csv_loc)
     if not langs:
         raise SystemExit('No language columns detected. Use --langs to specify, e.g., es-CO,de,fr-CA')
 
     # Collect per-language DataFrames and summary stats
     per_lang = []
     for lang in langs:
-        csv_path, _ = run_single_language(lang, args.csv, args.out_dir, use_api=args.use_api or not args.use_cli, gpu=args.gpu, use_cli=args.use_cli, matmul=args.matmul)
+        csv_path, _ = run_single_language(lang, csv_loc, args.out_dir, use_api=args.use_api or not args.use_cli, gpu=args.gpu, use_cli=args.use_cli, matmul=args.matmul)
         df = pd.read_csv(csv_path)
+        # Rename columns
         rename_map = {}
         if 'source' in df.columns:
             rename_map['source'] = 'en'
         if 'translation' in df.columns:
             rename_map['translation'] = lang
         df = df.rename(columns=rename_map)
+        # Round score
         if 'score' in df.columns:
             df['score'] = pd.to_numeric(df['score'], errors='coerce').round(2)
+        # Reorder columns: item_id, score, en, <lang>, then rest
+        cols = list(df.columns)
+        desired = ['item_id']
+        if 'score' in cols:
+            desired.append('score')
+        if 'en' in cols:
+            desired.append('en')
+        if lang in cols:
+            desired.append(lang)
+        desired += [c for c in cols if c not in desired]
+        df = df[desired]
+
+        # Compute summary stats
         scores = pd.to_numeric(df['score'], errors='coerce') if 'score' in df.columns else pd.Series(dtype=float)
         items = int(scores.notna().sum())
         mean_score = float(scores.mean()) if items > 0 else 0.0
@@ -200,6 +259,7 @@ def main():
         color_code_worksheet(ws)
         auto_width(ws)
         shrink_first_column_if_item_id(ws)
+        shrink_and_wrap_text_columns(ws, entry['language'])
     wb.save(args.excel)
     print(f'Wrote multi-sheet Excel: {args.excel}')
 
