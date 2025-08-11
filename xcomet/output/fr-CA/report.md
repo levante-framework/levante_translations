@@ -1,143 +1,139 @@
 # XCOMET Report
 
-System score: 0.7633624723447221
+System score: 0.8311368023634566
 
 
 ## Worst 25 segments
 
-- number-line-instruct1 | score=0.1602991223335266
-  - src: Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.
-  - hyp: Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.
+- hostile-attribution-scene3-q2-ans1 | score=0.31533318758010864
+  - src: call him a name
+  - hyp: l'insulter
   - ref: 
 
-- math-intro-fractions | score=0.1915094554424286
-  - src: In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.
-  - hyp: In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.
+- vocab-item-127 | score=0.3257555365562439
+  - src: tumble
+  - hyp: culbuter
   - ref: 
 
-- same-different-selection-instruct5-heavy | score=0.19433587789535522
-  - src: Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles.
-  - hyp: Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles.
+- vocab-item-055 | score=0.33707335591316223
+  - src: the scoop
+  - hyp: la cuillère à glace
   - ref: 
 
-- sds-match-demo1-heavy | score=0.19574564695358276
-  - src: Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles.
-  - hyp: Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles.
+- vocab-item-020 | score=0.36287564039230347
+  - src: the coaster
+  - hyp: le dessous de verre
   - ref: 
 
-- same-different-selection-instruct6-heavy | score=0.2015652060508728
-  - src: Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red.
-  - hyp: Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red.
+- vocab-item-111 | score=0.37802717089653015
+  - src: dripping
+  - hyp: goutter
   - ref: 
 
-- sds-match-demo2-heavy | score=0.202714204788208
-  - src: Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small.
-  - hyp: Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small.
+- vocab-item-146 | score=0.38471719622612
+  - src: chat
+  - hyp: bavarder
   - ref: 
 
-- ToM-scene-8-q7-reality_check | score=0.20414310693740845
-  - src: Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?
-  - hyp: Can you help Allie find her pencil? Is it on top of the shelf or behind the backpack shelf?
+- close-button-text | score=0.40082070231437683
+  - src: Close
+  - hyp: Fermer
   - ref: 
 
-- ToM-scene-10-instruct3 | score=0.2084568738937378
-  - src: Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”
-  - hyp: Teacher Sarah asks Brian, “Is there a storybook leftover, so Megan can have one?” Brian tells Teacher Sarah, “No, there is no storybook left. They are all being used right now.”
+- vocab-item-094 | score=0.42089173197746277
+  - src: the milkshake
+  - hyp: le lait frappé
   - ref: 
 
-- memory-game-instruct2-heavy | score=0.20996928215026855
-  - src: In this game, we are going to see squares light up. Your job is to touch the squares that light up. 
-  - hyp: In this game, we are going to see squares light up. Your job is to touch the squares that light up. 
+- vocab-item-024 | score=0.4430379569530487
+  - src: the dumpling
+  - hyp: le dumpling
   - ref: 
 
-- math-instructions1 | score=0.21143639087677002
-  - src: In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
-
-Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!
-  - hyp: In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. <br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!
+- general-exit | score=0.44557711482048035
+  - src: Exit
+  - hyp: Quitter
   - ref: 
 
-- ToM-scene-12-instruct3 | score=0.21534523367881775
-  - src: Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.
-  - hyp: Dad didn’t hear Emma say she wants her red ball. So dad thinks Emma wants her yellow ball. Dad goes to pack Emma’s bag, but can’t find her yellow ball in the toy box! But dad finds a blue ball in the toy box, so he packs the blue ball for Emma instead.
+- vocab-item-001 | score=0.44766363501548767
+  - src: the acorn
+  - hyp: le gland
   - ref: 
 
-- memory-game-instruct3-heavy | score=0.2165471613407135
-  - src: Now we will see two squares light up. Your job is to touch the squares in the same order as they light up!
-  - hyp: Now we will see two squares light up. Your job is to touch the squares in the same order as they light up!
+- ToM-scene-12-q3-false_belief | score=0.4826813042163849
+  - src: Which ball does Emma think Dad packed?
+  - hyp: Quel balle Emma pense-t-elle que papa a emballée ?
   - ref: 
 
-- counting-intro | score=0.21881118416786194
-  - src: In this number game, you will say how many things are in the picture! The grownup helping you will press the button.
-  - hyp: In this number game, you will say how many things are in the picture! The grownup helping you will press the button.
+- vocab-item-034 | score=0.5071108341217041
+  - src: the hopscotch
+  - hyp: la marelle
   - ref: 
 
-- memory-game-instruct4-heavy | score=0.22262036800384521
-  - src: Watch the squares light up. I will touch the squares in the same order.
-  - hyp: Watch the squares light up. I will touch the squares in the same order.
+- vocab-item-110 | score=0.508351743221283
+  - src: picking
+  - hyp: ramasser
   - ref: 
 
-- sds-prompt3-demo-heavy | score=0.224664568901062
-  - src: Here is another picture. I have to choose which of these pictures is the same as this new picture.
-  - hyp: Here is another picture. I have to choose which of these pictures is the same as this new picture.
+- vocab-item-102 | score=0.5386641025543213
+  - src: peeking
+  - hyp: espiègle
   - ref: 
 
-- same-different-selection-instruct1-heavy | score=0.2275068759918213
-  - src: This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way.
-  - hyp: This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way.
+- vocab-item-117 | score=0.547113299369812
+  - src: furry
+  - hyp: poilu
   - ref: 
 
-- ToM-scene-8-q6-reality_check | score=0.2328457534313202
-  - src: Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?
-  - hyp: Can you help Mike find his pencil? Is it on top of the shelf or behind the backpack shelf?
+- trog-item-9 | score=0.5520396828651428
+  - src: Choose the picture that shows long.
+  - hyp: Choisissez l'image qui montre longue.
   - ref: 
 
-- math-instructions1-heavy | score=0.23355501890182495
-  - src: In this game, you will play with numbers.
-
-Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
-  - hyp: In this game, you will play with numbers.<br><br>Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!
+- vocab-item-089 | score=0.5773372054100037
+  - src: the bear
+  - hyp: l'ours
   - ref: 
 
-- same-different-selection-both-triangles-heavy | score=0.23368248343467712
-  - src: Here are two pictures. Something's the same. They're both triangles.
-  - hyp: Here are two pictures. Something's the same. They're both triangles.
+- vocab-item-137 | score=0.5780192613601685
+  - src: rickety
+  - hyp: branlant
   - ref: 
 
-- ToM-scene-12-instruct1 | score=0.2339206337928772
-  - src: This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.
-  - hyp: This morning, Dad asked Emma what toy she would like to take to school, and Emma told him that she would like to play with her yellow ball at recess.
+- vocab-item-156 | score=0.5841467380523682
+  - src: the arbor
+  - hyp: la tonnelle
   - ref: 
 
-- same-different-selection-both-squares-heavy | score=0.2367268204689026
-  - src: Here are two pictures. Something's the same. They're both squares.
-  - hyp: Here are two pictures. Something's the same. They're both squares.
+- trog-item-10 | score=0.600504994392395
+  - src: Choose the picture that shows tall.
+  - hyp: Choisissez l'image qui montre grande.
   - ref: 
 
-- memory-game-backward-try-again | score=0.23731780052185059
-  - src: That's not quite right. Please try again. Choose the squares in the backward order.
-  - hyp: That's not quite right. Please try again. Choose the squares in the backward order.
+- subtraction-prompt2 | score=0.605415403842926
+  - src: Subtract the numbers.
+  - hyp: Soustrais les chiffres.
   - ref: 
 
-- same-different-selection-both-small-heavy | score=0.23789915442466736
-  - src: Here are two pictures. Something's the same. They're both small.
-  - hyp: Here are two pictures. Something's the same. They're both small.
+- vocab-item-124 | score=0.612338662147522
+  - src: applaud
+  - hyp: applaudir
   - ref: 
 
-- ToM-scene-11-instruct2 | score=0.2382284700870514
-  - src: Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”
-  - hyp: Josh’s mom just walked in and Josh asks his mom to get one of the toys. Josh tells his mom, “I want the small ball!”
+- vocab-item-163 | score=0.618790864944458
+  - src: the suede
+  - hyp: le daim
   - ref: 
 
-- same-different-selection-both-large-heavy | score=0.23976069688796997
-  - src: Here are two pictures. Something's the same. They're both large.
-  - hyp: Here are two pictures. Something's the same. They're both large.
+- vocab-item-154 | score=0.6229918599128723
+  - src: the posterior
+  - hyp: la postérieure
   - ref: 
 
 
 ## Score distribution
 
-- <0.3: 51 (6.5%) ███
-- 0.3-0.6: 64 (8.2%) ████
-- 0.6-0.75: 41 (5.2%) ██
-- >=0.75: 628 (80.1%) ████████████████████████████████████████
+- <0.3: 0 (0.0%) 
+- 0.3-0.6: 20 (2.6%) █
+- 0.6-0.75: 40 (5.1%) ██
+- >=0.75: 724 (92.3%) ██████████████████████████████████████████████
