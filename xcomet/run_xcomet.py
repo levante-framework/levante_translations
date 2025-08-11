@@ -20,12 +20,21 @@ class Inputs:
     item_ids: List[str]
 
 
-def load_csv_rows(csv_path: Path, lang: str) -> Tuple[List[str], List[str], List[str]]:
-    df = pd.read_csv(csv_path)
+def load_csv_rows(csv_path: str, lang: str) -> Tuple[List[str], List[str], List[str]]:
+    # Sanitize and support URL or local path
+    if isinstance(csv_path, str):
+        csv_path = csv_path.strip()
+    is_url = isinstance(csv_path, str) and ('://' in csv_path)
+    if is_url:
+        import requests, io
+        r = requests.get(csv_path, timeout=60)
+        r.raise_for_status()
+        df = pd.read_csv(io.StringIO(r.text))
+    else:
+        df = pd.read_csv(Path(csv_path))
     # Normalize column names
     cols = {c.strip(): c for c in df.columns}
     if 'item_id' not in cols:
-        # try other variants
         candidates = [c for c in df.columns if c.lower() in ('id', 'identifier', 'item', 'itemid')]
         if not candidates:
             raise ValueError('CSV must include an item_id-like column')
