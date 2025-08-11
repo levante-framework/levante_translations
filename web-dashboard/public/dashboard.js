@@ -892,8 +892,18 @@
                     itemCountSpan.style.fontSize = '0.9em';
                 }
                 
-                this.data.forEach((item, index) => {
-                    const text = item[langCode] || item.en || 'No translation available';
+                                    this.data.forEach((item, index) => {
+                        let text = item[langCode];
+                        if (!text && langCode.includes('-')) {
+                            const base = langCode.split('-')[0];
+                            text = item[base];
+                        }
+                        if (!text) {
+                            const keys = Object.keys(item);
+                            const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
+                            text = match ? item[match] : null;
+                        }
+                        if (!text) text = item.en || 'No translation available';
                     
                     const row = document.createElement('div');
                     row.className = 'data-row';
