@@ -783,21 +783,24 @@
                     return;
                 }
                 
-                // Determine status based on score
+                // Convert stored decimal score to percentage for display
+                const scorePercent = Math.round((score * 100) * 100) / 100; // 2 decimal places
+                
+                // Determine status based on score percentage
                 let statusClass, statusTitle, buttonText, scoreEmoji;
-                if (score >= 85) {
+                if (scorePercent >= 85) {
                     statusClass = 'status-good';
-                    statusTitle = `✅ Excellent: ${score}% similarity`;
+                    statusTitle = `✅ Excellent: ${scorePercent.toFixed(2)}% similarity`;
                     buttonText = 'View Results';
                     scoreEmoji = '✅';
-                } else if (score >= 70) {
+                } else if (scorePercent >= 70) {
                     statusClass = 'status-warning';
-                    statusTitle = `⚠️ Warning: ${score}% similarity`;
+                    statusTitle = `⚠️ Warning: ${scorePercent.toFixed(2)}% similarity`;
                     buttonText = 'View Warning';
                     scoreEmoji = '⚠️';
                 } else {
                     statusClass = 'status-error';
-                    statusTitle = `❌ Poor: ${score}% similarity`;
+                    statusTitle = `❌ Poor: ${scorePercent.toFixed(2)}% similarity`;
                     buttonText = 'View Issues';
                     scoreEmoji = '❌';
                 }
@@ -812,11 +815,11 @@
                 
                 const scoreBadge = document.createElement('span');
                 scoreBadge.className = 'score-badge';
-                scoreBadge.textContent = `${score}%`;
+                scoreBadge.textContent = `${scorePercent.toFixed(2)}%`;
                 scoreBadge.style.cssText = `
                     font-size: 10px;
                     font-weight: bold;
-                    color: ${score >= 85 ? '#155724' : score >= 70 ? '#856404' : '#721c24'};
+                    color: ${scorePercent >= 85 ? '#155724' : scorePercent >= 70 ? '#856404' : '#721c24'};
                     margin-left: 4px;
                     opacity: 0.9;
                 `;

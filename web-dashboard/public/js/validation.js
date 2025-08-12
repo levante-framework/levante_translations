@@ -278,7 +278,7 @@ async function validateSingle(itemId, originalText, translatedText, langCode) {
         const backTranslatedWords = backTranslation.toLowerCase().split(/\s+/);
         const commonWords = originalWords.filter(word => backTranslatedWords.includes(word));
         const similarity = commonWords.length / Math.max(originalWords.length, backTranslatedWords.length);
-        const score = Math.round(similarity * 100);
+        const score = Math.round((similarity * 100) * 100) / 100; // Round to 2 decimal places
 
         // Store validation result
         if (!window.dashboard.validation_results[itemId]) {
@@ -286,7 +286,7 @@ async function validateSingle(itemId, originalText, translatedText, langCode) {
         }
         
         window.dashboard.validation_results[itemId][langCode] = {
-            score: similarity,
+            score: score / 100, // Store as decimal for consistency
             originalText: originalText,
             translatedText: translatedText,
             backTranslation: backTranslation,
