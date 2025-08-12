@@ -27,6 +27,9 @@
                         <a href="#" onclick="openHelp('docs/README_VALIDATION.md'); return false;">
                             <i class="fas fa-clipboard-check"></i> Validation Guide
                         </a>
+                        <a href="#" onclick="openAudioCoverage(); return false;">
+                            <i class="fas fa-table"></i> Audio Coverage Report
+                        </a>
                     </div>
                 </div>
             </div>
@@ -233,6 +236,9 @@
         
         function closeValidationSummaryModal() {
             document.getElementById('validationSummaryModal').style.display = 'none';
+        }
+        function openAudioCoverage() {
+            window.open('./audio-coverage.html', '_blank');
         }
         
         function showValidationSummaryReport() {

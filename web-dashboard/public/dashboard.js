@@ -352,23 +352,22 @@
 
                     const voicesData = await response.json();
                     
-                    // Process voices and organize by language like the utility function does
+                    // Process voices and organize by languages present in dashboard (and their base codes)
                     const organizedVoices = {};
-                    const supportedLanguages = ['en', 'es-CO', 'de', 'fr-CA', 'nl'];
-                    
-                    for (const langCode of supportedLanguages) {
-                        // Map es-CO to es for ElevenLabs API
-                        const apiLangCode = langCode === 'es-CO' ? 'es' : langCode.split('-')[0];
-                        
-                        // Filter voices for this language from our library
+                    const configuredCodes = Object.values(this.languages).map(cfg => cfg.lang_code);
+                    const uniqueCodes = Array.from(new Set(configuredCodes.concat(configuredCodes.map(c => c.split('-')[0]))));
+
+                    for (const langCode of uniqueCodes) {
+                        const apiLangCode = langCode.split('-')[0];
                         const languageVoices = voicesData.voices.filter(voice => {
                             const voiceLanguage = voice.labels?.language;
-                            return voiceLanguage === apiLangCode && 
-                                   (voice.category === "professional" || 
-                                    voice.category === "shared" || 
-                                    voice.category === "premade" || 
-                                    voice.category === "generated" || 
-                                    voice.category === "personal");
+                            return voiceLanguage === apiLangCode && (
+                                voice.category === "professional" ||
+                                voice.category === "shared" ||
+                                voice.category === "premade" ||
+                                voice.category === "generated" ||
+                                voice.category === "personal"
+                            );
                         });
 
                         organizedVoices[langCode] = languageVoices.map(voice => ({
@@ -1025,9 +1024,11 @@
                 });
                 
                 // Filter and populate ElevenLabs voices for current language (accept base language of BCP-47)
-                const elevenlabsVoices = this.voices.elevenlabs.filter(voice => 
-                    voice.lang_code === langCode || voice.language === langCode || voice.lang_code === baseLang || voice.language === baseLang
-                );
+                const elevenlabsVoices = this.voices.elevenlabs.filter(voice => {
+                    const vLang = voice.lang_code || voice.language || '';
+                    const vBase = vLang.includes('-') ? vLang.split('-')[0] : vLang;
+                    return vLang === langCode || vLang === baseLang || vBase === baseLang;
+                });
                 
                 elevenlabsVoices.forEach(voice => {
                     const option = document.createElement('option');
