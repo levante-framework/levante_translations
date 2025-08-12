@@ -52,7 +52,13 @@ function initLanguageConfigApp(): void {
                 config: reactive({ 
                     languages: JSON.parse(JSON.stringify((window as any).CONFIG?.languages || {})) 
                 }),
-                renameBuffer: {}
+                renameBuffer: {},
+                newLang: {
+                    name: '',
+                    lang_code: '',
+                    service: 'ElevenLabs' as 'ElevenLabs' | 'PlayHT',
+                    voice: ''
+                }
             };
         },
         
@@ -137,6 +143,30 @@ function initLanguageConfigApp(): void {
                 } finally {
                     self.saving = false;
                 }
+            },
+
+            addLanguage() {
+                const self = this as any;
+                const name = (self.newLang.name || '').trim();
+                if (!name) { alert('Please enter a language display name'); return; }
+                if (!self.newLang.lang_code) { alert('Please enter a language code (e.g., es-AR)'); return; }
+                if (!self.newLang.voice) { alert('Please enter a default voice'); return; }
+                if (self.config.languages[name]) { alert('A language with this name already exists'); return; }
+                self.config.languages[name] = {
+                    lang_code: self.newLang.lang_code,
+                    service: self.newLang.service,
+                    voice: self.newLang.voice
+                } as LanguageConfig;
+                // clear form
+                self.newLang = { name: '', lang_code: '', service: 'ElevenLabs', voice: '' };
+            },
+
+            removeLanguage(name: string) {
+                const self = this as any;
+                if (!name) return;
+                if (!self.config.languages[name]) return;
+                if (!confirm(`Remove language "${name}"?`)) return;
+                delete self.config.languages[name];
             }
         }
     });
