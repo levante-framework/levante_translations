@@ -8,30 +8,38 @@ import utilities.utilities as u
 import utilities.config as conf
 from ELabs import elevenlabs_utilities
 
-# this doesn't work?
-# from elevenlabs import set_api_key
+from typing import Optional
+audio_client: Optional[ElevenLabs] = None
 
-# this doesn't work?
-# set_api_key(os.getenv('ELEVEN_API_KEY'))
-
-audio_client = ElevenLabs(api_key=os.getenv('elevenlabs_test'))
-
-def get_voice_id(voice_name, lang_code):
+def get_voice_id(voice_name, lang_code, client: ElevenLabs):
     """
     Get the voice ID from voice name using the elevenlabs_utilities function
     """
     try:
         # Get the voice dictionary for the language
-        voice_dict = elevenlabs_utilities.list_voices(lang_code)
-        
+        voice_dict = elevenlabs_utilities.list_voices(lang_code, client=client)
+
+        # Exact name match in filtered list
         if voice_name in voice_dict:
             voice_id = voice_dict[voice_name]
             print(f"✓ Found voice '{voice_name}' with ID: {voice_id}")
             return voice_id
-        else:
-            print(f"❌ Voice '{voice_name}' not found in available voices for {lang_code}")
-            print(f"Available voices: {list(voice_dict.keys())}")
-            return None
+
+        # Fallback: search across all accessible voices by name (case-insensitive)
+        try:
+            all_voices = client.voices.get_all().voices
+            for v in all_voices:
+                if (v.name or '').strip().lower() == voice_name.strip().lower():
+                    print(
+                        f"✓ Found voice by global search '{voice_name}' with ID: {v.voice_id} (label language: {v.labels.get('language')})"
+                    )
+                    return v.voice_id
+        except Exception:
+            pass
+
+        print(f"❌ Voice '{voice_name}' not found for {lang_code}")
+        print(f"Available (filtered) voices: {list(voice_dict.keys())}")
+        return None
     except Exception as e:
         print(f"❌ Error looking up voice '{voice_name}': {e}")
         return None
@@ -60,18 +68,17 @@ def main(
     masterData = pd.read_csv(master_file_path)
 
     # build API call
-    headers = {
-        'Authorization': api_key,
-        'X-USER-ID': user_id,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+    # Initialize ElevenLabs client once per call
+    global audio_client
+    if audio_client is None:
+        # Prefer explicit api_key; otherwise read from env inside utilities
+        audio_client = elevenlabs_utilities.get_client(api_key)
     
     stats = {'Errors': 0, 'Processed' : 0, 'NoTask': 0}
     
     # Look up voice ID once at the beginning to avoid repeated API calls
     print(f"Looking up voice '{voice}' for language '{lang_code}'...")
-    voice_id = get_voice_id(voice, lang_code)
+    voice_id = get_voice_id(voice, lang_code, client=audio_client)
     if voice_id is None:
         print(f"❌ Cannot proceed: voice '{voice}' not found for {lang_code}")
         return {'Errors': len(inputData), 'Processed': 0, 'NoTask': 0, 'Voice': voice}
@@ -80,7 +87,7 @@ def main(
 
         result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
                             audio_base_dir=audio_base_dir, masterData=masterData, \
-                            headers=headers)
+                            headers=None)
         
         # replace with match once we are past python 3.10
         if result == 'Error':
