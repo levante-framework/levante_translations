@@ -331,17 +331,18 @@
 
             async loadRealElevenLabsVoices() {
                 const credentials = getCredentials();
-                if (!credentials.elevenlabsApiKey) {
+                const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                if (!elevenKey) {
                     console.warn('No ElevenLabs API key - skipping real voice loading');
                     return {}; // Return empty object if no API key
                 }
 
                 try {
                     // Create a proxy endpoint to get ElevenLabs voices
-                    const response = await fetch('/api/elevenlabs-proxy', {
+                        const response = await fetch('/api/elevenlabs-proxy', {
                         method: 'GET',
                         headers: {
-                            'X-API-KEY': credentials.elevenlabsApiKey
+                            'X-API-KEY': elevenKey
                         }
                     });
 
@@ -1038,9 +1039,11 @@
 
             setupEventListeners() {
                 // Refresh voices button
-                document.getElementById('refreshVoices').addEventListener('click', () => {
+                document.getElementById('refreshVoices').addEventListener('click', async () => {
+                    // Re-load real ElevenLabs voices (uses any newly saved credentials)
+                    await this.loadComprehensiveVoices();
                     this.populateVoices();
-                    this.setStatus('Voice lists refreshed', 'success');
+                    this.setStatus('Voices reloaded from services', 'success');
                 });
 
                 // Voice selection handlers
@@ -1210,7 +1213,9 @@
             
             async generatePlayHTAudio(text, voiceId) {
                 const credentials = getCredentials();
-                if (!credentials.playhtApiKey || !credentials.playhtUserId) {
+                const playhtKey = credentials.playht_api_key || credentials.playhtApiKey;
+                const playhtUser = credentials.playht_user_id || credentials.playhtUserId;
+                if (!playhtKey || !playhtUser) {
                     throw new Error('PlayHT credentials not found. Please add them in the credentials manager.');
                 }
                 
@@ -1229,8 +1234,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'AUTHORIZATION': credentials.playhtApiKey,
-                        'X-USER-ID': credentials.playhtUserId
+                        'AUTHORIZATION': playhtKey,
+                        'X-USER-ID': playhtUser
                     },
                     body: JSON.stringify(requestData)
                 });
@@ -1266,7 +1271,8 @@
             
             async generateElevenLabsAudio(text, voiceId) {
                 const credentials = getCredentials();
-                if (!credentials.elevenlabsApiKey) {
+                const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                if (!elevenKey) {
                     throw new Error('ElevenLabs API key not found. Please add it in the credentials manager.');
                 }
                 
@@ -1285,7 +1291,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-KEY': credentials.elevenlabsApiKey
+                        'X-API-KEY': elevenKey
                     },
                     body: JSON.stringify(requestData)
                 });

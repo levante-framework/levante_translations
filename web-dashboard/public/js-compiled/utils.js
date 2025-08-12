@@ -7,7 +7,18 @@
 function getCredentials() {
     try {
         const stored = localStorage.getItem('levante_credentials');
-        return stored ? JSON.parse(stored) : {};
+        const creds = stored ? JSON.parse(stored) : {};
+        // Normalize keys to accept both snake_case and camelCase
+        const normalized = { ...creds };
+        if (creds?.elevenlabsApiKey && !creds?.elevenlabs_api_key)
+            normalized.elevenlabs_api_key = creds.elevenlabsApiKey;
+        if (creds?.playhtApiKey && !creds?.playht_api_key)
+            normalized.playht_api_key = creds.playhtApiKey;
+        if (creds?.playhtUserId && !creds?.playht_user_id)
+            normalized.playht_user_id = creds.playhtUserId;
+        if (creds?.googleTranslateApiKey && !creds?.google_translate_api_key)
+            normalized.google_translate_api_key = creds.googleTranslateApiKey;
+        return normalized;
     }
     catch (error) {
         console.error('Error parsing stored credentials:', error);

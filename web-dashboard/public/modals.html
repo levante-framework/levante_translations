@@ -51,6 +51,32 @@
                     <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px; margin-bottom:12px;">
                         <button class="btn btn-success btn-compact" :disabled="saving" @click="saveConfig"><i class="fas fa-save"></i> {{ saving ? 'Saving...' : 'Save' }}</button>
                     </div>
+                    <div class="info-section" style="border:1px dashed #ddd; padding:12px; border-radius:8px; margin-bottom:12px;">
+                        <h3 style="display:flex; align-items:center; gap:8px;">Add Language</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Display Name</label>
+                                <input v-model="newLang.name" placeholder="Spanish (Argentina)" />
+                            </div>
+                            <div class="info-item">
+                                <label>Language Code</label>
+                                <input v-model="newLang.lang_code" placeholder="es-AR" />
+                            </div>
+                            <div class="info-item">
+                                <label>Default Service</label>
+                                <select v-model="newLang.service">
+                                    <option>ElevenLabs</option>
+                                    <option>PlayHT</option>
+                                </select>
+                            </div>
+                            <div class="info-item">
+                                <label>Default Voice</label>
+                                <input v-model="newLang.voice" placeholder="e.g., Sophia" />
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-compact" @click="addLanguage"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+
                     <div v-for="(cfg, name) in config.languages" :key="name" class="info-section">
                         <h3 style="display:flex; align-items:center; gap:8px;">{{ name }}</h3>
                         <div class="info-grid">
@@ -68,6 +94,10 @@
                             <div class="info-item">
                                 <label>Default Voice</label>
                                 <input v-model="cfg.voice" />
+                            </div>
+                            <div class="info-item">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-danger btn-compact" @click="removeLanguage(name)"><i class="fas fa-trash"></i> Remove</button>
                             </div>
                         </div>
                     </div>
