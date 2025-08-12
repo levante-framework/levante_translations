@@ -22,6 +22,16 @@
                 this.init();
             }
 
+            refreshLanguagesFromConfig() {
+                try {
+                    if (window.CONFIG && window.CONFIG.languages) {
+                        this.languages = window.CONFIG.languages;
+                    }
+                } catch (e) {
+                    // ignore
+                }
+            }
+
             getFlagForLanguage(language) {
                 // Use small flag images (50% bigger than before)
                 const flagMap = {
@@ -40,6 +50,8 @@
                 try {
                     // Load translation data
                     await this.loadData();
+                    // Pick up any remote language config loaded by bootstrap
+                    this.refreshLanguagesFromConfig();
                     
                     // Create tabs
                     this.createTabs();
@@ -819,6 +831,8 @@
             }
 
             createTabs() {
+                // Ensure latest language map
+                this.refreshLanguagesFromConfig();
                 const tabButtons = document.getElementById('tabButtons');
                 const tabContent = document.getElementById('tabContent');
                 
@@ -873,6 +887,8 @@
             }
 
             populateDataTable() {
+                // Ensure latest language map
+                this.refreshLanguagesFromConfig();
                 const langCode = this.languages[this.currentLanguage].lang_code;
                 const tableContent = document.getElementById(`table-${this.currentLanguage}`);
                 
@@ -993,6 +1009,8 @@
                 button.classList.add('active');
                 document.getElementById(`tab-${language}`).classList.add('active');
                 
+                // Refresh languages in case remote config changed
+                this.refreshLanguagesFromConfig();
                 this.currentLanguage = language;
                 this.populateVoices();
                 this.populateDataTable();
@@ -1001,6 +1019,8 @@
             }
 
             populateVoices() {
+                // Ensure latest language map
+                this.refreshLanguagesFromConfig();
                 const playhtSelect = document.getElementById('playhtVoice');
                 const elevenlabsSelect = document.getElementById('elevenlabsVoice');
                 

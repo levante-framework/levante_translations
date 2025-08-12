@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function loadRemoteLanguagesIntoConfig() {
     try {
-        const response = await fetch('/api/language-config');
+        const response = await fetch(`/api/language-config?ts=${Date.now()}`);
         if (!response.ok) {
             console.log('No remote language_config.json found; using local config.js');
             return;
@@ -45,6 +45,19 @@ async function loadRemoteLanguagesIntoConfig() {
             windowAny.CONFIG = windowAny.CONFIG || {};
             windowAny.CONFIG.languages = data.languages;
             console.log('Loaded languages from remote language_config.json');
+            // If dashboard exists, refresh language-dependent UI
+            const winAny = window;
+            if (winAny.dashboard) {
+                winAny.dashboard.languages = winAny.CONFIG.languages;
+                if (document.getElementById('tabButtons')) {
+                    document.getElementById('tabButtons').innerHTML = '';
+                }
+                if (document.getElementById('tabContent')) {
+                    document.getElementById('tabContent').innerHTML = '';
+                }
+                winAny.dashboard.createTabs();
+                winAny.dashboard.populateVoices();
+            }
         }
         else {
             console.log('Invalid language config format; using local config.js');

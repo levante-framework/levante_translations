@@ -61,15 +61,21 @@ async function handleGet(_req, res) {
 
     const [exists] = await file.exists();
     if (!exists) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
       return res.status(200).json({ success: true, languages: null, message: 'No remote language_config.json found' });
     }
 
     const [contents] = await file.download();
     const json = JSON.parse(contents.toString('utf8'));
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
     return res.status(200).json({ success: true, ...json });
   } catch (error) {
     // If credentials are missing or access denied, return a non-fatal response so clients can fallback
     console.warn('language-config GET warning:', error.message);
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
     return res.status(200).json({ success: false, languages: null, error: error.message });
   }
 }
