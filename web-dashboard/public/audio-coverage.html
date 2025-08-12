@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audio Coverage Report</title>
   <link rel="stylesheet" href="./styles.css" />
+  <script src="./config.js"></script>
   <style>
     .coverage-container{padding:20px}
     .grid-table{width:100%; border-collapse:collapse}
@@ -105,12 +106,58 @@
 
     async function build(){
       const languages = (window.CONFIG && window.CONFIG.languages) ? window.CONFIG.languages : {};
-      const codes = Array.from(new Set(Object.values(languages).map(l=>l.lang_code)));
-      const sample = codes.length ? codes : ['en','es-CO','de','fr-CA','nl'];
-      const items = (await Promise.all(sample.map(listAudio))).flat().slice(0, 300); // cap for speed
-      const results = [];
-      for(const it of items){ results.push(await readTag(it)); }
+      const codes = Array.from(new Set(Object.values(languages).map(l=>l.lang_code))).filter(Boolean);
+      const langCodes = codes.length ? codes : ['en','es-CO','de','fr-CA','nl'];
+
+      const ids = await getAllItemIds();
+      const allItems = [];
+      for(const code of langCodes){
+        for(const id of ids){
+          allItems.push({ lang: code, id, url: `https://storage.googleapis.com/levante-audio-dev/${code}/${id}.mp3` });
+        }
+      }
+
+      const total = allItems.length;
+      let processed = 0;
+      const updateSummary = (okCount, errCount) => {
+        document.getElementById('summary').innerHTML =
+          `<span class="chip ok">Languages: ${langCodes.length}</span>`+
+          `<span class="chip ok">Progress: ${processed}/${total}</span>`+
+          `<span class="chip ok">Files scanned: ${okCount}</span>`+
+          `<span class="chip missing">Missing/Errors: ${errCount}</span>`;
+      };
+
+      // Bounded concurrency to avoid overwhelming serverless/API
+      async function processWithConcurrency(items, limit = 12){
+        const results = new Array(items.length);
+        let next = 0, okCount = 0, errCount = 0;
+        async function worker(){
+          while(true){
+            const i = next++;
+            if(i >= items.length) break;
+            try{
+              const r = await readTag(items[i]);
+              results[i] = r;
+              if(r && r.ok) okCount++; else errCount++;
+            }catch(e){
+              results[i] = { ok:false, err: String(e) };
+              errCount++;
+            }finally{
+              processed++;
+              if(processed % 50 === 0 || processed === total){ updateSummary(okCount, errCount); }
+            }
+          }
+        }
+        const workers = Array.from({length: Math.min(limit, items.length)}, ()=>worker());
+        await Promise.all(workers);
+        updateSummary(okCount, errCount);
+        return results;
+      }
+
+      updateSummary(0, 0);
+      const results = await processWithConcurrency(allItems, 12);
       const grouped = groupCounts(results);
+
       const tbody = document.querySelector('#coverageTable tbody');
       tbody.innerHTML = '';
       grouped.sort((a,b)=> a.lang.localeCompare(b.lang) || b.count - a.count).forEach(row=>{
@@ -118,9 +165,6 @@
         tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
         tbody.appendChild(tr);
       });
-      document.getElementById('summary').innerHTML = `<span class="chip ok">Languages: ${sample.length}</span>`+
-        `<span class="chip ok">Files scanned: ${results.filter(r=>r.ok).length}</span>`+
-        `<span class="chip missing">Missing/Errors: ${results.filter(r=>!r.ok).length}</span>`;
     }
 
     build().catch(e=>{ console.error(e); alert('Failed to build coverage: '+e.message); });

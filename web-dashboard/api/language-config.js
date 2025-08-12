@@ -92,7 +92,13 @@ async function handlePut(req, res) {
 
     const now = new Date().toISOString();
     const toWrite = JSON.stringify({ languages, metadata: { saved_at: now, ...(metadata || {}) } }, null, 2);
-    await file.save(toWrite, { contentType: 'application/json', resumable: false, public: false });
+    await file.save(toWrite, { contentType: 'application/json', resumable: false, public: false, cacheControl: 'no-cache' });
+    // Ensure the config is publicly readable so local tools (without creds) can fetch it
+    try {
+      await file.makePublic();
+    } catch (e) {
+      console.warn('language-config PUT warning: makePublic failed:', e?.message || e);
+    }
 
     return res.status(200).json({ success: true, message: 'language_config saved', saved_at: now });
   } catch (error) {

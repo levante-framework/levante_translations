@@ -56,13 +56,36 @@ def _load_from_public_gcs(bucket_name: str, object_name: str) -> Dict[str, Any] 
 
 
 def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_OBJECT) -> Dict[str, Any] | None:
+    """Load config preferring freshest remotely visible source.
+
+    Priority:
+      1) LANGUAGE_CONFIG_URL (explicit override)
+      2) Public GCS object (ensures what dashboard made public is used)
+      3) Dashboard API JSON
+      4) Authenticated GCS object (fallback)
+    """
     # 1) Explicit URL override
     if EXPLICIT_URL:
         j = _load_json_from_url(EXPLICIT_URL)
         if isinstance(j, dict):
             return j
 
-    # 2) Authenticated GCS (if library and creds available)
+    # Collect candidates with rough staleness ordering
+    candidates: list[Dict[str, Any]] = []
+
+    # 2) Public GCS (no creds required)
+    j_pub = _load_from_public_gcs(bucket_name, object_name)
+    if isinstance(j_pub, dict):
+        candidates.append(j_pub)
+
+    # 3) Dashboard API
+    j_api = _load_json_from_url(DEFAULT_DASHBOARD_API)
+    if isinstance(j_api, dict):
+        # Some responses include success flag; unwrap languages if present
+        candidates.append(j_api)
+
+    # 4) Authenticated GCS
+    j_auth = None
     if storage is not None:
         creds_json = os.environ.get('GCP_SERVICE_ACCOUNT_JSON')
         if creds_json:
@@ -73,19 +96,23 @@ def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_
                 blob = bucket.blob(object_name)
                 if blob.exists():
                     content = blob.download_as_text(encoding='utf-8')
-                    return json.loads(content)
+                    j_auth = json.loads(content)
+                    candidates.append(j_auth)
             except Exception:
                 pass
 
-    # 3) Public GCS (no creds required)
-    j = _load_from_public_gcs(bucket_name, object_name)
-    if isinstance(j, dict):
-        return j
+    # Prefer the candidate with the newest metadata.saved_at if available
+    def get_saved_at(obj: Dict[str, Any]) -> str:
+        meta = obj.get('metadata')
+        if isinstance(meta, dict):
+            sa = meta.get('saved_at')
+            if isinstance(sa, str):
+                return sa
+        return ''
 
-    # 4) Dashboard API fallback
-    j = _load_json_from_url(DEFAULT_DASHBOARD_API)
-    if isinstance(j, dict):
-        return j
+    if candidates:
+        candidates.sort(key=get_saved_at, reverse=True)
+        return candidates[0]
 
     return None
 
