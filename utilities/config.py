@@ -11,8 +11,12 @@ language_list = {}
 # current location of translated items
 translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv"
 
-# currently we read right from there
-item_bank_translations = translatedTextURL
+# Preferred remote and local locations for item_bank_translations
+REMOTE_ITEM_BANK_URL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv"
+LOCAL_ITEM_BANK_PATH = "translation_text/item_bank_translations.csv"
+
+# generate_speech will read from the local path; the fetch script keeps it updated from REMOTE_ITEM_BANK_URL
+item_bank_translations = LOCAL_ITEM_BANK_PATH
 
 stats_file_path = 'stats.csv'
 
@@ -24,6 +28,7 @@ LANGUAGE_CODES = {
   'French': 'fr-CA', 
   'Dutch': 'nl',
   'German (Switzerland)': 'de-CH',  # NEW
+  'Spanish (Argentina)': 'es-AR',  # NEW
 }
 
 def get_languages():
@@ -35,7 +40,9 @@ def get_languages():
         'German': {'lang_code': 'de', 'service': 'ElevenLabs', 'voice': 'Julia'},
         'French': {'lang_code': 'fr-CA', 'service': 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
         'Dutch': {'lang_code': 'nl', 'service': 'ElevenLabs', 'voice': 'Emma - Natural conversations in Dutch'},
-        'German (Switzerland)': {'lang_code': 'de-CH', 'service': 'ElevenLabs', 'voice': 'Julia'},
+        'German (Switzerland)': {'lang_code': 'de-CH', 'service': 'ElevenLabs', 'voice': 'Heidi factual (Standard German - with Swiss Accent)'},
+        # Use an ElevenLabs Spanish voice available in the account (e.g., 'Sophia')
+        'Spanish (Argentina)': {'lang_code': 'es-AR', 'service': 'ElevenLabs', 'voice': 'Sophia'},
     }
 
     try:

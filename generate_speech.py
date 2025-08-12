@@ -8,7 +8,9 @@ import sys
 import argparse
 import utilities.config as conf
 
-language_dict = conf.get_languages()
+# Remove module-level cache; always fetch latest when generating
+# language_dict = conf.get_languages()
+
 
 def generate_audio(language, force_regenerate=False): 
     print("=== Starting Audio Generation for Levante Translations ===")
@@ -17,6 +19,13 @@ def generate_audio(language, force_regenerate=False):
     if force_regenerate:
         print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
     print("="*60)
+
+    # Always re-read latest language configuration (from GCS when available)
+    try:
+        language_dict = conf.get_languages()
+    except Exception as e:
+        print(f"⚠️  Warning: Could not load latest language configuration: {e}")
+        language_dict = {}
     
     # Fetch the latest translations from l10n_pending branch
     print("📥 Fetching latest translations from l10n_pending branch...")
@@ -206,7 +215,8 @@ def generate_audio(language, force_regenerate=False):
         non_null_count = translationData[lang_code].notna().sum()
         print(f"Found {lang_code} column with {non_null_count} non-null entries out of {len(translationData)}")
     else:
-        print(f"Column {lang_code} not found in CSV")
+        # Column not present; we will attempt fallbacks per-row (base code and close variants)
+        print(f"Column {lang_code} not found in CSV; will attempt fallbacks during row processing")
 
     # Now that we have the current language, handle column renaming carefully
     # Don't rename the column we're currently working with to avoid cache issues
@@ -248,21 +258,41 @@ def generate_audio(language, force_regenerate=False):
                 print(f"Warning: Empty translation for {lang_code} in row {ourRow['item_id']}")
                 continue
         else:
-            # Check if we renamed the column - map back to simplified version
-            simplified_lang_codes = {
-                'es-CO': 'es',
-                'fr-CA': 'fr', 
-                'nl-NL': 'nl'
+            # Attempt fallbacks when exact lang_code column is missing
+            candidates = []
+            # 1) Base language (e.g., es-AR -> es)
+            base = (lang_code or '').split('-')[0]
+            if base and base != lang_code:
+                candidates.append(base)
+            # 2) Close regional variants
+            regional_fallbacks = {
+                'es-AR': 'es-CO',
+                'es-MX': 'es-CO',
+                'fr-FR': 'fr-CA',
+                'de-CH': 'de',
             }
-            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
-            if simplified_code in ourRow:
-                translation_text = ourRow[simplified_code]
-                # Check if the value is null/empty
-                if pd.isna(translation_text) or translation_text == '' or translation_text is None:
-                    print(f"Warning: Empty translation for {simplified_code} in row {ourRow['item_id']}")
-                    continue
-            else:
-                print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+            cand = regional_fallbacks.get(lang_code)
+            if cand:
+                candidates.append(cand)
+            # 3) Simplified mapping from older data
+            simplified_lang_codes = {
+                'en-US': 'en', 'es-CO': 'es', 'de-DE': 'de', 'fr-CA': 'fr', 'nl-NL': 'nl'
+            }
+            simp = simplified_lang_codes.get(lang_code)
+            if simp:
+                candidates.append(simp)
+
+            translation_text = None
+            for cand in candidates:
+                if cand in ourRow:
+                    candidate_text = ourRow[cand]
+                    if not (pd.isna(candidate_text) or candidate_text == '' or candidate_text is None):
+                        translation_text = candidate_text
+                        print(f"Using fallback column '{cand}' for {lang_code} in row {ourRow['item_id']}")
+                        break
+
+            if translation_text is None:
+                print(f"Warning: No translation found for {lang_code} (or fallbacks) in row {ourRow['item_id']}")
                 continue
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')

@@ -1,28 +1,38 @@
 import os
+from typing import Optional
 from elevenlabs import play, voices
-from elevenlabs.client import ElevenLabs 
+from elevenlabs.client import ElevenLabs
 from elevenlabs import Voice, VoiceSettings
 import utilities.config as conf
-import pprint 
+import pprint
 
-# create "global" voice_dict
-global voice_dict
+# Lazily create a client so environment changes are respected
+def _get_api_key() -> str:
+    """Return the best-available ElevenLabs API key from environment."""
+    return (
+        os.getenv("ELEVEN_API_KEY")
+        or os.getenv("ELEVENLABS_API_KEY")
+        or os.getenv("elevenlabs_test")
+        or ""
+    )
 
-try:
-    api_key=os.getenv('elevenlabs_test')  # enter your API key here 
-    client = ElevenLabs(api_key=api_key)
-except:
-    print("No Eleven Labs API Key")
 
-def list_voices(lang_code, gender_filter=None):
+def get_client(explicit_api_key: Optional[str] = None) -> ElevenLabs:
+    """Create an ElevenLabs client using provided or environment API key."""
+    api_key = explicit_api_key or _get_api_key()
+    if not api_key:
+        raise RuntimeError(
+            "Missing ElevenLabs API key. Set ELEVEN_API_KEY or pass api_key explicitly."
+        )
+    return ElevenLabs(api_key=api_key)
 
-    # ElevenLabs doesn't have es-CO
-    if lang_code == 'es-CO':
-        modified_language_code = 'es'
-    else:
-        modified_language_code = lang_code
+def list_voices(lang_code, gender_filter=None, client: Optional[ElevenLabs] = None):
 
-    response = client.voices.get_all() # get our voices
+    # Map any BCP-47 variant to base language used by ElevenLabs labels
+    modified_language_code = (lang_code or "").split("-")[0] or lang_code
+
+    client = client or get_client()
+    response = client.voices.get_all()  # get our voices
 #    response = client.voices.get_shared(
 #        page_size=100,  # Adjust as needed, max 100
 #        category='professional',  # Optional filter
@@ -40,9 +50,14 @@ def list_voices(lang_code, gender_filter=None):
 
 
     # Filter for voices we've added ourselves or shared voices available to us
-    library_voices = [voice for voice in voice_list \
-                      if (voice.category == "professional" or voice.category == "shared" or voice.category == "premade" or voice.category == "generated" or voice.category == "personal") and \
-                        voice.labels.get('language') == modified_language_code]
+    library_voices = [
+        voice
+        for voice in voice_list
+        if (
+            voice.category in {"professional", "shared", "premade", "generated", "personal"}
+            and voice.labels.get("language") == modified_language_code
+        )
+    ]
     
     # Apply gender filter if specified
     if gender_filter:
@@ -77,8 +92,8 @@ def play_audio(text, desired_voice):
     )
 """
 
-    audio_iterator = client.generate(text=text, voice=desired_voice, \
-        model="eleven_multilingual_v2")
+    client = get_client()
+    audio_iterator = client.generate(text=text, voice=desired_voice, model="eleven_multilingual_v2")
 
     # Collect all audio chunks into a single bytes object
     audio_data = b"".join(audio_iterator)
