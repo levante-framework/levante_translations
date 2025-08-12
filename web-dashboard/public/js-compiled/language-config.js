@@ -50,7 +50,13 @@ function initLanguageConfigApp() {
                 config: reactive({
                     languages: JSON.parse(JSON.stringify(window.CONFIG?.languages || {}))
                 }),
-                renameBuffer: {}
+                renameBuffer: {},
+                newLang: {
+                    name: '',
+                    lang_code: '',
+                    service: 'ElevenLabs',
+                    voice: ''
+                }
             };
         },
         mounted() {
@@ -128,6 +134,43 @@ function initLanguageConfigApp() {
                 finally {
                     self.saving = false;
                 }
+            },
+            addLanguage() {
+                const self = this;
+                const name = (self.newLang.name || '').trim();
+                if (!name) {
+                    alert('Please enter a language display name');
+                    return;
+                }
+                if (!self.newLang.lang_code) {
+                    alert('Please enter a language code (e.g., es-AR)');
+                    return;
+                }
+                if (!self.newLang.voice) {
+                    alert('Please enter a default voice');
+                    return;
+                }
+                if (self.config.languages[name]) {
+                    alert('A language with this name already exists');
+                    return;
+                }
+                self.config.languages[name] = {
+                    lang_code: self.newLang.lang_code,
+                    service: self.newLang.service,
+                    voice: self.newLang.voice
+                };
+                // clear form
+                self.newLang = { name: '', lang_code: '', service: 'ElevenLabs', voice: '' };
+            },
+            removeLanguage(name) {
+                const self = this;
+                if (!name)
+                    return;
+                if (!self.config.languages[name])
+                    return;
+                if (!confirm(`Remove language "${name}"?`))
+                    return;
+                delete self.config.languages[name];
             }
         }
     });

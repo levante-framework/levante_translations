@@ -331,17 +331,18 @@
 
             async loadRealElevenLabsVoices() {
                 const credentials = getCredentials();
-                if (!credentials.elevenlabsApiKey) {
+                const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                if (!elevenKey) {
                     console.warn('No ElevenLabs API key - skipping real voice loading');
                     return {}; // Return empty object if no API key
                 }
 
                 try {
                     // Create a proxy endpoint to get ElevenLabs voices
-                    const response = await fetch('/api/elevenlabs-proxy', {
+                        const response = await fetch('/api/elevenlabs-proxy', {
                         method: 'GET',
                         headers: {
-                            'X-API-KEY': credentials.elevenlabsApiKey
+                            'X-API-KEY': elevenKey
                         }
                     });
 
@@ -351,23 +352,22 @@
 
                     const voicesData = await response.json();
                     
-                    // Process voices and organize by language like the utility function does
+                    // Process voices and organize by languages present in dashboard (and their base codes)
                     const organizedVoices = {};
-                    const supportedLanguages = ['en', 'es-CO', 'de', 'fr-CA', 'nl'];
-                    
-                    for (const langCode of supportedLanguages) {
-                        // Map es-CO to es for ElevenLabs API
-                        const apiLangCode = langCode === 'es-CO' ? 'es' : langCode.split('-')[0];
-                        
-                        // Filter voices for this language from our library
+                    const configuredCodes = Object.values(this.languages).map(cfg => cfg.lang_code);
+                    const uniqueCodes = Array.from(new Set(configuredCodes.concat(configuredCodes.map(c => c.split('-')[0]))));
+
+                    for (const langCode of uniqueCodes) {
+                        const apiLangCode = langCode.split('-')[0];
                         const languageVoices = voicesData.voices.filter(voice => {
                             const voiceLanguage = voice.labels?.language;
-                            return voiceLanguage === apiLangCode && 
-                                   (voice.category === "professional" || 
-                                    voice.category === "shared" || 
-                                    voice.category === "premade" || 
-                                    voice.category === "generated" || 
-                                    voice.category === "personal");
+                            return voiceLanguage === apiLangCode && (
+                                voice.category === "professional" ||
+                                voice.category === "shared" ||
+                                voice.category === "premade" ||
+                                voice.category === "generated" ||
+                                voice.category === "personal"
+                            );
                         });
 
                         organizedVoices[langCode] = languageVoices.map(voice => ({
@@ -1024,9 +1024,11 @@
                 });
                 
                 // Filter and populate ElevenLabs voices for current language (accept base language of BCP-47)
-                const elevenlabsVoices = this.voices.elevenlabs.filter(voice => 
-                    voice.lang_code === langCode || voice.language === langCode || voice.lang_code === baseLang || voice.language === baseLang
-                );
+                const elevenlabsVoices = this.voices.elevenlabs.filter(voice => {
+                    const vLang = voice.lang_code || voice.language || '';
+                    const vBase = vLang.includes('-') ? vLang.split('-')[0] : vLang;
+                    return vLang === langCode || vLang === baseLang || vBase === baseLang;
+                });
                 
                 elevenlabsVoices.forEach(voice => {
                     const option = document.createElement('option');
@@ -1038,9 +1040,11 @@
 
             setupEventListeners() {
                 // Refresh voices button
-                document.getElementById('refreshVoices').addEventListener('click', () => {
+                document.getElementById('refreshVoices').addEventListener('click', async () => {
+                    // Re-load real ElevenLabs voices (uses any newly saved credentials)
+                    await this.loadComprehensiveVoices();
                     this.populateVoices();
-                    this.setStatus('Voice lists refreshed', 'success');
+                    this.setStatus('Voices reloaded from services', 'success');
                 });
 
                 // Voice selection handlers
@@ -1210,7 +1214,9 @@
             
             async generatePlayHTAudio(text, voiceId) {
                 const credentials = getCredentials();
-                if (!credentials.playhtApiKey || !credentials.playhtUserId) {
+                const playhtKey = credentials.playht_api_key || credentials.playhtApiKey;
+                const playhtUser = credentials.playht_user_id || credentials.playhtUserId;
+                if (!playhtKey || !playhtUser) {
                     throw new Error('PlayHT credentials not found. Please add them in the credentials manager.');
                 }
                 
@@ -1229,8 +1235,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'AUTHORIZATION': credentials.playhtApiKey,
-                        'X-USER-ID': credentials.playhtUserId
+                        'AUTHORIZATION': playhtKey,
+                        'X-USER-ID': playhtUser
                     },
                     body: JSON.stringify(requestData)
                 });
@@ -1266,7 +1272,8 @@
             
             async generateElevenLabsAudio(text, voiceId) {
                 const credentials = getCredentials();
-                if (!credentials.elevenlabsApiKey) {
+                const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                if (!elevenKey) {
                     throw new Error('ElevenLabs API key not found. Please add it in the credentials manager.');
                 }
                 
@@ -1285,7 +1292,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-KEY': credentials.elevenlabsApiKey
+                        'X-API-KEY': elevenKey
                     },
                     body: JSON.stringify(requestData)
                 });
