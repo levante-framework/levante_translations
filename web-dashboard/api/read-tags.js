@@ -52,6 +52,23 @@ async function downloadAndReadID3Tags(bucket, file) {
     }
 }
 
+// Fallback: read ID3 via public HTTP Range request without GCS SDK/auth
+async function httpReadID3Tags(audioUrl) {
+    try {
+        const resp = await fetch(audioUrl, { headers: { Range: 'bytes=0-65535' } });
+        if (!resp.ok) {
+            throw new Error(`HTTP fetch failed: ${resp.status}`);
+        }
+        const arrayBuf = await resp.arrayBuffer();
+        const buf = Buffer.from(arrayBuf);
+        const tags = NodeID3.read(buf);
+        return tags || null;
+    } catch (err) {
+        console.warn('⚠️ HTTP ID3 fallback failed:', err.message);
+        return null;
+    }
+}
+
 async function readAudioMetadata(audioUrl) {
     try {
         // Extract bucket and file path from URL
@@ -62,24 +79,38 @@ async function readAudioMetadata(audioUrl) {
         
         console.log(`📁 Reading metadata from: ${bucketName}/${filePath}`);
         
-        const storage = await initializeGCS();
-        const bucket = storage.bucket(bucketName);
-        const file = bucket.file(filePath);
-        
-        // Check if file exists
-        const [exists] = await file.exists();
-        if (!exists) {
-            return {
-                error: 'File not found',
-                details: `Audio file not found: ${filePath}`
-            };
+        let metadata = null;
+        let id3Tags = null;
+
+        // Try GCS SDK first (if credentials available or default works)
+        try {
+            const storage = await initializeGCS();
+            const bucket = storage.bucket(bucketName);
+            const file = bucket.file(filePath);
+            const [exists] = await file.exists();
+            if (exists) {
+                [metadata] = await file.getMetadata();
+                id3Tags = await downloadAndReadID3Tags(bucket, file);
+            } else {
+                console.warn(`⚠️ GCS reports missing file: ${filePath}`);
+            }
+        } catch (gcsErr) {
+            console.warn('⚠️ GCS access failed, will try HTTP fallback:', gcsErr.message);
         }
-        
-        // Get file metadata from Google Cloud Storage
-        const [metadata] = await file.getMetadata();
-        
-        // Download and read actual ID3 tags from the MP3 file
-        const id3Tags = await downloadAndReadID3Tags(bucket, file);
+
+        // If GCS path failed or tags not found, try HTTP fallback
+        if (!id3Tags) {
+            id3Tags = await httpReadID3Tags(audioUrl);
+        }
+        if (!metadata) {
+            // Best-effort minimal metadata from path
+            metadata = { name: filePath, size: undefined, contentType: 'audio/mpeg', timeCreated: undefined, updated: undefined };
+        }
+
+        // If both GCS and HTTP failed, return error
+        if (!id3Tags && !metadata) {
+            return { error: 'File not accessible', details: `Unable to access: ${filePath}` };
+        }
         
         // Build comprehensive metadata combining GCS and ID3 tag data
         const itemId = filePath.split('/').pop().replace('.mp3', '');
@@ -115,7 +146,7 @@ async function readAudioMetadata(audioUrl) {
                 text: id3Tags?.userDefinedText?.find(t => t.description === 'text')?.value || 
                      id3Tags?.text || 'Original text not available',
                 created: id3Tags?.userDefinedText?.find(t => t.description === 'created')?.value || 
-                        id3Tags?.date || metadata.timeCreated,
+                        id3Tags?.date || metadata.timeCreated || null,
                 copyright: id3Tags?.copyright || 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
                 comment: id3Tags?.comment?.text || id3Tags?.comment || `Generated audio for item: ${itemId}`,
                 
