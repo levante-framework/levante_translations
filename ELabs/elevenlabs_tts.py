@@ -78,7 +78,12 @@ def main(
     
     # Look up voice ID once at the beginning to avoid repeated API calls
     print(f"Looking up voice '{voice}' for language '{lang_code}'...")
+    # Try exact lang_code first; if missing, try base language
     voice_id = get_voice_id(voice, lang_code, client=audio_client)
+    if voice_id is None and '-' in lang_code:
+        base = lang_code.split('-')[0]
+        print(f"Voice not found for {lang_code}, trying base language '{base}'...")
+        voice_id = get_voice_id(voice, base, client=audio_client)
     if voice_id is None:
         print(f"❌ Cannot proceed: voice '{voice}' not found for {lang_code}")
         return {'Errors': len(inputData), 'Processed': 0, 'NoTask': 0, 'Voice': voice}

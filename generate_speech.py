@@ -94,6 +94,13 @@ def generate_audio(language, force_regenerate=False):
     # labels -> task
     # Handle mixed column formats in the CSV
     translationData = translationData.rename(columns={'identifier': 'item_id'})
+    # If both 'identifier' and 'item_id' exist due to upstream processing, drop the extra
+    if 'identifier' in translationData.columns and 'item_id' in translationData.columns:
+        try:
+            translationData = translationData.drop(columns=['identifier'])
+            print("Dropped duplicate 'identifier' column after renaming to 'item_id'")
+        except Exception as _:
+            pass
     
     # Handle duplicate language columns (keep the one that has more data)
     if 'es-CO' in translationData.columns and 'es-co' in translationData.columns:
@@ -297,11 +304,22 @@ def generate_audio(language, force_regenerate=False):
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         
-        item_id = ourRow['item_id']
+        # Ensure scalar string item_id even if duplicate column names exist
+        item_id_raw = ourRow['item_id']
+        try:
+            # If duplicate labels caused a Series, take first non-null
+            if hasattr(item_id_raw, 'iloc'):
+                item_id = str(item_id_raw.iloc[0])
+            else:
+                item_id = str(item_id_raw)
+        except Exception:
+            item_id = str(item_id_raw)
         
         # Check if audio file already exists for this item (unless force mode is enabled)
         from utilities.utilities import audio_file_path
-        task_name = ourRow.get('labels', 'general')  # Use labels as task name, fallback to 'general'
+        # Safely coerce task name to string
+        task_name_val = ourRow.get('labels', 'general')
+        task_name = str(task_name_val.iloc[0]) if hasattr(task_name_val, 'iloc') else str(task_name_val)
         expected_audio_path = audio_file_path(task_name, item_id, audio_base_dir, lang_code)
         
         if os.path.exists(expected_audio_path) and not force_regenerate:

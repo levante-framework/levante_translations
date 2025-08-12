@@ -91,19 +91,24 @@ def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_
 
 
 def get_languages_config(fallback: Dict[str, Any]) -> Dict[str, Any]:
-    """Return languages config, preferring remote GCS JSON, falling back to provided structure."""
+    """Return languages config, preferring remote GCS JSON, merging with fallback for missing entries."""
     remote = load_from_gcs()
     if isinstance(remote, dict):
         # Accept either top-level mapping or nested under 'languages'
         if 'languages' in remote and isinstance(remote['languages'], dict):
-            return remote['languages']
-        # If the object itself looks like the languages map, use it
-        looks_like_map = all(
-            isinstance(v, dict) and {'lang_code', 'service', 'voice'} & set(v.keys())
-            for v in remote.values()
-        ) if remote else False
-        if looks_like_map:
-            return remote  # type: ignore[return-value]
+            remote_map = remote['languages']
+        else:
+            # If the object itself looks like the languages map, use it
+            looks_like_map = all(
+                isinstance(v, dict) and {'lang_code', 'service', 'voice'} & set(v.keys())
+                for v in remote.values()
+            ) if remote else False
+            remote_map = remote if looks_like_map else None
+
+        if isinstance(remote_map, dict):
+            # Merge: remote entries take precedence; fallback fills missing languages
+            merged = {**fallback, **remote_map}
+            return merged  # type: ignore[return-value]
     return fallback
 
 

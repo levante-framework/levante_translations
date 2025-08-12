@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Coverage Report</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .coverage-container{padding:20px}
+    .grid-table{width:100%; border-collapse:collapse}
+    .grid-table th,.grid-table td{border:1px solid #e0e0e0; padding:8px; text-align:left}
+    .chip{display:inline-block; padding:4px 8px; border-radius:12px; font-size:12px; margin-right:6px}
+    .chip.ok{background:#e6f4ea; color:#1e7e34}
+    .chip.missing{background:#fdecea; color:#842029}
+  </style>
+</head>
+<body>
+  <div class="coverage-container">
+    <h2><i class="fas fa-table"></i> Audio Coverage by Language and Voice</h2>
+    <p>This report counts generated audio files per language and per embedded voice (ID3 tag).</p>
+    <div id="summary"></div>
+    <table class="grid-table" id="coverageTable">
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Voice</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script>
+    async function fetchJson(url, init){ const r = await fetch(url, init); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+
+    function robustParseCSV(text){
+      const rows = [];
+      let current = [];
+      let field = '';
+      let inQuotes = false;
+      for(let i=0;i<text.length;i++){
+        const ch = text[i];
+        const next = i+1<text.length ? text[i+1] : '';
+        if(ch === '"'){
+          if(inQuotes && next === '"'){ field+='"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if(ch === ',' && !inQuotes){ current.push(field); field=''; }
+        else if((ch==='\n' || ch==='\r') && !inQuotes){
+          if(ch==='\r' && next==='\n'){ i++; }
+          current.push(field); field='';
+          if(current.some(v=>v && v.trim().length>0)) rows.push(current);
+          current = [];
+        } else { field += ch; }
+      }
+      if(field.length>0 || current.length>0){ current.push(field); if(current.some(v=>v && v.trim().length>0)) rows.push(current); }
+      return rows;
+    }
+
+    let cachedIds = null;
+    async function getAllItemIds(){
+      if(cachedIds) return cachedIds;
+      const csvUrl = (window.CONFIG && window.CONFIG.dataSources && window.CONFIG.dataSources.remoteCSV) 
+        ? window.CONFIG.dataSources.remoteCSV 
+        : 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+      const txt = await (await fetch(csvUrl)).text();
+      const rows = robustParseCSV(txt);
+      if(rows.length===0) return [];
+      const header = rows[0].map(h=>h.trim());
+      const idKeyIdx = (()=>{ const i1=header.indexOf('item_id'); const i2=header.indexOf('identifier'); return i1>=0?i1:i2; })();
+      const ids = new Set();
+      for(let i=1;i<rows.length;i++){
+        const r = rows[i];
+        const val = (r[idKeyIdx]||'').toString().replace(/\r/g,'').trim();
+        if(val) ids.add(val);
+      }
+      cachedIds = Array.from(ids);
+      return cachedIds;
+    }
+
+    async function listAudio(language){
+      const ids = await getAllItemIds();
+      return ids.map(id => ({ lang: language, id, url: `https://storage.googleapis.com/levante-audio-dev/${language}/${id}.mp3` }));
+    }
+
+    async function readTag(item){
+      try{
+        const res = await fetchJson(`/api/read-tags?itemId=${encodeURIComponent(item.id)}&langCode=${encodeURIComponent(item.lang)}`);
+        return { ok: true, lang: item.lang, id: item.id, voice: (res.id3Tags && res.id3Tags.voice) || 'Unknown' };
+      }catch(e){
+        return { ok: false, lang: item.lang, id: item.id, err: e.message };
+      }
+    }
+
+    function groupCounts(records){
+      const map = new Map();
+      for(const r of records){
+        if(!r.ok) continue;
+        const key = `${r.lang}||${r.voice}`;
+        map.set(key, (map.get(key)||0)+1);
+      }
+      return Array.from(map.entries()).map(([k,v])=>{ const [lang,voice]=k.split('||'); return {lang,voice,count:v}; });
+    }
+
+    async function build(){
+      const languages = (window.CONFIG && window.CONFIG.languages) ? window.CONFIG.languages : {};
+      const codes = Array.from(new Set(Object.values(languages).map(l=>l.lang_code)));
+      const sample = codes.length ? codes : ['en','es-CO','de','fr-CA','nl'];
+      const items = (await Promise.all(sample.map(listAudio))).flat().slice(0, 300); // cap for speed
+      const results = [];
+      for(const it of items){ results.push(await readTag(it)); }
+      const grouped = groupCounts(results);
+      const tbody = document.querySelector('#coverageTable tbody');
+      tbody.innerHTML = '';
+      grouped.sort((a,b)=> a.lang.localeCompare(b.lang) || b.count - a.count).forEach(row=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('summary').innerHTML = `<span class="chip ok">Languages: ${sample.length}</span>`+
+        `<span class="chip ok">Files scanned: ${results.filter(r=>r.ok).length}</span>`+
+        `<span class="chip missing">Missing/Errors: ${results.filter(r=>!r.ok).length}</span>`;
+    }
+
+    build().catch(e=>{ console.error(e); alert('Failed to build coverage: '+e.message); });
+  </script>
+</body>
+</html>
+
