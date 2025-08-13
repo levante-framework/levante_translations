@@ -39,7 +39,11 @@
                     'Spanish': '<img src="https://flagcdn.com/24x18/co.png" alt="CO" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
                     'German': '<img src="https://flagcdn.com/24x18/de.png" alt="DE" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
                     'French': '<img src="https://flagcdn.com/24x18/ca.png" alt="CA" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
-                    'Dutch': '<img src="https://flagcdn.com/24x18/nl.png" alt="NL" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">'
+                    'Dutch': '<img src="https://flagcdn.com/24x18/nl.png" alt="NL" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    // Regional variants
+                    'German (Switzerland)': '<img src="https://flagcdn.com/24x18/ch.png" alt="CH" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'Spanish (Argentina)': '<img src="https://flagcdn.com/24x18/ar.png" alt="AR" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">',
+                    'English (Ghana)': '<img src="https://flagcdn.com/24x18/gh.png" alt="GH" style="width: 24px; height: 18px; margin-right: 6px; vertical-align: middle;">'
                 };
                 return flagMap[language] || '🌐'; // fallback to globe emoji
             }
@@ -760,6 +764,7 @@
                     'en': 'English',
                     'es-CO': 'Spanish', 
                     'de': 'German',
+                    'de-CH': 'German (Switzerland)',
                     'fr-CA': 'French',
                     'nl': 'Dutch'
                 };
@@ -838,6 +843,10 @@
                 this.refreshLanguagesFromConfig();
                 const tabButtons = document.getElementById('tabButtons');
                 const tabContent = document.getElementById('tabContent');
+                
+                // Clear existing tabs to prevent duplicates
+                tabButtons.innerHTML = '';
+                tabContent.innerHTML = '';
                 
                 Object.keys(this.languages).forEach((language, index) => {
                     // Create tab button
