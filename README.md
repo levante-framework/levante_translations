@@ -179,6 +179,7 @@ The `utilities/` folder contains various helper scripts for data management and 
 - **`deploy_dashboard.py`**: Advanced deployment tool for custom GCS bucket deployments (internal use).
 - **`crowdin_to_gcs.py`**: Downloads translation files from Crowdin and uploads them to appropriate GCS buckets.
 - **`buckets.py`**: Configuration for Google Cloud Storage bucket names and helper functions.
+- **`seed_crowdin_language.py`**: Creates translation seed files for new languages in Crowdin by duplicating source language content.
 
 ### Usage Examples
 
@@ -191,6 +192,10 @@ python utilities/export_female_voices.py
 
 # Fix CSV formatting issues
 python utilities/fix_csv_formatting.py input.csv output.csv
+
+# Create Crowdin seed files for new languages
+python seed_crowdin_language.py en pt-BR    # English to Portuguese (Brazil)
+python seed_crowdin_language.py es-CO es-MX # Spanish (Colombia) to Spanish (Mexico)
 
 # Deploy Levante dashboard (itembank_translations.csv only)
 npm run deploy:levante-dev
@@ -210,7 +215,46 @@ npm run fix:csv
 
 # Export voice data
 npm run export:voices
+
+# Create Crowdin seed files
+npm run seed:crowdin en pt-BR
 ```
+
+## Crowdin Localization Workflow
+
+### Creating New Language Seeds
+
+To set up a new language for translation in Crowdin, use the seeding script to create a starting CSV file:
+
+```bash
+# Create seed file for a new language
+npm run seed:crowdin <source_lang> <new_lang>
+
+# Examples
+npm run seed:crowdin en pt-BR         # English to Portuguese (Brazil)
+npm run seed:crowdin en fr            # English to French
+npm run seed:crowdin es-CO es-MX      # Spanish (Colombia) to Spanish (Mexico)
+npm run seed:crowdin en en-GH         # English to English (Ghana) for localization
+```
+
+### Crowdin Workflow Steps
+
+1. **Generate seed CSV**: `npm run seed:crowdin en pt-BR`
+2. **Upload to Crowdin**: Import the generated `pt-BR_translations.csv` file
+3. **Set up project**: Configure source (en) and target (pt-BR) languages
+4. **Assign translators**: Add team members to begin translation work
+5. **Download completed**: Export finished translations from Crowdin
+6. **Update main CSV**: Add the new language column to `item_bank_translations.csv`
+7. **Deploy translations**: Use `npm run deploy:levante-dev` to publish
+
+### Seed File Format
+
+The generated CSV contains:
+- **Header**: `source_lang,new_lang` (e.g., `en,pt-BR`)
+- **Content**: Source language text duplicated in both columns
+- **Purpose**: Provides starting point for translators with context
+
+This workflow ensures consistent translation quality and proper integration with the Levante translation system.
 
 ## Deployment
 
@@ -313,6 +357,7 @@ npm run generate:spanish -- -f      # Force regenerate Spanish audio (short flag
 npm run fix:csv                     # Fix CSV formatting issues
 npm run export:voices               # Export comprehensive voice data
 npm run export:female-voices        # Export female voices only
+npm run seed:crowdin en pt-BR       # Create Crowdin seed CSV for new language
 npm run test:dry-run-all           # Test all deployments
 npm run help                       # Show available commands
 ```
