@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audio Coverage Report</title>
   <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" type="image/svg+xml" href="./audio-favicon.svg" />
   <script src="./config.js"></script>
   <style>
     .coverage-container{padding:20px}
@@ -191,7 +192,11 @@
 
       const tbody = document.querySelector('#coverageTable tbody');
       tbody.innerHTML = '';
-      grouped.sort((a,b)=>{
+      // Split rows into those with files (count>0) and those without (placeholders)
+      const withFiles = grouped.filter(r => r.count > 0);
+      const noFiles = grouped.filter(r => r.count === 0);
+
+      withFiles.sort((a,b)=>{
         const byLang = a.lang.localeCompare(b.lang);
         if (byLang !== 0) return byLang;
         const aIsNA = a.voice === 'Not available';
@@ -205,6 +210,20 @@
         tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
         tbody.appendChild(tr);
       });
+
+      if (noFiles.length) {
+        // Separator row
+        const sep = document.createElement('tr');
+        sep.innerHTML = `<td colspan="3" style="background:#f7f7f7; color:#666; font-weight:bold; text-align:center;">Languages with no files</td>`;
+        tbody.appendChild(sep);
+
+        // Sort no-files languages alphabetically
+        noFiles.sort((a,b) => a.lang.localeCompare(b.lang)).forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
     }
 
     build().catch(e=>{ console.error(e); alert('Failed to build coverage: '+e.message); });
