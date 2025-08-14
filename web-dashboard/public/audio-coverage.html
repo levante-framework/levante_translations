@@ -88,7 +88,7 @@
     async function readTag(item){
       try{
         const res = await fetchJson(`/api/read-tags?itemId=${encodeURIComponent(item.id)}&langCode=${encodeURIComponent(item.lang)}&strict=1`);
-        return { ok: true, lang: item.lang, id: item.id, voice: (res.id3Tags && res.id3Tags.voice) || 'Unknown' };
+        return { ok: true, lang: item.lang, id: item.id, voice: (res.id3Tags && res.id3Tags.voice) || 'Not available' };
       }catch(e){
         return { ok: false, lang: item.lang, id: item.id, err: e.message };
       }
@@ -119,12 +119,13 @@
 
       const total = allItems.length;
       let processed = 0;
-      const updateSummary = (okCount, errCount) => {
+      const updateSummary = (okCount, errCount, noTagCount = 0) => {
         document.getElementById('summary').innerHTML =
           `<span class="chip ok">Languages: ${langCodes.length}</span>`+
           `<span class="chip ok">Progress: ${processed}/${total}</span>`+
           `<span class="chip ok">Files scanned: ${okCount}</span>`+
-          `<span class="chip missing">Missing/Errors: ${errCount}</span>`;
+          `<span class="chip missing">Missing/Errors: ${errCount}</span>`+
+          `<span class="chip missing">No-tag files: ${noTagCount}</span>`;
       };
 
       // Bounded concurrency to avoid overwhelming serverless/API
@@ -158,9 +159,22 @@
       const results = await processWithConcurrency(allItems, 12);
       const grouped = groupCounts(results);
 
+      // Count files that exist but have no ID3 voice tag
+      const noTagCount = results.reduce((acc, r) => acc + (r && r.ok && (!r.voice || r.voice === 'Not available') ? 1 : 0), 0);
+      updateSummary(results.filter(r=>r && r.ok).length, results.filter(r=>!r || !r.ok).length, noTagCount);
+
       const tbody = document.querySelector('#coverageTable tbody');
       tbody.innerHTML = '';
-      grouped.sort((a,b)=> a.lang.localeCompare(b.lang) || b.count - a.count).forEach(row=>{
+      grouped.sort((a,b)=>{
+        const byLang = a.lang.localeCompare(b.lang);
+        if (byLang !== 0) return byLang;
+        const aIsNA = a.voice === 'Not available';
+        const bIsNA = b.voice === 'Not available';
+        if (aIsNA !== bIsNA) return aIsNA ? 1 : -1; // push "Not available" to bottom within language
+        const byCount = b.count - a.count;
+        if (byCount !== 0) return byCount;
+        return a.voice.localeCompare(b.voice);
+      }).forEach(row=>{
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
         tbody.appendChild(tr);
