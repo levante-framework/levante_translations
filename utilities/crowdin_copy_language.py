@@ -102,6 +102,17 @@ def _http_post(url: str, headers: Dict[str, str], data: Dict[str, Any]) -> Dict[
 			return json.loads(r.read().decode("utf-8"))
 
 
+def _http_delete(url: str, headers: Dict[str, str]) -> None:
+	if requests:
+		resp = requests.delete(url, headers=headers, timeout=60)
+		resp.raise_for_status()
+		return
+	else:
+		req = urllib.request.Request(url, headers=headers, method="DELETE")
+		with urllib.request.urlopen(req, timeout=60):  # nosec B310
+			return
+
+
 def get_project(project_id: str, headers: Dict[str, str]) -> Dict[str, Any]:
 	return _http_get(f"{API_BASE}/projects/{project_id}", headers)
 
@@ -158,6 +169,28 @@ def get_translation(project_id: str, headers: Dict[str, str], string_id: int, la
 	return (data[0].get("data", {}) or {}).get("text")
 
 
+def list_translations(project_id: str, headers: Dict[str, str], string_id: int, language_id: str) -> List[Dict[str, Any]]:
+	offset = 0
+	limit = 500
+	all_items: List[Dict[str, Any]] = []
+	while True:
+		resp = _http_get(
+			f"{API_BASE}/projects/{project_id}/translations",
+			headers,
+			params={"stringId": string_id, "languageId": language_id, "limit": limit, "offset": offset},
+		)
+		items = [item.get("data", {}) for item in resp.get("data", [])]
+		all_items.extend(items)
+		if len(items) < limit:
+			break
+		offset += limit
+	return all_items
+
+
+def delete_translation(project_id: str, headers: Dict[str, str], translation_id: int) -> None:
+	_http_delete(f"{API_BASE}/projects/{project_id}/translations/{translation_id}", headers)
+
+
 def create_or_update_translation(project_id: str, headers: Dict[str, str], string_id: int, language_id: str, text: str) -> None:
 	payload = {
 		"stringId": string_id,
@@ -177,6 +210,7 @@ def main() -> None:
 	parser.add_argument("--only-item-bank", action="store_true", help="Limit to item_bank_translations file only")
 	parser.add_argument("--dry-run", action="store_true", help="Show actions without writing changes")
 	parser.add_argument("--sleep", type=float, default=0.0, help="Optional sleep in seconds between API calls to avoid rate limits")
+	parser.add_argument("--force", action="store_true", help="Overwrite existing translations (delete then recreate)")
 	args = parser.parse_args()
 
 	api_token = _require_env("CROWDIN_API_TOKEN")
@@ -209,27 +243,49 @@ def main() -> None:
 		string_id = s.get("id")
 		if string_id is None:
 			continue
-		# In Crowdin, the English source is usually the string's "text"
-		source_text = s.get("text", "")
-		if not source_text:
-			# Some projects store sources in fields per language; skip if empty
-			skipped += 1
-			continue
-
-		# Skip if translation already exists and is non-empty
+		# Determine source text: either project base source (string text) or another locale's translation
 		try:
-			existing = get_translation(project_id, headers, string_id, args.target)
+			if source_lang == base_lang:
+				source_text = s.get("text", "") or ""
+			else:
+				# Fetch the translation in the specified source language to use as the copy source
+				source_text = get_translation(project_id, headers, string_id, source_lang) or ""
 		except Exception as e:  # pragma: no cover
-			print(f"❗ Error checking translation for string {string_id}: {e}")
+			print(f"❗ Error fetching source text for string {string_id} ({source_lang}): {e}")
 			errors += 1
 			continue
 
-		if existing and existing.strip():
-			# Already translated; do not overwrite
+		if not source_text:
+			# Nothing to copy
 			skipped += 1
 			continue
 
-		print(f"➕ Copying stringId={string_id} → {args.target}")
+		# Skip if target translation already exists and is non-empty
+		try:
+			existing = get_translation(project_id, headers, string_id, args.target)
+		except Exception as e:  # pragma: no cover
+			print(f"❗ Error checking target translation for string {string_id}: {e}")
+			errors += 1
+			continue
+
+		if existing and existing.strip() and not args.force:
+			# Already translated; do not overwrite unless forced
+			skipped += 1
+			continue
+
+		# If forcing, delete existing translations for this string/locale
+		if args.force and not args.dry_run:
+			try:
+				all_trs = list_translations(project_id, headers, string_id, args.target)
+				for tr in all_trs:
+					tr_id = tr.get("id")
+					if tr_id is not None:
+						delete_translation(project_id, headers, int(tr_id))
+			except Exception as e:  # pragma: no cover
+				print(f"❗ Error deleting existing translations for string {string_id}: {e}")
+				# Continue to try create anyway
+
+		print(f"➕ Copying stringId={string_id} {source_lang} → {args.target}")
 		if not args.dry_run:
 			try:
 				create_or_update_translation(project_id, headers, string_id, args.target, source_text)
