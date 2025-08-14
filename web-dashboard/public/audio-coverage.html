@@ -87,7 +87,7 @@
 
     async function readTag(item){
       try{
-        const res = await fetchJson(`/api/read-tags?itemId=${encodeURIComponent(item.id)}&langCode=${encodeURIComponent(item.lang)}`);
+        const res = await fetchJson(`/api/read-tags?itemId=${encodeURIComponent(item.id)}&langCode=${encodeURIComponent(item.lang)}&strict=1`);
         return { ok: true, lang: item.lang, id: item.id, voice: (res.id3Tags && res.id3Tags.voice) || 'Unknown' };
       }catch(e){
         return { ok: false, lang: item.lang, id: item.id, err: e.message };
