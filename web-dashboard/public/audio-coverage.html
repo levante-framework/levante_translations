@@ -27,6 +27,7 @@
           <th>Language</th>
           <th>Voice</th>
           <th>Count</th>
+          <th>Missing</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -190,6 +191,21 @@
         }
       }
 
+      // Compute per-language missing counts (items without audio in that language)
+      const totalPerLang = new Map(langCodes.map(c => [c, ids.length]));
+      const okPerLang = new Map();
+      for (const r of results) {
+        if (r && r.ok) {
+          okPerLang.set(r.lang, (okPerLang.get(r.lang) || 0) + 1);
+        }
+      }
+      const missingPerLang = new Map();
+      for (const code of langCodes) {
+        const okCount = okPerLang.get(code) || 0;
+        const totalForLang = totalPerLang.get(code) || 0;
+        missingPerLang.set(code, Math.max(0, totalForLang - okCount));
+      }
+
       const tbody = document.querySelector('#coverageTable tbody');
       tbody.innerHTML = '';
       // Split rows into those with files (count>0) and those without (placeholders)
@@ -207,20 +223,20 @@
         return a.voice.localeCompare(b.voice);
       }).forEach(row=>{
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
+        tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td><td>${missingPerLang.get(row.lang) ?? ''}</td>`;
         tbody.appendChild(tr);
       });
 
       if (noFiles.length) {
         // Separator row
         const sep = document.createElement('tr');
-        sep.innerHTML = `<td colspan="3" style="background:#f7f7f7; color:#666; font-weight:bold; text-align:center;">Languages with no files</td>`;
+        sep.innerHTML = `<td colspan="4" style="background:#f7f7f7; color:#666; font-weight:bold; text-align:center;">Languages with no files</td>`;
         tbody.appendChild(sep);
 
         // Sort no-files languages alphabetically
         noFiles.sort((a,b) => a.lang.localeCompare(b.lang)).forEach(row => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td>`;
+          tr.innerHTML = `<td>${row.lang}</td><td>${row.voice}</td><td>${row.count}</td><td>${missingPerLang.get(row.lang) ?? ''}</td>`;
           tbody.appendChild(tr);
         });
       }
