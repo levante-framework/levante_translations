@@ -57,15 +57,15 @@ async function httpReadID3Tags(audioUrl) {
     try {
         const resp = await fetch(audioUrl, { headers: { Range: 'bytes=0-65535' } });
         if (!resp.ok) {
-            throw new Error(`HTTP fetch failed: ${resp.status}`);
+            return { ok: false, tags: null, status: resp.status };
         }
         const arrayBuf = await resp.arrayBuffer();
         const buf = Buffer.from(arrayBuf);
         const tags = NodeID3.read(buf);
-        return tags || null;
+        return { ok: true, tags: tags || null, status: resp.status };
     } catch (err) {
         console.warn('⚠️ HTTP ID3 fallback failed:', err.message);
-        return null;
+        return { ok: false, tags: null, status: 0 };
     }
 }
 
@@ -81,6 +81,7 @@ async function readAudioMetadata(audioUrl) {
         
         let metadata = null;
         let id3Tags = null;
+        let fileExists = false;
 
         // Try GCS SDK first (if credentials available or default works)
         try {
@@ -89,6 +90,7 @@ async function readAudioMetadata(audioUrl) {
             const file = bucket.file(filePath);
             const [exists] = await file.exists();
             if (exists) {
+                fileExists = true;
                 [metadata] = await file.getMetadata();
                 id3Tags = await downloadAndReadID3Tags(bucket, file);
             } else {
@@ -100,16 +102,21 @@ async function readAudioMetadata(audioUrl) {
 
         // If GCS path failed or tags not found, try HTTP fallback
         if (!id3Tags) {
-            id3Tags = await httpReadID3Tags(audioUrl);
-        }
-        if (!metadata) {
-            // Best-effort minimal metadata from path
-            metadata = { name: filePath, size: undefined, contentType: 'audio/mpeg', timeCreated: undefined, updated: undefined };
+            const httpResult = await httpReadID3Tags(audioUrl);
+            if (httpResult.ok) {
+                fileExists = true;
+                id3Tags = httpResult.tags;
+            }
         }
 
-        // If both GCS and HTTP failed, return error
-        if (!id3Tags && !metadata) {
+        // If neither GCS nor HTTP located the file, return error
+        if (!fileExists) {
             return { error: 'File not accessible', details: `Unable to access: ${filePath}` };
+        }
+
+        if (!metadata) {
+            // Minimal metadata from path when GCS metadata not available
+            metadata = { name: filePath, size: undefined, contentType: 'audio/mpeg', timeCreated: undefined, updated: undefined };
         }
         
         // Build comprehensive metadata combining GCS and ID3 tag data
@@ -178,6 +185,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Cache-Control', 'no-cache');
     
     if (req.method === 'OPTIONS') {
         res.status(200).end();
@@ -191,6 +199,10 @@ export default async function handler(req, res) {
     
     try {
         const { itemId, langCode } = req.method === 'GET' ? req.query : req.body;
+        const rawStrict = (req.method === 'GET' ? req.query.strict : req.body?.strict);
+        const strict = typeof rawStrict === 'string'
+            ? ['1','true','yes','on'].includes(rawStrict.toLowerCase())
+            : Boolean(rawStrict);
         
         if (!itemId || !langCode) {
             res.status(400).json({ 
@@ -208,19 +220,21 @@ export default async function handler(req, res) {
         const metadata = await readAudioMetadata(audioUrl);
         
         if (metadata.error) {
-            // Try fallback for es-CO -> es
-            if (langCode === 'es-CO') {
-                console.log('🔄 Trying es fallback for es-CO...');
-                const fallbackUrl = `https://storage.googleapis.com/levante-audio-dev/es/${itemId}.mp3`;
-                const fallbackMetadata = await readAudioMetadata(fallbackUrl);
-                
-                if (!fallbackMetadata.error) {
-                    fallbackMetadata.note = 'Using es fallback for es-CO';
-                    res.status(200).json(fallbackMetadata);
-                    return;
+            // In strict mode, do not attempt language fallbacks
+            if (!strict) {
+                // Try fallback for es-CO -> es
+                if (langCode === 'es-CO') {
+                    console.log('🔄 Trying es fallback for es-CO...');
+                    const fallbackUrl = `https://storage.googleapis.com/levante-audio-dev/es/${itemId}.mp3`;
+                    const fallbackMetadata = await readAudioMetadata(fallbackUrl);
+                    
+                    if (!fallbackMetadata.error) {
+                        fallbackMetadata.note = 'Using es fallback for es-CO';
+                        res.status(200).json(fallbackMetadata);
+                        return;
+                    }
                 }
             }
-            
             res.status(404).json(metadata);
             return;
         }
