@@ -191,8 +191,9 @@
         }
       }
 
-      // Compute per-language missing counts (items without audio in that language)
-      const totalPerLang = new Map(langCodes.map(c => [c, ids.length]));
+      // Compute per-language missing counts relative to the set of IDs that have audio in any language
+      const idsWithAnyAudio = new Set(results.filter(r => r && r.ok).map(r => r.id));
+      const totalAny = idsWithAnyAudio.size;
       const okPerLang = new Map();
       for (const r of results) {
         if (r && r.ok) {
@@ -202,8 +203,7 @@
       const missingPerLang = new Map();
       for (const code of langCodes) {
         const okCount = okPerLang.get(code) || 0;
-        const totalForLang = totalPerLang.get(code) || 0;
-        missingPerLang.set(code, Math.max(0, totalForLang - okCount));
+        missingPerLang.set(code, Math.max(0, totalAny - okCount));
       }
 
       const tbody = document.querySelector('#coverageTable tbody');
