@@ -180,6 +180,22 @@ async function readAudioMetadata(audioUrl) {
     }
 }
 
+// List top-level language prefixes present in the audio bucket
+async function listAudioLanguagesFromBucket(bucketName) {
+    try {
+        const storage = await initializeGCS();
+        const bucket = storage.bucket(bucketName);
+        // Use delimiter to list pseudo-directories (language codes)
+        const [files, , apiResponse] = await bucket.getFiles({ delimiter: '/', prefix: '' });
+        const prefixes = (apiResponse && apiResponse.prefixes) || [];
+        const langs = prefixes.map(p => p.replace(/\/$/, '')).filter(Boolean);
+        return langs;
+    } catch (err) {
+        console.warn('⚠️ Failed to list languages in bucket:', err.message);
+        return [];
+    }
+}
+
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -198,7 +214,15 @@ export default async function handler(req, res) {
     }
     
     try {
-        const { itemId, langCode } = req.method === 'GET' ? req.query : req.body;
+        const { itemId, langCode, list } = req.method === 'GET' ? req.query : req.body;
+
+        // If listing was requested, return languages found in the dev bucket
+        if (list === '1' || list === 1 || list === true) {
+            const bucketName = 'levante-audio-dev';
+            const languages = await listAudioLanguagesFromBucket(bucketName);
+            res.status(200).json({ bucket: bucketName, languages });
+            return;
+        }
         const rawStrict = (req.method === 'GET' ? req.query.strict : req.body?.strict);
         const strict = typeof rawStrict === 'string'
             ? ['1','true','yes','on'].includes(rawStrict.toLowerCase())

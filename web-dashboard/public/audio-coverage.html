@@ -105,9 +105,23 @@
     }
 
     async function build(){
+      // Base languages from config
       const languages = (window.CONFIG && window.CONFIG.languages) ? window.CONFIG.languages : {};
-      const codes = Array.from(new Set(Object.values(languages).map(l=>l.lang_code))).filter(Boolean);
-      const langCodes = codes.length ? codes : ['en','es-CO','de','fr-CA','nl'];
+      const configCodes = Array.from(new Set(Object.values(languages).map(l=>l.lang_code))).filter(Boolean);
+
+      // Also query the audio bucket to include any languages that exist there
+      let bucketCodes = [];
+      try {
+        const listed = await fetchJson('/api/read-tags?list=1');
+        bucketCodes = Array.isArray(listed.languages) ? listed.languages : [];
+      } catch (e) {
+        console.warn('Failed to list audio languages from bucket:', e.message);
+      }
+
+      const langCodes = Array.from(new Set([...(configCodes||[]), ...(bucketCodes||[])]));
+      if (langCodes.length === 0) {
+        langCodes.push('en','es-CO','de','fr-CA','nl');
+      }
 
       const ids = await getAllItemIds();
       const allItems = [];
@@ -162,6 +176,18 @@
       // Count files that exist but have no ID3 voice tag
       const noTagCount = results.reduce((acc, r) => acc + (r && r.ok && (!r.voice || r.voice === 'Not available') ? 1 : 0), 0);
       updateSummary(results.filter(r=>r && r.ok).length, results.filter(r=>!r || !r.ok).length, noTagCount);
+
+      // Ensure every language listed in summary appears in the detail table.
+      // If a language has 0 found files, add a placeholder row with any info we have (missing/errors count).
+      const presentLangs = new Set(grouped.map(r => r.lang));
+      if (langCodes && Array.isArray(langCodes)) {
+        for (const code of langCodes) {
+          if (!presentLangs.has(code)) {
+            const errsForLang = results.reduce((acc, r) => acc + ((r && r.lang === code && !r.ok) ? 1 : 0), 0);
+            grouped.push({ lang: code, voice: `No files (missing/errors: ${errsForLang})`, count: 0 });
+          }
+        }
+      }
 
       const tbody = document.querySelector('#coverageTable tbody');
       tbody.innerHTML = '';
