@@ -61,6 +61,29 @@
       return rows;
     }
 
+    // Extract language codes from the CSV header
+    let cachedCsvLangCodes = null;
+    async function getCsvLanguageCodes(){
+      if(cachedCsvLangCodes) return cachedCsvLangCodes;
+      const csvUrl = (window.CONFIG && window.CONFIG.dataSources && window.CONFIG.dataSources.remoteCSV) 
+        ? window.CONFIG.dataSources.remoteCSV 
+        : 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+      const txt = await (await fetch(csvUrl)).text();
+      const rows = robustParseCSV(txt);
+      if(rows.length===0) return [];
+      const header = rows[0].map(h=> (h||'').toString().trim());
+      const exclude = new Set(['item_id','identifier','labels','context','source','source_phrase','translation','task','task_name','notes']);
+      const langRegex = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
+      const codes = [];
+      for(const h of header){
+        const lower = h.toLowerCase();
+        if(exclude.has(lower)) continue;
+        if(h === 'en' || langRegex.test(h)) codes.push(h);
+      }
+      cachedCsvLangCodes = Array.from(new Set(codes));
+      return cachedCsvLangCodes;
+    }
+
     let cachedIds = null;
     async function getAllItemIds(){
       if(cachedIds) return cachedIds;
@@ -120,7 +143,15 @@
         console.warn('Failed to list audio languages from bucket:', e.message);
       }
 
-      const langCodes = Array.from(new Set([...(configCodes||[]), ...(bucketCodes||[])]));
+      // Include languages found in the CSV header (e.g., en-GH, es-AR)
+      let csvCodes = [];
+      try {
+        csvCodes = await getCsvLanguageCodes();
+      } catch (e) {
+        console.warn('Failed to parse languages from CSV:', e.message);
+      }
+
+      const langCodes = Array.from(new Set([...(configCodes||[]), ...(bucketCodes||[]), ...(csvCodes||[])]));
       if (langCodes.length === 0) {
         langCodes.push('en','es-CO','de','fr-CA','nl');
       }
