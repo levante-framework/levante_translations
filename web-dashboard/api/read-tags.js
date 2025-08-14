@@ -188,7 +188,10 @@ async function listAudioLanguagesFromBucket(bucketName) {
         // Use delimiter to list pseudo-directories (language codes)
         const [files, , apiResponse] = await bucket.getFiles({ delimiter: '/', prefix: '' });
         const prefixes = (apiResponse && apiResponse.prefixes) || [];
-        const langs = prefixes.map(p => p.replace(/\/$/, '')).filter(Boolean);
+        const langs = prefixes
+            .map(p => p.replace(/\/$/, ''))
+            .filter(Boolean)
+            .filter(code => code !== 'validations' && code !== '_gsdata_');
         return langs;
     } catch (err) {
         console.warn('⚠️ Failed to list languages in bucket:', err.message);
