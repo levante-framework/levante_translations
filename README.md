@@ -421,3 +421,67 @@ sudo apt install python3-pandas python3-playsound
 ```
 
 # Permissions fixed - testing deployment
+
+### End-to-End Workflow
+
+This repository now supports a streamlined, mostly automated pipeline to prepare and deploy all translation artifacts.
+
+1) Retrieve translations from GitHub (CSV + XLIFF) and normalize
+
+- Fetch and normalize the Item Bank CSV (maps identifier→item_id, labels/label→task; normalizes language headers):
+```bash
+python utilities/get_translations_csv_merged.py --force
+# Output: translation_text/item_bank_translations.csv (normalized headers)
+```
+- Generate ICU JSON files from XLIFF (by language):
+```bash
+python xliff/convert_xliff_to_icu.py --overwrite --verbose
+# Output: xliff/translations-icu/<lang>.json
+```
+
+2) (Optional, manual) Generate audio files for specified languages
+
+- Use the audio generator to produce MP3s with ID3 tags for one or more languages:
+```bash
+# Examples
+npm run generate:english
+npm run generate:spanish
+# Force re-generate all audio
+npm run generate:english -- --force
+```
+
+3) Deploy all artifacts via a single deploy command
+
+- The deployment uses fast, checksum-based rsync to skip identical files (add --force to clear remote before uploading).
+- What gets deployed:
+  - Dashboard CSV (normalized):
+    - gs://levante-dashboard-<env>/itembank_translations.csv and item-bank-translations.csv
+  - Assets mirrors:
+    - CSV mirror → gs://levante-assets-<env>/translations/item-bank-translations.csv
+    - ICU JSON   → gs://levante-assets-<env>/translations/icu/
+    - XLIFF      → gs://levante-assets-<env>/translations/xliff/
+    - Audio      → gs://levante-assets-<env>/audio/
+
+- Commands:
+```bash
+# Deploy CSV + ICU + XLIFF mirrors + Audio (dev)
+npm run deploy:translations-dev
+# Dry-run
+npm run deploy:translations-dev-dry
+# Audio-only
+npm run deploy:translations-audio-only-dev
+# CSV-only
+npm run deploy:translations-csv-only-dev
+# Force re-upload (remove then rsync)
+npm run deploy:translations-dev -- --force
+```
+
+Notes
+- The deploy commands automatically fetch and normalize the CSV before uploading.
+- XLIFF files are fetched directly from GitHub and mirrored; ICU JSONs are synced from xliff/translations-icu.
+- All uploads use rsync with checksums to minimize transfer time.
+
+4) Survey translations (levante-surveys)
+
+- The `levante-surveys` repository contains survey/UI JSON translations.
+- Add new languages and translations there; our web dashboard can report coverage.
