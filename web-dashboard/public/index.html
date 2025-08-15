@@ -30,6 +30,9 @@
                         <a href="#" onclick="openAudioCoverage(); return false;">
                             <i class="fas fa-table"></i> Audio Coverage Report
                         </a>
+                        <a href="#" onclick="openPreflightReport(); return false;">
+                            <i class="fas fa-clipboard-list"></i> Preflight Readiness Report
+                        </a>
                     </div>
                 </div>
             </div>
@@ -239,6 +242,9 @@
         }
         function openAudioCoverage() {
             window.open('./audio-coverage.html', '_blank');
+        }
+        function openPreflightReport() {
+            window.open('./preflight-report.html', '_blank');
         }
         
         function showValidationSummaryReport() {
