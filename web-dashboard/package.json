@@ -14,7 +14,8 @@
     "test": "npm run test:ts",
     "deploy": "node scripts/deploy-and-alias.js",
     "deploy-dev": "vercel --yes",
-    "deploy-bat": "deploy.bat"
+    "deploy-bat": "deploy.bat",
+    "preflight:locale": "ts-node --transpile-only --compiler-options '{\"module\":\"commonjs\"}' preflight/preflight-locale.ts"
   },
   "keywords": [
     "audio",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "serve": "^14.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.0"
   }
 }
