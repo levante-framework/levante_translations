@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Preflight Readiness Report</title>
+	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<style>
+		body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; color: #222; }
+		h1 { font-size: 20px; margin-bottom: 16px; }
+		.table { width: 100%; border-collapse: collapse; }
+		.table th, .table td { border: 1px solid #e5e7eb; padding: 8px 10px; font-size: 13px; text-align: left; }
+		.table thead th { background: #f8fafc; position: sticky; top: 0; }
+		.badge { display: inline-block; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+		.ok { background: #e7f7ec; color: #1f7a37; }
+		.warn { background: #fff7e6; color: #8a6d1f; }
+		.err { background: #fde7ea; color: #842029; }
+		.small { color: #6b7280; font-size: 12px; }
+		.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+		.footer { margin-top: 16px; font-size: 12px; color: #6b7280; }
+	</style>
+</head>
+<body>
+	<h1><i class="fas fa-clipboard-list"></i> Preflight Readiness Report</h1>
+	<p class="small">Environment: <span id="envLabel" class="code">dev</span></p>
+	<table class="table" id="reportTable" aria-label="Preflight readiness table">
+		<thead>
+			<tr>
+				<th>Language</th>
+				<th>Code</th>
+				<th>ItemBank</th>
+				<th>Surveys</th>
+				<th>Dashboard</th>
+				<th>Audio</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<div class="footer">
+		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
+	</div>
+
+	<script>
+	(async function() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const env = (urlParams.get('env') || 'dev').toLowerCase();
+		document.getElementById('envLabel').textContent = env;
+
+		// Load dashboard config and CSV data
+		const cfg = await fetch('./config.js').then(r => r.text()).then(js => { const m = {}; const f = new Function('module', js + '; return module.exports;'); return f(m); }).catch(() => ({}));
+		const CONFIG = (cfg && cfg.CONFIG) || (window.CONFIG || {});
+		let csvText = '';
+		try {
+			// Prefer local complete CSV if present
+			const res = await fetch('./translation_text/complete_translations.csv', { cache: 'no-cache' });
+			if (res.ok) csvText = await res.text();
+		} catch (e) {}
+		if (!csvText) {
+			const primaryUrl = (CONFIG && CONFIG.dataSources && CONFIG.dataSources.remoteCSV) || 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+			csvText = await fetch(primaryUrl, { cache: 'no-cache' }).then(r => r.text());
+		}
+
+		function parseCSVWithEmbeddedNewlines(csvText) {
+			const rows = []; let currentRow = []; let currentField = ''; let inQuotes = false; let i = 0;
+			while (i < csvText.length) {
+				const ch = csvText[i]; const next = i + 1 < csvText.length ? csvText[i + 1] : '';
+				if (ch === '"') { if (inQuotes && next === '"') { currentField += '"'; i += 2; } else { inQuotes = !inQuotes; i++; } }
+				else if (ch === ',' && !inQuotes) { currentRow.push(currentField.trim()); currentField = ''; i++; }
+				else if ((ch === '\n' || ch === '\r') && !inQuotes) { if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); currentRow = []; currentField = ''; } if (ch === '\r' && next === '\n') i += 2; else i++; }
+				else { currentField += ch; i++; }
+			}
+			if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); }
+			return rows.filter(r => r.length > 0 && r.some(f => f && f.trim().length > 0));
+		}
+		function csvToObjects(csvText) {
+			const rows = parseCSVWithEmbeddedNewlines(csvText); if (rows.length === 0) return [];
+			const headers = rows[0]; const data = [];
+			for (let i = 1; i < rows.length; i++) { const row = rows[i]; if (row.length < headers.length) continue; const obj = {}; headers.forEach((h, idx) => obj[h] = (row[idx] || '').trim()); data.push(obj); }
+			return data;
+		}
+		const items = csvToObjects(csvText);
+		// Discover languages from header
+		const headers = (parseCSVWithEmbeddedNewlines(csvText)[0] || []);
+		const knownNonLang = new Set(['item_id','identifier','labels','task','context','en']);
+		const languageCodes = headers.filter(h => !knownNonLang.has(h) && /^[a-z]{2}(-[A-Z]{2})?$/.test(h));
+		if (!languageCodes.includes('en')) languageCodes.unshift('en');
+
+		function toBase(lang) { return lang.includes('-') ? lang.split('-')[0] : lang; }
+		function pct(n, d) { return d ? Math.round((n / d) * 10000)/100 : 0; }
+		function badge(n, d) {
+			const p = pct(n, d);
+			const cls = p === 100 ? 'ok' : (p > 0 ? 'warn' : 'err');
+			return `<span class="badge ${cls}">${p}%</span>`;
+		}
+
+		// ItemBank readiness per language
+		function itembankStats(lang) {
+			const exact = items.filter(r => (r[lang] || '').trim().length > 0).length;
+			const base = toBase(lang);
+			const withBase = items.filter(r => ((r[lang] || r[base] || '').trim().length > 0)).length;
+			return { total: items.length, exact, withBase };
+		}
+
+		// Dashboard translations: reuse translation_master.csv
+		let dashCsv = '';
+		try { const r = await fetch('./translation_master.csv', { cache: 'no-cache' }); if (r.ok) dashCsv = await r.text(); } catch (e) {}
+		const dashItems = dashCsv ? csvToObjects(dashCsv) : [];
+		function dashboardStats(lang) {
+			if (!dashItems.length) return { total: 0, exact: 0, withBase: 0 };
+			const base = toBase(lang);
+			const total = dashItems.length;
+			const exact = dashItems.filter(r => (r[lang] || '').trim().length > 0).length;
+			const withBase = dashItems.filter(r => ((r[lang] || r[base] || '').trim().length > 0)).length;
+			return { total, exact, withBase };
+		}
+
+		// Survey translations: list JSONs from levante-dashboard-dev and check for keys
+		async function surveyStats(lang) {
+			try {
+				// Static list based on known files in bucket (as exposed in repo), adjust if endpoint exists later
+				const candidates = ['child_survey.json','parent_survey_child.json','parent_survey_family.json','teacher_survey_classroom.json','teacher_survey_general.json'];
+				const base = toBase(lang);
+				let checked = 0, exact = 0, withBase = 0;
+				for (const name of candidates) {
+					try {
+						const url = `https://storage.googleapis.com/levante-dashboard-dev/${name}`;
+						const res = await fetch(url, { cache: 'no-cache' });
+						if (!res.ok) continue;
+						const txt = await res.text();
+						checked++;
+						const hasExact = txt.includes(`"${lang}"`) || txt.includes(`'${lang}'`);
+						const hasBase = !hasExact && (txt.includes(`"${base}"`) || txt.includes(`'${base}'`));
+						if (hasExact) exact++; if (hasBase) withBase++;
+					} catch {}
+				}
+				return { checked, exact, withBase };
+			} catch { return { checked: 0, exact: 0, withBase: 0 }; }
+		}
+
+		// Audio presence: ping api/read-tags in strict mode for a subset, but here aggregate presence by listing top-level prefixes from bucket via API list=1
+		async function audioStats(lang) {
+			try {
+				const res = await fetch('/api/read-tags?list=1', { cache: 'no-cache' });
+				if (!res.ok) return { present: false };
+				const data = await res.json();
+				const present = Array.isArray(data.languages) && data.languages.includes(lang);
+				return { present };
+			} catch { return { present: false }; }
+		}
+
+		// Build table rows with bounded concurrency
+		const tbody = document.querySelector('#reportTable tbody');
+		for (const lang of languageCodes) {
+			const ib = itembankStats(lang);
+			const ds = dashboardStats(lang);
+			const [sv, au] = await Promise.all([surveyStats(lang), audioStats(lang)]);
+			const tr = document.createElement('tr');
+			tr.innerHTML = `
+				<td>${(Object.entries(CONFIG.languages || {}).find(([name,cfg]) => cfg.lang_code === lang)?.[0]) || lang}</td>
+				<td><span class="code">${lang}</span></td>
+				<td>${badge(ib.exact, ib.total)} <span class="small">(${ib.exact}/${ib.total})</span></td>
+				<td>${sv.checked === 0 ? '<span class="badge warn">n/a</span>' : (sv.exact > 0 ? '<span class="badge ok">ok</span>' : (sv.withBase > 0 ? '<span class="badge warn">base</span>' : '<span class="badge err">none</span>'))} <span class="small">(${sv.exact}/${sv.checked}, base ${sv.withBase})</span></td>
+				<td>${ds.total === 0 ? '<span class="badge warn">n/a</span>' : badge(ds.exact, ds.total)} <span class="small">(${ds.exact}/${ds.total})</span></td>
+				<td>${au.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
+			`;
+			tbody.appendChild(tr);
+		}
+	})();
+	</script>
+</body>
+</html>
