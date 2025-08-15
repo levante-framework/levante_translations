@@ -10,7 +10,6 @@
         <target state="translated">Reportar un problema</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.buttonLabel</context>
-          <context context-type="x-crowdin-label">buttonLabel</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71026" resname="components/sentry-form.cancelButtonLabel">
@@ -18,7 +17,6 @@
         <target state="translated">Cancelar</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.cancelButtonLabel</context>
-          <context context-type="x-crowdin-label">cancelButtonLabel</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71028" resname="components/sentry-form.emailPlaceholder">
@@ -26,7 +24,6 @@
         <target state="translated">tu.email@example.org (opcional)</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.emailPlaceholder</context>
-          <context context-type="x-crowdin-label">emailPlaceholder</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71030" resname="components/sentry-form.formTitle">
@@ -34,7 +31,6 @@
         <target state="translated">Reportar un problema a LEVANTE</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.formTitle</context>
-          <context context-type="x-crowdin-label">formTitle</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71032" resname="components/sentry-form.messageLabel">
@@ -42,7 +38,6 @@
         <target state="translated">Descripción</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.messageLabel</context>
-          <context context-type="x-crowdin-label">messageLabel</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71034" resname="components/sentry-form.messagePlaceholder">
@@ -50,7 +45,6 @@
         <target state="translated">¿Cuál es el problema? ¿Qué querías experimentar en su lugar? Gracias por compartir.</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.messagePlaceholder</context>
-          <context context-type="x-crowdin-label">messagePlaceholder</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71036" resname="components/sentry-form.namePlaceholder">
@@ -58,7 +52,6 @@
         <target state="translated">Tu nombre (opcional)</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.namePlaceholder</context>
-          <context context-type="x-crowdin-label">namePlaceholder</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71038" resname="components/sentry-form.submitButtonLabel">
@@ -66,7 +59,6 @@
         <target state="translated">Enviar informe de problema</target>
         <context-group purpose="information">
           <context context-type="source">components/sentry-form.submitButtonLabel</context>
-          <context context-type="x-crowdin-label">submitButtonLabel</context>
         </context-group>
       </trans-unit>
     </body>
