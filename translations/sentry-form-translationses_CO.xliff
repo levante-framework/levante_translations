@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="224" original="/dashboard/components/sentry-form-translations.csv" source-language="en" target-language="es-CO" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="71024" resname="components/sentry-form.buttonLabel">
+        <source>Report an Issue</source>
+        <target state="translated">Reportar un problema</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.buttonLabel</context>
+          <context context-type="x-crowdin-label">buttonLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71026" resname="components/sentry-form.cancelButtonLabel">
+        <source>Cancel</source>
+        <target state="translated">Cancelar</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.cancelButtonLabel</context>
+          <context context-type="x-crowdin-label">cancelButtonLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71028" resname="components/sentry-form.emailPlaceholder">
+        <source>your.email@example.org (optional)</source>
+        <target state="translated">tu.email@example.org (opcional)</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.emailPlaceholder</context>
+          <context context-type="x-crowdin-label">emailPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71030" resname="components/sentry-form.formTitle">
+        <source>Report an Issue to LEVANTE</source>
+        <target state="translated">Reportar un problema a LEVANTE</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.formTitle</context>
+          <context context-type="x-crowdin-label">formTitle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71032" resname="components/sentry-form.messageLabel">
+        <source>Description</source>
+        <target state="translated">Descripción</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.messageLabel</context>
+          <context context-type="x-crowdin-label">messageLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71034" resname="components/sentry-form.messagePlaceholder">
+        <source>What is the issue? What did you want to experience instead? Thank you for sharing.</source>
+        <target state="translated">¿Cuál es el problema? ¿Qué querías experimentar en su lugar? Gracias por compartir.</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.messagePlaceholder</context>
+          <context context-type="x-crowdin-label">messagePlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71036" resname="components/sentry-form.namePlaceholder">
+        <source>Your Name (optional)</source>
+        <target state="translated">Tu nombre (opcional)</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.namePlaceholder</context>
+          <context context-type="x-crowdin-label">namePlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71038" resname="components/sentry-form.submitButtonLabel">
+        <source>Submit Issue Report</source>
+        <target state="translated">Enviar informe de problema</target>
+        <context-group purpose="information">
+          <context context-type="source">components/sentry-form.submitButtonLabel</context>
+          <context context-type="x-crowdin-label">submitButtonLabel</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
