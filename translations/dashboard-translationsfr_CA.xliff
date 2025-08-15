@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="198" original="/dashboard/dashboard-translations.csv" source-language="en" target-language="fr-CA" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="70834" resname="auth/consent.acceptButton">
+        <source>Accept</source>
+        <target state="translated">Accepter</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.acceptButton
+acceptButton</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70836" resname="auth/consent.assentTitle">
+        <source>Assent</source>
+        <target state="translated">Assentement</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.assentTitle
+assentTitle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70838" resname="auth/consent.consentTitle">
+        <source>Consent</source>
+        <target state="translated">Consentement</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.consentTitle
+consentTitle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70840" resname="auth/consent.consentUpdatedStatus">
+        <source>Consent status updated</source>
+        <target state="translated">État du consentement mis à jour</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.consentUpdatedStatus
+consentUpdatedStatus</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70842" resname="auth/consent.header">
+        <source>Consent</source>
+        <target state="translated">Consentement</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.header
+header</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70844" resname="auth/consent.rejectButton">
+        <source>No, sign me out</source>
+        <target state="translated">Non, me déconnecter</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.rejectButton
+rejectButton</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70848" resname="auth/consent.toastHeader">
+        <source>Confirmed</source>
+        <target state="translated">Confirmé</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.toastHeader
+toastHeader</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70850" resname="auth/signin.atLeastOneLowercase">
+        <source>At least one lowercase</source>
+        <target state="translated">Au moins une minuscule</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.atLeastOneLowercase
+atLeastOneLowercase</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70852" resname="auth/signin.atLeastOneNumber">
+        <source>At least one number</source>
+        <target state="translated">Au moins un chiffre</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.atLeastOneNumber
+atLeastOneNumber</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70854" resname="auth/signin.atLeastOneNumeric">
+        <source>At least one numeric</source>
+        <target state="translated">Au moins un numérique</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.atLeastOneNumeric
+atLeastOneNumeric</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70856" resname="auth/signin.atLeastOneUpperCase">
+        <source>At least one uppercase</source>
+        <target state="translated">Au moins une majuscule</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.atLeastOneUpperCase
+atLeastOneUpperCase</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70858" resname="auth/signin.buttonLabel">
+        <source>Go!</source>
+        <target state="translated">Allons-y!</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.buttonLabel
+buttonLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70860" resname="auth/signin.continueWithGoogle">
+        <source>Continue with Google</source>
+        <target state="translated">Continuer avec Google</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.continueWithGoogle
+continueWithGoogle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70862" resname="auth/signin.emailId">
+        <source>email</source>
+        <target state="translated">courriel</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.emailId
+emailId</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70864" resname="auth/signin.emailPlaceholder">
+        <source>Username or email</source>
+        <target state="translated">Nom d'utilisateur ou courriel</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.emailPlaceholder
+emailPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70866" resname="auth/signin.forgotPassword">
+        <source>Forgot Password?</source>
+        <target state="translated">Mot de passe oublié?</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.forgotPassword
+forgotPassword</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70868" resname="auth/signin.incorrectEmailOrPassword">
+        <source>Incorrect username/email or password</source>
+        <target state="translated">Nom d'utilisateur/courriel ou mot de passe incorrect</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.incorrectEmailOrPassword
+incorrectEmailOrPassword</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70870" resname="auth/signin.invalidEmailPlaceholder">
+        <source>Error: invalid email</source>
+        <target state="translated">Erreur: courriel invalide</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.invalidEmailPlaceholder
+invalidEmailPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70872" resname="auth/signin.minimumCharacters">
+        <source>Minimum 8 characters</source>
+        <target state="translated">Minimum 8 caractères</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.minimumCharacters
+minimumCharacters</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70874" resname="auth/signin.passwordId">
+        <source>password</source>
+        <target state="translated">mot de passe</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.passwordId
+passwordId</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70876" resname="auth/signin.passwordPlaceholder">
+        <source>Password</source>
+        <target state="translated">Mot de passe</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.passwordPlaceholder
+passwordPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70878" resname="auth/signin.pickPassword">
+        <source>Pick a password</source>
+        <target state="translated">Choisir un mot de passe</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.pickPassword
+pickPassword</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70880" resname="auth/signin.selectLanguage">
+        <source>Select Language</source>
+        <target state="translated">Sélectionner la langue</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.selectLanguage
+selectLanguage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70882" resname="auth/signin.selectLanguageLabel">
+        <source>Language</source>
+        <target state="translated">Langue</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.selectLanguageLabel
+selectLanguageLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70884" resname="auth/signin.signInWithEmailLinkInstead">
+        <source>Sign-in using email link</source>
+        <target state="translated">Se connecter avec un lien courriel</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.signInWithEmailLinkInstead
+signInWithEmailLinkInstead</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70886" resname="auth/signin.signInWithEmailLinkPlaceHolder">
+        <source>Press Go to sign-in with an email link.</source>
+        <target state="translated">Appuyez sur Aller pour vous connecter via un lien courriel.</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.signInWithEmailLinkPlaceHolder
+signInWithEmailLinkPlaceHolder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70888" resname="auth/signin.signInWithPasswordInstead">
+        <source>Sign-in using password</source>
+        <target state="translated">Se connecter avec un mot de passe</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.signInWithPasswordInstead
+signInWithPasswordInstead</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70890" resname="auth/signin.suggestions">
+        <source>Suggestions</source>
+        <target state="translated">Suggestions</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.suggestions
+suggestions</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70892" resname="pages/home-participant.contactAdministrator">
+        <source>Please contact your administrator to get added to an assignment.</source>
+        <target state="translated">Veuillez contacter votre administrateur pour être ajouté à une affectation.</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.contactAdministrator
+contactAdministrator</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70894" resname="pages/home-participant.loadingAssignments">
+        <source>Loading Assignments</source>
+        <target state="translated">Chargement des affectations</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.loadingAssignments
+loadingAssignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70896" resname="pages/home-participant.noAssignments">
+        <source>You have no assignments!</source>
+        <target state="translated">Vous n'avez aucune affectation!</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noAssignments
+noAssignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70898" resname="pages/home-participant.selectAssignment">
+        <source>Select an assignment</source>
+        <target state="translated">Sélectionnez une affectation</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.selectAssignment
+selectAssignment</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70900" resname="pages/home-participant.showOptionalAssignments">
+        <source>Show optional assignments</source>
+        <target state="translated">Afficher les affectations facultatives</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.showOptionalAssignments
+showOptionalAssignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
+        <source>You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</source>
+        <target state="translated">Vous serez bientôt déconnecté pour des raisons de sécurité. Veuillez cliquer sur « Continuer » si vous souhaitez poursuivre votre session. Sinon, vous serez automatiquement déconnecté dans { timeLeft } secondes.</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-selector.inactivityLogout
+inactivityLogout</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70904" resname="pages/home-selector.inactivityLogoutAcceptLabel">
+        <source>Continue</source>
+        <target state="translated">Continuer</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-selector.inactivityLogoutAcceptLabel
+inactivityLogoutAcceptLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70906" resname="pages/home-selector.loading">
+        <source>Loading...</source>
+        <target state="translated">Chargement...</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-selector.loading
+loading</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70908" resname="pages/not-found.label">
+        <source>Return to Home</source>
+        <target state="translated">Retour à l'accueil</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/not-found.label
+label</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70910" resname="pages/not-found.pageNotFound">
+        <source>Page not found</source>
+        <target state="translated">Page introuvable</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/not-found.pageNotFound
+pageNotFound</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70912" resname="pages/not-found.sorry">
+        <source>Sorry, we could not find that page!</source>
+        <target state="translated">Désolé, nous n'avons pas pu trouver cette page!</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/not-found.sorry
+sorry</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70914" resname="pages/signin.adminAction">
+        <source>here</source>
+        <target state="translated">ici</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.adminAction
+adminAction</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70916" resname="pages/signin.adminInfoPrompt">
+        <source>If you registered with a Google email or your email provider uses Google SSO.</source>
+        <target state="translated">Si vous vous êtes inscrit avec un e-mail Google ou si votre fournisseur de messagerie utilise Google SSO.</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.adminInfoPrompt
+adminInfoPrompt</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70918" resname="pages/signin.adminPrompt">
+        <source>Are you an Admin? Click {action} to Sign in.</source>
+        <target state="translated">Êtes-vous un administrateur? Cliquez {action} pour vous connecter.</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.adminPrompt
+adminPrompt</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70920" resname="pages/signin.havingTrouble">
+        <source>Having trouble?</source>
+        <target state="translated">Des problèmes?</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.havingTrouble
+havingTrouble</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70922" resname="pages/signin.login">
+        <source>Log in to access your dashboard</source>
+        <target state="translated">Connectez-vous pour accéder à votre tableau de bord</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.login
+login</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70924" resname="pages/signin.loginWith">
+        <source>Log in with</source>
+        <target state="translated">Connectez-vous avec</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.loginWith
+loginWith</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70926" resname="pages/signin.welcome">
+        <source>Welcome to ROAR!</source>
+        <target state="translated">Bienvenue à ROAR!</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/signin.welcome
+welcome</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70928" resname="surveys/user-survey.specificRelationDescriptionChildA">
+        <source>For child with Birth Month</source>
+        <target state="translated">Pour enfant avec Mois de naissance</target>
+        <context-group purpose="information">
+          <context context-type="source">surveys/user-survey.specificRelationDescriptionChildA
+specificRelationDescriptionChildA</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70930" resname="surveys/user-survey.specificRelationDescriptionChildB">
+        <source>and Birth Year</source>
+        <target state="translated">et Année de naissance</target>
+        <context-group purpose="information">
+          <context context-type="source">surveys/user-survey.specificRelationDescriptionChildB
+specificRelationDescriptionChildB</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70932" resname="surveys/user-survey.specificRelationDescriptionClass">
+        <source>For class</source>
+        <target state="translated">Pour classe</target>
+        <context-group purpose="information">
+          <context context-type="source">surveys/user-survey.specificRelationDescriptionClass
+specificRelationDescriptionClass</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
