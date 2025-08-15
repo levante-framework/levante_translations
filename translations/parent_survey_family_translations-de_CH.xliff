@@ -9,7 +9,7 @@
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;
 Thank you again for participating in this research project!&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;The following survey will take approximately 20-30 minutes to complete and will ask questions about your home and yourself.&lt;br&gt;&lt;br&gt;We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Thank you!</source>
         <target state="translated">&lt;block&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;
-Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Die folgende Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihnen selbst und zu ihrem häuslichen Umfeld.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an den Forschungskoordinator.&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf &quot;Umfrage starten&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Vielen Dank!</target>
+&lt;block&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt! &lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Dieser Teil der Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihnen selbst und zu Ihrem häuslichen Umfeld.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva.mpg.de).&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf &quot;Umfrage starten&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Vielen Dank!</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_001</context>
         </context-group>
@@ -324,7 +324,7 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="64610" resname="parent_survey_family_046">
         <source>If yes, how often did this happen - almost every month, some months but not every month, or in only 1 or 2 months?</source>
-        <target state="translated">Wenn ja, wie oft kam dies vor - fast jeden Monat, in einigen Monaten aber nicht in jedem Monat, nur in 1 oder 2 Monaten?</target>
+        <target state="translated">Wenn ja, wie oft ist kam dies vor - fast jeden Monat, in einigen Monaten aber nicht in jedem Monat, nur in 1 oder 2 Monaten?</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_046</context>
         </context-group>
@@ -506,21 +506,21 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="64662" resname="parent_survey_family_072">
         <source>Very well</source>
-        <target state="translated">Trifft voll und ganz zu</target>
+        <target state="translated">Sehr gut</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_072</context>
         </context-group>
       </trans-unit>
       <trans-unit id="64664" resname="parent_survey_family_073">
         <source>Somewhat well</source>
-        <target state="translated">Trifft eher zu</target>
+        <target state="translated">Eher gut</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_073</context>
         </context-group>
       </trans-unit>
       <trans-unit id="64666" resname="parent_survey_family_074">
         <source>Not very well</source>
-        <target state="translated">Trifft eher nicht zu</target>
+        <target state="translated">Nicht sehr gut</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_074</context>
         </context-group>
@@ -541,7 +541,7 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="64672" resname="parent_survey_family_077">
         <source>Not at all</source>
-        <target state="translated">Trifft überhaupt nicht zu</target>
+        <target state="translated">Überhaupt nicht</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_077</context>
         </context-group>
@@ -751,7 +751,7 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="64732" resname="parent_survey_family_107">
         <source>A few times a year</source>
-        <target state="translated">Einige Male im Jahr</target>
+        <target state="translated">Ein paar Mal im Jahr</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_107</context>
         </context-group>
@@ -814,7 +814,7 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="64750" resname="parent_survey_family_116">
         <source>Please select Yes or No to indicate whether each event has happened to you &lt;b&gt;in the past year&lt;/b&gt;.</source>
-        <target state="translated">Bitte wählen Sie &quot;Ja&quot; oder&quot;Nein&quot;, um anzugeben, ob Ihnen das jeweilige Ereignis im vergangenen Jahr widerfahren ist.</target>
+        <target state="translated">Bitte wählen Sie &quot;Ja&quot; oder &quot;Nein&quot;, um anzugeben, ob Ihnen das jeweilige Ereignis im vergangenen Jahr widerfahren ist.</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_116</context>
         </context-group>
@@ -1899,7 +1899,7 @@ Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt!&lt;/b&gt;&l
       </trans-unit>
       <trans-unit id="65060" resname="parent_survey_family_271">
         <source>Change of school or college.</source>
-        <target state="translated">Schul- oder Hochschulwechsel</target>
+        <target state="translated">Schul- oder Hochschulwechsel.</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family_271</context>
         </context-group>
