@@ -3,8 +3,9 @@
 Comprehensive Translation Deployment Script
 
 This script handles the complete deployment of translation-related files:
-1. Deploys itembank_translations.csv to levante-dashboard buckets (using deploy_levante.py)
-2. Syncs audio files to levante-audio buckets (using gsutil rsync)
+1. Deploys itembank_translations.csv to levante-dashboard buckets via rsync
+2. Mirrors CSV/ICU/XLIFF to levante-assets-* buckets via rsync
+3. Syncs audio files to levante-assets-* via rsync
 """
 
 import sys
@@ -13,6 +14,7 @@ import subprocess
 import argparse
 from pathlib import Path
 from datetime import datetime
+import tempfile
 
 # Configuration
 AUDIO_SOURCE_DIR = "audio_files"
@@ -20,6 +22,14 @@ AUDIO_BUCKET_DIR = "audio"
 AUDIO_BUCKET_NAME_DEV = "levante-assets-dev"
 AUDIO_BUCKET_NAME_PROD = "levante-assets-prod"
 TRANSLATION_BUCKET_DIR = "translations"
+ICU_SOURCE_DIR = "xliff/translations-icu"
+ICU_BUCKET_DIR = "translations/icu"
+XLIFF_BUCKET_DIR = "translations/xliff"
+XLIFF_GITHUB_REPO = "levante-framework/levante_translations"
+XLIFF_GITHUB_REF = "l10n_pending"
+XLIFF_GITHUB_PATH = "translations"
+DASHBOARD_BUCKET_NAME_DEV = 'levante-dashboard-dev'
+DASHBOARD_BUCKET_NAME_PROD = 'levante-dashboard-prod'
 
 def get_audio_bucket_name(environment: str) -> str:
     """Get the audio bucket name for the specified environment."""
@@ -27,6 +37,9 @@ def get_audio_bucket_name(environment: str) -> str:
         return AUDIO_BUCKET_NAME_PROD
     else:
         return AUDIO_BUCKET_NAME_DEV
+
+def get_dashboard_bucket_name(environment: str) -> str:
+    return DASHBOARD_BUCKET_NAME_PROD if environment.lower() == 'prod' else DASHBOARD_BUCKET_NAME_DEV
 
 def print_header(title: str):
     """Print a formatted header."""
@@ -152,38 +165,30 @@ def check_prerequisites(environment: str, deploy_audio: bool) -> bool:
     
     return all_good
 
-def deploy_csv(environment: str, dry_run: bool = False) -> bool:
-    """
-    Deploy the itembank_translations.csv using deploy_levante.py.
-    
-    Args:
-        environment: Target environment (dev/prod)
-        dry_run: If True, run in dry-run mode
-        
-    Returns:
-        True if deployment succeeded
-    """
-    print_section(f"CSV Deployment to {environment.upper()}")
-    
-    # Build command
-    cmd = ["python3", "deploy_levante.py", f"-{environment}"]
-    if dry_run:
-        cmd.append("--dry-run")
-    
-    description = f"Deploy itembank_translations.csv to levante-dashboard-{environment}"
-    return run_command(cmd, description, dry_run=False)  # deploy_levante.py handles its own dry-run
-
-def deploy_csv_to_assets(environment: str, dry_run: bool = False) -> bool:
-    """Copy item-bank-translations.csv into levante-assets-* bucket under translation/."""
+def deploy_csv_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
+    """Rsync item-bank-translations.csv into levante-assets-* bucket under translations/."""
     print_section(f"CSV Mirror to Assets ({environment.upper()})")
     local_csv = "translation_text/item_bank_translations.csv"
     if not os.path.exists(local_csv):
         print(f"❌ Local CSV not found: {local_csv}")
         return False
     bucket = get_audio_bucket_name(environment)
-    target = f"gs://{bucket}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv"
-    cmd = ["gsutil", "cp", local_csv, target]
-    return run_command(cmd, f"Copy CSV to {target}", dry_run)
+    target_prefix = f"gs://{bucket}/{TRANSLATION_BUCKET_DIR}/"
+    # Prepare temp dir with desired filename
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_csv = os.path.join(tmpdir, "item-bank-translations.csv")
+        try:
+            # Copy local CSV to temp with target name
+            with open(local_csv, 'rb') as src, open(tmp_csv, 'wb') as dst:
+                dst.write(src.read())
+        except Exception as e:
+            print(f"❌ Failed staging CSV: {e}")
+            return False
+        if force:
+            run_command(["gsutil", "rm", f"{target_prefix}item-bank-translations.csv"], "Remove remote CSV (force)")
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r"]
+        cmd.extend([f"{tmpdir}/", target_prefix])
+        return run_command(cmd, f"Rsync CSV to {target_prefix}", dry_run)
 
 def validate_core_tasks(core_tasks_path: str) -> bool:
     """
@@ -210,39 +215,119 @@ def validate_core_tasks(core_tasks_path: str) -> bool:
     description = "Validate core-tasks repository with Cypress tests"
     return run_command(cmd, description, dry_run=False)
 
-def deploy_audio(environment: str, dry_run: bool = False) -> bool:
-    """
-    Deploy audio files using gsutil rsync.
-    
-    Args:
-        environment: Target environment (dev/prod)
-        dry_run: If True, run in dry-run mode
-        
-    Returns:
-        True if deployment succeeded
-    """
+def deploy_audio(environment: str, dry_run: bool = False, force: bool = False) -> bool:
+    """Deploy audio files using gsutil rsync (checksum)."""
     print_section(f"Audio Deployment to {environment.upper()}")
-    
     bucket_name = get_audio_bucket_name(environment)
     source_path = f"{AUDIO_SOURCE_DIR}/"
     target_path = f"gs://{bucket_name}/{AUDIO_BUCKET_DIR}/"
-    
-    # Build gsutil rsync command
-    cmd = ["gsutil", "-m", "rsync", "-r", "-d"]
-    
+    cmd = ["gsutil", "-m", "rsync", "-c", "-r", "-d"]
     if dry_run:
-        cmd.append("-n")  # gsutil dry-run flag
-    
+        cmd.append("-n")
     cmd.extend([source_path, target_path])
-    
     print(f"📁 Source: {source_path}")
     print(f"🪣 Target: {target_path}")
-    
     if dry_run:
         print("🧪 DRY RUN - Audio files that would be synced:")
-    
-    description = f"Sync audio files to {bucket_name}"
-    return run_command(cmd, description, dry_run=False)  # gsutil handles its own dry-run
+    return run_command(cmd, f"Sync audio files to {bucket_name}", dry_run)
+
+# NEW: ICU JSON sync to assets bucket
+
+def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
+    """Sync ICU JSON files to levante-assets-* bucket under translations/icu/."""
+    print_section(f"ICU JSON Mirror to Assets ({environment.upper()})")
+    if not Path(ICU_SOURCE_DIR).exists():
+        print(f"⚠️ ICU directory not found: {ICU_SOURCE_DIR}")
+        return False
+    bucket_name = get_audio_bucket_name(environment)
+    source_path = f"{ICU_SOURCE_DIR}/"
+    target_path = f"gs://{bucket_name}/{ICU_BUCKET_DIR}/"
+    if force:
+        run_command(["gsutil", "-m", "rm", "-r", target_path], "Remove remote ICU dir (force)")
+    cmd = ["gsutil", "-m", "rsync", "-c", "-r", "-d"]
+    if dry_run:
+        cmd.append("-n")
+    cmd.extend([source_path, target_path])
+    print(f"📁 Source: {source_path}")
+    print(f"🪣 Target: {target_path}")
+    if dry_run:
+        print("🧪 DRY RUN - ICU JSON files that would be synced:")
+    return run_command(cmd, f"Sync ICU JSON to {target_path}", dry_run)
+
+# NEW: Fetch XLIFF from GitHub and mirror to assets bucket
+
+def deploy_xliff_to_assets_from_github(environment: str, dry_run: bool = False, force: bool = False) -> bool:
+    """Fetch XLIFF files from GitHub and rsync to gs://levante-assets-*/translations/xliff/."""
+    print_section(f"XLIFF Mirror to Assets from GitHub ({environment.upper()})")
+    try:
+        sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "xliff"))
+        from xliff.convert_xliff_to_icu import list_xliff_files, build_raw_url, fetch_text  # type: ignore
+    except Exception:
+        try:
+            from xliff.convert_xliff_to_icu import list_xliff_files, build_raw_url, fetch_text  # type: ignore
+        except Exception as e:
+            print(f"❌ Could not import XLIFF helpers: {e}")
+            return False
+    try:
+        import os as _os
+        token = _os.environ.get("GITHUB_TOKEN")
+        files = list_xliff_files(XLIFF_GITHUB_REPO, XLIFF_GITHUB_REF, XLIFF_GITHUB_PATH, token)
+    except Exception as e:
+        print(f"❌ Failed listing GitHub XLIFF files: {e}")
+        return False
+    if not files:
+        print("⚠️ No XLIFF files found in GitHub translations folder.")
+        return False
+    bucket_name = get_audio_bucket_name(environment)
+    target_path = f"gs://{bucket_name}/{XLIFF_BUCKET_DIR}/"
+    with tempfile.TemporaryDirectory() as tmpdir:
+        for fi in files:
+            name = fi.get("name")
+            if not name or not name.lower().endswith(".xliff"):
+                continue
+            url = fi.get("download_url") or build_raw_url(XLIFF_GITHUB_REPO, XLIFF_GITHUB_REF, XLIFF_GITHUB_PATH, name)
+            try:
+                content = fetch_text(url, token)
+            except Exception as e:
+                print(f"   ❌ Fetch failed for {name}: {e}")
+                continue
+            local_path = os.path.join(tmpdir, name)
+            with open(local_path, "w", encoding="utf-8") as f:
+                f.write(content)
+        if force:
+            run_command(["gsutil", "-m", "rm", "-r", target_path], "Remove remote XLIFF dir (force)")
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r", "-d", f"{tmpdir}/", target_path]
+        return run_command(cmd, f"Rsync XLIFF to {target_path}", dry_run)
+
+# NEW: CSV upload to levante-dashboard bucket via rsync
+
+def deploy_csv_to_dashboard(environment: str, dry_run: bool = False, force: bool = False) -> bool:
+    print_section(f"CSV Deployment to {environment.upper()} (Dashboard)")
+    local_csv = "translation_text/item_bank_translations.csv"
+    if not os.path.exists(local_csv):
+        print(f"❌ Local CSV not found: {local_csv}")
+        return False
+    bucket = get_dashboard_bucket_name(environment)
+    target_root = f"gs://{bucket}/"
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Stage BOTH filenames commonly referenced by downstream consumers
+        tmp_csv_underscore = os.path.join(tmpdir, "itembank_translations.csv")
+        tmp_csv_hyphen = os.path.join(tmpdir, "item-bank-translations.csv")
+        try:
+            with open(local_csv, 'rb') as src:
+                data = src.read()
+            with open(tmp_csv_underscore, 'wb') as dst1:
+                dst1.write(data)
+            with open(tmp_csv_hyphen, 'wb') as dst2:
+                dst2.write(data)
+        except Exception as e:
+            print(f"❌ Failed staging CSV: {e}")
+            return False
+        if force:
+            run_command(["gsutil", "rm", f"{target_root}itembank_translations.csv"], "Remove remote dashboard CSV (underscore, force)")
+            run_command(["gsutil", "rm", f"{target_root}item-bank-translations.csv"], "Remove remote dashboard CSV (hyphen, force)")
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r", f"{tmpdir}/", target_root]
+        return run_command(cmd, f"Rsync CSV files to {target_root}", dry_run)
 
 def main():
     """Main function to handle command line arguments and orchestrate deployment."""
@@ -257,6 +342,7 @@ Examples:
     python deploy_translations.py dev --dry-run      # Test deployment
     python deploy_translations.py dev --csv-only     # Deploy only CSV
     python deploy_translations.py dev --audio-only   # Deploy only audio
+    python deploy_translations.py dev --force        # Force re-upload by removing remote targets
         """
     )
     
@@ -284,6 +370,12 @@ Examples:
         '--audio-only',
         action='store_true',
         help='Deploy only audio files, skip CSV file'
+    )
+    
+    parser.add_argument(
+        '--force',
+        action='store_true',
+        help='Force uploads (use cp instead of rsync)'
     )
     
     parser.add_argument(
@@ -324,10 +416,11 @@ Examples:
     print(f"📊 Deploy CSV: {'Yes' if deploy_csv_flag else 'No'}")
     print(f"🎵 Deploy Audio: {'Yes' if deploy_audio_flag else 'No'}")
     print(f"🧪 Dry Run: {'Yes' if args.dry_run else 'No'}")
+    print(f"🔄 Force Re-upload: {'Yes' if args.force else 'No'}")
     
     # Fetch the latest translations from l10n_pending branch
     if deploy_csv_flag:
-        print("\n📥 Fetching latest translations from l10n_pending branch...")
+        print("\n📥 Fetching and normalizing latest translations...")
         try:
             sys.path.append(os.path.dirname(os.path.abspath(__file__)))
             from utilities.get_translations_csv_merged import get_translations
@@ -351,16 +444,21 @@ Examples:
     
     # Deploy CSV
     if deploy_csv_flag:
-        csv_success = deploy_csv(args.environment, args.dry_run)
-        # Mirror to levante-assets-*/translation/ if primary CSV deploy succeeded
+        # Upload CSV to levante-dashboard bucket via rsync
+        csv_success = deploy_csv_to_dashboard(args.environment, args.dry_run, args.force)
+        # Mirror to levante-assets-*/translations/ if primary CSV deploy succeeded
         if csv_success:
-            _ = deploy_csv_to_assets(args.environment, args.dry_run)
+            _ = deploy_csv_to_assets(args.environment, args.dry_run, args.force)
+            # Also mirror ICU JSONs
+            _ = deploy_icu_to_assets(args.environment, args.dry_run, args.force)
+            # And fetch+mirror XLIFF files from GitHub
+            _ = deploy_xliff_to_assets_from_github(args.environment, args.dry_run, args.force)
         if not csv_success:
             print(f"\n❌ CSV deployment failed!")
     
     # Deploy Audio  
     if deploy_audio_flag:
-        audio_success = deploy_audio(args.environment, args.dry_run)
+        audio_success = deploy_audio(args.environment, args.dry_run, args.force)
         if not audio_success:
             print(f"\n❌ Audio deployment failed!")
     
@@ -399,8 +497,10 @@ Examples:
         if not args.dry_run:
             print(f"\n🌐 Resources deployed to {args.environment} environment:")
             if deploy_csv_flag:
-                print(f"   📊 CSV: gs://levante-dashboard-{args.environment}/itembank_translations.csv")
+                print(f"   📊 CSV (dashboard): gs://{get_dashboard_bucket_name(args.environment)}/itembank_translations.csv")
                 print(f"   📊 CSV (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv")
+                print(f"   📄 ICU JSON (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{ICU_BUCKET_DIR}/")
+                print(f"   📦 XLIFF (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{XLIFF_BUCKET_DIR}/")
             if deploy_audio_flag:
                 print(f"   🎵 Audio: gs://{get_audio_bucket_name(args.environment)}/{AUDIO_BUCKET_DIR}/")
     else:
