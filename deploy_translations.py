@@ -5,18 +5,6 @@ Comprehensive Translation Deployment Script
 This script handles the complete deployment of translation-related files:
 1. Deploys itembank_translations.csv to levante-dashboard buckets (using deploy_levante.py)
 2. Syncs audio files to levante-audio buckets (using gsutil rsync)
-
-Usage:
-    python deploy_translations.py [dev|prod] [--dry-run] [--csv-only] [--audio-only] [--validate-core-tasks]
-    
-Examples:
-    python deploy_translations.py                              # Deploy both CSV and audio to dev (default)
-    python deploy_translations.py dev                          # Deploy both to dev environment
-    python deploy_translations.py prod                         # Deploy both to prod environment
-    python deploy_translations.py dev --dry-run                # Test deployment to dev
-    python deploy_translations.py dev --csv-only               # Deploy only CSV to dev
-    python deploy_translations.py dev --audio-only             # Deploy only audio to dev
-    python deploy_translations.py dev --validate-core-tasks    # Deploy and validate core-tasks works
 """
 
 import sys
@@ -28,8 +16,10 @@ from datetime import datetime
 
 # Configuration
 AUDIO_SOURCE_DIR = "audio_files"
-AUDIO_BUCKET_NAME_DEV = "levante-audio-dev"
-AUDIO_BUCKET_NAME_PROD = "levante-audio-prod"
+AUDIO_BUCKET_DIR = "audio"
+AUDIO_BUCKET_NAME_DEV = "levante-assets-dev"
+AUDIO_BUCKET_NAME_PROD = "levante-assets-prod"
+TRANSLATION_BUCKET_DIR = "translations"
 
 def get_audio_bucket_name(environment: str) -> str:
     """Get the audio bucket name for the specified environment."""
@@ -183,6 +173,18 @@ def deploy_csv(environment: str, dry_run: bool = False) -> bool:
     description = f"Deploy itembank_translations.csv to levante-dashboard-{environment}"
     return run_command(cmd, description, dry_run=False)  # deploy_levante.py handles its own dry-run
 
+def deploy_csv_to_assets(environment: str, dry_run: bool = False) -> bool:
+    """Copy item-bank-translations.csv into levante-assets-* bucket under translation/."""
+    print_section(f"CSV Mirror to Assets ({environment.upper()})")
+    local_csv = "translation_text/item_bank_translations.csv"
+    if not os.path.exists(local_csv):
+        print(f"❌ Local CSV not found: {local_csv}")
+        return False
+    bucket = get_audio_bucket_name(environment)
+    target = f"gs://{bucket}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv"
+    cmd = ["gsutil", "cp", local_csv, target]
+    return run_command(cmd, f"Copy CSV to {target}", dry_run)
+
 def validate_core_tasks(core_tasks_path: str) -> bool:
     """
     Run core-tasks validation by calling the validate_core_tasks.py script.
@@ -223,7 +225,7 @@ def deploy_audio(environment: str, dry_run: bool = False) -> bool:
     
     bucket_name = get_audio_bucket_name(environment)
     source_path = f"{AUDIO_SOURCE_DIR}/"
-    target_path = f"gs://{bucket_name}/"
+    target_path = f"gs://{bucket_name}/{AUDIO_BUCKET_DIR}/"
     
     # Build gsutil rsync command
     cmd = ["gsutil", "-m", "rsync", "-r", "-d"]
@@ -328,8 +330,8 @@ Examples:
         print("\n📥 Fetching latest translations from l10n_pending branch...")
         try:
             sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-            from utilities.fetch_latest_translations import fetch_translations
-            if not fetch_translations(force=True):
+            from utilities.get_translations_csv_merged import get_translations
+            if not get_translations(force=True):
                 print("❌ Failed to fetch latest translations - using local copy")
             else:
                 print("✅ Successfully updated to latest translations")
@@ -350,6 +352,9 @@ Examples:
     # Deploy CSV
     if deploy_csv_flag:
         csv_success = deploy_csv(args.environment, args.dry_run)
+        # Mirror to levante-assets-*/translation/ if primary CSV deploy succeeded
+        if csv_success:
+            _ = deploy_csv_to_assets(args.environment, args.dry_run)
         if not csv_success:
             print(f"\n❌ CSV deployment failed!")
     
@@ -395,8 +400,9 @@ Examples:
             print(f"\n🌐 Resources deployed to {args.environment} environment:")
             if deploy_csv_flag:
                 print(f"   📊 CSV: gs://levante-dashboard-{args.environment}/itembank_translations.csv")
+                print(f"   📊 CSV (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv")
             if deploy_audio_flag:
-                print(f"   🎵 Audio: gs://{get_audio_bucket_name(args.environment)}/")
+                print(f"   🎵 Audio: gs://{get_audio_bucket_name(args.environment)}/{AUDIO_BUCKET_DIR}/")
     else:
         print(f"\n💥 Some deployments failed. Check the logs above for details.")
         return 1
