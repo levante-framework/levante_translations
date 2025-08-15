@@ -10,7 +10,6 @@
         <target state="translated">laden</target>
         <context-group purpose="information">
           <context context-type="source">components/tasks.loading</context>
-          <context context-type="x-crowdin-label">loading</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71048" resname="components/tasks.preparing">
@@ -18,7 +17,6 @@
         <target state="translated">Je spel voorbereiden!</target>
         <context-group purpose="information">
           <context context-type="source">components/tasks.preparing</context>
-          <context context-type="x-crowdin-label">preparing</context>
         </context-group>
       </trans-unit>
     </body>
