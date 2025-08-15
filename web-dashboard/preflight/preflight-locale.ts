@@ -123,15 +123,19 @@ async function checkItemBank(langCode: string): Promise<ReadinessReport['itemBan
 	const localPath = path.resolve(__dirname, '../translation_text/complete_translations.csv');
 	let csvText: string | null = null;
 	let source = '';
-	if (fs.existsSync(localPath)) {
-		csvText = fs.readFileSync(localPath, 'utf-8');
-		source = 'local complete_translations.csv';
-	} else {
+	// Prefer remote first
+	try {
 		csvText = await fetchText(primaryUrl);
 		source = primaryUrl;
+	} catch (e) {
+		// Fallback to local
+		if (fs.existsSync(localPath)) {
+			csvText = fs.readFileSync(localPath, 'utf-8');
+			source = 'local complete_translations.csv';
+		}
 	}
+	if (!csvText) return { totalItems: 0, translatedExact: 0, translatedWithBaseFallback: 0, coverageExactPct: 0, coverageWithFallbackPct: 0, source };
 	const rows = csvToObjects(csvText);
-	if (rows.length === 0) return { totalItems: 0, translatedExact: 0, translatedWithBaseFallback: 0, coverageExactPct: 0, coverageWithFallbackPct: 0, source };
 	const exactCol = langCode;
 	const baseCol = toBaseLang(langCode);
 	const totalItems = rows.length;
@@ -189,8 +193,10 @@ async function checkSurveyTranslations(langCode: string, env: 'dev' | 'prod'): P
 		try {
 			const [buf] = await file.download();
 			jsonText = buf.toString('utf-8');
-			const hasExact = jsonText.includes(`"${langCode}"`) || jsonText.includes(`'${langCode}'`);
-			const hasBase = !hasExact && (jsonText.includes(`"${base}"`) || jsonText.includes(`'${base}'`));
+			let hasExact = jsonText.includes(`"${langCode}"`) || jsonText.includes(`'${langCode}'`);
+			let hasBase = !hasExact && (jsonText.includes(`"${base}"`) || jsonText.includes(`'${base}'`));
+			// Treat implicit English as coverage when no explicit locale keys are present
+			if (langCode === 'en' && !hasExact && !hasBase) { hasExact = true; }
 			if (hasExact) filesWithLang++;
 			if (hasBase) filesWithBase++;
 			details.push({ file: file.name, hasExact, hasBase });
