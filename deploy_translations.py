@@ -165,6 +165,21 @@ def check_prerequisites(environment: str, deploy_audio: bool) -> bool:
     
     return all_good
 
+def setup_gsutil_auth() -> None:
+    """If creds are provided via GOOGLE_APPLICATION_CREDENTIALS_JSON, write them to a temp file
+    and set GOOGLE_APPLICATION_CREDENTIALS so gsutil can authenticate."""
+    json_env = os.getenv('GOOGLE_APPLICATION_CREDENTIALS_JSON')
+    file_env = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+    if json_env and not file_env:
+        try:
+            fd, path = tempfile.mkstemp(prefix='gsa_', suffix='.json')
+            with os.fdopen(fd, 'w') as f:
+                f.write(json_env)
+            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = path
+            print(f"🔐 gsutil auth configured via GOOGLE_APPLICATION_CREDENTIALS -> {path}")
+        except Exception as e:
+            print(f"⚠️ Failed to configure gsutil auth from JSON env: {e}")
+
 def deploy_csv_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
     """Rsync item-bank-translations.csv into levante-assets-* bucket under translations/."""
     print_section(f"CSV Mirror to Assets ({environment.upper()})")
@@ -436,7 +451,10 @@ Examples:
     if not check_prerequisites(args.environment, deploy_audio_flag):
         print("\n❌ Prerequisites check failed. Please resolve the issues above.")
         return 1
-    
+
+    # Ensure gsutil can authenticate if only JSON env is present
+    setup_gsutil_auth()
+
     # Track success
     csv_success = True
     audio_success = True
