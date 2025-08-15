@@ -107,16 +107,27 @@
 		}
 		function capitalize(s) { return (s && s.length) ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 		function languageDisplayName(code) {
-			// Prefer CONFIG mapping
+			// Prefer CONFIG mapping, but append region if code includes one and name doesn't already include it
 			const match = Object.entries(CONFIG.languages || {}).find(([name, cfg]) => cfg.lang_code === code);
-			if (match) {
-				const [name, cfg] = match;
-				return cfg.display_name || name;
-			}
-			// Fallback via Intl
 			const parts = code.split('-');
 			const langPart = parts[0];
 			const regionPart = parts[1];
+			if (match) {
+				const [fallbackName, cfg] = match;
+				const baseName = cfg.display_name || fallbackName;
+				if (regionPart) {
+					if (baseName.includes('(')) return baseName; // already includes region
+					try {
+						const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+						const regionName = regionNames.of(regionPart.toUpperCase()) || regionPart.toUpperCase();
+						return `${baseName} (${regionName})`;
+					} catch (e) {
+						return `${baseName} (${regionPart.toUpperCase()})`;
+					}
+				}
+				return baseName;
+			}
+			// Fallback via Intl
 			try {
 				const langNames = new Intl.DisplayNames(['en'], { type: 'language' });
 				const languageName = langNames.of(langPart) || langPart;
