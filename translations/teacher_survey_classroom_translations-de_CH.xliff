@@ -7,21 +7,21 @@
     <body>
       <trans-unit id="70200" resname="teacher_survey_classroom_001">
         <source>&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;This is Part B of the survey.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &lt;br&gt;&lt;br&gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the &quot;Next&quot; button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Thank you!</source>
-        <target state="translated">&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Dies ist Teil B der Umfrage.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Im Teil B sind die Fragen klassenspezifisch. Wenn Sie mehr als eine Klasse unterrichten, die an diesem Projekt teilnimmt, füllen Sie Teil B für jede Klasse separat aus. &lt;br&gt;&lt;br&gt;Wenn Sie ein einzelnes Fach unterrichten, beantworten Sie die Fragen zu anderen Fächern nach bestem Wissen oder konsultieren Sie einen Kollegen für diese Details. &lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf die Schaltfläche „Weiter“. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Vielen Dank!</target>
+        <target state="translated">&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Dies ist Teil B der Umfrage.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;In Teil B sind die Fragen klassenspezifisch. Wenn Sie mehr als eine Klasse von Schülern unterrichten, die Teil dieses Projekts sind, wird Teil B für jede Klasse separat ausgefüllt. &lt;br&gt;&lt;br&gt;Wenn Sie ein einziges Fach unterrichten, beantworten Sie die Fragen, die sich auf andere Fächer beziehen, nach bestem Wissen oder konsultieren Sie einen Kollegen für diese Details. &lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, drücken Sie die „Weiter“-Taste. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Vielen Dank!</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_001</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70202" resname="teacher_survey_classroom_002">
         <source>How many classrooms do you teach that contain students participating in this research project?</source>
-        <target state="translated">Wie viele Klassen unterrichten Sie, die Schüler enthalten, die an diesem Forschungsprojekt teilnehmen?</target>
+        <target state="translated">Wie viele Klassen unterrichten Sie, in denen Schüler an diesem Forschungsprojekt teilnehmen?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_002</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70204" resname="teacher_survey_classroom_003">
         <source>Is there another adult who is paid to help you in this classroom (e.g., teaching assistant, co-lead teacher, etc.)?</source>
-        <target state="translated">Gibt es einen weiteren Erwachsenen, der dafür bezahlt wird, Ihnen in diesem Klassenzimmer zu helfen (z.B. Lehrassistent, Co-Lehrer usw.)?</target>
+        <target state="translated">Gibt es einen anderen Erwachsenen, der bezahlt wird, um Ihnen in dieser Klasse zu helfen (z.B. Lehrassistent, Co-Lehrkraft, etc.)?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_003</context>
         </context-group>
@@ -119,7 +119,7 @@
       </trans-unit>
       <trans-unit id="70232" resname="teacher_survey_classroom_017">
         <source>As of today's date, how many children in this class are each of the following age levels?</source>
-        <target state="translated">Bis zum heutigen Datum, wie viele Kinder in dieser Klasse sind in jedem der folgenden Altersstufen?</target>
+        <target state="translated">Wie viele Kinder in dieser Klasse haben zum heutigen Datum jedes der folgenden Altersstufen erreicht?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_017</context>
         </context-group>
@@ -273,21 +273,21 @@
       </trans-unit>
       <trans-unit id="70276" resname="teacher_survey_classroom_039">
         <source>If yes, what grade levels are included in the class you teach? (select all that apply)</source>
-        <target state="translated">Wenn ja, welche Klassenstufen sind in der von Ihnen unterrichteten Klasse vertreten? (Wählen Sie alle zutreffenden aus)</target>
+        <target state="translated">Wenn ja, welche Klassenstufen sind in der Klasse, die Sie unterrichten, eingeschlossen? (Wählen Sie alle, die zutreffen)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_039</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70278" resname="teacher_survey_classroom_040">
         <source>Prekindergarten</source>
-        <target state="translated">Vorkindergarten</target>
+        <target state="translated">Vorschule</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_040</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70280" resname="teacher_survey_classroom_041">
         <source>Transitional (or readiness) kindergarten</source>
-        <target state="translated">Übergangskindergarten (oder Vorbereitungskindergarten)</target>
+        <target state="translated">Übergangskindergarten</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_041</context>
         </context-group>
@@ -364,7 +364,7 @@
       </trans-unit>
       <trans-unit id="70302" resname="teacher_survey_classroom_052">
         <source>What languages are spoken by students in this class (select all that apply)?</source>
-        <target state="translated">Welche Sprachen sprechen die Schüler in dieser Klasse (wählen Sie alle zutreffenden aus)?</target>
+        <target state="translated">Welche Sprachen sprechen die Schüler in dieser Klasse (Wählen Sie alle, die zutreffen)?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_052</context>
         </context-group>
@@ -434,14 +434,14 @@
       </trans-unit>
       <trans-unit id="70322" resname="teacher_survey_classroom_062">
         <source>What languages do you or your assistant teacher speak &lt;b&gt;in the classroom&lt;/b&gt; (select all that apply)?</source>
-        <target state="translated">Welche Sprachen sprechen Sie oder Ihr Assistent &lt;b&gt;im Klassenzimmer&lt;/b&gt; (wählen Sie alle zutreffenden aus)?</target>
+        <target state="translated">Welche Sprachen sprechen Sie oder Ihr Assistenzlehrer &lt;b&gt;im Unterricht&lt;/b&gt; (Wählen Sie alle, die zutreffen)?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_062</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70324" resname="teacher_survey_classroom_063">
         <source>About how many children in this classroom are BELOW grade level in their reading skills?</source>
-        <target state="translated">Ungefähr wie viele Kinder in diesem Klassenzimmer sind &lt;b&gt;unter&lt;/b&gt; ihrem Klassenstufenniveau in ihren Lesefähigkeiten?</target>
+        <target state="translated">Wie viele Kinder in dieser Klasse haben ein Lesetempo, das UNTER dem Klassenniveau liegt?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_063</context>
         </context-group>
@@ -455,7 +455,7 @@
       </trans-unit>
       <trans-unit id="70328" resname="teacher_survey_classroom_065">
         <source>About how many children in this classroom are ABOVE grade level in their reading skills?</source>
-        <target state="translated">Ungefähr wie viele Kinder in diesem Klassenzimmer sind &lt;b&gt;über&lt;/b&gt; ihrem Klassenstufenniveau in ihren Lesefähigkeiten?</target>
+        <target state="translated">Wie viele Kinder in dieser Klasse haben ein Lesetempo, das ÜBER dem Klassenniveau liegt?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_065</context>
         </context-group>
@@ -469,7 +469,7 @@
       </trans-unit>
       <trans-unit id="70332" resname="teacher_survey_classroom_067">
         <source>About how many children in this classroom are BELOW grade level in their math skills?</source>
-        <target state="translated">Ungefähr wie viele Kinder in diesem Klassenzimmer sind &lt;b&gt;unter&lt;/b&gt; ihrem Klassenstufenniveau in ihren Mathematikfähigkeiten?</target>
+        <target state="translated">Wie viele Kinder in dieser Klasse haben ein Mathematikniveau, das UNTER dem Klassenniveau liegt?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_067</context>
         </context-group>
@@ -483,7 +483,7 @@
       </trans-unit>
       <trans-unit id="70336" resname="teacher_survey_classroom_069">
         <source>About how many children in this classroom are ABOVE grade level in their math skills?</source>
-        <target state="translated">Ungefähr wie viele Kinder in diesem Klassenzimmer sind &lt;b&gt;über&lt;/b&gt; ihrem Klassenstufenniveau in ihren Mathematikfähigkeiten?</target>
+        <target state="translated">Wie viele Kinder in dieser Klasse haben ein Mathematikniveau, das ÜBER dem Klassenniveau liegt?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_069</context>
         </context-group>
@@ -497,7 +497,7 @@
       </trans-unit>
       <trans-unit id="70340" resname="teacher_survey_classroom_071">
         <source>How often each week do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements ?</source>
-        <target state="translated">Wie oft pro Woche arbeitet die Klasse normalerweise an Lektionen oder Projekten in Lesen und Sprachkunst, sei es als ganze Klasse, in kleinen Gruppen oder in individuellen Arrangements?</target>
+        <target state="translated">Wie oft pro Woche arbeiten die Kinder in dieser Klasse normalerweise an Lese- und Sprachprojekten, sei es in der gesamten Klasse, in kleinen Gruppen oder in individueller Arbeit?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_071</context>
         </context-group>
@@ -525,7 +525,7 @@
       </trans-unit>
       <trans-unit id="70352" resname="teacher_survey_classroom_077">
         <source>How much time per day do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="translated">Wie viel Zeit pro Tag arbeiten die Kinder in dieser Klasse normalerweise an Lektionen oder Projekten in Lesen und Sprachkunst, sei es als ganze Klasse, in kleinen Gruppen oder in individuellen Arrangements?</target>
+        <target state="translated">Wie viel Zeit pro Tag verbringen die Kinder in dieser Klasse normalerweise damit, an Lese- und Sprachprojekten zu arbeiten, sei es in der gesamten Klasse, in kleinen Gruppen oder in individueller Arbeit?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_077</context>
         </context-group>
@@ -560,7 +560,7 @@
       </trans-unit>
       <trans-unit id="70362" resname="teacher_survey_classroom_082">
         <source>How often each week do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="translated">Wie oft pro Woche arbeitet die Klasse normalerweise an Lektionen oder Projekten in Mathematik, sei es als ganze Klasse, in kleinen Gruppen oder in individuellen Arrangements?</target>
+        <target state="translated">Wie oft pro Woche arbeiten die Kinder in dieser Klasse normalerweise an Mathematikprojekten, sei es in der gesamten Klasse, in kleinen Gruppen oder in individueller Arbeit?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_082</context>
         </context-group>
@@ -602,7 +602,7 @@
       </trans-unit>
       <trans-unit id="70374" resname="teacher_survey_classroom_088">
         <source>How much time per day do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="translated">Wie viel Zeit pro Tag arbeiten die Kinder in dieser Klasse normalerweise an Lektionen oder Projekten in Mathematik, sei es als ganze Klasse, in kleinen Gruppen oder in individuellen Arrangements?</target>
+        <target state="translated">Wie viel Zeit pro Tag verbringen die Kinder in dieser Klasse normalerweise damit, an Mathematikprojekten zu arbeiten, sei es in der gesamten Klasse, in kleinen Gruppen oder in individueller Arbeit?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_088</context>
         </context-group>
@@ -721,14 +721,14 @@
       </trans-unit>
       <trans-unit id="70408" resname="teacher_survey_classroom_105">
         <source>Communication between you and families.</source>
-        <target state="translated">Kommunikation zwischen Ihnen und den Familien.</target>
+        <target state="translated">Die Kommunikation zwischen Ihnen und den Familien.</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70410" resname="teacher_survey_classroom_106">
         <source>Not satisfied at all</source>
-        <target state="translated">Gar nicht zufrieden</target>
+        <target state="translated">Überhaupt nicht zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_106</context>
         </context-group>
@@ -749,28 +749,28 @@
       </trans-unit>
       <trans-unit id="70416" resname="teacher_survey_classroom_109">
         <source>Quite satisfied</source>
-        <target state="translated">Sehr zufrieden</target>
+        <target state="translated">Ganz zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70418" resname="teacher_survey_classroom_110">
         <source>Very satisfied</source>
-        <target state="translated">Äußerst zufrieden</target>
+        <target state="translated">Sehr zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70420" resname="teacher_survey_classroom_111">
         <source>Communication between you and your students.</source>
-        <target state="translated">Kommunikation zwischen Ihnen und Ihren Schülern.</target>
+        <target state="translated">Die Kommunikation zwischen Ihnen und Ihren Schülern.</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_111</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70422" resname="teacher_survey_classroom_112">
         <source>Not satisfied at all</source>
-        <target state="translated">Gar nicht zufrieden</target>
+        <target state="translated">Überhaupt nicht zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_112</context>
         </context-group>
@@ -791,14 +791,14 @@
       </trans-unit>
       <trans-unit id="70428" resname="teacher_survey_classroom_115">
         <source>Quite satisfied</source>
-        <target state="translated">Sehr zufrieden</target>
+        <target state="translated">Ganz zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70430" resname="teacher_survey_classroom_116">
         <source>Very satisfied</source>
-        <target state="translated">Äußerst zufrieden</target>
+        <target state="translated">Sehr zufrieden</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_116</context>
         </context-group>
