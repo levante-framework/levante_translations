@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Preflight Readiness Report</title>
+	<title>Languages Preflight Readiness Report</title>
 	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<link rel="stylesheet" href="./styles.css">
 	<style>
 		body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; color: #222; }
 		h1 { font-size: 20px; margin-bottom: 16px; }
@@ -29,7 +30,7 @@
 			<tr>
 				<th>Language</th>
 				<th>Code</th>
-				<th>ItemBank</th>
+				<th>From Crowdin</th>
 				<th>Surveys</th>
 				<th>Dashboard</th>
 				<th>Audio</th>
@@ -39,6 +40,13 @@
 	</table>
 	<div class="footer">
 		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
+		<div class="small" style="margin-top:6px;">
+			- <span class="badge ok">yes</span>: exact locale file exists in levante-dashboard (e.g., de-CH)
+			- <span class="badge warn">base</span>: only base language file exists (e.g., de)
+			- <span class="badge err">missing</span>: neither exact nor base locale file exists
+			- Surveys %: percentage of survey JSONs that include the locale (or base for fallback; English counts implicit defaults)
+			- From Crowdin: coverage of Item Bank CSV translations
+		</div>
 	</div>
 
 	<script>
@@ -51,14 +59,18 @@
 		const cfg = await fetch('./config.js').then(r => r.text()).then(js => { const m = {}; const f = new Function('module', js + '; return module.exports;'); return f(m); }).catch(() => ({}));
 		const CONFIG = (cfg && cfg.CONFIG) || (window.CONFIG || {});
 		let csvText = '';
+		// Prefer remote CSV first
+		const primaryUrl = (CONFIG && CONFIG.dataSources && CONFIG.dataSources.remoteCSV) || 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
 		try {
-			// Prefer local complete CSV if present
-			const res = await fetch('./translation_text/complete_translations.csv', { cache: 'no-cache' });
-			if (res.ok) csvText = await res.text();
+			const resRemote = await fetch(primaryUrl, { cache: 'no-cache' });
+			if (resRemote.ok) csvText = await resRemote.text();
 		} catch (e) {}
+		// Fallback to local complete CSV
 		if (!csvText) {
-			const primaryUrl = (CONFIG && CONFIG.dataSources && CONFIG.dataSources.remoteCSV) || 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
-			csvText = await fetch(primaryUrl, { cache: 'no-cache' }).then(r => r.text());
+			try {
+				const res = await fetch('./translation_text/complete_translations.csv', { cache: 'no-cache' });
+				if (res.ok) csvText = await res.text();
+			} catch (e) {}
 		}
 
 		function parseCSVWithEmbeddedNewlines(csvText) {
@@ -93,6 +105,31 @@
 			const cls = p === 100 ? 'ok' : (p > 0 ? 'warn' : 'err');
 			return `<span class="badge ${cls}">${p}%</span>`;
 		}
+		function capitalize(s) { return (s && s.length) ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+		function languageDisplayName(code) {
+			// Prefer CONFIG mapping
+			const match = Object.entries(CONFIG.languages || {}).find(([name, cfg]) => cfg.lang_code === code);
+			if (match) {
+				const [name, cfg] = match;
+				return cfg.display_name || name;
+			}
+			// Fallback via Intl
+			const parts = code.split('-');
+			const langPart = parts[0];
+			const regionPart = parts[1];
+			try {
+				const langNames = new Intl.DisplayNames(['en'], { type: 'language' });
+				const languageName = langNames.of(langPart) || langPart;
+				if (regionPart) {
+					const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+					const regionName = regionNames.of(regionPart.toUpperCase()) || regionPart.toUpperCase();
+					return `${capitalize(languageName)} (${regionName})`;
+				}
+				return capitalize(languageName);
+			} catch (e) {
+				return regionPart ? `${langPart} (${regionPart.toUpperCase()})` : langPart;
+			}
+		}
 
 		// ItemBank readiness per language
 		function itembankStats(lang) {
@@ -102,17 +139,40 @@
 			return { total: items.length, exact, withBase };
 		}
 
-		// Dashboard translations: reuse translation_master.csv
-		let dashCsv = '';
-		try { const r = await fetch('./translation_master.csv', { cache: 'no-cache' }); if (r.ok) dashCsv = await r.text(); } catch (e) {}
-		const dashItems = dashCsv ? csvToObjects(dashCsv) : [];
-		function dashboardStats(lang) {
-			if (!dashItems.length) return { total: 0, exact: 0, withBase: 0 };
-			const base = toBase(lang);
-			const total = dashItems.length;
-			const exact = dashItems.filter(r => (r[lang] || '').trim().length > 0).length;
-			const withBase = dashItems.filter(r => ((r[lang] || r[base] || '').trim().length > 0)).length;
-			return { total, exact, withBase };
+		// Dashboard translations: fetch from levante-dashboard repo JSONs (componentTranslations)
+		async function fetchDashboardJsonPath(code) {
+			const lower = code.toLowerCase();
+			const parts = lower.split('-');
+			if (parts.length === 2) {
+				return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${parts[0]}/${parts[1]}/${lower}-componentTranslations.json`;
+			}
+			return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${lower}/${lower}-componentTranslations.json`;
+		}
+		async function fetchDashboardJson(code) {
+			const url = await fetchDashboardJsonPath(code);
+			try { const r = await fetch(url, { cache: 'no-cache' }); if (r.ok) return await r.json(); } catch (e) {}
+			return null;
+		}
+		function countLeafStrings(obj) {
+			if (!obj || typeof obj !== 'object') return 0;
+			let count = 0;
+			for (const k of Object.keys(obj)) {
+				const v = obj[k];
+				if (v && typeof v === 'object') count += countLeafStrings(v);
+				else if (typeof v === 'string') count += 1;
+			}
+			return count;
+		}
+		async function dashboardStats(lang) {
+			const exactUrl = await fetchDashboardJsonPath(lang);
+			let exactMatch = false;
+			let baseMatch = false;
+			try { const r = await fetch(exactUrl, { method: 'HEAD', cache: 'no-cache' }); if (r.ok) exactMatch = true; } catch (e) {}
+			if (!exactMatch && lang.includes('-')) {
+				const baseUrl = await fetchDashboardJsonPath(toBase(lang));
+				try { const r2 = await fetch(baseUrl, { method: 'HEAD', cache: 'no-cache' }); if (r2.ok) baseMatch = true; } catch (e) {}
+			}
+			return { exactMatch, baseMatch };
 		}
 
 		// Survey translations: list JSONs from levante-dashboard-dev and check for keys
@@ -122,6 +182,7 @@
 				const candidates = ['child_survey.json','parent_survey_child.json','parent_survey_family.json','teacher_survey_classroom.json','teacher_survey_general.json'];
 				const base = toBase(lang);
 				let checked = 0, exact = 0, withBase = 0;
+				const details = [];
 				for (const name of candidates) {
 					try {
 						const url = `https://storage.googleapis.com/levante-dashboard-dev/${name}`;
@@ -129,13 +190,16 @@
 						if (!res.ok) continue;
 						const txt = await res.text();
 						checked++;
-						const hasExact = txt.includes(`"${lang}"`) || txt.includes(`'${lang}'`);
-						const hasBase = !hasExact && (txt.includes(`"${base}"`) || txt.includes(`'${base}'`));
+						let hasExact = txt.includes(`"${lang}"`) || txt.includes(`'${lang}'`);
+						let hasBase = !hasExact && (txt.includes(`"${base}"`) || txt.includes(`'${base}'`));
+						// Treat implicit English as coverage when no explicit locale keys are present
+						if (lang === 'en' && !hasExact && !hasBase) { hasExact = true; }
 						if (hasExact) exact++; if (hasBase) withBase++;
+						details.push({ file: name, hasExact, hasBase });
 					} catch {}
 				}
-				return { checked, exact, withBase };
-			} catch { return { checked: 0, exact: 0, withBase: 0 }; }
+				return { checked, exact, withBase, details };
+			} catch { return { checked: 0, exact: 0, withBase: 0, details: [] }; }
 		}
 
 		// Audio presence: ping api/read-tags in strict mode for a subset, but here aggregate presence by listing top-level prefixes from bucket via API list=1
@@ -153,17 +217,35 @@
 		const tbody = document.querySelector('#reportTable tbody');
 		for (const lang of languageCodes) {
 			const ib = itembankStats(lang);
-			const ds = dashboardStats(lang);
+			const ds = await dashboardStats(lang);
 			const [sv, au] = await Promise.all([surveyStats(lang), audioStats(lang)]);
 			const tr = document.createElement('tr');
 			tr.innerHTML = `
-				<td>${(Object.entries(CONFIG.languages || {}).find(([name,cfg]) => cfg.lang_code === lang)?.[0]) || lang}</td>
+				<td>${languageDisplayName(lang)}</td>
 				<td><span class="code">${lang}</span></td>
 				<td>${badge(ib.exact, ib.total)} <span class="small">(${ib.exact}/${ib.total})</span></td>
-				<td>${sv.checked === 0 ? '<span class="badge warn">n/a</span>' : (sv.exact > 0 ? '<span class="badge ok">ok</span>' : (sv.withBase > 0 ? '<span class="badge warn">base</span>' : '<span class="badge err">none</span>'))} <span class="small">(${sv.exact}/${sv.checked}, base ${sv.withBase})</span></td>
-				<td>${ds.total === 0 ? '<span class="badge warn">n/a</span>' : badge(ds.exact, ds.total)} <span class="small">(${ds.exact}/${ds.total})</span></td>
+				<td class="svcell">${sv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(sv.exact + sv.withBase, sv.checked)} <span class="small">(${sv.exact}/${sv.checked}, base ${sv.withBase})</span></td>
+				<td>${ds.exactMatch ? '<span class="badge ok">yes</span>' : (ds.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
 				<td>${au.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
 			`;
+			const svCell = tr.querySelector('.svcell');
+			if (svCell) {
+				const infoBtn = document.createElement('button');
+				infoBtn.title = 'Show survey details';
+				infoBtn.setAttribute('aria-label', 'Show survey details');
+				infoBtn.style.border = 'none';
+				infoBtn.style.background = 'none';
+				infoBtn.style.cursor = 'pointer';
+				infoBtn.style.color = '#0d6efd';
+				infoBtn.textContent = 'ℹ️';
+				const details = sv.details || [];
+				infoBtn.addEventListener('click', () => {
+					const ok = details.filter(x => x.hasExact || x.hasBase).map(x => x.file);
+					const missing = details.filter(x => !x.hasExact && !x.hasBase).map(x => x.file);
+					alert('Translated (or base):\n- ' + (ok.join('\n- ') || 'None') + '\n\nMissing:\n- ' + (missing.join('\n- ') || 'None'));
+				});
+				svCell.appendChild(infoBtn);
+			}
 			tbody.appendChild(tr);
 		}
 	})();

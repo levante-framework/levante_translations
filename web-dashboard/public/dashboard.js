@@ -90,37 +90,38 @@
                     let csvText = null;
                     let source = '';
                     
-                    // Try local complete CSV first (faster)
+                    // Prefer remote CSV first (same URL as fetch_latest_translations.py)
+                    const primaryUrl = (window.CONFIG && window.CONFIG.dataSources && window.CONFIG.dataSources.remoteCSV) 
+                        ? window.CONFIG.dataSources.remoteCSV 
+                        : 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+                    const fallbackUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
+
                     try {
-                        this.setStatus('Checking for local complete CSV...', 'loading');
-                        const localResponse = await fetch('./translation_text/complete_translations.csv');
-                        if (localResponse.ok) {
-                            csvText = await localResponse.text();
-                            source = 'local complete CSV';
-                        }
-                    } catch (localError) {
-                        console.log('Local complete CSV not found, trying GitHub...');
-                    }
-                    
-                    // Fallback to GitHub if local not available
-                    if (!csvText) {
-                        // Prefer same URL as fetch_latest_translations.py
-                        const primaryUrl = (window.CONFIG && window.CONFIG.dataSources && window.CONFIG.dataSources.remoteCSV) 
-                            ? window.CONFIG.dataSources.remoteCSV 
-                            : 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
-                        const fallbackUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv';
                         this.setStatus('Loading complete translation data from GitHub...', 'loading');
-                        
                         let githubResponse = await fetch(primaryUrl);
                         if (!githubResponse.ok) {
                             githubResponse = await fetch(fallbackUrl);
                         }
-                        if (!githubResponse.ok) {
-                            throw new Error(`GitHub HTTP error! status: ${githubResponse.status}`);
+                        if (githubResponse.ok) {
+                            csvText = await githubResponse.text();
+                            source = 'GitHub';
                         }
-                        
-                        csvText = await githubResponse.text();
-                        source = 'GitHub';
+                    } catch (e) {
+                        console.warn('Remote CSV fetch failed, will try local fallback...', e);
+                    }
+
+                    // Fallback to local complete CSV if remote not available
+                    if (!csvText) {
+                        try {
+                            this.setStatus('Checking for local complete CSV...', 'loading');
+                            const localResponse = await fetch('./translation_text/complete_translations.csv');
+                            if (localResponse.ok) {
+                                csvText = await localResponse.text();
+                                source = 'local complete CSV';
+                            }
+                        } catch (localError) {
+                            console.log('Local complete CSV not found.');
+                        }
                     }
                     
                     if (csvText) {
