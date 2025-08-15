@@ -271,8 +271,7 @@ showOptionalAssignments</context>
       </trans-unit>
       <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
         <source>You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</source>
-        <target state="translated">Sie werden aus Sicherheitsgründen bald automatisch abgemeldet. Bitte klicken Sie auf &quot;Weiter&quot;, wenn Sie Ihre Sitzung fortsetzen möchten.\n
- Andernfalls werden Sie in { timeLeft } Sekunden automatisch abgemeldet.</target>
+        <target state="translated">Sie werden aus Sicherheitsgründen bald abgemeldet. Bitte klicken Sie auf &quot;Weiter&quot;, wenn Sie Ihre Sitzung fortsetzen möchten. \n Andernfalls werden Sie in { timeLeft } Sekunden automatisch abgemeldet.</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.inactivityLogout
 inactivityLogout</context>
@@ -296,7 +295,7 @@ loading</context>
       </trans-unit>
       <trans-unit id="70908" resname="pages/not-found.label">
         <source>Return to Home</source>
-        <target state="translated">Klicken Sie hier, um zur Startseite zu gelangen.</target>
+        <target state="translated">Klicken Sie hier, um zur Startseite zu gelangen</target>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.label
 label</context>
