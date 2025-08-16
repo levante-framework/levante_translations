@@ -10,7 +10,6 @@
         <target state="translated">Grado</target>
         <context-group purpose="information">
           <context context-type="source">components/participant-sidebar.grade</context>
-          <context context-type="x-crowdin-label">grade</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71042" resname="components/participant-sidebar.studentInfo">
@@ -25,7 +24,6 @@
         <target state="translated">¡tareas completadas!</target>
         <context-group purpose="information">
           <context context-type="source">components/participant-sidebar.tasksCompleted</context>
-          <context context-type="x-crowdin-label">tasksCompleted</context>
         </context-group>
       </trans-unit>
     </body>
