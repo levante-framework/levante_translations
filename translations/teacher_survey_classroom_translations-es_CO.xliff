@@ -7,21 +7,21 @@
     <body>
       <trans-unit id="76516" resname="TeacherSurveyIntro">
         <source>&lt;b&gt;&lt;font face=Verdana size=4&gt;This is Part B of the survey.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &lt;br&gt;&lt;br&gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the &quot;Next&quot; button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Thank you!</source>
-        <target state="needs-translation">&lt;b&gt;&lt;font face=Verdana size=4&gt;This is Part B of the survey.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &lt;br&gt;&lt;br&gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the &quot;Next&quot; button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Thank you!</target>
+        <target state="translated">&lt;b&gt;&lt;font face=Verdana size=4&gt;Esta es la Parte B de la encuesta.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;En la Parte B, las preguntas son específicas para el aula. Si enseña más de una clase de estudiantes incluidos en este proyecto, deberá completar la Parte B por separado para cada aula. &lt;br&gt;&lt;br&gt;Si enseña una materia en particular, complete al máximo sus posibilidades las preguntas relacionadas con otras materias o consulte con un colega para esos detalles únicamente. &lt;br&gt;&lt;br&gt;Cuando esté listo para comenzar, seleccione el botón &quot;Siguiente&quot;. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;¡Gracias!</target>
         <context-group purpose="information">
           <context context-type="source">TeacherSurveyIntro</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76518" resname="TeacherNumberClasses">
         <source>How many classrooms do you teach that contain students participating in this research project?</source>
-        <target state="needs-translation">How many classrooms do you teach that contain students participating in this research project?</target>
+        <target state="translated">¿Cuántas aulas enseña que contienen estudiantes participando en este proyecto de investigación?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNumberClasses</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76520" resname="TeacherOtherAdult">
         <source>Is there another adult who is paid to help you in this classroom (e.g., teaching assistant, co-lead teacher, etc.)?</source>
-        <target state="needs-translation">Is there another adult who is paid to help you in this classroom (e.g., teaching assistant, co-lead teacher, etc.)?</target>
+        <target state="translated">¿Hay otro adulto al que se le paga por ayudarle en este aula (por ejemplo, asistente de enseñanza, co-docente principal, etc.)?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherOtherAdult</context>
         </context-group>
@@ -35,98 +35,98 @@
       </trans-unit>
       <trans-unit id="76524" resname="TeacherOtherAdult">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="translated">No</target>
         <context-group purpose="information">
           <context context-type="source">TeacherOtherAdult</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76526" resname="TeacherStudentsEnroll">
         <source>How many students are enrolled in this classroom?</source>
-        <target state="needs-translation">How many students are enrolled in this classroom?</target>
+        <target state="translated">¿Cuántos estudiantes están matriculados en este aula?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsEnroll</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76528" resname="TeacherStudentsEnroll">
         <source>number of students</source>
-        <target state="needs-translation">number of students</target>
+        <target state="translated">número de estudiantes</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsEnroll</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76530" resname="TeacherStudentsGender">
         <source>How many children of each gender are in this class?</source>
-        <target state="needs-translation">How many children of each gender are in this class?</target>
+        <target state="translated">¿Cuántos niños de cada género hay en esta clase?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGender</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76532" resname="TeacherStudentsGenderGirls">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderGirls</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76534" resname="TeacherStudentsGenderGirls">
         <source>Girls</source>
-        <target state="needs-translation">Girls</target>
+        <target state="translated">Niñas</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderGirls</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76536" resname="TeacherStudentsGenderBoys">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderBoys</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76538" resname="TeacherStudentsGenderBoys">
         <source>Boys</source>
-        <target state="needs-translation">Boys</target>
+        <target state="translated">Niños</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderBoys</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76540" resname="TeacherStudentsGenderNonbinary">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderNonbinary</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76542" resname="TeacherStudentsGenderNonbinary">
         <source>Nonbinary</source>
-        <target state="needs-translation">Nonbinary</target>
+        <target state="translated">No binario</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderNonbinary</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76544" resname="TeacherStudentsGenderOther">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderOther</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76546" resname="TeacherStudentsGenderOther">
         <source>Other</source>
-        <target state="needs-translation">Other</target>
+        <target state="translated">Otro</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsGenderOther</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76548" resname="TeacherStudentsAges">
         <source>As of today's date, how many children in this class are each of the following age levels?</source>
-        <target state="needs-translation">As of today's date, how many children in this class are each of the following age levels?</target>
+        <target state="translated">A la fecha de hoy, ¿cuántos niños en esta clase corresponden a cada uno de los siguientes niveles de edad?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76550" resname="TeacherStudentsAges5">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges5</context>
         </context-group>
@@ -140,7 +140,7 @@
       </trans-unit>
       <trans-unit id="76554" resname="TeacherStudentsAges6">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges6</context>
         </context-group>
@@ -154,7 +154,7 @@
       </trans-unit>
       <trans-unit id="76558" resname="TeacherStudentsAges7">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges7</context>
         </context-group>
@@ -168,91 +168,91 @@
       </trans-unit>
       <trans-unit id="76562" resname="TeacherStudentsAges8">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76564" resname="TeacherStudentsAges8">
         <source>8 years old</source>
-        <target state="needs-translation">8 years old</target>
+        <target state="translated">8 años</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76566" resname="TeacherStudentsAges9">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76568" resname="TeacherStudentsAges9">
         <source>9 years old</source>
-        <target state="needs-translation">9 years old</target>
+        <target state="translated">9 años</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76570" resname="TeacherStudentsAges10">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76572" resname="TeacherStudentsAges10">
         <source>10 years old</source>
-        <target state="needs-translation">10 years old</target>
+        <target state="translated">10 años</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76574" resname="TeacherStudentsAges11">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76576" resname="TeacherStudentsAges11">
         <source>11 years old</source>
-        <target state="needs-translation">11 years old</target>
+        <target state="translated">11 años</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76578" resname="TeacherStudentsAges12">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76580" resname="TeacherStudentsAges12">
         <source>12 years old</source>
-        <target state="needs-translation">12 years old</target>
+        <target state="translated">12 años</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76582" resname="TeacherStudentsAges13">
         <source>number</source>
-        <target state="needs-translation">number</target>
+        <target state="translated">número</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76584" resname="TeacherStudentsAges13">
         <source>13 years old or older</source>
-        <target state="needs-translation">13 years old or older</target>
+        <target state="translated">13 años o más</target>
         <context-group purpose="information">
           <context context-type="source">TeacherStudentsAges13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76586" resname="TeacherMultigrade">
         <source>Do you currently teach a multigrade class?</source>
-        <target state="needs-translation">Do you currently teach a multigrade class?</target>
+        <target state="translated">¿Actualmente enseña una clase multigrado?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigrade</context>
         </context-group>
@@ -266,301 +266,301 @@
       </trans-unit>
       <trans-unit id="76590" resname="TeacherMultigrade">
         <source>No</source>
-        <target state="needs-translation">No</target>
+        <target state="translated">No</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigrade</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76592" resname="TeacherMultigradeLevels">
         <source>If yes, what grade levels are included in the class you teach? (select all that apply)</source>
-        <target state="needs-translation">If yes, what grade levels are included in the class you teach? (select all that apply)</target>
+        <target state="translated">Si es así, ¿qué niveles de grado están incluidos en la clase que enseña? (seleccione todas las que apliquen)</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76594" resname="TeacherMultigradeLevels">
         <source>Prekindergarten</source>
-        <target state="needs-translation">Prekindergarten</target>
+        <target state="translated">Prekindergarten</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76596" resname="TeacherMultigradeLevels">
         <source>Transitional (or readiness) kindergarten</source>
-        <target state="needs-translation">Transitional (or readiness) kindergarten</target>
+        <target state="translated">Kindergarten de transición (o de preparación)</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76598" resname="TeacherMultigradeLevels">
         <source>Kindergarten</source>
-        <target state="needs-translation">Kindergarten</target>
+        <target state="translated">Kindergarten</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76600" resname="TeacherMultigradeLevels">
         <source>1st Grade</source>
-        <target state="needs-translation">1st Grade</target>
+        <target state="translated">1ro de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76602" resname="TeacherMultigradeLevels">
         <source>2nd Grade</source>
-        <target state="needs-translation">2nd Grade</target>
+        <target state="translated">2do de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76604" resname="TeacherMultigradeLevels">
         <source>3rd Grade</source>
-        <target state="needs-translation">3rd Grade</target>
+        <target state="translated">3ro de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76606" resname="TeacherMultigradeLevels">
         <source>4th Grade</source>
-        <target state="needs-translation">4th Grade</target>
+        <target state="translated">4to de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76608" resname="TeacherMultigradeLevels">
         <source>5th Grade</source>
-        <target state="needs-translation">5th Grade</target>
+        <target state="translated">5to de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76610" resname="TeacherMultigradeLevels">
         <source>6th Grade</source>
-        <target state="needs-translation">6th Grade</target>
+        <target state="translated">6to de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76612" resname="TeacherMultigradeLevels">
         <source>7th Grade</source>
-        <target state="needs-translation">7th Grade</target>
+        <target state="translated">7mo de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76614" resname="TeacherMultigradeLevels">
         <source>8th Grade</source>
-        <target state="needs-translation">8th Grade</target>
+        <target state="translated">8vo de primaria</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76616" resname="TeacherGradeLevel">
         <source>What grade level do you teach?</source>
-        <target state="needs-translation">What grade level do you teach?</target>
+        <target state="translated">¿Qué nivel de grado enseña?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherGradeLevel</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76618" resname="TeacherLanguageStudents">
         <source>What languages are spoken by students in this class (select all that apply)?</source>
-        <target state="needs-translation">What languages are spoken by students in this class (select all that apply)?</target>
+        <target state="translated">¿Qué idiomas hablan los estudiantes en esta clase (seleccione todas las que apliquen)?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76620" resname="TeacherLanguageStudents">
         <source>Arabic</source>
-        <target state="needs-translation">Arabic</target>
+        <target state="translated">Árabe</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76622" resname="TeacherLanguageStudents">
         <source>Chinese</source>
-        <target state="needs-translation">Chinese</target>
+        <target state="translated">Chino</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76624" resname="TeacherLanguageStudents">
         <source>English</source>
-        <target state="needs-translation">English</target>
+        <target state="translated">Inglés</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76626" resname="TeacherLanguageStudents">
         <source>French</source>
-        <target state="needs-translation">French</target>
+        <target state="translated">Francés</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76628" resname="TeacherLanguageStudents">
         <source>German</source>
-        <target state="needs-translation">German</target>
+        <target state="translated">Alemán</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76630" resname="TeacherLanguageStudents">
         <source>Korean</source>
-        <target state="needs-translation">Korean</target>
+        <target state="translated">Coreano</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76632" resname="TeacherLanguageStudents">
         <source>Spanish</source>
-        <target state="needs-translation">Spanish</target>
+        <target state="translated">Español</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76634" resname="TeacherLanguageStudents">
         <source>Tagalog</source>
-        <target state="needs-translation">Tagalog</target>
+        <target state="translated">Tagalo</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76636" resname="TeacherLanguageStudents">
         <source>Vietnamese</source>
-        <target state="needs-translation">Vietnamese</target>
+        <target state="translated">Vietnamita</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76638" resname="TeacherLanguageTeachers">
         <source>What languages do you or your assistant teacher speak &lt;b&gt;in the classroom&lt;/b&gt; (select all that apply)?</source>
-        <target state="needs-translation">What languages do you or your assistant teacher speak &lt;b&gt;in the classroom&lt;/b&gt; (select all that apply)?</target>
+        <target state="translated">¿Qué idiomas hablan usted o su asistente docente &lt;b&gt;en el aula&lt;/b&gt; (seleccione todas las que apliquen)?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLanguageTeachers</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76640" resname="TeacherReadingBelow">
         <source>About how many children in this classroom are BELOW grade level in their reading skills?</source>
-        <target state="needs-translation">About how many children in this classroom are BELOW grade level in their reading skills?</target>
+        <target state="translated">¿Aproximadamente cuántos niños en este aula están POR DEBAJO del nivel de grado en sus habilidades de lectura?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76642" resname="TeacherReadingBelow">
         <source>number of children</source>
-        <target state="needs-translation">number of children</target>
+        <target state="translated">número de niños</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76644" resname="TeacherReadingAbove">
         <source>About how many children in this classroom are ABOVE grade level in their reading skills?</source>
-        <target state="needs-translation">About how many children in this classroom are ABOVE grade level in their reading skills?</target>
+        <target state="translated">¿Aproximadamente cuántos niños en este aula están POR ENCIMA del nivel de grado en sus habilidades de lectura?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76646" resname="TeacherReadingAbove">
         <source>number of children</source>
-        <target state="needs-translation">number of children</target>
+        <target state="translated">número de niños</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76648" resname="TeacherMathBelow">
         <source>About how many children in this classroom are BELOW grade level in their math skills?</source>
-        <target state="needs-translation">About how many children in this classroom are BELOW grade level in their math skills?</target>
+        <target state="translated">¿Aproximadamente cuántos niños en este aula están POR DEBAJO del nivel de grado en sus habilidades matemáticas?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76650" resname="TeacherMathBelow">
         <source>number of children</source>
-        <target state="needs-translation">number of children</target>
+        <target state="translated">número de niños</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76652" resname="TeacherMathAbove">
         <source>About how many children in this classroom are ABOVE grade level in their math skills?</source>
-        <target state="needs-translation">About how many children in this classroom are ABOVE grade level in their math skills?</target>
+        <target state="translated">¿Aproximadamente cuántos niños en este aula están POR ENCIMA del nivel de grado en sus habilidades matemáticas?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76654" resname="TeacherMathAbove">
         <source>number of children</source>
-        <target state="needs-translation">number of children</target>
+        <target state="translated">número de niños</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76656" resname="TeacherReadingFrequency">
         <source>How often each week do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements ?</source>
-        <target state="needs-translation">How often each week do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements ?</target>
+        <target state="translated">¿Con qué frecuencia a la semana generalmente trabajan los niños en esta clase en lecciones o proyectos en Lectura y Artes del Lenguaje, ya sea como clase completa, en grupos pequeños, o en arreglos individualizados?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76660" resname="TeacherReadingFrequency">
         <source>Less than once per week</source>
-        <target state="needs-translation">Less than once per week</target>
+        <target state="translated">Menos de una vez por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76662" resname="TeacherReadingFrequency">
         <source>1 -2 times per week</source>
-        <target state="needs-translation">1 -2 times per week</target>
+        <target state="translated">1 -2 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76664" resname="TeacherReadingFrequency">
         <source>3 - 4 times per week</source>
-        <target state="needs-translation">3 - 4 times per week</target>
+        <target state="translated">3 - 4 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76668" resname="TeacherReadingTime">
         <source>How much time per day do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="needs-translation">How much time per day do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements?</target>
+        <target state="translated">¿Cuánto tiempo por día generalmente trabajan los niños en esta clase en lecciones o proyectos en Lectura y Artes del Lenguaje, ya sea como clase completa, en grupos pequeños, o en arreglos individualizados?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76670" resname="TeacherReadingTime">
         <source>1 - 30 minutes a day</source>
-        <target state="needs-translation">1 - 30 minutes a day</target>
+        <target state="translated">1 - 30 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76672" resname="TeacherReadingTime">
         <source>31 - 60 minutes a day</source>
-        <target state="needs-translation">31 - 60 minutes a day</target>
+        <target state="translated">31 - 60 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76674" resname="TeacherReadingTime">
         <source>61 - 90 minutes a day</source>
-        <target state="needs-translation">61 - 90 minutes a day</target>
+        <target state="translated">61 - 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76676" resname="TeacherReadingTime">
         <source>More than 90 minutes a day</source>
-        <target state="needs-translation">More than 90 minutes a day</target>
+        <target state="translated">Más de 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76678" resname="TeacherMathFrequency">
         <source>How often each week do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="needs-translation">How often each week do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</target>
+        <target state="translated">¿Con qué frecuencia a la semana generalmente trabajan los niños en esta clase en lecciones o proyectos en Matemáticas, ya sea como clase completa, en grupos pequeños, o en arreglos individualizados?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
         </context-group>
@@ -574,259 +574,259 @@
       </trans-unit>
       <trans-unit id="76682" resname="TeacherMathFrequency">
         <source>Less than once per week</source>
-        <target state="needs-translation">Less than once per week</target>
+        <target state="translated">Menos de una vez por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76684" resname="TeacherMathFrequency">
         <source>1 -2 times per week</source>
-        <target state="needs-translation">1 -2 times per week</target>
+        <target state="translated">1 -2 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76686" resname="TeacherMathFrequency">
         <source>3 - 4 times per week</source>
-        <target state="needs-translation">3 - 4 times per week</target>
+        <target state="translated">3 - 4 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76688" resname="TeacherMathFrequency">
         <source>Daily</source>
-        <target state="needs-translation">Daily</target>
+        <target state="translated">Diariamente</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76690" resname="TeacherMathTime">
         <source>How much time per day do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
-        <target state="needs-translation">How much time per day do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</target>
+        <target state="translated">¿Cuánto tiempo por día generalmente trabajan los niños en esta clase en lecciones o proyectos en Matemáticas, ya sea como clase completa, en grupos pequeños, o en arreglos individualizados?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76692" resname="TeacherMathTime">
         <source>1 - 30 minutes a day</source>
-        <target state="needs-translation">1 - 30 minutes a day</target>
+        <target state="translated">1 - 30 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76694" resname="TeacherMathTime">
         <source>31 - 60 minutes a day</source>
-        <target state="needs-translation">31 - 60 minutes a day</target>
+        <target state="translated">31 - 60 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76696" resname="TeacherMathTime">
         <source>61 - 90 minutes a day</source>
-        <target state="needs-translation">61 - 90 minutes a day</target>
+        <target state="translated">61 - 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76698" resname="TeacherMathTime">
         <source>More than 90 minutes a day</source>
-        <target state="needs-translation">More than 90 minutes a day</target>
+        <target state="translated">Más de 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76700" resname="TeacherFamilySupport">
         <source>Think about the families of the children in this class who you have taught this school year. For about how many families are each of the following statements true?</source>
-        <target state="needs-translation">Think about the families of the children in this class who you have taught this school year. For about how many families are each of the following statements true?</target>
+        <target state="translated">Piense en las familias de los niños en esta clase a quienes ha enseñado este año escolar. ¿Para cuántas familias son verdaderas cada una de las siguientes afirmaciones?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilySupport</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76702" resname="TeacherFamilyOverwhelm">
         <source>Families seem overwhelmed by trying to support their children's learning.</source>
-        <target state="needs-translation">Families seem overwhelmed by trying to support their children's learning.</target>
+        <target state="translated">Las familias parecen abrumadas al tratar de apoyar el aprendizaje de sus hijos.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76704" resname="TeacherFamilyOverwhelm">
         <source>None</source>
-        <target state="needs-translation">None</target>
+        <target state="translated">Ninguno</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76706" resname="TeacherFamilyOverwhelm">
         <source>One or a few</source>
-        <target state="needs-translation">One or a few</target>
+        <target state="translated">Uno o algunos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76708" resname="TeacherFamilyOverwhelm">
         <source>Many</source>
-        <target state="needs-translation">Many</target>
+        <target state="translated">Muchos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76710" resname="TeacherFamilyOverwhelm">
         <source>All or almost all</source>
-        <target state="needs-translation">All or almost all</target>
+        <target state="translated">Todos o casi todos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76712" resname="TeacherFamilyHelping">
         <source>Families are doing their part to support children's learning.</source>
-        <target state="needs-translation">Families are doing their part to support children's learning.</target>
+        <target state="translated">Las familias están haciendo su parte para apoyar el aprendizaje de los niños.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76714" resname="TeacherFamilyHelping">
         <source>None</source>
-        <target state="needs-translation">None</target>
+        <target state="translated">Ninguno</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76716" resname="TeacherFamilyHelping">
         <source>One or a few</source>
-        <target state="needs-translation">One or a few</target>
+        <target state="translated">Uno o algunos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76718" resname="TeacherFamilyHelping">
         <source>Many</source>
-        <target state="needs-translation">Many</target>
+        <target state="translated">Muchos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76720" resname="TeacherFamilyHelping">
         <source>All or almost all</source>
-        <target state="needs-translation">All or almost all</target>
+        <target state="translated">Todos o casi todos</target>
         <context-group purpose="information">
           <context context-type="source">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76722" resname="TeacherComm">
         <source>Please indicate how satisfied or dissatisfied you have been with the following this school year.</source>
-        <target state="needs-translation">Please indicate how satisfied or dissatisfied you have been with the following this school year.</target>
+        <target state="translated">Indique cuán satisfecho o insatisfecho ha estado con lo siguiente este año escolar.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherComm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76724" resname="TeacherCommFamily">
         <source>Communication between you and families.</source>
-        <target state="needs-translation">Communication between you and families.</target>
+        <target state="translated">La comunicación entre usted y las familias.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76726" resname="TeacherCommFamily">
         <source>Not satisfied at all</source>
-        <target state="needs-translation">Not satisfied at all</target>
+        <target state="translated">Nada satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76728" resname="TeacherCommFamily">
         <source>Slightly satisfied</source>
-        <target state="needs-translation">Slightly satisfied</target>
+        <target state="translated">Levemente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76730" resname="TeacherCommFamily">
         <source>Moderately satisfied</source>
-        <target state="needs-translation">Moderately satisfied</target>
+        <target state="translated">Moderadamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76732" resname="TeacherCommFamily">
         <source>Quite satisfied</source>
-        <target state="needs-translation">Quite satisfied</target>
+        <target state="translated">Bastante satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76734" resname="TeacherCommFamily">
         <source>Very satisfied</source>
-        <target state="needs-translation">Very satisfied</target>
+        <target state="translated">Muy satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76736" resname="TeacherCommStudents">
         <source>Communication between you and your students.</source>
-        <target state="needs-translation">Communication between you and your students.</target>
+        <target state="translated">La comunicación entre usted y sus estudiantes.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76738" resname="TeacherCommStudents">
         <source>Not satisfied at all</source>
-        <target state="needs-translation">Not satisfied at all</target>
+        <target state="translated">Nada satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76740" resname="TeacherCommStudents">
         <source>Slightly satisfied</source>
-        <target state="needs-translation">Slightly satisfied</target>
+        <target state="translated">Levemente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76742" resname="TeacherCommStudents">
         <source>Moderately satisfied</source>
-        <target state="needs-translation">Moderately satisfied</target>
+        <target state="translated">Moderadamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76744" resname="TeacherCommStudents">
         <source>Quite satisfied</source>
-        <target state="needs-translation">Quite satisfied</target>
+        <target state="translated">Bastante satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76746" resname="TeacherCommStudents">
         <source>Very satisfied</source>
-        <target state="needs-translation">Very satisfied</target>
+        <target state="translated">Muy satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76748" resname="unknown">
         <source>Start Survey</source>
-        <target state="needs-translation">Start Survey</target>
+        <target state="translated">Comenzar Encuesta</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76750" resname="unknown">
         <source>Previous</source>
-        <target state="needs-translation">Previous</target>
+        <target state="translated">Anterior</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76752" resname="unknown">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="translated">Siguiente</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="76754" resname="unknown">
         <source>Finish</source>
-        <target state="needs-translation">Finish</target>
+        <target state="translated">Terminar</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
