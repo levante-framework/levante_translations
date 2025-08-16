@@ -544,6 +544,16 @@
                     })));
                 }
 
+                // Global deduplication of ElevenLabs voices by voice_id (fallback to name)
+                const seenGlobal = new Set();
+                this.voices.elevenlabs = this.voices.elevenlabs.filter(v => {
+                    const key = v.voice_id || v.name;
+                    if (!key) return false;
+                    if (seenGlobal.has(key)) return false;
+                    seenGlobal.add(key);
+                    return true;
+                });
+
                 console.log(`Loaded ${this.voices.playht.length} PlayHT voices and ${this.voices.elevenlabs.length} ElevenLabs voices`);
                 this.populateVoices();
                 this.setStatus(`Loaded ${this.voices.playht.length + this.voices.elevenlabs.length} comprehensive voices`, 'success');
@@ -1063,7 +1073,18 @@
                     return vLang === langCode || vLang === baseLang || vBase === baseLang;
                 });
                 
-                elevenlabsVoices.forEach(voice => {
+                // Deduplicate by voice_id (or name fallback) to avoid duplicates from base/regional overlaps
+                const seenVoiceIds = new Set();
+                const uniqueElevenLabs = [];
+                elevenlabsVoices.forEach(v => {
+                    const key = v.voice_id || v.name;
+                    if (key && !seenVoiceIds.has(key)) {
+                        seenVoiceIds.add(key);
+                        uniqueElevenLabs.push(v);
+                    }
+                });
+                
+                uniqueElevenLabs.forEach(voice => {
                     const option = document.createElement('option');
                     option.value = voice.voice_id;
                     option.textContent = voice.name;
