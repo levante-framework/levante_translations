@@ -170,15 +170,67 @@ def setup_gsutil_auth() -> None:
     and set GOOGLE_APPLICATION_CREDENTIALS so gsutil can authenticate."""
     json_env = os.getenv('GOOGLE_APPLICATION_CREDENTIALS_JSON')
     file_env = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-    if json_env and not file_env:
+    # If a file is specified but missing, fall back to JSON env if available
+    if file_env and not os.path.isfile(file_env):
+        print(f"⚠️ {file_env} is set but file not found: {file_env}")
+        file_env = None
+    
+    # Prefer existing valid file; otherwise write JSON to temp
+    if not file_env and json_env:
         try:
             fd, path = tempfile.mkstemp(prefix='gsa_', suffix='.json')
             with os.fdopen(fd, 'w') as f:
                 f.write(json_env)
             os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = path
+            os.environ['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = path
             print(f"🔐 gsutil auth configured via GOOGLE_APPLICATION_CREDENTIALS -> {path}")
+            print(f"🔐 CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE set for gsutil/gcloud -> {path}")
+            # Try to activate account with gcloud if available (best-effort)
+            try:
+                subprocess.run([
+                    'gcloud', 'auth', 'activate-service-account', '--key-file', path, '--quiet'
+                ], check=False, capture_output=True)
+            except Exception:
+                pass
         except Exception as e:
             print(f"⚠️ Failed to configure gsutil auth from JSON env: {e}")
+    elif file_env:
+        # Ensure CLOUDSDK override also points to the same file so gsutil picks it up
+        os.environ['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = file_env
+        print(f"🔐 Using GOOGLE_APPLICATION_CREDENTIALS file -> {file_env}")
+        print(f"🔐 CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE set -> {file_env}")
+
+def verify_gsutil_auth(bucket_name: str) -> bool:
+    """Run a quick auth check against the target bucket. Returns True if access works."""
+    print_section("gsutil Auth Check")
+    test_uri = f"gs://{bucket_name}"
+    try:
+        result = subprocess.run([
+            'gsutil', 'ls', '-b', test_uri
+        ], check=True, capture_output=True, text=True)
+        print(f"✅ Auth OK for {test_uri}")
+        return True
+    except subprocess.CalledProcessError as e:
+        print("❌ gsutil auth check failed")
+        if e.stderr:
+            print(f"   Stderr: {e.stderr.strip()}")
+        # Best-effort remediation: try gcloud activation if we wrote creds
+        key_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+        if key_file and os.path.isfile(key_file):
+            try:
+                subprocess.run([
+                    'gcloud', 'auth', 'activate-service-account', '--key-file', key_file, '--quiet'
+                ], check=False, capture_output=True)
+                # Retry once
+                retry = subprocess.run([
+                    'gsutil', 'ls', '-b', test_uri
+                ], check=True, capture_output=True, text=True)
+                print(f"✅ Auth OK after activation for {test_uri}")
+                return True
+            except Exception:
+                pass
+        print("⚠️ Ensure GOOGLE_APPLICATION_CREDENTIALS_JSON is set (or GOOGLE_APPLICATION_CREDENTIALS points to a valid key file) in CI.")
+        return False
 
 def deploy_csv_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
     """Rsync item-bank-translations.csv into levante-assets-* bucket under translations/."""
