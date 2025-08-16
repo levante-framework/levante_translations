@@ -5,18 +5,12 @@
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="70200" resname="teacher_survey_classroom_001">
-        <source>&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;This is Part B of the survey.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &lt;br&gt;&lt;br&gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the &quot;Next&quot; button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Thank you!</source>
-        <target state="translated">&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;Esta es la Parte B de la encuesta. &lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;En esta parte las preguntas son específicas a cada salón. Si usted enseña en más de un salón, debe completar esta parte por cada salón en donde tenga estudiantes participando en el proyecto. &lt;br&gt;&lt;br&gt;Si enseña una sola asignatura, debe completar las preguntas que se refieren a otras asignaturas según su saber o consulte con un colega sólo para esos detalles.&lt;br&gt;&lt;br&gt;Cuando esté listo para empezar, seleccione el botón &quot;Siguiente&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt; Muchas gracias.</target>
-        <context-group purpose="information">
-          <context context-type="source">teacher_survey_classroom_001</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="70202" resname="teacher_survey_classroom_002">
         <source>How many classrooms do you teach that contain students participating in this research project?</source>
         <target state="translated">¿En cuántos de los salones donde usted enseña hay estudiantes que participen en este proyecto?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_002</context>
+          <context context-type="x-crowdin-label">TeacherNumberClasses</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70204" resname="teacher_survey_classroom_003">
@@ -24,6 +18,7 @@
         <target state="translated">¿Hay algún otro adulto que reciba remuneración por ayudarle en este salón (por ejemplo, un profesor asistente, profesor que trabaja con usted en docencia compartida, entre otros)?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_003</context>
+          <context context-type="x-crowdin-label">TeacherOtherAdult</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70206" resname="teacher_survey_classroom_004">
@@ -31,6 +26,7 @@
         <target state="translated">Sí</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_004</context>
+          <context context-type="x-crowdin-label">TeacherOtherAdult</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70208" resname="teacher_survey_classroom_005">
@@ -38,6 +34,7 @@
         <target state="translated">No</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_005</context>
+          <context context-type="x-crowdin-label">TeacherOtherAdult</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70210" resname="teacher_survey_classroom_006">
@@ -45,6 +42,7 @@
         <target state="translated">¿Cuántos estudiantes hay matriculados en este salón?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_006</context>
+          <context context-type="x-crowdin-label">TeacherStudentsEnroll</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70212" resname="teacher_survey_classroom_007">
@@ -52,6 +50,7 @@
         <target state="translated">número de estudiantes</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_007</context>
+          <context context-type="x-crowdin-label">TeacherStudentsEnroll</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70214" resname="teacher_survey_classroom_008">
@@ -59,6 +58,7 @@
         <target state="translated">¿Cuántos niños de cada género hay en esta clase?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_008</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGender</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70216" resname="teacher_survey_classroom_009">
@@ -66,6 +66,7 @@
         <target state="translated">número de</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_009</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderGirls</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70218" resname="teacher_survey_classroom_010">
@@ -73,6 +74,7 @@
         <target state="translated">Niñas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_010</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderGirls</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70220" resname="teacher_survey_classroom_011">
@@ -80,6 +82,7 @@
         <target state="translated">número de</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_011</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderBoys</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70222" resname="teacher_survey_classroom_012">
@@ -87,6 +90,7 @@
         <target state="translated">Niños</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_012</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderBoys</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70224" resname="teacher_survey_classroom_013">
@@ -94,6 +98,7 @@
         <target state="translated">número de</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_013</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderNonbinary</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70226" resname="teacher_survey_classroom_014">
@@ -101,6 +106,7 @@
         <target state="translated">No binario</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_014</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderNonbinary</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70228" resname="teacher_survey_classroom_015">
@@ -108,6 +114,7 @@
         <target state="translated">número de</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_015</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderOther</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70230" resname="teacher_survey_classroom_016">
@@ -115,6 +122,7 @@
         <target state="translated">Otro</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_016</context>
+          <context context-type="x-crowdin-label">TeacherStudentsGenderOther</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70232" resname="teacher_survey_classroom_017">
@@ -122,6 +130,7 @@
         <target state="translated">A hoy, ¿cuántos niños(as) de este salón se ubican en los siguientes rangos de edad?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_017</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70234" resname="teacher_survey_classroom_018">
@@ -129,6 +138,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_018</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70236" resname="teacher_survey_classroom_019">
@@ -136,6 +146,7 @@
         <target state="translated">5 años o menos</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_019</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70238" resname="teacher_survey_classroom_020">
@@ -143,6 +154,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_020</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70240" resname="teacher_survey_classroom_021">
@@ -150,6 +162,7 @@
         <target state="translated">6 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_021</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70242" resname="teacher_survey_classroom_022">
@@ -157,6 +170,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_022</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70244" resname="teacher_survey_classroom_023">
@@ -164,6 +178,7 @@
         <target state="translated">7 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_023</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70246" resname="teacher_survey_classroom_024">
@@ -171,6 +186,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_024</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70248" resname="teacher_survey_classroom_025">
@@ -178,6 +194,7 @@
         <target state="translated">8 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_025</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70250" resname="teacher_survey_classroom_026">
@@ -185,6 +202,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_026</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70252" resname="teacher_survey_classroom_027">
@@ -192,6 +210,7 @@
         <target state="translated">9 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_027</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70254" resname="teacher_survey_classroom_028">
@@ -199,6 +218,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_028</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70256" resname="teacher_survey_classroom_029">
@@ -206,6 +226,7 @@
         <target state="translated">10 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_029</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70258" resname="teacher_survey_classroom_030">
@@ -213,6 +234,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_030</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70260" resname="teacher_survey_classroom_031">
@@ -220,6 +242,7 @@
         <target state="translated">11 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_031</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70262" resname="teacher_survey_classroom_032">
@@ -227,6 +250,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_032</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70264" resname="teacher_survey_classroom_033">
@@ -234,6 +258,7 @@
         <target state="translated">12 años</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_033</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70266" resname="teacher_survey_classroom_034">
@@ -241,6 +266,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_034</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70268" resname="teacher_survey_classroom_035">
@@ -248,6 +274,7 @@
         <target state="translated">13 años o más</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_035</context>
+          <context context-type="x-crowdin-label">TeacherStudentsAges13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70270" resname="teacher_survey_classroom_036">
@@ -255,6 +282,7 @@
         <target state="translated">¿Enseña actualmente en un salón multigrado?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_036</context>
+          <context context-type="x-crowdin-label">TeacherMultigrade</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70272" resname="teacher_survey_classroom_037">
@@ -262,6 +290,7 @@
         <target state="translated">Sí</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_037</context>
+          <context context-type="x-crowdin-label">TeacherMultigrade</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70274" resname="teacher_survey_classroom_038">
@@ -269,6 +298,7 @@
         <target state="translated">No</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_038</context>
+          <context context-type="x-crowdin-label">TeacherMultigrade</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70276" resname="teacher_survey_classroom_039">
@@ -276,6 +306,7 @@
         <target state="translated">En caso afirmativo, ¿cuáles grados se encuentran el salón multigrado que enseña? (Marque todas las que procedan.)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_039</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70278" resname="teacher_survey_classroom_040">
@@ -283,6 +314,7 @@
         <target state="translated">Prejardín</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_040</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70280" resname="teacher_survey_classroom_041">
@@ -290,6 +322,7 @@
         <target state="translated">Transición o Grado cero</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_041</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70282" resname="teacher_survey_classroom_042">
@@ -297,6 +330,7 @@
         <target state="translated">Jardín</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_042</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70284" resname="teacher_survey_classroom_043">
@@ -304,6 +338,7 @@
         <target state="translated">Primer grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_043</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70286" resname="teacher_survey_classroom_044">
@@ -311,6 +346,7 @@
         <target state="translated">Segundo grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_044</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70288" resname="teacher_survey_classroom_045">
@@ -318,6 +354,7 @@
         <target state="translated">Tercer grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_045</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70290" resname="teacher_survey_classroom_046">
@@ -325,6 +362,7 @@
         <target state="translated">Cuarto grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_046</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70292" resname="teacher_survey_classroom_047">
@@ -332,6 +370,7 @@
         <target state="translated">Quinto grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_047</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70294" resname="teacher_survey_classroom_048">
@@ -339,6 +378,7 @@
         <target state="translated">Sexto grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_048</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70296" resname="teacher_survey_classroom_049">
@@ -346,6 +386,7 @@
         <target state="translated">Séptimo grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_049</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70298" resname="teacher_survey_classroom_050">
@@ -353,6 +394,7 @@
         <target state="translated">Octavo grado</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_050</context>
+          <context context-type="x-crowdin-label">TeacherMultigradeLevels</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70300" resname="teacher_survey_classroom_051">
@@ -360,6 +402,7 @@
         <target state="translated">¿En qué grado enseña?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_051</context>
+          <context context-type="x-crowdin-label">TeacherGradeLevel</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70302" resname="teacher_survey_classroom_052">
@@ -367,6 +410,7 @@
         <target state="translated">¿Qué idiomas hablan los(as) estudiantes en este salón de clase?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_052</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70304" resname="teacher_survey_classroom_053">
@@ -374,6 +418,7 @@
         <target state="translated">Árabe</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_053</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70306" resname="teacher_survey_classroom_054">
@@ -381,6 +426,7 @@
         <target state="translated">Chino</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_054</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70308" resname="teacher_survey_classroom_055">
@@ -388,6 +434,7 @@
         <target state="translated">Inglés</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_055</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70310" resname="teacher_survey_classroom_056">
@@ -395,6 +442,7 @@
         <target state="translated">Francés</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_056</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70312" resname="teacher_survey_classroom_057">
@@ -402,6 +450,7 @@
         <target state="translated">Alemán</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_057</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70314" resname="teacher_survey_classroom_058">
@@ -409,6 +458,7 @@
         <target state="translated">Coreano</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_058</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70316" resname="teacher_survey_classroom_059">
@@ -416,6 +466,7 @@
         <target state="translated">Español</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_059</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70318" resname="teacher_survey_classroom_060">
@@ -423,6 +474,7 @@
         <target state="translated">Tagalo</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_060</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70320" resname="teacher_survey_classroom_061">
@@ -430,6 +482,7 @@
         <target state="translated">Vietnamita</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_061</context>
+          <context context-type="x-crowdin-label">TeacherLanguageStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70322" resname="teacher_survey_classroom_062">
@@ -437,6 +490,7 @@
         <target state="translated">¿Qué idiomas hablan usted o su docente asistente &lt;b&gt;en el aula de clase?&lt;/b&gt;</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_062</context>
+          <context context-type="x-crowdin-label">TeacherLanguageTeachers</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70324" resname="teacher_survey_classroom_063">
@@ -444,6 +498,7 @@
         <target state="translated">¿Cuántos niños(as) de este salón tienen un nivel de lectura POR DEBAJO del grado que cursan?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_063</context>
+          <context context-type="x-crowdin-label">TeacherReadingBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70326" resname="teacher_survey_classroom_064">
@@ -451,6 +506,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_064</context>
+          <context context-type="x-crowdin-label">TeacherReadingBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70328" resname="teacher_survey_classroom_065">
@@ -458,6 +514,7 @@
         <target state="translated">¿Cuántos niños(as) de este salón tienen un nivel de lectura POR ENCIMA del grado que cursan?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_065</context>
+          <context context-type="x-crowdin-label">TeacherReadingAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70330" resname="teacher_survey_classroom_066">
@@ -465,6 +522,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_066</context>
+          <context context-type="x-crowdin-label">TeacherReadingAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70332" resname="teacher_survey_classroom_067">
@@ -472,6 +530,7 @@
         <target state="translated">¿Cuántos niños(as) de este salón tienen un nivel en matemáticas POR DEBAJO del grado que cursan?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_067</context>
+          <context context-type="x-crowdin-label">TeacherMathBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70334" resname="teacher_survey_classroom_068">
@@ -479,6 +538,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_068</context>
+          <context context-type="x-crowdin-label">TeacherMathBelow</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70336" resname="teacher_survey_classroom_069">
@@ -486,6 +546,7 @@
         <target state="translated">¿Cuántos niños(as) de este salón tienen un nivel en matemáticas POR ENCIMA del grado que cursan?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_069</context>
+          <context context-type="x-crowdin-label">TeacherMathAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70338" resname="teacher_survey_classroom_070">
@@ -493,6 +554,7 @@
         <target state="translated">Número de niños(as)</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_070</context>
+          <context context-type="x-crowdin-label">TeacherMathAbove</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70340" resname="teacher_survey_classroom_071">
@@ -500,6 +562,7 @@
         <target state="translated">¿Cuántas veces por semana suelen trabajar los estudiantes de esta clase en lecciones o proyectos de lectura, lenguaje y literatura, ya sea en sesión plenaria, grupos pequeños o individualmente?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_071</context>
+          <context context-type="x-crowdin-label">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70344" resname="teacher_survey_classroom_073">
@@ -507,6 +570,7 @@
         <target state="translated">Menos de una vez por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_073</context>
+          <context context-type="x-crowdin-label">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70346" resname="teacher_survey_classroom_074">
@@ -514,6 +578,7 @@
         <target state="translated">1 a 2 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_074</context>
+          <context context-type="x-crowdin-label">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70348" resname="teacher_survey_classroom_075">
@@ -521,6 +586,7 @@
         <target state="translated">3 a 4 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_075</context>
+          <context context-type="x-crowdin-label">TeacherReadingFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70352" resname="teacher_survey_classroom_077">
@@ -528,6 +594,7 @@
         <target state="translated">¿Cuánto tiempo diario dedican trabajar los estudiantes de esta clase en lecciones o proyectos de lectura, lenguaje y literatura, ya sea en sesión plenaria, grupos pequeños o individualmente?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_077</context>
+          <context context-type="x-crowdin-label">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70354" resname="teacher_survey_classroom_078">
@@ -535,6 +602,7 @@
         <target state="translated">1 a 30 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_078</context>
+          <context context-type="x-crowdin-label">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70356" resname="teacher_survey_classroom_079">
@@ -542,6 +610,7 @@
         <target state="translated">31 a 60 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_079</context>
+          <context context-type="x-crowdin-label">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70358" resname="teacher_survey_classroom_080">
@@ -549,6 +618,7 @@
         <target state="translated">61 a 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_080</context>
+          <context context-type="x-crowdin-label">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70360" resname="teacher_survey_classroom_081">
@@ -556,6 +626,7 @@
         <target state="translated">Más de 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_081</context>
+          <context context-type="x-crowdin-label">TeacherReadingTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70362" resname="teacher_survey_classroom_082">
@@ -563,6 +634,7 @@
         <target state="translated">¿Cuántas veces por semana suelen trabajar los estudiantes de esta clase en lecciones o proyectos de matemáticas, ya sea en sesión plenaria, grupos pequeños o individualmente?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_082</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70364" resname="teacher_survey_classroom_083">
@@ -570,6 +642,7 @@
         <target state="translated">Nunca</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_083</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70366" resname="teacher_survey_classroom_084">
@@ -577,6 +650,7 @@
         <target state="translated">Menos de una vez por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_084</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70368" resname="teacher_survey_classroom_085">
@@ -584,6 +658,7 @@
         <target state="translated">1 a 2 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_085</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70370" resname="teacher_survey_classroom_086">
@@ -591,6 +666,7 @@
         <target state="translated">3 a 4 veces por semana</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_086</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70372" resname="teacher_survey_classroom_087">
@@ -598,6 +674,7 @@
         <target state="translated">A diario</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_087</context>
+          <context context-type="x-crowdin-label">TeacherMathFrequency</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70374" resname="teacher_survey_classroom_088">
@@ -605,6 +682,7 @@
         <target state="translated">¿Cuánto tiempo diario dedican trabajar los estudiantes de esta clase en lecciones o proyectos de matemáticas, ya sea en sesión plenaria, grupos pequeños o individualmente?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_088</context>
+          <context context-type="x-crowdin-label">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70376" resname="teacher_survey_classroom_089">
@@ -612,6 +690,7 @@
         <target state="translated">1 a 30 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_089</context>
+          <context context-type="x-crowdin-label">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70378" resname="teacher_survey_classroom_090">
@@ -619,6 +698,7 @@
         <target state="translated">31 a 60 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_090</context>
+          <context context-type="x-crowdin-label">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70380" resname="teacher_survey_classroom_091">
@@ -626,6 +706,7 @@
         <target state="translated">61 a 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_091</context>
+          <context context-type="x-crowdin-label">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70382" resname="teacher_survey_classroom_092">
@@ -633,6 +714,7 @@
         <target state="translated">Más de 90 minutos al día</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_092</context>
+          <context context-type="x-crowdin-label">TeacherMathTime</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70384" resname="teacher_survey_classroom_093">
@@ -640,6 +722,7 @@
         <target state="translated">Piense en las familias de los niños(as) de esta clase a quienes usted ha dado clase este año escolar. ¿Aproximadamente para cuántas familias es cierta cada una de las siguientes afirmaciones?</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_093</context>
+          <context context-type="x-crowdin-label">TeacherFamilySupport</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70386" resname="teacher_survey_classroom_094">
@@ -647,6 +730,7 @@
         <target state="translated">Las familias parecen estar abrumadas por tratar de apoyar el aprendizaje de sus niños(as).</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_094</context>
+          <context context-type="x-crowdin-label">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70388" resname="teacher_survey_classroom_095">
@@ -654,6 +738,7 @@
         <target state="translated">Ninguna</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_095</context>
+          <context context-type="x-crowdin-label">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70390" resname="teacher_survey_classroom_096">
@@ -661,6 +746,7 @@
         <target state="translated">Una o pocas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_096</context>
+          <context context-type="x-crowdin-label">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70392" resname="teacher_survey_classroom_097">
@@ -668,6 +754,7 @@
         <target state="translated">Muchas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_097</context>
+          <context context-type="x-crowdin-label">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70394" resname="teacher_survey_classroom_098">
@@ -675,6 +762,7 @@
         <target state="translated">Todas o casi todas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_098</context>
+          <context context-type="x-crowdin-label">TeacherFamilyOverwhelm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70396" resname="teacher_survey_classroom_099">
@@ -682,6 +770,7 @@
         <target state="translated">Las familias hacen su parte para apoyar el aprendizaje de los niños(as).</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_099</context>
+          <context context-type="x-crowdin-label">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70398" resname="teacher_survey_classroom_100">
@@ -689,6 +778,7 @@
         <target state="translated">Ninguna</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_100</context>
+          <context context-type="x-crowdin-label">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70400" resname="teacher_survey_classroom_101">
@@ -696,6 +786,7 @@
         <target state="translated">Una o pocas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_101</context>
+          <context context-type="x-crowdin-label">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70402" resname="teacher_survey_classroom_102">
@@ -703,6 +794,7 @@
         <target state="translated">Muchas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_102</context>
+          <context context-type="x-crowdin-label">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70404" resname="teacher_survey_classroom_103">
@@ -710,6 +802,7 @@
         <target state="translated">Todas o casi todas</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_103</context>
+          <context context-type="x-crowdin-label">TeacherFamilyHelping</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70406" resname="teacher_survey_classroom_104">
@@ -717,6 +810,7 @@
         <target state="translated">Por favor, indique cuán satisfecho(a) o insatisfecho(a) ha estado usted este año escolar con los siguientes aspectos.</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_104</context>
+          <context context-type="x-crowdin-label">TeacherComm</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70408" resname="teacher_survey_classroom_105">
@@ -724,6 +818,7 @@
         <target state="translated">La comunicación entre usted y las familias.</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_105</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70410" resname="teacher_survey_classroom_106">
@@ -731,6 +826,7 @@
         <target state="translated">Nada satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_106</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70412" resname="teacher_survey_classroom_107">
@@ -738,6 +834,7 @@
         <target state="translated">Poco satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_107</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70414" resname="teacher_survey_classroom_108">
@@ -745,6 +842,7 @@
         <target state="translated">Medianamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_108</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70416" resname="teacher_survey_classroom_109">
@@ -752,6 +850,7 @@
         <target state="translated">Bastante satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_109</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70418" resname="teacher_survey_classroom_110">
@@ -759,6 +858,7 @@
         <target state="translated">Absolutamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_110</context>
+          <context context-type="x-crowdin-label">TeacherCommFamily</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70420" resname="teacher_survey_classroom_111">
@@ -766,6 +866,7 @@
         <target state="translated">La comunicación entre usted y sus alumnos.</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_111</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70422" resname="teacher_survey_classroom_112">
@@ -773,6 +874,7 @@
         <target state="translated">Nada satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_112</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70424" resname="teacher_survey_classroom_113">
@@ -780,6 +882,7 @@
         <target state="translated">Poco satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_113</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70426" resname="teacher_survey_classroom_114">
@@ -787,6 +890,7 @@
         <target state="translated">Medianamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_114</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70428" resname="teacher_survey_classroom_115">
@@ -794,6 +898,7 @@
         <target state="translated">Bastante satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_115</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70430" resname="teacher_survey_classroom_116">
@@ -801,6 +906,7 @@
         <target state="translated">Absolutamente satisfecho</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_classroom_116</context>
+          <context context-type="x-crowdin-label">TeacherCommStudents</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70432" resname="teacher_survey_classroom_117">
