@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="74606" resname="ChildSurveyIntro">
         <source>&lt;font face=Verdana size=4&gt;These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. &lt;b&gt;&lt;font face=Verdana size=4&gt;No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time.&lt;br&gt;&lt;br&gt;The first two are for practice.</source>
-        <target state="translated">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en la escuela y a lo que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que más se acerque a lo que piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Ensaya con las dos primeras preguntas cómo responder.</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en el colegio y a lo que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo gue tú piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Las primeras dos preguntas son de práctica.</target>
         <context-group purpose="information">
           <context context-type="source">ChildSurveyIntro</context>
         </context-group>
@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="74628" resname="TeacherNice">
         <source>Is your teacher nice to you?</source>
-        <target state="translated">¿Te trata bien tu profesor?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Tu profesor te trata bien?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNice</context>
         </context-group>
@@ -154,7 +154,7 @@
       </trans-unit>
       <trans-unit id="74648" resname="TeacherListen">
         <source>Does your teacher listen to you?</source>
-        <target state="translated">¿Te escucha tu profesor?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Tu profesor te escucha?</target>
         <context-group purpose="information">
           <context context-type="source">TeacherListen</context>
         </context-group>
@@ -189,7 +189,7 @@
       </trans-unit>
       <trans-unit id="74658" resname="SchoolFun">
         <source>Is school fun?</source>
-        <target state="translated">¿Te diviertes en el colegio?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Es divertido ir al colegio?</target>
         <context-group purpose="information">
           <context context-type="source">SchoolFun</context>
         </context-group>
@@ -224,7 +224,7 @@
       </trans-unit>
       <trans-unit id="74668" resname="SchoolEnjoy">
         <source>Do you enjoy school?</source>
-        <target state="translated">¿Te gusta la escuela?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Te gusta el colegio?</target>
         <context-group purpose="information">
           <context context-type="source">SchoolEnjoy</context>
         </context-group>
@@ -259,7 +259,7 @@
       </trans-unit>
       <trans-unit id="74678" resname="SchoolHappy">
         <source>Are you happy at school?</source>
-        <target state="translated">¿Te sientes feliz en la escuela?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Te sientes feliz en el colegio?</target>
         <context-group purpose="information">
           <context context-type="source">SchoolHappy</context>
         </context-group>
@@ -329,7 +329,7 @@
       </trans-unit>
       <trans-unit id="74698" resname="ClassFriends">
         <source>Do you have friends in your class?</source>
-        <target state="translated">¿Tienes amigos o amigas en tu clase?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Tienes amigos o amigas en tu salón?</target>
         <context-group purpose="information">
           <context context-type="source">ClassFriends</context>
         </context-group>
@@ -364,7 +364,7 @@
       </trans-unit>
       <trans-unit id="74708" resname="ClassHelp">
         <source>Do the kids in your class help you when you need it?</source>
-        <target state="translated">¿Te ayudan los niños y las niñas de tu clase cuando lo necesitas?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?</target>
         <context-group purpose="information">
           <context context-type="source">ClassHelp</context>
         </context-group>
@@ -399,7 +399,7 @@
       </trans-unit>
       <trans-unit id="74718" resname="ClassPlay">
         <source>Do the kids in your class play with you?</source>
-        <target state="translated">¿Los niños y las niñas de tu clase juegan contigo?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Los niños y las niñas de tu salón juegan contigo?</target>
         <context-group purpose="information">
           <context context-type="source">ClassPlay</context>
         </context-group>
@@ -434,7 +434,7 @@
       </trans-unit>
       <trans-unit id="74728" resname="ClassNice">
         <source>Are the kids in your class nice to you?</source>
-        <target state="translated">¿Los niños y las niñas de tu clase son amables contigo?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Los niños y las niñas de tu salón son amables contigo?</target>
         <context-group purpose="information">
           <context context-type="source">ClassNice</context>
         </context-group>
@@ -504,7 +504,7 @@
       </trans-unit>
       <trans-unit id="74748" resname="LearningGood">
         <source>Are you good at learning things in school?</source>
-        <target state="translated">¿Eres bueno o buena para aprender en el colegio?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">¿Te queda fácil aprender en el colegio?</target>
         <context-group purpose="information">
           <context context-type="source">LearningGood</context>
         </context-group>
@@ -539,7 +539,7 @@
       </trans-unit>
       <trans-unit id="74758" resname="SchoolGiveUp">
         <source>When schoolwork is hard, do you give up right away?</source>
-        <target state="translated">Cuando las tareas del colegio son difíciles, ¿te rindes en seguida?</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Cuando las tareas escolares son difíciles, ¿te rindes enseguida?</target>
         <context-group purpose="information">
           <context context-type="source">SchoolGiveUp</context>
         </context-group>
@@ -819,28 +819,28 @@
       </trans-unit>
       <trans-unit id="74838" resname="unknown">
         <source>Start Survey</source>
-        <target state="needs-translation">Start Survey</target>
+        <target state="translated">Comenzar Encuesta</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="74840" resname="unknown">
         <source>Previous</source>
-        <target state="needs-translation">Previous</target>
+        <target state="translated">Anterior</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="74842" resname="unknown">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="translated">Siguiente</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
       </trans-unit>
       <trans-unit id="74844" resname="unknown">
         <source>Finish</source>
-        <target state="needs-translation">Finish</target>
+        <target state="translated">Terminar</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
         </context-group>
