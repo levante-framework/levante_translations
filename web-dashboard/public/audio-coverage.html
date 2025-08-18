@@ -36,7 +36,27 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
   <script>
-    async function fetchJson(url, init){ const r = await fetch(url, init); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+    // Global abort controller to cancel in-flight requests when navigating away
+    const globalAbortController = new AbortController();
+    window.addEventListener('beforeunload', () => {
+      try { globalAbortController.abort(); } catch (e) {}
+    });
+
+    async function fetchJson(url, init){
+      try{
+        const options = init ? { ...init } : {};
+        if (!options.signal) options.signal = globalAbortController.signal;
+        const r = await fetch(url, options);
+        if(!r.ok) throw new Error(await r.text());
+        return r.json();
+      }catch(err){
+        // Normalize aborted fetch errors
+        if (err && (err.name === 'AbortError' || String(err).toLowerCase().includes('aborted'))) {
+          throw new Error('aborted');
+        }
+        throw err;
+      }
+    }
 
     function robustParseCSV(text){
       const rows = [];
@@ -176,7 +196,7 @@
       };
 
       // Bounded concurrency to avoid overwhelming serverless/API
-      async function processWithConcurrency(items, limit = 12){
+      async function processWithConcurrency(items, limit = 8){
         const results = new Array(items.length);
         let next = 0, okCount = 0, errCount = 0;
         async function worker(){
@@ -188,7 +208,13 @@
               results[i] = r;
               if(r && r.ok) okCount++; else errCount++;
             }catch(e){
-              results[i] = { ok:false, err: String(e) };
+              // Swallow aborted errors quietly
+              const msg = String(e || '');
+              if (msg.toLowerCase().includes('aborted')) {
+                results[i] = { ok:false, err: 'aborted' };
+              } else {
+                results[i] = { ok:false, err: msg };
+              }
               errCount++;
             }finally{
               processed++;
