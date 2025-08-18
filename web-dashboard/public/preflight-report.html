@@ -204,7 +204,11 @@
 						let hasExact = txt.includes(`"${lang}"`) || txt.includes(`'${lang}'`);
 						let hasBase = !hasExact && (txt.includes(`"${base}"`) || txt.includes(`'${base}'`));
 						// Treat implicit English as coverage when no explicit locale keys are present
-						if (lang === 'en' && !hasExact && !hasBase) { hasExact = true; }
+						// - exact for 'en'
+						// - base for any 'en-*' variant
+						if (!hasExact && !hasBase && base === 'en') {
+							if (lang === 'en') { hasExact = true; } else { hasBase = true; }
+						}
 						if (hasExact) exact++; if (hasBase) withBase++;
 						details.push({ file: name, hasExact, hasBase });
 					} catch {}

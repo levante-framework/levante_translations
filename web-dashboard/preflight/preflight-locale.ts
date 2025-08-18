@@ -196,7 +196,11 @@ async function checkSurveyTranslations(langCode: string, env: 'dev' | 'prod'): P
 			let hasExact = jsonText.includes(`"${langCode}"`) || jsonText.includes(`'${langCode}'`);
 			let hasBase = !hasExact && (jsonText.includes(`"${base}"`) || jsonText.includes(`'${base}'`));
 			// Treat implicit English as coverage when no explicit locale keys are present
-			if (langCode === 'en' && !hasExact && !hasBase) { hasExact = true; }
+			// - exact for 'en'
+			// - base for any 'en-*' variant
+			if (!hasExact && !hasBase && base === 'en') {
+				if (langCode === 'en') { hasExact = true; } else { hasBase = true; }
+			}
 			if (hasExact) filesWithLang++;
 			if (hasBase) filesWithBase++;
 			details.push({ file: file.name, hasExact, hasBase });
