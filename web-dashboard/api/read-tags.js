@@ -1,6 +1,9 @@
 import { Storage } from '@google-cloud/storage';
 import NodeID3 from 'node-id3';
 
+// Use the assets bucket and the audio/ folder for coverage and metadata reads
+const ASSETS_BUCKET = process.env.ASSETS_DEV_BUCKET || 'levante-assets-dev';
+
 // Initialize Google Cloud Storage client
 let storageClient = null;
 
@@ -72,7 +75,7 @@ async function httpReadID3Tags(audioUrl) {
 async function readAudioMetadata(audioUrl) {
     try {
         // Extract bucket and file path from URL
-        // URL format: https://storage.googleapis.com/levante-audio-dev/es/itemid.mp3
+        // URL format: https://storage.googleapis.com/levante-assets-dev/audio/es-AR/itemid.mp3
         const urlParts = audioUrl.replace('https://storage.googleapis.com/', '').split('/');
         const bucketName = urlParts[0];
         const filePath = urlParts.slice(1).join('/');
@@ -120,8 +123,10 @@ async function readAudioMetadata(audioUrl) {
         }
         
         // Build comprehensive metadata combining GCS and ID3 tag data
-        const itemId = filePath.split('/').pop().replace('.mp3', '');
-        const languageCode = filePath.split('/')[0];
+        const pathParts = filePath.split('/');
+        const itemId = pathParts[pathParts.length - 1].replace('.mp3', '');
+        // Expect audio/<lang>/<file>
+        const languageCode = pathParts[0] === 'audio' ? pathParts[1] : pathParts[0];
         
         const basicMetadata = {
             // GCS metadata
@@ -180,21 +185,39 @@ async function readAudioMetadata(audioUrl) {
     }
 }
 
-// List top-level language prefixes present in the audio bucket
+// List language prefixes under audio/ in the assets bucket
 async function listAudioLanguagesFromBucket(bucketName) {
     try {
         const storage = await initializeGCS();
         const bucket = storage.bucket(bucketName);
-        // Use delimiter to list pseudo-directories (language codes)
-        const [files, , apiResponse] = await bucket.getFiles({ delimiter: '/', prefix: '' });
-        const prefixes = (apiResponse && apiResponse.prefixes) || [];
+        // Only list languages under audio/ prefix (ignore root-level folders like corpus/, translations/)
+        const [, , apiResp] = await bucket.getFiles({ delimiter: '/', prefix: 'audio/' });
+        const prefixes = (apiResp && apiResp.prefixes) || [];
         const langs = prefixes
-            .map(p => p.replace(/\/$/, ''))
+            .map(p => p.replace(/^audio\//, '').replace(/\/$/, ''))
             .filter(Boolean)
             .filter(code => code !== 'validations' && code !== '_gsdata_');
         return langs;
     } catch (err) {
         console.warn('⚠️ Failed to list languages in bucket:', err.message);
+        return [];
+    }
+}
+
+// List languages from the repository (audio_files/* on main)
+async function listRepoLanguages() {
+    try {
+        const apiUrl = 'https://api.github.com/repos/levante-framework/levante_translations/contents/audio_files?ref=main';
+        const resp = await fetch(apiUrl, { headers: { 'User-Agent': 'levante-audio-dashboard' } });
+        if (!resp.ok) return [];
+        const data = await resp.json();
+        if (!Array.isArray(data)) return [];
+        return data
+            .filter(e => e && e.type === 'dir' && e.name)
+            .map(e => e.name)
+            .filter(Boolean);
+    } catch (err) {
+        console.warn('⚠️ Failed to list repo languages:', err.message);
         return [];
     }
 }
@@ -218,10 +241,19 @@ export default async function handler(req, res) {
     
     try {
         const { itemId, langCode, list } = req.method === 'GET' ? req.query : req.body;
+        // Optional bucket override (default to assets-dev)
+        const requestedBucket = (req.method === 'GET' ? req.query.bucket : req.body?.bucket) || '';
+        const bucketOverride = typeof requestedBucket === 'string' && requestedBucket.trim().length > 0 ? requestedBucket.trim() : null;
+        const source = ((req.method === 'GET' ? req.query.source : req.body?.source) || '').toString().trim().toLowerCase();
 
-        // If listing was requested, return languages found in the dev bucket
+        // If listing was requested, return languages found in the dev assets bucket
         if (list === '1' || list === 1 || list === true) {
-            const bucketName = 'levante-audio-dev';
+            if (source === 'repo') {
+                const languages = await listRepoLanguages();
+                res.status(200).json({ source: 'repo', languages });
+                return;
+            }
+            const bucketName = bucketOverride || ASSETS_BUCKET;
             const languages = await listAudioLanguagesFromBucket(bucketName);
             res.status(200).json({ bucket: bucketName, languages });
             return;
@@ -239,12 +271,64 @@ export default async function handler(req, res) {
             return;
         }
         
-        // Construct audio URL using the same pattern as playAudio function
-        const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${langCode}/${itemId}.mp3`;
+        // Construct audio URL based on source
+        let audioUrl = '';
+        let targetBucket = bucketOverride || ASSETS_BUCKET;
+        const encItemId = encodeURIComponent(itemId);
+        if (source === 'repo') {
+            audioUrl = `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${encodeURIComponent(langCode)}/${encItemId}.mp3`;
+        } else {
+            audioUrl = `https://storage.googleapis.com/${encodeURIComponent(targetBucket)}/audio/${encodeURIComponent(langCode)}/${encItemId}.mp3`;
+        }
         
         console.log(`🔍 Reading metadata for: ${itemId} in ${langCode}`);
         
-        const metadata = await readAudioMetadata(audioUrl);
+        let metadata = null;
+        if (source === 'repo') {
+            // For repo files, use HTTP range read and construct metadata manually
+            const httpResult = await httpReadID3Tags(audioUrl);
+            if (!httpResult.ok) {
+                res.status(404).json({ error: 'File not accessible', details: `Unable to access: ${audioUrl}` });
+                return;
+            }
+            const id3Tags = httpResult.tags;
+            metadata = {
+                fileName: `${langCode}/${itemId}.mp3`,
+                size: undefined,
+                contentType: 'audio/mpeg',
+                created: undefined,
+                updated: undefined,
+                itemId,
+                language: langCode,
+                id3Tags: {
+                    title: id3Tags?.title || itemId,
+                    artist: id3Tags?.artist || 'Levante Project',
+                    album: id3Tags?.album || langCode || 'Levante Audio',
+                    genre: id3Tags?.genre || 'Speech Synthesis',
+                    service: id3Tags?.userDefinedText?.find(t => t.description === 'service')?.value || id3Tags?.service || 'Not available',
+                    voice: id3Tags?.userDefinedText?.find(t => t.description === 'voice')?.value || id3Tags?.voice || 'Not available',
+                    lang_code: id3Tags?.userDefinedText?.find(t => t.description === 'lang_code')?.value || id3Tags?.lang_code || langCode,
+                    text: id3Tags?.userDefinedText?.find(t => t.description === 'text')?.value || id3Tags?.text || 'Original text not available',
+                    created: id3Tags?.userDefinedText?.find(t => t.description === 'created')?.value || id3Tags?.date || null,
+                    copyright: id3Tags?.copyright || 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
+                    comment: id3Tags?.comment?.text || id3Tags?.comment || `Generated audio for item: ${itemId}`,
+                    note: id3Tags ? `ID3 tags successfully read from embedded metadata. Found ${Object.keys(id3Tags).length} fields.` : 'Could not read embedded ID3 tags. Showing fallback values.',
+                    debug_raw_tags: id3Tags ? Object.fromEntries(Object.entries(id3Tags).slice(0, 10)) : null
+                }
+            };
+        } else {
+            metadata = await readAudioMetadata(audioUrl);
+            if (metadata && metadata.error) {
+                // Backward-compat alternative path: top-level <lang>/<id>.mp3 (no audio/ prefix)
+                const altUrl = `https://storage.googleapis.com/${encodeURIComponent(targetBucket)}/${encodeURIComponent(langCode)}/${encodeURIComponent(itemId)}.mp3`;
+                const altMeta = await readAudioMetadata(altUrl);
+                if (!altMeta.error) {
+                    altMeta.note = 'Using legacy top-level path';
+                    res.status(200).json(altMeta);
+                    return;
+                }
+            }
+        }
         
         if (metadata.error) {
             // In strict mode, do not attempt language fallbacks
@@ -252,8 +336,41 @@ export default async function handler(req, res) {
                 // Try fallback for es-CO -> es
                 if (langCode === 'es-CO') {
                     console.log('🔄 Trying es fallback for es-CO...');
-                    const fallbackUrl = `https://storage.googleapis.com/levante-audio-dev/es/${itemId}.mp3`;
-                    const fallbackMetadata = await readAudioMetadata(fallbackUrl);
+                    const encId = encodeURIComponent(itemId);
+                    const fallbackUrl = source === 'repo'
+                        ? `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/es/${encId}.mp3`
+                        : `https://storage.googleapis.com/${encodeURIComponent(targetBucket)}/audio/es/${encId}.mp3`;
+                    const fallbackMetadata = source === 'repo'
+                        ? (await (async () => {
+                            const r = await httpReadID3Tags(fallbackUrl);
+                            if (!r.ok) return { error: 'File not accessible' };
+                            const tags = r.tags;
+                            return {
+                                fileName: `es/${itemId}.mp3`,
+                                size: undefined,
+                                contentType: 'audio/mpeg',
+                                created: undefined,
+                                updated: undefined,
+                                itemId,
+                                language: 'es',
+                                id3Tags: {
+                                    title: tags?.title || itemId,
+                                    artist: tags?.artist || 'Levante Project',
+                                    album: tags?.album || 'es' || 'Levante Audio',
+                                    genre: tags?.genre || 'Speech Synthesis',
+                                    service: tags?.userDefinedText?.find(t => t.description === 'service')?.value || tags?.service || 'Not available',
+                                    voice: tags?.userDefinedText?.find(t => t.description === 'voice')?.value || tags?.voice || 'Not available',
+                                    lang_code: tags?.userDefinedText?.find(t => t.description === 'lang_code')?.value || tags?.lang_code || 'es',
+                                    text: tags?.userDefinedText?.find(t => t.description === 'text')?.value || tags?.text || 'Original text not available',
+                                    created: tags?.userDefinedText?.find(t => t.description === 'created')?.value || tags?.date || null,
+                                    copyright: tags?.copyright || 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license',
+                                    comment: tags?.comment?.text || tags?.comment || `Generated audio for item: ${itemId}`,
+                                    note: tags ? `ID3 tags successfully read from embedded metadata. Found ${Object.keys(tags).length} fields.` : 'Could not read embedded ID3 tags. Showing fallback values.',
+                                    debug_raw_tags: tags ? Object.fromEntries(Object.entries(tags).slice(0, 10)) : null
+                                }
+                            };
+                        })())
+                        : await readAudioMetadata(fallbackUrl);
                     
                     if (!fallbackMetadata.error) {
                         fallbackMetadata.note = 'Using es fallback for es-CO';
