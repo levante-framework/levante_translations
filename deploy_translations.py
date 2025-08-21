@@ -105,6 +105,11 @@ def run_command(cmd: list, description: str, dry_run: bool = False) -> bool:
         print(f"   Make sure the command is installed and in your PATH")
         return False
 
+def _split_languages(languages_csv: str | None) -> list[str]:
+    if not languages_csv:
+        return []
+    return [s.strip() for s in languages_csv.split(',') if s.strip()]
+
 def check_prerequisites(environment: str, deploy_audio: bool) -> bool:
     """
     Check if all prerequisites are met for deployment.
@@ -298,6 +303,95 @@ def deploy_audio(environment: str, dry_run: bool = False, force: bool = False) -
         print("🧪 DRY RUN - Audio files that would be synced:")
     return run_command(cmd, f"Sync audio files to {bucket_name}", dry_run)
 
+# =========================
+# Promotion (dev → prod)
+# =========================
+
+def promote_audio_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+    """Promote audio from dev to prod using rsync. Optionally restrict to comma-separated languages.
+
+    Always uses rsync with checksum to avoid redundant copies [[memory:6341171]].
+    """
+    print_section("Promote Audio (DEV → PROD)")
+    langs = _split_languages(languages_csv)
+    src_bucket = AUDIO_BUCKET_NAME_DEV
+    dst_bucket = AUDIO_BUCKET_NAME_PROD
+    if langs:
+        ok = True
+        for lang in langs:
+            src = f"gs://{src_bucket}/{AUDIO_BUCKET_DIR}/{lang}/"
+            dst = f"gs://{dst_bucket}/{AUDIO_BUCKET_DIR}/{lang}/"
+            cmd = ["gsutil", "-m", "rsync", "-c", "-r", src, dst]
+            ok = run_command(cmd, f"Rsync audio for {lang} to prod", dry_run) and ok
+        return ok
+    else:
+        src = f"gs://{src_bucket}/{AUDIO_BUCKET_DIR}/"
+        dst = f"gs://{dst_bucket}/{AUDIO_BUCKET_DIR}/"
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r", src, dst]
+        return run_command(cmd, "Rsync ALL audio to prod", dry_run)
+
+def promote_csv_from_dev_to_prod(dry_run: bool = False) -> bool:
+    """Promote CSVs from dev to prod. Mirrors assets/translations via rsync and copies dashboard CSVs.
+
+    - Assets mirror: rsync translations/ folder dev → prod [[memory:6341171]].
+    - Dashboard CSVs: copy the two files; rsync cannot target individual files easily.
+    """
+    print_section("Promote CSV (DEV → PROD)")
+    ok = True
+    # Assets mirror (translations/)
+    src_assets = f"gs://{AUDIO_BUCKET_NAME_DEV}/{TRANSLATION_BUCKET_DIR}/"
+    dst_assets = f"gs://{AUDIO_BUCKET_NAME_PROD}/{TRANSLATION_BUCKET_DIR}/"
+    cmd_assets = ["gsutil", "-m", "rsync", "-c", "-r", src_assets, dst_assets]
+    ok = run_command(cmd_assets, "Rsync translations mirror to prod", dry_run) and ok
+
+    # Dashboard bucket CSVs (two canonical names)
+    for filename in ["itembank_translations.csv", "item-bank-translations.csv"]:
+        src = f"gs://{DASHBOARD_BUCKET_NAME_DEV}/{filename}"
+        dst = f"gs://{DASHBOARD_BUCKET_NAME_PROD}/{filename}"
+        # Use cp with -n to avoid overwrite; small exception to rsync rule for single files
+        cmd = ["gsutil", "cp", "-n", src, dst]
+        ok = run_command(cmd, f"Copy dashboard CSV {filename} to prod", dry_run) and ok
+    return ok
+
+def promote_icu_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+    """Promote ICU JSONs from dev to prod. If languages specified, copy only those; else rsync all."""
+    print_section("Promote ICU JSON (DEV → PROD)")
+    langs = _split_languages(languages_csv)
+    src_root = f"gs://{AUDIO_BUCKET_NAME_DEV}/{ICU_BUCKET_DIR}/"
+    dst_root = f"gs://{AUDIO_BUCKET_NAME_PROD}/{ICU_BUCKET_DIR}/"
+    if langs:
+        ok = True
+        for lang in langs:
+            src = f"{src_root}{lang}.json"
+            dst = f"{dst_root}{lang}.json"
+            cmd = ["gsutil", "cp", "-n", src, dst]
+            ok = run_command(cmd, f"Copy ICU {lang}.json to prod", dry_run) and ok
+        return ok
+    else:
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r", src_root, dst_root]
+        return run_command(cmd, "Rsync ALL ICU JSON to prod", dry_run)
+
+def promote_xliff_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+    """Promote XLIFFs from dev to prod. If languages specified, copy only matching files; else rsync all.
+
+    Matching rule for subset: files starting with "<lang>" (e.g., es-AR*.xliff).
+    """
+    print_section("Promote XLIFF (DEV → PROD)")
+    langs = _split_languages(languages_csv)
+    src_root = f"gs://{AUDIO_BUCKET_NAME_DEV}/{XLIFF_BUCKET_DIR}/"
+    dst_root = f"gs://{AUDIO_BUCKET_NAME_PROD}/{XLIFF_BUCKET_DIR}/"
+    if langs:
+        ok = True
+        for lang in langs:
+            # Use wildcard for language-prefixed files
+            src = f"{src_root}{lang}*.xliff"
+            cmd = ["gsutil", "cp", "-n", src, dst_root]
+            ok = run_command(cmd, f"Copy XLIFF for {lang} to prod", dry_run) and ok
+        return ok
+    else:
+        cmd = ["gsutil", "-m", "rsync", "-c", "-r", src_root, dst_root]
+        return run_command(cmd, "Rsync ALL XLIFF to prod", dry_run)
+
 # NEW: ICU JSON sync to assets bucket
 
 def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
@@ -444,6 +538,27 @@ Examples:
         action='store_true',
         help='Force uploads (use cp instead of rsync)'
     )
+
+    # Promotion options (dev → prod)
+    parser.add_argument(
+        '--promote',
+        action='store_true',
+        help='Promote from dev buckets to prod buckets (blocks direct local→prod uploads)'
+    )
+    parser.add_argument(
+        '--languages',
+        help='Comma-separated language codes to restrict promotion (applies to audio/ICU/XLIFF)'
+    )
+    parser.add_argument(
+        '--skip-icu',
+        action='store_true',
+        help='When promoting CSV/translations, skip ICU JSON'
+    )
+    parser.add_argument(
+        '--skip-xliff',
+        action='store_true',
+        help='When promoting CSV/translations, skip XLIFF files'
+    )
     
     parser.add_argument(
         '--validate-core-tasks',
@@ -464,7 +579,7 @@ Examples:
         print("❌ Error: Cannot use both --csv-only and --audio-only")
         return 1
     
-    # Determine what to deploy
+    # Determine what to deploy/promote
     deploy_csv_flag = not args.audio_only
     deploy_audio_flag = not args.csv_only
     
@@ -485,6 +600,30 @@ Examples:
     print(f"🧪 Dry Run: {'Yes' if args.dry_run else 'No'}")
     print(f"🔄 Force Re-upload: {'Yes' if args.force else 'No'}")
     
+    # If targeting prod without --promote, block direct uploads
+    if args.environment == 'prod' and not args.promote:
+        print("\n❌ Direct local→prod deployments are disabled. Use --promote to sync from dev to prod.")
+        return 1
+
+    # Promotion path: dev → prod
+    if args.promote:
+        print_header(f"Promotion (DEV → PROD) - {'Audio' if deploy_audio_flag and not deploy_csv_flag else 'CSV+Translations' if deploy_csv_flag and not deploy_audio_flag else 'Audio + CSV/Translations'} ({'DRY RUN' if args.dry_run else 'RUN'})")
+        setup_gsutil_auth()
+        overall_ok = True
+        if deploy_audio_flag:
+            overall_ok = promote_audio_from_dev_to_prod(args.languages, args.dry_run) and overall_ok
+        if deploy_csv_flag:
+            overall_ok = promote_csv_from_dev_to_prod(args.dry_run) and overall_ok
+            if not args.skip_icu:
+                overall_ok = promote_icu_from_dev_to_prod(args.languages, args.dry_run) and overall_ok
+            if not args.skip_xliff:
+                overall_ok = promote_xliff_from_dev_to_prod(args.languages, args.dry_run) and overall_ok
+        print_section("Promotion Summary")
+        print("✅ Success" if overall_ok else "❌ Failed")
+        return 0 if overall_ok else 1
+
+    # Local → dev path (or local → prod if allowed with --promote, which we already handled)
+
     # Fetch the latest translations from l10n_pending branch
     if deploy_csv_flag:
         print("\n📥 Fetching and normalizing latest translations...")
