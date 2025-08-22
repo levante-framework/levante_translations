@@ -105,7 +105,7 @@ def run_command(cmd: list, description: str, dry_run: bool = False) -> bool:
         print(f"   Make sure the command is installed and in your PATH")
         return False
 
-def _split_languages(languages_csv: str | None) -> list[str]:
+def _split_languages(languages_csv):
     if not languages_csv:
         return []
     return [s.strip() for s in languages_csv.split(',') if s.strip()]
@@ -307,7 +307,7 @@ def deploy_audio(environment: str, dry_run: bool = False, force: bool = False) -
 # Promotion (dev → prod)
 # =========================
 
-def promote_audio_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+def promote_audio_from_dev_to_prod(languages_csv, dry_run=False):
     """Promote audio from dev to prod using rsync. Optionally restrict to comma-separated languages.
 
     Always uses rsync with checksum to avoid redundant copies [[memory:6341171]].
@@ -330,7 +330,7 @@ def promote_audio_from_dev_to_prod(languages_csv: str | None, dry_run: bool = Fa
         cmd = ["gsutil", "-m", "rsync", "-c", "-r", src, dst]
         return run_command(cmd, "Rsync ALL audio to prod", dry_run)
 
-def promote_csv_from_dev_to_prod(dry_run: bool = False) -> bool:
+def promote_csv_from_dev_to_prod(dry_run=False):
     """Promote CSVs from dev to prod. Mirrors assets/translations via rsync and copies dashboard CSVs.
 
     - Assets mirror: rsync translations/ folder dev → prod [[memory:6341171]].
@@ -353,7 +353,7 @@ def promote_csv_from_dev_to_prod(dry_run: bool = False) -> bool:
         ok = run_command(cmd, f"Copy dashboard CSV {filename} to prod", dry_run) and ok
     return ok
 
-def promote_icu_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+def promote_icu_from_dev_to_prod(languages_csv, dry_run=False):
     """Promote ICU JSONs from dev to prod. If languages specified, copy only those; else rsync all."""
     print_section("Promote ICU JSON (DEV → PROD)")
     langs = _split_languages(languages_csv)
@@ -371,7 +371,7 @@ def promote_icu_from_dev_to_prod(languages_csv: str | None, dry_run: bool = Fals
         cmd = ["gsutil", "-m", "rsync", "-c", "-r", src_root, dst_root]
         return run_command(cmd, "Rsync ALL ICU JSON to prod", dry_run)
 
-def promote_xliff_from_dev_to_prod(languages_csv: str | None, dry_run: bool = False) -> bool:
+def promote_xliff_from_dev_to_prod(languages_csv, dry_run=False):
     """Promote XLIFFs from dev to prod. If languages specified, copy only matching files; else rsync all.
 
     Matching rule for subset: files starting with "<lang>" (e.g., es-AR*.xliff).
