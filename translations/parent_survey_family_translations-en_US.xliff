@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file id="356" original="/surveys/parent_survey_family_translations.csv" source-language="en-US" target-language="en-US" datatype="plaintext" project-id="756721" tool-id="crowdin">
+  <file id="464" original="/main/surveys-current/parent_survey_family_translations.csv" source-language="en-US" target-language="en-US" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="79114" resname="CaregiverSurveyIntroB">
+      <trans-unit id="88810" resname="CaregiverSurveyIntroB">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;</source>
         <target state="needs-translation">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;</target>
         <context-group purpose="information">
@@ -13,7 +13,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79116" resname="HomeNeighborhood">
+      <trans-unit id="88812" resname="HomeNeighborhood">
         <source>Please answer the following questions about the community in which you live.</source>
         <target state="needs-translation">Please answer the following questions about the community in which you live.</target>
         <context-group purpose="information">
@@ -21,7 +21,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79118" resname="HomeNSCHi7a">
+      <trans-unit id="88814" resname="HomeNSCHi7a">
         <source>In your neighborhood, are there sidewalks or walking paths?</source>
         <target state="needs-translation">In your neighborhood, are there sidewalks or walking paths?</target>
         <context-group purpose="information">
@@ -29,7 +29,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79120" resname="HomeNSCHi7a">
+      <trans-unit id="88816" resname="HomeNSCHi7a">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -37,7 +37,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79122" resname="HomeNSCHi7a">
+      <trans-unit id="88818" resname="HomeNSCHi7a">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -45,7 +45,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79124" resname="HomeNSCHi7b">
+      <trans-unit id="88820" resname="HomeNSCHi7b">
         <source>In your neighborhood, is there a park or playground?</source>
         <target state="needs-translation">In your neighborhood, is there a park or playground?</target>
         <context-group purpose="information">
@@ -53,7 +53,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79126" resname="HomeNSCHi7b">
+      <trans-unit id="88822" resname="HomeNSCHi7b">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -61,7 +61,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79128" resname="HomeNSCHi7b">
+      <trans-unit id="88824" resname="HomeNSCHi7b">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -69,7 +69,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79130" resname="HomeNSCHi7c">
+      <trans-unit id="88826" resname="HomeNSCHi7c">
         <source>In your neighborhood, is there a community center or recreation center where families get together?</source>
         <target state="needs-translation">In your neighborhood, is there a community center or recreation center where families get together?</target>
         <context-group purpose="information">
@@ -77,7 +77,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79132" resname="HomeNSCHi7c">
+      <trans-unit id="88828" resname="HomeNSCHi7c">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -85,7 +85,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79134" resname="HomeNSCHi7c">
+      <trans-unit id="88830" resname="HomeNSCHi7c">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -93,7 +93,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79136" resname="HomeNSCHi7d">
+      <trans-unit id="88832" resname="HomeNSCHi7d">
         <source>In your neighborhood, is there a library or other place to get free books?</source>
         <target state="needs-translation">In your neighborhood, is there a library or other place to get free books?</target>
         <context-group purpose="information">
@@ -101,7 +101,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79138" resname="HomeNSCHi7d">
+      <trans-unit id="88834" resname="HomeNSCHi7d">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -109,7 +109,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79140" resname="HomeNSCHi7d">
+      <trans-unit id="88836" resname="HomeNSCHi7d">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -117,7 +117,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79142" resname="HomeNSCHi7e">
+      <trans-unit id="88838" resname="HomeNSCHi7e">
         <source>In your neighborhood, is there litter or garbage on the street or sidewalk?</source>
         <target state="needs-translation">In your neighborhood, is there litter or garbage on the street or sidewalk?</target>
         <context-group purpose="information">
@@ -125,7 +125,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79144" resname="HomeNSCHi7e">
+      <trans-unit id="88840" resname="HomeNSCHi7e">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -133,7 +133,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79146" resname="HomeNSCHi7e">
+      <trans-unit id="88842" resname="HomeNSCHi7e">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -141,7 +141,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79148" resname="HomeNSCHi7f">
+      <trans-unit id="88844" resname="HomeNSCHi7f">
         <source>In your neighborhood is there poorly kept or rundown housing?</source>
         <target state="needs-translation">In your neighborhood is there poorly kept or rundown housing?</target>
         <context-group purpose="information">
@@ -149,7 +149,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79150" resname="HomeNSCHi7f">
+      <trans-unit id="88846" resname="HomeNSCHi7f">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -157,7 +157,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79152" resname="HomeNSCHi7f">
+      <trans-unit id="88848" resname="HomeNSCHi7f">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -165,7 +165,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79154" resname="HomeNSCHi7g">
+      <trans-unit id="88850" resname="HomeNSCHi7g">
         <source>In your neighborhood, is there vandalism such as broken windows or graffiti?</source>
         <target state="needs-translation">In your neighborhood, is there vandalism such as broken windows or graffiti?</target>
         <context-group purpose="information">
@@ -173,7 +173,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79156" resname="HomeNSCHi7g">
+      <trans-unit id="88852" resname="HomeNSCHi7g">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -181,7 +181,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79158" resname="HomeNSCHi7g">
+      <trans-unit id="88854" resname="HomeNSCHi7g">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -189,7 +189,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79160" resname="HomeNSCHi8items">
+      <trans-unit id="88856" resname="HomeNSCHi8items">
         <source>To what extent do you agree with these statements about your neighborhood or community?</source>
         <target state="needs-translation">To what extent do you agree with these statements about your neighborhood or community?</target>
         <context-group purpose="information">
@@ -197,7 +197,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79162" resname="HomeNSCHi8items">
+      <trans-unit id="88858" resname="HomeNSCHi8items">
         <source>Definitely Agree</source>
         <target state="needs-translation">Definitely Agree</target>
         <context-group purpose="information">
@@ -205,7 +205,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79164" resname="HomeNSCHi8items">
+      <trans-unit id="88860" resname="HomeNSCHi8items">
         <source>Somewhat Agree</source>
         <target state="needs-translation">Somewhat Agree</target>
         <context-group purpose="information">
@@ -213,7 +213,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79166" resname="HomeNSCHi8items">
+      <trans-unit id="88862" resname="HomeNSCHi8items">
         <source>Somewhat Disagree</source>
         <target state="needs-translation">Somewhat Disagree</target>
         <context-group purpose="information">
@@ -221,7 +221,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79168" resname="HomeNSCHi8items">
+      <trans-unit id="88864" resname="HomeNSCHi8items">
         <source>Definitely Disagree</source>
         <target state="needs-translation">Definitely Disagree</target>
         <context-group purpose="information">
@@ -229,7 +229,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79170" resname="HomeNSCHi8items">
+      <trans-unit id="88866" resname="HomeNSCHi8items">
         <source>People in your neighborhood help each other out.</source>
         <target state="needs-translation">People in your neighborhood help each other out.</target>
         <context-group purpose="information">
@@ -237,7 +237,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79172" resname="HomeNSCHi8items">
+      <trans-unit id="88868" resname="HomeNSCHi8items">
         <source>People in your neighborhood watch out for each other's children.</source>
         <target state="needs-translation">People in your neighborhood watch out for each other's children.</target>
         <context-group purpose="information">
@@ -245,7 +245,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79174" resname="HomeNSCHi8items">
+      <trans-unit id="88870" resname="HomeNSCHi8items">
         <source>Your child is safe in your neighborhood.</source>
         <target state="needs-translation">Your child is safe in your neighborhood.</target>
         <context-group purpose="information">
@@ -253,7 +253,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79176" resname="HomeNSCHi8items">
+      <trans-unit id="88872" resname="HomeNSCHi8items">
         <source>When you encounter difficulties, you know where to go for help in your community.</source>
         <target state="needs-translation">When you encounter difficulties, you know where to go for help in your community.</target>
         <context-group purpose="information">
@@ -261,7 +261,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79178" resname="HomeNSCHi8items">
+      <trans-unit id="88874" resname="HomeNSCHi8items">
         <source>Your child is safe at school.</source>
         <target state="needs-translation">Your child is safe at school.</target>
         <context-group purpose="information">
@@ -269,7 +269,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79180" resname="HomeFood">
+      <trans-unit id="88876" resname="HomeFood">
         <source>These are statements people have made about their food situation. For these statements, please mark whether the statement was often true, sometimes true, or never true for your household in the &lt;b&gt;last 12 months&lt;/b&gt;.</source>
         <target state="needs-translation">These are statements people have made about their food situation. For these statements, please mark whether the statement was often true, sometimes true, or never true for your household in the &lt;b&gt;last 12 months&lt;/b&gt;.</target>
         <context-group purpose="information">
@@ -277,7 +277,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79182" resname="HomeFoodLast">
+      <trans-unit id="88878" resname="HomeFoodLast">
         <source>The food that we bought just didn't last, and we didn't have enough money to get more.</source>
         <target state="needs-translation">The food that we bought just didn't last, and we didn't have enough money to get more.</target>
         <context-group purpose="information">
@@ -285,7 +285,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79184" resname="HomeFoodLast">
+      <trans-unit id="88880" resname="HomeFoodLast">
         <source>Never true</source>
         <target state="needs-translation">Never true</target>
         <context-group purpose="information">
@@ -293,7 +293,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79186" resname="HomeFoodLast">
+      <trans-unit id="88882" resname="HomeFoodLast">
         <source>Sometimes true</source>
         <target state="needs-translation">Sometimes true</target>
         <context-group purpose="information">
@@ -301,7 +301,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79188" resname="HomeFoodLast">
+      <trans-unit id="88884" resname="HomeFoodLast">
         <source>Often true</source>
         <target state="needs-translation">Often true</target>
         <context-group purpose="information">
@@ -309,7 +309,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79190" resname="HomeFoodBalanced">
+      <trans-unit id="88886" resname="HomeFoodBalanced">
         <source>We couldn't afford to eat balanced meals.</source>
         <target state="needs-translation">We couldn't afford to eat balanced meals.</target>
         <context-group purpose="information">
@@ -317,7 +317,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79192" resname="HomeFoodBalanced">
+      <trans-unit id="88888" resname="HomeFoodBalanced">
         <source>Never true</source>
         <target state="needs-translation">Never true</target>
         <context-group purpose="information">
@@ -325,7 +325,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79194" resname="HomeFoodBalanced">
+      <trans-unit id="88890" resname="HomeFoodBalanced">
         <source>Sometimes true</source>
         <target state="needs-translation">Sometimes true</target>
         <context-group purpose="information">
@@ -333,7 +333,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79196" resname="HomeFoodBalanced">
+      <trans-unit id="88892" resname="HomeFoodBalanced">
         <source>Often true</source>
         <target state="needs-translation">Often true</target>
         <context-group purpose="information">
@@ -341,7 +341,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79198" resname="HomeFoodSkipMeal">
+      <trans-unit id="88894" resname="HomeFoodSkipMeal">
         <source>In the &lt;b&gt;last 12 months&lt;/b&gt;, did you or other adults in your household ever cut the size of your meals or skip meals because there wasn't enough money for food?</source>
         <target state="needs-translation">In the &lt;b&gt;last 12 months&lt;/b&gt;, did you or other adults in your household ever cut the size of your meals or skip meals because there wasn't enough money for food?</target>
         <context-group purpose="information">
@@ -349,7 +349,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79200" resname="HomeFoodSkipMeal">
+      <trans-unit id="88896" resname="HomeFoodSkipMeal">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -357,7 +357,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79202" resname="HomeFoodSkipMeal">
+      <trans-unit id="88898" resname="HomeFoodSkipMeal">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -365,7 +365,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79204" resname="HomeFoodSkipMealAmount">
+      <trans-unit id="88900" resname="HomeFoodSkipMealAmount">
         <source>If yes, how often did this happen - almost every month, some months but not every month, or in only 1 or 2 months?</source>
         <target state="needs-translation">If yes, how often did this happen - almost every month, some months but not every month, or in only 1 or 2 months?</target>
         <context-group purpose="information">
@@ -373,7 +373,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79206" resname="HomeFoodSkipMealAmount">
+      <trans-unit id="88902" resname="HomeFoodSkipMealAmount">
         <source>Almost every month</source>
         <target state="needs-translation">Almost every month</target>
         <context-group purpose="information">
@@ -381,7 +381,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79208" resname="HomeFoodSkipMealAmount">
+      <trans-unit id="88904" resname="HomeFoodSkipMealAmount">
         <source>Some months but not every month</source>
         <target state="needs-translation">Some months but not every month</target>
         <context-group purpose="information">
@@ -389,7 +389,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79210" resname="HomeFoodSkipMealAmount">
+      <trans-unit id="88906" resname="HomeFoodSkipMealAmount">
         <source>Only 1 or 2 months</source>
         <target state="needs-translation">Only 1 or 2 months</target>
         <context-group purpose="information">
@@ -397,7 +397,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79212" resname="HomeCHAOS">
+      <trans-unit id="88908" resname="HomeCHAOS">
         <source>Below are statements about the environment in your home. Please indicate how much you agree that the statement is true of your home.</source>
         <target state="needs-translation">Below are statements about the environment in your home. Please indicate how much you agree that the statement is true of your home.</target>
         <context-group purpose="information">
@@ -405,7 +405,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79214" resname="HomeCHAOS4">
+      <trans-unit id="88910" resname="HomeCHAOS4">
         <source>We are usually able to stay on top of things.</source>
         <target state="needs-translation">We are usually able to stay on top of things.</target>
         <context-group purpose="information">
@@ -413,7 +413,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79216" resname="HomeCHAOS4">
+      <trans-unit id="88912" resname="HomeCHAOS4">
         <source>Definitely Untrue</source>
         <target state="needs-translation">Definitely Untrue</target>
         <context-group purpose="information">
@@ -421,7 +421,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79218" resname="HomeCHAOS4">
+      <trans-unit id="88914" resname="HomeCHAOS4">
         <source>Somewhat Untrue</source>
         <target state="needs-translation">Somewhat Untrue</target>
         <context-group purpose="information">
@@ -429,7 +429,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79220" resname="HomeCHAOS4">
+      <trans-unit id="88916" resname="HomeCHAOS4">
         <source>Somewhat True</source>
         <target state="needs-translation">Somewhat True</target>
         <context-group purpose="information">
@@ -437,7 +437,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79222" resname="HomeCHAOS4">
+      <trans-unit id="88918" resname="HomeCHAOS4">
         <source>Definitely True</source>
         <target state="needs-translation">Definitely True</target>
         <context-group purpose="information">
@@ -445,7 +445,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79224" resname="HomeCHAOS10">
+      <trans-unit id="88920" resname="HomeCHAOS10">
         <source>You can't hear yourself think in our home.</source>
         <target state="needs-translation">You can't hear yourself think in our home.</target>
         <context-group purpose="information">
@@ -453,7 +453,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79226" resname="HomeCHAOS10">
+      <trans-unit id="88922" resname="HomeCHAOS10">
         <source>Definitely Untrue</source>
         <target state="needs-translation">Definitely Untrue</target>
         <context-group purpose="information">
@@ -461,7 +461,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79228" resname="HomeCHAOS10">
+      <trans-unit id="88924" resname="HomeCHAOS10">
         <source>Somewhat Untrue</source>
         <target state="needs-translation">Somewhat Untrue</target>
         <context-group purpose="information">
@@ -469,7 +469,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79230" resname="HomeCHAOS10">
+      <trans-unit id="88926" resname="HomeCHAOS10">
         <source>Somewhat True</source>
         <target state="needs-translation">Somewhat True</target>
         <context-group purpose="information">
@@ -477,7 +477,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79232" resname="HomeCHAOS10">
+      <trans-unit id="88928" resname="HomeCHAOS10">
         <source>Definitely True</source>
         <target state="needs-translation">Definitely True</target>
         <context-group purpose="information">
@@ -485,7 +485,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79234" resname="HomeCHAOS14">
+      <trans-unit id="88930" resname="HomeCHAOS14">
         <source>The atmosphere in our home is calm.</source>
         <target state="needs-translation">The atmosphere in our home is calm.</target>
         <context-group purpose="information">
@@ -493,7 +493,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79236" resname="HomeCHAOS14">
+      <trans-unit id="88932" resname="HomeCHAOS14">
         <source>Definitely Untrue</source>
         <target state="needs-translation">Definitely Untrue</target>
         <context-group purpose="information">
@@ -501,7 +501,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79238" resname="HomeCHAOS14">
+      <trans-unit id="88934" resname="HomeCHAOS14">
         <source>Somewhat Untrue</source>
         <target state="needs-translation">Somewhat Untrue</target>
         <context-group purpose="information">
@@ -509,7 +509,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79240" resname="HomeCHAOS14">
+      <trans-unit id="88936" resname="HomeCHAOS14">
         <source>Somewhat True</source>
         <target state="needs-translation">Somewhat True</target>
         <context-group purpose="information">
@@ -517,7 +517,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79242" resname="HomeCHAOS14">
+      <trans-unit id="88938" resname="HomeCHAOS14">
         <source>Definitely True</source>
         <target state="needs-translation">Definitely True</target>
         <context-group purpose="information">
@@ -525,7 +525,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79244" resname="HomeCHAOS15">
+      <trans-unit id="88940" resname="HomeCHAOS15">
         <source>We have a regular morning routine at home.</source>
         <target state="needs-translation">We have a regular morning routine at home.</target>
         <context-group purpose="information">
@@ -533,7 +533,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79246" resname="HomeCHAOS15">
+      <trans-unit id="88942" resname="HomeCHAOS15">
         <source>Definitely Untrue</source>
         <target state="needs-translation">Definitely Untrue</target>
         <context-group purpose="information">
@@ -541,7 +541,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79248" resname="HomeCHAOS15">
+      <trans-unit id="88944" resname="HomeCHAOS15">
         <source>Somewhat Untrue</source>
         <target state="needs-translation">Somewhat Untrue</target>
         <context-group purpose="information">
@@ -549,7 +549,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79250" resname="HomeCHAOS15">
+      <trans-unit id="88946" resname="HomeCHAOS15">
         <source>Somewhat True</source>
         <target state="needs-translation">Somewhat True</target>
         <context-group purpose="information">
@@ -557,7 +557,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79252" resname="HomeCHAOS15">
+      <trans-unit id="88948" resname="HomeCHAOS15">
         <source>Definitely True</source>
         <target state="needs-translation">Definitely True</target>
         <context-group purpose="information">
@@ -565,7 +565,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79254" resname="SelfParentStressNSCHh8">
+      <trans-unit id="88950" resname="SelfParentStressNSCHh8">
         <source>How well do you think you are handling the day-to-day demands of raising children?</source>
         <target state="needs-translation">How well do you think you are handling the day-to-day demands of raising children?</target>
         <context-group purpose="information">
@@ -573,7 +573,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79256" resname="SelfParentStressNSCHh8">
+      <trans-unit id="88952" resname="SelfParentStressNSCHh8">
         <source>Very well</source>
         <target state="needs-translation">Very well</target>
         <context-group purpose="information">
@@ -581,7 +581,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79258" resname="SelfParentStressNSCHh8">
+      <trans-unit id="88954" resname="SelfParentStressNSCHh8">
         <source>Somewhat well</source>
         <target state="needs-translation">Somewhat well</target>
         <context-group purpose="information">
@@ -589,7 +589,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79260" resname="SelfParentStressNSCHh8">
+      <trans-unit id="88956" resname="SelfParentStressNSCHh8">
         <source>Not very well</source>
         <target state="needs-translation">Not very well</target>
         <context-group purpose="information">
@@ -597,7 +597,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79262" resname="SelfParentStressNSCHh8">
+      <trans-unit id="88958" resname="SelfParentStressNSCHh8">
         <source>Not well at all</source>
         <target state="needs-translation">Not well at all</target>
         <context-group purpose="information">
@@ -605,7 +605,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79264" resname="SelfAnxDep">
+      <trans-unit id="88960" resname="SelfAnxDep">
         <source>Over the &lt;b&gt;last two weeks&lt;/b&gt;, how often have you been bothered by the following problems?</source>
         <target state="needs-translation">Over the &lt;b&gt;last two weeks&lt;/b&gt;, how often have you been bothered by the following problems?</target>
         <context-group purpose="information">
@@ -613,7 +613,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79266" resname="SelfAnxDep">
+      <trans-unit id="88962" resname="SelfAnxDep">
         <source>Not at all</source>
         <target state="needs-translation">Not at all</target>
         <context-group purpose="information">
@@ -621,7 +621,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79268" resname="SelfAnxDep">
+      <trans-unit id="88964" resname="SelfAnxDep">
         <source>Several days</source>
         <target state="needs-translation">Several days</target>
         <context-group purpose="information">
@@ -629,7 +629,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79270" resname="SelfAnxDep">
+      <trans-unit id="88966" resname="SelfAnxDep">
         <source>More than half of the days</source>
         <target state="needs-translation">More than half of the days</target>
         <context-group purpose="information">
@@ -637,7 +637,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79272" resname="SelfAnxDep">
+      <trans-unit id="88968" resname="SelfAnxDep">
         <source>Nearly every day</source>
         <target state="needs-translation">Nearly every day</target>
         <context-group purpose="information">
@@ -645,7 +645,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79274" resname="SelfAnxDep">
+      <trans-unit id="88970" resname="SelfAnxDep">
         <source>Feeling nervous, anxious, or on edge</source>
         <target state="needs-translation">Feeling nervous, anxious, or on edge</target>
         <context-group purpose="information">
@@ -653,7 +653,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79276" resname="SelfAnxDep">
+      <trans-unit id="88972" resname="SelfAnxDep">
         <source>Not being able to stop or control worrying</source>
         <target state="needs-translation">Not being able to stop or control worrying</target>
         <context-group purpose="information">
@@ -661,7 +661,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79278" resname="SelfAnxDep">
+      <trans-unit id="88974" resname="SelfAnxDep">
         <source>Feeling down, depressed, or hopeless</source>
         <target state="needs-translation">Feeling down, depressed, or hopeless</target>
         <context-group purpose="information">
@@ -669,7 +669,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79280" resname="SelfAnxDep">
+      <trans-unit id="88976" resname="SelfAnxDep">
         <source>Little interest or pleasure in doing things</source>
         <target state="needs-translation">Little interest or pleasure in doing things</target>
         <context-group purpose="information">
@@ -677,7 +677,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79282" resname="SelfSupport">
+      <trans-unit id="88978" resname="SelfSupport">
         <source>We are interested in how you feel about the following statements. Read each statement carefully. Indicate how you feel about each statement.</source>
         <target state="needs-translation">We are interested in how you feel about the following statements. Read each statement carefully. Indicate how you feel about each statement.</target>
         <context-group purpose="information">
@@ -685,7 +685,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79284" resname="SelfSupport">
+      <trans-unit id="88980" resname="SelfSupport">
         <source>Very Strongly Disagree</source>
         <target state="needs-translation">Very Strongly Disagree</target>
         <context-group purpose="information">
@@ -693,7 +693,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79286" resname="SelfSupport">
+      <trans-unit id="88982" resname="SelfSupport">
         <source>Strongly Disagree</source>
         <target state="needs-translation">Strongly Disagree</target>
         <context-group purpose="information">
@@ -701,7 +701,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79288" resname="SelfSupport">
+      <trans-unit id="88984" resname="SelfSupport">
         <source>Mildly Disagree</source>
         <target state="needs-translation">Mildly Disagree</target>
         <context-group purpose="information">
@@ -709,7 +709,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79290" resname="SelfSupport">
+      <trans-unit id="88986" resname="SelfSupport">
         <source>Mildly Agree</source>
         <target state="needs-translation">Mildly Agree</target>
         <context-group purpose="information">
@@ -717,7 +717,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79292" resname="SelfSupport">
+      <trans-unit id="88988" resname="SelfSupport">
         <source>Strongly Agree</source>
         <target state="needs-translation">Strongly Agree</target>
         <context-group purpose="information">
@@ -725,7 +725,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79294" resname="SelfSupport">
+      <trans-unit id="88990" resname="SelfSupport">
         <source>Very Strongly Agree</source>
         <target state="needs-translation">Very Strongly Agree</target>
         <context-group purpose="information">
@@ -733,7 +733,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79296" resname="SelfSupport">
+      <trans-unit id="88992" resname="SelfSupport">
         <source>There is a special person (ex: spouse, partner, etc.) who is around when I am in need.</source>
         <target state="needs-translation">There is a special person (ex: spouse, partner, etc.) who is around when I am in need.</target>
         <context-group purpose="information">
@@ -741,7 +741,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79298" resname="SelfSupport">
+      <trans-unit id="88994" resname="SelfSupport">
         <source>There is a special person (ex: spouse, partner, etc.) with whom I can share joys and sorrows.</source>
         <target state="needs-translation">There is a special person (ex: spouse, partner, etc.) with whom I can share joys and sorrows.</target>
         <context-group purpose="information">
@@ -749,7 +749,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79300" resname="SelfSupport">
+      <trans-unit id="88996" resname="SelfSupport">
         <source>My family really tries to help me.</source>
         <target state="needs-translation">My family really tries to help me.</target>
         <context-group purpose="information">
@@ -757,7 +757,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79302" resname="SelfSupport">
+      <trans-unit id="88998" resname="SelfSupport">
         <source>I get the emotional help &amp; support I need from my family.</source>
         <target state="needs-translation">I get the emotional help &amp; support I need from my family.</target>
         <context-group purpose="information">
@@ -765,7 +765,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79304" resname="SelfSupport">
+      <trans-unit id="89000" resname="SelfSupport">
         <source>I have a special person (ex: spouse, partner, etc.) who is a real source of comfort to me.</source>
         <target state="needs-translation">I have a special person (ex: spouse, partner, etc.) who is a real source of comfort to me.</target>
         <context-group purpose="information">
@@ -773,7 +773,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79306" resname="SelfSupport">
+      <trans-unit id="89002" resname="SelfSupport">
         <source>My friends really try to help me.</source>
         <target state="needs-translation">My friends really try to help me.</target>
         <context-group purpose="information">
@@ -781,7 +781,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79308" resname="SelfSupport">
+      <trans-unit id="89004" resname="SelfSupport">
         <source>I can count on my friends when things go wrong.</source>
         <target state="needs-translation">I can count on my friends when things go wrong.</target>
         <context-group purpose="information">
@@ -789,7 +789,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79310" resname="SelfSupport">
+      <trans-unit id="89006" resname="SelfSupport">
         <source>I can talk about my problems with my family.</source>
         <target state="needs-translation">I can talk about my problems with my family.</target>
         <context-group purpose="information">
@@ -797,7 +797,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79312" resname="SelfSupport">
+      <trans-unit id="89008" resname="SelfSupport">
         <source>I have friends with whom I can share my joys and sorrows.</source>
         <target state="needs-translation">I have friends with whom I can share my joys and sorrows.</target>
         <context-group purpose="information">
@@ -805,7 +805,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79314" resname="SelfSupport">
+      <trans-unit id="89010" resname="SelfSupport">
         <source>There is a special person (ex: spouse, partner, etc.) in my life who cares about my feelings.</source>
         <target state="needs-translation">There is a special person (ex: spouse, partner, etc.) in my life who cares about my feelings.</target>
         <context-group purpose="information">
@@ -813,7 +813,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79316" resname="SelfSupport">
+      <trans-unit id="89012" resname="SelfSupport">
         <source>My family is willing to help me make decisions.</source>
         <target state="needs-translation">My family is willing to help me make decisions.</target>
         <context-group purpose="information">
@@ -821,7 +821,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79318" resname="SelfSupport">
+      <trans-unit id="89014" resname="SelfSupport">
         <source>I can talk about my problems with my friends.</source>
         <target state="needs-translation">I can talk about my problems with my friends.</target>
         <context-group purpose="information">
@@ -829,7 +829,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79320" resname="SelfDiscrim">
+      <trans-unit id="89016" resname="SelfDiscrim">
         <source>In your day-to-day life how often have any of the following things happened to you?</source>
         <target state="needs-translation">In your day-to-day life how often have any of the following things happened to you?</target>
         <context-group purpose="information">
@@ -837,7 +837,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79322" resname="SelfDiscrim">
+      <trans-unit id="89018" resname="SelfDiscrim">
         <source>Never</source>
         <target state="needs-translation">Never</target>
         <context-group purpose="information">
@@ -845,7 +845,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79324" resname="SelfDiscrim">
+      <trans-unit id="89020" resname="SelfDiscrim">
         <source>Less than once a year</source>
         <target state="needs-translation">Less than once a year</target>
         <context-group purpose="information">
@@ -853,7 +853,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79326" resname="SelfDiscrim">
+      <trans-unit id="89022" resname="SelfDiscrim">
         <source>A few times a year</source>
         <target state="needs-translation">A few times a year</target>
         <context-group purpose="information">
@@ -861,7 +861,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79328" resname="SelfDiscrim">
+      <trans-unit id="89024" resname="SelfDiscrim">
         <source>A few times a month</source>
         <target state="needs-translation">A few times a month</target>
         <context-group purpose="information">
@@ -869,7 +869,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79330" resname="SelfDiscrim">
+      <trans-unit id="89026" resname="SelfDiscrim">
         <source>At least once a week</source>
         <target state="needs-translation">At least once a week</target>
         <context-group purpose="information">
@@ -877,7 +877,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79332" resname="SelfDiscrim">
+      <trans-unit id="89028" resname="SelfDiscrim">
         <source>Almost everyday</source>
         <target state="needs-translation">Almost everyday</target>
         <context-group purpose="information">
@@ -885,7 +885,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79334" resname="SelfDiscrim">
+      <trans-unit id="89030" resname="SelfDiscrim">
         <source>You are treated with less courtesy or respect than other people.</source>
         <target state="needs-translation">You are treated with less courtesy or respect than other people.</target>
         <context-group purpose="information">
@@ -893,7 +893,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79336" resname="SelfDiscrim">
+      <trans-unit id="89032" resname="SelfDiscrim">
         <source>You receive poorer service than other people at restaurants or stores.</source>
         <target state="needs-translation">You receive poorer service than other people at restaurants or stores.</target>
         <context-group purpose="information">
@@ -901,7 +901,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79338" resname="SelfDiscrim">
+      <trans-unit id="89034" resname="SelfDiscrim">
         <source>People act as if they think you are not smart.</source>
         <target state="needs-translation">People act as if they think you are not smart.</target>
         <context-group purpose="information">
@@ -909,7 +909,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79340" resname="SelfDiscrim">
+      <trans-unit id="89036" resname="SelfDiscrim">
         <source>People act as if they are afraid of you.</source>
         <target state="needs-translation">People act as if they are afraid of you.</target>
         <context-group purpose="information">
@@ -917,7 +917,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79342" resname="SelfDiscrim">
+      <trans-unit id="89038" resname="SelfDiscrim">
         <source>You are threatened or harassed.</source>
         <target state="needs-translation">You are threatened or harassed.</target>
         <context-group purpose="information">
@@ -925,7 +925,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79344" resname="SelfLifeChanges">
+      <trans-unit id="89040" resname="SelfLifeChanges">
         <source>Please select Yes or No to indicate whether each event has happened to you &lt;b&gt;in the past year&lt;/b&gt;.</source>
         <target state="needs-translation">Please select Yes or No to indicate whether each event has happened to you &lt;b&gt;in the past year&lt;/b&gt;.</target>
         <context-group purpose="information">
@@ -933,7 +933,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79346" resname="SelfLifeChangesHealth">
+      <trans-unit id="89042" resname="SelfLifeChangesHealth">
         <source>Health:</source>
         <target state="needs-translation">Health:</target>
         <context-group purpose="information">
@@ -941,7 +941,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79348" resname="SelfLifeChanges1">
+      <trans-unit id="89044" resname="SelfLifeChanges1">
         <source>An injury or illness which kept you in bed a week or more, or sent you to the hospital.</source>
         <target state="needs-translation">An injury or illness which kept you in bed a week or more, or sent you to the hospital.</target>
         <context-group purpose="information">
@@ -949,7 +949,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79350" resname="SelfLifeChanges1">
+      <trans-unit id="89046" resname="SelfLifeChanges1">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -957,7 +957,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79352" resname="SelfLifeChanges1">
+      <trans-unit id="89048" resname="SelfLifeChanges1">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -965,7 +965,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79354" resname="SelfLifeChanges2">
+      <trans-unit id="89050" resname="SelfLifeChanges2">
         <source>An injury or illness which was less serious than above but still sent you to the doctor or kept you in bed for a day or two.</source>
         <target state="needs-translation">An injury or illness which was less serious than above but still sent you to the doctor or kept you in bed for a day or two.</target>
         <context-group purpose="information">
@@ -973,7 +973,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79356" resname="SelfLifeChanges2">
+      <trans-unit id="89052" resname="SelfLifeChanges2">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -981,7 +981,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79358" resname="SelfLifeChanges2">
+      <trans-unit id="89054" resname="SelfLifeChanges2">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -989,7 +989,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79360" resname="SelfLifeChanges3">
+      <trans-unit id="89056" resname="SelfLifeChanges3">
         <source>Major dental work.</source>
         <target state="needs-translation">Major dental work.</target>
         <context-group purpose="information">
@@ -997,7 +997,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79362" resname="SelfLifeChanges3">
+      <trans-unit id="89058" resname="SelfLifeChanges3">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1005,7 +1005,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79364" resname="SelfLifeChanges3">
+      <trans-unit id="89060" resname="SelfLifeChanges3">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1013,7 +1013,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79366" resname="SelfLifeChanges4">
+      <trans-unit id="89062" resname="SelfLifeChanges4">
         <source>Major change in eating habits.</source>
         <target state="needs-translation">Major change in eating habits.</target>
         <context-group purpose="information">
@@ -1021,7 +1021,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79368" resname="SelfLifeChanges4">
+      <trans-unit id="89064" resname="SelfLifeChanges4">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1029,7 +1029,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79370" resname="SelfLifeChanges4">
+      <trans-unit id="89066" resname="SelfLifeChanges4">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1037,7 +1037,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79372" resname="SelfLifeChanges5">
+      <trans-unit id="89068" resname="SelfLifeChanges5">
         <source>Major change in sleeping habits.</source>
         <target state="needs-translation">Major change in sleeping habits.</target>
         <context-group purpose="information">
@@ -1045,7 +1045,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79374" resname="SelfLifeChanges5">
+      <trans-unit id="89070" resname="SelfLifeChanges5">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1053,7 +1053,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79376" resname="SelfLifeChanges5">
+      <trans-unit id="89072" resname="SelfLifeChanges5">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1061,7 +1061,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79378" resname="SelfLifeChanges6">
+      <trans-unit id="89074" resname="SelfLifeChanges6">
         <source>Major change in your usual type and/or amount of recreation.</source>
         <target state="needs-translation">Major change in your usual type and/or amount of recreation.</target>
         <context-group purpose="information">
@@ -1069,7 +1069,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79380" resname="SelfLifeChanges6">
+      <trans-unit id="89076" resname="SelfLifeChanges6">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1077,7 +1077,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79382" resname="SelfLifeChanges6">
+      <trans-unit id="89078" resname="SelfLifeChanges6">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1085,7 +1085,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79384" resname="SelfLifeChangesWork">
+      <trans-unit id="89080" resname="SelfLifeChangesWork">
         <source>Work:</source>
         <target state="needs-translation">Work:</target>
         <context-group purpose="information">
@@ -1093,7 +1093,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79386" resname="SelfLifeChanges7">
+      <trans-unit id="89082" resname="SelfLifeChanges7">
         <source>Change to a new type of work.</source>
         <target state="needs-translation">Change to a new type of work.</target>
         <context-group purpose="information">
@@ -1101,7 +1101,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79388" resname="SelfLifeChanges7">
+      <trans-unit id="89084" resname="SelfLifeChanges7">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1109,7 +1109,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79390" resname="SelfLifeChanges7">
+      <trans-unit id="89086" resname="SelfLifeChanges7">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1117,7 +1117,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79392" resname="SelfLifeChanges8">
+      <trans-unit id="89088" resname="SelfLifeChanges8">
         <source>Change in your work hours or conditions.</source>
         <target state="needs-translation">Change in your work hours or conditions.</target>
         <context-group purpose="information">
@@ -1125,7 +1125,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79394" resname="SelfLifeChanges8">
+      <trans-unit id="89090" resname="SelfLifeChanges8">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1133,7 +1133,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79396" resname="SelfLifeChanges8">
+      <trans-unit id="89092" resname="SelfLifeChanges8">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1141,7 +1141,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79398" resname="SelfLifeChanges9">
+      <trans-unit id="89094" resname="SelfLifeChanges9">
         <source>Change in your responsibilities at work (more responsibilities).</source>
         <target state="needs-translation">Change in your responsibilities at work (more responsibilities).</target>
         <context-group purpose="information">
@@ -1149,7 +1149,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79400" resname="SelfLifeChanges9">
+      <trans-unit id="89096" resname="SelfLifeChanges9">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1157,7 +1157,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79402" resname="SelfLifeChanges9">
+      <trans-unit id="89098" resname="SelfLifeChanges9">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1165,7 +1165,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79404" resname="SelfLifeChanges10">
+      <trans-unit id="89100" resname="SelfLifeChanges10">
         <source>Change in your responsibilities at work (fewer responsibilities).</source>
         <target state="needs-translation">Change in your responsibilities at work (fewer responsibilities).</target>
         <context-group purpose="information">
@@ -1173,7 +1173,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79406" resname="SelfLifeChanges10">
+      <trans-unit id="89102" resname="SelfLifeChanges10">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1181,7 +1181,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79408" resname="SelfLifeChanges10">
+      <trans-unit id="89104" resname="SelfLifeChanges10">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1189,7 +1189,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79410" resname="SelfLifeChanges11">
+      <trans-unit id="89106" resname="SelfLifeChanges11">
         <source>Change in your responsibilities at work (promotion).</source>
         <target state="needs-translation">Change in your responsibilities at work (promotion).</target>
         <context-group purpose="information">
@@ -1197,7 +1197,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79412" resname="SelfLifeChanges11">
+      <trans-unit id="89108" resname="SelfLifeChanges11">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1205,7 +1205,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79414" resname="SelfLifeChanges11">
+      <trans-unit id="89110" resname="SelfLifeChanges11">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1213,7 +1213,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79416" resname="SelfLifeChanges12">
+      <trans-unit id="89112" resname="SelfLifeChanges12">
         <source>Change in your responsibilities at work (demotion).</source>
         <target state="needs-translation">Change in your responsibilities at work (demotion).</target>
         <context-group purpose="information">
@@ -1221,7 +1221,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79418" resname="SelfLifeChanges12">
+      <trans-unit id="89114" resname="SelfLifeChanges12">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1229,7 +1229,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79420" resname="SelfLifeChanges12">
+      <trans-unit id="89116" resname="SelfLifeChanges12">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1237,7 +1237,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79422" resname="SelfLifeChanges13">
+      <trans-unit id="89118" resname="SelfLifeChanges13">
         <source>Change in your responsibilities at work (transfer).</source>
         <target state="needs-translation">Change in your responsibilities at work (transfer).</target>
         <context-group purpose="information">
@@ -1245,7 +1245,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79424" resname="SelfLifeChanges13">
+      <trans-unit id="89120" resname="SelfLifeChanges13">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1253,7 +1253,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79426" resname="SelfLifeChanges13">
+      <trans-unit id="89122" resname="SelfLifeChanges13">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1261,7 +1261,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79428" resname="SelfLifeChanges14">
+      <trans-unit id="89124" resname="SelfLifeChanges14">
         <source>Troubles at work (with your boss).</source>
         <target state="needs-translation">Troubles at work (with your boss).</target>
         <context-group purpose="information">
@@ -1269,7 +1269,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79430" resname="SelfLifeChanges14">
+      <trans-unit id="89126" resname="SelfLifeChanges14">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1277,7 +1277,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79432" resname="SelfLifeChanges14">
+      <trans-unit id="89128" resname="SelfLifeChanges14">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1285,7 +1285,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79434" resname="SelfLifeChanges15">
+      <trans-unit id="89130" resname="SelfLifeChanges15">
         <source>Troubles at work (with your coworkers).</source>
         <target state="needs-translation">Troubles at work (with your coworkers).</target>
         <context-group purpose="information">
@@ -1293,7 +1293,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79436" resname="SelfLifeChanges15">
+      <trans-unit id="89132" resname="SelfLifeChanges15">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1301,7 +1301,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79438" resname="SelfLifeChanges15">
+      <trans-unit id="89134" resname="SelfLifeChanges15">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1309,7 +1309,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79440" resname="SelfLifeChanges16">
+      <trans-unit id="89136" resname="SelfLifeChanges16">
         <source>Troubles at work (with persons under your supervision).</source>
         <target state="needs-translation">Troubles at work (with persons under your supervision).</target>
         <context-group purpose="information">
@@ -1317,7 +1317,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79442" resname="SelfLifeChanges16">
+      <trans-unit id="89138" resname="SelfLifeChanges16">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1325,7 +1325,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79444" resname="SelfLifeChanges16">
+      <trans-unit id="89140" resname="SelfLifeChanges16">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1333,7 +1333,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79446" resname="SelfLifeChanges17">
+      <trans-unit id="89142" resname="SelfLifeChanges17">
         <source>Other work problems.</source>
         <target state="needs-translation">Other work problems.</target>
         <context-group purpose="information">
@@ -1341,7 +1341,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79448" resname="SelfLifeChanges17">
+      <trans-unit id="89144" resname="SelfLifeChanges17">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1349,7 +1349,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79450" resname="SelfLifeChanges17">
+      <trans-unit id="89146" resname="SelfLifeChanges17">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1357,7 +1357,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79452" resname="SelfLifeChanges18">
+      <trans-unit id="89148" resname="SelfLifeChanges18">
         <source>Major business adjustment.</source>
         <target state="needs-translation">Major business adjustment.</target>
         <context-group purpose="information">
@@ -1365,7 +1365,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79454" resname="SelfLifeChanges18">
+      <trans-unit id="89150" resname="SelfLifeChanges18">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1373,7 +1373,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79456" resname="SelfLifeChanges18">
+      <trans-unit id="89152" resname="SelfLifeChanges18">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1381,7 +1381,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79458" resname="SelfLifeChanges19">
+      <trans-unit id="89154" resname="SelfLifeChanges19">
         <source>Retirement.</source>
         <target state="needs-translation">Retirement.</target>
         <context-group purpose="information">
@@ -1389,7 +1389,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79460" resname="SelfLifeChanges19">
+      <trans-unit id="89156" resname="SelfLifeChanges19">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1397,7 +1397,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79462" resname="SelfLifeChanges19">
+      <trans-unit id="89158" resname="SelfLifeChanges19">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1405,7 +1405,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79464" resname="SelfLifeChanges20">
+      <trans-unit id="89160" resname="SelfLifeChanges20">
         <source>Loss of a job (laid off from work).</source>
         <target state="needs-translation">Loss of a job (laid off from work).</target>
         <context-group purpose="information">
@@ -1413,7 +1413,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79466" resname="SelfLifeChanges20">
+      <trans-unit id="89162" resname="SelfLifeChanges20">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1421,7 +1421,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79468" resname="SelfLifeChanges20">
+      <trans-unit id="89164" resname="SelfLifeChanges20">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1429,7 +1429,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79470" resname="SelfLifeChanges21">
+      <trans-unit id="89166" resname="SelfLifeChanges21">
         <source>Loss of a job (fired from work).</source>
         <target state="needs-translation">Loss of a job (fired from work).</target>
         <context-group purpose="information">
@@ -1437,7 +1437,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79472" resname="SelfLifeChanges21">
+      <trans-unit id="89168" resname="SelfLifeChanges21">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1445,7 +1445,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79474" resname="SelfLifeChanges21">
+      <trans-unit id="89170" resname="SelfLifeChanges21">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1453,7 +1453,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79476" resname="SelfLifeChanges22">
+      <trans-unit id="89172" resname="SelfLifeChanges22">
         <source>Taking a course to help you with your work.</source>
         <target state="needs-translation">Taking a course to help you with your work.</target>
         <context-group purpose="information">
@@ -1461,7 +1461,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79478" resname="SelfLifeChanges22">
+      <trans-unit id="89174" resname="SelfLifeChanges22">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1469,7 +1469,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79480" resname="SelfLifeChanges22">
+      <trans-unit id="89176" resname="SelfLifeChanges22">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1477,7 +1477,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79482" resname="SelfLifeChangesHome">
+      <trans-unit id="89178" resname="SelfLifeChangesHome">
         <source>Home and Family:</source>
         <target state="needs-translation">Home and Family:</target>
         <context-group purpose="information">
@@ -1485,7 +1485,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79484" resname="SelfLifeChanges23">
+      <trans-unit id="89180" resname="SelfLifeChanges23">
         <source>Major change in living conditions.</source>
         <target state="needs-translation">Major change in living conditions.</target>
         <context-group purpose="information">
@@ -1493,7 +1493,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79486" resname="SelfLifeChanges23">
+      <trans-unit id="89182" resname="SelfLifeChanges23">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1501,7 +1501,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79488" resname="SelfLifeChanges23">
+      <trans-unit id="89184" resname="SelfLifeChanges23">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1509,7 +1509,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79490" resname="SelfLifeChanges24">
+      <trans-unit id="89186" resname="SelfLifeChanges24">
         <source>Change in residence (move within the same town or city).</source>
         <target state="needs-translation">Change in residence (move within the same town or city).</target>
         <context-group purpose="information">
@@ -1517,7 +1517,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79492" resname="SelfLifeChanges24">
+      <trans-unit id="89188" resname="SelfLifeChanges24">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1525,7 +1525,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79494" resname="SelfLifeChanges24">
+      <trans-unit id="89190" resname="SelfLifeChanges24">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1533,7 +1533,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79496" resname="SelfLifeChanges25">
+      <trans-unit id="89192" resname="SelfLifeChanges25">
         <source>Change in residence (move to a different town, city, or state).</source>
         <target state="needs-translation">Change in residence (move to a different town, city, or state).</target>
         <context-group purpose="information">
@@ -1541,7 +1541,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79498" resname="SelfLifeChanges25">
+      <trans-unit id="89194" resname="SelfLifeChanges25">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1549,7 +1549,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79500" resname="SelfLifeChanges25">
+      <trans-unit id="89196" resname="SelfLifeChanges25">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1557,7 +1557,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79502" resname="SelfLifeChanges26">
+      <trans-unit id="89198" resname="SelfLifeChanges26">
         <source>Change in family get-togethers.</source>
         <target state="needs-translation">Change in family get-togethers.</target>
         <context-group purpose="information">
@@ -1565,7 +1565,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79504" resname="SelfLifeChanges26">
+      <trans-unit id="89200" resname="SelfLifeChanges26">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1573,7 +1573,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79506" resname="SelfLifeChanges26">
+      <trans-unit id="89202" resname="SelfLifeChanges26">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1581,7 +1581,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79508" resname="SelfLifeChanges27">
+      <trans-unit id="89204" resname="SelfLifeChanges27">
         <source>Major change in health or behavior of family member.</source>
         <target state="needs-translation">Major change in health or behavior of family member.</target>
         <context-group purpose="information">
@@ -1589,7 +1589,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79510" resname="SelfLifeChanges27">
+      <trans-unit id="89206" resname="SelfLifeChanges27">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1597,7 +1597,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79512" resname="SelfLifeChanges27">
+      <trans-unit id="89208" resname="SelfLifeChanges27">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1605,7 +1605,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79514" resname="SelfLifeChanges28">
+      <trans-unit id="89210" resname="SelfLifeChanges28">
         <source>Marriage.</source>
         <target state="needs-translation">Marriage.</target>
         <context-group purpose="information">
@@ -1613,7 +1613,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79516" resname="SelfLifeChanges28">
+      <trans-unit id="89212" resname="SelfLifeChanges28">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1621,7 +1621,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79518" resname="SelfLifeChanges28">
+      <trans-unit id="89214" resname="SelfLifeChanges28">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1629,7 +1629,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79520" resname="SelfLifeChanges29">
+      <trans-unit id="89216" resname="SelfLifeChanges29">
         <source>Pregnancy.</source>
         <target state="needs-translation">Pregnancy.</target>
         <context-group purpose="information">
@@ -1637,7 +1637,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79522" resname="SelfLifeChanges29">
+      <trans-unit id="89218" resname="SelfLifeChanges29">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1645,7 +1645,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79524" resname="SelfLifeChanges29">
+      <trans-unit id="89220" resname="SelfLifeChanges29">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1653,7 +1653,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79526" resname="SelfLifeChanges31">
+      <trans-unit id="89222" resname="SelfLifeChanges31">
         <source>Gain of a new family member (birth of a child).</source>
         <target state="needs-translation">Gain of a new family member (birth of a child).</target>
         <context-group purpose="information">
@@ -1661,7 +1661,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79528" resname="SelfLifeChanges31">
+      <trans-unit id="89224" resname="SelfLifeChanges31">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1669,7 +1669,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79530" resname="SelfLifeChanges31">
+      <trans-unit id="89226" resname="SelfLifeChanges31">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1677,7 +1677,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79532" resname="SelfLifeChanges32">
+      <trans-unit id="89228" resname="SelfLifeChanges32">
         <source>Gain of a new family member (adoption of a child).</source>
         <target state="needs-translation">Gain of a new family member (adoption of a child).</target>
         <context-group purpose="information">
@@ -1685,7 +1685,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79534" resname="SelfLifeChanges32">
+      <trans-unit id="89230" resname="SelfLifeChanges32">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1693,7 +1693,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79536" resname="SelfLifeChanges32">
+      <trans-unit id="89232" resname="SelfLifeChanges32">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1701,7 +1701,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79538" resname="SelfLifeChanges33">
+      <trans-unit id="89234" resname="SelfLifeChanges33">
         <source>Gain of a new family member (a relative moving in with you).</source>
         <target state="needs-translation">Gain of a new family member (a relative moving in with you).</target>
         <context-group purpose="information">
@@ -1709,7 +1709,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79540" resname="SelfLifeChanges33">
+      <trans-unit id="89236" resname="SelfLifeChanges33">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1717,7 +1717,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79542" resname="SelfLifeChanges33">
+      <trans-unit id="89238" resname="SelfLifeChanges33">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1725,7 +1725,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79544" resname="SelfLifeChanges34">
+      <trans-unit id="89240" resname="SelfLifeChanges34">
         <source>Spouse beginning or ending work.</source>
         <target state="needs-translation">Spouse beginning or ending work.</target>
         <context-group purpose="information">
@@ -1733,7 +1733,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79546" resname="SelfLifeChanges34">
+      <trans-unit id="89242" resname="SelfLifeChanges34">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1741,7 +1741,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79548" resname="SelfLifeChanges34">
+      <trans-unit id="89244" resname="SelfLifeChanges34">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1749,7 +1749,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79550" resname="SelfLifeChanges35">
+      <trans-unit id="89246" resname="SelfLifeChanges35">
         <source>Child leaving home (to attend college).</source>
         <target state="needs-translation">Child leaving home (to attend college).</target>
         <context-group purpose="information">
@@ -1757,7 +1757,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79552" resname="SelfLifeChanges35">
+      <trans-unit id="89248" resname="SelfLifeChanges35">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1765,7 +1765,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79554" resname="SelfLifeChanges35">
+      <trans-unit id="89250" resname="SelfLifeChanges35">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1773,7 +1773,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79556" resname="SelfLifeChanges36">
+      <trans-unit id="89252" resname="SelfLifeChanges36">
         <source>Child leaving home (due to marriage).</source>
         <target state="needs-translation">Child leaving home (due to marriage).</target>
         <context-group purpose="information">
@@ -1781,7 +1781,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79558" resname="SelfLifeChanges36">
+      <trans-unit id="89254" resname="SelfLifeChanges36">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1789,7 +1789,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79560" resname="SelfLifeChanges36">
+      <trans-unit id="89256" resname="SelfLifeChanges36">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1797,7 +1797,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79562" resname="SelfLifeChanges37">
+      <trans-unit id="89258" resname="SelfLifeChanges37">
         <source>Child leaving home (for other reasons).</source>
         <target state="needs-translation">Child leaving home (for other reasons).</target>
         <context-group purpose="information">
@@ -1805,7 +1805,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79564" resname="SelfLifeChanges37">
+      <trans-unit id="89260" resname="SelfLifeChanges37">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1813,7 +1813,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79566" resname="SelfLifeChanges37">
+      <trans-unit id="89262" resname="SelfLifeChanges37">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1821,7 +1821,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79568" resname="SelfLifeChanges38">
+      <trans-unit id="89264" resname="SelfLifeChanges38">
         <source>Change in arguments with spouse.</source>
         <target state="needs-translation">Change in arguments with spouse.</target>
         <context-group purpose="information">
@@ -1829,7 +1829,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79570" resname="SelfLifeChanges38">
+      <trans-unit id="89266" resname="SelfLifeChanges38">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1837,7 +1837,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79572" resname="SelfLifeChanges38">
+      <trans-unit id="89268" resname="SelfLifeChanges38">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1845,7 +1845,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79574" resname="SelfLifeChanges39">
+      <trans-unit id="89270" resname="SelfLifeChanges39">
         <source>In-law problems.</source>
         <target state="needs-translation">In-law problems.</target>
         <context-group purpose="information">
@@ -1853,7 +1853,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79576" resname="SelfLifeChanges39">
+      <trans-unit id="89272" resname="SelfLifeChanges39">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1861,7 +1861,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79578" resname="SelfLifeChanges39">
+      <trans-unit id="89274" resname="SelfLifeChanges39">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1869,7 +1869,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79580" resname="SelfLifeChanges40">
+      <trans-unit id="89276" resname="SelfLifeChanges40">
         <source>Change to the marital status of your parents (divorce).</source>
         <target state="needs-translation">Change to the marital status of your parents (divorce).</target>
         <context-group purpose="information">
@@ -1877,7 +1877,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79582" resname="SelfLifeChanges40">
+      <trans-unit id="89278" resname="SelfLifeChanges40">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1885,7 +1885,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79584" resname="SelfLifeChanges40">
+      <trans-unit id="89280" resname="SelfLifeChanges40">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1893,7 +1893,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79586" resname="SelfLifeChanges41">
+      <trans-unit id="89282" resname="SelfLifeChanges41">
         <source>Change to the marital status of your parents (remarriage).</source>
         <target state="needs-translation">Change to the marital status of your parents (remarriage).</target>
         <context-group purpose="information">
@@ -1901,7 +1901,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79588" resname="SelfLifeChanges41">
+      <trans-unit id="89284" resname="SelfLifeChanges41">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1909,7 +1909,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79590" resname="SelfLifeChanges41">
+      <trans-unit id="89286" resname="SelfLifeChanges41">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1917,7 +1917,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79592" resname="SelfLifeChanges42">
+      <trans-unit id="89288" resname="SelfLifeChanges42">
         <source>Separation from spouse (due to work).</source>
         <target state="needs-translation">Separation from spouse (due to work).</target>
         <context-group purpose="information">
@@ -1925,7 +1925,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79594" resname="SelfLifeChanges42">
+      <trans-unit id="89290" resname="SelfLifeChanges42">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1933,7 +1933,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79596" resname="SelfLifeChanges42">
+      <trans-unit id="89292" resname="SelfLifeChanges42">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1941,7 +1941,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79598" resname="SelfLifeChanges43">
+      <trans-unit id="89294" resname="SelfLifeChanges43">
         <source>Separation from spouse (due to marital problems).</source>
         <target state="needs-translation">Separation from spouse (due to marital problems).</target>
         <context-group purpose="information">
@@ -1949,7 +1949,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79600" resname="SelfLifeChanges43">
+      <trans-unit id="89296" resname="SelfLifeChanges43">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1957,7 +1957,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79602" resname="SelfLifeChanges43">
+      <trans-unit id="89298" resname="SelfLifeChanges43">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1965,7 +1965,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79604" resname="SelfLifeChanges44">
+      <trans-unit id="89300" resname="SelfLifeChanges44">
         <source>Divorce.</source>
         <target state="needs-translation">Divorce.</target>
         <context-group purpose="information">
@@ -1973,7 +1973,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79606" resname="SelfLifeChanges44">
+      <trans-unit id="89302" resname="SelfLifeChanges44">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -1981,7 +1981,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79608" resname="SelfLifeChanges44">
+      <trans-unit id="89304" resname="SelfLifeChanges44">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -1989,7 +1989,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79610" resname="SelfLifeChanges45">
+      <trans-unit id="89306" resname="SelfLifeChanges45">
         <source>Birth of a grandchild.</source>
         <target state="needs-translation">Birth of a grandchild.</target>
         <context-group purpose="information">
@@ -1997,7 +1997,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79612" resname="SelfLifeChanges45">
+      <trans-unit id="89308" resname="SelfLifeChanges45">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2005,7 +2005,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79614" resname="SelfLifeChanges45">
+      <trans-unit id="89310" resname="SelfLifeChanges45">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2013,7 +2013,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79616" resname="SelfLifeChanges46">
+      <trans-unit id="89312" resname="SelfLifeChanges46">
         <source>Death of a spouse.</source>
         <target state="needs-translation">Death of a spouse.</target>
         <context-group purpose="information">
@@ -2021,7 +2021,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79618" resname="SelfLifeChanges46">
+      <trans-unit id="89314" resname="SelfLifeChanges46">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2029,7 +2029,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79620" resname="SelfLifeChanges46">
+      <trans-unit id="89316" resname="SelfLifeChanges46">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2037,7 +2037,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79622" resname="SelfLifeChanges47">
+      <trans-unit id="89318" resname="SelfLifeChanges47">
         <source>Death of other family member (child).</source>
         <target state="needs-translation">Death of other family member (child).</target>
         <context-group purpose="information">
@@ -2045,7 +2045,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79624" resname="SelfLifeChanges47">
+      <trans-unit id="89320" resname="SelfLifeChanges47">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2053,7 +2053,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79626" resname="SelfLifeChanges47">
+      <trans-unit id="89322" resname="SelfLifeChanges47">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2061,7 +2061,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79628" resname="SelfLifeChanges48">
+      <trans-unit id="89324" resname="SelfLifeChanges48">
         <source>Death of other family member (brother or sister).</source>
         <target state="needs-translation">Death of other family member (brother or sister).</target>
         <context-group purpose="information">
@@ -2069,7 +2069,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79630" resname="SelfLifeChanges48">
+      <trans-unit id="89326" resname="SelfLifeChanges48">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2077,7 +2077,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79632" resname="SelfLifeChanges48">
+      <trans-unit id="89328" resname="SelfLifeChanges48">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2085,7 +2085,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79634" resname="SelfLifeChanges49">
+      <trans-unit id="89330" resname="SelfLifeChanges49">
         <source>Death of other family member (parent).</source>
         <target state="needs-translation">Death of other family member (parent).</target>
         <context-group purpose="information">
@@ -2093,7 +2093,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79636" resname="SelfLifeChanges49">
+      <trans-unit id="89332" resname="SelfLifeChanges49">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2101,7 +2101,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79638" resname="SelfLifeChanges49">
+      <trans-unit id="89334" resname="SelfLifeChanges49">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2109,7 +2109,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79640" resname="SelfLifeChangesPersonal">
+      <trans-unit id="89336" resname="SelfLifeChangesPersonal">
         <source>Personal and Social:</source>
         <target state="needs-translation">Personal and Social:</target>
         <context-group purpose="information">
@@ -2117,7 +2117,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79642" resname="SelfLifeChanges50">
+      <trans-unit id="89338" resname="SelfLifeChanges50">
         <source>Change in personal habits.</source>
         <target state="needs-translation">Change in personal habits.</target>
         <context-group purpose="information">
@@ -2125,7 +2125,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79644" resname="SelfLifeChanges50">
+      <trans-unit id="89340" resname="SelfLifeChanges50">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2133,7 +2133,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79646" resname="SelfLifeChanges50">
+      <trans-unit id="89342" resname="SelfLifeChanges50">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2141,7 +2141,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79648" resname="SelfLifeChanges51">
+      <trans-unit id="89344" resname="SelfLifeChanges51">
         <source>Beginning or ending school or college.</source>
         <target state="needs-translation">Beginning or ending school or college.</target>
         <context-group purpose="information">
@@ -2149,7 +2149,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79650" resname="SelfLifeChanges51">
+      <trans-unit id="89346" resname="SelfLifeChanges51">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2157,7 +2157,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79652" resname="SelfLifeChanges51">
+      <trans-unit id="89348" resname="SelfLifeChanges51">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2165,7 +2165,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79654" resname="SelfLifeChanges52">
+      <trans-unit id="89350" resname="SelfLifeChanges52">
         <source>Change of school or college.</source>
         <target state="needs-translation">Change of school or college.</target>
         <context-group purpose="information">
@@ -2173,7 +2173,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79656" resname="SelfLifeChanges52">
+      <trans-unit id="89352" resname="SelfLifeChanges52">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2181,7 +2181,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79658" resname="SelfLifeChanges52">
+      <trans-unit id="89354" resname="SelfLifeChanges52">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2189,7 +2189,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79660" resname="SelfLifeChanges53">
+      <trans-unit id="89356" resname="SelfLifeChanges53">
         <source>Change in political beliefs.</source>
         <target state="needs-translation">Change in political beliefs.</target>
         <context-group purpose="information">
@@ -2197,7 +2197,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79662" resname="SelfLifeChanges53">
+      <trans-unit id="89358" resname="SelfLifeChanges53">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2205,7 +2205,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79664" resname="SelfLifeChanges53">
+      <trans-unit id="89360" resname="SelfLifeChanges53">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2213,7 +2213,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79666" resname="SelfLifeChanges54">
+      <trans-unit id="89362" resname="SelfLifeChanges54">
         <source>Change in religious beliefs.</source>
         <target state="needs-translation">Change in religious beliefs.</target>
         <context-group purpose="information">
@@ -2221,7 +2221,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79668" resname="SelfLifeChanges54">
+      <trans-unit id="89364" resname="SelfLifeChanges54">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2229,7 +2229,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79670" resname="SelfLifeChanges54">
+      <trans-unit id="89366" resname="SelfLifeChanges54">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2237,7 +2237,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79672" resname="SelfLifeChanges55">
+      <trans-unit id="89368" resname="SelfLifeChanges55">
         <source>Change in social activities.</source>
         <target state="needs-translation">Change in social activities.</target>
         <context-group purpose="information">
@@ -2245,7 +2245,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79674" resname="SelfLifeChanges55">
+      <trans-unit id="89370" resname="SelfLifeChanges55">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2253,7 +2253,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79676" resname="SelfLifeChanges55">
+      <trans-unit id="89372" resname="SelfLifeChanges55">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2261,7 +2261,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79678" resname="SelfLifeChanges56">
+      <trans-unit id="89374" resname="SelfLifeChanges56">
         <source>Vacation.</source>
         <target state="needs-translation">Vacation.</target>
         <context-group purpose="information">
@@ -2269,7 +2269,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79680" resname="SelfLifeChanges56">
+      <trans-unit id="89376" resname="SelfLifeChanges56">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2277,7 +2277,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79682" resname="SelfLifeChanges56">
+      <trans-unit id="89378" resname="SelfLifeChanges56">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2285,7 +2285,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79684" resname="SelfLifeChanges57">
+      <trans-unit id="89380" resname="SelfLifeChanges57">
         <source>New, close, personal relationship.</source>
         <target state="needs-translation">New, close, personal relationship.</target>
         <context-group purpose="information">
@@ -2293,7 +2293,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79686" resname="SelfLifeChanges57">
+      <trans-unit id="89382" resname="SelfLifeChanges57">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2301,7 +2301,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79688" resname="SelfLifeChanges57">
+      <trans-unit id="89384" resname="SelfLifeChanges57">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2309,7 +2309,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79690" resname="SelfLifeChanges58">
+      <trans-unit id="89386" resname="SelfLifeChanges58">
         <source>Engagement to marry.</source>
         <target state="needs-translation">Engagement to marry.</target>
         <context-group purpose="information">
@@ -2317,7 +2317,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79692" resname="SelfLifeChanges58">
+      <trans-unit id="89388" resname="SelfLifeChanges58">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2325,7 +2325,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79694" resname="SelfLifeChanges58">
+      <trans-unit id="89390" resname="SelfLifeChanges58">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2333,7 +2333,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79696" resname="SelfLifeChanges59">
+      <trans-unit id="89392" resname="SelfLifeChanges59">
         <source>Girlfriend or boyfriend problems.</source>
         <target state="needs-translation">Girlfriend or boyfriend problems.</target>
         <context-group purpose="information">
@@ -2341,7 +2341,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79698" resname="SelfLifeChanges59">
+      <trans-unit id="89394" resname="SelfLifeChanges59">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2349,7 +2349,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79700" resname="SelfLifeChanges59">
+      <trans-unit id="89396" resname="SelfLifeChanges59">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2357,7 +2357,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79702" resname="SelfLifeChanges61">
+      <trans-unit id="89398" resname="SelfLifeChanges61">
         <source>&quot;Falling out&quot; of a close personal relationship.</source>
         <target state="needs-translation">&quot;Falling out&quot; of a close personal relationship.</target>
         <context-group purpose="information">
@@ -2365,7 +2365,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79704" resname="SelfLifeChanges61">
+      <trans-unit id="89400" resname="SelfLifeChanges61">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2373,7 +2373,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79706" resname="SelfLifeChanges61">
+      <trans-unit id="89402" resname="SelfLifeChanges61">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2381,7 +2381,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79708" resname="SelfLifeChanges62">
+      <trans-unit id="89404" resname="SelfLifeChanges62">
         <source>An accident.</source>
         <target state="needs-translation">An accident.</target>
         <context-group purpose="information">
@@ -2389,7 +2389,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79710" resname="SelfLifeChanges62">
+      <trans-unit id="89406" resname="SelfLifeChanges62">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2397,7 +2397,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79712" resname="SelfLifeChanges62">
+      <trans-unit id="89408" resname="SelfLifeChanges62">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2405,7 +2405,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79714" resname="SelfLifeChanges63">
+      <trans-unit id="89410" resname="SelfLifeChanges63">
         <source>Minor violation of the law.</source>
         <target state="needs-translation">Minor violation of the law.</target>
         <context-group purpose="information">
@@ -2413,7 +2413,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79716" resname="SelfLifeChanges63">
+      <trans-unit id="89412" resname="SelfLifeChanges63">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2421,7 +2421,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79718" resname="SelfLifeChanges63">
+      <trans-unit id="89414" resname="SelfLifeChanges63">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2429,7 +2429,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79720" resname="SelfLifeChanges65">
+      <trans-unit id="89416" resname="SelfLifeChanges65">
         <source>Death of a close friend.</source>
         <target state="needs-translation">Death of a close friend.</target>
         <context-group purpose="information">
@@ -2437,7 +2437,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79722" resname="SelfLifeChanges65">
+      <trans-unit id="89418" resname="SelfLifeChanges65">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2445,7 +2445,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79724" resname="SelfLifeChanges65">
+      <trans-unit id="89420" resname="SelfLifeChanges65">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2453,7 +2453,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79726" resname="SelfLifeChanges66">
+      <trans-unit id="89422" resname="SelfLifeChanges66">
         <source>Major decision regarding your immediate future.</source>
         <target state="needs-translation">Major decision regarding your immediate future.</target>
         <context-group purpose="information">
@@ -2461,7 +2461,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79728" resname="SelfLifeChanges66">
+      <trans-unit id="89424" resname="SelfLifeChanges66">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2469,7 +2469,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79730" resname="SelfLifeChanges66">
+      <trans-unit id="89426" resname="SelfLifeChanges66">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2477,7 +2477,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79732" resname="SelfLifeChanges67">
+      <trans-unit id="89428" resname="SelfLifeChanges67">
         <source>Major personal achievement.</source>
         <target state="needs-translation">Major personal achievement.</target>
         <context-group purpose="information">
@@ -2485,7 +2485,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79734" resname="SelfLifeChanges67">
+      <trans-unit id="89430" resname="SelfLifeChanges67">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2493,7 +2493,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79736" resname="SelfLifeChanges67">
+      <trans-unit id="89432" resname="SelfLifeChanges67">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2501,7 +2501,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79738" resname="SelfLifeChangesFinancial">
+      <trans-unit id="89434" resname="SelfLifeChangesFinancial">
         <source>Financial:</source>
         <target state="needs-translation">Financial:</target>
         <context-group purpose="information">
@@ -2509,7 +2509,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79740" resname="SelfLifeChanges68">
+      <trans-unit id="89436" resname="SelfLifeChanges68">
         <source>Major change in finances (increased income).</source>
         <target state="needs-translation">Major change in finances (increased income).</target>
         <context-group purpose="information">
@@ -2517,7 +2517,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79742" resname="SelfLifeChanges68">
+      <trans-unit id="89438" resname="SelfLifeChanges68">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2525,7 +2525,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79744" resname="SelfLifeChanges68">
+      <trans-unit id="89440" resname="SelfLifeChanges68">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2533,7 +2533,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79746" resname="SelfLifeChanges69">
+      <trans-unit id="89442" resname="SelfLifeChanges69">
         <source>Major change in finances (decreased income).</source>
         <target state="needs-translation">Major change in finances (decreased income).</target>
         <context-group purpose="information">
@@ -2541,7 +2541,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79748" resname="SelfLifeChanges69">
+      <trans-unit id="89444" resname="SelfLifeChanges69">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2549,7 +2549,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79750" resname="SelfLifeChanges69">
+      <trans-unit id="89446" resname="SelfLifeChanges69">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2557,7 +2557,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79752" resname="SelfLifeChanges70">
+      <trans-unit id="89448" resname="SelfLifeChanges70">
         <source>Major change in finances (investment and/or credit difficulties).</source>
         <target state="needs-translation">Major change in finances (investment and/or credit difficulties).</target>
         <context-group purpose="information">
@@ -2565,7 +2565,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79754" resname="SelfLifeChanges70">
+      <trans-unit id="89450" resname="SelfLifeChanges70">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2573,7 +2573,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79756" resname="SelfLifeChanges70">
+      <trans-unit id="89452" resname="SelfLifeChanges70">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2581,7 +2581,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79758" resname="SelfLifeChanges71">
+      <trans-unit id="89454" resname="SelfLifeChanges71">
         <source>Loss or damage of personal property.</source>
         <target state="needs-translation">Loss or damage of personal property.</target>
         <context-group purpose="information">
@@ -2589,7 +2589,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79760" resname="SelfLifeChanges71">
+      <trans-unit id="89456" resname="SelfLifeChanges71">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2597,7 +2597,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79762" resname="SelfLifeChanges71">
+      <trans-unit id="89458" resname="SelfLifeChanges71">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2605,7 +2605,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79764" resname="SelfLifeChanges72">
+      <trans-unit id="89460" resname="SelfLifeChanges72">
         <source>Moderate purchase.</source>
         <target state="needs-translation">Moderate purchase.</target>
         <context-group purpose="information">
@@ -2613,7 +2613,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79766" resname="SelfLifeChanges72">
+      <trans-unit id="89462" resname="SelfLifeChanges72">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2621,7 +2621,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79768" resname="SelfLifeChanges72">
+      <trans-unit id="89464" resname="SelfLifeChanges72">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2629,7 +2629,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79770" resname="SelfLifeChanges73">
+      <trans-unit id="89466" resname="SelfLifeChanges73">
         <source>Major purchase.</source>
         <target state="needs-translation">Major purchase.</target>
         <context-group purpose="information">
@@ -2637,7 +2637,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79772" resname="SelfLifeChanges73">
+      <trans-unit id="89468" resname="SelfLifeChanges73">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2645,7 +2645,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79774" resname="SelfLifeChanges73">
+      <trans-unit id="89470" resname="SelfLifeChanges73">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2653,7 +2653,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79776" resname="SelfLifeChanges74">
+      <trans-unit id="89472" resname="SelfLifeChanges74">
         <source>Foreclosure on a mortgage or loan.</source>
         <target state="needs-translation">Foreclosure on a mortgage or loan.</target>
         <context-group purpose="information">
@@ -2661,7 +2661,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79778" resname="SelfLifeChanges74">
+      <trans-unit id="89474" resname="SelfLifeChanges74">
         <source>Yes</source>
         <target state="needs-translation">Yes</target>
         <context-group purpose="information">
@@ -2669,7 +2669,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79780" resname="SelfLifeChanges74">
+      <trans-unit id="89476" resname="SelfLifeChanges74">
         <source>No</source>
         <target state="needs-translation">No</target>
         <context-group purpose="information">
@@ -2677,7 +2677,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79782" resname="SelfMcArthurCountry">
+      <trans-unit id="89478" resname="SelfMcArthurCountry">
         <source>&lt;b&gt;Instructions:&lt;/b&gt; Think of this line as representing where people stand in the &lt;i&gt;country where you live&lt;/i&gt;. To the &lt;b&gt;right&lt;/b&gt; are the people who are the best off - those who have the most money, the most education, and the most respected jobs. To the &lt;b&gt;left&lt;/b&gt; are the people who are the worst off - those who have the least money, the least education, the least respected jobs, or no job. The further to the right you are on the line, the closer you are to the people at the very top; the further to the left you are, the closer you are to the people at the very bottom.&lt;br&gt;&lt;b&gt;Where would you place yourself on this line?&lt;/b&gt;&lt;br&gt;Move the slider to where you think you stand at this time in your life relative to other people in your country.</source>
         <target state="needs-translation">&lt;b&gt;Instructions:&lt;/b&gt; Think of this line as representing where people stand in the &lt;i&gt;country where you live&lt;/i&gt;. To the &lt;b&gt;right&lt;/b&gt; are the people who are the best off - those who have the most money, the most education, and the most respected jobs. To the &lt;b&gt;left&lt;/b&gt; are the people who are the worst off - those who have the least money, the least education, the least respected jobs, or no job. The further to the right you are on the line, the closer you are to the people at the very top; the further to the left you are, the closer you are to the people at the very bottom.&lt;br&gt;&lt;b&gt;Where would you place yourself on this line?&lt;/b&gt;&lt;br&gt;Move the slider to where you think you stand at this time in your life relative to other people in your country.</target>
         <context-group purpose="information">
@@ -2685,7 +2685,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79784" resname="SelfMcArthurCommunity">
+      <trans-unit id="89480" resname="SelfMcArthurCommunity">
         <source>&lt;b&gt;Instructions:&lt;/b&gt; Think of this line as representing where people stand in their &lt;i&gt;communities&lt;/i&gt;. People define community in different ways; please define it in whatever way is most meaningful to you. To the &lt;b&gt;right&lt;/b&gt; are people who have the highest standing in their community. To the &lt;b&gt;left&lt;/b&gt; are the people who have the lowest standing in their community.&lt;br&gt;&lt;b&gt;Where would you place yourself on this line?&lt;/b&gt;&lt;br&gt;Move the slider to where you think you stand at this time in your life relative to other people in your community.</source>
         <target state="needs-translation">&lt;b&gt;Instructions:&lt;/b&gt; Think of this line as representing where people stand in their &lt;i&gt;communities&lt;/i&gt;. People define community in different ways; please define it in whatever way is most meaningful to you. To the &lt;b&gt;right&lt;/b&gt; are people who have the highest standing in their community. To the &lt;b&gt;left&lt;/b&gt; are the people who have the lowest standing in their community.&lt;br&gt;&lt;b&gt;Where would you place yourself on this line?&lt;/b&gt;&lt;br&gt;Move the slider to where you think you stand at this time in your life relative to other people in your community.</target>
         <context-group purpose="information">
@@ -2693,7 +2693,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79786" resname="unknown">
+      <trans-unit id="89482" resname="unknown">
         <source>Start Survey</source>
         <target state="needs-translation">Start Survey</target>
         <context-group purpose="information">
@@ -2701,7 +2701,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79788" resname="unknown">
+      <trans-unit id="89484" resname="unknown">
         <source>Previous</source>
         <target state="needs-translation">Previous</target>
         <context-group purpose="information">
@@ -2709,7 +2709,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79790" resname="unknown">
+      <trans-unit id="89486" resname="unknown">
         <source>Next</source>
         <target state="needs-translation">Next</target>
         <context-group purpose="information">
@@ -2717,7 +2717,7 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="79792" resname="unknown">
+      <trans-unit id="89488" resname="unknown">
         <source>Finish</source>
         <target state="needs-translation">Finish</target>
         <context-group purpose="information">
