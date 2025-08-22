@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from urllib.request import urlopen
 from urllib.error import URLError, HTTPError
 
@@ -33,7 +33,7 @@ DEFAULT_DASHBOARD_API = os.environ.get(
 )
 
 
-def _load_json_from_url(url: str) -> Dict[str, Any] | None:
+def _load_json_from_url(url: str) -> Optional[Dict[str, Any]]:
     try:
         with urlopen(url, timeout=20) as r:
             data = r.read().decode('utf-8', 'ignore')
@@ -42,7 +42,7 @@ def _load_json_from_url(url: str) -> Dict[str, Any] | None:
         return None
 
 
-def _load_from_public_gcs(bucket_name: str, object_name: str) -> Dict[str, Any] | None:
+def _load_from_public_gcs(bucket_name: str, object_name: str) -> Optional[Dict[str, Any]]:
     # Try both GCS public URL styles
     candidates = [
         f'https://storage.googleapis.com/{bucket_name}/{object_name}',
@@ -55,7 +55,7 @@ def _load_from_public_gcs(bucket_name: str, object_name: str) -> Dict[str, Any] 
     return None
 
 
-def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_OBJECT) -> Dict[str, Any] | None:
+def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_OBJECT) -> Optional[Dict[str, Any]]:
     """Load config preferring freshest remotely visible source.
 
     Priority:

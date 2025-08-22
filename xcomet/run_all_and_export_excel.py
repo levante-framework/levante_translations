@@ -3,7 +3,7 @@ import argparse
 import subprocess
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
@@ -57,7 +57,7 @@ def infer_languages(csv_loc: str) -> List[str]:
     return langs
 
 
-def run_single_language(lang: str, csv_loc: str, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: str | None) -> Tuple[Path, Path]:
+def run_single_language(lang: str, csv_loc: str, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: Optional[str]) -> Tuple[Path, Path]:
     lang_dir = out_dir / lang
     lang_dir.mkdir(parents=True, exist_ok=True)
 
