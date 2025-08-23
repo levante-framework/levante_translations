@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="468" original="/main/surveys-current/teacher_survey_general_translations.csv" source-language="en" target-language="fr-CA" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="89730" resname="TeacherSurveyIntro">
+        <source>&lt;b&gt;&lt;font face=Verdana size=4&gt;Thank you for taking the time (~10 minutes) to respond to this survey!&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;Some students who you teach are participating in a research project studying how children learn and develop. Your responses in this survey should apply to your classroom, school, and professional beliefs rather than to any one specific child. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This survey has two parts: Part A and Part B.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;In Part A, the questions relate to your background and beliefs. &lt;br&gt;&lt;br&gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &lt;br&gt;&lt;br&gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &lt;br&gt;&lt;br&gt;Thank you for your participation! Your responses provide invaluable insight into the education of your students. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the “Start Survey” button. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Thank you!</source>
+        <target state="translated">&lt;b&gt;&lt;font face=Verdana size=4&gt;Merci d'avoir pris le temps (~10 minutes) pour répondre à ce sondage&amp;nbsp!&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;Certains élèves de votre classe participent à un projet de recherche sur la manière dont les enfants apprennent et se développent. Vos réponses dans ce sondage devraient se rapporter à votre classe, école et convictions professionnelles plutôt qu'à un enfant en particulier. &lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Ce sondage comporte deux parties : la Partie A et la Partie B.&lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;Dans la Partie A, les questions concernent vos antécédents et vos croyances. &lt;br&gt;&lt;br&gt;Dans la Partie B, les questions sont spécifiques à la classe. Si vous enseignez à plus d'une classe d'élèves participant à ce projet, vous complèterez la Partie B séparément pour chaque classe.&lt;br&gt;&lt;br&gt;Si vous enseignez une seule matière, veuillez répondre aux questions liées à d'autres matières au mieux de vos connaissances ou consulter un collègue pour ces détails uniquement.&lt;br&gt;&lt;br&gt;Merci de votre participation! Vos réponses fournissent des informations précieuses sur l'éducation de vos élèves.&lt;br&gt;&lt;br&gt;Lorsque vous êtes prêt à commencer, sélectionnez le bouton &quot;Démarrer le sondage&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Merci beaucoup&amp;nbsp!&lt;/font&gt;&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherSurveyIntro</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89732" resname="TeacherIntroPartA">
+        <source>&lt;b&gt;&lt;font face=Verdana size=3&gt;PART A: &lt;/b&gt;&lt;font face=Verdana size=3&gt;The following questions ask about your background, the school where you teach, your feelings about your job, and your beliefs about teaching and children.</source>
+        <target state="translated">&lt;b&gt;&lt;font face=Verdana size=3&gt;PARTIE A : &lt;/b&gt;&lt;font face=Verdana size=3&gt;Les questions suivantes concernent votre parcours, l'école où vous enseignez, vos sentiments à propos de votre travail, et vos croyances concernant l'enseignement et les enfants.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIntroPartA</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89734" resname="TeacherBackground">
+        <source>&lt;b&gt;This set of questions asks about your background.&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Cet ensemble de questions porte sur vos antécédents.&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBackground</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89736" resname="TeacherAge">
+        <source>What is your current age?</source>
+        <target state="translated">Quel est votre âge actuel ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherAge</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89740" resname="TeacherGender">
+        <source>What is your gender?</source>
+        <target state="translated">Quel est votre sexe ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGender</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89748" resname="TeacherGender">
+        <source>Other (please describe)</source>
+        <target state="translated">Autre (veuillez décrire)</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGender</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89750" resname="TeacherEducation">
+        <source>What is the highest level of education you have completed?</source>
+        <target state="translated">Quel est le plus haut niveau de formation que vous avez terminé ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherEducation</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89754" resname="TeacherEducation">
+        <source>GED or High school equivalency</source>
+        <target state="translated">Équivalence du secondaire ou diplôme de lycée</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherEducation</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89758" resname="TeacherEducation">
+        <source>High school diploma or equivalent, plus technical training or certificate</source>
+        <target state="translated">Diplôme de lycée ou équivalent, plus formation technique ou certificat</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherEducation</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89768" resname="TeacherUndergrad">
+        <source>Indicate your undergraduate field of study. Mark ALL that apply.</source>
+        <target state="translated">Indiquez votre domaine de premier cycle. Cochez TOUTES les cases qui s'appliquent.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89770" resname="TeacherUndergrad">
+        <source>Early childhood education</source>
+        <target state="translated">Éducation de la petite enfance</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89772" resname="TeacherUndergrad">
+        <source>Elementary education</source>
+        <target state="translated">Éducation élémentaire</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89774" resname="TeacherUndergrad">
+        <source>Special education</source>
+        <target state="translated">Éducation spécialisée</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89776" resname="TeacherUndergrad">
+        <source>Child development</source>
+        <target state="translated">Développement de l'enfant</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89778" resname="TeacherUndergrad">
+        <source>Reading specialist</source>
+        <target state="translated">Spécialiste de la lecture</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89780" resname="TeacherUndergrad">
+        <source>Curriculum and instruction</source>
+        <target state="translated">Curriculum et didactique</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89782" resname="TeacherUndergrad">
+        <source>Bilingual/bicultural education</source>
+        <target state="translated">Éducation bilingue/multiculturelle</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89784" resname="TeacherUndergrad">
+        <source>Other education related major (ex: secondary education, educational psychology, education administration, music education, etc.). Please specify:</source>
+        <target state="translated">Autre majeure en éducation (ex: éducation secondaire, psychologie de l'éducation, administration de l'éducation, éducation musicale, etc.). Veuillez préciser&amp;nbsp;:</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89786" resname="TeacherUndergrad">
+        <source>Non-education major. Please specify:</source>
+        <target state="translated">Spécialité non liée à l'éducation. Veuillez spécifier :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89788" resname="TeacherUndergrad">
+        <source>Other. Please specify:</source>
+        <target state="translated">Autre. Veuillez spécifier :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89790" resname="TeacherUndergradOtherEd">
+        <source>Please specify other education related major:</source>
+        <target state="translated">Veuillez spécifier une autre spécialité liée à l'éducation :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergradOtherEd</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89792" resname="TeacherUndergradNonEd">
+        <source>Please specify non-education major:</source>
+        <target state="translated">Veuillez spécifier une spécialité non liée à l'éducation :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergradNonEd</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89794" resname="TeacherUndergradOther">
+        <source>Please specify other major:</source>
+        <target state="translated">Veuillez spécifier une autre spécialité :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherUndergradOther</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89796" resname="TeacherGrad">
+        <source>Indicate the major field of study of your highest graduate degree. Mark ALL that apply.</source>
+        <target state="translated">Indiquez le domaine de votre diplôme de deuxième cycle le plus élevé. Cochez TOUTES les cases qui s'appliquent.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89798" resname="TeacherGrad">
+        <source>Early childhood education</source>
+        <target state="translated">Éducation de la petite enfance</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89800" resname="TeacherGrad">
+        <source>Elementary education</source>
+        <target state="translated">Éducation élémentaire</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89802" resname="TeacherGrad">
+        <source>Special education</source>
+        <target state="translated">Éducation spécialisée</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89804" resname="TeacherGrad">
+        <source>Child development</source>
+        <target state="translated">Développement de l'enfant</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89806" resname="TeacherGrad">
+        <source>Reading specialist</source>
+        <target state="translated">Spécialiste de la lecture</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89808" resname="TeacherGrad">
+        <source>Curriculum and instruction</source>
+        <target state="translated">Curriculum et didactique</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89810" resname="TeacherGrad">
+        <source>Bilingual/bicultural education</source>
+        <target state="translated">Éducation bilingue/multiculturelle</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89812" resname="TeacherGrad">
+        <source>Other education related major (ex: secondary education, educational psychology, education administration, music education, etc.). Please specify:</source>
+        <target state="translated">Autre majeure en éducation (ex: éducation secondaire, psychologie de l'éducation, administration de l'éducation, éducation musicale, etc.). Veuillez préciser&amp;nbsp;:</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89814" resname="TeacherGrad">
+        <source>Non-education major. Please specify:</source>
+        <target state="translated">Spécialité non liée à l'éducation. Veuillez spécifier :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89816" resname="TeacherGrad">
+        <source>Other. Please specify:</source>
+        <target state="translated">Autre. Veuillez spécifier :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGrad</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89818" resname="TeacherGradOtherEd">
+        <source>Please specify other education related major:</source>
+        <target state="translated">Veuillez spécifier une autre spécialité liée à l'éducation :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGradOtherEd</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89820" resname="TeacherGradNonEd">
+        <source>Please specify non-education major:</source>
+        <target state="translated">Veuillez spécifier une spécialité non liée à l'éducation :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGradNonEd</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89822" resname="TeacherGradOther">
+        <source>Please specify other major:</source>
+        <target state="translated">Veuillez spécifier une autre spécialité :</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherGradOther</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89824" resname="TeacherYears">
+        <source>Counting this school year, how many years have you been a schoolteacher? (please round to the nearest year)</source>
+        <target state="translated">En comptant cette année scolaire, combien d'années avez-vous été enseignant(e) scolaire ? (veuillez arrondir à l'année la plus proche)</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89826" resname="TeacherYears">
+        <source>Less than one year</source>
+        <target state="translated">Moins d'un an</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89828" resname="TeacherYears">
+        <source>1 to 2 years</source>
+        <target state="translated">1 à 2 ans</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89830" resname="TeacherYears">
+        <source>3 to 5 years</source>
+        <target state="translated">3 à 5 ans</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89832" resname="TeacherYears">
+        <source>6 to 10 years</source>
+        <target state="translated">6 à 10 ans</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89834" resname="TeacherYears">
+        <source>Over 10 years</source>
+        <target state="translated">Plus de 10 ans</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYears</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89836" resname="TeacherSchool">
+        <source>&lt;b&gt;This set of questions asks about the school where you currently teach.&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Cet ensemble de questions porte sur l'école où vous enseignez actuellement.&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherSchool</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89838" resname="TeacherYearsSchool">
+        <source>Counting this school year, how many years have you been teaching &lt;b&gt;at this school&lt;/b&gt;? (please round to the nearest year)</source>
+        <target state="translated">En comptant cette année scolaire, combien d'années avez-vous enseigné &lt;b&gt;dans cette école&lt;/b&gt; ? (veuillez arrondir à l'année la plus proche)</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherYearsSchool</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89840" resname="TeacherClimateItems">
+        <source>Please indicate how much you agree or disagree with the following statements about this school.</source>
+        <target state="translated">Veuillez indiquer dans quelle mesure vous êtes d'accord ou non avec les affirmations suivantes concernant cette école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89842" resname="TeacherClimateItems">
+        <source>Strongly Disagree</source>
+        <target state="translated">Fortement en désaccord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89844" resname="TeacherClimateItems">
+        <source>Disagree</source>
+        <target state="translated">En désaccord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89846" resname="TeacherClimateItems">
+        <source>Agree</source>
+        <target state="translated">D'accord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89848" resname="TeacherClimateItems">
+        <source>Strongly Agree</source>
+        <target state="translated">Fortement d'accord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89850" resname="TeacherClimateItems">
+        <source>I feel accepted and respected as a colleague by most staff members.</source>
+        <target state="translated">Je me sens accepté(e) et respecté(e) en tant que collègue par la plupart des membres du personnel.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89852" resname="TeacherClimateItems">
+        <source>Parents are supportive of school staff.</source>
+        <target state="translated">Les parents soutiennent le personnel de l'école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89854" resname="TeacherClimateItems">
+        <source>Students feel supported and comfortable in this school.</source>
+        <target state="translated">Les élèves se sentent soutenus et à l'aise dans cette école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89856" resname="TeacherClimateItems">
+        <source>Staff feel supported and comfortable in this school.</source>
+        <target state="translated">Le personnel se sent soutenu et à l'aise dans cette école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89858" resname="TeacherClimateItems">
+        <source>Students are safe when here at this school.</source>
+        <target state="translated">Les élèves sont en sécurité lorsqu'ils viennent à cette école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89860" resname="TeacherClimateItems">
+        <source>Staff are safe when here at this school.</source>
+        <target state="translated">Le personnel est en sécurité lorsqu'il vient à cette école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89862" resname="TeacherClimateItems">
+        <source>The facilities and property of this school are kept up well.</source>
+        <target state="translated">Les installations et la propriété de cette école sont bien entretenues.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89864" resname="TeacherClimateItems">
+        <source>The facilities and property of this school are clean.</source>
+        <target state="translated">Les installations et la propriété de cette école sont propres.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89866" resname="TeacherClimateItems">
+        <source>Ongoing collaboration is something adults in this school do well.</source>
+        <target state="translated">La collaboration continue est quelque chose que les adultes de cette école font bien.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89868" resname="TeacherClimateItems">
+        <source>Adults working in this school have strong professional relationships.</source>
+        <target state="translated">Les adultes travaillant dans cette école entretiennent des relations professionnelles solides.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89870" resname="TeacherClimateItems">
+        <source>Adults working in this school are respectful and supportive of one another.</source>
+        <target state="translated">Les adultes travaillant dans cette école se respectent et se soutiennent mutuellement.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherClimateItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89872" resname="TeacherFeelJob">
+        <source>&lt;b&gt;With this set of items, we wish to learn more about teachers' feelings about their job.&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Avec cet ensemble d'éléments, nous souhaitons en savoir plus sur les sentiments des enseignants envers leur travail.&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJob</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89874" resname="TeacherFeelJobItems">
+        <source>Please select one answer that indicates how often you agree with each of the following statements.</source>
+        <target state="translated">Veuillez sélectionner une réponse qui indique à quelle fréquence vous êtes d'accord avec chacune des affirmations suivantes.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89878" resname="TeacherFeelJobItems">
+        <source>A few times a year or less</source>
+        <target state="translated">Quelques fois par an ou moins</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89880" resname="TeacherFeelJobItems">
+        <source>Once a month or less</source>
+        <target state="translated">Une fois par mois ou moins</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89882" resname="TeacherFeelJobItems">
+        <source>A few times a month</source>
+        <target state="translated">Quelques fois par mois</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89886" resname="TeacherFeelJobItems">
+        <source>A few times a week</source>
+        <target state="translated">Quelques fois par semaine</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89888" resname="TeacherFeelJobItems">
+        <source>Everyday</source>
+        <target state="translated">Tous les jours</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89890" resname="TeacherFeelJobItems">
+        <source>I feel emotionally drained from my work.</source>
+        <target state="translated">Je me sens épuisé(e) émotionnellement par mon travail.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89892" resname="TeacherFeelJobItems">
+        <source>I feel fatigued when I get up in the morning and have to face another day on the job.</source>
+        <target state="translated">Je me sens fatigué(e) quand je me lève le matin et que je dois affronter une nouvelle journée de travail.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89894" resname="TeacherFeelJobItems">
+        <source>I can easily understand how my students feel about things.</source>
+        <target state="translated">Je comprends facilement comment mes élèves se sentent par rapport aux choses.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89896" resname="TeacherFeelJobItems">
+        <source>I deal very effectively with the problems of my students.</source>
+        <target state="translated">Je gère très efficacement les problèmes de mes élèves.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89898" resname="TeacherFeelJobItems">
+        <source>I feel burned out from my work.</source>
+        <target state="translated">Je me sens épuisé(e) par mon travail.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89900" resname="TeacherFeelJobItems">
+        <source>I feel I'm positively influencing other people's lives through my work.</source>
+        <target state="translated">Je sens que, grâce à mon travail, j'influence positivement la vie d'autres personnes.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89902" resname="TeacherFeelJobItems">
+        <source>I feel frustrated by my job.</source>
+        <target state="translated">Je me sens frustré(e) par mon travail.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89904" resname="TeacherFeelJobItems">
+        <source>I feel I'm working too hard on my job.</source>
+        <target state="translated">Je sens que je travaille trop dur dans mon emploi.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89906" resname="TeacherFeelJobItems">
+        <source>I can easily create a relaxed atmosphere with my students.</source>
+        <target state="translated">Je peux facilement créer une atmosphère détendue avec mes élèves.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89908" resname="TeacherFeelJobItems">
+        <source>I feel exhilarated after working closely with my students.</source>
+        <target state="translated">Je me sens exalté(e) après avoir travaillé en étroite collaboration avec mes élèves.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89910" resname="TeacherFeelJobItems">
+        <source>I have accomplished many worthwhile things in this job.</source>
+        <target state="translated">Dans ce travail, j'ai accompli beaucoup de choses qui en valent la peine.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89912" resname="TeacherFeelJobItems">
+        <source>I feel like I'm at the end of my rope.</source>
+        <target state="translated">J’ai l'impression d'être à bout de nerfs.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89914" resname="TeacherFeelJobItems">
+        <source>In my work, I deal with emotional problems very calmly.</source>
+        <target state="translated">Dans mon travail, je gère très calmement les problèmes émotionnels.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherFeelJobItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89916" resname="TeacherBeliefTeach">
+        <source>&lt;b&gt;This set of questions is designed to help us gain a better understanding of the kinds of things that create difficulties for teachers in their school activities.&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Cet ensemble de questions est conçu pour nous aider à mieux comprendre les types de difficultés que rencontrent les enseignants dans leurs activités scolaires.&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeach</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89918" resname="TeacherBeliefTeachItemsInfluence">
+        <source>&lt;b&gt;How much influence do you have...&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Quelle influence avez-vous...&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89922" resname="TeacherBeliefTeachItemsInfluence">
+        <source>Very Little</source>
+        <target state="translated">Très peu d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89924" resname="TeacherBeliefTeachItemsInfluence">
+        <source>Some Influence</source>
+        <target state="translated">Un peu d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89926" resname="TeacherBeliefTeachItemsInfluence">
+        <source>Quite a Bit</source>
+        <target state="translated">Pas mal d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89928" resname="TeacherBeliefTeachItemsInfluence">
+        <source>A Great Deal</source>
+        <target state="translated">Beaucoup d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89930" resname="TeacherBeliefTeachItemsInfluence">
+        <source>on disruptive behavior in the classroom?</source>
+        <target state="translated">sur le comportement perturbateur dans la classe ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89932" resname="TeacherBeliefTeachItemsInfluence">
+        <source>to motivate children who show low interest in activities?</source>
+        <target state="translated">pour motiver les enfants qui montrent peu d'intérêt pour les activités ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89934" resname="TeacherBeliefTeachItemsInfluence">
+        <source>to get children to believe they can do well on activities?</source>
+        <target state="translated">à faire en sorte que les enfants croient pouvoir bien réussir les activités ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89936" resname="TeacherBeliefTeachItemsInfluence">
+        <source>to help children in your classroom(s) value learning?</source>
+        <target state="translated">pour aider les enfants dans votre(s) classe(s) à valoriser l'apprentissage ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89938" resname="TeacherBeliefTeachItemsInfluence">
+        <source>on getting children to follow classroom rules?</source>
+        <target state="translated">pour faire respecter les règles de la classe par les enfants ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89940" resname="TeacherBeliefTeachItemsInfluence">
+        <source>on calming a child who is disruptive or noisy?</source>
+        <target state="translated">pour calmer un enfant perturbateur ou bruyant ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsInfluence</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89942" resname="TeacherBeliefTeachItemsWell">
+        <source>&lt;b&gt;How well can you...&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Que pouvez-vous faire...&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89944" resname="TeacherBeliefTeachItemsWell">
+        <source>Not At All</source>
+        <target state="translated">Pas du tout</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89946" resname="TeacherBeliefTeachItemsWell">
+        <source>Very Little</source>
+        <target state="translated">Très peu d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89948" resname="TeacherBeliefTeachItemsWell">
+        <source>Somewhat</source>
+        <target state="translated">Un peu</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89950" resname="TeacherBeliefTeachItemsWell">
+        <source>Quite a Bit</source>
+        <target state="translated">Pas mal d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89952" resname="TeacherBeliefTeachItemsWell">
+        <source>A Great Deal</source>
+        <target state="translated">Beaucoup d'influence</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89954" resname="TeacherBeliefTeachItemsWell">
+        <source>establish a classroom management system?</source>
+        <target state="translated">établir un système de gestion de classe ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89956" resname="TeacherBeliefTeachItemsWell">
+        <source>use a variety of assessment strategies?</source>
+        <target state="translated">utiliser une variété de stratégies d'évaluation ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89958" resname="TeacherBeliefTeachItemsWell">
+        <source>provide alternative explanations or examples when children are confused?</source>
+        <target state="translated">fournir des explications alternatives ou des exemples lorsque les enfants sont confus ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89960" resname="TeacherBeliefTeachItemsWell">
+        <source>assist families in helping their children do well in school?</source>
+        <target state="translated">aider les familles à ce que leurs enfants réussissent à l'école ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89962" resname="TeacherBeliefTeachItemsWell">
+        <source>implement alternative strategies in your classroom(s)?</source>
+        <target state="translated">mettre en œuvre des stratégies alternatives dans votre(s) classe(s) ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89964" resname="TeacherBeliefTeachItemsWell">
+        <source>create good questions for children in your classroom(s)?</source>
+        <target state="translated">créer de bonnes questions pour les enfants dans votre(s) classe(s) ?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherBeliefTeachItemsWell</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89966" resname="TeacherIdeasChildren">
+        <source>&lt;b&gt;With this set of items, we wish to learn more about teachers' ideas and beliefs about children.&lt;/b&gt;</source>
+        <target state="translated">&lt;b&gt;Avec cet ensemble d'éléments, nous souhaitons en savoir plus sur les idées et les croyances des enseignants concernant les enfants.&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildren</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89968" resname="TeacherIdeasChildrenItems">
+        <source>Please select one answer that indicates how strongly you agree with each of the following statements.</source>
+        <target state="translated">Veuillez sélectionner une réponse qui indique à quel point vous êtes d'accord avec chacune des affirmations suivantes.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89970" resname="TeacherIdeasChildrenItems">
+        <source>Strongly Disagree</source>
+        <target state="translated">Fortement en désaccord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89972" resname="TeacherIdeasChildrenItems">
+        <source>Mildly Disagree</source>
+        <target state="translated">Légèrement en désaccord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89974" resname="TeacherIdeasChildrenItems">
+        <source>Mildly Agree</source>
+        <target state="translated">Légèrement d'accord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89976" resname="TeacherIdeasChildrenItems">
+        <source>Strongly Agree</source>
+        <target state="translated">Fortement d'accord</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89978" resname="TeacherIdeasChildrenItems">
+        <source>Since parents lack special training in education, they should not question the teacher's teaching methods.</source>
+        <target state="translated">Étant donné que les parents n'ont pas de formation spéciale en éducation, ils ne devraient pas remettre en question les méthodes pédagogiques de l'enseignant.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89980" resname="TeacherIdeasChildrenItems">
+        <source>Children should be treated the same regardless of differences among them.</source>
+        <target state="translated">Les enfants devraient être traités de la même manière, quelles que soient leurs différences.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89982" resname="TeacherIdeasChildrenItems">
+        <source>Children should always obey the teacher.</source>
+        <target state="translated">Les élèves devraient toujours obéir à l'enseignant.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89984" resname="TeacherIdeasChildrenItems">
+        <source>Preparing for the future is more important for a child than enjoying today.</source>
+        <target state="translated">Se préparer pour l'avenir est plus important pour un enfant que de profiter du moment présent.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89986" resname="TeacherIdeasChildrenItems">
+        <source>Children will not do the right thing unless they must.</source>
+        <target state="translated">Les enfants ne feront pas ce qui est bien à moins qu'ils ne soient obligés.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89988" resname="TeacherIdeasChildrenItems">
+        <source>Children should be allowed to disagree with their parents if they feel their own ideas are better.</source>
+        <target state="translated">Les enfants devraient être autorisés à être en désaccord avec leurs parents s'ils estiment que leurs idées sont meilleures.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89990" resname="TeacherIdeasChildrenItems">
+        <source>Children should be kept busy with work and study at home and at school.</source>
+        <target state="translated">Les enfants devraient être tenus occupés par le travail et l'étude à la maison et à l'école.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89992" resname="TeacherIdeasChildrenItems">
+        <source>The major goal of education is to put basic information into the minds of the children.</source>
+        <target state="translated">Le principal objectif de l'éducation est d'inculquer des informations de base aux enfants.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89994" resname="TeacherIdeasChildrenItems">
+        <source>In order to be fair, a teacher must treat all children alike.</source>
+        <target state="translated">Pour être juste, un enseignant doit traiter tous les enfants de la même manière.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89996" resname="TeacherIdeasChildrenItems">
+        <source>The most important thing to teach children is absolute obedience to whoever is in authority.</source>
+        <target state="translated">La chose la plus importante à apprendre aux enfants est l'obéissance absolue à ceux qui sont en position d'autorité.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89998" resname="TeacherIdeasChildrenItems">
+        <source>Children learn best by doing things themselves rather than listening to others.</source>
+        <target state="translated">Les enfants apprennent mieux en faisant eux-mêmes des choses plutôt qu'en écoutant les autres.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90000" resname="TeacherIdeasChildrenItems">
+        <source>Children must be carefully trained early in life or their natural impulses will make them unmanageable.</source>
+        <target state="translated">Les enfants doivent être formés soigneusement dès leur jeune âge ou leurs impulsions naturelles les rendront ingérables.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90002" resname="TeacherIdeasChildrenItems">
+        <source>Children have a right to their own point of view and should be allowed to express it.</source>
+        <target state="translated">Les enfants ont le droit à leur propre point de vue et doivent être autorisés à l'exprimer.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90004" resname="TeacherIdeasChildrenItems">
+        <source>Children's learning results mainly from being presented basic information again and again.</source>
+        <target state="translated">L'apprentissage des enfants résulte principalement de la présentation répétée d'informations de base.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90006" resname="TeacherIdeasChildrenItems">
+        <source>Children like to teach other children.</source>
+        <target state="translated">Les enfants aiment enseigner à d'autres enfants.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90008" resname="TeacherIdeasChildrenItems">
+        <source>The most important thing to teach children is absolute obedience to parents.</source>
+        <target state="translated">La chose la plus importante à apprendre aux enfants est l'obéissance absolue aux parents.</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherIdeasChildrenItems</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90010" resname="unknown">
+        <source>Start Survey</source>
+        <target state="translated">Démarrer le sondage</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90012" resname="unknown">
+        <source>Previous</source>
+        <target state="translated">Précédent</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90014" resname="unknown">
+        <source>Next</source>
+        <target state="translated">Suivant</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="90016" resname="unknown">
+        <source>Finish</source>
+        <target state="translated">Terminer</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_general</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
