@@ -7,6 +7,7 @@ import pandas as pd
 import os
 import numpy as np
 import sys
+import utilities.utilities as u
 
 def generate_audio(lang_code, voice): 
 # Retrieve translations.csv from the repo
@@ -39,6 +40,10 @@ def generate_audio(lang_code, voice):
     translationData = translationData.rename(columns={'identifier': 'item_id'})
     translationData = translationData.rename(columns={'text': 'en'})
     #translationData = translationData.rename(columns={'labels': 'task'})
+    
+    # Convert any language columns that use "_" to use "-" instead
+    # (e.g., "es_AR" -> "es-AR", "en_US" -> "en-US")
+    translationData = u.normalize_language_columns(translationData)
 
     # All data that we need to make sure is or has been generated
     translationData.to_csv(input_file_name)

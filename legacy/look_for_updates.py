@@ -1,4 +1,10 @@
 import pandas as pd
+import sys
+import os
+
+# Add parent directory to path to import utilities
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utilities import utilities as u
 
 def compare_csv_files(file1, file2, output_file='output_diff.csv'):
     """
@@ -17,6 +23,11 @@ def compare_csv_files(file1, file2, output_file='output_diff.csv'):
         # Load the CSV files into dataframes
         csv1 = pd.read_csv(file1)
         csv2 = pd.read_csv(file2)
+        
+        # Normalize language column names (convert underscore to hyphen)
+        # This handles cases where one or both files might be raw Crowdin exports
+        csv1 = u.normalize_language_columns(csv1)
+        csv2 = u.normalize_language_columns(csv2)
 
         # Identify columns that exist in both dataframes
         common_columns = csv1.columns.intersection(csv2.columns)

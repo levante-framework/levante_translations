@@ -74,3 +74,36 @@ def get_stats():
         statsData = pd.read_csv(stats_file_path)
     print(f'Stats: {statsData}')
     return(statsData)
+
+def normalize_language_columns(df):
+    """
+    Convert language column names from underscore to hyphen format.
+    
+    This function converts language/locale column names that use underscores 
+    (e.g., "es_AR", "en_US") to use hyphens instead (e.g., "es-AR", "en-US").
+    This is needed when processing Crowdin exports that may use underscores
+    as separators instead of the standard hyphen format.
+    
+    Args:
+        df (pd.DataFrame): DataFrame with potentially underscore-separated language columns
+        
+    Returns:
+        pd.DataFrame: DataFrame with normalized column names
+    """
+    column_renames = {}
+    for col in df.columns:
+        if '_' in col and len(col) >= 5:  # Likely a language code like "es_AR"
+            # Check if it looks like a language code (2-3 chars, underscore, 2+ chars)
+            parts = col.split('_')
+            if (len(parts) == 2 and 
+                len(parts[0]) >= 2 and len(parts[0]) <= 3 and  # Language code: 2-3 chars
+                len(parts[1]) >= 2 and len(parts[1]) <= 3 and  # Region code: 2-3 chars
+                parts[0].isalpha() and parts[1].isalpha()):     # Both parts are alphabetic
+                new_col = col.replace('_', '-')
+                column_renames[col] = new_col
+    
+    if column_renames:
+        print(f"Converting language column separators: {column_renames}")
+        df = df.rename(columns=column_renames)
+    
+    return df
