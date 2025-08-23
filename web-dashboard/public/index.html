@@ -33,6 +33,12 @@
                         <a href="#" onclick="openPreflightReport(); return false;">
                             <i class="fas fa-clipboard-list"></i> Preflight Readiness Report
                         </a>
+                        <a href="#" onclick="openSlides(); return false;">
+                            <i class="fas fa-sitemap"></i> Translation Pipeline Architecture
+                        </a>
+                        <a href="#" onclick="openMermaidSlides(); return false;">
+                            <i class="fas fa-project-diagram"></i> Pipeline Architecture (Interactive)
+                        </a>
                     </div>
                 </div>
             </div>
@@ -245,6 +251,12 @@
         }
         function openPreflightReport() {
             window.open('./preflight-report.html', '_blank');
+        }
+        function openSlides() {
+            window.open('./levante-slides.html', '_blank');
+        }
+        function openMermaidSlides() {
+            window.open('./levante-slides-with-mermaid.html', '_blank');
         }
         
         function showValidationSummaryReport() {
