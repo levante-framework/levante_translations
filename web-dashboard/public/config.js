@@ -59,6 +59,18 @@ const CONFIG = {
             service: 'ElevenLabs',
             voice: 'Julia',
             display_name: 'German (Switzerland)'
+        },
+        'Spanish (Argentina)': {
+            lang_code: 'es-AR',
+            service: 'ElevenLabs',
+            voice: 'Malena Tango',
+            display_name: 'Spanish (Argentina)'
+        },
+        'English (Ghana)': {
+            lang_code: 'en-GH',
+            service: 'ElevenLabs',
+            voice: 'Clara - Children\'s Storyteller',
+            display_name: 'English (Ghana)'
         }
     },
     
@@ -91,6 +103,18 @@ const CONFIG = {
             'nl': [
                 'Dutch_Lotte Narrative',
                 'Dutch_Lotte Conversational'
+            ],
+            'es-AR': [
+                'Spanish_Violeta Narrative',
+                'Spanish_Violeta Conversational'
+            ],
+            'en-GH': [
+                'English (US)_Susan (Advertising)',
+                'English (US)_Delilah'
+            ],
+            'de-CH': [
+                'German_Anke Narrative',
+                'German_Anke Conversational'
             ]
         },
         elevenlabs: {
@@ -135,6 +159,24 @@ const CONFIG = {
                 'Claudia - Credible, Competent & Authentic',
                 'Zuri - New Yorker',
                 'Nia Davis- Black Female'
+            ],
+            'es-AR': [
+                'Yasmine',
+                'Alexandra - Conversational and Real',
+                'Malena Tango',
+                'Claudia - Credible, Competent & Authentic'
+            ],
+            'en-GH': [
+                'Yasmine',
+                'Alexandra - Conversational and Real',
+                'Clara - Children\'s Storyteller',
+                'Claudia - Credible, Competent & Authentic'
+            ],
+            'de-CH': [
+                'Yasmine',
+                'Julia',
+                'Alexandra - Conversational and Real',
+                'Claudia - Credible, Competent & Authentic'
             ]
         }
     },
