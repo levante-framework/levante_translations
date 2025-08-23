@@ -32,6 +32,11 @@
                 }
             }
 
+            getDisplayName(languageKey) {
+                const lang = this.languages[languageKey];
+                return (lang && lang.display_name) ? lang.display_name : languageKey;
+            }
+
             getFlagForLanguage(language) {
                 // Use small flag images (50% bigger than before)
                 const flagMap = {
@@ -863,7 +868,7 @@
                     // Create tab button
                     const button = document.createElement('button');
                     button.className = `tab-button ${index === 0 ? 'active' : ''}`;
-                    button.textContent = language;
+                    button.textContent = this.getDisplayName(language);
                     button.addEventListener('click', () => this.switchTab(language, button));
                     tabButtons.appendChild(button);
 
@@ -919,7 +924,7 @@
 
                 tableContent.innerHTML = '';
                 
-                console.log(`🔍 DEBUG: Populating table for ${this.currentLanguage} (${langCode}) with ${this.data.length} items`);
+                console.log(`🔍 DEBUG: Populating table for ${this.getDisplayName(this.currentLanguage)} (${langCode}) with ${this.data.length} items`);
                 console.log(`🔍 DEBUG: Unique identifiers in data:`, new Set(this.data.map(item => item.item_id)).size);
                 console.log(`🔍 DEBUG: Sample identifiers:`, this.data.slice(0, 10).map(item => item.item_id));
                 
@@ -1038,7 +1043,7 @@
                 this.populateVoices();
                 this.populateDataTable();
                 updateValidationSummary(); // Update counts for new language tab
-                this.setStatus(`Switched to ${language} - ${this.languages[language].service} (${this.languages[language].lang_code})`, 'success');
+                this.setStatus(`Switched to ${this.getDisplayName(language)} - ${this.languages[language].service} (${this.languages[language].lang_code})`, 'success');
             }
 
             populateVoices() {
@@ -1211,7 +1216,7 @@
                  }
 
                  if (searchTerm) {
-                     this.setStatus(`Showing ${visibleCount} items matching "${searchTerm}" in ${language}`, 'success');
+                     this.setStatus(`Showing ${visibleCount} items matching "${searchTerm}" in ${this.getDisplayName(language)}`, 'success');
                  }
              }
 

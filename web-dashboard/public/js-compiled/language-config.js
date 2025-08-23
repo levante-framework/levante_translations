@@ -157,7 +157,8 @@ function initLanguageConfigApp() {
                 self.config.languages[name] = {
                     lang_code: self.newLang.lang_code,
                     service: self.newLang.service,
-                    voice: self.newLang.voice
+                    voice: self.newLang.voice,
+                    display_name: name // Use the display name as entered
                 };
                 // clear form
                 self.newLang = { name: '', lang_code: '', service: 'ElevenLabs', voice: '' };
