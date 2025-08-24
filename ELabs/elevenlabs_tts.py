@@ -7,9 +7,33 @@ from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
 import utilities.config as conf
 from ELabs import elevenlabs_utilities
+import time
+import sys
 
 from typing import Optional
 audio_client: Optional[ElevenLabs] = None
+
+def retry_with_backoff(func, max_retries=3, base_delay=1, max_delay=60, backoff_factor=2):
+    """
+    Retry a function with exponential backoff
+    """
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except KeyboardInterrupt:
+            print(f"\n🛑 Process interrupted by user. Stopping gracefully...")
+            sys.exit(0)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                print(f"❌ Final attempt failed: {str(e)}")
+                raise e
+            
+            delay = min(base_delay * (backoff_factor ** attempt), max_delay)
+            print(f"⚠️  Attempt {attempt + 1} failed: {str(e)}")
+            print(f"🔄 Retrying in {delay} seconds...")
+            time.sleep(delay)
+    
+    return None
 
 def get_voice_id(voice_name, lang_code, client: ElevenLabs):
     """
@@ -88,22 +112,38 @@ def main(
         print(f"❌ Cannot proceed: voice '{voice}' not found for {lang_code}")
         return {'Errors': len(inputData), 'Processed': 0, 'NoTask': 0, 'Voice': voice}
 
-    for index, ourRow in inputData.iterrows():
-
-        result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
-                            audio_base_dir=audio_base_dir, masterData=masterData, \
-                            headers=None)
-        
-        # replace with match once we are past python 3.10
-        if result == 'Error':
-            stats['Errors']+= 1
-        elif result == 'NoTask':
-            stats['NoTask']+= 1
-        elif result == 'Success':
-            stats['Processed']+= 1
-        else:
-            # Handle any unexpected return values as errors
-            print(f"⚠️ Unexpected result from processRow: {result} - counting as error")
+    total_items = len(inputData)
+    for idx, (index, ourRow) in enumerate(inputData.iterrows(), 1):
+        try:
+            print(f"\n📊 Progress: {idx}/{total_items} ({idx/total_items*100:.1f}%) - Processing '{ourRow['item_id']}'")
+            
+            result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
+                                audio_base_dir=audio_base_dir, masterData=masterData, \
+                                headers=None)
+            
+            # replace with match once we are past python 3.10
+            if result == 'Error':
+                stats['Errors']+= 1
+            elif result == 'NoTask':
+                stats['NoTask']+= 1
+            elif result == 'Success':
+                stats['Processed']+= 1
+            else:
+                # Handle any unexpected return values as errors
+                print(f"⚠️ Unexpected result from processRow: {result} - counting as error")
+                stats['Errors']+= 1
+                
+            # Show running totals every 10 items
+            if idx % 10 == 0:
+                print(f"📈 Running totals: ✅ {stats['Processed']} processed, ❌ {stats['Errors']} errors, ⏭️  {stats['NoTask']} skipped")
+                
+        except KeyboardInterrupt:
+            print(f"\n🛑 Process interrupted by user at item {idx}/{total_items}")
+            print(f"📊 Final stats: ✅ {stats['Processed']} processed, ❌ {stats['Errors']} errors, ⏭️  {stats['NoTask']} skipped")
+            print(f"💡 You can resume by running the same command again - it will skip already generated files.")
+            sys.exit(0)
+        except Exception as e:
+            print(f"❌ Unexpected error processing '{ourRow['item_id']}': {str(e)}")
             stats['Errors']+= 1
     
     # start tracking voice
@@ -154,7 +194,7 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
     # Show what we're about to generate
     print(f"🎵 Generating audio for '{ourRow['item_id']}': {translation_text[:100]}{'...' if len(translation_text) > 100 else ''}")
     
-    try:
+    def generate_audio_with_retry():
         audio = audio_client.text_to_speech.convert(
             text=translation_text,
             voice_id=voice_id,
@@ -177,9 +217,17 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
             # If it's already bytes
             audio_bytes = audio
             
-        audioData = AudioResponse(audio_bytes)
+        return AudioResponse(audio_bytes)
+    
+    try:
+        # Use retry mechanism for the API call
+        audioData = retry_with_backoff(generate_audio_with_retry, max_retries=3, base_delay=2)
         
-        print(f"✅ Successfully generated {len(audio_bytes)} bytes of audio for '{ourRow['item_id']}'")
+        if audioData is None:
+            print(f"❌ Failed to generate audio for '{ourRow['item_id']}' after all retries")
+            return 'Error'
+        
+        print(f"✅ Successfully generated {len(audioData.content)} bytes of audio for '{ourRow['item_id']}'")
         
         # Use our unified save_audio function with ID3 tags
         service = 'ElevenLabs'

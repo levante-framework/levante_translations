@@ -5,6 +5,28 @@ import sys
 import logging
 import time
 
+def retry_with_backoff(func, max_retries=3, base_delay=1, max_delay=60, backoff_factor=2):
+    """
+    Retry a function with exponential backoff
+    """
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except KeyboardInterrupt:
+            print(f"\n🛑 Process interrupted by user. Stopping gracefully...")
+            sys.exit(0)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                print(f"❌ Final attempt failed: {str(e)}")
+                raise e
+            
+            delay = min(base_delay * (backoff_factor ** attempt), max_delay)
+            print(f"⚠️  Attempt {attempt + 1} failed: {str(e)}")
+            print(f"🔄 Retrying in {delay} seconds...")
+            time.sleep(delay)
+    
+    return None
+
 try:
     import pandas as pd
     import numpy as np

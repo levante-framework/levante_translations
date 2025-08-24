@@ -413,7 +413,6 @@ def generate_audio(language, force_regenerate=False):
     
     # Count total audio files for this language (for reference)
     try:
-        import utilities.utilities as u
         total_audio_files = u.count_audio_files(lang_code)
         print(f"   Total existing audio files on disk: {total_audio_files}")
     except:
