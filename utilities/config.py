@@ -8,11 +8,8 @@ elevenlabs_stability = .65
 # if we add it here can we use it throughout?
 language_list = {}
 
-# current location of translated items
-translatedTextURL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/text/translated_prompts.csv"
-
 # Preferred remote and local locations for item_bank_translations
-REMOTE_ITEM_BANK_URL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv"
+REMOTE_ITEM_BANK_URL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/translations/item-bank-translations.csv"
 LOCAL_ITEM_BANK_PATH = "translation_text/item_bank_translations.csv"
 
 # generate_speech will read from the local path; the fetch script keeps it updated from REMOTE_ITEM_BANK_URL
