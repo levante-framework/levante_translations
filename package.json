@@ -24,6 +24,8 @@
     "setup:service-account-both": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/create_service_account.py --project-id \"$npm_config_project_id\" --both'",
     "generate:english": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py English'",
     "generate:spanish": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py Spanish'",
+    "generate:spanish-colombia": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py Spanish'",
+    "generate:spanish-argentina": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py \"Spanish (Argentina)\"'",
     "generate:german": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py German'",
     "generate:german-switzerland": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 generate_speech.py \"German (Switzerland)\"'",
     "fetch:translations": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/fetch_latest_translations.py --force'",

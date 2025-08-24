@@ -18,7 +18,7 @@ import argparse
 from pathlib import Path
 
 # Configuration
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv"
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/translations/itembank/item-bank-translations.csv"
 DEFAULT_OUTPUT_PATH = "translation_text/item_bank_translations.csv"
 
 def fetch_translations(output_path: str = None, force: bool = False) -> bool:
