@@ -7,6 +7,7 @@ import numpy as np
 import sys
 import argparse
 import utilities.config as conf
+import utilities.utilities as u
 
 # Remove module-level cache; always fetch latest when generating
 # language_dict = conf.get_languages()
@@ -123,6 +124,10 @@ def generate_audio(language, force_regenerate=False):
         translationData = translationData.rename(columns={'fr-CA': conf.LANGUAGE_CODES['French']})
 
     #translationData = translationData.rename(columns={'labels': 'task'})
+    
+    # Convert any language columns that use "_" to use "-" instead
+    # (e.g., "es_AR" -> "es-AR", "en_US" -> "en-US")
+    translationData = u.normalize_language_columns(translationData)
 
     # All data that we need to make sure is or has been generated
     translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
