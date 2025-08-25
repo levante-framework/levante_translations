@@ -933,7 +933,7 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87392" resname="unknown">
+      <trans-unit id="87392" resname="navigation.startSurvey">
         <source>Start Survey</source>
         <target state="translated">Comenzar Encuesta</target>
         <context-group purpose="information">
@@ -941,15 +941,14 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87394" resname="unknown">
+      <trans-unit id="87394" resname="navigation.previous">
         <source>Previous</source>
         <target state="translated">Anterior</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87396" resname="unknown">
+      <trans-unit id="87396" resname="navigation.next">
         <source>Next</source>
         <target state="translated">Siguiente</target>
         <context-group purpose="information">
@@ -957,7 +956,7 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87398" resname="unknown">
+      <trans-unit id="87398" resname="navigation.finish">
         <source>Finish</source>
         <target state="translated">Terminar</target>
         <context-group purpose="information">
