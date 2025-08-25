@@ -5,9 +5,9 @@
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="87160" resname="ChildSurveyIntro">
+      <trans-unit id="87160" resname="ChildSurveyIntro" approved="yes">
         <source>&lt;font face=Verdana size=4&gt;These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. &lt;b&gt;&lt;font face=Verdana size=4&gt;No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time.&lt;br&gt;&lt;br&gt;The first two are for practice.</source>
-        <target state="translated">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en la escuela y a lo que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que más se acerque a lo que piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Ensaya con las dos primeras preguntas cómo responder.</target>
+        <target state="final">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en la escuela y a lo que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que más se acerque a lo que piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Ensaya con las dos primeras preguntas cómo responder.</target>
         <context-group purpose="information">
           <context context-type="source">ChildSurveyIntro</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -21,33 +21,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87164" resname="Example1Comic">
+      <trans-unit id="87164" resname="Example1Comic" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87166" resname="Example1Comic">
+      <trans-unit id="87166" resname="Example1Comic" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87168" resname="Example1Comic">
+      <trans-unit id="87168" resname="Example1Comic" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87170" resname="Example1Comic">
+      <trans-unit id="87170" resname="Example1Comic" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -61,33 +61,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87174" resname="Example2Neat">
+      <trans-unit id="87174" resname="Example2Neat" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">Example2Neat</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87176" resname="Example2Neat">
+      <trans-unit id="87176" resname="Example2Neat" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example2Neat</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87178" resname="Example2Neat">
+      <trans-unit id="87178" resname="Example2Neat" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example2Neat</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87180" resname="Example2Neat">
+      <trans-unit id="87180" resname="Example2Neat" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">Example2Neat</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -101,33 +101,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87184" resname="TeacherNice">
+      <trans-unit id="87184" resname="TeacherNice" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87186" resname="TeacherNice">
+      <trans-unit id="87186" resname="TeacherNice" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87188" resname="TeacherNice">
+      <trans-unit id="87188" resname="TeacherNice" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87190" resname="TeacherNice">
+      <trans-unit id="87190" resname="TeacherNice" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">TeacherNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -141,33 +141,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87194" resname="TeacherLike">
+      <trans-unit id="87194" resname="TeacherLike" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLike</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87196" resname="TeacherLike">
+      <trans-unit id="87196" resname="TeacherLike" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLike</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87198" resname="TeacherLike">
+      <trans-unit id="87198" resname="TeacherLike" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLike</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87200" resname="TeacherLike">
+      <trans-unit id="87200" resname="TeacherLike" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">TeacherLike</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -181,33 +181,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87204" resname="TeacherListen">
+      <trans-unit id="87204" resname="TeacherListen" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">TeacherListen</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87206" resname="TeacherListen">
+      <trans-unit id="87206" resname="TeacherListen" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherListen</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87208" resname="TeacherListen">
+      <trans-unit id="87208" resname="TeacherListen" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">TeacherListen</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87210" resname="TeacherListen">
+      <trans-unit id="87210" resname="TeacherListen" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">TeacherListen</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -221,33 +221,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87214" resname="SchoolFun">
+      <trans-unit id="87214" resname="SchoolFun" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">SchoolFun</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87216" resname="SchoolFun">
+      <trans-unit id="87216" resname="SchoolFun" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolFun</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87218" resname="SchoolFun">
+      <trans-unit id="87218" resname="SchoolFun" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolFun</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87220" resname="SchoolFun">
+      <trans-unit id="87220" resname="SchoolFun" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">SchoolFun</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -261,33 +261,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87224" resname="SchoolEnjoy">
+      <trans-unit id="87224" resname="SchoolEnjoy" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">SchoolEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87226" resname="SchoolEnjoy">
+      <trans-unit id="87226" resname="SchoolEnjoy" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87228" resname="SchoolEnjoy">
+      <trans-unit id="87228" resname="SchoolEnjoy" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87230" resname="SchoolEnjoy">
+      <trans-unit id="87230" resname="SchoolEnjoy" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">SchoolEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -301,33 +301,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87234" resname="SchoolHappy">
+      <trans-unit id="87234" resname="SchoolHappy" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">SchoolHappy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87236" resname="SchoolHappy">
+      <trans-unit id="87236" resname="SchoolHappy" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolHappy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87238" resname="SchoolHappy">
+      <trans-unit id="87238" resname="SchoolHappy" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolHappy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87240" resname="SchoolHappy">
+      <trans-unit id="87240" resname="SchoolHappy" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">SchoolHappy</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -341,33 +341,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87244" resname="SchoolSafe">
+      <trans-unit id="87244" resname="SchoolSafe" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">SchoolSafe</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87246" resname="SchoolSafe">
+      <trans-unit id="87246" resname="SchoolSafe" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolSafe</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87248" resname="SchoolSafe">
+      <trans-unit id="87248" resname="SchoolSafe" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolSafe</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87250" resname="SchoolSafe">
+      <trans-unit id="87250" resname="SchoolSafe" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">SchoolSafe</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -381,33 +381,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87254" resname="ClassFriends">
+      <trans-unit id="87254" resname="ClassFriends" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ClassFriends</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87256" resname="ClassFriends">
+      <trans-unit id="87256" resname="ClassFriends" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassFriends</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87258" resname="ClassFriends">
+      <trans-unit id="87258" resname="ClassFriends" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassFriends</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87260" resname="ClassFriends">
+      <trans-unit id="87260" resname="ClassFriends" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ClassFriends</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -421,33 +421,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87264" resname="ClassHelp">
+      <trans-unit id="87264" resname="ClassHelp" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ClassHelp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87266" resname="ClassHelp">
+      <trans-unit id="87266" resname="ClassHelp" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassHelp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87268" resname="ClassHelp">
+      <trans-unit id="87268" resname="ClassHelp" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassHelp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87270" resname="ClassHelp">
+      <trans-unit id="87270" resname="ClassHelp" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ClassHelp</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -461,33 +461,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87274" resname="ClassPlay">
+      <trans-unit id="87274" resname="ClassPlay" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ClassPlay</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87276" resname="ClassPlay">
+      <trans-unit id="87276" resname="ClassPlay" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassPlay</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87278" resname="ClassPlay">
+      <trans-unit id="87278" resname="ClassPlay" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassPlay</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87280" resname="ClassPlay">
+      <trans-unit id="87280" resname="ClassPlay" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ClassPlay</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -501,33 +501,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87284" resname="ClassNice">
+      <trans-unit id="87284" resname="ClassNice" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ClassNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87286" resname="ClassNice">
+      <trans-unit id="87286" resname="ClassNice" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87288" resname="ClassNice">
+      <trans-unit id="87288" resname="ClassNice" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ClassNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87290" resname="ClassNice">
+      <trans-unit id="87290" resname="ClassNice" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ClassNice</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -541,33 +541,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87294" resname="LonelySchool">
+      <trans-unit id="87294" resname="LonelySchool" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">LonelySchool</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87296" resname="LonelySchool">
+      <trans-unit id="87296" resname="LonelySchool" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">LonelySchool</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87298" resname="LonelySchool">
+      <trans-unit id="87298" resname="LonelySchool" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">LonelySchool</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87300" resname="LonelySchool">
+      <trans-unit id="87300" resname="LonelySchool" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">LonelySchool</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -581,33 +581,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87304" resname="LearningGood">
+      <trans-unit id="87304" resname="LearningGood" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">LearningGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87306" resname="LearningGood">
+      <trans-unit id="87306" resname="LearningGood" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">LearningGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87308" resname="LearningGood">
+      <trans-unit id="87308" resname="LearningGood" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">LearningGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87310" resname="LearningGood">
+      <trans-unit id="87310" resname="LearningGood" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">LearningGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -621,33 +621,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87314" resname="SchoolGiveUp">
+      <trans-unit id="87314" resname="SchoolGiveUp" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">SchoolGiveUp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87316" resname="SchoolGiveUp">
+      <trans-unit id="87316" resname="SchoolGiveUp" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolGiveUp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87318" resname="SchoolGiveUp">
+      <trans-unit id="87318" resname="SchoolGiveUp" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">SchoolGiveUp</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87320" resname="SchoolGiveUp">
+      <trans-unit id="87320" resname="SchoolGiveUp" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">SchoolGiveUp</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -661,33 +661,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87324" resname="ReadingEnjoy">
+      <trans-unit id="87324" resname="ReadingEnjoy" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ReadingEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87326" resname="ReadingEnjoy">
+      <trans-unit id="87326" resname="ReadingEnjoy" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ReadingEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87328" resname="ReadingEnjoy">
+      <trans-unit id="87328" resname="ReadingEnjoy" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ReadingEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87330" resname="ReadingEnjoy">
+      <trans-unit id="87330" resname="ReadingEnjoy" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ReadingEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -701,33 +701,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87334" resname="MathEnjoy">
+      <trans-unit id="87334" resname="MathEnjoy" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">MathEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87336" resname="MathEnjoy">
+      <trans-unit id="87336" resname="MathEnjoy" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">MathEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87338" resname="MathEnjoy">
+      <trans-unit id="87338" resname="MathEnjoy" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">MathEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87340" resname="MathEnjoy">
+      <trans-unit id="87340" resname="MathEnjoy" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">MathEnjoy</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -741,33 +741,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87344" resname="ReadingGood">
+      <trans-unit id="87344" resname="ReadingGood" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">ReadingGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87346" resname="ReadingGood">
+      <trans-unit id="87346" resname="ReadingGood" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">ReadingGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87348" resname="ReadingGood">
+      <trans-unit id="87348" resname="ReadingGood" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">ReadingGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87350" resname="ReadingGood">
+      <trans-unit id="87350" resname="ReadingGood" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">ReadingGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -781,33 +781,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87354" resname="MathGood">
+      <trans-unit id="87354" resname="MathGood" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">MathGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87356" resname="MathGood">
+      <trans-unit id="87356" resname="MathGood" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">MathGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87358" resname="MathGood">
+      <trans-unit id="87358" resname="MathGood" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">MathGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87360" resname="MathGood">
+      <trans-unit id="87360" resname="MathGood" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">MathGood</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -821,33 +821,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87364" resname="GrowthMindSmart">
+      <trans-unit id="87364" resname="GrowthMindSmart" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindSmart</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87366" resname="GrowthMindSmart">
+      <trans-unit id="87366" resname="GrowthMindSmart" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindSmart</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87368" resname="GrowthMindSmart">
+      <trans-unit id="87368" resname="GrowthMindSmart" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindSmart</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87370" resname="GrowthMindSmart">
+      <trans-unit id="87370" resname="GrowthMindSmart" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindSmart</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -861,33 +861,33 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87374" resname="GrowthMindRead">
+      <trans-unit id="87374" resname="GrowthMindRead" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindRead</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87376" resname="GrowthMindRead">
+      <trans-unit id="87376" resname="GrowthMindRead" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindRead</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87378" resname="GrowthMindRead">
+      <trans-unit id="87378" resname="GrowthMindRead" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindRead</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87380" resname="GrowthMindRead">
+      <trans-unit id="87380" resname="GrowthMindRead" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindRead</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -901,64 +901,64 @@
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87384" resname="GrowthMindMath">
+      <trans-unit id="87384" resname="GrowthMindMath" approved="yes">
         <source>No, never</source>
-        <target state="translated">No, nunca</target>
+        <target state="final">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindMath</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87386" resname="GrowthMindMath">
+      <trans-unit id="87386" resname="GrowthMindMath" approved="yes">
         <source>Yes, some of the time</source>
-        <target state="translated">Sí, algunas veces</target>
+        <target state="final">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindMath</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87388" resname="GrowthMindMath">
+      <trans-unit id="87388" resname="GrowthMindMath" approved="yes">
         <source>Yes, most of the time</source>
-        <target state="translated">Sí, muchas veces</target>
+        <target state="final">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindMath</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87390" resname="GrowthMindMath">
+      <trans-unit id="87390" resname="GrowthMindMath" approved="yes">
         <source>Yes, always</source>
-        <target state="translated">Sí, siempre</target>
+        <target state="final">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">GrowthMindMath</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87392" resname="navigation.startSurvey">
+      <trans-unit id="87392" resname="navigation.startSurvey" approved="yes">
         <source>Start Survey</source>
-        <target state="translated">Comenzar Encuesta</target>
+        <target state="final">Comenzar Encuesta</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87394" resname="navigation.previous">
+      <trans-unit id="87394" resname="navigation.previous" approved="yes">
         <source>Previous</source>
-        <target state="translated">Anterior</target>
+        <target state="final">Anterior</target>
         <context-group purpose="information">
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87396" resname="navigation.next">
+      <trans-unit id="87396" resname="navigation.next" approved="yes">
         <source>Next</source>
-        <target state="translated">Siguiente</target>
+        <target state="final">Siguiente</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87398" resname="navigation.finish">
+      <trans-unit id="87398" resname="navigation.finish" approved="yes">
         <source>Finish</source>
-        <target state="translated">Terminar</target>
+        <target state="final">Terminar</target>
         <context-group purpose="information">
           <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">child_survey</context>
