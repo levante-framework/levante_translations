@@ -197,30 +197,6 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="88888" resname="HomeFoodBalanced">
-        <source>Never true</source>
-        <target state="translated">Jamais vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeFoodBalanced</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88890" resname="HomeFoodBalanced">
-        <source>Sometimes true</source>
-        <target state="translated">Parfois vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeFoodBalanced</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88892" resname="HomeFoodBalanced">
-        <source>Often true</source>
-        <target state="translated">Souvent vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeFoodBalanced</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="88894" resname="HomeFoodSkipMeal">
         <source>In the &lt;b&gt;last 12 months&lt;/b&gt;, did you or other adults in your household ever cut the size of your meals or skip meals because there wasn't enough money for food?</source>
         <target state="translated">Au cours &lt;b&gt;des 12 derniers mois&lt;/b&gt;, avez-vous ou d'autres adultes de votre foyer réduit la taille de vos repas ou sauté des repas parce qu'il n'y avait pas assez d'argent pour acheter de la nourriture?</target>
@@ -317,38 +293,6 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="88922" resname="HomeCHAOS10">
-        <source>Definitely Untrue</source>
-        <target state="translated">Totalement faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS10</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88924" resname="HomeCHAOS10">
-        <source>Somewhat Untrue</source>
-        <target state="translated">Plutôt faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS10</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88926" resname="HomeCHAOS10">
-        <source>Somewhat True</source>
-        <target state="translated">Plutôt vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS10</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88928" resname="HomeCHAOS10">
-        <source>Definitely True</source>
-        <target state="translated">Totalement vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS10</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="88930" resname="HomeCHAOS14">
         <source>The atmosphere in our home is calm.</source>
         <target state="translated">L'atmosphère dans notre maison est calme.</target>
@@ -357,73 +301,9 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="88932" resname="HomeCHAOS14">
-        <source>Definitely Untrue</source>
-        <target state="translated">Totalement faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS14</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88934" resname="HomeCHAOS14">
-        <source>Somewhat Untrue</source>
-        <target state="translated">Plutôt faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS14</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88936" resname="HomeCHAOS14">
-        <source>Somewhat True</source>
-        <target state="translated">Plutôt vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS14</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88938" resname="HomeCHAOS14">
-        <source>Definitely True</source>
-        <target state="translated">Totalement vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS14</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="88940" resname="HomeCHAOS15">
         <source>We have a regular morning routine at home.</source>
         <target state="translated">Nous avons une routine matinale régulière à la maison.</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS15</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88942" resname="HomeCHAOS15">
-        <source>Definitely Untrue</source>
-        <target state="translated">Totalement faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS15</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88944" resname="HomeCHAOS15">
-        <source>Somewhat Untrue</source>
-        <target state="translated">Plutôt faux</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS15</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88946" resname="HomeCHAOS15">
-        <source>Somewhat True</source>
-        <target state="translated">Plutôt vrai</target>
-        <context-group purpose="information">
-          <context context-type="source">HomeCHAOS15</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="88948" resname="HomeCHAOS15">
-        <source>Definitely True</source>
-        <target state="translated">Totalement vrai</target>
         <context-group purpose="information">
           <context context-type="source">HomeCHAOS15</context>
           <context context-type="x-crowdin-label">parent_survey_family</context>
@@ -1378,38 +1258,6 @@
         <target state="translated">&lt;b&gt;Instructions :&lt;/b&gt; Imaginez cette ligne comme représentant l'endroit où les gens se situent dans leurs &lt;i&gt;communautés&lt;/i&gt;. Les gens définissent la communauté de différentes manières ; veuillez la définir de la manière qui vous semble la plus significative. À droite se trouvent les personnes qui ont la plus haute position dans leur communauté. À gauche se trouvent les personnes ayant le statut le plus bas dans leur communauté.&lt;br&gt;&lt;b&gt;Où vous situez-vous sur cette ligne ?&lt;/b&gt;&lt;br&gt;Déplacez le curseur à l'endroit où vous pensez être à ce moment de votre vie par rapport aux autres personnes de votre communauté.</target>
         <context-group purpose="information">
           <context context-type="source">SelfMcArthurCommunity</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="89482" resname="navigation.startSurvey">
-        <source>Start Survey</source>
-        <target state="translated">Démarrer le sondage</target>
-        <context-group purpose="information">
-          <context context-type="source">unknown</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="89484" resname="navigation.previous">
-        <source>Previous</source>
-        <target state="translated">Précédent</target>
-        <context-group purpose="information">
-          <context context-type="source">unknown</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="89486" resname="navigation.next">
-        <source>Next</source>
-        <target state="translated">Suivant</target>
-        <context-group purpose="information">
-          <context context-type="source">unknown</context>
-          <context context-type="x-crowdin-label">parent_survey_family</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="89488" resname="navigation.finish">
-        <source>Finish</source>
-        <target state="translated">Terminer</target>
-        <context-group purpose="information">
-          <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
