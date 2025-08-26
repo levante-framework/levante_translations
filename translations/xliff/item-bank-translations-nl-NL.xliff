@@ -3284,7 +3284,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51821" resname="ToM-scene6-q5">
         <source>What does Maria tell Dad?</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Wat zegt Maria tegen papa?</target>
+        <target state="needs-translation">What does Maria tell Dad?</target>
         <context-group purpose="information">
           <context context-type="source">ToM-scene6-q5
 </context>
@@ -3297,7 +3297,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51823" resname="ToM-scene6-q6">
         <source>What does Sam think they are selling at the shop?</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Wat denkt Sam dat ze in de winkel verkopen?</target>
+        <target state="needs-translation">What does Sam think they are selling at the shop?</target>
         <context-group purpose="information">
           <context context-type="source">ToM-scene6-q6
 </context>
@@ -3429,7 +3429,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51847" resname="hostile-attribution-scene2-q2">
         <source>Now pick one of the three choices as the one you would do:</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Kies nu een van de drie opties, zoals u dat ook zou doen:</target>
+        <target state="needs-translation">Now pick one of the three choices as the one you would do:</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene2-q2
 </context>
@@ -3512,7 +3512,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51863" resname="hostile-attribution-scene3-q2">
         <source>Now pick one of the three choices as the one you would do:</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Kies nu een van de drie opties, zoals u dat ook zou doen:</target>
+        <target state="needs-translation">Now pick one of the three choices as the one you would do:</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene3-q2
 </context>
@@ -3572,7 +3572,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51875" resname="hostile-attribution-scene2-by-accident">
         <source>by accident</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">per ongeluk</target>
+        <target state="needs-translation">by accident</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene2-by-accident
 </context>
@@ -3582,7 +3582,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51877" resname="hostile-attribution-scene2-on-purpose">
         <source>on purpose</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">met opzet</target>
+        <target state="needs-translation">on purpose</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene2-on-purpose
 </context>
@@ -3592,7 +3592,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51879" resname="hostile-attribution-scene3-by-accident">
         <source>by accident</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">per ongeluk</target>
+        <target state="needs-translation">by accident</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene3-by-accident
 </context>
@@ -3602,7 +3602,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="51881" resname="hostile-attribution-scene3-on-purpose">
         <source>on purpose</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">met opzet</target>
+        <target state="needs-translation">on purpose</target>
         <context-group purpose="information">
           <context context-type="source">hostile-attribution-scene3-on-purpose
 </context>
@@ -4033,37 +4033,6 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52750" resname="memory-game-input">
-        <source>Choose the squares in the same order.</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Kies de vakjes in dezelfde volgorde.</target>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-input
-</context>
-          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n433c525o4356535a53386n445r433l4j4q4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n453c525o4356535a53386n445r433l4j4r4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n473c525o4356535a53386n445r433l4j4s4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o433c525o4356535a53386n445r433l4k4l4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o453c525o4356535a53386n445r433l4k4m4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o473c525o4356535a53386n445r433l4k4n4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p433c525o4356535a53386n445r433l4k4q4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p453c525o4356535a53386n445r433l4k4r4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p473c525o4356535a53386n445r433l4k4s4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3q433c525o4356535a53386n445r433l4l4l4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3q453c525o4356535a53386n445r433l4l4m4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r433c525o4356535a53386n445r433l4l4q4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r453c525o4356535a53386n445r433l4l4r4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r473c525o4356535a53386n445r433l4l4s4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-15">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3s433c525o4356535a53386n445r433l4m4l4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-16">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3s453c525o4356535a53386n445r433l4m4m4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-17">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t433c525o4356535a53386n445r433l4m4q4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-18">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t453c525o4356535a53386n445r433l4m4r4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-19">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t493c525o4356535a53386n445r433l4n4j4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-20">https://crowdin.com/s/wrap/d3e373e3j483v6b383k413c525o4356535a53386n445r433l4n4k4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-21">https://crowdin.com/s/wrap/d3e373e3j483v6b383k453c525o4356535a53386n445r433l4n4m4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-screenshot-22">https://crowdin.com/s/wrap/d3e373e3j483v6b383k473c525o4356535a53386n445r433l4n4n4u2l615d6?t=52750</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="51963" resname="memory-game-instruct1">
         <source>This is the memory game. Here's how you play it.</source>
         <target state="needs-review-translation" state-qualifier="leveraged-mt">Dit is het geheugenspel. Zo speel je het.</target>
@@ -4210,7 +4179,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="52758" resname="hearts-and-flowers-try-again">
         <source>That's not quite right. Please try again.</source>
-        <target state="translated">Dat is niet helemaal juist. Probeer het opnieuw.</target>
+        <target state="needs-translation">That's not quite right. Please try again.</target>
         <context-group purpose="information">
           <context context-type="source">hearts-and-flowers-try-again
 </context>
@@ -6759,7 +6728,7 @@ Sommige vragen kunnen makkelijk voor je zijn en andere kunnen moeilijk zijn. Dat
       </trans-unit>
       <trans-unit id="52503" resname="ToM-scene-10-q6-reality_check">
         <source>Is there still a storybook left, that isn’t being used right now?</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Is er nog een sprookjesboek dat momenteel niet gebruikt wordt?</target>
+        <target state="needs-translation">Is there still a storybook left, that isn’t being used right now?</target>
         <context-group purpose="information">
           <context context-type="source">ToM-scene-10-q6-reality_check
 </context>
@@ -8198,15 +8167,6 @@ Sommige vragen zijn misschien makkelijk voor je en sommige moeilijk. Dat is prim
         <target state="translated">Oké, nu ga je de rest van het geheugenspel zelf spelen. Meer vierkanten zullen elke keer oplichten naarmate je langer speelt, dus kijk goed!</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct5-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52908" resname="memory-game-instruct6-heavy">
-        <source>If you make a mistake, just keep going!</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-mt">Als je een fout maakt, ga dan gewoon door!</target>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct6-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
