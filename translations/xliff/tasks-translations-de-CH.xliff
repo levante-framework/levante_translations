@@ -5,13 +5,6 @@
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="71046" resname="components/tasks.loading">
-        <source>loading</source>
-        <target state="translated">Laden</target>
-        <context-group purpose="information">
-          <context context-type="source">components/tasks.loading</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="71048" resname="components/tasks.preparing">
         <source>Preparing your game!</source>
         <target state="translated">Gleich geht das Spiel los!</target>
