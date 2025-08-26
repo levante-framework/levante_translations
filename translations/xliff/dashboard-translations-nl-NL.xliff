@@ -37,14 +37,6 @@ consentTitle</context>
 consentUpdatedStatus</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70842" resname="auth/consent.header">
-        <source>Consent</source>
-        <target state="translated">Toestemming</target>
-        <context-group purpose="information">
-          <context context-type="source">auth/consent.header
-header</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="70844" resname="auth/consent.rejectButton">
         <source>No, sign me out</source>
         <target state="translated">Nee, log me uit</target>
@@ -109,14 +101,6 @@ buttonLabel</context>
 continueWithGoogle</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70862" resname="auth/signin.emailId">
-        <source>email</source>
-        <target state="translated">email</target>
-        <context-group purpose="information">
-          <context context-type="source">auth/signin.emailId
-emailId</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="70864" resname="auth/signin.emailPlaceholder">
         <source>Username or email</source>
         <target state="translated">Gebruikersnaam of email</target>
@@ -155,14 +139,6 @@ invalidEmailPlaceholder</context>
         <context-group purpose="information">
           <context context-type="source">auth/signin.minimumCharacters
 minimumCharacters</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="70874" resname="auth/signin.passwordId">
-        <source>password</source>
-        <target state="translated">wachtwoord</target>
-        <context-group purpose="information">
-          <context context-type="source">auth/signin.passwordId
-passwordId</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70876" resname="auth/signin.passwordPlaceholder">
