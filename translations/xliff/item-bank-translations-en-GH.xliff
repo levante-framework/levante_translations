@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="52686" resname="general-rotate-device">
         <source>Please rotate your device for the best view of the activities.</source>
-        <target state="translated">Please rotate your device for the best view of the activities.</target>
+        <target state="translated">Please rotate your device for the best view of the activities</target>
         <context-group purpose="information">
           <context context-type="source">general-rotate-device
 </context>
@@ -459,7 +459,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">matrix-reasoning-instruct1
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3m493c525k4a595q49533j6r4o49555j6c6h6n4i433m4j4130505s4?t=51357</context>
-          <context context-type="x-crowdin-label">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51359" resname="matrix-reasoning-instruct2">
@@ -469,7 +470,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">matrix-reasoning-instruct2
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n413c525k4a595q49533j6r4o49555j6c6h6n4i433m4k4130505s4?t=51359</context>
-          <context context-type="x-crowdin-label">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51361" resname="matrix-reasoning-prompt1">
@@ -521,7 +523,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="x-crowdin-screenshot-41">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l473c525k4a595q49533j6r4o49555j6c6h6n4i433q4n4130505s4?t=51361</context>
           <context context-type="x-crowdin-screenshot-42">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l493c525k4a595q49533j6r4o49555j6c6h6n4i433q4o4130505s4?t=51361</context>
           <context context-type="x-crowdin-screenshot-43">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k493c525k4a595q49533j6r4o49555j6c6h6n4i433q4j4130505s4?t=51361</context>
-          <context context-type="x-crowdin-label">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51363" resname="mental-rotation-instruct1">
@@ -531,7 +534,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r433c525o445b5i4t433j655b5n4a5e6i6h6t2l433q4g435u4p4?t=51363</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51365" resname="mental-rotation-training-instruct2">
@@ -541,7 +545,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation-training-instruct2
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383q493c525o445b5i4t433j655b5n4a5e6i6h6t2l433o4g435u4p4?t=51365</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51367" resname="mental-rotation-training-instruct3">
@@ -551,7 +556,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation-training-instruct3
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383q473c525o445b5i4t433j655b5n4a5e6i6h6t2l433n4g435u4p4?t=51367</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51369" resname="mental-rotation-test-instruct4">
@@ -561,7 +567,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation-test-instruct4
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r413c525o445b5i4t433j655b5n4a5e6i6h6t2l433p4g435u4p4?t=51369</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51371" resname="mental-rotation-instruct-3D">
@@ -571,7 +578,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation-instruct-3D
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b393r453c525o445b5i4t433j655b5n4a5e6i6h6t2l483r4g435u4p4?t=51371</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51373" resname="mental-rotation-prompt2">
@@ -581,7 +589,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="source">mental-rotation-prompt2
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r453c525o445b5i4t433j655b5n4a5e6i6h6t2l433r4g435u4p4?t=51373</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51375" resname="mental-rotation-prompt1">
@@ -672,7 +681,8 @@ If you have any questions or need help getting started, please ask the adult who
           <context context-type="x-crowdin-screenshot-80">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m473c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3n4g435u4p4?t=51375</context>
           <context context-type="x-crowdin-screenshot-81">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o413c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3u4g435u4p4?t=51375</context>
           <context context-type="x-crowdin-screenshot-82">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o433c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3v4g435u4p4?t=51375</context>
-          <context context-type="x-crowdin-label">mental-rotation</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
         </context-group>
       </trans-unit>
       <trans-unit id="52698" resname="math-instructions1">
@@ -2434,7 +2444,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">yes
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3o453c5e5o4955315v4t4?t=51663</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51665" resname="no">
@@ -2444,7 +2455,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">no
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3l453c53525431515o4?t=51665</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51667" resname="happy">
@@ -2454,7 +2466,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">happy
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3b3t413c5t4k46575a5v205h6t4?t=51667</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51669" resname="sad">
@@ -2464,7 +2477,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">sad
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3m413c585k4q453r415t4?t=51669</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51671" resname="angry">
@@ -2474,7 +2488,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">angry
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3b3r433c5m415t495a5v205h6t4?t=51671</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51673" resname="scared">
@@ -2484,7 +2499,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">scared
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3m433c585m4n495m4l443b665u4?t=51673</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51675" resname="calm">
@@ -2494,7 +2510,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">calm
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3b3r493c5o4k42545v2154586?t=51675</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51677" resname="proud">
@@ -2504,7 +2521,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">proud
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3l473c5555555c5l4v205h6t4?t=51677</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51679" resname="disgusted">
@@ -2514,7 +2532,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">disgusted
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3b3s473c5p4s495u46545a566q4530565c6?t=51679</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51681" resname="surprised">
@@ -2524,7 +2543,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">surprised
 </context>
           <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6c3c3n473c58585857535q49566q4536545c6?t=51681</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51683" resname="ToM-intro">
@@ -2535,7 +2555,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
 </context>
           <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t493c595r4r46535a533g6s44335v4j676g403l443k4i615n4?t=51683</context>
           <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m453c595r4r46535a533g6s44335v4j676g403l443k4i615n4?t=51683</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51685" resname="ToM-transition">
@@ -2558,7 +2579,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3o473c595r4r46535a533g6s44335v4j676g403r453k4i615n4?t=51685</context>
           <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3p473c595r4r46535a533g6s44335v4j676g403r4a3k4i615n4?t=51685</context>
           <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3q473c595r4r46535a533g6s44335v4j676g403s453k4i615n4?t=51685</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51687" resname="ToM-scene1-instruct1">
@@ -2569,7 +2591,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
 </context>
           <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3k413c595r4r46535a533g6s44335v4j676g403l453k4i615n4?t=51687</context>
           <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m473c595r4r46535a533g6s44335v4j676g403l453k4i615n4?t=51687</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51689" resname="ToM-scene1-instruct2">
@@ -2580,7 +2603,8 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
 </context>
           <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3k433c595r4r46535a533g6s44335v4j676g403l463k4i615n4?t=51689</context>
           <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m493c595r4r46535a533g6s44335v4j676g403l463k4i615n4?t=51689</context>
-          <context context-type="x-crowdin-label">theory-of-mind</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51691" resname="ToM-scene1-instruct3">
