@@ -5,449 +5,449 @@
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="70834" resname="auth/consent.acceptButton">
+      <trans-unit id="70834" resname="auth/consent.acceptButton" approved="yes">
         <source>Accept</source>
-        <target state="translated">Accept</target>
+        <target state="final">Accept</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.acceptButton
 acceptButton</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70836" resname="auth/consent.assentTitle">
+      <trans-unit id="70836" resname="auth/consent.assentTitle" approved="yes">
         <source>Assent</source>
-        <target state="translated">Assent</target>
+        <target state="final">Assent</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.assentTitle
 assentTitle</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70838" resname="auth/consent.consentTitle">
+      <trans-unit id="70838" resname="auth/consent.consentTitle" approved="yes">
         <source>Consent</source>
-        <target state="translated">Consent</target>
+        <target state="final">Consent</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.consentTitle
 consentTitle</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70840" resname="auth/consent.consentUpdatedStatus">
+      <trans-unit id="70840" resname="auth/consent.consentUpdatedStatus" approved="yes">
         <source>Consent status updated</source>
-        <target state="translated">Consent status updated</target>
+        <target state="final">Consent status updated</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.consentUpdatedStatus
 consentUpdatedStatus</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70842" resname="auth/consent.header">
+      <trans-unit id="70842" resname="auth/consent.header" approved="yes">
         <source>Consent</source>
-        <target state="translated">Consent</target>
+        <target state="final">Consent</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.header
 header</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70844" resname="auth/consent.rejectButton">
+      <trans-unit id="70844" resname="auth/consent.rejectButton" approved="yes">
         <source>No, sign me out</source>
-        <target state="translated">No, sign me out</target>
+        <target state="final">No, sign me out</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.rejectButton
 rejectButton</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70848" resname="auth/consent.toastHeader">
+      <trans-unit id="70848" resname="auth/consent.toastHeader" approved="yes">
         <source>Confirmed</source>
-        <target state="translated">Confirmed</target>
+        <target state="final">Confirmed</target>
         <context-group purpose="information">
           <context context-type="source">auth/consent.toastHeader
 toastHeader</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70850" resname="auth/signin.atLeastOneLowercase">
+      <trans-unit id="70850" resname="auth/signin.atLeastOneLowercase" approved="yes">
         <source>At least one lowercase</source>
-        <target state="translated">At least one lowercase</target>
+        <target state="final">At least one lowercase</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneLowercase
 atLeastOneLowercase</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70852" resname="auth/signin.atLeastOneNumber">
+      <trans-unit id="70852" resname="auth/signin.atLeastOneNumber" approved="yes">
         <source>At least one number</source>
-        <target state="translated">At least one number</target>
+        <target state="final">At least one number</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneNumber
 atLeastOneNumber</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70854" resname="auth/signin.atLeastOneNumeric">
+      <trans-unit id="70854" resname="auth/signin.atLeastOneNumeric" approved="yes">
         <source>At least one numeric</source>
-        <target state="translated">At least one numeric</target>
+        <target state="final">At least one numeric</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneNumeric
 atLeastOneNumeric</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70856" resname="auth/signin.atLeastOneUpperCase">
+      <trans-unit id="70856" resname="auth/signin.atLeastOneUpperCase" approved="yes">
         <source>At least one uppercase</source>
-        <target state="translated">At least one uppercase</target>
+        <target state="final">At least one uppercase</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneUpperCase
 atLeastOneUpperCase</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70858" resname="auth/signin.buttonLabel">
+      <trans-unit id="70858" resname="auth/signin.buttonLabel" approved="yes">
         <source>Go!</source>
-        <target state="translated">Go!</target>
+        <target state="final">Go!</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.buttonLabel
 buttonLabel</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70860" resname="auth/signin.continueWithGoogle">
+      <trans-unit id="70860" resname="auth/signin.continueWithGoogle" approved="yes">
         <source>Continue with Google</source>
-        <target state="translated">Continue with Google</target>
+        <target state="final">Continue with Google</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.continueWithGoogle
 continueWithGoogle</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70862" resname="auth/signin.emailId">
+      <trans-unit id="70862" resname="auth/signin.emailId" approved="yes">
         <source>email</source>
-        <target state="translated">email</target>
+        <target state="final">email</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.emailId
 emailId</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70864" resname="auth/signin.emailPlaceholder">
+      <trans-unit id="70864" resname="auth/signin.emailPlaceholder" approved="yes">
         <source>Username or email</source>
-        <target state="translated">Username or email</target>
+        <target state="final">Username or email</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.emailPlaceholder
 emailPlaceholder</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70866" resname="auth/signin.forgotPassword">
+      <trans-unit id="70866" resname="auth/signin.forgotPassword" approved="yes">
         <source>Forgot Password?</source>
-        <target state="translated">Forgot Password?</target>
+        <target state="final">Forgot Password?</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.forgotPassword
 forgotPassword</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70868" resname="auth/signin.incorrectEmailOrPassword">
+      <trans-unit id="70868" resname="auth/signin.incorrectEmailOrPassword" approved="yes">
         <source>Incorrect username/email or password</source>
-        <target state="translated">Incorrect username/email or password</target>
+        <target state="final">Incorrect username/email or password</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.incorrectEmailOrPassword
 incorrectEmailOrPassword</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70870" resname="auth/signin.invalidEmailPlaceholder">
+      <trans-unit id="70870" resname="auth/signin.invalidEmailPlaceholder" approved="yes">
         <source>Error: invalid email</source>
-        <target state="translated">Error: invalid email</target>
+        <target state="final">Error: invalid email</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.invalidEmailPlaceholder
 invalidEmailPlaceholder</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70872" resname="auth/signin.minimumCharacters">
+      <trans-unit id="70872" resname="auth/signin.minimumCharacters" approved="yes">
         <source>Minimum 8 characters</source>
-        <target state="translated">Minimum 8 characters</target>
+        <target state="final">Minimum 8 characters</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.minimumCharacters
 minimumCharacters</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70874" resname="auth/signin.passwordId">
+      <trans-unit id="70874" resname="auth/signin.passwordId" approved="yes">
         <source>password</source>
-        <target state="translated">password</target>
+        <target state="final">password</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.passwordId
 passwordId</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70876" resname="auth/signin.passwordPlaceholder">
+      <trans-unit id="70876" resname="auth/signin.passwordPlaceholder" approved="yes">
         <source>Password</source>
-        <target state="translated">Password</target>
+        <target state="final">Password</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.passwordPlaceholder
 passwordPlaceholder</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70878" resname="auth/signin.pickPassword">
+      <trans-unit id="70878" resname="auth/signin.pickPassword" approved="yes">
         <source>Pick a password</source>
-        <target state="translated">Pick a password</target>
+        <target state="final">Pick a password</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.pickPassword
 pickPassword</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70880" resname="auth/signin.selectLanguage">
+      <trans-unit id="70880" resname="auth/signin.selectLanguage" approved="yes">
         <source>Select Language</source>
-        <target state="translated">Select Language</target>
+        <target state="final">Select Language</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.selectLanguage
 selectLanguage</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70882" resname="auth/signin.selectLanguageLabel">
+      <trans-unit id="70882" resname="auth/signin.selectLanguageLabel" approved="yes">
         <source>Language</source>
-        <target state="translated">Language</target>
+        <target state="final">Language</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.selectLanguageLabel
 selectLanguageLabel</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70884" resname="auth/signin.signInWithEmailLinkInstead">
+      <trans-unit id="70884" resname="auth/signin.signInWithEmailLinkInstead" approved="yes">
         <source>Sign-in using email link</source>
-        <target state="translated">Sign-in using email link</target>
+        <target state="final">Sign-in using email link</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithEmailLinkInstead
 signInWithEmailLinkInstead</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70886" resname="auth/signin.signInWithEmailLinkPlaceHolder">
+      <trans-unit id="70886" resname="auth/signin.signInWithEmailLinkPlaceHolder" approved="yes">
         <source>Press Go to sign-in with an email link.</source>
-        <target state="translated">Press Go to sign-in with an email link.</target>
+        <target state="final">Press Go to sign-in with an email link.</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithEmailLinkPlaceHolder
 signInWithEmailLinkPlaceHolder</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70888" resname="auth/signin.signInWithPasswordInstead">
+      <trans-unit id="70888" resname="auth/signin.signInWithPasswordInstead" approved="yes">
         <source>Sign-in using password</source>
-        <target state="translated">Sign-in using password</target>
+        <target state="final">Sign-in using password</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithPasswordInstead
 signInWithPasswordInstead</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70890" resname="auth/signin.suggestions">
+      <trans-unit id="70890" resname="auth/signin.suggestions" approved="yes">
         <source>Suggestions</source>
-        <target state="translated">Suggestions</target>
+        <target state="final">Suggestions</target>
         <context-group purpose="information">
           <context context-type="source">auth/signin.suggestions
 suggestions</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70892" resname="pages/home-participant.contactAdministrator">
+      <trans-unit id="70892" resname="pages/home-participant.contactAdministrator" approved="yes">
         <source>Please contact your administrator to get added to an assignment.</source>
-        <target state="translated">Please contact your administrator to get added to an assignment.</target>
+        <target state="final">Please contact your administrator to get added to an assignment.</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.contactAdministrator
 contactAdministrator</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70894" resname="pages/home-participant.loadingAssignments">
+      <trans-unit id="70894" resname="pages/home-participant.loadingAssignments" approved="yes">
         <source>Loading Assignments</source>
-        <target state="translated">Loading Assignments</target>
+        <target state="final">Loading Assignments</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.loadingAssignments
 loadingAssignments</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70896" resname="pages/home-participant.noAssignments">
+      <trans-unit id="70896" resname="pages/home-participant.noAssignments" approved="yes">
         <source>You have no assignments!</source>
-        <target state="translated">You have no assignments!</target>
+        <target state="final">You have no assignments!</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noAssignments
 noAssignments</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70898" resname="pages/home-participant.selectAssignment">
+      <trans-unit id="70898" resname="pages/home-participant.selectAssignment" approved="yes">
         <source>Select an assignment</source>
-        <target state="translated">Select an assignment</target>
+        <target state="final">Select an assignment</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.selectAssignment
 selectAssignment</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70900" resname="pages/home-participant.showOptionalAssignments">
+      <trans-unit id="70900" resname="pages/home-participant.showOptionalAssignments" approved="yes">
         <source>Show optional assignments</source>
-        <target state="translated">Show optional assignments</target>
+        <target state="final">Show optional assignments</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.showOptionalAssignments
 showOptionalAssignments</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92840" resname="pages/home-participant.assignments">
+      <trans-unit id="92840" resname="pages/home-participant.assignments" approved="yes">
         <source>Assignments</source>
-        <target state="translated">Assignments</target>
+        <target state="final">Assignments</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.assignments
 assignments</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92842" resname="pages/home-participant.current">
+      <trans-unit id="92842" resname="pages/home-participant.current" approved="yes">
         <source>Current</source>
-        <target state="translated">Current</target>
+        <target state="final">Current</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.current
 current</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92844" resname="pages/home-participant.past">
+      <trans-unit id="92844" resname="pages/home-participant.past" approved="yes">
         <source>Past</source>
-        <target state="translated">Past</target>
+        <target state="final">Past</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.past
 past</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92846" resname="pages/home-participant.upcoming">
+      <trans-unit id="92846" resname="pages/home-participant.upcoming" approved="yes">
         <source>Upcoming</source>
-        <target state="translated">Upcoming</target>
+        <target state="final">Upcoming</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.upcoming
 upcoming</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92848" resname="pages/home-participant.noCurrentAssignmentsFound">
+      <trans-unit id="92848" resname="pages/home-participant.noCurrentAssignmentsFound" approved="yes">
         <source>No current assignments were found</source>
-        <target state="translated">No current assignments were found</target>
+        <target state="final">No current assignments were found</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noCurrentAssignmentsFound
 noCurrentAssignmentsFound</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92850" resname="pages/home-participant.noPastAssignmentsFound">
+      <trans-unit id="92850" resname="pages/home-participant.noPastAssignmentsFound" approved="yes">
         <source>No past assignments were found</source>
-        <target state="translated">No past assignments were found</target>
+        <target state="final">No past assignments were found</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noPastAssignmentsFound
 noPastAssignmentsFound</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92852" resname="pages/home-participant.noUpcomingAssignmentsFound">
+      <trans-unit id="92852" resname="pages/home-participant.noUpcomingAssignmentsFound" approved="yes">
         <source>No upcoming assignments were found</source>
-        <target state="translated">No upcoming assignments were found</target>
+        <target state="final">No upcoming assignments were found</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noUpcomingAssignmentsFound
 noUpcomingAssignmentsFound</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
+      <trans-unit id="70934" resname="pages/home-selector.inactivityLogout" approved="yes">
         <source>You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</source>
-        <target state="translated">You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</target>
+        <target state="final">You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.inactivityLogout
 inactivityLogout</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70904" resname="pages/home-selector.inactivityLogoutAcceptLabel">
+      <trans-unit id="70904" resname="pages/home-selector.inactivityLogoutAcceptLabel" approved="yes">
         <source>Continue</source>
-        <target state="translated">Continue</target>
+        <target state="final">Continue</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.inactivityLogoutAcceptLabel
 inactivityLogoutAcceptLabel</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70906" resname="pages/home-selector.loading">
+      <trans-unit id="70906" resname="pages/home-selector.loading" approved="yes">
         <source>Loading...</source>
-        <target state="translated">Loading...</target>
+        <target state="final">Loading...</target>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.loading
 loading</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70908" resname="pages/not-found.label">
+      <trans-unit id="70908" resname="pages/not-found.label" approved="yes">
         <source>Return to Home</source>
-        <target state="translated">Return to Home</target>
+        <target state="final">Return to Home</target>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.label
 label</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70910" resname="pages/not-found.pageNotFound">
+      <trans-unit id="70910" resname="pages/not-found.pageNotFound" approved="yes">
         <source>Page not found</source>
-        <target state="translated">Page not found</target>
+        <target state="final">Page not found</target>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.pageNotFound
 pageNotFound</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70912" resname="pages/not-found.sorry">
+      <trans-unit id="70912" resname="pages/not-found.sorry" approved="yes">
         <source>Sorry, we could not find that page!</source>
-        <target state="translated">Sorry, we could not find that page!</target>
+        <target state="final">Sorry, we could not find that page!</target>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.sorry
 sorry</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70914" resname="pages/signin.adminAction">
+      <trans-unit id="70914" resname="pages/signin.adminAction" approved="yes">
         <source>here</source>
-        <target state="translated">here</target>
+        <target state="final">here</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminAction
 adminAction</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70916" resname="pages/signin.adminInfoPrompt">
+      <trans-unit id="70916" resname="pages/signin.adminInfoPrompt" approved="yes">
         <source>If you registered with a Google email or your email provider uses Google SSO.</source>
-        <target state="translated">If you registered with a Google email or your email provider uses Google SSO.</target>
+        <target state="final">If you registered with a Google email or your email provider uses Google SSO.</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminInfoPrompt
 adminInfoPrompt</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70918" resname="pages/signin.adminPrompt">
+      <trans-unit id="70918" resname="pages/signin.adminPrompt" approved="yes">
         <source>Are you an Admin? Click {action} to Sign in.</source>
-        <target state="translated">Are you an Admin? Click {action} to Sign in.</target>
+        <target state="final">Are you an Admin? Click {action} to Sign in.</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminPrompt
 adminPrompt</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70920" resname="pages/signin.havingTrouble">
+      <trans-unit id="70920" resname="pages/signin.havingTrouble" approved="yes">
         <source>Having trouble?</source>
-        <target state="translated">Having trouble?</target>
+        <target state="final">Having trouble?</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.havingTrouble
 havingTrouble</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70922" resname="pages/signin.login">
+      <trans-unit id="70922" resname="pages/signin.login" approved="yes">
         <source>Log in to access your dashboard</source>
-        <target state="translated">Log in to access your dashboard</target>
+        <target state="final">Log in to access your dashboard</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.login
 login</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70924" resname="pages/signin.loginWith">
+      <trans-unit id="70924" resname="pages/signin.loginWith" approved="yes">
         <source>Log in with</source>
-        <target state="translated">Log in with</target>
+        <target state="final">Log in with</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.loginWith
 loginWith</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70926" resname="pages/signin.welcome">
+      <trans-unit id="70926" resname="pages/signin.welcome" approved="yes">
         <source>Welcome to ROAR!</source>
-        <target state="translated">Welcome to ROAR!</target>
+        <target state="final">Welcome to ROAR!</target>
         <context-group purpose="information">
           <context context-type="source">pages/signin.welcome
 welcome</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70928" resname="surveys/user-survey.specificRelationDescriptionChildA">
+      <trans-unit id="70928" resname="surveys/user-survey.specificRelationDescriptionChildA" approved="yes">
         <source>For child with Birth Month</source>
-        <target state="translated">For child with Birth Month</target>
+        <target state="final">For child with Birth Month</target>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionChildA
 specificRelationDescriptionChildA</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70930" resname="surveys/user-survey.specificRelationDescriptionChildB">
+      <trans-unit id="70930" resname="surveys/user-survey.specificRelationDescriptionChildB" approved="yes">
         <source>and Birth Year</source>
-        <target state="translated">and Birth Year</target>
+        <target state="final">and Birth Year</target>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionChildB
 specificRelationDescriptionChildB</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="70932" resname="surveys/user-survey.specificRelationDescriptionClass">
+      <trans-unit id="70932" resname="surveys/user-survey.specificRelationDescriptionClass" approved="yes">
         <source>For class</source>
-        <target state="translated">For class</target>
+        <target state="final">For class</target>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionClass
 specificRelationDescriptionClass</context>
