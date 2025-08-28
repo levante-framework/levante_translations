@@ -3149,6 +3149,20 @@
           <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="92854" resname="&lt;br&gt;&lt;br&gt;" translate="no">
+        <source></source>
+        <target></target>
+        <context-group purpose="information">
+          <context context-type="source">&lt;br&gt;&lt;br&gt;</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92856" resname="&lt;b&gt;How often did/do you or someone else in your home do the following activities with your child?&lt;/b&gt;,&quot;,&quot;,&quot;,&quot;" translate="no">
+        <source></source>
+        <target></target>
+        <context-group purpose="information">
+          <context context-type="source">&lt;b&gt;How often did/do you or someone else in your home do the following activities with your child?&lt;/b&gt;,&quot;,&quot;,&quot;,&quot;</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="92214" resname="ChildELSitems">
         <source>Never or almost never</source>
         <target state="needs-translation">Never or almost never</target>
@@ -5617,7 +5631,7 @@
         <source>Start Survey</source>
         <target state="needs-translation">Start Survey</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.startSurvey</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
@@ -5625,7 +5639,7 @@
         <source>Previous</source>
         <target state="needs-translation">Previous</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.previous</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
@@ -5633,7 +5647,7 @@
         <source>Next</source>
         <target state="needs-translation">Next</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.next</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
@@ -5641,7 +5655,7 @@
         <source>Finish</source>
         <target state="needs-translation">Finish</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.finish</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
