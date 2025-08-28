@@ -37,6 +37,14 @@ consentTitle</context>
 consentUpdatedStatus</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70842" resname="auth/consent.header">
+        <source>Consent</source>
+        <target state="translated">Consent</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.header
+header</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70844" resname="auth/consent.rejectButton">
         <source>No, sign me out</source>
         <target state="translated">No, sign me out</target>
@@ -101,6 +109,14 @@ buttonLabel</context>
 continueWithGoogle</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70862" resname="auth/signin.emailId">
+        <source>email</source>
+        <target state="translated">email</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.emailId
+emailId</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70864" resname="auth/signin.emailPlaceholder">
         <source>Username or email</source>
         <target state="translated">Username or email</target>
@@ -139,6 +155,14 @@ invalidEmailPlaceholder</context>
         <context-group purpose="information">
           <context context-type="source">auth/signin.minimumCharacters
 minimumCharacters</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70874" resname="auth/signin.passwordId">
+        <source>password</source>
+        <target state="translated">password</target>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.passwordId
+passwordId</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70876" resname="auth/signin.passwordPlaceholder">
@@ -243,6 +267,62 @@ selectAssignment</context>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.showOptionalAssignments
 showOptionalAssignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92840" resname="pages/home-participant.assignments">
+        <source>Assignments</source>
+        <target state="translated">Assignments</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.assignments
+assignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92842" resname="pages/home-participant.current">
+        <source>Current</source>
+        <target state="translated">Current</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.current
+current</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92844" resname="pages/home-participant.past">
+        <source>Past</source>
+        <target state="translated">Past</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.past
+past</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92846" resname="pages/home-participant.upcoming">
+        <source>Upcoming</source>
+        <target state="translated">Upcoming</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.upcoming
+upcoming</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92848" resname="pages/home-participant.noCurrentAssignmentsFound">
+        <source>No current assignments were found</source>
+        <target state="translated">No current assignments were found</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noCurrentAssignmentsFound
+noCurrentAssignmentsFound</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92850" resname="pages/home-participant.noPastAssignmentsFound">
+        <source>No past assignments were found</source>
+        <target state="translated">No past assignments were found</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noPastAssignmentsFound
+noPastAssignmentsFound</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92852" resname="pages/home-participant.noUpcomingAssignmentsFound">
+        <source>No upcoming assignments were found</source>
+        <target state="translated">No upcoming assignments were found</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noUpcomingAssignmentsFound
+noUpcomingAssignmentsFound</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
