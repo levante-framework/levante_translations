@@ -1,78 +1,959 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file id="462" original="/main/surveys-current/child_survey_translations.csv" source-language="en" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
+  <file id="512" original="/main/surveys-current/child_survey_translations.csv" source-language="en" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
-      <trans-unit id="87160" resname="ChildSurveyIntro" approved="yes">
+      <trans-unit id="101342" resname="ChildSurveyIntro">
         <source>&lt;font face=Verdana size=4&gt;These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. &lt;b&gt;&lt;font face=Verdana size=4&gt;No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time.&lt;br&gt;&lt;br&gt;The first two are for practice.</source>
-        <target state="final">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en la escuela y a lo que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que más se acerque a lo que piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Ensaya con las dos primeras preguntas cómo responder.</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">&lt;font face=Verdana size=4&gt;Estas preguntas se refieren a cómo te sientes en la escuela y a lo que haces en la escuela. No hay respuestas correctas ni incorrectas. Elige la respuesta que más se acerque a lo que piensas. &lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. &lt;br&gt;&lt;br&gt;Ensaya con las dos primeras preguntas cómo responder.</target>
         <context-group purpose="information">
           <context context-type="source">ChildSurveyIntro</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87164" resname="Example1Comic" approved="yes">
+      <trans-unit id="101344" resname="Example1Comic">
+        <source>Do you like to read cartoon books?</source>
+        <target state="translated">¿Te gusta leer historietas (comics)?</target>
+        <context-group purpose="information">
+          <context context-type="source">Example1Comic</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101346" resname="Example1Comic">
         <source>No, never</source>
-        <target state="final">No, nunca</target>
+        <target state="translated">No, nunca</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87166" resname="Example1Comic" approved="yes">
+      <trans-unit id="101348" resname="Example1Comic">
         <source>Yes, some of the time</source>
-        <target state="final">Sí, algunas veces</target>
+        <target state="translated">Sí, algunas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87168" resname="Example1Comic" approved="yes">
+      <trans-unit id="101350" resname="Example1Comic">
         <source>Yes, most of the time</source>
-        <target state="final">Sí, muchas veces</target>
+        <target state="translated">Sí, muchas veces</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87170" resname="Example1Comic" approved="yes">
+      <trans-unit id="101352" resname="Example1Comic">
         <source>Yes, always</source>
-        <target state="final">Sí, siempre</target>
+        <target state="translated">Sí, siempre</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87392" resname="navigation.startSurvey" approved="yes">
+      <trans-unit id="101354" resname="Example2Neat">
+        <source>Are you neat and tidy at school?</source>
+        <target state="translated">¿Eres limpio y ordenado en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">Example2Neat</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101356" resname="Example2Neat">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">Example2Neat</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101358" resname="Example2Neat">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">Example2Neat</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101360" resname="Example2Neat">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">Example2Neat</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101362" resname="Example2Neat">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">Example2Neat</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101364" resname="TeacherNice">
+        <source>Is your teacher nice to you?</source>
+        <target state="translated">¿Tu profesor te trata bien?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101366" resname="TeacherNice">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101368" resname="TeacherNice">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101370" resname="TeacherNice">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101372" resname="TeacherNice">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101374" resname="TeacherLike">
+        <source>Does your teacher like you?</source>
+        <target state="translated">¿Le caes bien a tu profesor?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherLike</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101376" resname="TeacherLike">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherLike</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101378" resname="TeacherLike">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherLike</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101380" resname="TeacherLike">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherLike</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101382" resname="TeacherLike">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherLike</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101384" resname="TeacherListen">
+        <source>Does your teacher listen to you?</source>
+        <target state="translated">¿Tu profesor te escucha?</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherListen</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101386" resname="TeacherListen">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherListen</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101388" resname="TeacherListen">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherListen</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101390" resname="TeacherListen">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherListen</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101392" resname="TeacherListen">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">TeacherListen</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101394" resname="SchoolFun">
+        <source>Is school fun?</source>
+        <target state="translated">¿Es divertido ir al colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolFun</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101396" resname="SchoolFun">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolFun</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101398" resname="SchoolFun">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolFun</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101400" resname="SchoolFun">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolFun</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101402" resname="SchoolFun">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolFun</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101404" resname="SchoolEnjoy">
+        <source>Do you enjoy school?</source>
+        <target state="translated">¿Te gusta el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101406" resname="SchoolEnjoy">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101408" resname="SchoolEnjoy">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101410" resname="SchoolEnjoy">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101412" resname="SchoolEnjoy">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101414" resname="SchoolHappy">
+        <source>Are you happy at school?</source>
+        <target state="translated">¿Te sientes feliz en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolHappy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101416" resname="SchoolHappy">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolHappy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101418" resname="SchoolHappy">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolHappy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101420" resname="SchoolHappy">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolHappy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101422" resname="SchoolHappy">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolHappy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101424" resname="SchoolSafe">
+        <source>Do you feel safe at school?</source>
+        <target state="translated">¿Te sientes seguro o segura en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolSafe</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101426" resname="SchoolSafe">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolSafe</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101428" resname="SchoolSafe">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolSafe</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101430" resname="SchoolSafe">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolSafe</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101432" resname="SchoolSafe">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolSafe</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101434" resname="ClassFriends">
+        <source>Do you have friends in your class?</source>
+        <target state="translated">¿Tienes amigos o amigas en tu salón?</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassFriends</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101436" resname="ClassFriends">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassFriends</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101438" resname="ClassFriends">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassFriends</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101440" resname="ClassFriends">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassFriends</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101442" resname="ClassFriends">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassFriends</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101444" resname="ClassHelp">
+        <source>Do the kids in your class help you when you need it?</source>
+        <target state="translated">¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassHelp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101446" resname="ClassHelp">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassHelp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101448" resname="ClassHelp">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassHelp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101450" resname="ClassHelp">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassHelp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101452" resname="ClassHelp">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassHelp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101454" resname="ClassPlay">
+        <source>Do the kids in your class play with you?</source>
+        <target state="translated">¿Los niños y las niñas de tu salón juegan contigo?</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassPlay</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101456" resname="ClassPlay">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassPlay</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101458" resname="ClassPlay">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassPlay</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101460" resname="ClassPlay">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassPlay</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101462" resname="ClassPlay">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassPlay</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101464" resname="ClassNice">
+        <source>Are the kids in your class nice to you?</source>
+        <target state="translated">¿Los niños y las niñas de tu salón son amables contigo?</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101466" resname="ClassNice">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101468" resname="ClassNice">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101470" resname="ClassNice">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101472" resname="ClassNice">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ClassNice</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101474" resname="LonelySchool">
+        <source>Do you feel lonely at school?</source>
+        <target state="translated">¿Te sientes solo o sola en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">LonelySchool</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101476" resname="LonelySchool">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">LonelySchool</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101478" resname="LonelySchool">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">LonelySchool</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101480" resname="LonelySchool">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">LonelySchool</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101482" resname="LonelySchool">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">LonelySchool</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101484" resname="LearningGood">
+        <source>Are you good at learning things in school?</source>
+        <target state="translated">¿Te queda fácil aprender en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">LearningGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101486" resname="LearningGood">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">LearningGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101488" resname="LearningGood">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">LearningGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101490" resname="LearningGood">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">LearningGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101492" resname="LearningGood">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">LearningGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101494" resname="SchoolGiveUp">
+        <source>When schoolwork is hard, do you give up right away?</source>
+        <target state="translated">Cuando las tareas escolares son difíciles, ¿te rindes enseguida?</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolGiveUp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101496" resname="SchoolGiveUp">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolGiveUp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101498" resname="SchoolGiveUp">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolGiveUp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101500" resname="SchoolGiveUp">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolGiveUp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101502" resname="SchoolGiveUp">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">SchoolGiveUp</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101504" resname="ReadingEnjoy">
+        <source>Do you enjoy doing reading activities at school?</source>
+        <target state="translated">¿Te gusta hacer actividades de lectura en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101506" resname="ReadingEnjoy">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101508" resname="ReadingEnjoy">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101510" resname="ReadingEnjoy">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101512" resname="ReadingEnjoy">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101514" resname="MathEnjoy">
+        <source>Do you enjoy doing math activities at school?</source>
+        <target state="translated">¿Te gusta hacer actividades de matemáticas en el colegio?</target>
+        <context-group purpose="information">
+          <context context-type="source">MathEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101516" resname="MathEnjoy">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">MathEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101518" resname="MathEnjoy">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">MathEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101520" resname="MathEnjoy">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">MathEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101522" resname="MathEnjoy">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">MathEnjoy</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101524" resname="ReadingGood">
+        <source>Are you good at reading?</source>
+        <target state="translated">¿Eres bueno o buena para la lectura?</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101526" resname="ReadingGood">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101528" resname="ReadingGood">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101530" resname="ReadingGood">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101532" resname="ReadingGood">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">ReadingGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101534" resname="MathGood">
+        <source>Are you good at math?</source>
+        <target state="translated">¿Eres bueno o buena para las matemáticas?</target>
+        <context-group purpose="information">
+          <context context-type="source">MathGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101536" resname="MathGood">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">MathGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101538" resname="MathGood">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">MathGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101540" resname="MathGood">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">MathGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101542" resname="MathGood">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">MathGood</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101544" resname="GrowthMindSmart">
+        <source>Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?</source>
+        <target state="translated">Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindSmart</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101546" resname="GrowthMindSmart">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindSmart</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101548" resname="GrowthMindSmart">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindSmart</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101550" resname="GrowthMindSmart">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindSmart</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101552" resname="GrowthMindSmart">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindSmart</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101554" resname="GrowthMindRead">
+        <source>Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?</source>
+        <target state="translated">Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindRead</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101556" resname="GrowthMindRead">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindRead</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101558" resname="GrowthMindRead">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindRead</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101560" resname="GrowthMindRead">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindRead</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101562" resname="GrowthMindRead">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindRead</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101564" resname="GrowthMindMath">
+        <source>Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?</source>
+        <target state="translated">Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindMath</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101566" resname="GrowthMindMath">
+        <source>No, never</source>
+        <target state="translated">No, nunca</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindMath</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101568" resname="GrowthMindMath">
+        <source>Yes, some of the time</source>
+        <target state="translated">Sí, algunas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindMath</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101570" resname="GrowthMindMath">
+        <source>Yes, most of the time</source>
+        <target state="translated">Sí, muchas veces</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindMath</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101572" resname="GrowthMindMath">
+        <source>Yes, always</source>
+        <target state="translated">Sí, siempre</target>
+        <context-group purpose="information">
+          <context context-type="source">GrowthMindMath</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="101574" resname="navigation.startSurvey">
         <source>Start Survey</source>
-        <target state="final">Comenzar Encuesta</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Comenzar Encuesta</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.startSurvey</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87394" resname="navigation.previous" approved="yes">
+      <trans-unit id="101576" resname="navigation.previous">
         <source>Previous</source>
-        <target state="final">Anterior</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Anterior</target>
         <context-group purpose="information">
+          <context context-type="source">navigation.previous</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="87396" resname="navigation.next" approved="yes">
+      <trans-unit id="101578" resname="navigation.next">
         <source>Next</source>
-        <target state="final">Siguiente</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Siguiente</target>
         <context-group purpose="information">
-          <context context-type="source">unknown</context>
-          <context context-type="x-crowdin-label">child_survey</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="87398" resname="navigation.finish" approved="yes">
-        <source>Finish</source>
-        <target state="final">Terminar</target>
-        <context-group purpose="information">
-          <context context-type="source">unknown</context>
+          <context context-type="source">navigation.next</context>
           <context context-type="x-crowdin-label">child_survey</context>
         </context-group>
       </trans-unit>
