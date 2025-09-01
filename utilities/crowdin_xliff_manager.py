@@ -78,7 +78,7 @@ def list_project_languages(project_id: str, headers: Dict[str, str]) -> List[Dic
 
 def upload_xliff_file(project_id: str, headers: Dict[str, str], file_path: str, 
                      crowdin_path: str, update_existing: bool = True) -> Optional[Dict]:
-    """Upload an XLIFF file to Crowdin."""
+    """Upload an XLIFF file to Crowdin via storage + file create/update."""
     
     if not os.path.exists(file_path):
         print(f"❌ File not found: {file_path}")
@@ -93,29 +93,22 @@ def upload_xliff_file(project_id: str, headers: Dict[str, str], file_path: str,
             break
     
     if existing_file and update_existing:
-        # Update existing file
+        # Update existing file via storage
         file_id = existing_file["id"]
+        storage_id = upload_to_storage(headers, file_path, file_name_override=os.path.basename(crowdin_path))
         url = f"{API_BASE}/projects/{project_id}/files/{file_id}"
-        
-        with open(file_path, 'rb') as f:
-            files = {'file': (os.path.basename(file_path), f, 'application/xml')}
-            response = make_request("PUT", url, headers, files=files)
-            
+        payload = {"storageId": storage_id}
+        response = make_request("PUT", url, headers, json=payload)
         print(f"✅ Updated: {crowdin_path}")
         return response.json().get("data")
         
     elif not existing_file:
         # Create new file
         url = f"{API_BASE}/projects/{project_id}/files"
-        
-        with open(file_path, 'rb') as f:
-            files = {'file': (os.path.basename(file_path), f, 'application/xml')}
-            data = {
-                'path': crowdin_path,
-                'type': 'xliff'
-            }
-            response = make_request("POST", url, headers, files=files, data=data)
-            
+        storage_id = upload_to_storage(headers, file_path, file_name_override=os.path.basename(crowdin_path))
+        # Crowdin will respect directories in "name" (e.g., surveys/myfile.xliff)
+        payload = {"storageId": storage_id, "name": crowdin_path.lstrip('/')}
+        response = make_request("POST", url, headers, json=payload)
         print(f"✅ Created: {crowdin_path}")
         return response.json().get("data")
     else:

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en-US" target-language="en-GH" datatype="plaintext" original="/surveys/teacher_survey_classroom_translations.xliff" date="2025-09-01T10:41:47.008683">
+    <header>
+      <tool tool-id="csv-to-xliff-converter" tool-name="Levante CSV to XLIFF Converter" tool-version="1.0"/>
+    </header>
+    <body>
+      <trans-unit id="TeacherSurveyIntro" resname="TeacherSurveyIntro" approved="yes">
+        <source>&amp;lt;b&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;This is Part B of the survey.&amp;lt;/b&amp;gt;&amp;lt;br&amp;gt; &amp;lt;br&amp;gt; &amp;lt;p&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;In Part B the questions are classroom specific. If you teach more than one class of students included in this project, you will complete Part B separately for each classroom. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;If you teach a single subject, please complete the questions that relate to other subjects to the best of your knowledge or consult with a colleague for those details only. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;When you are ready to begin, select the “Next” button. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;Thank you!</source>
+        <target state="translated">&amp;lt;b&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;This be Part B of de survey.&amp;lt;/b&amp;gt;&amp;lt;br&amp;gt; &amp;lt;br&amp;gt; &amp;lt;p&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;In Part B, de questions dey specific to de classroom. If you teach more than one class wey dey part of dis project, you go do Part B for each classroom. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;If you teach only one subject, abeg complete de questions related to other subjects de best way you know fit or ask your colleague about dat one. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;When you ready to start, press de “Next” button. &amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;&amp;lt;font face=Verdana size=4&amp;gt;Asante!</target>
+      </trans-unit>
+      <trans-unit id="TeacherNumberClasses" resname="TeacherNumberClasses" approved="yes">
+        <source>How many classrooms do you teach that contain students participating in this research project?</source>
+        <target state="translated">How many classrooms you dey teach wey dey contain students involved in this research project?</target>
+      </trans-unit>
+      <trans-unit id="TeacherOtherAdult" resname="TeacherOtherAdult" approved="yes">
+        <source>Is there another adult who is paid to help you in this classroom (e.g., teaching assistant, co-lead teacher, etc.)?</source>
+        <target state="translated">E be say another adult dey wey dem dey pay to help you for this classroom (e.g., teaching assistant, co-lead teacher, etc.)?</target>
+      </trans-unit>
+      <trans-unit id="TeacherOtherAdult" resname="TeacherOtherAdult" approved="yes">
+        <source>Yes</source>
+      </trans-unit>
+      <trans-unit id="TeacherOtherAdult" resname="TeacherOtherAdult" approved="yes">
+        <source>No</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsEnroll" resname="TeacherStudentsEnroll" approved="yes">
+        <source>How many students are enrolled in this classroom?</source>
+        <target state="translated">How many students dem enroll for this classroom?</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsEnroll" resname="TeacherStudentsEnroll" approved="yes">
+        <source>number of students</source>
+        <target state="translated">number of students</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGender" resname="TeacherStudentsGender" approved="yes">
+        <source>How many children of each gender are in this class?</source>
+        <target state="translated">How many children of each gender dey inside this class?</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderGirls" resname="TeacherStudentsGenderGirls" approved="yes">
+        <source>number</source>
+        <target state="translated">number</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderGirls" resname="TeacherStudentsGenderGirls" approved="yes">
+        <source>Girls</source>
+        <target state="translated">Girls</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderBoys" resname="TeacherStudentsGenderBoys" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderBoys" resname="TeacherStudentsGenderBoys" approved="yes">
+        <source>Boys</source>
+        <target state="translated">Boys</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderNonbinary" resname="TeacherStudentsGenderNonbinary" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderNonbinary" resname="TeacherStudentsGenderNonbinary" approved="yes">
+        <source>Nonbinary</source>
+        <target state="translated">Nonbinary</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderOther" resname="TeacherStudentsGenderOther" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsGenderOther" resname="TeacherStudentsGenderOther" approved="yes">
+        <source>Other</source>
+        <target state="translated">Other</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges" resname="TeacherStudentsAges" approved="yes">
+        <source>As of today&amp;apos;s date, how many children in this class are each of the following age levels?</source>
+        <target state="translated">As of today, how many children de each of these age levels inside this class?</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges5" resname="TeacherStudentsAges5" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges5" resname="TeacherStudentsAges5" approved="yes">
+        <source>5 years old or younger</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges6" resname="TeacherStudentsAges6" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges6" resname="TeacherStudentsAges6" approved="yes">
+        <source>6 years old</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges7" resname="TeacherStudentsAges7" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges7" resname="TeacherStudentsAges7" approved="yes">
+        <source>7 years old</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges8" resname="TeacherStudentsAges8" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges8" resname="TeacherStudentsAges8" approved="yes">
+        <source>8 years old</source>
+        <target state="translated">8 years old</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges9" resname="TeacherStudentsAges9" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges9" resname="TeacherStudentsAges9" approved="yes">
+        <source>9 years old</source>
+        <target state="translated">9 years old</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges10" resname="TeacherStudentsAges10" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges10" resname="TeacherStudentsAges10" approved="yes">
+        <source>10 years old</source>
+        <target state="translated">10 years old</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges11" resname="TeacherStudentsAges11" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges11" resname="TeacherStudentsAges11" approved="yes">
+        <source>11 years old</source>
+        <target state="translated">11 years old</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges12" resname="TeacherStudentsAges12" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges12" resname="TeacherStudentsAges12" approved="yes">
+        <source>12 years old</source>
+        <target state="translated">12 years old</target>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges13" resname="TeacherStudentsAges13" approved="yes">
+        <source>number</source>
+      </trans-unit>
+      <trans-unit id="TeacherStudentsAges13" resname="TeacherStudentsAges13" approved="yes">
+        <source>13 years old or older</source>
+        <target state="translated">13 years old or more</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigrade" resname="TeacherMultigrade" approved="yes">
+        <source>Do you currently teach a multigrade class?</source>
+        <target state="translated">Right now, you dey teach multi-grade class?</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigrade" resname="TeacherMultigrade" approved="yes">
+        <source>Yes</source>
+      </trans-unit>
+      <trans-unit id="TeacherMultigrade" resname="TeacherMultigrade" approved="yes">
+        <source>No</source>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>If yes, what grade levels are included in the class you teach? (select all that apply)</source>
+        <target state="translated">If yes, which grade levels dey inside the class you dey teach? (select all wey fit)</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>Prekindergarten</source>
+        <target state="translated">Prekindergarten</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>Transitional (or readiness) kindergarten</source>
+        <target state="translated">Transitional (or readiness) kindergarten</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>Kindergarten</source>
+        <target state="translated">Kindergarten</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>1st Grade</source>
+        <target state="translated">1st Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>2nd Grade</source>
+        <target state="translated">2nd Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>3rd Grade</source>
+        <target state="translated">3rd Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>4th Grade</source>
+        <target state="translated">4th Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>5th Grade</source>
+        <target state="translated">5th Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>6th Grade</source>
+        <target state="translated">6th Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>7th Grade</source>
+        <target state="translated">7th Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherMultigradeLevels" resname="TeacherMultigradeLevels" approved="yes">
+        <source>8th Grade</source>
+        <target state="translated">8th Grade</target>
+      </trans-unit>
+      <trans-unit id="TeacherGradeLevel" resname="TeacherGradeLevel" approved="yes">
+        <source>What grade level do you teach?</source>
+        <target state="translated">Which grade level you dey teach?</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>What languages are spoken by students in this class (select all that apply)?</source>
+        <target state="translated">Which languages dey speak by students in this class (select all wey fit)?</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Arabic</source>
+        <target state="translated">Arabic</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Chinese</source>
+        <target state="translated">Chinese</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>English</source>
+        <target state="translated">English</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>French</source>
+        <target state="translated">French</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>German</source>
+        <target state="translated">German</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Korean</source>
+        <target state="translated">Korean</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Spanish</source>
+        <target state="translated">Spanish</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Tagalog</source>
+        <target state="translated">Tagalog</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageStudents" resname="TeacherLanguageStudents" approved="yes">
+        <source>Vietnamese</source>
+        <target state="translated">Vietnamese</target>
+      </trans-unit>
+      <trans-unit id="TeacherLanguageTeachers" resname="TeacherLanguageTeachers" approved="yes">
+        <source>What languages do you or your assistant teacher speak &amp;lt;b&amp;gt;in the classroom&amp;lt;/b&amp;gt; (select all that apply)?</source>
+        <target state="translated">Which languages you or your assistant teacher dey speak &amp;lt;b&amp;gt;for the classroom&amp;lt;/b&amp;gt; (select all wey fit)?</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingBelow" resname="TeacherReadingBelow" approved="yes">
+        <source>About how many children in this classroom are BELOW grade level in their reading skills?</source>
+        <target state="translated">Make I know about how many children for this class dey BELOW grade level for their reading skills?</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingBelow" resname="TeacherReadingBelow" approved="yes">
+        <source>number of children</source>
+        <target state="translated">number of children</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingAbove" resname="TeacherReadingAbove" approved="yes">
+        <source>About how many children in this classroom are ABOVE grade level in their reading skills?</source>
+        <target state="translated">Make I know about how many children for this class dey ABOVE grade level for their reading skills?</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingAbove" resname="TeacherReadingAbove" approved="yes">
+        <source>number of children</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathBelow" resname="TeacherMathBelow" approved="yes">
+        <source>About how many children in this classroom are BELOW grade level in their math skills?</source>
+        <target state="translated">Make I know about how many children for this class dey BELOW grade level for their math skills?</target>
+      </trans-unit>
+      <trans-unit id="TeacherMathBelow" resname="TeacherMathBelow" approved="yes">
+        <source>number of children</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathAbove" resname="TeacherMathAbove" approved="yes">
+        <source>About how many children in this classroom are ABOVE grade level in their math skills?</source>
+        <target state="translated">Make I know about how many children for this class dey ABOVE grade level for their math skills?</target>
+      </trans-unit>
+      <trans-unit id="TeacherMathAbove" resname="TeacherMathAbove" approved="yes">
+        <source>number of children</source>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source>How often each week do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements ?</source>
+        <target state="translated">How many times per week usually children for this class dey work on lessons or projects in Reading and Language Arts, whether as whole class, in small groups or in individualized arrangements?</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source/>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source>Less than once per week</source>
+        <target state="translated">Less than once per week</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source>1 -2 times per week</source>
+        <target state="translated">1 -2 times per week</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source>3 - 4 times per week</source>
+        <target state="translated">3 - 4 times per week</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingFrequency" resname="TeacherReadingFrequency" approved="yes">
+        <source/>
+      </trans-unit>
+      <trans-unit id="TeacherReadingTime" resname="TeacherReadingTime" approved="yes">
+        <source>How much time per day do children in this class usually work on lessons or projects in Reading and Language Arts, whether as a whole class, in small groups, or in individualized arrangements?</source>
+        <target state="translated">How much time each day children for this class dey usually work on lessons or projects in Reading and Language Arts, whether as whole class, in small groups, or in individualized arrangements?</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingTime" resname="TeacherReadingTime" approved="yes">
+        <source>1 - 30 minutes a day</source>
+        <target state="translated">1 - 30 minutes a day</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingTime" resname="TeacherReadingTime" approved="yes">
+        <source>31 - 60 minutes a day</source>
+        <target state="translated">31 - 60 minutes a day</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingTime" resname="TeacherReadingTime" approved="yes">
+        <source>61 - 90 minutes a day</source>
+        <target state="translated">61 - 90 minutes a day</target>
+      </trans-unit>
+      <trans-unit id="TeacherReadingTime" resname="TeacherReadingTime" approved="yes">
+        <source>More than 90 minutes a day</source>
+        <target state="translated">More than 90 minutes a day</target>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>How often each week do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
+        <target state="translated">How many times per week usually children for this class dey work on lessons or projects in Mathematics, whether as whole class, in small groups, or in individualized arrangements?</target>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>Never</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>Less than once per week</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>1 -2 times per week</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>3 - 4 times per week</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathFrequency" resname="TeacherMathFrequency" approved="yes">
+        <source>Daily</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathTime" resname="TeacherMathTime" approved="yes">
+        <source>How much time per day do children in this class usually work on lessons or projects in Mathematics, whether as a whole class, in small groups, or in individualized arrangements?</source>
+        <target state="translated">How much time each day children for this class dey usually work on lessons or projects in Mathematics, whether as whole class, in small groups, or in individualized arrangements?</target>
+      </trans-unit>
+      <trans-unit id="TeacherMathTime" resname="TeacherMathTime" approved="yes">
+        <source>1 - 30 minutes a day</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathTime" resname="TeacherMathTime" approved="yes">
+        <source>31 - 60 minutes a day</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathTime" resname="TeacherMathTime" approved="yes">
+        <source>61 - 90 minutes a day</source>
+      </trans-unit>
+      <trans-unit id="TeacherMathTime" resname="TeacherMathTime" approved="yes">
+        <source>More than 90 minutes a day</source>
+      </trans-unit>
+      <trans-unit id="TeacherFamilySupport" resname="TeacherFamilySupport" approved="yes">
+        <source>Think about the families of the children in this class who you have taught this school year. For about how many families are each of the following statements true?</source>
+        <target state="translated">Think about the families of the children in this class you don teach this school year. For about how many families are these statements true?</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyOverwhelm" resname="TeacherFamilyOverwhelm" approved="yes">
+        <source>Families seem overwhelmed by trying to support their children&amp;apos;s learning.</source>
+        <target state="translated">Families dey seem overwhelmed by trying to support their children&amp;apos;s learning.</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyOverwhelm" resname="TeacherFamilyOverwhelm" approved="yes">
+        <source>None</source>
+        <target state="translated">None</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyOverwhelm" resname="TeacherFamilyOverwhelm" approved="yes">
+        <source>One or a few</source>
+        <target state="translated">One or a few</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyOverwhelm" resname="TeacherFamilyOverwhelm" approved="yes">
+        <source>Many</source>
+        <target state="translated">Many</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyOverwhelm" resname="TeacherFamilyOverwhelm" approved="yes">
+        <source>All or almost all</source>
+        <target state="translated">All or almost all</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyHelping" resname="TeacherFamilyHelping" approved="yes">
+        <source>Families are doing their part to support children&amp;apos;s learning.</source>
+        <target state="translated">Families dey their part to support children&amp;apos;s learning.</target>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyHelping" resname="TeacherFamilyHelping" approved="yes">
+        <source>None</source>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyHelping" resname="TeacherFamilyHelping" approved="yes">
+        <source>One or a few</source>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyHelping" resname="TeacherFamilyHelping" approved="yes">
+        <source>Many</source>
+      </trans-unit>
+      <trans-unit id="TeacherFamilyHelping" resname="TeacherFamilyHelping" approved="yes">
+        <source>All or almost all</source>
+      </trans-unit>
+      <trans-unit id="TeacherComm" resname="TeacherComm" approved="yes">
+        <source>Please indicate how satisfied or dissatisfied you have been with the following this school year.</source>
+        <target state="translated">Abeg indicate how satisfied or dissatisfied you don dey with these things this school year.</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Communication between you and families.</source>
+        <target state="translated">Communication between you and families.</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Not satisfied at all</source>
+        <target state="translated">Not satisfied at all</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Slightly satisfied</source>
+        <target state="translated">Slightly satisfied</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Moderately satisfied</source>
+        <target state="translated">Moderately satisfied</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Quite satisfied</source>
+        <target state="translated">Quite satisfied</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommFamily" resname="TeacherCommFamily" approved="yes">
+        <source>Very satisfied</source>
+        <target state="translated">Very satisfied</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Communication between you and your students.</source>
+        <target state="translated">Communication between you and your students.</target>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Not satisfied at all</source>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Slightly satisfied</source>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Moderately satisfied</source>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Quite satisfied</source>
+      </trans-unit>
+      <trans-unit id="TeacherCommStudents" resname="TeacherCommStudents" approved="yes">
+        <source>Very satisfied</source>
+      </trans-unit>
+      <trans-unit id="navigation.startSurvey" resname="navigation.startSurvey" approved="yes">
+        <source>Start Survey</source>
+      </trans-unit>
+      <trans-unit id="navigation.previous" resname="navigation.previous" approved="yes">
+        <source>Previous</source>
+      </trans-unit>
+      <trans-unit id="navigation.next" resname="navigation.next" approved="yes">
+        <source>Next</source>
+      </trans-unit>
+      <trans-unit id="navigation.finish" resname="navigation.finish" approved="yes">
+        <source>Finish</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
