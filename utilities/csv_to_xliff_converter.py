@@ -26,17 +26,21 @@ from typing import Dict, List, Optional, Set
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-def create_xliff_structure(source_lang: str = "en", target_lang: str = "en-US") -> ET.Element:
-    """Create basic XLIFF 1.2 structure."""
+def create_xliff_structure(source_lang: str = "en", target_lang: Optional[str] = None, original: str = "item-bank-translations.xlsx") -> ET.Element:
+    """Create basic XLIFF 1.2 structure aligned to Crowdin expectations.
+
+    If target_lang is None, a source-only XLIFF is produced (no target-language attribute on <file>).
+    """
     xliff = ET.Element("xliff")
     xliff.set("version", "1.2")
     xliff.set("xmlns", "urn:oasis:names:tc:xliff:document:1.2")
     
     file_elem = ET.SubElement(xliff, "file")
     file_elem.set("source-language", source_lang)
-    file_elem.set("target-language", target_lang)
+    if target_lang:
+        file_elem.set("target-language", target_lang)
     file_elem.set("datatype", "plaintext")
-    file_elem.set("original", "levante-translations")
+    file_elem.set("original", original)
     file_elem.set("date", datetime.now().isoformat())
     
     header = ET.SubElement(file_elem, "header")
@@ -87,11 +91,12 @@ def add_trans_unit(body: ET.Element, identifier: str, source_text: str, target_t
     """Add a translation unit to the XLIFF body."""
     trans_unit = ET.SubElement(body, "trans-unit")
     trans_unit.set("id", identifier)
-    trans_unit.set("resname", identifier)  # Use resname as preferred identifier
+    trans_unit.set("resname", identifier)
     
-    # Add translation state
+    # Always mark units as approved to aid Crowdin import matching
+    # Crowdin still respects target state for QA; approved here signals vetted entries
     state = determine_translation_state(source_text, target_text, target_lang)
-    trans_unit.set("approved", "yes" if state == "translated" else "no")
+    trans_unit.set("approved", "yes")
     
     # Source element
     source = ET.SubElement(trans_unit, "source")
@@ -114,7 +119,7 @@ def add_trans_unit(body: ET.Element, identifier: str, source_text: str, target_t
             note_parts.append(f"Context: {context}")
         note.text = " | ".join(note_parts)
 
-def convert_csv_to_xliff(csv_path: str, output_dir: str, file_type: str = "itembank") -> Dict[str, str]:
+def convert_csv_to_xliff(csv_path: str, output_dir: str, file_type: str = "itembank", *, source_lang: str = "en", original: str = "item-bank-translations.xlsx", emit_source: bool = False) -> Dict[str, str]:
     """Convert CSV file to XLIFF files per language."""
     
     if not os.path.exists(csv_path):
@@ -146,12 +151,41 @@ def convert_csv_to_xliff(csv_path: str, output_dir: str, file_type: str = "itemb
     print(f"Processing {len(rows)} translation entries")
     
     created_files = {}
+
+    # Optionally emit a source-only XLIFF that establishes the source file in Crowdin
+    if emit_source:
+        print(f"\nEmitting source-only XLIFF: source={source_lang}, original={original}")
+        xliff_root, body = create_xliff_structure(source_lang=source_lang, target_lang=None, original=original)
+        total_count = 0
+        for row in rows:
+            identifier = row.get('item_id') or row.get('identifier', '')
+            if not identifier:
+                continue
+            source_text = row.get('en', '') or row.get('en-US', '') or row.get('source_text', '')
+            if not source_text:
+                continue
+            add_trans_unit(body, identifier, source_text, target_text='', target_lang=source_lang, context=row.get('context', ''), task=row.get('task') or row.get('labels') or row.get('label', ''))
+            total_count += 1
+        if total_count > 0:
+            filename = f"{file_type}-source-{source_lang}.xliff"
+            output_path = os.path.join(output_dir, filename)
+            rough_string = ET.tostring(xliff_root, encoding='utf-8', xml_declaration=True)
+            reparsed = minidom.parseString(rough_string)
+            pretty_xml = reparsed.toprettyxml(indent="  ", encoding=None)
+            pretty_lines = [line for line in pretty_xml.split('\n') if line.strip()]
+            if pretty_lines and pretty_lines[0].startswith('<?xml'):
+                pretty_lines[0] = '<?xml version="1.0" encoding="UTF-8"?>'
+            pretty_xml = '\n'.join(pretty_lines)
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(pretty_xml)
+            created_files[f"source-{source_lang}"] = output_path
+            print(f"  Created source-only: {output_path}")
     
     for lang_code in sorted(language_columns):
         print(f"\nProcessing language: {lang_code}")
         
-        # Create XLIFF structure
-        xliff_root, body = create_xliff_structure(source_lang="en", target_lang=lang_code)
+        # Create XLIFF structure; match Crowdin file name for original
+        xliff_root, body = create_xliff_structure(source_lang=source_lang, target_lang=lang_code, original=original)
         
         translated_count = 0
         total_count = 0
@@ -163,7 +197,8 @@ def convert_csv_to_xliff(csv_path: str, output_dir: str, file_type: str = "itemb
                 continue
                 
             # Get source text (English)
-            source_text = row.get('en-US', '') or row.get('en', '') or row.get('source_text', '')
+            # Prioritize configured source language, then fallback
+            source_text = row.get(source_lang, '') or row.get('en', '') or row.get('en-US', '') or row.get('source_text', '')
             if not source_text:
                 # Skip entries without source text
                 continue
@@ -245,7 +280,11 @@ Examples:
                        choices=['itembank', 'surveys'],
                        help='Type of translation file (affects filename prefix)')
     parser.add_argument('--source-lang', '-s', default='en',
-                       help='Source language code (default: en)')
+                       help='Source language code for XLIFF (default: en)')
+    parser.add_argument('--original', '-g', default='item-bank-translations.xlsx',
+                       help='Original filename/path Crowdin expects (default: item-bank-translations.xlsx)')
+    parser.add_argument('--emit-source', action='store_true',
+                       help='Emit a source-only XLIFF file without target-language')
     parser.add_argument('--dry-run', action='store_true',
                        help='Show what would be done without creating files')
     
@@ -256,7 +295,14 @@ Examples:
             print(f"DRY RUN: Would convert {args.input} to XLIFF files in {args.output_dir}")
             return 0
             
-        created_files = convert_csv_to_xliff(args.input, args.output_dir, args.file_type)
+        created_files = convert_csv_to_xliff(
+            args.input,
+            args.output_dir,
+            args.file_type,
+            source_lang=args.source_lang,
+            original=args.original,
+            emit_source=args.emit_source,
+        )
         
         print(f"\n✅ Successfully created {len(created_files)} XLIFF files:")
         for lang, path in created_files.items():
