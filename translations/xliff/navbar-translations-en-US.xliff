@@ -7,14 +7,14 @@
     <body>
       <trans-unit id="71050" resname="components/navbar.greeting">
         <source>Hi</source>
-        <target state="needs-translation">Hi</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">components/navbar.greeting</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71052" resname="components/navbar.signOut">
         <source>Sign Out</source>
-        <target state="needs-translation">Sign Out</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">components/navbar.signOut</context>
         </context-group>
