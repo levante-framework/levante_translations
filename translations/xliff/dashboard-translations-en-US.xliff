@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="70834" resname="auth/consent.acceptButton">
         <source>Accept</source>
-        <target state="needs-translation">Accept</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.acceptButton
 acceptButton</context>
@@ -15,7 +15,7 @@ acceptButton</context>
       </trans-unit>
       <trans-unit id="70836" resname="auth/consent.assentTitle">
         <source>Assent</source>
-        <target state="needs-translation">Assent</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.assentTitle
 assentTitle</context>
@@ -23,7 +23,7 @@ assentTitle</context>
       </trans-unit>
       <trans-unit id="70838" resname="auth/consent.consentTitle">
         <source>Consent</source>
-        <target state="needs-translation">Consent</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.consentTitle
 consentTitle</context>
@@ -31,7 +31,7 @@ consentTitle</context>
       </trans-unit>
       <trans-unit id="70840" resname="auth/consent.consentUpdatedStatus">
         <source>Consent status updated</source>
-        <target state="needs-translation">Consent status updated</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.consentUpdatedStatus
 consentUpdatedStatus</context>
@@ -39,7 +39,7 @@ consentUpdatedStatus</context>
       </trans-unit>
       <trans-unit id="70842" resname="auth/consent.header">
         <source>Consent</source>
-        <target state="needs-translation">Consent</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.header
 header</context>
@@ -47,7 +47,7 @@ header</context>
       </trans-unit>
       <trans-unit id="70844" resname="auth/consent.rejectButton">
         <source>No, sign me out</source>
-        <target state="needs-translation">No, sign me out</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.rejectButton
 rejectButton</context>
@@ -55,7 +55,7 @@ rejectButton</context>
       </trans-unit>
       <trans-unit id="70846" resname="auth/consent.title" translate="no">
         <source></source>
-        <target></target>
+        <target/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.title
 title</context>
@@ -63,7 +63,7 @@ title</context>
       </trans-unit>
       <trans-unit id="70848" resname="auth/consent.toastHeader">
         <source>Confirmed</source>
-        <target state="needs-translation">Confirmed</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/consent.toastHeader
 toastHeader</context>
@@ -71,7 +71,7 @@ toastHeader</context>
       </trans-unit>
       <trans-unit id="70850" resname="auth/signin.atLeastOneLowercase">
         <source>At least one lowercase</source>
-        <target state="needs-translation">At least one lowercase</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneLowercase
 atLeastOneLowercase</context>
@@ -79,7 +79,7 @@ atLeastOneLowercase</context>
       </trans-unit>
       <trans-unit id="70852" resname="auth/signin.atLeastOneNumber">
         <source>At least one number</source>
-        <target state="needs-translation">At least one number</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneNumber
 atLeastOneNumber</context>
@@ -87,7 +87,7 @@ atLeastOneNumber</context>
       </trans-unit>
       <trans-unit id="70854" resname="auth/signin.atLeastOneNumeric">
         <source>At least one numeric</source>
-        <target state="needs-translation">At least one numeric</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneNumeric
 atLeastOneNumeric</context>
@@ -95,7 +95,7 @@ atLeastOneNumeric</context>
       </trans-unit>
       <trans-unit id="70856" resname="auth/signin.atLeastOneUpperCase">
         <source>At least one uppercase</source>
-        <target state="needs-translation">At least one uppercase</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.atLeastOneUpperCase
 atLeastOneUpperCase</context>
@@ -103,7 +103,7 @@ atLeastOneUpperCase</context>
       </trans-unit>
       <trans-unit id="70858" resname="auth/signin.buttonLabel">
         <source>Go!</source>
-        <target state="needs-translation">Go!</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.buttonLabel
 buttonLabel</context>
@@ -111,7 +111,7 @@ buttonLabel</context>
       </trans-unit>
       <trans-unit id="70860" resname="auth/signin.continueWithGoogle">
         <source>Continue with Google</source>
-        <target state="needs-translation">Continue with Google</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.continueWithGoogle
 continueWithGoogle</context>
@@ -119,7 +119,7 @@ continueWithGoogle</context>
       </trans-unit>
       <trans-unit id="70862" resname="auth/signin.emailId">
         <source>email</source>
-        <target state="needs-translation">email</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.emailId
 emailId</context>
@@ -127,7 +127,7 @@ emailId</context>
       </trans-unit>
       <trans-unit id="70864" resname="auth/signin.emailPlaceholder">
         <source>Username or email</source>
-        <target state="needs-translation">Username or email</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.emailPlaceholder
 emailPlaceholder</context>
@@ -135,7 +135,7 @@ emailPlaceholder</context>
       </trans-unit>
       <trans-unit id="70866" resname="auth/signin.forgotPassword">
         <source>Forgot Password?</source>
-        <target state="needs-translation">Forgot Password?</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.forgotPassword
 forgotPassword</context>
@@ -143,7 +143,7 @@ forgotPassword</context>
       </trans-unit>
       <trans-unit id="70868" resname="auth/signin.incorrectEmailOrPassword">
         <source>Incorrect username/email or password</source>
-        <target state="needs-translation">Incorrect username/email or password</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.incorrectEmailOrPassword
 incorrectEmailOrPassword</context>
@@ -151,7 +151,7 @@ incorrectEmailOrPassword</context>
       </trans-unit>
       <trans-unit id="70870" resname="auth/signin.invalidEmailPlaceholder">
         <source>Error: invalid email</source>
-        <target state="needs-translation">Error: invalid email</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.invalidEmailPlaceholder
 invalidEmailPlaceholder</context>
@@ -159,7 +159,7 @@ invalidEmailPlaceholder</context>
       </trans-unit>
       <trans-unit id="70872" resname="auth/signin.minimumCharacters">
         <source>Minimum 8 characters</source>
-        <target state="needs-translation">Minimum 8 characters</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.minimumCharacters
 minimumCharacters</context>
@@ -167,7 +167,7 @@ minimumCharacters</context>
       </trans-unit>
       <trans-unit id="70770" resname="auth/signin.pageTitle" translate="no">
         <source></source>
-        <target></target>
+        <target/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.pageTitle
 pageTitle</context>
@@ -175,7 +175,7 @@ pageTitle</context>
       </trans-unit>
       <trans-unit id="70874" resname="auth/signin.passwordId">
         <source>password</source>
-        <target state="needs-translation">password</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.passwordId
 passwordId</context>
@@ -183,7 +183,7 @@ passwordId</context>
       </trans-unit>
       <trans-unit id="70876" resname="auth/signin.passwordPlaceholder">
         <source>Password</source>
-        <target state="needs-translation">Password</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.passwordPlaceholder
 passwordPlaceholder</context>
@@ -191,7 +191,7 @@ passwordPlaceholder</context>
       </trans-unit>
       <trans-unit id="70878" resname="auth/signin.pickPassword">
         <source>Pick a password</source>
-        <target state="needs-translation">Pick a password</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.pickPassword
 pickPassword</context>
@@ -199,7 +199,7 @@ pickPassword</context>
       </trans-unit>
       <trans-unit id="70880" resname="auth/signin.selectLanguage">
         <source>Select Language</source>
-        <target state="needs-translation">Select Language</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.selectLanguage
 selectLanguage</context>
@@ -207,7 +207,7 @@ selectLanguage</context>
       </trans-unit>
       <trans-unit id="70882" resname="auth/signin.selectLanguageLabel">
         <source>Language</source>
-        <target state="needs-translation">Language</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.selectLanguageLabel
 selectLanguageLabel</context>
@@ -215,7 +215,7 @@ selectLanguageLabel</context>
       </trans-unit>
       <trans-unit id="70884" resname="auth/signin.signInWithEmailLinkInstead">
         <source>Sign-in using email link</source>
-        <target state="needs-translation">Sign-in using email link</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithEmailLinkInstead
 signInWithEmailLinkInstead</context>
@@ -223,7 +223,7 @@ signInWithEmailLinkInstead</context>
       </trans-unit>
       <trans-unit id="70886" resname="auth/signin.signInWithEmailLinkPlaceHolder">
         <source>Press Go to sign-in with an email link.</source>
-        <target state="needs-translation">Press Go to sign-in with an email link.</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithEmailLinkPlaceHolder
 signInWithEmailLinkPlaceHolder</context>
@@ -231,7 +231,7 @@ signInWithEmailLinkPlaceHolder</context>
       </trans-unit>
       <trans-unit id="70888" resname="auth/signin.signInWithPasswordInstead">
         <source>Sign-in using password</source>
-        <target state="needs-translation">Sign-in using password</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.signInWithPasswordInstead
 signInWithPasswordInstead</context>
@@ -239,7 +239,7 @@ signInWithPasswordInstead</context>
       </trans-unit>
       <trans-unit id="70890" resname="auth/signin.suggestions">
         <source>Suggestions</source>
-        <target state="needs-translation">Suggestions</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">auth/signin.suggestions
 suggestions</context>
@@ -247,7 +247,7 @@ suggestions</context>
       </trans-unit>
       <trans-unit id="70790" resname="pages/home-participant.consentUpdatedStatus" translate="no">
         <source></source>
-        <target></target>
+        <target/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.consentUpdatedStatus
 consentUpdatedStatus</context>
@@ -255,7 +255,7 @@ consentUpdatedStatus</context>
       </trans-unit>
       <trans-unit id="70892" resname="pages/home-participant.contactAdministrator">
         <source>Please contact your administrator to get added to an assignment.</source>
-        <target state="needs-translation">Please contact your administrator to get added to an assignment.</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.contactAdministrator
 contactAdministrator</context>
@@ -263,7 +263,7 @@ contactAdministrator</context>
       </trans-unit>
       <trans-unit id="70894" resname="pages/home-participant.loadingAssignments">
         <source>Loading Assignments</source>
-        <target state="needs-translation">Loading Assignments</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.loadingAssignments
 loadingAssignments</context>
@@ -271,7 +271,7 @@ loadingAssignments</context>
       </trans-unit>
       <trans-unit id="70896" resname="pages/home-participant.noAssignments">
         <source>You have no assignments!</source>
-        <target state="needs-translation">You have no assignments!</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noAssignments
 noAssignments</context>
@@ -279,7 +279,7 @@ noAssignments</context>
       </trans-unit>
       <trans-unit id="70898" resname="pages/home-participant.selectAssignment">
         <source>Select an assignment</source>
-        <target state="needs-translation">Select an assignment</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.selectAssignment
 selectAssignment</context>
@@ -287,7 +287,7 @@ selectAssignment</context>
       </trans-unit>
       <trans-unit id="70900" resname="pages/home-participant.showOptionalAssignments">
         <source>Show optional assignments</source>
-        <target state="needs-translation">Show optional assignments</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.showOptionalAssignments
 showOptionalAssignments</context>
@@ -295,7 +295,7 @@ showOptionalAssignments</context>
       </trans-unit>
       <trans-unit id="92840" resname="pages/home-participant.assignments">
         <source>Assignments</source>
-        <target state="needs-translation">Assignments</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.assignments
 assignments</context>
@@ -303,7 +303,7 @@ assignments</context>
       </trans-unit>
       <trans-unit id="92842" resname="pages/home-participant.current">
         <source>Current</source>
-        <target state="needs-translation">Current</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.current
 current</context>
@@ -311,7 +311,7 @@ current</context>
       </trans-unit>
       <trans-unit id="92844" resname="pages/home-participant.past">
         <source>Past</source>
-        <target state="needs-translation">Past</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.past
 past</context>
@@ -319,7 +319,7 @@ past</context>
       </trans-unit>
       <trans-unit id="92846" resname="pages/home-participant.upcoming">
         <source>Upcoming</source>
-        <target state="needs-translation">Upcoming</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.upcoming
 upcoming</context>
@@ -327,7 +327,7 @@ upcoming</context>
       </trans-unit>
       <trans-unit id="92848" resname="pages/home-participant.noCurrentAssignmentsFound">
         <source>No current assignments were found</source>
-        <target state="needs-translation">No current assignments were found</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noCurrentAssignmentsFound
 noCurrentAssignmentsFound</context>
@@ -335,7 +335,7 @@ noCurrentAssignmentsFound</context>
       </trans-unit>
       <trans-unit id="92850" resname="pages/home-participant.noPastAssignmentsFound">
         <source>No past assignments were found</source>
-        <target state="needs-translation">No past assignments were found</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noPastAssignmentsFound
 noPastAssignmentsFound</context>
@@ -343,7 +343,7 @@ noPastAssignmentsFound</context>
       </trans-unit>
       <trans-unit id="92852" resname="pages/home-participant.noUpcomingAssignmentsFound">
         <source>No upcoming assignments were found</source>
-        <target state="needs-translation">No upcoming assignments were found</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.noUpcomingAssignmentsFound
 noUpcomingAssignmentsFound</context>
@@ -351,7 +351,7 @@ noUpcomingAssignmentsFound</context>
       </trans-unit>
       <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
         <source>You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</source>
-        <target state="needs-translation">You will soon be logged out for security purposes. Please click &quot;Continue&quot; if you wish to continue your session.\n Otherwise, you will be automatically logged out in { timeLeft } seconds.</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.inactivityLogout
 inactivityLogout</context>
@@ -359,7 +359,7 @@ inactivityLogout</context>
       </trans-unit>
       <trans-unit id="70904" resname="pages/home-selector.inactivityLogoutAcceptLabel">
         <source>Continue</source>
-        <target state="needs-translation">Continue</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.inactivityLogoutAcceptLabel
 inactivityLogoutAcceptLabel</context>
@@ -367,7 +367,7 @@ inactivityLogoutAcceptLabel</context>
       </trans-unit>
       <trans-unit id="70906" resname="pages/home-selector.loading">
         <source>Loading...</source>
-        <target state="needs-translation">Loading...</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/home-selector.loading
 loading</context>
@@ -375,7 +375,7 @@ loading</context>
       </trans-unit>
       <trans-unit id="70908" resname="pages/not-found.label">
         <source>Return to Home</source>
-        <target state="needs-translation">Return to Home</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.label
 label</context>
@@ -383,7 +383,7 @@ label</context>
       </trans-unit>
       <trans-unit id="70910" resname="pages/not-found.pageNotFound">
         <source>Page not found</source>
-        <target state="needs-translation">Page not found</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.pageNotFound
 pageNotFound</context>
@@ -391,7 +391,7 @@ pageNotFound</context>
       </trans-unit>
       <trans-unit id="70912" resname="pages/not-found.sorry">
         <source>Sorry, we could not find that page!</source>
-        <target state="needs-translation">Sorry, we could not find that page!</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/not-found.sorry
 sorry</context>
@@ -399,7 +399,7 @@ sorry</context>
       </trans-unit>
       <trans-unit id="70914" resname="pages/signin.adminAction">
         <source>here</source>
-        <target state="needs-translation">here</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminAction
 adminAction</context>
@@ -407,7 +407,7 @@ adminAction</context>
       </trans-unit>
       <trans-unit id="70916" resname="pages/signin.adminInfoPrompt">
         <source>If you registered with a Google email or your email provider uses Google SSO.</source>
-        <target state="needs-translation">If you registered with a Google email or your email provider uses Google SSO.</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminInfoPrompt
 adminInfoPrompt</context>
@@ -415,7 +415,7 @@ adminInfoPrompt</context>
       </trans-unit>
       <trans-unit id="70918" resname="pages/signin.adminPrompt">
         <source>Are you an Admin? Click {action} to Sign in.</source>
-        <target state="needs-translation">Are you an Admin? Click {action} to Sign in.</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.adminPrompt
 adminPrompt</context>
@@ -423,7 +423,7 @@ adminPrompt</context>
       </trans-unit>
       <trans-unit id="70920" resname="pages/signin.havingTrouble">
         <source>Having trouble?</source>
-        <target state="needs-translation">Having trouble?</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.havingTrouble
 havingTrouble</context>
@@ -431,7 +431,7 @@ havingTrouble</context>
       </trans-unit>
       <trans-unit id="70922" resname="pages/signin.login">
         <source>Log in to access your dashboard</source>
-        <target state="needs-translation">Log in to access your dashboard</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.login
 login</context>
@@ -439,7 +439,7 @@ login</context>
       </trans-unit>
       <trans-unit id="70924" resname="pages/signin.loginWith">
         <source>Log in with</source>
-        <target state="needs-translation">Log in with</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.loginWith
 loginWith</context>
@@ -447,7 +447,7 @@ loginWith</context>
       </trans-unit>
       <trans-unit id="70926" resname="pages/signin.welcome">
         <source>Welcome to ROAR!</source>
-        <target state="needs-translation">Welcome to ROAR!</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">pages/signin.welcome
 welcome</context>
@@ -455,7 +455,7 @@ welcome</context>
       </trans-unit>
       <trans-unit id="70928" resname="surveys/user-survey.specificRelationDescriptionChildA">
         <source>For child with Birth Month</source>
-        <target state="needs-translation">For child with Birth Month</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionChildA
 specificRelationDescriptionChildA</context>
@@ -463,7 +463,7 @@ specificRelationDescriptionChildA</context>
       </trans-unit>
       <trans-unit id="70930" resname="surveys/user-survey.specificRelationDescriptionChildB">
         <source>and Birth Year</source>
-        <target state="needs-translation">and Birth Year</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionChildB
 specificRelationDescriptionChildB</context>
@@ -471,7 +471,7 @@ specificRelationDescriptionChildB</context>
       </trans-unit>
       <trans-unit id="70932" resname="surveys/user-survey.specificRelationDescriptionClass">
         <source>For class</source>
-        <target state="needs-translation">For class</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">surveys/user-survey.specificRelationDescriptionClass
 specificRelationDescriptionClass</context>
