@@ -76,4 +76,31 @@ python3 utilities/csv_to_xliff_converter.py \
   --original item-bank-translations.xlsx
 ```
 
+## Mirror existing Crowdin project into a new project (XLIFF)
+
+Goal: keep the new `levante-xliff` project in sync with the current `levantetranslations` item bank.
+
+Prereqs:
+- `CROWDIN_API_TOKEN` set (or token stored in `~/.crowdin_api_token`)
+- New project already contains `/item-bank-translations.xlsx` and target languages
+
+Script (download from old → import to new):
+
+```bash
+python3 utilities/crowdin_mirror_itembank.py \
+  --old OLD_PROJECT_ID_OR_IDENTIFIER \
+  --new NEW_PROJECT_ID_OR_IDENTIFIER \
+  --out xliff-mirror
+```
+
+What it does:
+- Downloads translations for `/item-bank-translations.xlsx` from the old project as XLIFF into `xliff-mirror/`
+- Imports each `*.xliff` into the new project’s `/item-bank-translations.xlsx` for the matching language
+- Skips creating sources (assumes the file already exists in the new project)
+
+Troubleshooting:
+- If 0 files download, verify the old project contains `/item-bank-translations.xlsx`
+- If imports fail for a language, ensure the language is enabled in the new project
+- You can pass project identifiers (slug) or numeric IDs; the script auto-resolves
+
 

@@ -123,21 +123,30 @@ def upload_xliff_file(project_id: str, headers: Dict[str, str], file_path: str,
         return existing_file
 
 def download_xliff_file(project_id: str, headers: Dict[str, str], file_id: str, 
-                       language_id: str, output_path: str) -> bool:
-    """Download a translated XLIFF file from Crowdin."""
+                       language_id: str, output_path: str, *, format: str = "xliff") -> bool:
+    """Download a translated XLIFF file from Crowdin.
+
+    Note: Some projects with non-XLIFF sources require an explicit format parameter.
+    """
     
-    # Build export URL for specific language
-    url = f"{API_BASE}/projects/{project_id}/translations/exports/files/{file_id}"
-    params = {"targetLanguageId": language_id}
+    # Build request (POST) to obtain a downloadable URL for this file/language
+    build_url = f"{API_BASE}/projects/{project_id}/translations/builds/files/{file_id}"
+    payload = {"targetLanguageId": language_id, "format": format}
     
     try:
-        response = make_request("GET", url, headers, params=params)
-        
+        build_resp = make_request("POST", build_url, headers, json=payload)
+        build_data = build_resp.json().get("data", {})
+        download_url = build_data.get("url")
+        if not download_url:
+            print(f"❌ No download URL for file {file_id} lang {language_id}")
+            return False
+        # Download the file bytes
+        bin_resp = requests.get(download_url, timeout=60)
+        bin_resp.raise_for_status()
         # Save to file
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'wb') as f:
-            f.write(response.content)
-            
+            f.write(bin_resp.content)
         print(f"✅ Downloaded: {output_path}")
         return True
         
@@ -175,50 +184,144 @@ def upload_xliff_directory(project_id: str, headers: Dict[str, str], source_dir:
     return uploaded_files
 
 def download_xliff_translations(project_id: str, headers: Dict[str, str], output_dir: str,
-                               file_pattern: str = "*.xliff") -> Dict[str, List[str]]:
+                               file_pattern: str = "*", languages: Optional[List[str]] = None) -> Dict[str, List[str]]:
     """Download all translated XLIFF files from Crowdin."""
     
-    # Get project files and languages
+    # Get project files and languages (if not provided)
     files = list_project_files(project_id, headers)
-    languages = list_project_languages(project_id, headers)
+    if languages is None:
+        lang_rows = list_project_languages(project_id, headers)
+        languages = [row["data"]["id"] for row in lang_rows]
     
-    # Filter XLIFF files
-    xliff_files = []
+    # Pick all files matching the pattern (default all), regardless of source format
+    matched_files = []
     for file_data in files:
         file_info = file_data["data"]
-        if file_info["path"].endswith(('.xliff', '.xlf')):
-            xliff_files.append(file_info)
+        if file_pattern == "*" or Path(file_info["path"]).match(file_pattern):
+            matched_files.append(file_info)
     
-    if not xliff_files:
-        print("No XLIFF files found in Crowdin project")
+    if not matched_files:
+        print("No files found in Crowdin project")
         return {}
     
-    print(f"Downloading translations for {len(xliff_files)} XLIFF files in {len(languages)} languages")
+    print(f"Downloading translations for {len(matched_files)} files in {len(languages)} languages (as XLIFF)")
     
     downloaded_files = {}
     
-    for file_info in xliff_files:
+    for file_info in matched_files:
         file_id = file_info["id"]
         file_name = os.path.basename(file_info["path"])
         base_name = os.path.splitext(file_name)[0]
         
         file_downloads = []
         
-        for lang_data in languages:
-            lang_info = lang_data["data"]
-            lang_id = lang_info["id"]
+        for lang_id in languages:
             
-            # Create output filename: itembank-es-CO.xliff
+            # Create output filename: <source_base>-<langId>.xliff
             output_filename = f"{base_name}-{lang_id}.xliff"
             output_path = os.path.join(output_dir, output_filename)
             
-            if download_xliff_file(project_id, headers, file_id, lang_id, output_path):
+            if download_xliff_file(project_id, headers, file_id, lang_id, output_path, format="xliff"):
                 file_downloads.append(output_path)
         
         if file_downloads:
             downloaded_files[file_name] = file_downloads
     
     return downloaded_files
+
+
+def find_file_by_path(project_id: str, headers: Dict[str, str], crowdin_path: str) -> Optional[Dict]:
+    """Return file info for a given Crowdin path, if it exists."""
+    files = list_project_files(project_id, headers)
+    for file_data in files:
+        data = file_data["data"]
+        if data.get("path") == crowdin_path:
+            return data
+    return None
+
+
+def upload_to_storage(headers: Dict[str, str], file_path: str, file_name_override: Optional[str] = None) -> int:
+    """Upload a local file to Crowdin storage and return storageId."""
+    url = f"{API_BASE}/storages"
+    fname = file_name_override or os.path.basename(file_path)
+    with open(file_path, 'rb') as f:
+        storage_headers = {
+            "Authorization": headers["Authorization"],
+            "Crowdin-API-FileName": fname,
+        }
+        resp = make_request("POST", url, storage_headers, data=f)
+        return resp.json()["data"]["id"]
+
+
+def import_translations_for_file(project_id: str, headers: Dict[str, str], *, crowdin_file_path: str, local_xliff_path: str, target_language_id: str, import_eq_suggestions: bool = False) -> bool:
+    """Import translations XLIFF into a specific Crowdin file and language."""
+    # Resolve fileId
+    file_info = find_file_by_path(project_id, headers, crowdin_file_path)
+    if not file_info:
+        print(f"❌ File not found in project {project_id}: {crowdin_file_path}")
+        return False
+    file_id = file_info["id"]
+
+    # Upload to storage
+    storage_id = upload_to_storage(headers, local_xliff_path)
+
+    # Import translations
+    url = f"{API_BASE}/projects/{project_id}/translations"
+    payload = {
+        "storageId": storage_id,
+        "fileId": file_id,
+        "languageId": target_language_id,
+    }
+    resp = make_request("POST", url, headers, json=payload)
+    if resp.ok:
+        print(f"✅ Imported translations for {target_language_id} from {os.path.basename(local_xliff_path)}")
+        return True
+    return False
+
+
+def import_translations_directory(project_id: str, headers: Dict[str, str], *, crowdin_file_path: str, source_dir: str) -> Dict[str, bool]:
+    """Import all XLIFF files in a directory as translations for a single Crowdin file.
+
+    Expects files named like: <base>-<langId>.xliff
+    """
+    results: Dict[str, bool] = {}
+    # Determine enabled target languages in the project
+    try:
+        langs_resp = list_project_languages(project_id, headers)
+        enabled_lang_ids = {row["data"]["id"] for row in langs_resp}
+    except Exception:
+        enabled_lang_ids = set()
+    for path in Path(source_dir).glob("*.xliff"):
+        name = path.name
+        # Skip obvious source-only files
+        if "source-" in name:
+            continue
+        # Extract langId from filename patterns like itembank-es-CO.xliff
+        base = os.path.splitext(name)[0]
+        lang_id = base
+        # Strip common prefixes
+        for prefix in ("itembank-", "surveys-", "translations-"):
+            if lang_id.startswith(prefix):
+                lang_id = lang_id[len(prefix):]
+                break
+        if enabled_lang_ids and lang_id not in enabled_lang_ids:
+            print(f"Skipping {name} (language '{lang_id}' not enabled in project)")
+            results[lang_id] = False
+            continue
+        print(f"Importing {name} as language '{lang_id}' → {crowdin_file_path}")
+        try:
+            ok = import_translations_for_file(
+                project_id,
+                headers,
+                crowdin_file_path=crowdin_file_path,
+                local_xliff_path=str(path),
+                target_language_id=lang_id,
+            )
+        except Exception as e:
+            print(f"Error importing {name} for '{lang_id}': {e}")
+            ok = False
+        results[lang_id] = ok
+    return results
 
 def main():
     parser = argparse.ArgumentParser(
@@ -249,12 +352,19 @@ Examples:
     download_parser = subparsers.add_parser('download', help='Download translated XLIFF files from Crowdin')
     download_parser.add_argument('--project-id', required=True, help='Crowdin project ID')
     download_parser.add_argument('--output-dir', required=True, help='Directory to save downloaded XLIFF files')
+    download_parser.add_argument('--file-pattern', default='*', help='Glob to filter source files (default: all)')
     
     # Sync command
     sync_parser = subparsers.add_parser('sync', help='Upload sources and download translations')
     sync_parser.add_argument('--project-id', required=True, help='Crowdin project ID')
     sync_parser.add_argument('--source-dir', required=True, help='Directory containing source XLIFF files')
     sync_parser.add_argument('--output-dir', required=True, help='Directory to save translated XLIFF files')
+
+    # Import translations command
+    import_parser = subparsers.add_parser('import_translations', help='Import XLIFF translations into a specific Crowdin file path')
+    import_parser.add_argument('--project-id', required=True, help='Crowdin project ID')
+    import_parser.add_argument('--crowdin-file-path', required=True, help='Crowdin file path (e.g., /item-bank-translations.xlsx)')
+    import_parser.add_argument('--source-dir', required=True, help='Directory with XLIFF files named <base>-<langId>.xliff')
     
     args = parser.parse_args()
     
@@ -274,9 +384,15 @@ Examples:
             print(f"\n✅ Successfully uploaded {len(uploaded)} XLIFF files")
             
         elif args.command == 'download':
-            downloaded = download_xliff_translations(args.project_id, headers, args.output_dir)
+            downloaded = download_xliff_translations(args.project_id, headers, args.output_dir, file_pattern=args.file_pattern)
             total_files = sum(len(files) for files in downloaded.values())
             print(f"\n✅ Successfully downloaded {total_files} translated XLIFF files")
+        
+        elif args.command == 'import_translations':
+            # Import translations from a directory into a specific Crowdin file path
+            results = import_translations_directory(args.project_id, headers, crowdin_file_path=args.crowdin_file_path, source_dir=args.source_dir)
+            ok_count = sum(1 for v in results.values() if v)
+            print(f"\n✅ Imported {ok_count}/{len(results)} languages into {args.crowdin_file_path}")
             
         elif args.command == 'sync':
             print("🔄 Starting XLIFF sync...")
