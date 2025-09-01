@@ -7,14 +7,14 @@
     <body>
       <trans-unit id="71046" resname="components/tasks.loading">
         <source>loading</source>
-        <target state="needs-translation">loading</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">components/tasks.loading</context>
         </context-group>
       </trans-unit>
       <trans-unit id="71048" resname="components/tasks.preparing">
         <source>Preparing your game!</source>
-        <target state="needs-translation">Preparing your game!</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">components/tasks.preparing</context>
         </context-group>
