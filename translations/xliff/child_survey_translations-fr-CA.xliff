@@ -935,7 +935,7 @@
       </trans-unit>
       <trans-unit id="101574" resname="navigation.startSurvey">
         <source>Start Survey</source>
-        <target state="needs-translation">Start Survey</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.startSurvey</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -943,7 +943,7 @@
       </trans-unit>
       <trans-unit id="101576" resname="navigation.previous">
         <source>Previous</source>
-        <target state="needs-translation">Previous</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.previous</context>
           <context context-type="x-crowdin-label">child_survey</context>
@@ -951,7 +951,7 @@
       </trans-unit>
       <trans-unit id="101578" resname="navigation.next">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.next</context>
           <context context-type="x-crowdin-label">child_survey</context>
