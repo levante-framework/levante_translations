@@ -175,7 +175,7 @@
       </trans-unit>
       <trans-unit id="101334" resname="navigation.startSurvey">
         <source>Start Survey</source>
-        <target state="needs-translation">Start Survey</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.startSurvey</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -183,7 +183,7 @@
       </trans-unit>
       <trans-unit id="101336" resname="navigation.previous">
         <source>Previous</source>
-        <target state="needs-translation">Previous</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.previous</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -191,7 +191,7 @@
       </trans-unit>
       <trans-unit id="101338" resname="navigation.next">
         <source>Next</source>
-        <target state="needs-translation">Next</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">navigation.next</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
