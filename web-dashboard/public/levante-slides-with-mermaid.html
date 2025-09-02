@@ -267,17 +267,17 @@ CACHE --> DIFF[needed_item_bank_translations.csv]
                     DIFF -->|service=ElevenLabs| EL[ElevenLabs v1<br/>- multilingual_v2<br/>- curated voices]
                     
                     PHT --> OUT[audio_files/lang/item.mp3<br/>+ ID3 tags]
-                    EL --> OUT
+EL --> OUT
                     
                     OUT --> GCS[GCS levante-audio-dev<br/>rsync checksum, csv/xliff/icu mirrors]
-            </div>
-        </div>
+</div>
+</div>
 
         <!-- Slide 5: Dashboard i18n Build Flow (Mermaid) -->
-        <div class="slide">
+<div class="slide">
             <h1>Dashboard i18n Build Flow</h1>
-            <div class="mermaid">
-                flowchart LR
+  <div class="mermaid">
+flowchart LR
                     CONS[src/translations/consolidated/.csv] 
                     --> CSV2JSON[i18n:csv-to-json<br/>merge, validate, split]
                     
