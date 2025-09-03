@@ -13,10 +13,11 @@ import utilities.utilities as u
 # language_dict = conf.get_languages()
 
 
-def generate_audio(language, force_regenerate=False): 
+def generate_audio(language, force_regenerate=False, hi_fi: bool = False): 
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
     print(f"Using simplified folder structure: audio_files/<language_code>/")
+    print("Audio quality: " + ("High-fidelity (mp3_44100_64)" if hi_fi else "Compressed default (mp3_22050_32)"))
     if force_regenerate:
         print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
     print("="*60)
@@ -119,9 +120,7 @@ def generate_audio(language, force_regenerate=False):
             print("Using es-co column (has more data)")
             translationData = translationData.drop(columns=['es-CO'])
     
-    # Apply other column renames safely
-    if 'fr-CA' in translationData.columns and conf.LANGUAGE_CODES['French'] != 'fr-CA':
-        translationData = translationData.rename(columns={'fr-CA': conf.LANGUAGE_CODES['French']})
+    # Do not rename language columns implicitly (e.g., keep 'fr-CA' as-is)
 
     #translationData = translationData.rename(columns={'labels': 'task'})
     
@@ -232,21 +231,7 @@ def generate_audio(language, force_regenerate=False):
 
     # Now that we have the current language, handle column renaming carefully
     # Don't rename the column we're currently working with to avoid cache issues
-    if os.path.exists("translation_master.csv"):
-        master_column_mapping = {
-            'en-US': 'en',
-            'es-CO': 'es', 
-            'de-DE': 'de',
-            'fr-CA': 'fr',
-            'nl-NL': 'nl'
-        }
-        
-        # Rename columns in master data to match our simplified format
-        # BUT skip renaming the column we're currently working with to avoid cache issues
-        for old_col, new_col in master_column_mapping.items():
-            if old_col in masterData.columns and old_col != lang_code:
-                masterData = masterData.rename(columns={old_col: new_col})
-                print(f"Renamed master column {old_col} -> {new_col}")
+    # Do not rename masterData language columns implicitly
 
     # remove the diff file to reset
     if os.path.exists(diff_file_name):
@@ -384,7 +369,9 @@ def generate_audio(language, force_regenerate=False):
                 retry_seconds= retry_seconds,
                 master_file_path=master_file_path, 
                 voice=voice, 
-                audio_base_dir = audio_base_dir)
+                audio_base_dir = audio_base_dir,
+                output_format = ("mp3_44100_64" if hi_fi else "mp3_22050_32")
+            )
         
         print(f"Audio generation completed for {language}")
         
@@ -432,12 +419,13 @@ def main(
     language: str,
     user_id: str = None,
     api_key: str = None,
-    force_regenerate: bool = False
+    force_regenerate: bool = False,
+    hi_fi: bool = False
 ):
     
     # is a language which can then
     # trigger the lang_code and voice
-    generate_audio(language=language, force_regenerate=force_regenerate)
+    generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi)
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate speech audio for translations')
@@ -446,13 +434,15 @@ if __name__ == "__main__":
                         help='Force regenerate: clears translation cache for the language and regenerates ALL audio items using the current voice from config')
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
+    parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
     
     args = parser.parse_args()
     
     main(language=args.language, 
          user_id=args.user_id, 
          api_key=args.api_key,
-         force_regenerate=args.force)
+         force_regenerate=args.force,
+         hi_fi=args.hi_fi)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 
