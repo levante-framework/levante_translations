@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file id="83" original="/item-bank-translations.xlsx" source-language="en" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
+  <file id="83" original="/item-bank-translations.xlsx" source-language="en-US" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
@@ -15,7 +15,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="52688" resname="general-device-type">
-        <source>Please use a tablet in landscape mode, or a desktop computer or a laptop to complete the activities.</source>
+        <source>Please use a tablet in landscape mode, a desktop computer, or a laptop to complete the activities.</source>
         <target state="translated">Por favor utiliza una tableta en modo horizontal, un ordenador de sobremesa o un portátil para que las actividades se puedan visualizar correctamente.</target>
         <context-group purpose="information">
           <context context-type="source">general-device-type
@@ -700,7 +700,7 @@ Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Es
         </context-group>
       </trans-unit>
       <trans-unit id="52684" resname="math-intro1">
-        <source>Here is the first section of the game. Let's start with some practice!</source>
+        <source>Here is the first section. Let's start with some practice!</source>
         <target state="translated">Esta es la primera sección. ¡Empecemos a practicar!</target>
         <context-group purpose="information">
           <context context-type="source">math-intro1
@@ -6626,7 +6626,7 @@ Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. &quot;¿Ven
         </context-group>
       </trans-unit>
       <trans-unit id="52377" resname="Example1Comic" approved="yes">
-        <source>Do you like to read cartoon books?</source>
+        <source>Do you like to read comic books?</source>
         <target state="final">¿Te gusta leer historietas (comics)?</target>
         <context-group purpose="information">
           <context context-type="source">Example1Comic
