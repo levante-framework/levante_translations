@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file id="222" original="/main/dashboard/components/game-tabs-translations.csv" source-language="en" target-language="es-CO" datatype="plaintext" project-id="756721" tool-id="crowdin">
+  <file id="222" original="/main/dashboard/components/game-tabs-translations.csv" source-language="en-US" target-language="es-CO" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
+      <trans-unit id="70936" resname="components/game-tabs.LEVANTE TRANSLATIONS--------------------------" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">components/game-tabs.LEVANTE TRANSLATIONS--------------------------</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70938" resname="components/game-tabs.clickToStart">
         <source>Click to start</source>
         <target state="translated">Haz clic para empezar</target>
