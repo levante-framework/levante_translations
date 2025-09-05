@@ -423,7 +423,7 @@
       </trans-unit>
       <trans-unit id="100032" resname="ChildChronicHealth">
         <source>&lt;b&gt;IN DE AFGELOPEN 12 MAANDEN&lt;/b&gt;, heeft uw kind REGELMATIG of CHRONISCH moeite gehad met een van de volgende?</source>
-        <target state="needs-translation"/>
+        <target state="translated">has your child had FREQUENT or CHRONIC difficulty with any of the following?&quot;</target>
         <context-group purpose="information">
           <context context-type="source">ChildChronicHealth</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -815,7 +815,7 @@
       </trans-unit>
       <trans-unit id="100130" resname="ChildVisionHearingExp">
         <source>Zo ja, graag toelichten:</source>
-        <target state="needs-translation"/>
+        <target state="translated">If yes, please explain:</target>
         <context-group purpose="information">
           <context context-type="source">ChildVisionHearingExp</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -863,7 +863,7 @@
       </trans-unit>
       <trans-unit id="100142" resname="ChildGeneticExp">
         <source>Als het antwoord ja is, graag de aandoening vermelden of toelichten:</source>
-        <target state="needs-translation"/>
+        <target state="translated">If yes, please note or explain the condition:</target>
         <context-group purpose="information">
           <context context-type="source">ChildGeneticExp</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -2247,7 +2247,7 @@
       </trans-unit>
       <trans-unit id="100488" resname="ChildPubertyFaceHairMale">
         <source>Waarschijnlijk groeit het nu zo snel als het ooit zal groeien</source>
-        <target state="needs-translation"/>
+        <target state="translated">Probably grows now as fast as it will ever grow</target>
         <context-group purpose="information">
           <context context-type="source">ChildPubertyFaceHairMale</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -2679,7 +2679,7 @@
       </trans-unit>
       <trans-unit id="100596" resname="ChildSCSitems">
         <source>Uw kind kan suggesties geven zonder bazig te zijn.</source>
-        <target state="needs-translation"/>
+        <target state="translated">Your child can give suggestions without being bossy.</target>
         <context-group purpose="information">
           <context context-type="source">ChildSCSitems</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3325,7 +3325,7 @@
       </trans-unit>
       <trans-unit id="100758" resname="ChildELSitems">
         <source>Meten of dingen wegen (bijv. bij het koken)</source>
-        <target state="needs-translation"/>
+        <target state="translated">when cooking)&quot;</target>
         <context-group purpose="information">
           <context context-type="source">ChildELSitems</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3781,7 +3781,7 @@
       </trans-unit>
       <trans-unit id="100872" resname="ChildEFQ1">
         <source>(1) Niet zelfstandig (Veel ondersteuning vereist)</source>
-        <target state="needs-translation"/>
+        <target state="translated">(1) Not able on their own (Requires a lot of support)</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ1</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3789,7 +3789,7 @@
       </trans-unit>
       <trans-unit id="100874" resname="ChildEFQ7">
         <source>&lt;b&gt;Negeert irrelevante activiteit/geruis&lt;/b&gt; (bijv., huilende broer of zus, tv, verkeer buiten) &lt;b&gt;bij het werken aan een toegewezen taak.&lt;/b&gt;</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Ignores irrelevant activity/noise&lt;/b&gt; (e.g., crying sibling, TV, outside traffic) &lt;b&gt;when working on an assigned task.&lt;/b&gt;</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ7</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3837,7 +3837,7 @@
       </trans-unit>
       <trans-unit id="100886" resname="ChildEFQ8">
         <source>&lt;b&gt;Voltooit een toegewezen taak voordat hij naar een volgende taak gaat.&lt;/b&gt;</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Completes an assigned task before moving to a next task.&lt;/b&gt;</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ8</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3853,7 +3853,7 @@
       </trans-unit>
       <trans-unit id="100890" resname="ChildEFQ18">
         <source>&lt;b&gt;Voltooit activiteiten die het onthouden van uitgebreide instructies vereisen&lt;/b&gt; (bijv., spelregels, huishoudelijke taken, kookrecept).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Completes activities that require remembering lengthy instructions&lt;/b&gt; (e.g., rules of a game, household chores, cooking recipe).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ18</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3901,7 +3901,7 @@
       </trans-unit>
       <trans-unit id="100902" resname="ChildEFQ19">
         <source>&lt;b&gt;Communiceert op een georganiseerde manier&lt;/b&gt; (bijv., vertelt de correcte volgorde van de gebeurtenissen opnieuw, legt uit hoe een spel werkt zodat het gemakkelijk te begrijpen is).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Communicates in an organized way&lt;/b&gt; (e.g., retells the correct sequence of the events, explains how a game works so it is easy to understand).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ19</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3917,7 +3917,7 @@
       </trans-unit>
       <trans-unit id="100906" resname="ChildEFQ31">
         <source>&lt;b&gt;Voltooit taken op tijd&lt;/b&gt; (bijv., voltooit huiswerk op tijd en niet op het laatste moment).</source>
-        <target state="needs-translation"/>
+        <target state="translated">finishes homework on time and not at the last minute).&quot;</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ31</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3925,7 +3925,7 @@
       </trans-unit>
       <trans-unit id="100908" resname="ChildEFQ4">
         <source>&lt;b&gt;Blijft gefocust en betrokken tijdens collaboratieve kind-leide activiteiten&lt;/b&gt; (bijv., spelen met broers/zussen / leeftijdsgenoten).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Remains focused and engaged during collaborative child-led activities&lt;/b&gt; (e.g., playing with siblings/peers).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ4</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3933,7 +3933,7 @@
       </trans-unit>
       <trans-unit id="100910" resname="ChildEFQ10">
         <source>&lt;b&gt;Negeert een favoriete, leuke activiteit&lt;/b&gt; (bijv., spelen) &lt;b&gt;wanneer gevraagd om een toegewezen taak te voltooien&lt;/b&gt; (bijv., kamer opruimen).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Ignores a preferred, fun activity&lt;/b&gt; (e.g., playing) &lt;b&gt;when asked to complete an assigned task&lt;/b&gt; (e.g., cleaning room).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ10</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3941,7 +3941,7 @@
       </trans-unit>
       <trans-unit id="100912" resname="ChildEFQ15">
         <source>&lt;b&gt;Wacht op zijn beurt om te handelen&lt;/b&gt; (bijv., wacht geduldig in de rij bij een supermarkt of wanneer een speelgoedgezamen wordt gedeeld met broer of zus).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Waits for their turn to act&lt;/b&gt; (e.g., waits patiently in line at a grocery store or when sharing a toy with sibling).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ15</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3981,7 +3981,7 @@
       </trans-unit>
       <trans-unit id="100922" resname="ChildEFQ11">
         <source>&lt;b&gt;Beantwoordt vragen of vertelt een verhaal zonder zich te laten afleiden door kleine details en/of zijn gedachtegang te verliezen.&lt;/b&gt;</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Answers questions or tells a story without getting distracted by small details and/or losing train of thought.&lt;/b&gt;</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ11</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3989,7 +3989,7 @@
       </trans-unit>
       <trans-unit id="100924" resname="ChildEFQ16">
         <source>&lt;b&gt;Stopt en denkt na voordat hij handelt&lt;/b&gt; (bijv., rent niet zomaar de straat op, pakt geen dingen die hij niet mag pakken).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Stops and thinks before acting&lt;/b&gt; (e.g., does not run out in front of a car, does not grab things they shouldn't).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ16</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -3997,7 +3997,7 @@
       </trans-unit>
       <trans-unit id="100926" resname="ChildEFQ21">
         <source>&lt;b&gt;Herinnert zich en overweegt alle opties bij het maken van een keuze&lt;/b&gt; (bijv., wat te doen wanneer ze vastlopen op een huishoudelijke taak of een probleem onder ogen zien, voedselopties).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Remembers and considers all options when making a choice&lt;/b&gt; (e.g., what to do when they get stuck on a household task or face a problem, food options).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ21</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -4029,7 +4029,7 @@
       </trans-unit>
       <trans-unit id="100934" resname="ChildEFQ22">
         <source>&lt;b&gt;Herinnert zich fysieke richtingen, patronen, en waar dingen zijn&lt;/b&gt; (bijv., weet wandelroutes, vindt dingen in een supermarkt, goed in het zoeken naar een verloren voorwerp of verstoppertje spelen).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Remembers physical directions, patterns, and where things are&lt;/b&gt; (e.g., knows walking routes, finds things in a grocery store, good at searching for a lost item or playing hide-and-seek).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ22</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -4037,7 +4037,7 @@
       </trans-unit>
       <trans-unit id="100936" resname="ChildEFQ28">
         <source>&lt;b&gt;Past gedrag aan op basis van wat de situatie vereist&lt;/b&gt; (bijv., wisselt van personages/rollen tijdens het spelen van een spel, verandert gedrag gebaseerd op speeltijd of studietijd).</source>
-        <target state="needs-translation"/>
+        <target state="translated">&lt;b&gt;Adapts behavior based on what is required by the situation&lt;/b&gt; (e.g., switches characters/roles while playing a game, changes behavior based on playtime or study time).</target>
         <context-group purpose="information">
           <context context-type="source">ChildEFQ28</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -4701,7 +4701,7 @@
       </trans-unit>
       <trans-unit id="101102" resname="HomeHOME24j">
         <source>Anders, graag specificeren</source>
-        <target state="needs-translation"/>
+        <target state="translated">Other, please specify</target>
         <context-group purpose="information">
           <context context-type="source">HomeHOME24j</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -5629,7 +5629,7 @@
       </trans-unit>
       <trans-unit id="101334" resname="navigation.startSurvey">
         <source>Start Survey</source>
-        <target state="needs-translation"/>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Start Survey</target>
         <context-group purpose="information">
           <context context-type="source">navigation.startSurvey</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -5637,7 +5637,7 @@
       </trans-unit>
       <trans-unit id="101336" resname="navigation.previous">
         <source>Previous</source>
-        <target state="needs-translation"/>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Previous</target>
         <context-group purpose="information">
           <context context-type="source">navigation.previous</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
@@ -5645,7 +5645,7 @@
       </trans-unit>
       <trans-unit id="101338" resname="navigation.next">
         <source>Next</source>
-        <target state="needs-translation"/>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Next</target>
         <context-group purpose="information">
           <context context-type="source">navigation.next</context>
           <context context-type="x-crowdin-label">parent_survey_child</context>
