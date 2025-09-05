@@ -4299,6 +4299,38 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Memory </context>
         </context-group>
       </trans-unit>
+      <trans-unit id="52750" resname="memory-game-input" approved="yes">
+        <source>Choose the squares in the same order.</source>
+        <target state="final">Wähle die Quadrate in der gleichen Reihenfolge.</target>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-input
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n433c525o4356535a53386n445r433l4j4q4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n453c525o4356535a53386n445r433l4j4r4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n473c525o4356535a53386n445r433l4j4s4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o433c525o4356535a53386n445r433l4k4l4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o453c525o4356535a53386n445r433l4k4m4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o473c525o4356535a53386n445r433l4k4n4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p433c525o4356535a53386n445r433l4k4q4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p453c525o4356535a53386n445r433l4k4r4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p473c525o4356535a53386n445r433l4k4s4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3q433c525o4356535a53386n445r433l4l4l4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3q453c525o4356535a53386n445r433l4l4m4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r433c525o4356535a53386n445r433l4l4q4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r453c525o4356535a53386n445r433l4l4r4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r473c525o4356535a53386n445r433l4l4s4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-15">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3s433c525o4356535a53386n445r433l4m4l4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-16">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3s453c525o4356535a53386n445r433l4m4m4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-17">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t433c525o4356535a53386n445r433l4m4q4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-18">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t453c525o4356535a53386n445r433l4m4r4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-19">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3t493c525o4356535a53386n445r433l4n4j4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-20">https://crowdin.com/s/wrap/d3e373e3j483v6b383k413c525o4356535a53386n445r433l4n4k4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-21">https://crowdin.com/s/wrap/d3e373e3j483v6b383k453c525o4356535a53386n445r433l4n4m4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-screenshot-22">https://crowdin.com/s/wrap/d3e373e3j483v6b383k473c525o4356535a53386n445r433l4n4n4u2l615d6?t=52750</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="51963" resname="memory-game-instruct1">
         <source>This is the memory game. Here's how you play it.</source>
         <target state="translated">Das ist ein Memory-Spiel. Ich erkläre dir jetzt wie das Memory-Spiel funktioniert.</target>
@@ -8842,6 +8874,15 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="52908" resname="memory-game-instruct6-heavy">
+        <source>If you make a mistake, just keep going!</source>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Wenn du einen Fehler machst, mach einfach weiter!</target>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct6-heavy
+</context>
+          <context context-type="x-crowdin-label">memory-game</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="52912" resname="ns-number-identification-1">
         <source>Choose the card that shows 1 apple.</source>
         <target state="translated">Wählen Sie die Karte, die 1 Apfel zeigt.</target>
@@ -8922,9 +8963,9 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="92838" resname="number-identification-42" approved="yes">
+      <trans-unit id="92838" resname="number-identification-42">
         <source>Choose the 8.</source>
-        <target state="final">Wähle die  8.</target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Wähle die 8.</target>
         <context-group purpose="information">
           <context context-type="source">number-identification-42
 </context>
