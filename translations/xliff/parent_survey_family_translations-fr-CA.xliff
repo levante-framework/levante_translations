@@ -1261,6 +1261,30 @@
           <context context-type="x-crowdin-label">parent_survey_family</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="89482" resname="navigation.startSurvey">
+        <source>Start Survey</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">parent_survey_family</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89484" resname="navigation.previous">
+        <source>Previous</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">parent_survey_family</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89486" resname="navigation.next">
+        <source>Next</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">parent_survey_family</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
