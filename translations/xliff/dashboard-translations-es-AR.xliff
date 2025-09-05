@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file id="198" original="/main/dashboard/dashboard-translations.csv" source-language="en" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
+  <file id="198" original="/main/dashboard/dashboard-translations.csv" source-language="en-US" target-language="es-AR" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
@@ -51,6 +51,14 @@ header</context>
         <context-group purpose="information">
           <context context-type="source">auth/consent.rejectButton
 rejectButton</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70846" resname="auth/consent.title" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.title
+title</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70848" resname="auth/consent.toastHeader">
@@ -157,6 +165,14 @@ invalidEmailPlaceholder</context>
 minimumCharacters</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70770" resname="auth/signin.pageTitle" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.pageTitle
+pageTitle</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70874" resname="auth/signin.passwordId">
         <source>password</source>
         <target state="translated">contraseña</target>
@@ -227,6 +243,14 @@ signInWithPasswordInstead</context>
         <context-group purpose="information">
           <context context-type="source">auth/signin.suggestions
 suggestions</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70790" resname="pages/home-participant.consentUpdatedStatus" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.consentUpdatedStatus
+consentUpdatedStatus</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70892" resname="pages/home-participant.contactAdministrator">
