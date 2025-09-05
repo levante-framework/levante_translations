@@ -471,7 +471,7 @@
       </trans-unit>
       <trans-unit id="89662" resname="TeacherMathFrequency">
         <source></source>
-        <target state="translated"></target>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Daily</target>
         <context-group purpose="information">
           <context context-type="source">TeacherMathFrequency</context>
           <context context-type="x-crowdin-label">teacher_survey_classroom</context>
@@ -602,6 +602,30 @@
         <target state="translated">Communication between you and your students.</target>
         <context-group purpose="information">
           <context context-type="source">TeacherCommStudents</context>
+          <context context-type="x-crowdin-label">teacher_survey_classroom</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89722" resname="navigation.startSurvey">
+        <source>Start Survey</source>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Start Survey</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_classroom</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89724" resname="navigation.previous">
+        <source>Previous</source>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Previous</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
+          <context context-type="x-crowdin-label">teacher_survey_classroom</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="89726" resname="navigation.next">
+        <source>Next</source>
+        <target state="needs-review-translation" state-qualifier="leveraged-tm">Next</target>
+        <context-group purpose="information">
+          <context context-type="source">unknown</context>
           <context context-type="x-crowdin-label">teacher_survey_classroom</context>
         </context-group>
       </trans-unit>
