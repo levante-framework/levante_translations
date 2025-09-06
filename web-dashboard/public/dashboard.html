@@ -303,6 +303,12 @@
             font-size: 12px;
             line-height: 1.4;
         }
+        /* Modal overrides: allow wider text cells inside the audio validation modal */
+        #audioValidationModal .data-table .text-cell {
+            max-width: none;
+            white-space: normal;
+            word-wrap: break-word;
+        }
 
         .data-table .audio-path {
             font-size: 10px;
@@ -408,6 +414,9 @@
             width: 80%;
             max-width: 600px;
             position: relative;
+            resize: both;
+            overflow: auto;
+            cursor: move;
         }
 
         .close {
@@ -535,11 +544,17 @@
                             <strong>Max:</strong> {{ (summary.max*100).toFixed(1) }}%
                         </div>
                         <div style="max-height:320px; overflow:auto; border:1px solid #eee; border-radius:8px;">
-                            <table class="data-table" style="width:100%; font-size:12px;">
+                                                        <table class="data-table" style="width:100%; font-size:12px; table-layout: fixed;">
+                                <colgroup>
+                                    <col style="width: 15%">
+                                    <col style="width: 10%">
+                                    <col style="width: 35%">
+                                    <col style="width: 35%">
+                                    <col style="width: 5%">
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th @click="setSort('filename')" style="cursor:pointer">filename</th>
-
                                         <th @click="setSort('similarity')" style="cursor:pointer">similarity_ratio</th>
                                         <th>expected</th>
                                         <th>transcribed</th>
@@ -550,8 +565,8 @@
                                     <tr v-for="r in sortedRows" :key="r.audio_path">
                                         <td class="audio-path">{{ r.filename }}</td>
                                         <td>{{ (r.basic_metrics?.similarity_ratio ?? 0).toFixed(3) }}</td>
-                                        <td class="text-cell">{{ r.expected_text }}</td>
-                                        <td class="text-cell">{{ r.transcribed_text }}</td>
+                                        <td class="text-cell text-expected">{{ r.expected_text }}</td>
+                                        <td class="text-cell text-transcribed">{{ r.transcribed_text }}</td>
                                         <td><button class="btn btn-primary btn-compact" @click="playRow(r)" title="Play audio"><i class="fas fa-play"></i></button></td>
                                     </tr>
                                 </tbody>

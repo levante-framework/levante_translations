@@ -7,7 +7,7 @@ function injectAudioValidationButton() {
 			btn.className = 'btn btn-info audio-validation-btn';
 			btn.style.marginLeft = 'auto';
 			btn.innerHTML = '<i class="fas fa-wave-square"></i> Audio Validation';
-			btn.onclick = openAudioValidationModal;
+			btn.onclick = () => { window.open('./audio-validation.html', '_blank'); };
 			header.style.display = 'flex';
 			header.style.alignItems = 'center';
 			header.style.gap = '10px';

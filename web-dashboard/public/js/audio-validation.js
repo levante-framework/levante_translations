@@ -121,3 +121,37 @@ function initAudioValidationApp() {
 	});
 	app.mount('#audio-validation-app');
 }
+
+// Improve dragging: only drag when mousedown on header, ignore clicks inside table
+(function enableAudioValidationDrag(){
+	function makeDraggable(modalId, headerSelector) {
+		const modal = document.getElementById(modalId);
+		if (!modal) return;
+		const content = modal.querySelector('.modal-content');
+		const header = modal.querySelector(headerSelector) || content;
+		let isDown=false, startX=0, startY=0, originLeft=0, originTop=0;
+		header.style.cursor = 'move';
+		header.addEventListener('mousedown', (e)=>{
+			// Only start drag if target is within the header element
+			if (e.target !== header) return;
+			isDown=true; startX=e.clientX; startY=e.clientY;
+			const r = content.getBoundingClientRect();
+			originLeft = r.left; originTop = r.top;
+			document.body.style.userSelect='none';
+		});
+		document.addEventListener('mousemove', (e)=>{
+			if(!isDown) return;
+			const dx = e.clientX - startX;
+			const dy = e.clientY - startY;
+			content.style.position='fixed';
+			content.style.left = `${Math.max(10, Math.min(window.innerWidth-10, originLeft+dx))}px`;
+			content.style.top = `${Math.max(10, Math.min(window.innerHeight-10, originTop+dy))}px`;
+		});
+		document.addEventListener('mouseup', ()=>{ isDown=false; document.body.style.userSelect=''; });
+	}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', ()=>makeDraggable('audioValidationModal','h2'));
+	} else {
+		makeDraggable('audioValidationModal','h2');
+	}
+})();
