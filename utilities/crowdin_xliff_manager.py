@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import requests
 
-API_BASE = "https://api.crowdin.com/api/v2"
+API_BASE = os.environ.get("CROWDIN_API_BASE", "https://api.crowdin.com/api/v2").rstrip("/")
 
 def get_crowdin_token() -> str:
     """Get Crowdin API token from environment or file."""

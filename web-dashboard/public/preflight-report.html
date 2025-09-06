@@ -20,6 +20,8 @@
 		.small { color: #374151; font-size: 12px; font-weight: 500; }
 		.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
 		.footer { margin-top: 16px; font-size: 12px; color: #6b7280; }
+		.section { margin-top: 20px; padding-top: 8px; border-top: 1px solid #e5e7eb; }
+		.link { color: #0d6efd; cursor: pointer; text-decoration: underline; }
 	</style>
 </head>
 <body>
@@ -38,6 +40,13 @@
 		</thead>
 		<tbody></tbody>
 	</table>
+
+	<div class="section" id="visualAudit">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Visual Assets Audit</h2>
+		<p class="small">Bucket: <span id="visualBucket" class="code"></span> · Prefix: <span id="visualPrefix" class="code">visual/</span></p>
+		<p id="visualSummary" class="small">Loading…</p>
+		<p class="small"><span id="visualDetails" class="link" style="display:none; margin-right:12px;">Show missing PNG → WEBP list</span><button id="visualFixBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Fix It</button></p>
+	</div>
 	<div class="footer">
 		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
 		<div class="small" style="margin-top:6px;">
@@ -262,6 +271,59 @@
 				svCell.appendChild(infoBtn);
 			}
 			tbody.appendChild(tr);
+		}
+
+		// Visual assets audit + Fix It
+		async function refreshVisualAudit() {
+			try {
+				const res = await fetch(`/api/visual-audit?env=${encodeURIComponent(env)}&prefix=visual/`, { cache: 'no-cache' });
+				if (!res.ok) { document.getElementById('visualSummary').textContent = 'Visual audit unavailable (API error)'; return; }
+				const data = await res.json();
+				document.getElementById('visualBucket').textContent = data.bucket || '';
+				const missing = Array.isArray(data.missing) ? data.missing : [];
+				const pngCount = data.pngCount || 0;
+				const webpCount = data.webpCount || 0;
+				const missingCount = data.missingCount || missing.length;
+				const summary = document.getElementById('visualSummary');
+				summary.innerHTML = `PNGs: <span class="code">${pngCount}</span> · WEBPs: <span class="code">${webpCount}</span> · Missing WEBP: <span class="badge ${missingCount===0?'ok':'err'}">${missingCount}</span>`;
+				const detailsLink = document.getElementById('visualDetails');
+				const fixBtn = document.getElementById('visualFixBtn');
+				if (missingCount > 0) {
+					detailsLink.style.display = '';
+					fixBtn.style.display = '';
+					detailsLink.onclick = () => { alert('PNGs without WEBP (first 200 shown):\n- ' + missing.slice(0,200).join('\n- ')); };
+				} else {
+					detailsLink.style.display = 'none';
+					fixBtn.style.display = 'none';
+				}
+			} catch (e) {
+				document.getElementById('visualSummary').textContent = 'Visual audit unavailable';
+			}
+		}
+
+		await refreshVisualAudit();
+
+		const fixBtn = document.getElementById('visualFixBtn');
+		if (fixBtn) {
+			fixBtn.addEventListener('click', async () => {
+				const prev = fixBtn.textContent;
+				fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
+				try {
+					const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
+					if (res.ok) {
+						const data = await res.json();
+						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
+						alert(`WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
+						await refreshVisualAudit();
+					} else {
+						alert('Fix failed: API error');
+					}
+				} catch (e) {
+					alert('Fix failed: ' + (e && e.message ? e.message : 'unknown error'));
+				} finally {
+					fixBtn.disabled = false; fixBtn.textContent = prev;
+				}
+			});
 		}
 	})();
 	</script>

@@ -27,7 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^7.16.0",
-    "node-id3": "^0.2.9"
+    "node-id3": "^0.2.9",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
