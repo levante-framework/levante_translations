@@ -24,7 +24,8 @@ class WhisperTranscriber:
     def _ensure_model(self) -> None:
         if self._model is None:
             # Whisper loads best device automatically (cuda if available)
-            self._model = self._whisper.load_model(self._model_size, **self._load_options)
+            device = "cuda" if self._whisper.torch.cuda.is_available() else "cpu"
+            self._model = self._whisper.load_model(self._model_size, device=device, **self._load_options)
 
     def transcribe(
         self,

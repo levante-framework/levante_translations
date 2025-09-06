@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('credentialsModal')) {
             loadCredentials();
             initLanguageConfigApp();
+            initAudioValidationApp();
         } else {
             // Retry in 50ms if modals aren't loaded yet
             setTimeout(initializeAfterModals, 50);
@@ -40,10 +41,14 @@ loadRemoteLanguagesIntoConfig();
 window.onclick = function(event) {
     const credentialsModal = document.getElementById('credentialsModal');
     const audioInfoModal = document.getElementById('audioInfoModal');
+    const audioValidationModal = document.getElementById('audioValidationModal');
     if (event.target === credentialsModal) {
         closeCredentialsModal();
     }
     if (event.target === audioInfoModal) {
         closeAudioInfoModal();
+    }
+    if (event.target === audioValidationModal) {
+        closeAudioValidationModal();
     }
 };

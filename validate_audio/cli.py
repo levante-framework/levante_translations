@@ -43,6 +43,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--model-size", default="base", help="Whisper model size (tiny, base, small, medium, large)")
     parser.add_argument("--no-quality", action="store_true", help="Skip audio quality assessment.")
     parser.add_argument("--output", help="Path to write results as JSON (list) or JSONL if ends with .jsonl")
+    parser.add_argument("--web-dashboard", action="store_true", help="Save results to web-dashboard/data/ for UI viewing")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON to stdout")
 
     args = parser.parse_args(argv)
@@ -76,7 +77,17 @@ def main(argv: Optional[List[str]] = None) -> int:
             id3_preferred_key=args.id3_key,
         )
 
-    if args.output:
+    if args.web_dashboard:
+        # Save to web-dashboard/data/ with timestamp
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        lang = args.language or "unknown"
+        out_path = Path("web-dashboard/data") / f"validation_results_{lang}_{timestamp}.json"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with out_path.open("w", encoding="utf-8") as f:
+            json.dump(results if len(audio_paths) > 1 else results[0], f, ensure_ascii=False, indent=2)
+        print(f"Results saved to: {out_path}")
+    elif args.output:
         out_path = Path(args.output)
         if out_path.suffix.lower() == ".jsonl":
             with out_path.open("w", encoding="utf-8") as f:

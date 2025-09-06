@@ -1,0 +1,90 @@
+[
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct3.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "medium",
+    "expected_text": "El papá no oyó a Emma decir que quería su pelota roja. Así que el papá piensa que Emma quiere su pelota amarilla. El papá va a preparar la mochila de Emma, ¡pero no encuentra su pelota amarilla en la caja de juguetes! Pero papá el encuentra la pelota azul en la caja de juguetes, así que empaca la pelota azul en la maleta de Emma.",
+    "transcribed_text": "El papá no oyó a Emma decir que quería su pelota roja, así que el papá piensa que Emma quiere su pelota amarilla. El papá va a preparar la mochila de Emma, pero no encuentra su pelota amarilla en la caja de juguetes. Pero papá le encuentra la pelota azul en la caja de juguetes, así que empaca la pelota azul en la maleta de Emma.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.19969742813918306,
+      "word_error_rate": 0.06060606060606061
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9894099848714071,
+      "fuzzy_token_ratio": 0.9652042360060514,
+      "rouge_1_f": 0.906249995,
+      "rouge_l_f": 0.906249995,
+      "bleu_score": 0.8450517931572907,
+      "overall_similarity": 0.9135705910095661
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct2.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "medium",
+    "expected_text": "Después, Emma se fue a su habitación a prepararse para ir al colegio. Mientras se preparaba, cambió de opinión y le gritó a su papá: \"En realidad, ¿podría mejor llevar mi pelota roja, por favor?\" y siguió preparándose para ir al colegio. Pero Papá no oyó a Emma pedir su pelota roja.",
+    "transcribed_text": "Después, Emma se fue a su habitación a prepararse para ir al colegio. Mientras se preparaba, cambió de opinión y le gritó a su papá, ¿en realidad podría mejor llevar mi pelota roja por favor? Y siguió preparándose para ir al colegio. Pero papá no oyó a Emma pedir su pelota roja.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9501779359430605,
+      "word_error_rate": 0.11538461538461539
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9857651245551602,
+      "fuzzy_token_ratio": 0.9572953736654805,
+      "rouge_1_f": 0.8571428521437006,
+      "rouge_l_f": 0.8571428521437006,
+      "bleu_score": 0.8038197199440252,
+      "overall_similarity": 0.8822425655476286
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ChildSurveyIntro.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "medium",
+    "expected_text": "Estas preguntas se refieren a cómo te sientes en el colegio, y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. Las primeras dos preguntas son de práctica.",
+    "transcribed_text": "Estas preguntas se refieren a cómo te sientes en el colegio y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca. Sí, algunas veces. Sí, muchas veces. Sí, siempre. Las primeras dos preguntas son de práctica.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.4911717495987159,
+      "word_error_rate": 0.07272727272727272
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9887640449438202,
+      "fuzzy_token_ratio": 0.9887640449438202,
+      "rouge_1_f": 0.9411764655889273,
+      "rouge_l_f": 0.9411764655889273,
+      "bleu_score": 0.8174570612364902,
+      "overall_similarity": 0.9157991905897459
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-instruct4.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "medium",
+    "expected_text": "Megan está triste porque no tiene un libro de cuentos y le pregunta a la profesora Sara: \"¿Queda algún libro de cuentos para mí?\" La profesora Sara le dice: \"Lo siento mucho Megan, pero no quedan libros de cuentos, todos están en uso.\"",
+    "transcribed_text": "Megan está triste porque no tiene un libro de cuentos y le pregunta a la profesora Sara ¿Queda algún libro de cuentos para mí? La profesora Sara le dice lo siento mucho Megan pero no quedan libros de cuentos todos están en uso.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.974025974025974,
+      "word_error_rate": 0.18604651162790697
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9826839826839827,
+      "fuzzy_token_ratio": 0.9393939393939393,
+      "rouge_1_f": 0.823529406782007,
+      "rouge_l_f": 0.823529406782007,
+      "bleu_score": 0.6137283672280748,
+      "overall_similarity": 0.8066472522313548
+    },
+    "quality": null
+  }
+]

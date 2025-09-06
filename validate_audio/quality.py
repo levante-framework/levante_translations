@@ -9,9 +9,11 @@ def _ensure_clap_model() -> None:
     global _CLAP_MODEL, _CLAP_PROCESSOR
     if _CLAP_MODEL is not None and _CLAP_PROCESSOR is not None:
         return
+    import torch  # type: ignore
     from transformers import ClapModel, ClapProcessor  # type: ignore
 
-    _CLAP_MODEL = ClapModel.from_pretrained("laion/larger_clap_music_and_speech")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    _CLAP_MODEL = ClapModel.from_pretrained("laion/larger_clap_music_and_speech").to(device)
     _CLAP_PROCESSOR = ClapProcessor.from_pretrained("laion/larger_clap_music_and_speech")
 
 

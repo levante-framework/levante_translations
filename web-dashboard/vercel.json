@@ -27,6 +27,12 @@
     },
     "api/google-translate.js": {
       "maxDuration": 30
+    },
+    "api/list-validation-files.js": {
+      "maxDuration": 10
+    },
+    "api/get-validation-file.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
@@ -56,6 +62,24 @@
     }
   ],
   "headers": [
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/public/(.*)",
       "headers": [
