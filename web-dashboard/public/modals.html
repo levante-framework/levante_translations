@@ -334,11 +334,17 @@
                     <div><strong>Max:</strong> {{ (summary.max*100).toFixed(1) }}%</div>
                 </div>
                 <div style="max-height:420px; overflow:auto; border:1px solid #eee; border-radius:8px;">
-                    <table class="data-table" style="width:100%; font-size:12px;">
+                    <table class="data-table" style="width:100%; font-size:12px; table-layout: fixed;">
+                        <colgroup>
+                            <col style="width: 15%">
+                            <col style="width: 10%">
+                            <col style="width: 35%">
+                            <col style="width: 35%">
+                            <col style="width: 5%">
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th @click="setSort('filename')" style="cursor:pointer">filename</th>
-
                                 <th @click="setSort('similarity')" style="cursor:pointer">similarity_ratio</th>
                                 <th>expected</th>
                                 <th>transcribed</th>
