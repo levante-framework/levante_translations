@@ -7,6 +7,17 @@ const ASSETS_BUCKET = process.env.ASSETS_DEV_BUCKET || 'levante-assets-dev';
 // Initialize Google Cloud Storage client
 let storageClient = null;
 
+function hasUsefulTags(tags) {
+    try {
+        if (!tags) return false;
+        const keys = Object.keys(tags);
+        if (keys.length === 0) return false;
+        // If only raw header or trivial fields, consider empty
+        const meaningful = ['title','artist','album','genre','comment','userDefinedText','text','date','copyright'];
+        return keys.some(k => meaningful.includes(k));
+    } catch { return false; }
+}
+
 async function initializeGCS() {
     if (storageClient) return storageClient;
     
@@ -32,25 +43,29 @@ async function initializeGCS() {
 
 async function downloadAndReadID3Tags(bucket, file) {
     try {
-        console.log('📥 Downloading file to read ID3 tags...');
-        
-        // Download only the first 64KB of the file (ID3v2 tags are typically at the beginning)
-        // This is much more efficient than downloading the entire audio file
-        const [fileBuffer] = await file.download({
-            start: 0,
-            end: 65535 // First 64KB should contain ID3 tags
-        });
-        
-        console.log(`📖 Reading ID3 tags from ${fileBuffer.length} bytes...`);
-        
-        // Read ID3 tags using node-id3
-        const tags = NodeID3.read(fileBuffer);
-        
-        console.log('🏷️ ID3 tags found:', Object.keys(tags));
-        return tags;
+        console.log('📥 Downloading file head to read ID3 tags...');
+        const [headBuffer] = await file.download({ start: 0, end: 65535 });
+        let tags = NodeID3.read(headBuffer);
+        if (hasUsefulTags(tags)) return tags;
+
+        // Try tail for ID3v1 or trailing tags
+        try {
+            const [meta] = await file.getMetadata();
+            const size = Number(meta.size || 0);
+            if (size > 0) {
+                const tailStart = Math.max(0, size - 131072);
+                console.log(`📥 Downloading file tail (${tailStart}-${size}) to read trailing ID3 tags...`);
+                const [tailBuffer] = await file.download({ start: tailStart });
+                const tailTags = NodeID3.read(tailBuffer);
+                if (hasUsefulTags(tailTags)) return tailTags;
+            }
+        } catch (e) {
+            console.warn('⚠️ Tail read for ID3 failed:', e.message);
+        }
+        return tags || null;
         
     } catch (error) {
-        console.warn('⚠️ Could not read ID3 tags:', error.message);
+        console.warn('⚠️ Could not read ID3 tags (head/tail):', error.message);
         return null;
     }
 }
@@ -58,14 +73,34 @@ async function downloadAndReadID3Tags(bucket, file) {
 // Fallback: read ID3 via public HTTP Range request without GCS SDK/auth
 async function httpReadID3Tags(audioUrl) {
     try {
-        const resp = await fetch(audioUrl, { headers: { Range: 'bytes=0-65535' } });
-        if (!resp.ok) {
-            return { ok: false, tags: null, status: resp.status };
+        // Try head first
+        let ok = false; let status = 0; let tags = null;
+        try {
+            const respHead = await fetch(audioUrl, { headers: { Range: 'bytes=0-65535' } });
+            status = respHead.status;
+            if (respHead.ok) {
+                ok = true;
+                const bufHead = Buffer.from(await respHead.arrayBuffer());
+                const headTags = NodeID3.read(bufHead);
+                if (hasUsefulTags(headTags)) return { ok: true, tags: headTags, status };
+            }
+        } catch (e) {
+            console.warn('⚠️ HTTP head range fetch failed:', e.message);
         }
-        const arrayBuf = await resp.arrayBuffer();
-        const buf = Buffer.from(arrayBuf);
-        const tags = NodeID3.read(buf);
-        return { ok: true, tags: tags || null, status: resp.status };
+        // Try tail next
+        try {
+            const respTail = await fetch(audioUrl, { headers: { Range: 'bytes=-131072' } });
+            status = respTail.status;
+            if (respTail.ok) {
+                ok = true;
+                const bufTail = Buffer.from(await respTail.arrayBuffer());
+                const tailTags = NodeID3.read(bufTail);
+                if (hasUsefulTags(tailTags)) return { ok: true, tags: tailTags, status };
+            }
+        } catch (e) {
+            console.warn('⚠️ HTTP tail range fetch failed:', e.message);
+        }
+        return { ok, tags: null, status };
     } catch (err) {
         console.warn('⚠️ HTTP ID3 fallback failed:', err.message);
         return { ok: false, tags: null, status: 0 };
