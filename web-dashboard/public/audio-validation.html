@@ -47,7 +47,8 @@
 						<col style="width: 30%">
 						<col style="width: 30%">
 						<col style="width: 7%">
-						<col style="width: 8%">
+						<col style="width: 6%">
+						<col style="width: 6%">
 					</colgroup>
 					<thead>
 						<tr>
@@ -57,6 +58,7 @@
 							<th>transcribed</th>
 							<th>play</th>
 							<th>regen</th>
+							<th>save</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -67,6 +69,7 @@
 							<td class="text-cell">{{ r.transcribed_text }}</td>
 							<td><button class="btn btn-primary btn-compact" @click="playRow(r)" title="Play existing"><i class="fas fa-play"></i></button></td>
 							<td><button class="btn btn-success btn-compact" @click="regenAndPlay(r)" title="Regenerate & Play"><i class="fas fa-magic"></i></button></td>
+							<td><button class="btn btn-secondary btn-compact" @click="saveRow(r)" title="Save over original"><i class="fas fa-save"></i></button></td>
 						</tr>
 					</tbody>
 				</table>
