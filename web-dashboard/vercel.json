@@ -19,6 +19,12 @@
     "api/validation-storage.js": {
       "maxDuration": 30
     },
+    "api/visual-audit.js": {
+      "maxDuration": 60
+    },
+    "api/visual-fix.js": {
+      "maxDuration": 60
+    },
     "api/google-translate.js": {
       "maxDuration": 30
     }

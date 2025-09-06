@@ -79,7 +79,8 @@ def main(
         api_key: str = None,
         output_file_path: str = None,
         item_id_column: str = 'item_id',
-        audio_base_dir: str = None
+        audio_base_dir: str = None,
+        output_format: str = "mp3_22050_32"
         ):
         
     # basically we want to iterate through rows,
@@ -119,7 +120,7 @@ def main(
             
             result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
                                 audio_base_dir=audio_base_dir, masterData=masterData, \
-                                headers=None)
+                                headers=None, output_format=output_format)
             
             # replace with match once we are past python 3.10
             if result == 'Error':
@@ -161,7 +162,7 @@ def main(
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, voice_id, \
-               masterData, audio_base_dir, headers):
+               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56"):
 
     # reset local error count for new row
     errorCount = 0
@@ -198,7 +199,8 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
         audio = audio_client.text_to_speech.convert(
             text=translation_text,
             voice_id=voice_id,
-            model_id="eleven_multilingual_v2"
+            model_id="eleven_multilingual_v2",
+            output_format=output_format
         )
 
         # Create a response object that mimics what PlayHT returns for consistency
