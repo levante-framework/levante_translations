@@ -15,7 +15,7 @@ def compute_basic_metrics(expected_text: str, transcribed_text: str) -> Dict[str
     try:
         import jiwer  # type: ignore
 
-        wer_score = jiwer.wer(expected_norm, transcribed_norm)
+        wer_score = jiwer.wer(expected_norm.lower(), transcribed_norm.lower())
     except Exception:
         wer_score = None
 
@@ -52,7 +52,7 @@ def comprehensive_text_similarity(original_text: str, transcribed_text: str) -> 
         from rapidfuzz import fuzz  # type: ignore
 
         fuzzy_ratio = fuzz.ratio(original_norm.lower(), transcribed_norm.lower()) / 100.0
-        fuzzy_token_ratio = fuzz.token_sort_ratio(original_norm, transcribed_norm) / 100.0
+        fuzzy_token_ratio = fuzz.token_sort_ratio(original_norm.lower(), transcribed_norm.lower()) / 100.0
     except Exception:
         fuzzy_ratio = None
         fuzzy_token_ratio = None
@@ -64,7 +64,7 @@ def comprehensive_text_similarity(original_text: str, transcribed_text: str) -> 
         from rouge import Rouge  # type: ignore
 
         rouge = Rouge()
-        scores = rouge.get_scores(transcribed_norm, original_norm)[0]
+        scores = rouge.get_scores(transcribed_norm.lower(), original_norm.lower())[0]
         rouge_1_f = scores.get("rouge-1", {}).get("f")
         rouge_l_f = scores.get("rouge-l", {}).get("f")
     except Exception:
