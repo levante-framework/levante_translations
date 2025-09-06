@@ -19,6 +19,10 @@
 		.audio-path { font-family:monospace; font-size:11px; color:#6c757d; }
 		.text-cell { white-space:normal; word-wrap:break-word; }
 		.badge { padding:2px 6px; border-radius:12px; font-size:11px; background:#eef; color:#334; }
+		.regen-menu { position: relative; display: inline-block; }
+		.regen-dropdown { position:absolute; right:0; top:100%; background:#fff; border:1px solid #ddd; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.1); min-width:160px; z-index:10; }
+		.regen-dropdown button { display:block; width:100%; text-align:left; padding:6px 10px; background:#fff; border:none; cursor:pointer; font-size:12px; }
+		.regen-dropdown button:hover { background:#f1f1f1; }
 	</style>
 </head>
 <body>
@@ -68,7 +72,19 @@
 							<td class="text-cell">{{ r.expected_text }}</td>
 							<td class="text-cell">{{ r.transcribed_text }}</td>
 							<td><button class="btn btn-primary btn-compact" @click="playRow(r)" title="Play existing"><i class="fas fa-play"></i></button></td>
-							<td><button class="btn btn-success btn-compact" @click="regenAndPlay(r)" title="Regenerate & Play"><i class="fas fa-magic"></i></button></td>
+							<td>
+								<div class="regen-menu" @click.stop>
+									<button class="btn btn-success btn-compact" @click="toggleRegen(r)" title="Regenerate & Play">
+										<i class="fas fa-magic"></i>
+									</button>
+									<div class="regen-dropdown" v-if="regenOpenId===rowId(r)">
+										<button @click="chooseRegen(r,'default')">default</button>
+										<button @click="chooseRegen(r,'speed_0_9')">.9 speed</button>
+										<button @click="chooseRegen(r,'speed_0_8')">.8 speed</button>
+										<button @click="chooseRegen(r,'boost_style')">boost style</button>
+									</div>
+								</div>
+							</td>
 							<td><button class="btn btn-secondary btn-compact" @click="saveRow(r)" title="Save over original"><i class="fas fa-save"></i></button></td>
 						</tr>
 					</tbody>
@@ -80,6 +96,6 @@
 	<script src="./config.js"></script>
 	<script src="./js-compiled/utils.js"></script>
 	<script src="./js-compiled/credentials.js"></script>
-	<script src="./js/audio-validation-page.js?v=2"></script>
+	<script src="./js/audio-validation-page.js?v=3"></script>
 </body>
 </html>
