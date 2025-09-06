@@ -7,7 +7,12 @@ function ensureAudioValidationButton() {
 		btn.className = 'btn btn-info btn-compact audio-validation-btn';
 		btn.innerHTML = '<i class="fas fa-wave-square"></i> Audio Validation';
 		btn.onclick = (e) => { e.preventDefault(); window.open('./audio-validation.html', '_blank'); return false; };
-		bar.appendChild(btn);
+		const clearCacheBtn = bar.querySelector('button[onclick*="clearCacheAndReload"]');
+		if (clearCacheBtn && clearCacheBtn.parentElement === bar) {
+			clearCacheBtn.insertAdjacentElement('afterend', btn);
+		} else {
+			bar.appendChild(btn);
+		}
 	} catch (e) { console.warn('ensureAudioValidationButton error', e); }
 }
 
