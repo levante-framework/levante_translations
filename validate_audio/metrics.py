@@ -94,22 +94,30 @@ def advanced_similarity_with_phonetics(original_text: str, transcribed_text: str
         best_match = None
         best_score = 0
         
+        # Clean word for comparison (remove punctuation, normalize case)
+        def clean_word_for_matching(word):
+            return re.sub(r'[^\w]', '', word.lower())
+        
+        orig_clean_word = clean_word_for_matching(orig_word)
+        
         for trans_word in trans_words:
-            # Exact match
-            if orig_word == trans_word:
+            trans_clean_word = clean_word_for_matching(trans_word)
+            
+            # Exact match (case-insensitive, punctuation-insensitive)
+            if orig_clean_word == trans_clean_word:
                 perfect_matches.append((orig_word, trans_word, 1.0))
                 best_match = (trans_word, 1.0, "perfect")
                 break
             
-            # Fuzzy similarity
-            fuzzy_score = SequenceMatcher(None, orig_word, trans_word).ratio()
+            # Fuzzy similarity on cleaned words
+            fuzzy_score = SequenceMatcher(None, orig_clean_word, trans_clean_word).ratio()
             if fuzzy_score > best_score:
                 best_score = fuzzy_score
                 best_match = (trans_word, fuzzy_score, "fuzzy")
             
-            # Phonetic similarity
-            orig_phonetic = apply_phonetic_normalization(orig_word)
-            trans_phonetic = apply_phonetic_normalization(trans_word)
+            # Phonetic similarity on cleaned words
+            orig_phonetic = apply_phonetic_normalization(orig_clean_word)
+            trans_phonetic = apply_phonetic_normalization(trans_clean_word)
             phonetic_score = SequenceMatcher(None, orig_phonetic, trans_phonetic).ratio()
             
             if phonetic_score > 0.8 and phonetic_score > best_score:
