@@ -71,8 +71,6 @@
                 "de": [{"voice_id": "s3://voice-cloning-zero-shot/3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d/original/manifest.json", "name": "German_Anke Narrative", "language": "de", "gender": "female"}]
             },
             "elevenlabs": {
-                "en": [{"voice_id": "kdmDKE6EkgrWrrykO9Qt", "name": "Alexandra - Conversational and Real", "language": "en", "gender": "female"}],
-                "es-CO": [{"voice_id": "VBmCZpOLbAT9F8rUdK7k", "name": "Ana María - Calm & natural neutral Spanish", "language": "es-CO", "gender": "female"}],
                 "de": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "German Voice", "language": "de", "gender": "female"}],
                 "fr-CA": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "Caroline - Top France - Narrative, warm, sweet", "language": "fr-CA", "gender": "female"}],
                 "nl": [{"voice_id": "BmGJM2HQCL8H5KfGOzGP", "name": "Emma - Natural conversations in Dutch", "language": "nl", "gender": "female"}]
@@ -83,8 +81,6 @@
             constructor() {
                 // Match exact config.py language settings
                 this.languages = {
-                    'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Alexandra - Conversational and Real' },
-                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Ana María - Calm & natural neutral Spanish' },
                     'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
                     'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
                     'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' }

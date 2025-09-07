@@ -3,7 +3,7 @@ from pathlib import Path
 
 from .id3_utils import read_expected_text_from_audio
 from .transcriber import WhisperTranscriber, GoogleSRTranscriber
-from .metrics import compute_basic_metrics, comprehensive_text_similarity
+from .metrics import compute_basic_metrics, comprehensive_text_similarity, validate_elevenlabs_audio
 try:
     from .quality import assess_audio_quality_with_clap
 except Exception:  # pragma: no cover
@@ -40,7 +40,10 @@ def validate_audio_file(
 
     transcribed_text = result.get("text", "").strip()
 
-    # 3) Metrics
+    # 3) Enhanced Metrics - Use the new comprehensive validation
+    elevenlabs_validation = validate_elevenlabs_audio(expected, transcribed_text, language)
+    
+    # Keep the old metrics for backward compatibility
     basic = compute_basic_metrics(expected, transcribed_text)
     comp = comprehensive_text_similarity(expected, transcribed_text)
 
@@ -52,7 +55,7 @@ def validate_audio_file(
         except Exception:
             quality = None
 
-    # 5) Aggregate
+    # 5) Aggregate - Include both old and new metrics
     return {
         "audio_path": audio_path,
         "language": result.get("language") or language,
@@ -63,6 +66,7 @@ def validate_audio_file(
         "confidence": result.get("confidence"),
         "basic_metrics": basic,
         "comprehensive_metrics": comp,
+        "elevenlabs_validation": elevenlabs_validation,
         "quality": quality,
     }
 

@@ -91,7 +91,7 @@
 				const origDurations=ref({}); // itemId -> seconds
 				const regenOpenId=ref('');
 				const decorated=computed(()=>results.value.map(r=>({ ...r, filename: base(r.audio_path||'') })));
-				const sortedRows=computed(()=>{ const rows=[...decorated.value]; const k=sortKey.value; rows.sort((a,b)=>{ if(k==='filename') return (a.filename||'').localeCompare(b.filename||''); if(k==='similarity') return ((a.basic_metrics||{}).similarity_ratio||0)-((b.basic_metrics||{}).similarity_ratio||0); return 0; }); return sortAsc.value?rows:rows.reverse(); });
+				const sortedRows=computed(()=>{ const rows=[...decorated.value]; const k=sortKey.value; rows.sort((a,b)=>{ if(k==='filename') return (a.filename||'').localeCompare(b.filename||''); if(k==='similarity') return ((a.elevenlabs_validation||{}).similarity_score||((a.basic_metrics||{}).similarity_ratio||0))-((b.elevenlabs_validation||{}).similarity_score||((b.basic_metrics||{}).similarity_ratio||0)); return 0; }); return sortAsc.value?rows:rows.reverse(); });
 				
 				async function loadFiles(){ try{ const r=await fetch('/api/list-validation-files'); const d=await r.json(); files.value=(d.files||[]).sort().reverse(); if(!selectedFile.value&&files.value.length) selectedFile.value=files.value[0]; }catch(e){ error.value=String(e); } }
 				async function loadSelected(){ if(!selectedFile.value) return; loading.value=true; error.value=''; try{ const r=await fetch(`/api/get-validation-file?name=${encodeURIComponent(selectedFile.value)}`); const d=await r.json(); results.value=Array.isArray(d)?d:[d]; const langs=new Set(results.value.map(x=>x.language).filter(Boolean)); displayLang.value=langs.size?Array.from(langs).join(', '):''; /* defer voiceName fetch to regen/play */ }catch(e){ error.value=String(e); } finally{ loading.value=false; } }
@@ -112,7 +112,7 @@
 				
 				onMounted(()=>{ loadFiles(); document.addEventListener('click', ()=>{ closeRegen(); }); });
 				return { files, selectedFile, loading, error, results, sortedRows,
-					summary: computed(()=>{ const sims=results.value.map(x=>(x.basic_metrics||{}).similarity_ratio).filter(x=>typeof x==='number'); if(!sims.length) return null; const avg=sims.reduce((a,b)=>a+b,0)/sims.length; return { count:sims.length, min:Math.min(...sims), max:Math.max(...sims), avg }; }),
+					summary: computed(()=>{ const sims=results.value.map(x=>(x.elevenlabs_validation||{}).similarity_score||((x.basic_metrics||{}).similarity_ratio||0)).filter(x=>typeof x==='number'&&x>0); if(!sims.length) return null; const avg=sims.reduce((a,b)=>a+b,0)/sims.length; return { count:sims.length, min:Math.min(...sims), max:Math.max(...sims), avg }; }),
 					displayLang, voiceName, loadSelected, setSort, playRow, regenAndPlay, saveRow, lastGen, regenOpenId, toggleRegen, chooseRegen, rowId, origDurations };
 			}
 		});
