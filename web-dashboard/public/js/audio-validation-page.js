@@ -15,27 +15,69 @@
 		extractLangsFromPath(row.audio_path).forEach(l=>cand.add(l));
 		return Array.from(cand);
 	}
+	function normalizeLangsForUrls(lang){
+		const L=(lang||'').trim();
+		if(!L) return [];
+		if(L==='es') return ['es-CO','es'];
+		if(L.startsWith('es-')) return [L,'es'];
+		return [L];
+	}
 	function resolveUrlsFor(lang,itemId){
 		if(!lang||!itemId) return [];
-		return [
-			`https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${encodeURIComponent(lang)}/${encodeURIComponent(itemId)}.mp3`,
-			`https://storage.googleapis.com/levante-assets-dev/audio/${encodeURIComponent(lang)}/${encodeURIComponent(itemId)}.mp3`
-		];
+		const langs=normalizeLangsForUrls(lang);
+		const urls=[];
+		for(const lc of langs){
+			urls.push(`https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${encodeURIComponent(lc)}/${encodeURIComponent(itemId)}.mp3`);
+			urls.push(`https://storage.googleapis.com/levante-assets-dev/audio/${encodeURIComponent(lc)}/${encodeURIComponent(itemId)}.mp3`);
+		}
+		return urls;
 	}
 	async function playAny(urls){ for(const u of urls){ try{ await new Promise((resolve,reject)=>{ const a=new Audio(); a.src=u; a.addEventListener('canplaythrough',()=>{ a.play().then(resolve).catch(reject); },{once:true}); a.addEventListener('error',()=>reject(new Error('play failed')),{once:true}); }); return true; }catch(e){} } return false; }
 	
-	async function fetchVoiceTag(itemId, lang){
-		try{ let r=await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(lang)}`); if(!r.ok){ r=await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(lang)}&source=repo`); } if(!r.ok) return ''; const data=await r.json(); return data?.id3Tags?.voice || data?.id3Tags?.userDefinedText?.find?.(t=>t?.description==='voice')?.value || ''; }catch{ return ''; }
+	async function fetchVoiceTag(itemId, lang, urlCandidates){
+		try{
+			// Prefer direct URL mode if we have candidates
+			if(Array.isArray(urlCandidates) && urlCandidates.length){
+				for(const u of urlCandidates){ const d=await fetch(`/api/read-tags?url=${encodeURIComponent(u)}`); if(d.ok){ const data=await d.json(); return data?.id3Tags?.voice || data?.id3Tags?.userDefinedText?.find?.(t=>t?.description==='voice')?.value || ''; } }
+			}
+			// Fallback: item/lang then repo
+			let r=await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(lang||'')}`);
+			if(!r.ok){ r=await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(lang||'')}&source=repo`); }
+			if(!r.ok) return '';
+			const data=await r.json(); return data?.id3Tags?.voice || data?.id3Tags?.userDefinedText?.find?.(t=>t?.description==='voice')?.value || '';
+		}catch{ return ''; }
 	}
-	async function getVoiceNameForRow(row){ const id=stripExt(base(row.audio_path||'')); for(const L of langCandidates(row)){ const v=await fetchVoiceTag(id,L); if(v) return v; } return ''; }
+	async function getVoiceNameForRow(row){ const id=stripExt(base(row.audio_path||'')); const urls=[]; for(const L of langCandidates(row)){ urls.push(...resolveUrlsFor(L,id)); } const v=await fetchVoiceTag(id, (row.language||'').trim(), urls); return v || ''; }
 	
 	async function findVoiceIdByName(voiceName){ if(!voiceName) return ''; const sel=document.getElementById('elevenlabsVoice'); if(sel){ for(let i=0;i<sel.options.length;i++){ const txt=(sel.options[i].text||'').trim().toLowerCase(); if(txt===voiceName.trim().toLowerCase()) return sel.options[i].value; } for(let i=0;i<sel.options.length;i++){ const txt=(sel.options[i].text||'').trim().toLowerCase(); if(txt.includes(voiceName.trim().toLowerCase())) return sel.options[i].value; } } try{ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) return ''; const resp=await fetch('/api/elevenlabs-proxy',{headers:{'X-API-KEY':key}}); const data=await resp.json(); const list=data?.voices||[]; let exact=list.find(v=>(v.name||'').trim().toLowerCase()===voiceName.trim().toLowerCase()); if(exact) return exact.voice_id||''; let partial=list.find(v=>(v.name||'').toLowerCase().includes(voiceName.trim().toLowerCase())); return partial?.voice_id||''; }catch{ return ''; } }
+	
+	async function measureDurationSecondsFromUrl(url){
+		return await new Promise((resolve)=>{
+			try{
+				const a=new Audio();
+				a.preload='metadata';
+				a.src=url;
+				a.addEventListener('loadedmetadata',()=>{ const d=isFinite(a.duration)?a.duration:0; resolve(d||0); },{once:true});
+				a.addEventListener('error',()=>resolve(0),{once:true});
+			}catch{ resolve(0); }
+		});
+	}
+	
+	async function measureDurationSeconds(blob, fallbackAudio){
+		try{
+			if (fallbackAudio && isFinite(fallbackAudio.duration) && fallbackAudio.duration > 0) return fallbackAudio.duration;
+			const arrayBuf = await blob.arrayBuffer();
+			const ctx = new (window.AudioContext || window.webkitAudioContext)();
+			const audioBuf = await ctx.decodeAudioData(arrayBuf.slice(0));
+			return audioBuf.duration || 0;
+		}catch{ return 0; }
+	}
 	
 	async function regenerateElevenLabs(text, preferredVoiceId, options){ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) throw new Error('Missing ElevenLabs API key.'); let voiceId=preferredVoiceId||document.getElementById('elevenlabsVoice')?.value||''; if(!voiceId) throw new Error('No voice selected.'); const payload={ text, model_id:'eleven_monolingual_v1', voice_settings:{ stability:0.5, similarity_boost:0.75 } };
 		// Apply options
 		if(options && typeof options.audio_length==='number') payload.audio_length=options.audio_length;
 		if(options && typeof options.style==='number') payload.voice_settings.style=options.style;
-		const resp=await fetch(`/api/elevenlabs-proxy?voice_id=${encodeURIComponent(voiceId)}`,{ method:'POST', headers:{'Content-Type':'application/json','X-API-KEY':key}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`ElevenLabs error: ${resp.status}`); const blob=await resp.blob(); const url=URL.createObjectURL(blob); const audio=new Audio(url); await new Promise((resolve,reject)=>{ audio.addEventListener('canplaythrough',()=>{ audio.play().then(resolve).catch(reject); },{once:true}); audio.addEventListener('error',()=>reject(new Error('regen play failed')),{once:true}); }); return { blob, url, voiceId }; }
+		const resp=await fetch(`/api/elevenlabs-proxy?voice_id=${encodeURIComponent(voiceId)}`,{ method:'POST', headers:{'Content-Type':'application/json','X-API-KEY':key}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`ElevenLabs error: ${resp.status}`); const blob=await resp.blob(); const url=URL.createObjectURL(blob); const audio=new Audio(url); await new Promise((resolve,reject)=>{ audio.addEventListener('canplaythrough',()=>{ audio.play().then(resolve).catch(reject); },{once:true}); audio.addEventListener('error',()=>reject(new Error('regen play failed')),{once:true}); }); const durationSec = await measureDurationSeconds(blob, audio); return { blob, url, voiceId, durationSec }; }
 	
 	function blobToDataUrl(blob){ return new Promise((resolve,reject)=>{ const fr=new FileReader(); fr.onload=()=>resolve(fr.result); fr.onerror=reject; fr.readAsDataURL(blob); }); }
 	
@@ -45,28 +87,33 @@
 				const files=ref([]), selectedFile=ref(''), loading=ref(false), error=ref('');
 				const results=ref([]), sortKey=ref('similarity'), sortAsc=ref(false);
 				const displayLang=ref(''), voiceName=ref('');
-				const lastGen=ref({}); // itemId -> { audioBlob, audioUrl, voiceId, voiceName }
+				const lastGen=ref({}); // itemId -> { audioBlob, audioUrl, voiceId, voiceName, durationSec }
+				const origDurations=ref({}); // itemId -> seconds
 				const regenOpenId=ref('');
 				const decorated=computed(()=>results.value.map(r=>({ ...r, filename: base(r.audio_path||'') })));
 				const sortedRows=computed(()=>{ const rows=[...decorated.value]; const k=sortKey.value; rows.sort((a,b)=>{ if(k==='filename') return (a.filename||'').localeCompare(b.filename||''); if(k==='similarity') return ((a.basic_metrics||{}).similarity_ratio||0)-((b.basic_metrics||{}).similarity_ratio||0); return 0; }); return sortAsc.value?rows:rows.reverse(); });
 				
 				async function loadFiles(){ try{ const r=await fetch('/api/list-validation-files'); const d=await r.json(); files.value=(d.files||[]).sort().reverse(); if(!selectedFile.value&&files.value.length) selectedFile.value=files.value[0]; }catch(e){ error.value=String(e); } }
-				async function loadSelected(){ if(!selectedFile.value) return; loading.value=true; error.value=''; try{ const r=await fetch(`/api/get-validation-file?name=${encodeURIComponent(selectedFile.value)}`); const d=await r.json(); results.value=Array.isArray(d)?d:[d]; const langs=new Set(results.value.map(x=>x.language).filter(Boolean)); displayLang.value=langs.size?Array.from(langs).join(', '):''; if(results.value.length){ const first=results.value[0]; voiceName.value=await getVoiceNameForRow(first); } }catch(e){ error.value=String(e); } finally{ loading.value=false; } }
+				async function loadSelected(){ if(!selectedFile.value) return; loading.value=true; error.value=''; try{ const r=await fetch(`/api/get-validation-file?name=${encodeURIComponent(selectedFile.value)}`); const d=await r.json(); results.value=Array.isArray(d)?d:[d]; const langs=new Set(results.value.map(x=>x.language).filter(Boolean)); displayLang.value=langs.size?Array.from(langs).join(', '):''; /* defer voiceName fetch to regen/play */ }catch(e){ error.value=String(e); } finally{ loading.value=false; } }
 				function setSort(k){ if(sortKey.value===k) sortAsc.value=!sortAsc.value; else { sortKey.value=k; sortAsc.value=true; } }
 				
 				function rowId(r){ return stripExt(base(r.audio_path||'')); }
-				function toggleRegen(r){ const id=rowId(r); regenOpenId.value = (regenOpenId.value===id ? '' : id); }
+				async function ensureOriginalDuration(r){ const id=rowId(r); if(origDurations.value[id]>0) return; for(const L of langCandidates(r)){ const urls=resolveUrlsFor(L,id); for(const u of urls){ const d=await measureDurationSecondsFromUrl(u); if(d>0){ origDurations.value={ ...origDurations.value, [id]: d }; console.log(`Original duration: ${d.toFixed(1)}s for ${id}`); return; } } } }
+				function toggleRegen(r){ const id=rowId(r); if(regenOpenId.value!==id){ ensureOriginalDuration(r); } regenOpenId.value = (regenOpenId.value===id ? '' : id); }
 				function closeRegen(){ regenOpenId.value=''; }
 				
 				async function playRow(r){ const id=rowId(r); for(const L of langCandidates(r)){ const ok=await playAny(resolveUrlsFor(L,id)); if(ok) return; } alert('Could not play existing audio.'); }
-				async function regenAndPlay(r, options){ try{ const id=rowId(r); const vName=await getVoiceNameForRow(r); const vId=await findVoiceIdByName(vName); const { blob, url, voiceId }=await regenerateElevenLabs(r.expected_text||'', vId, options); lastGen.value[id]={ audioBlob:blob, audioUrl:url, voiceId, voiceName:vName||voiceName.value||'' }; closeRegen(); }catch(e){ alert(String(e)); } }
+				async function regenAndPlay(r, options){ try{ const id=rowId(r); await ensureOriginalDuration(r); const urls=[]; for(const L of langCandidates(r)){ urls.push(...resolveUrlsFor(L,id)); } const vName=(await fetchVoiceTag(id, (r.language||'').trim(), urls)) || voiceName.value || ''; const vId=await findVoiceIdByName(vName); const { blob, url, voiceId, durationSec }=await regenerateElevenLabs(r.expected_text||'', vId, options); lastGen.value[id]={ audioBlob:blob, audioUrl:url, voiceId, voiceName:vName, durationSec }; const orig=origDurations.value[id]||0; console.log(`Compare durations for ${id}: original ${orig.toFixed(1)}s vs regenerated ${durationSec.toFixed(1)}s (options: ${JSON.stringify(options||{})})`); closeRegen(); }catch(e){ alert(String(e)); } }
 				function chooseRegen(r, choice){ const map={ default:{}, speed_0_9:{ audio_length:0.9 }, speed_0_7:{ audio_length:0.7 }, boost_style:{ style:0.2 } }; const opts=map[choice]||{}; return regenAndPlay(r, opts); }
-				async function saveRow(r){ try{ const id=rowId(r); const gen=lastGen.value[id]; if(!gen){ alert('Please regenerate first.'); return; } const langs=langCandidates(r); const langCode=langs[0]||(r.language||'').trim()||'en'; let existingVoice=''; for(const L of langs){ existingVoice=await fetchVoiceTag(id,L); if(existingVoice) break; } const voiceTag=gen.voiceName||existingVoice||''; const payload={ audioBase64: await blobToDataUrl(gen.audioBlob), langCode, itemId:id, tags:{ title:id, artist:'Levante Project', album:langCode, service:'ElevenLabs', voice:voiceTag, text:r.expected_text||'', created:new Date().toISOString() } }; const resp=await fetch('/api/save-audio',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`Save failed: ${resp.status}`); alert('Saved to bucket successfully.'); }catch(e){ alert(String(e)); } }
+				async function saveRow(r){ try{ const id=rowId(r); const gen=lastGen.value[id]; if(!gen){ alert('Please regenerate first.'); return; } const langs=langCandidates(r); const langCode=langs[0]||(r.language||'').trim()||'en'; let existingVoice=''; const urls=[]; for(const L of langs){ urls.push(...resolveUrlsFor(L,id)); }
+				// Try to enrich voice tag from actual URL if missing
+				if(!existingVoice){ existingVoice=await fetchVoiceTag(id, langCode, urls); }
+				const voiceTag=gen.voiceName||existingVoice||''; const payload={ audioBase64: await blobToDataUrl(gen.audioBlob), langCode, itemId:id, tags:{ title:id, artist:'Levante Project', album:langCode, service:'ElevenLabs', voice:voiceTag, text:r.expected_text||'', created:new Date().toISOString() } }; const resp=await fetch('/api/save-audio',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`Save failed: ${resp.status}`); alert('Saved to bucket successfully.'); }catch(e){ alert(String(e)); } }
 				
 				onMounted(()=>{ loadFiles(); document.addEventListener('click', ()=>{ closeRegen(); }); });
 				return { files, selectedFile, loading, error, results, sortedRows,
 					summary: computed(()=>{ const sims=results.value.map(x=>(x.basic_metrics||{}).similarity_ratio).filter(x=>typeof x==='number'); if(!sims.length) return null; const avg=sims.reduce((a,b)=>a+b,0)/sims.length; return { count:sims.length, min:Math.min(...sims), max:Math.max(...sims), avg }; }),
-					displayLang, voiceName, loadSelected, setSort, playRow, regenAndPlay, saveRow, lastGen, regenOpenId, toggleRegen, chooseRegen, rowId };
+					displayLang, voiceName, loadSelected, setSort, playRow, regenAndPlay, saveRow, lastGen, regenOpenId, toggleRegen, chooseRegen, rowId, origDurations };
 			}
 		});
 	}

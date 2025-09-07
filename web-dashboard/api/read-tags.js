@@ -280,6 +280,7 @@ export default async function handler(req, res) {
         const requestedBucket = (req.method === 'GET' ? req.query.bucket : req.body?.bucket) || '';
         const bucketOverride = typeof requestedBucket === 'string' && requestedBucket.trim().length > 0 ? requestedBucket.trim() : null;
         const source = ((req.method === 'GET' ? req.query.source : req.body?.source) || '').toString().trim().toLowerCase();
+        const directUrl = ((req.method === 'GET' ? req.query.url : req.body?.url) || '').toString().trim();
 
         // If listing was requested, return languages found in the dev assets bucket
         if (list === '1' || list === 1 || list === true) {
@@ -297,6 +298,36 @@ export default async function handler(req, res) {
         const strict = typeof rawStrict === 'string'
             ? ['1','true','yes','on'].includes(rawStrict.toLowerCase())
             : Boolean(rawStrict);
+        
+        // Direct URL mode (no language or item required)
+        if (directUrl) {
+            const httpResult = await httpReadID3Tags(directUrl);
+            if (!httpResult.ok) {
+                res.status(404).json({ error: 'File not accessible', details: `Unable to access: ${directUrl}` });
+                return;
+            }
+            const tags = httpResult.tags;
+            const name = (()=>{ try{ const u=new URL(directUrl); const parts=u.pathname.split('/'); return parts[parts.length-1]; }catch{return directUrl; } })();
+            res.status(200).json({
+                fileName: name,
+                itemId: name.replace(/\.mp3$/,'') || name,
+                language: undefined,
+                id3Tags: {
+                    title: tags?.title || name,
+                    artist: tags?.artist || 'Levante Project',
+                    album: tags?.album || 'Levante Audio',
+                    genre: tags?.genre || 'Speech Synthesis',
+                    service: tags?.userDefinedText?.find(t => t.description === 'service')?.value || tags?.service || 'Not available',
+                    voice: tags?.userDefinedText?.find(t => t.description === 'voice')?.value || tags?.voice || 'Not available',
+                    lang_code: tags?.userDefinedText?.find(t => t.description === 'lang_code')?.value || tags?.lang_code || undefined,
+                    text: tags?.userDefinedText?.find(t => t.description === 'text')?.value || tags?.text || 'Original text not available',
+                    created: tags?.userDefinedText?.find(t => t.description === 'created')?.value || tags?.date || null,
+                    comment: tags?.comment?.text || tags?.comment || `Generated audio for item: ${name}`,
+                    debug_raw_tags: tags ? Object.fromEntries(Object.entries(tags).slice(0, 10)) : null
+                }
+            });
+            return;
+        }
         
         if (!itemId || !langCode) {
             res.status(400).json({ 
