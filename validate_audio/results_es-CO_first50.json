@@ -1,0 +1,1102 @@
+[
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ChildSurveyIntro.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Estas preguntas se refieren a cómo te sientes en el colegio, y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. Las primeras dos preguntas son de práctica.",
+    "transcribed_text": "Estas preguntas se refieren a cómo te sientes en el colegio y a de algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Él dice la respuesta que mejor diga lo que tú piensas. No, nunca. Sí, algunas veces. Sí, muchas veces. Sí, siempre. Las primeras dos preguntas son de práctica.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.4872611464968153,
+      "word_error_rate": 0.12727272727272726
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9745222929936306,
+      "fuzzy_token_ratio": 0.9617834394904459,
+      "rouge_1_f": 0.9069767391860465,
+      "rouge_l_f": 0.9069767391860465,
+      "bleu_score": 0.7149372109501265,
+      "overall_similarity": 0.8654787477099345
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ChildSurveyRespoonses.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre",
+    "transcribed_text": "No, nunca. Sí, algunas veces. Sí, muchas veces. Sí, siempre.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9411764705882353,
+      "word_error_rate": 0.4
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9411764705882352,
+      "fuzzy_token_ratio": 0.9411764705882352,
+      "rouge_1_f": 0.7142857092857143,
+      "rouge_l_f": 0.7142857092857143,
+      "bleu_score": 9.013778876140909e-155,
+      "overall_similarity": 0.5518207266246499
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ClassFriends.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Tienes amigos o amigas en tu salón?",
+    "transcribed_text": "¿Tienes amigos o amigas en tu salón?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ClassHelp.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?",
+    "transcribed_text": "¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ClassNice.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Los niños y las niñas de tu salón son amables contigo?",
+    "transcribed_text": "Los niños y las niñas de tu salón son amables contigo.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9724770642201835,
+      "word_error_rate": 0.18181818181818182
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9724770642201834,
+      "fuzzy_token_ratio": 0.8990825688073394,
+      "rouge_1_f": 0.8181818131818183,
+      "rouge_l_f": 0.8181818131818183,
+      "bleu_score": 0.7860753021519787,
+      "overall_similarity": 0.8589113931846603
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ClassPlay.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Los niños y las niñas de tu salón juegan contigo?",
+    "transcribed_text": "¿Los niños y las niñas de tu salón juegan contigo?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/Example1Comic.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te gusta leer historietas (comics)?",
+    "transcribed_text": "¿Te gusta leer historietas cómics?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9428571428571428,
+      "word_error_rate": 0.2
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9428571428571427,
+      "fuzzy_token_ratio": 0.9428571428571427,
+      "rouge_1_f": 0.7999999950000002,
+      "rouge_l_f": 0.7999999950000002,
+      "bleu_score": 0.668740304976422,
+      "overall_similarity": 0.803865814277855
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/Example2Neat.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Eres limpio y ordenado en el colegio?",
+    "transcribed_text": "¿Eres limpio y ordenado en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/GrowthMindMath.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?",
+    "transcribed_text": "Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/GrowthMindRead.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?",
+    "transcribed_text": "Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/GrowthMindSmart.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?",
+    "transcribed_text": "Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/LearningGood.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te queda fácil aprender en el colegio?",
+    "transcribed_text": "¿Te queda fácil aprender en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/LonelySchool.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te sientes solo o sola en el colegio?",
+    "transcribed_text": "¿Te sientes solo o sola en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/MathEnjoy.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te gusta hacer actividades de matemáticas en el colegio?",
+    "transcribed_text": "¿Te gusta hacer actividades de matemáticas en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/MathGood.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Eres bueno o buena para las matemáticas?",
+    "transcribed_text": "¿Eres bueno o buena para las matemáticas?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ReadingEnjoy.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te gusta hacer actividades de lectura en el colegio?",
+    "transcribed_text": "¿Te gusta hacer actividades de lectura en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ReadingGood.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Eres bueno o buena para la lectura?",
+    "transcribed_text": "¿Eres bueno o buena para la lectura?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/SchoolEnjoy.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te gusta el colegio?",
+    "transcribed_text": "Te gusta el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.975609756097561,
+      "word_error_rate": 0.25
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.975609756097561,
+      "fuzzy_token_ratio": 0.975609756097561,
+      "rouge_1_f": 0.749999995,
+      "rouge_l_f": 0.749999995,
+      "bleu_score": 8.636168555094496e-78,
+      "overall_similarity": 0.5752032503658536
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/SchoolFun.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Es divertido ir al colegio?",
+    "transcribed_text": "¿Es divertido ir al colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/SchoolGiveUp.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Cuando las tareas escolares son difíciles, ¿te rindes enseguida?",
+    "transcribed_text": "Cuando las tareas escolares son difíciles, te rindes enseguida.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9763779527559056,
+      "word_error_rate": 0.2222222222222222
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9763779527559054,
+      "fuzzy_token_ratio": 0.9763779527559054,
+      "rouge_1_f": 0.7777777727777778,
+      "rouge_l_f": 0.7777777727777778,
+      "bleu_score": 0.6104735835807844,
+      "overall_similarity": 0.7882097697048226
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/SchoolHappy.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te sientes feliz en el colegio?",
+    "transcribed_text": "¿Te sientes feliz en el colegio?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/SchoolSafe.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Te sientes seguro o segura en el colegio?",
+    "transcribed_text": "Te sientes seguro o seguro en el colegio.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9397590361445783,
+      "word_error_rate": 0.375
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9397590361445783,
+      "fuzzy_token_ratio": 0.9397590361445783,
+      "rouge_1_f": 0.6666666616888889,
+      "rouge_l_f": 0.6666666616888889,
+      "bleu_score": 5.614021910443866e-78,
+      "overall_similarity": 0.5354752326111557
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/TeacherLike.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Le caes bien a tu profesor?",
+    "transcribed_text": "Le caes bien a tu profesor.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9454545454545454,
+      "word_error_rate": 0.3333333333333333
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9454545454545454,
+      "fuzzy_token_ratio": 0.8363636363636364,
+      "rouge_1_f": 0.6666666616666668,
+      "rouge_l_f": 0.6666666616666668,
+      "bleu_score": 0.5081327481546147,
+      "overall_similarity": 0.7067513184252756
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/TeacherListen.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Tu profesor te escucha?",
+    "transcribed_text": "¿Tu profesor te escucha?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/TeacherNice.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Tu profesor te trata bien?",
+    "transcribed_text": "¿Tu profesor te trata bien?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-intro.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Este es el Juego de las historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias.",
+    "transcribed_text": "Este es el juego de las historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-instruct1.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "La profesora Sara le dice a todos sus estudiantes que cojan un libro de cuentos de la bolsa que trajo. Hay un libro de cuentos para cada estudiante.",
+    "transcribed_text": "La profesora Sara le dice a todos sus estudiantes que cojan un libro de cuentos de la bolsa que trajo. Hay un libro de cuentos para cada estudiante.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-instruct2.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Ahora quedan solo dos libros de cuentos y Brian y Megan son los dos últimos estudiantes que todavía no tienen un libro. Pero cuando Brian va a escoger su libro, decide coger los dos, aunque sabe que Megan todavía no tiene uno y que se supone que todos deberían tener un libro. Brian esconde el segundo libro de cuentos en su escritorio.",
+    "transcribed_text": "Ahora quedan solo dos libros de cuentos y Brian y Megan son los dos últimos estudiantes que todavía no tienen un libro, pero cuando Brian va a escoger su libro, decide coger los dos, aunque sabe que Megan todavía no tiene uno y que se supone que todos deberían tener un libro. Brian esconde el segundo libro de cuentos en su escritorio.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9970238095238095,
+      "word_error_rate": 0.016129032258064516
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9970238095238095,
+      "fuzzy_token_ratio": 0.9970238095238095,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 0.9581282631934457,
+      "overall_similarity": 0.9850506892390851
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-instruct3.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "La profesora Sara le pregunta a Brian: \"¿Queda algún libro de cuentos para que Megan pueda tener uno?\" Brian le dice a la profesora Sara: \"No, no queda ningún libro de cuentos. Todos se están usando.\"",
+    "transcribed_text": "La profesora Sara le pregunta a Brian ¿Qué da algún libro de cuentos para que megan pueda tener uno? Brian le dice la profesora Sara No, no queda ningún libro de cuentos. Todos están usando.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9641025641025641,
+      "word_error_rate": 0.25
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9641025641025641,
+      "fuzzy_token_ratio": 0.9128205128205128,
+      "rouge_1_f": 0.8070175388734996,
+      "rouge_l_f": 0.8070175388734996,
+      "bleu_score": 0.5575478080908268,
+      "overall_similarity": 0.7762226370222969
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-instruct4.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Megan está triste porque no tiene un libro de cuentos y le pregunta a la profesora Sara: \"¿Queda algún libro de cuentos para mí?\" La profesora Sara le dice: \"Lo siento mucho Megan, pero no quedan libros de cuentos, todos están en uso.\"",
+    "transcribed_text": "Megan está triste porque no tiene un libro de cuentos y le pregunta a la profesora Sara, ¿qué da algún libro de cuentos para mí? La profesora Sara le dice, lo siento mucho Megan pero no quedan libros de cuentos, todos están en uso.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.8240343347639485,
+      "word_error_rate": 0.18604651162790697
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9742489270386266,
+      "fuzzy_token_ratio": 0.9356223175965666,
+      "rouge_1_f": 0.8169014034516963,
+      "rouge_l_f": 0.8169014034516963,
+      "bleu_score": 0.6653137300473383,
+      "overall_similarity": 0.8188213535125537
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q1-emotion_reasoning.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cómo se siente Megan al ser la única niña sin libro de cuentos?",
+    "transcribed_text": "¿Cómo se siente Megan, al ser la única niña sin libro de cuentos?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9922480620155039,
+      "word_error_rate": 0.07692307692307693
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.992248062015504,
+      "fuzzy_token_ratio": 0.992248062015504,
+      "rouge_1_f": 0.9230769180769233,
+      "rouge_l_f": 0.9230769180769233,
+      "bleu_score": 0.7611606003349892,
+      "overall_similarity": 0.8921618601424721
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q2-emotion_reasoning.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cómo se sentiría Megan si recibiera un libro?",
+    "transcribed_text": "¿Cómo se sentiría Megan si recibiera un libro?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q3-reality_check.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Está mintiendo Brian?",
+    "transcribed_text": "¿Están mintiendo Brian?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9777777777777777,
+      "word_error_rate": 0.3333333333333333
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9777777777777777,
+      "fuzzy_token_ratio": 0.9777777777777777,
+      "rouge_1_f": 0.6666666616666668,
+      "rouge_l_f": 0.6666666616666668,
+      "bleu_score": 1.133422688662942e-154,
+      "overall_similarity": 0.5481481464814815
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q4-reality_check.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Queda un libro de cuentos que no se esté usando?",
+    "transcribed_text": "¿Queda un libro de cuentos que nos esté usando?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9791666666666666,
+      "word_error_rate": 0.2
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9791666666666665,
+      "fuzzy_token_ratio": 0.9583333333333335,
+      "rouge_1_f": 0.8421052581717452,
+      "rouge_l_f": 0.8421052581717452,
+      "bleu_score": 0.5911602603314157,
+      "overall_similarity": 0.8041440617232758
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q5-false_belief.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Está mintiendo la profesora Sara?",
+    "transcribed_text": "¿Está mintiendo la profesora Sara?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-10-q6-reality_check.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Aún queda un libro de cuentos que no se esté usando?",
+    "transcribed_text": "¿Aunque da un libro de cuentos que no se esté usando?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9622641509433962,
+      "word_error_rate": 0.18181818181818182
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9622641509433962,
+      "fuzzy_token_ratio": 0.8679245283018868,
+      "rouge_1_f": 0.8181818131818183,
+      "rouge_l_f": 0.8181818131818183,
+      "bleu_score": 0.7860753021519787,
+      "overall_similarity": 0.8555070887590643
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-instruct1.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Este es José. Hace un rato, José estaba ordenando su habitación. José puso su pelota grande de baloncesto en el escritorio, su pelota mediano de fútbol en la mesa de noche y su pelota pequeña de béisbol en el estante de abajo.",
+    "transcribed_text": "Este es José. Hace un rato, José estaba ordenando su habitación. José puso su pelota grande de baloncesto en el escritorio, su pelota mediano de fútbol en la mesa de noche y su pelota pequeña de baseball en el estante de abajo.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9757174392935982,
+      "word_error_rate": 0.023809523809523808
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9845474613686533,
+      "fuzzy_token_ratio": 0.9845474613686533,
+      "rouge_1_f": 0.9642857092857144,
+      "rouge_l_f": 0.9642857092857144,
+      "bleu_score": 0.9370011451812967,
+      "overall_similarity": 0.9619447719452214
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-instruct2.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "La madre de José acaba de entrar y José le pide a ella que coja un juguete. José le dice a su mamá: \"¡Quiero la pelota pequeña!",
+    "transcribed_text": "La madre de José acaba de entrar y José le pide a ella que coja un juguete. José le dice a su mamá, quiero la pelota pequeña.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9761904761904762,
+      "word_error_rate": 0.1111111111111111
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9761904761904762,
+      "fuzzy_token_ratio": 0.9206349206349206,
+      "rouge_1_f": 0.8571428521428571,
+      "rouge_l_f": 0.8571428521428571,
+      "bleu_score": 0.8307728384984107,
+      "overall_similarity": 0.8880353889439146
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-q1-reference.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cuál pelota cogerá la mamá para José?",
+    "transcribed_text": "¿Cuál pelota cogerá la mamá para José?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-q2-reality_check.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cuál pelota quiere José?",
+    "transcribed_text": "¿Cuál pelota quiere jose?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.96,
+      "word_error_rate": 0.25
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.96,
+      "fuzzy_token_ratio": 0.96,
+      "rouge_1_f": 0.749999995,
+      "rouge_l_f": 0.749999995,
+      "bleu_score": 8.636168555094496e-78,
+      "overall_similarity": 0.5699999983333334
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-q3-emotion_reasoning.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "José quería la pelota de béisbol, ¡pero su mamá le dio la pelota de fútbol! ¿Cómo crees que se siente José al recibir el juguete equivocado?",
+    "transcribed_text": "José quería la pelota de baseball, pero su mamá le dio la pelota de fútbol. ¿Cómo crees que se siente José al recibir el juguete equivocado?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9642857142857143,
+      "word_error_rate": 0.11538461538461539
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9642857142857143,
+      "fuzzy_token_ratio": 0.9285714285714286,
+      "rouge_1_f": 0.8636363586363637,
+      "rouge_l_f": 0.8636363586363637,
+      "bleu_score": 0.7432254773174188,
+      "overall_similarity": 0.8570491834131656
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-11-q4-emotion_reasoning.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cómo crees que se sentiría José si hubiera recibido el juguete correcto?",
+    "transcribed_text": "¿Cómo crees que se sentiría José si hubiera recibido el juguete correcto?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct1.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Esta mañana, Papá le preguntó a Emma qué juguete le gustaría llevarse al colegio y Emma dijo que quería jugar con su pelota amarilla en el recreo.",
+    "transcribed_text": "Esta mañana, papá le preguntó a Emma qué juguete le gustaría llevarse al colegio y Emma dijo que quería jugar con su pelota amarilla en el recreo.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct2.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Después, Emma se fue a su habitación a prepararse para ir al colegio. Mientras se preparaba, cambió de opinión y le gritó a su papá: \"En realidad, ¿podría mejor llevar mi pelota roja, por favor?\" y siguió preparándose para ir al colegio. Pero Papá no oyó a Emma pedir su pelota roja.",
+    "transcribed_text": "Después, Emma se fue a su habitación a prepararse para ir al colegio, mientras se preparaba, cambió de opinión y le gritó a su papá. En realidad, podría mejor llevar mi pelota roja por favor y siguió preparándose para ir al colegio. Pero papá no o yo a Emma pedir su pelota roja.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.2704626334519573,
+      "word_error_rate": 0.15384615384615385
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9786476868327402,
+      "fuzzy_token_ratio": 0.9395017793594306,
+      "rouge_1_f": 0.8461538411538462,
+      "rouge_l_f": 0.8461538411538462,
+      "bleu_score": 0.6885923158114238,
+      "overall_similarity": 0.8377979479326699
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct3.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "El papá no oyó a Emma decir que quería su pelota roja. Así que el papá piensa que Emma quiere su pelota amarilla. El papá va a preparar la mochila de Emma, ¡pero no encuentra su pelota amarilla en la caja de juguetes! Pero papá el encuentra la pelota azul en la caja de juguetes, así que empaca la pelota azul en la maleta de Emma.",
+    "transcribed_text": "El papá no o yo a Emma decir que quería su pelota roja, así que el papá piensa que Emma quiere su pelota amarilla. El papá va a preparar la mochila de Emma, pero no encuentra su pelota amarilla en la caja de juguetes, pero papá la encuentra la pelota azul en la caja de juguetes, así que empaca la pelota azul en la maleta de Emma.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.19637462235649547,
+      "word_error_rate": 0.09090909090909091
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9848942598187311,
+      "fuzzy_token_ratio": 0.9667673716012084,
+      "rouge_1_f": 0.8888888838901486,
+      "rouge_l_f": 0.8888888838901486,
+      "bleu_score": 0.7918762231288728,
+      "overall_similarity": 0.888553122279251
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct4.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "De camino al colegio, el papá le dice a Emma \"Lo siento mucho, no pude empacar el juguete que querías porque no lo encontré\".",
+    "transcribed_text": "De camino al colegio, el papá le dice a Emma. Lo siento mucho. No pude empacar el juguete que querías porque no lo encontré.",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9799196787148594,
+      "word_error_rate": 0.16666666666666666
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9799196787148594,
+      "fuzzy_token_ratio": 0.9558232931726907,
+      "rouge_1_f": 0.8837209252352624,
+      "rouge_l_f": 0.8372092973282856,
+      "bleu_score": 0.7140573910176907,
+      "overall_similarity": 0.8592326649892709
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-instruct5.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "Emma está muy feliz de jugar con su pelota.",
+    "transcribed_text": "¡Ema está muy feliz de jugar con su pelota!",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9534883720930233,
+      "word_error_rate": 0.2222222222222222
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9534883720930233,
+      "fuzzy_token_ratio": 0.8604651162790699,
+      "rouge_1_f": 0.7777777727777778,
+      "rouge_l_f": 0.7777777727777778,
+      "bleu_score": 0.7259795291154771,
+      "overall_similarity": 0.8190818913287594
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-q1-false_belief.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cuál juguete cree el papá que Emma quiere llevar a la escuela?",
+    "transcribed_text": "¿Cuál juguete creen el papá que Emma quiere llevar a la escuela?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.9921259842519685,
+      "word_error_rate": 0.08333333333333333
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.9921259842519686,
+      "fuzzy_token_ratio": 0.9921259842519686,
+      "rouge_1_f": 0.9166666616666667,
+      "rouge_l_f": 0.9166666616666667,
+      "bleu_score": 0.7691605673134586,
+      "overall_similarity": 0.8926510710773646
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-q2-false_belief.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Emma sabe que su papá empacó la pelota azul?",
+    "transcribed_text": "¿Embas sabe que su papá empacó la pelota azul?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 0.967032967032967,
+      "word_error_rate": 0.1111111111111111
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 0.967032967032967,
+      "fuzzy_token_ratio": 0.967032967032967,
+      "rouge_1_f": 0.888888883888889,
+      "rouge_l_f": 0.888888883888889,
+      "bleu_score": 0.8633400213704505,
+      "overall_similarity": 0.9064206240974354
+    },
+    "quality": null
+  },
+  {
+    "audio_path": "/home/david/levante/levante_translations/audio_files/es-CO/ToM-scene-12-q3-false_belief.mp3",
+    "language": "es",
+    "backend": "whisper",
+    "whisper_model_size": "base",
+    "expected_text": "¿Cuál pelota cree Emma que empacó su papá?",
+    "transcribed_text": "¿Cuál pelota cree Emma que empacó su papá?",
+    "confidence": null,
+    "basic_metrics": {
+      "similarity_ratio": 1.0,
+      "word_error_rate": 0.0
+    },
+    "comprehensive_metrics": {
+      "fuzzy_ratio": 1.0,
+      "fuzzy_token_ratio": 1.0,
+      "rouge_1_f": 0.999999995,
+      "rouge_l_f": 0.999999995,
+      "bleu_score": 1.0,
+      "overall_similarity": 0.9999999983333333
+    },
+    "quality": null
+  }
+]
