@@ -1,0 +1,14 @@
+openai-whisper
+jiwer
+rapidfuzz
+rouge
+nltk
+transformers
+librosa
+soundfile
+numpy
+mutagen
+SpeechRecognition
+# torch is environment-specific; install the variant matching your CUDA/CPU setup
+# CPU only example:
+# torch==2.3.1+cpu --index-url https://download.pytorch.org/whl/cpu

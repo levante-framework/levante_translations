@@ -427,3 +427,4 @@ function updateValidationSummary() {
     document.getElementById('errorCount').textContent = error;
     document.getElementById('pendingCount').textContent = pending;
 }
+
