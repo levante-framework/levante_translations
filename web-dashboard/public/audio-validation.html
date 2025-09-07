@@ -76,7 +76,7 @@
 					<tbody>
 						<tr v-for="r in sortedRows" :key="r.audio_path">
 							<td class="audio-path">{{ r.filename }}</td>
-							<td>{{ (r.elevenlabs_validation?.similarity_score ?? r.basic_metrics?.similarity_ratio ?? 0).toFixed(3) }}</td>
+							<td>{{ (r.elevenlabs_validation?.word_level_similarity ?? r.elevenlabs_validation?.similarity_score ?? r.basic_metrics?.similarity_ratio ?? 0).toFixed(3) }}</td>
 							<td class="text-cell">{{ r.expected_text }}</td>
 							<td class="text-cell">{{ r.transcribed_text }}</td>
 							<td class="durations-cell">

@@ -132,7 +132,7 @@ def advanced_similarity_with_phonetics(original_text: str, transcribed_text: str
     word_level_similarity = matched_words / total_words if total_words > 0 else 0
     
     return {
-        "similarity_ratio": similarity,
+        "similarity_ratio": word_level_similarity,  # Use word-level similarity as main score
         "word_level_similarity": word_level_similarity,
         "original_cleaned": orig_clean,
         "transcribed_cleaned": trans_clean,
@@ -141,7 +141,8 @@ def advanced_similarity_with_phonetics(original_text: str, transcribed_text: str
         "mismatched_words": mismatched_words,
         "total_words": total_words,
         "words_matched": matched_words,
-        "total_unique_words": len(set(orig_words).union(set(trans_words)))
+        "total_unique_words": len(set(orig_words).union(set(trans_words))),
+        "character_similarity": similarity  # Keep the original character-level similarity for reference
     }
 
 
