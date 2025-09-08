@@ -1,4 +1,19 @@
 (function(){
+	// Suppress browser extension message channel errors
+	window.addEventListener('error', function(e) {
+		if (e.message && e.message.includes('message channel closed')) {
+			e.preventDefault();
+			return false;
+		}
+	});
+	
+	window.addEventListener('unhandledrejection', function(e) {
+		if (e.reason && e.reason.message && e.reason.message.includes('message channel closed')) {
+			e.preventDefault();
+			return false;
+		}
+	});
+
 	const { createApp, ref, computed, onMounted } = Vue;
 
 	function base(path){ const i=(path||'').lastIndexOf('/'); return i>=0?path.slice(i+1):path; }

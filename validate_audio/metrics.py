@@ -1,6 +1,11 @@
 import re
 from typing import Dict, Any
 from difflib import SequenceMatcher
+import warnings
+
+# Suppress BLEU score warnings for short texts (common in audio validation)
+warnings.filterwarnings("ignore", message=".*BLEU score evaluates to 0.*")
+warnings.filterwarnings("ignore", message=".*counts of.*gram overlaps.*")
 
 
 def preprocess_text_for_comparison(text: str) -> str:
@@ -13,6 +18,9 @@ def preprocess_text_for_comparison(text: str) -> str:
     # Normalize possessives (Mika's -> Mikas, etc.)
     text = re.sub(r"(\w)'s\b", r"\1s", text)
     text = re.sub(r"(\w)'(\w)", r"\1\2", text)  # Handle other apostrophes
+    
+    # Normalize hyphens in compound words (medium-sized -> medium sized)
+    text = re.sub(r'(\w)-(\w)', r'\1 \2', text)
     
     # Remove extra punctuation and normalize whitespace
     text = re.sub(r'[,;:!?]+', ' ', text)  # Replace punctuation with spaces
@@ -85,6 +93,29 @@ def advanced_similarity_with_phonetics(original_text: str, transcribed_text: str
     def apply_phonetic_normalization(word):
         """Apply basic phonetic normalization"""
         normalized = word.lower()
+        
+        # Remove spaces and hyphens for compound word matching
+        normalized = re.sub(r'[\s\-]', '', normalized)
+        
+        # German umlaut normalization
+        normalized = re.sub(r'ä', 'a', normalized)
+        normalized = re.sub(r'ö', 'o', normalized)
+        normalized = re.sub(r'ü', 'u', normalized)
+        normalized = re.sub(r'ß', 'ss', normalized)
+        
+        # Common spelling variations (double letters and endings)
+        normalized = re.sub(r'tte', 'tt', normalized)  # omelette -> omelett
+        normalized = re.sub(r'tt', 't', normalized)    # omelett -> omelet
+        normalized = re.sub(r'lle', 'll', normalized)  # belle -> bell
+        normalized = re.sub(r'll', 'l', normalized)    # bell -> bel
+        normalized = re.sub(r'sse', 'ss', normalized)  # classe -> class
+        normalized = re.sub(r'ss', 's', normalized)    # class -> clas
+        normalized = re.sub(r'nne', 'nn', normalized)  # bonne -> bonn
+        normalized = re.sub(r'nn', 'n', normalized)    # bonn -> bon
+        normalized = re.sub(r'mme', 'mm', normalized)  # pomme -> pomm
+        normalized = re.sub(r'mm', 'm', normalized)    # pomm -> pom
+        
+        # Basic phonetic patterns
         for pattern, replacement in phonetic_patterns.items():
             normalized = re.sub(pattern, replacement, normalized)
         return normalized

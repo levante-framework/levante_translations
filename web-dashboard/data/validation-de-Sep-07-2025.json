@@ -504,21 +504,21 @@
     "transcribed_text": "Wählen Sie die Karte, die Zin-App-Fill zeigt.",
     "confidence": null,
     "basic_metrics": {
-      "similarity_ratio": 0.8333333333333334,
-      "word_error_rate": 0.25,
-      "word_overlap": 0.625,
+      "similarity_ratio": 0.8571428571428571,
+      "word_error_rate": 0.375,
+      "word_overlap": 0.5,
       "words_matched": 5,
-      "total_unique_words": 8,
+      "total_unique_words": 10,
       "original_cleaned": "wählen sie die karte die 10 äpfel zeigt.",
-      "transcribed_cleaned": "wählen sie die karte die zin-app-fill zeigt."
+      "transcribed_cleaned": "wählen sie die karte die zin app fill zeigt."
     },
     "comprehensive_metrics": {
-      "fuzzy_ratio": 0.8333333333333335,
-      "fuzzy_token_ratio": 0.8333333333333335,
-      "rouge_1_f": 0.7692307642603551,
-      "rouge_l_f": 0.7692307642603551,
-      "bleu_score": 0.5578002860768766,
-      "overall_similarity": 0.7201214612235217
+      "fuzzy_ratio": 0.8571428571428572,
+      "fuzzy_token_ratio": 0.7857142857142857,
+      "rouge_1_f": 0.6666666616888889,
+      "rouge_l_f": 0.6666666616888889,
+      "bleu_score": 0.4671379777282001,
+      "overall_similarity": 0.6636491655199821
     },
     "elevenlabs_validation": {
       "transcribed_text": "Wählen Sie die Karte, die Zin-App-Fill zeigt.",
@@ -566,19 +566,20 @@
         ],
         [
           "äpfel",
-          "zin-app-fill",
-          0.4
+          "fill",
+          0.4444444444444444
         ]
       ],
-      "word_error_rate": 0.25,
-      "validation_passed": true,
-      "validation_level": "ACCEPTABLE",
+      "word_error_rate": 0.375,
+      "validation_passed": false,
+      "validation_level": "NEEDS_REVIEW",
       "recommendations": [
-        "Audio quality is acceptable but monitor for patterns",
-        "Found 2 mismatched words out of 8"
+        "Audio quality below acceptable threshold",
+        "Similarity: 0.750, WER: 0.375",
+        "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "wählen sie die karte die 10 äpfel zeigt.",
-      "transcribed_cleaned": "wählen sie die karte die zin-app-fill zeigt."
+      "transcribed_cleaned": "wählen sie die karte die zin app fill zeigt."
     },
     "quality": null
   },
@@ -3625,8 +3626,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Teresa hat Georg nicht sagen hören, dass er Buntstifte haben möchte. Deshalb glaubt Teresa, dass Georg sich einen Basketball wünscht. Teresa geht in den Spielzeugladen, aber der Ladenbesitzer sagt, dass sie keine Basketbelle haben. Aber sie haben Märchenbücher, also kauft Teresa stattdessen ein Märchenbuch für Georg.",
-      "similarity_score": 0.8913043478260869,
-      "word_level_similarity": 0.8913043478260869,
+      "similarity_score": 0.9130434782608695,
+      "word_level_similarity": 0.9130434782608695,
       "perfect_matches": [
         [
           "hat",
@@ -3834,7 +3835,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "basketbälle",
+          "basketball",
+          1.0
+        ]
+      ],
       "total_words": 46,
       "mismatched_words": [],
       "word_error_rate": 0.13043478260869565,
@@ -4682,19 +4689,19 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9411764705882353,
-      "word_error_rate": 1.0,
-      "word_overlap": 0.0,
-      "words_matched": 0,
-      "total_unique_words": 2,
-      "original_cleaned": "t-shirts",
-      "transcribed_cleaned": "t-shirts."
+      "word_error_rate": 0.5,
+      "word_overlap": 0.3333333333333333,
+      "words_matched": 1,
+      "total_unique_words": 3,
+      "original_cleaned": "t shirts",
+      "transcribed_cleaned": "t shirts."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9411764705882352,
       "fuzzy_token_ratio": 0.9411764705882352,
       "rouge_1_f": 0.999999995,
       "rouge_l_f": 0.999999995,
-      "bleu_score": 0,
+      "bleu_score": 1.5319719891192393e-231,
       "overall_similarity": 0.647058821862745
     },
     "elevenlabs_validation": {
@@ -4703,24 +4710,29 @@
       "word_level_similarity": 1.0,
       "perfect_matches": [
         [
-          "t-shirts",
-          "t-shirts.",
+          "t",
+          "t",
+          1.0
+        ],
+        [
+          "shirts",
+          "shirts.",
           1.0
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 1,
+      "total_words": 2,
       "mismatched_words": [],
-      "word_error_rate": 1.0,
+      "word_error_rate": 0.5,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 1.000, WER: 1.000",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
-      "original_cleaned": "t-shirts",
-      "transcribed_cleaned": "t-shirts."
+      "original_cleaned": "t shirts",
+      "transcribed_cleaned": "t shirts."
     },
     "quality": null
   },
@@ -5851,20 +5863,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.7857142857142857,
-      "word_error_rate": 0.5,
-      "word_overlap": 0.3333333333333333,
+      "word_error_rate": 1.0,
+      "word_overlap": 0.25,
       "words_matched": 1,
-      "total_unique_words": 3,
+      "total_unique_words": 4,
       "original_cleaned": "die dachrinne",
-      "transcribed_cleaned": "die duck-rinner"
+      "transcribed_cleaned": "die duck rinner"
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.7857142857142857,
       "fuzzy_token_ratio": 0.5,
-      "rouge_1_f": 0.4999999950000001,
-      "rouge_l_f": 0.4999999950000001,
-      "bleu_score": 1.5319719891192393e-231,
-      "overall_similarity": 0.42857142690476197
+      "rouge_1_f": 0.39999999520000007,
+      "rouge_l_f": 0.39999999520000007,
+      "bleu_score": 1.384292958842266e-231,
+      "overall_similarity": 0.39523809363809526
     },
     "elevenlabs_validation": {
       "transcribed_text": "Die Duck-Rinner",
@@ -5879,17 +5891,23 @@
       ],
       "phonetic_matches": [],
       "total_words": 2,
-      "mismatched_words": [],
-      "word_error_rate": 0.5,
+      "mismatched_words": [
+        [
+          "dachrinne",
+          "rinner",
+          0.6666666666666666
+        ]
+      ],
+      "word_error_rate": 1.0,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 0.500, WER: 1.000",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "die dachrinne",
-      "transcribed_cleaned": "die duck-rinner"
+      "transcribed_cleaned": "die duck rinner"
     },
     "quality": null
   },
@@ -6006,20 +6024,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.3333333333333333,
-      "word_error_rate": 0.6666666666666666,
-      "word_overlap": 0.2,
+      "word_error_rate": 1.0,
+      "word_overlap": 0.16666666666666666,
       "words_matched": 1,
-      "total_unique_words": 5,
+      "total_unique_words": 6,
       "original_cleaned": "wähle die siebenhunderteinunddreißig.",
-      "transcribed_cleaned": "wele die 700-131."
+      "transcribed_cleaned": "wele die 700 131."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.33333333333333337,
       "fuzzy_token_ratio": 0.2962962962962963,
-      "rouge_1_f": 0.3333333283333334,
-      "rouge_l_f": 0.3333333283333334,
-      "bleu_score": 1.384292958842266e-231,
-      "overall_similarity": 0.2222222205555556
+      "rouge_1_f": 0.2857142808163266,
+      "rouge_l_f": 0.2857142808163266,
+      "bleu_score": 1.2882297539194154e-231,
+      "overall_similarity": 0.2063492047165533
     },
     "elevenlabs_validation": {
       "transcribed_text": "Wele die 700-131.",
@@ -6046,16 +6064,16 @@
           0.13793103448275862
         ]
       ],
-      "word_error_rate": 0.6666666666666666,
+      "word_error_rate": 1.0,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.333, WER: 0.667",
+        "Similarity: 0.333, WER: 1.000",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "wähle die siebenhunderteinunddreißig.",
-      "transcribed_cleaned": "wele die 700-131."
+      "transcribed_cleaned": "wele die 700 131."
     },
     "quality": null
   },
@@ -6517,20 +6535,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9887640449438202,
-      "word_error_rate": 0.16666666666666666,
-      "word_overlap": 0.7142857142857143,
-      "words_matched": 5,
-      "total_unique_words": 7,
-      "original_cleaned": "jetzt spielen wir das memory-spiel umgekehrt",
-      "transcribed_cleaned": "jetzt spielen wir das memory-spiel umgekehrt."
+      "word_error_rate": 0.14285714285714285,
+      "word_overlap": 0.75,
+      "words_matched": 6,
+      "total_unique_words": 8,
+      "original_cleaned": "jetzt spielen wir das memory spiel umgekehrt",
+      "transcribed_cleaned": "jetzt spielen wir das memory spiel umgekehrt."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9887640449438202,
       "fuzzy_token_ratio": 0.9887640449438202,
       "rouge_1_f": 0.999999995,
       "rouge_l_f": 0.999999995,
-      "bleu_score": 0.7598356856515925,
-      "overall_similarity": 0.9161999085318042
+      "bleu_score": 0.8091067115702212,
+      "overall_similarity": 0.9326235838380138
     },
     "elevenlabs_validation": {
       "transcribed_text": "Jetzt spielen wir das Memory-Spiel umgekehrt.",
@@ -6558,8 +6576,13 @@
           1.0
         ],
         [
-          "memory-spiel",
-          "memory-spiel",
+          "memory",
+          "memory",
+          1.0
+        ],
+        [
+          "spiel",
+          "spiel",
           1.0
         ],
         [
@@ -6569,17 +6592,16 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 6,
+      "total_words": 7,
       "mismatched_words": [],
-      "word_error_rate": 0.16666666666666666,
+      "word_error_rate": 0.14285714285714285,
       "validation_passed": true,
-      "validation_level": "ACCEPTABLE",
+      "validation_level": "GOOD",
       "recommendations": [
-        "Audio quality is acceptable but monitor for patterns",
-        "Found 0 mismatched words out of 6"
+        "Audio quality is good, minor phonetic variations acceptable"
       ],
-      "original_cleaned": "jetzt spielen wir das memory-spiel umgekehrt",
-      "transcribed_cleaned": "jetzt spielen wir das memory-spiel umgekehrt."
+      "original_cleaned": "jetzt spielen wir das memory spiel umgekehrt",
+      "transcribed_cleaned": "jetzt spielen wir das memory spiel umgekehrt."
     },
     "quality": null
   },
@@ -9449,25 +9471,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9905660377358491,
-      "word_error_rate": 0.10526315789473684,
-      "word_overlap": 0.8095238095238095,
-      "words_matched": 17,
+      "word_error_rate": 0.1,
+      "word_overlap": 0.8571428571428571,
+      "words_matched": 18,
       "total_unique_words": 21,
-      "original_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch liegst. los gehts mit dem memory-spiel",
-      "transcribed_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch legst. los gehts mit dem memory-spiel."
+      "original_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch liegst. los gehts mit dem memory spiel",
+      "transcribed_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch legst. los gehts mit dem memory spiel."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9905660377358491,
       "fuzzy_token_ratio": 0.9905660377358491,
       "rouge_1_f": 0.9473684160526316,
       "rouge_l_f": 0.9473684160526316,
-      "bleu_score": 0.7912619863720214,
-      "overall_similarity": 0.9097321467201672
+      "bleu_score": 0.803154665668484,
+      "overall_similarity": 0.9136963731523217
     },
     "elevenlabs_validation": {
       "transcribed_text": "Dieses Mal wird dir das Spiel nicht sagen, ob du richtig oder falsch legst. Los geht's mit dem Memory-Spiel.",
-      "similarity_score": 0.9473684210526315,
-      "word_level_similarity": 0.9473684210526315,
+      "similarity_score": 0.95,
+      "word_level_similarity": 0.95,
       "perfect_matches": [
         [
           "dieses",
@@ -9555,22 +9577,27 @@
           1.0
         ],
         [
-          "memory-spiel",
-          "memory-spiel.",
+          "memory",
+          "memory",
+          1.0
+        ],
+        [
+          "spiel",
+          "spiel",
           1.0
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 19,
+      "total_words": 20,
       "mismatched_words": [],
-      "word_error_rate": 0.10526315789473684,
+      "word_error_rate": 0.1,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
-      "original_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch liegst. los gehts mit dem memory-spiel",
-      "transcribed_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch legst. los gehts mit dem memory-spiel."
+      "original_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch liegst. los gehts mit dem memory spiel",
+      "transcribed_cleaned": "dieses mal wird dir das spiel nicht sagen ob du richtig oder falsch legst. los gehts mit dem memory spiel."
     },
     "quality": null
   },
@@ -11421,8 +11448,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Ist Johan jetzt böse auf Lisa?",
-      "similarity_score": 0.8333333333333334,
-      "word_level_similarity": 0.8333333333333334,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "ist",
@@ -11450,7 +11477,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "johann",
+          "johan",
+          1.0
+        ]
+      ],
       "total_words": 6,
       "mismatched_words": [],
       "word_error_rate": 0.16666666666666666,
@@ -13497,8 +13530,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Der Junge sitzt, aber er ist nichts.",
-      "similarity_score": 0.8571428571428571,
-      "word_level_similarity": 0.8571428571428571,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "der",
@@ -13531,7 +13564,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "isst",
+          "ist",
+          1.0
+        ]
+      ],
       "total_words": 7,
       "mismatched_words": [],
       "word_error_rate": 0.2857142857142857,
@@ -13539,7 +13578,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.857, WER: 0.286",
+        "Similarity: 1.000, WER: 0.286",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "der junge sitzt aber er isst nichts",
@@ -15848,7 +15887,7 @@
         [
           "prekär",
           "preckar",
-          0.8333333333333334
+          1.0
         ]
       ],
       "total_words": 1,
@@ -17276,19 +17315,19 @@
     "basic_metrics": {
       "similarity_ratio": 0.5145631067961165,
       "word_error_rate": 0.9,
-      "word_overlap": 0.0625,
+      "word_overlap": 0.06060606060606061,
       "words_matched": 2,
-      "total_unique_words": 32,
+      "total_unique_words": 33,
       "original_cleaned": "you can tap on a touchscreen use the touchpad or press the arrow keys for this activity. try it now.",
-      "transcribed_cleaned": "du kannst einen touchscreen auf den touchpad oder den errein-kies für diese aktivität prässt. jetzt fangen"
+      "transcribed_cleaned": "du kannst einen touchscreen auf den touchpad oder den errein kies für diese aktivität prässt. jetzt fangen"
     },
     "comprehensive_metrics": {
-      "fuzzy_ratio": 0.6116504854368932,
-      "fuzzy_token_ratio": 0.5145631067961165,
-      "rouge_1_f": 0.11764705389273376,
-      "rouge_l_f": 0.11764705389273376,
-      "bleu_score": 8.436497969708995e-232,
-      "overall_similarity": 0.2430991797765423
+      "fuzzy_ratio": 0.6213592233009708,
+      "fuzzy_token_ratio": 0.5048543689320388,
+      "rouge_1_f": 0.11428570932244919,
+      "rouge_l_f": 0.11428570932244919,
+      "bleu_score": 8.943621049839476e-232,
+      "overall_similarity": 0.24521497754114
     },
     "elevenlabs_validation": {
       "transcribed_text": "Du kannst einen Touchscreen auf den Touchpad oder den Errein-Kies für diese Aktivität prässt. Jetzt fangen!",
@@ -17356,13 +17395,8 @@
         ],
         [
           "arrow",
-          "errein-kies",
-          0.26666666666666666
-        ],
-        [
-          "keys",
-          "diese",
-          0.4444444444444444
+          "errein",
+          0.36363636363636365
         ],
         [
           "for",
@@ -17371,8 +17405,8 @@
         ],
         [
           "this",
-          "diese",
-          0.4444444444444444
+          "kies",
+          0.5
         ],
         [
           "try",
@@ -17399,7 +17433,7 @@
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "you can tap on a touchscreen use the touchpad or press the arrow keys for this activity. try it now.",
-      "transcribed_cleaned": "du kannst einen touchscreen auf den touchpad oder den errein-kies für diese aktivität prässt. jetzt fangen"
+      "transcribed_cleaned": "du kannst einen touchscreen auf den touchpad oder den errein kies für diese aktivität prässt. jetzt fangen"
     },
     "quality": null
   },
@@ -18928,20 +18962,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.75,
-      "word_error_rate": 0.5,
-      "word_overlap": 0.3333333333333333,
+      "word_error_rate": 1.0,
+      "word_overlap": 0.25,
       "words_matched": 1,
-      "total_unique_words": 3,
+      "total_unique_words": 4,
       "original_cleaned": "der teebeutel",
-      "transcribed_cleaned": "der t-botel"
+      "transcribed_cleaned": "der t botel"
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.75,
-      "fuzzy_token_ratio": 0.75,
-      "rouge_1_f": 0.4999999950000001,
-      "rouge_l_f": 0.4999999950000001,
-      "bleu_score": 1.5319719891192393e-231,
-      "overall_similarity": 0.416666665
+      "fuzzy_token_ratio": 0.41666666666666663,
+      "rouge_1_f": 0.39999999520000007,
+      "rouge_l_f": 0.39999999520000007,
+      "bleu_score": 1.384292958842266e-231,
+      "overall_similarity": 0.38333333173333334
     },
     "elevenlabs_validation": {
       "transcribed_text": "Der T-Botel?",
@@ -18959,20 +18993,20 @@
       "mismatched_words": [
         [
           "teebeutel",
-          "t-botel",
-          0.6666666666666666
+          "botel",
+          0.5714285714285714
         ]
       ],
-      "word_error_rate": 0.5,
+      "word_error_rate": 1.0,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 0.500, WER: 1.000",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "der teebeutel",
-      "transcribed_cleaned": "der t-botel"
+      "transcribed_cleaned": "der t botel"
     },
     "quality": null
   },
@@ -20355,8 +20389,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Hier sind zwei Bilder. Etwas ist gleich. Beide sind Mittelgros.",
-      "similarity_score": 0.9,
-      "word_level_similarity": 0.9,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "hier",
@@ -20404,7 +20438,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "mittelgroß.",
+          "mittelgros.",
+          1.0
+        ]
+      ],
       "total_words": 10,
       "mismatched_words": [],
       "word_error_rate": 0.1,
@@ -23335,8 +23375,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "In diesem Spiel wirst du mit Zahlen spielen. Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordnung. Bitte gibt ein Bestes und nimm dir Zeit. Las uns beginnen.",
-      "similarity_score": 0.875,
-      "word_level_similarity": 0.875,
+      "similarity_score": 0.90625,
+      "word_level_similarity": 0.90625,
       "perfect_matches": [
         [
           "in",
@@ -23479,7 +23519,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "lass",
+          "las",
+          1.0
+        ]
+      ],
       "total_words": 32,
       "mismatched_words": [
         [
@@ -25852,8 +25898,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Kannst du ihnen helfen herauszufinden, wo Johan wirklich ist?",
-      "similarity_score": 0.8888888888888888,
-      "word_level_similarity": 0.8888888888888888,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "kannst",
@@ -25896,7 +25942,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "johann",
+          "johan",
+          1.0
+        ]
+      ],
       "total_words": 9,
       "mismatched_words": [],
       "word_error_rate": 0.1111111111111111,
@@ -26995,8 +27047,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Dann rollt der Ball von dem Jungen unter deine Füße und du fälst hin. Du schürfst dir das Knie auf und ein anderer Gewinn das rennen.",
-      "similarity_score": 0.9230769230769231,
-      "word_level_similarity": 0.9230769230769231,
+      "similarity_score": 0.9615384615384616,
+      "word_level_similarity": 0.9615384615384616,
       "perfect_matches": [
         [
           "dann",
@@ -27119,7 +27171,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "fällst",
+          "fälst",
+          1.0
+        ]
+      ],
       "total_words": 26,
       "mismatched_words": [],
       "word_error_rate": 0.07692307692307693,
@@ -29598,20 +29656,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9948979591836735,
-      "word_error_rate": 0.058823529411764705,
-      "word_overlap": 0.8709677419354839,
-      "words_matched": 27,
-      "total_unique_words": 31,
-      "original_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam \"ich werde dort neue t-shirts für uns kaufen\" und sie geht weg.",
-      "transcribed_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam ich werde dort neue t-shirts für uns kaufen und sie geht weg."
+      "word_error_rate": 0.05714285714285714,
+      "word_overlap": 0.875,
+      "words_matched": 28,
+      "total_unique_words": 32,
+      "original_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam \"ich werde dort neue t shirts für uns kaufen\" und sie geht weg.",
+      "transcribed_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam ich werde dort neue t shirts für uns kaufen und sie geht weg."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9948979591836735,
       "fuzzy_token_ratio": 0.9744897959183674,
-      "rouge_1_f": 0.9310344777586208,
-      "rouge_l_f": 0.9310344777586208,
-      "bleu_score": 0.8403034716144353,
-      "overall_similarity": 0.9220786361855765
+      "rouge_1_f": 0.9333333283333335,
+      "rouge_l_f": 0.9333333283333335,
+      "bleu_score": 0.8452785147119855,
+      "overall_similarity": 0.9245032674096642
     },
     "elevenlabs_validation": {
       "transcribed_text": "Sam und Maria spielen zusammen. Sie schauen nach draußen und sehen ein neues Geschäft auf der anderen Straßenseite. Maria sagt zu Sam, ich werde dort neue T-Shirts für uns kaufen und sie geht weg.",
@@ -29749,8 +29807,13 @@
           1.0
         ],
         [
-          "t-shirts",
-          "t-shirts",
+          "t",
+          "t",
+          1.0
+        ],
+        [
+          "shirts",
+          "shirts",
           1.0
         ],
         [
@@ -29790,16 +29853,16 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 34,
+      "total_words": 35,
       "mismatched_words": [],
-      "word_error_rate": 0.058823529411764705,
+      "word_error_rate": 0.05714285714285714,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
-      "original_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam \"ich werde dort neue t-shirts für uns kaufen\" und sie geht weg.",
-      "transcribed_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam ich werde dort neue t-shirts für uns kaufen und sie geht weg."
+      "original_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam \"ich werde dort neue t shirts für uns kaufen\" und sie geht weg.",
+      "transcribed_cleaned": "sam und maria spielen zusammen. sie schauen nach draußen und sehen ein neues geschäft auf der anderen straßenseite. maria sagt zu sam ich werde dort neue t shirts für uns kaufen und sie geht weg."
     },
     "quality": null
   },
@@ -29953,8 +30016,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Robin, Sina und Tobias spielen ein Spiel im Park. Das Spiel läuft folgender Maßen ab. Ein Kind versteckt sich, maalt aber einen Hinweis in den Sandkasten, damit die anderen Kinder es finden können.",
-      "similarity_score": 0.9375,
-      "word_level_similarity": 0.9375,
+      "similarity_score": 0.96875,
+      "word_level_similarity": 0.96875,
       "perfect_matches": [
         [
           "robin",
@@ -30107,7 +30170,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "folgendermaßen",
+          "folgender",
+          0.8181818181818182
+        ]
+      ],
       "total_words": 32,
       "mismatched_words": [],
       "word_error_rate": 0.125,
@@ -31353,8 +31422,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "der Elbogen",
-      "similarity_score": 0.5,
-      "word_level_similarity": 0.5,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "der",
@@ -31362,7 +31431,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "ellbogen",
+          "elbogen",
+          1.0
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 0.5,
@@ -31370,7 +31445,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "der ellbogen",
@@ -33831,25 +33906,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.96,
-      "word_error_rate": 0.3333333333333333,
-      "word_overlap": 0.5,
+      "word_error_rate": 0.6666666666666666,
+      "word_overlap": 0.4,
       "words_matched": 2,
-      "total_unique_words": 4,
+      "total_unique_words": 5,
       "original_cleaned": "hinter dem rucksackregal",
-      "transcribed_cleaned": "hinter dem rucksack-regal."
+      "transcribed_cleaned": "hinter dem rucksack regal."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.96,
-      "fuzzy_token_ratio": 0.96,
-      "rouge_1_f": 0.6666666616666668,
-      "rouge_l_f": 0.6666666616666668,
-      "bleu_score": 1.133422688662942e-154,
-      "overall_similarity": 0.5422222205555556
+      "fuzzy_token_ratio": 0.76,
+      "rouge_1_f": 0.5714285665306124,
+      "rouge_l_f": 0.5714285665306124,
+      "bleu_score": 9.53091075863908e-155,
+      "overall_similarity": 0.5104761888435374
     },
     "elevenlabs_validation": {
       "transcribed_text": "Hinter dem Rucksack-Regal.",
-      "similarity_score": 1.0,
-      "word_level_similarity": 1.0,
+      "similarity_score": 0.6666666666666666,
+      "word_level_similarity": 0.6666666666666666,
       "perfect_matches": [
         [
           "hinter",
@@ -33860,26 +33935,21 @@
           "dem",
           "dem",
           1.0
-        ],
-        [
-          "rucksackregal",
-          "rucksack-regal.",
-          1.0
         ]
       ],
       "phonetic_matches": [],
       "total_words": 3,
       "mismatched_words": [],
-      "word_error_rate": 0.3333333333333333,
+      "word_error_rate": 0.6666666666666666,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 1.000, WER: 0.333",
+        "Similarity: 0.667, WER: 0.667",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "hinter dem rucksackregal",
-      "transcribed_cleaned": "hinter dem rucksack-regal."
+      "transcribed_cleaned": "hinter dem rucksack regal."
     },
     "quality": null
   },
@@ -34056,8 +34126,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Plötzlich wirst du von einem Jungen von hinten an gerempelst. Du stolpest und fälst in eine Schlampfütze und deine neuen Schuhe sind schlammig.",
-      "similarity_score": 0.8181818181818182,
-      "word_level_similarity": 0.8181818181818182,
+      "similarity_score": 0.9090909090909091,
+      "word_level_similarity": 0.9090909090909091,
       "perfect_matches": [
         [
           "plötzlich",
@@ -34150,7 +34220,18 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "fällst",
+          "fälst",
+          1.0
+        ],
+        [
+          "schlammpfütze",
+          "schlampfütze",
+          1.0
+        ]
+      ],
       "total_words": 22,
       "mismatched_words": [],
       "word_error_rate": 0.22727272727272727,
@@ -34653,8 +34734,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Der junge Rent.",
-      "similarity_score": 0.6666666666666666,
-      "word_level_similarity": 0.6666666666666666,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "der",
@@ -34667,7 +34748,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "rennt.",
+          "rent.",
+          1.0
+        ]
+      ],
       "total_words": 3,
       "mismatched_words": [],
       "word_error_rate": 0.3333333333333333,
@@ -34675,7 +34762,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.667, WER: 0.333",
+        "Similarity: 1.000, WER: 0.333",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "der junge rennt.",
@@ -36870,8 +36957,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Die Perkursion.",
-      "similarity_score": 0.5,
-      "word_level_similarity": 0.5,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "die",
@@ -36879,7 +36966,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "perkussion",
+          "perkursion.",
+          0.9473684210526315
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 0.5,
@@ -36887,7 +36980,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "die perkussion",
@@ -37650,20 +37743,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9893048128342246,
-      "word_error_rate": 0.13333333333333333,
-      "word_overlap": 0.7666666666666667,
-      "words_matched": 23,
-      "total_unique_words": 30,
-      "original_cleaned": "maria ist im laden angekommen. \"ich möchte gerne t-shirts kaufen\" sagt sie. \"wir haben nur noch socken\" sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen.",
-      "transcribed_cleaned": "maria ist im laden angekommen. ich möchte gerne t-shirts kaufen sagt sie. wir haben nur noch socken sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen."
+      "word_error_rate": 0.12903225806451613,
+      "word_overlap": 0.7741935483870968,
+      "words_matched": 24,
+      "total_unique_words": 31,
+      "original_cleaned": "maria ist im laden angekommen. \"ich möchte gerne t shirts kaufen\" sagt sie. \"wir haben nur noch socken\" sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen.",
+      "transcribed_cleaned": "maria ist im laden angekommen. ich möchte gerne t shirts kaufen sagt sie. wir haben nur noch socken sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9893048128342246,
       "fuzzy_token_ratio": 0.946524064171123,
-      "rouge_1_f": 0.879999995008,
-      "rouge_l_f": 0.879999995008,
-      "bleu_score": 0.6318488593623965,
-      "overall_similarity": 0.833717889068207
+      "rouge_1_f": 0.8846153796227811,
+      "rouge_l_f": 0.8846153796227811,
+      "bleu_score": 0.6457061683967659,
+      "overall_similarity": 0.8398754536179238
     },
     "elevenlabs_validation": {
       "transcribed_text": "Maria ist im Laden angekommen. Ich möchte gerne T-Shirts kaufen, sagt sie. Wir haben nur noch Socken, sagt der Ladenbesitzer. Da Maria auch Socken braucht, beschließt sie, Socken zu kaufen.",
@@ -37711,8 +37804,13 @@
           1.0
         ],
         [
-          "t-shirts",
-          "t-shirts",
+          "t",
+          "t",
+          1.0
+        ],
+        [
+          "shirts",
+          "shirts",
           1.0
         ],
         [
@@ -37822,16 +37920,16 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 30,
+      "total_words": 31,
       "mismatched_words": [],
-      "word_error_rate": 0.13333333333333333,
+      "word_error_rate": 0.12903225806451613,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
-      "original_cleaned": "maria ist im laden angekommen. \"ich möchte gerne t-shirts kaufen\" sagt sie. \"wir haben nur noch socken\" sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen.",
-      "transcribed_cleaned": "maria ist im laden angekommen. ich möchte gerne t-shirts kaufen sagt sie. wir haben nur noch socken sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen."
+      "original_cleaned": "maria ist im laden angekommen. \"ich möchte gerne t shirts kaufen\" sagt sie. \"wir haben nur noch socken\" sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen.",
+      "transcribed_cleaned": "maria ist im laden angekommen. ich möchte gerne t shirts kaufen sagt sie. wir haben nur noch socken sagt der ladenbesitzer. da maria auch socken braucht beschließt sie socken zu kaufen."
     },
     "quality": null
   },
@@ -39663,25 +39761,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9738717339667459,
-      "word_error_rate": 0.1111111111111111,
-      "word_overlap": 0.7714285714285715,
+      "word_error_rate": 0.1388888888888889,
+      "word_overlap": 0.75,
       "words_matched": 27,
-      "total_unique_words": 35,
+      "total_unique_words": 36,
       "original_cleaned": "dann kommt tim herein und tim legt seinen bleistift auf das regal über dem rucksackregal. tims bleistift ist auch gelb aber linda ist noch draußen und spielt deshalb hat sie nicht gesehen was tim gemacht hat.",
-      "transcribed_cleaned": "dann kommt tim herrein. und tim legt seinen bleistift auf das regal über dem rucksack-regal. tims bleistift ist auch gelb. aber linda ist noch draußen und spielt. deshalb hat sie nicht gesehen was tim gemacht hat."
+      "transcribed_cleaned": "dann kommt tim herrein. und tim legt seinen bleistift auf das regal über dem rucksack regal. tims bleistift ist auch gelb. aber linda ist noch draußen und spielt. deshalb hat sie nicht gesehen was tim gemacht hat."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.98812351543943,
-      "fuzzy_token_ratio": 0.98812351543943,
+      "fuzzy_token_ratio": 0.9596199524940617,
       "rouge_1_f": 0.9333333283333335,
       "rouge_l_f": 0.9333333283333335,
-      "bleu_score": 0.691441569283882,
-      "overall_similarity": 0.8709661376855484
+      "bleu_score": 0.6719447105931873,
+      "overall_similarity": 0.8644671847886501
     },
     "elevenlabs_validation": {
       "transcribed_text": "Dann kommt Tim herrein. Und Tim legt seinen Bleistift auf das Regal über dem Rucksack-Regal. Tims Bleistift ist auch gelb. Aber Linda ist noch draußen und spielt. Deshalb hat sie nicht gesehen, was Tim gemacht hat.",
-      "similarity_score": 0.9722222222222222,
-      "word_level_similarity": 0.9722222222222222,
+      "similarity_score": 0.9444444444444444,
+      "word_level_similarity": 0.9444444444444444,
       "perfect_matches": [
         [
           "dann",
@@ -39746,11 +39844,6 @@
         [
           "dem",
           "dem",
-          1.0
-        ],
-        [
-          "rucksackregal.",
-          "rucksack-regal.",
           1.0
         ],
         [
@@ -39862,14 +39955,14 @@
       "phonetic_matches": [],
       "total_words": 36,
       "mismatched_words": [],
-      "word_error_rate": 0.1111111111111111,
+      "word_error_rate": 0.1388888888888889,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
       "original_cleaned": "dann kommt tim herein und tim legt seinen bleistift auf das regal über dem rucksackregal. tims bleistift ist auch gelb aber linda ist noch draußen und spielt deshalb hat sie nicht gesehen was tim gemacht hat.",
-      "transcribed_cleaned": "dann kommt tim herrein. und tim legt seinen bleistift auf das regal über dem rucksack-regal. tims bleistift ist auch gelb. aber linda ist noch draußen und spielt. deshalb hat sie nicht gesehen was tim gemacht hat."
+      "transcribed_cleaned": "dann kommt tim herrein. und tim legt seinen bleistift auf das regal über dem rucksack regal. tims bleistift ist auch gelb. aber linda ist noch draußen und spielt. deshalb hat sie nicht gesehen was tim gemacht hat."
     },
     "quality": null
   },
@@ -40018,25 +40111,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9955156950672646,
-      "word_error_rate": 0.05263157894736842,
-      "word_overlap": 0.9,
+      "word_error_rate": 0.10526315789473684,
+      "word_overlap": 0.8571428571428571,
       "words_matched": 18,
-      "total_unique_words": 20,
+      "total_unique_words": 21,
       "original_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksackregal.",
-      "transcribed_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksack-regal."
+      "transcribed_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksack regal."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9955156950672646,
-      "fuzzy_token_ratio": 0.9955156950672646,
+      "fuzzy_token_ratio": 0.9417040358744395,
       "rouge_1_f": 0.9473684160526316,
       "rouge_l_f": 0.9473684160526316,
-      "bleu_score": 0.9426151476815119,
-      "overall_similarity": 0.961833086267136
+      "bleu_score": 0.8914703664390793,
+      "overall_similarity": 0.9447848258529917
     },
     "elevenlabs_validation": {
       "transcribed_text": "Heute Morgen, als sie in die Schule kam, legte Linda ihren gelben Bleistift auf das Regal über dem Rucksack-Regal.",
-      "similarity_score": 1.0,
-      "word_level_similarity": 1.0,
+      "similarity_score": 0.9473684210526315,
+      "word_level_similarity": 0.9473684210526315,
       "perfect_matches": [
         [
           "heute",
@@ -40127,24 +40220,19 @@
           "dem",
           "dem",
           1.0
-        ],
-        [
-          "rucksackregal.",
-          "rucksack-regal.",
-          1.0
         ]
       ],
       "phonetic_matches": [],
       "total_words": 19,
       "mismatched_words": [],
-      "word_error_rate": 0.05263157894736842,
+      "word_error_rate": 0.10526315789473684,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
       "original_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksackregal.",
-      "transcribed_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksack-regal."
+      "transcribed_cleaned": "heute morgen als sie in die schule kam legte linda ihren gelben bleistift auf das regal über dem rucksack regal."
     },
     "quality": null
   },
@@ -41889,8 +41977,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Das Omelette.",
-      "similarity_score": 0.5,
-      "word_level_similarity": 0.5,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "das",
@@ -41898,7 +41986,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "omelett",
+          "omelette.",
+          1.0
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 0.5,
@@ -41906,7 +42000,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "das omelett",
@@ -42136,26 +42230,26 @@
     "transcribed_text": "Johann sucht also überall, aber er kann seinen Spielzeug Elkawen nicht finden. Seine Mutter wird wütend auf Johann, weil er seinen Laster verloren hat.",
     "confidence": null,
     "basic_metrics": {
-      "similarity_ratio": 0.9795918367346939,
-      "word_error_rate": 0.08695652173913043,
-      "word_overlap": 0.8636363636363636,
-      "words_matched": 19,
+      "similarity_ratio": 0.9863945578231292,
+      "word_error_rate": 0.041666666666666664,
+      "word_overlap": 0.9090909090909091,
+      "words_matched": 20,
       "total_unique_words": 22,
-      "original_cleaned": "johann sucht also überall aber er kann seinen spielzeug-lkw nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat.",
+      "original_cleaned": "johann sucht also überall aber er kann seinen spielzeug lkw nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat.",
       "transcribed_cleaned": "johann sucht also überall aber er kann seinen spielzeug elkawen nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat."
     },
     "comprehensive_metrics": {
-      "fuzzy_ratio": 0.9795918367346939,
+      "fuzzy_ratio": 0.9863945578231292,
       "fuzzy_token_ratio": 0.9591836734693877,
-      "rouge_1_f": 0.9268292632956573,
-      "rouge_l_f": 0.9268292632956573,
-      "bleu_score": 0.839587623092576,
-      "overall_similarity": 0.9153362410409757
+      "rouge_1_f": 0.9523809473809525,
+      "rouge_l_f": 0.9523809473809525,
+      "bleu_score": 0.8843865924896842,
+      "overall_similarity": 0.9410540325645886
     },
     "elevenlabs_validation": {
       "transcribed_text": "Johann sucht also überall, aber er kann seinen Spielzeug Elkawen nicht finden. Seine Mutter wird wütend auf Johann, weil er seinen Laster verloren hat.",
-      "similarity_score": 0.9565217391304348,
-      "word_level_similarity": 0.9565217391304348,
+      "similarity_score": 0.9583333333333334,
+      "word_level_similarity": 0.9583333333333334,
       "perfect_matches": [
         [
           "johann",
@@ -42195,6 +42289,11 @@
         [
           "seinen",
           "seinen",
+          1.0
+        ],
+        [
+          "spielzeug",
+          "spielzeug",
           1.0
         ],
         [
@@ -42269,15 +42368,21 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 23,
-      "mismatched_words": [],
-      "word_error_rate": 0.08695652173913043,
-      "validation_passed": true,
-      "validation_level": "GOOD",
-      "recommendations": [
-        "Audio quality is good, minor phonetic variations acceptable"
+      "total_words": 24,
+      "mismatched_words": [
+        [
+          "lkw",
+          "elkawen",
+          0.6
+        ]
       ],
-      "original_cleaned": "johann sucht also überall aber er kann seinen spielzeug-lkw nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat.",
+      "word_error_rate": 0.041666666666666664,
+      "validation_passed": true,
+      "validation_level": "EXCELLENT",
+      "recommendations": [
+        "Audio quality is excellent, no action needed"
+      ],
+      "original_cleaned": "johann sucht also überall aber er kann seinen spielzeug lkw nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat.",
       "transcribed_cleaned": "johann sucht also überall aber er kann seinen spielzeug elkawen nicht finden. seine mutter wird wütend auf johann weil er seinen laster verloren hat."
     },
     "quality": null
@@ -42370,25 +42475,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9830508474576272,
-      "word_error_rate": 0.13793103448275862,
-      "word_overlap": 0.7037037037037037,
+      "word_error_rate": 0.1724137931034483,
+      "word_overlap": 0.6785714285714286,
       "words_matched": 19,
-      "total_unique_words": 27,
+      "total_unique_words": 28,
       "original_cleaned": "und dann ist sie zum spielen nach draußen gegangen siehst du und während sie draußen spielte fiel lindas gelber bleistift von oben runter und hinter das rucksackregal siehst du",
-      "transcribed_cleaned": "und dann ist sie zum spiele nach draußen gegangen. siehst du und während sie draußen spielte viel lindas gelber bleistift von oben runter und hinter das rucksack-regal. siehst du"
+      "transcribed_cleaned": "und dann ist sie zum spiele nach draußen gegangen. siehst du und während sie draußen spielte viel lindas gelber bleistift von oben runter und hinter das rucksack regal. siehst du"
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9830508474576272,
-      "fuzzy_token_ratio": 0.96045197740113,
-      "rouge_1_f": 0.8695652123913045,
-      "rouge_l_f": 0.8695652123913045,
-      "bleu_score": 0.6303581060922103,
-      "overall_similarity": 0.8276580553137141
+      "fuzzy_token_ratio": 0.9322033898305083,
+      "rouge_1_f": 0.8510638247894976,
+      "rouge_l_f": 0.8510638247894976,
+      "bleu_score": 0.6082055310628111,
+      "overall_similarity": 0.8141067344366452
     },
     "elevenlabs_validation": {
       "transcribed_text": "Und dann ist sie zum Spiele nach draußen gegangen. Siehst du? Und während sie draußen spielte, viel Linda's gelber Bleistift von oben runter und hinter das Rucksack-Regal. Siehst du?",
-      "similarity_score": 0.9310344827586207,
-      "word_level_similarity": 0.9310344827586207,
+      "similarity_score": 0.896551724137931,
+      "word_level_similarity": 0.896551724137931,
       "perfect_matches": [
         [
           "und",
@@ -42511,11 +42616,6 @@
           1.0
         ],
         [
-          "rucksackregal",
-          "rucksack-regal.",
-          1.0
-        ],
-        [
           "siehst",
           "siehst",
           1.0
@@ -42529,14 +42629,15 @@
       "phonetic_matches": [],
       "total_words": 29,
       "mismatched_words": [],
-      "word_error_rate": 0.13793103448275862,
+      "word_error_rate": 0.1724137931034483,
       "validation_passed": true,
-      "validation_level": "GOOD",
+      "validation_level": "ACCEPTABLE",
       "recommendations": [
-        "Audio quality is good, minor phonetic variations acceptable"
+        "Audio quality is acceptable but monitor for patterns",
+        "Found 0 mismatched words out of 29"
       ],
       "original_cleaned": "und dann ist sie zum spielen nach draußen gegangen siehst du und während sie draußen spielte fiel lindas gelber bleistift von oben runter und hinter das rucksackregal siehst du",
-      "transcribed_cleaned": "und dann ist sie zum spiele nach draußen gegangen. siehst du und während sie draußen spielte viel lindas gelber bleistift von oben runter und hinter das rucksack-regal. siehst du"
+      "transcribed_cleaned": "und dann ist sie zum spiele nach draußen gegangen. siehst du und während sie draußen spielte viel lindas gelber bleistift von oben runter und hinter das rucksack regal. siehst du"
     },
     "quality": null
   },
@@ -43159,8 +43260,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Welche Karte hat mir Apfel?",
-      "similarity_score": 0.6,
-      "word_level_similarity": 0.6,
+      "similarity_score": 0.8,
+      "word_level_similarity": 0.8,
       "perfect_matches": [
         [
           "welche",
@@ -43178,7 +43279,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "äpfel",
+          "apfel",
+          1.0
+        ]
+      ],
       "total_words": 5,
       "mismatched_words": [
         [
@@ -43192,7 +43299,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.600, WER: 0.400",
+        "Similarity: 0.800, WER: 0.400",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "welche karte hat mehr äpfel",
@@ -44321,8 +44428,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "das Katzchen",
-      "similarity_score": 0.5,
-      "word_level_similarity": 0.5,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "das",
@@ -44330,7 +44437,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "kätzchen",
+          "katzchen",
+          1.0
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 0.5,
@@ -44338,7 +44451,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "das kätzchen",
@@ -44413,20 +44526,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9836065573770492,
-      "word_error_rate": 0.2,
-      "word_overlap": 0.6666666666666666,
-      "words_matched": 4,
-      "total_unique_words": 6,
-      "original_cleaned": "los gehts mit dem memory-spiel",
-      "transcribed_cleaned": "los gehts mit dem memory-spiel."
+      "word_error_rate": 0.16666666666666666,
+      "word_overlap": 0.7142857142857143,
+      "words_matched": 5,
+      "total_unique_words": 7,
+      "original_cleaned": "los gehts mit dem memory spiel",
+      "transcribed_cleaned": "los gehts mit dem memory spiel."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9836065573770492,
       "fuzzy_token_ratio": 0.9836065573770492,
       "rouge_1_f": 0.999999995,
       "rouge_l_f": 0.999999995,
-      "bleu_score": 0.668740304976422,
-      "overall_similarity": 0.8841156191178238
+      "bleu_score": 0.7598356856515925,
+      "overall_similarity": 0.9144807460095472
     },
     "elevenlabs_validation": {
       "transcribed_text": "Los geht's mit dem Memory-Spiel.",
@@ -44454,23 +44567,28 @@
           1.0
         ],
         [
-          "memory-spiel",
-          "memory-spiel.",
+          "memory",
+          "memory",
+          1.0
+        ],
+        [
+          "spiel",
+          "spiel.",
           1.0
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 5,
+      "total_words": 6,
       "mismatched_words": [],
-      "word_error_rate": 0.2,
+      "word_error_rate": 0.16666666666666666,
       "validation_passed": true,
       "validation_level": "ACCEPTABLE",
       "recommendations": [
         "Audio quality is acceptable but monitor for patterns",
-        "Found 0 mismatched words out of 5"
+        "Found 0 mismatched words out of 6"
       ],
-      "original_cleaned": "los gehts mit dem memory-spiel",
-      "transcribed_cleaned": "los gehts mit dem memory-spiel."
+      "original_cleaned": "los gehts mit dem memory spiel",
+      "transcribed_cleaned": "los gehts mit dem memory spiel."
     },
     "quality": null
   },
@@ -44484,20 +44602,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.8108108108108109,
-      "word_error_rate": 0.5,
-      "word_overlap": 0.3333333333333333,
+      "word_error_rate": 1.0,
+      "word_overlap": 0.25,
       "words_matched": 1,
-      "total_unique_words": 3,
+      "total_unique_words": 4,
       "original_cleaned": "der paläontologe",
-      "transcribed_cleaned": "der parallion-toologe"
+      "transcribed_cleaned": "der parallion toologe"
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.8108108108108109,
       "fuzzy_token_ratio": 0.8108108108108109,
-      "rouge_1_f": 0.4999999950000001,
-      "rouge_l_f": 0.4999999950000001,
-      "bleu_score": 1.5319719891192393e-231,
-      "overall_similarity": 0.43693693527027033
+      "rouge_1_f": 0.39999999520000007,
+      "rouge_l_f": 0.39999999520000007,
+      "bleu_score": 1.384292958842266e-231,
+      "overall_similarity": 0.4036036020036036
     },
     "elevenlabs_validation": {
       "transcribed_text": "Der Parallion-Toologe",
@@ -44512,17 +44630,23 @@
       ],
       "phonetic_matches": [],
       "total_words": 2,
-      "mismatched_words": [],
-      "word_error_rate": 0.5,
+      "mismatched_words": [
+        [
+          "paläontologe",
+          "toologe",
+          0.631578947368421
+        ]
+      ],
+      "word_error_rate": 1.0,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 0.500, WER: 1.000",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "der paläontologe",
-      "transcribed_cleaned": "der parallion-toologe"
+      "transcribed_cleaned": "der parallion toologe"
     },
     "quality": null
   },
@@ -46203,10 +46327,16 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Ein Attasse.",
-      "similarity_score": 0.0,
-      "word_level_similarity": 0.0,
+      "similarity_score": 0.5,
+      "word_level_similarity": 0.5,
       "perfect_matches": [],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "tasse",
+          "attasse.",
+          0.8571428571428571
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 1.0,
@@ -46214,7 +46344,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.000, WER: 1.000",
+        "Similarity: 0.500, WER: 1.000",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "eine tasse",
@@ -46232,25 +46362,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.972972972972973,
-      "word_error_rate": 0.22727272727272727,
-      "word_overlap": 0.6521739130434783,
+      "word_error_rate": 0.2727272727272727,
+      "word_overlap": 0.6818181818181818,
       "words_matched": 15,
-      "total_unique_words": 23,
+      "total_unique_words": 22,
       "original_cleaned": "um eine bild mit einer pfeiltaste auszuwählen drücken sie die taste die in dieselbe richtung wie der pfeil unter dem bild zeigt.",
-      "transcribed_cleaned": "um eine bild mit einer pfeil-taste auszuwählen drücken sie die taste die in die selbstberichtung wieder pfeil unter dem bild zeigt."
+      "transcribed_cleaned": "um eine bild mit einer pfeil taste auszuwählen drücken sie die taste die in die selbstberichtung wieder pfeil unter dem bild zeigt."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.972972972972973,
-      "fuzzy_token_ratio": 0.9189189189189189,
-      "rouge_1_f": 0.7894736792243767,
-      "rouge_l_f": 0.7894736792243767,
-      "bleu_score": 0.589203568634373,
-      "overall_similarity": 0.7838834069439077
+      "fuzzy_token_ratio": 0.8957528957528957,
+      "rouge_1_f": 0.8108108058436816,
+      "rouge_l_f": 0.8108108058436816,
+      "bleu_score": 0.5877038209148266,
+      "overall_similarity": 0.7904958665771605
     },
     "elevenlabs_validation": {
       "transcribed_text": "Um eine Bild mit einer Pfeil-Taste auszuwählen, drücken Sie die Taste, die in die Selbstberichtung wieder Pfeil unter dem Bild zeigt.",
-      "similarity_score": 0.8181818181818182,
-      "word_level_similarity": 0.8181818181818182,
+      "similarity_score": 0.7727272727272727,
+      "word_level_similarity": 0.7727272727272727,
       "perfect_matches": [
         [
           "um",
@@ -46275,11 +46405,6 @@
         [
           "einer",
           "einer",
-          1.0
-        ],
-        [
-          "pfeiltaste",
-          "pfeil-taste",
           1.0
         ],
         [
@@ -46347,6 +46472,11 @@
       "total_words": 22,
       "mismatched_words": [
         [
+          "pfeiltaste",
+          "pfeil",
+          0.6666666666666666
+        ],
+        [
           "dieselbe",
           "die",
           0.5454545454545454
@@ -46367,15 +46497,16 @@
           0.6666666666666666
         ]
       ],
-      "word_error_rate": 0.22727272727272727,
-      "validation_passed": true,
-      "validation_level": "ACCEPTABLE",
+      "word_error_rate": 0.2727272727272727,
+      "validation_passed": false,
+      "validation_level": "NEEDS_REVIEW",
       "recommendations": [
-        "Audio quality is acceptable but monitor for patterns",
-        "Found 4 mismatched words out of 22"
+        "Audio quality below acceptable threshold",
+        "Similarity: 0.773, WER: 0.273",
+        "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "um eine bild mit einer pfeiltaste auszuwählen drücken sie die taste die in dieselbe richtung wie der pfeil unter dem bild zeigt.",
-      "transcribed_cleaned": "um eine bild mit einer pfeil-taste auszuwählen drücken sie die taste die in die selbstberichtung wieder pfeil unter dem bild zeigt."
+      "transcribed_cleaned": "um eine bild mit einer pfeil taste auszuwählen drücken sie die taste die in die selbstberichtung wieder pfeil unter dem bild zeigt."
     },
     "quality": null
   },
@@ -49676,8 +49807,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Hier ist eine Zahlenreie. Du kannst den Schieber, vorwärts und rückwärts entlang der Linie bewegen. Ändere den Schieber so, dass er sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiesst, wenn du entscheidest, wohin du den Schieber platzierst.",
-      "similarity_score": 0.9615384615384616,
-      "word_level_similarity": 0.9615384615384616,
+      "similarity_score": 0.9807692307692307,
+      "word_level_similarity": 0.9807692307692307,
       "perfect_matches": [
         [
           "hier",
@@ -49930,7 +50061,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "ansiehst",
+          "ansiesst",
+          0.9333333333333333
+        ]
+      ],
       "total_words": 52,
       "mismatched_words": [],
       "word_error_rate": 0.038461538461538464,
@@ -49971,8 +50108,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Was glaubst du, was Hannah davon hält? Das Justus nach dem Buch greift.",
-      "similarity_score": 0.9230769230769231,
-      "word_level_similarity": 0.9230769230769231,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "was",
@@ -50035,7 +50172,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "dass",
+          "das",
+          1.0
+        ]
+      ],
       "total_words": 13,
       "mismatched_words": [],
       "word_error_rate": 0.15384615384615385,
@@ -50529,8 +50672,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Der Mann ist einen Apfel.",
-      "similarity_score": 0.8,
-      "word_level_similarity": 0.8,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "der",
@@ -50553,7 +50696,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "isst",
+          "ist",
+          1.0
+        ]
+      ],
       "total_words": 5,
       "mismatched_words": [],
       "word_error_rate": 0.2,
@@ -53009,8 +53158,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "die Fische schwimmen unter einem Wahl und einer Meereschildkröte.",
-      "similarity_score": 0.7777777777777778,
-      "word_level_similarity": 0.7777777777777778,
+      "similarity_score": 0.8888888888888888,
+      "word_level_similarity": 0.8888888888888888,
       "perfect_matches": [
         [
           "die",
@@ -53048,7 +53197,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "meeresschildkröte.",
+          "meereschildkröte.",
+          1.0
+        ]
+      ],
       "total_words": 9,
       "mismatched_words": [],
       "word_error_rate": 0.2222222222222222,
@@ -53744,8 +53899,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Das ist Karl. Heute früh hat Karl sein Zimmer aufgeräumt. Karl hat seinen großen Basketball auf den Schreibtisch gelegt, seinen Mittellgroßen Fußball auf den Tisch und seinen kleinen Baseball auf das unterste Regal.",
-      "similarity_score": 0.9696969696969697,
-      "word_level_similarity": 0.9696969696969697,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "das",
@@ -53908,7 +54063,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "mittelgroßen",
+          "mittellgroßen",
+          1.0
+        ]
+      ],
       "total_words": 33,
       "mismatched_words": [],
       "word_error_rate": 0.030303030303030304,
@@ -54918,8 +55079,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Wie viele Apfel sind das?",
-      "similarity_score": 0.8,
-      "word_level_similarity": 0.8,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "wie",
@@ -54942,7 +55103,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "äpfel",
+          "apfel",
+          1.0
+        ]
+      ],
       "total_words": 5,
       "mismatched_words": [],
       "word_error_rate": 0.2,
@@ -55767,10 +55934,10 @@
       "similarity_ratio": 1.0,
       "word_error_rate": 0.0,
       "word_overlap": 1.0,
-      "words_matched": 16,
-      "total_unique_words": 16,
-      "original_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop-computer oder einen laptop um die aufgaben zu lösen.",
-      "transcribed_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop-computer oder einen laptop um die aufgaben zu lösen."
+      "words_matched": 17,
+      "total_unique_words": 17,
+      "original_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop computer oder einen laptop um die aufgaben zu lösen.",
+      "transcribed_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop computer oder einen laptop um die aufgaben zu lösen."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 1.0,
@@ -55826,8 +55993,13 @@
           1.0
         ],
         [
-          "desktop-computer",
-          "desktop-computer",
+          "desktop",
+          "desktop",
+          1.0
+        ],
+        [
+          "computer",
+          "computer",
           1.0
         ],
         [
@@ -55872,7 +56044,7 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 17,
+      "total_words": 18,
       "mismatched_words": [],
       "word_error_rate": 0.0,
       "validation_passed": true,
@@ -55880,8 +56052,8 @@
       "recommendations": [
         "Audio quality is excellent, no action needed"
       ],
-      "original_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop-computer oder einen laptop um die aufgaben zu lösen.",
-      "transcribed_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop-computer oder einen laptop um die aufgaben zu lösen."
+      "original_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop computer oder einen laptop um die aufgaben zu lösen.",
+      "transcribed_cleaned": "bitte verwenden sie ein tablet im querformat einen desktop computer oder einen laptop um die aufgaben zu lösen."
     },
     "quality": null
   },
@@ -57946,8 +58118,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Das Karossel",
-      "similarity_score": 0.5,
-      "word_level_similarity": 0.5,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "das",
@@ -57955,7 +58127,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "karussell",
+          "karossel",
+          0.8333333333333334
+        ]
+      ],
       "total_words": 2,
       "mismatched_words": [],
       "word_error_rate": 0.5,
@@ -57963,7 +58141,7 @@
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.500, WER: 0.500",
+        "Similarity: 1.000, WER: 0.500",
         "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "das karussell",
@@ -63749,25 +63927,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.4826086956521739,
-      "word_error_rate": 0.34210526315789475,
-      "word_overlap": 0.5238095238095238,
-      "words_matched": 22,
-      "total_unique_words": 42,
-      "original_cleaned": "mama kommt nach hause und erzählt sam dass sie gerade an dem laden vorbeigelaufen ist. \"verkaufen sie t-shirts \" fragt sam. \"nein\" sagt mama \"sie verkaufen nur schuhe\". \"maria wird jetzt wahrscheinlich schuhe im laden kaufen\" sagt sam.",
-      "transcribed_cleaned": "mama kommt nach hause und erzählt zem dass sie gerade an dem laden vorbei gelaufen ist. verkaufen sie t-shirts frag zem nein sagt mama sie verkaufen nur schuhe. maria wird jetzt wahrscheinlich schuhe im laden kaufen sagt zem."
+      "word_error_rate": 0.3333333333333333,
+      "word_overlap": 0.5348837209302325,
+      "words_matched": 23,
+      "total_unique_words": 43,
+      "original_cleaned": "mama kommt nach hause und erzählt sam dass sie gerade an dem laden vorbeigelaufen ist. \"verkaufen sie t shirts \" fragt sam. \"nein\" sagt mama \"sie verkaufen nur schuhe\". \"maria wird jetzt wahrscheinlich schuhe im laden kaufen\" sagt sam.",
+      "transcribed_cleaned": "mama kommt nach hause und erzählt zem dass sie gerade an dem laden vorbei gelaufen ist. verkaufen sie t shirts frag zem nein sagt mama sie verkaufen nur schuhe. maria wird jetzt wahrscheinlich schuhe im laden kaufen sagt zem."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9478260869565217,
       "fuzzy_token_ratio": 0.7782608695652173,
-      "rouge_1_f": 0.7213114704219297,
-      "rouge_l_f": 0.7213114704219297,
-      "bleu_score": 0.41098733201100757,
-      "overall_similarity": 0.6933749631298197
+      "rouge_1_f": 0.7301587251700682,
+      "rouge_l_f": 0.7301587251700682,
+      "bleu_score": 0.41757808624942105,
+      "overall_similarity": 0.698520966125337
     },
     "elevenlabs_validation": {
       "transcribed_text": "Mama kommt nach Hause und erzählt Zem, dass sie gerade an dem Laden vorbei gelaufen ist. Verkaufen sie T-Shirts? frag Zem? Nein, sagt Mama, sie verkaufen nur Schuhe. Maria wird jetzt wahrscheinlich Schuhe im Laden kaufen, sagt Zem.",
-      "similarity_score": 0.8421052631578947,
-      "word_level_similarity": 0.8421052631578947,
+      "similarity_score": 0.8461538461538461,
+      "word_level_similarity": 0.8461538461538461,
       "perfect_matches": [
         [
           "mama",
@@ -63845,8 +64023,13 @@
           1.0
         ],
         [
-          "t-shirts",
-          "t-shirts",
+          "t",
+          "t",
+          1.0
+        ],
+        [
+          "shirts",
+          "shirts",
           1.0
         ],
         [
@@ -63931,7 +64114,7 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 38,
+      "total_words": 39,
       "mismatched_words": [
         [
           "sam",
@@ -63954,16 +64137,16 @@
           0.5714285714285714
         ]
       ],
-      "word_error_rate": 0.34210526315789475,
+      "word_error_rate": 0.3333333333333333,
       "validation_passed": false,
       "validation_level": "NEEDS_REVIEW",
       "recommendations": [
         "Audio quality below acceptable threshold",
-        "Similarity: 0.842, WER: 0.342",
+        "Similarity: 0.846, WER: 0.333",
         "Consider regenerating audio or reviewing input text"
       ],
-      "original_cleaned": "mama kommt nach hause und erzählt sam dass sie gerade an dem laden vorbeigelaufen ist. \"verkaufen sie t-shirts \" fragt sam. \"nein\" sagt mama \"sie verkaufen nur schuhe\". \"maria wird jetzt wahrscheinlich schuhe im laden kaufen\" sagt sam.",
-      "transcribed_cleaned": "mama kommt nach hause und erzählt zem dass sie gerade an dem laden vorbei gelaufen ist. verkaufen sie t-shirts frag zem nein sagt mama sie verkaufen nur schuhe. maria wird jetzt wahrscheinlich schuhe im laden kaufen sagt zem."
+      "original_cleaned": "mama kommt nach hause und erzählt sam dass sie gerade an dem laden vorbeigelaufen ist. \"verkaufen sie t shirts \" fragt sam. \"nein\" sagt mama \"sie verkaufen nur schuhe\". \"maria wird jetzt wahrscheinlich schuhe im laden kaufen\" sagt sam.",
+      "transcribed_cleaned": "mama kommt nach hause und erzählt zem dass sie gerade an dem laden vorbei gelaufen ist. verkaufen sie t shirts frag zem nein sagt mama sie verkaufen nur schuhe. maria wird jetzt wahrscheinlich schuhe im laden kaufen sagt zem."
     },
     "quality": null
   },
@@ -65402,10 +65585,10 @@
       "similarity_ratio": 1.0,
       "word_error_rate": 0.0,
       "word_overlap": 1.0,
-      "words_matched": 11,
-      "total_unique_words": 11,
-      "original_cleaned": "das ist ein memory-spiel. ich erkläre dir jetzt wie das memory-spiel funktioniert.",
-      "transcribed_cleaned": "das ist ein memory-spiel. ich erkläre dir jetzt wie das memory-spiel funktioniert."
+      "words_matched": 12,
+      "total_unique_words": 12,
+      "original_cleaned": "das ist ein memory spiel. ich erkläre dir jetzt wie das memory spiel funktioniert.",
+      "transcribed_cleaned": "das ist ein memory spiel. ich erkläre dir jetzt wie das memory spiel funktioniert."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 1.0,
@@ -65436,8 +65619,13 @@
           1.0
         ],
         [
-          "memory-spiel.",
-          "memory-spiel.",
+          "memory",
+          "memory",
+          1.0
+        ],
+        [
+          "spiel.",
+          "spiel.",
           1.0
         ],
         [
@@ -65471,8 +65659,13 @@
           1.0
         ],
         [
-          "memory-spiel",
-          "memory-spiel.",
+          "memory",
+          "memory",
+          1.0
+        ],
+        [
+          "spiel",
+          "spiel.",
           1.0
         ],
         [
@@ -65482,7 +65675,7 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 12,
+      "total_words": 14,
       "mismatched_words": [],
       "word_error_rate": 0.0,
       "validation_passed": true,
@@ -65490,8 +65683,8 @@
       "recommendations": [
         "Audio quality is excellent, no action needed"
       ],
-      "original_cleaned": "das ist ein memory-spiel. ich erkläre dir jetzt wie das memory-spiel funktioniert.",
-      "transcribed_cleaned": "das ist ein memory-spiel. ich erkläre dir jetzt wie das memory-spiel funktioniert."
+      "original_cleaned": "das ist ein memory spiel. ich erkläre dir jetzt wie das memory spiel funktioniert.",
+      "transcribed_cleaned": "das ist ein memory spiel. ich erkläre dir jetzt wie das memory spiel funktioniert."
     },
     "quality": null
   },
@@ -65600,20 +65793,20 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9920634920634921,
-      "word_error_rate": 0.1,
+      "word_error_rate": 0.14285714285714285,
       "word_overlap": 0.8,
       "words_matched": 16,
       "total_unique_words": 20,
-      "original_cleaned": "das ist das geschichten-spiel. in diesem spiel wirst du geschichten hören und dann kannst du ein paar fragen dazu beantworten.",
+      "original_cleaned": "das ist das geschichten spiel. in diesem spiel wirst du geschichten hören und dann kannst du ein paar fragen dazu beantworten.",
       "transcribed_cleaned": "das ist das geschichtenspiel. in diesem spiel wirst du geschichten hören. und dann kannst du ein paar fragen dazu beantworten."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9920634920634922,
-      "fuzzy_token_ratio": 0.9920634920634922,
-      "rouge_1_f": 0.9444444394444445,
-      "rouge_l_f": 0.9444444394444445,
-      "bleu_score": 0.7076534431960262,
-      "overall_similarity": 0.881387124901321
+      "fuzzy_token_ratio": 0.9444444444444444,
+      "rouge_1_f": 0.9714285664326531,
+      "rouge_l_f": 0.9714285664326531,
+      "bleu_score": 0.6731407775173047,
+      "overall_similarity": 0.8788776120044833
     },
     "elevenlabs_validation": {
       "transcribed_text": "Das ist das Geschichtenspiel. In diesem Spiel wirst du Geschichten hören. Und dann kannst du ein paar Fragen dazu beantworten.",
@@ -65636,8 +65829,13 @@
           1.0
         ],
         [
-          "geschichten-spiel.",
-          "geschichtenspiel.",
+          "geschichten",
+          "geschichten",
+          1.0
+        ],
+        [
+          "spiel.",
+          "spiel",
           1.0
         ],
         [
@@ -65722,15 +65920,15 @@
         ]
       ],
       "phonetic_matches": [],
-      "total_words": 20,
+      "total_words": 21,
       "mismatched_words": [],
-      "word_error_rate": 0.1,
+      "word_error_rate": 0.14285714285714285,
       "validation_passed": true,
       "validation_level": "GOOD",
       "recommendations": [
         "Audio quality is good, minor phonetic variations acceptable"
       ],
-      "original_cleaned": "das ist das geschichten-spiel. in diesem spiel wirst du geschichten hören und dann kannst du ein paar fragen dazu beantworten.",
+      "original_cleaned": "das ist das geschichten spiel. in diesem spiel wirst du geschichten hören und dann kannst du ein paar fragen dazu beantworten.",
       "transcribed_cleaned": "das ist das geschichtenspiel. in diesem spiel wirst du geschichten hören. und dann kannst du ein paar fragen dazu beantworten."
     },
     "quality": null
@@ -69173,25 +69371,25 @@
     "confidence": null,
     "basic_metrics": {
       "similarity_ratio": 0.9882352941176471,
-      "word_error_rate": 0.14285714285714285,
-      "word_overlap": 0.7142857142857143,
+      "word_error_rate": 0.2857142857142857,
+      "word_overlap": 0.625,
       "words_matched": 5,
-      "total_unique_words": 7,
+      "total_unique_words": 8,
       "original_cleaned": "oben auf dem regal über dem rucksackregal.",
-      "transcribed_cleaned": "oben auf dem regal über dem rucksack-regal."
+      "transcribed_cleaned": "oben auf dem regal über dem rucksack regal."
     },
     "comprehensive_metrics": {
       "fuzzy_ratio": 0.9882352941176471,
-      "fuzzy_token_ratio": 0.9882352941176471,
+      "fuzzy_token_ratio": 0.8470588235294118,
       "rouge_1_f": 0.8333333283333335,
       "rouge_l_f": 0.8333333283333335,
-      "bleu_score": 0.8091067115702212,
-      "overall_similarity": 0.8768917780070673
+      "bleu_score": 0.6803749333171202,
+      "overall_similarity": 0.8339811852560336
     },
     "elevenlabs_validation": {
       "transcribed_text": "oben auf dem Regal über dem Rucksack-Regal.",
-      "similarity_score": 1.0,
-      "word_level_similarity": 1.0,
+      "similarity_score": 0.8571428571428571,
+      "word_level_similarity": 0.8571428571428571,
       "perfect_matches": [
         [
           "oben",
@@ -69222,24 +69420,21 @@
           "dem",
           "dem",
           1.0
-        ],
-        [
-          "rucksackregal.",
-          "rucksack-regal.",
-          1.0
         ]
       ],
       "phonetic_matches": [],
       "total_words": 7,
       "mismatched_words": [],
-      "word_error_rate": 0.14285714285714285,
-      "validation_passed": true,
-      "validation_level": "GOOD",
+      "word_error_rate": 0.2857142857142857,
+      "validation_passed": false,
+      "validation_level": "NEEDS_REVIEW",
       "recommendations": [
-        "Audio quality is good, minor phonetic variations acceptable"
+        "Audio quality below acceptable threshold",
+        "Similarity: 0.857, WER: 0.286",
+        "Consider regenerating audio or reviewing input text"
       ],
       "original_cleaned": "oben auf dem regal über dem rucksackregal.",
-      "transcribed_cleaned": "oben auf dem regal über dem rucksack-regal."
+      "transcribed_cleaned": "oben auf dem regal über dem rucksack regal."
     },
     "quality": null
   },
@@ -70228,8 +70423,8 @@
     },
     "elevenlabs_validation": {
       "transcribed_text": "Weiß Sam das Maria ein paar Socken gekauft hat?",
-      "similarity_score": 0.8888888888888888,
-      "word_level_similarity": 0.8888888888888888,
+      "similarity_score": 1.0,
+      "word_level_similarity": 1.0,
       "perfect_matches": [
         [
           "weiß",
@@ -70272,7 +70467,13 @@
           1.0
         ]
       ],
-      "phonetic_matches": [],
+      "phonetic_matches": [
+        [
+          "dass",
+          "das",
+          1.0
+        ]
+      ],
       "total_words": 9,
       "mismatched_words": [],
       "word_error_rate": 0.1111111111111111,
