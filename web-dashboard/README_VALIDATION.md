@@ -1,8 +1,13 @@
-# Translation Validation System
+# Translation & Audio Validation System
 
 ## Overview
 
-The Translation Validation System uses **back-translation** combined with **similarity scoring** to automatically assess the quality of translations. This approach helps identify potential translation errors, missing context, or semantic drift before audio generation.
+The Levante validation system includes two complementary approaches:
+
+1. **Translation Validation**: Uses **back-translation** with **similarity scoring** to assess translation quality
+2. **Audio Validation**: Uses **ASR transcription** with **advanced similarity metrics** to assess audio generation quality
+
+Both systems help identify potential issues before production deployment.
 
 ## How It Works
 
@@ -188,6 +193,107 @@ Ensure semantic consistency across large translation datasets
 3. **Add the key** to the dashboard's Credential Manager
 4. **Test validation** on a few sample translations
 5. **Review results** and adjust workflow as needed
+
+---
+
+## Audio Validation System
+
+The **Audio Validation System** complements translation validation by verifying the quality of generated TTS audio through ASR (Automatic Speech Recognition) transcription and advanced similarity analysis.
+
+### Key Features
+
+🎯 **Multi-Backend Transcription**
+- OpenAI Whisper (state-of-the-art, local processing)
+- Google Speech Recognition (cloud-based)
+- Automatic GPU acceleration when available
+
+📊 **Advanced Similarity Metrics**
+- Word-level similarity with compound word matching
+- Fuzzy string matching for near-matches
+- BLEU and ROUGE scores for comprehensive assessment
+- Word Error Rate (WER) calculation
+- Phonetic normalization for better accuracy
+
+🔧 **Robust Text Processing**
+- Case-insensitive comparisons
+- Punctuation and apostrophe normalization
+- German umlaut handling (ä→a, ö→o, ü→u, ß→ss)
+- Compound word splitting ("medium-sized" ↔ "medium sized")
+
+### Quality Assessment Categories
+
+| Status | Similarity Range | Description | Action Required |
+|--------|------------------|-------------|-----------------|
+| **EXCELLENT** | >95% | Perfect or near-perfect match | None |
+| **GOOD** | 85-95% | Minor differences, acceptable quality | Optional review |
+| **ACCEPTABLE** | 70-85% | Some discrepancies, may need attention | Review recommended |
+| **NEEDS_REVIEW** | <70% | Significant issues detected | Manual review required |
+
+### Web Dashboard Integration
+
+**Access Audio Validation:**
+1. Click the **"Audio Validation"** button in the validation toolbar
+2. Select a validation results file from the dropdown
+3. Review results with sorting and filtering options
+
+**Interactive Features:**
+- **Play Audio**: Listen to original generated audio
+- **Regenerate**: Create new audio with ElevenLabs using different options:
+  - Default speed (1.0x)
+  - Slower speeds (.9x, .7x)
+  - Boost style for emphasis
+- **Save**: Store improved audio back to Google Cloud Storage
+- **Bulk Operations**: Process multiple files efficiently
+
+**Duration Comparison:**
+- View original and regenerated audio durations side-by-side
+- Identify timing inconsistencies
+- Verify speed adjustments work as expected
+
+### Usage Examples
+
+**Command Line Validation:**
+```bash
+# Validate English audio files
+./validate_language.sh en
+
+# Validate German with custom options
+python -m validate_audio "audio_files/de/*.mp3" \
+    --language de --web-dashboard --model_size base
+```
+
+**Expected Output Location:**
+```
+web-dashboard/data/validation-{language}-{Month-Day-Year}.json
+```
+
+### Troubleshooting
+
+**Common Issues:**
+- **SSL Errors**: Fixed with conditional TTS imports
+- **Language Codes**: Automatic mapping from locale codes (es-CO → es)
+- **GPU Not Detected**: Install CUDA-compatible PyTorch
+- **Low Similarity Scores**: Enhanced preprocessing handles most edge cases
+
+**Performance Tips:**
+- Use `--model_size base` for faster processing
+- Add `--no-quality` to skip CLAP analysis
+- Process files in batches for efficiency
+
+### Technical Implementation
+
+The audio validation system uses a multi-pass similarity algorithm:
+
+1. **Exact Match**: Case-insensitive word comparison
+2. **Compound Words**: Match split/joined word variations
+3. **Phonetic Match**: Handle pronunciation variations
+4. **Fuzzy Match**: Catch spelling differences and OCR errors
+
+This approach achieves high accuracy while being robust to common transcription variations.
+
+---
+
+📖 **Detailed Documentation**: [validate_audio/README.md](../validate_audio/README.md)
 
 ## Support
 

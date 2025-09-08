@@ -1,6 +1,3 @@
-from PlayHt import playHt_tts
-from ELabs import elevenlabs_tts
-
 import pandas as pd
 import os
 import numpy as np
@@ -8,6 +5,8 @@ import sys
 import argparse
 import utilities.config as conf
 import utilities.utilities as u
+
+# TTS imports are now conditional - moved to where they're actually used
 
 # Remove module-level cache; always fetch latest when generating
 # language_dict = conf.get_languages()
@@ -355,6 +354,14 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False):
         result = None
         
         if service == 'PlayHt':
+            # Import PlayHT only when needed
+            try:
+                from PlayHt import playHt_tts
+            except ImportError as e:
+                print(f"Error importing PlayHT: {e}")
+                print("PlayHT dependencies may not be properly installed or configured")
+                return None
+                
             result = playHt_tts.main(
                 input_file_path = diff_file_name, 
                 lang_code = lang_code,
@@ -363,6 +370,14 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False):
                 voice=voice, 
                 audio_base_dir = audio_base_dir)
         else:
+            # Import ElevenLabs only when needed
+            try:
+                from ELabs import elevenlabs_tts
+            except ImportError as e:
+                print(f"Error importing ElevenLabs: {e}")
+                print("ElevenLabs dependencies may not be properly installed or configured")
+                return None
+                
             result = elevenlabs_tts.main(
                 input_file_path = diff_file_name, 
                 lang_code = lang_code,

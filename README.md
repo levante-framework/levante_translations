@@ -1,16 +1,17 @@
 
 ### Levante Audio Tools
 
-[Help: Add a New Language Guide](https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md) · [Project README on GitHub](https://github.com/levante-framework/levante_translations#readme)
+[Help: Add a New Language Guide](https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md) · [Project README on GitHub](https://github.com/levante-framework/levante_translations#readme) · [📝 Changelog](CHANGELOG.md)
 
-Our audio tools include three main utilities:
+Our audio tools include four main utilities:
 
-generate_speech.py: Designed to generate audio files for one or more languages in the voices specified in config.py. The audio files are laid out in a filesystem
-format that matches that needed for core assets and our GCP buckets.
+**generate_speech.py**: Designed to generate audio files for one or more languages in the voices specified in config.py. The audio files are laid out in a filesystem format that matches that needed for core assets and our GCP buckets.
 
-dashboard.py: This standalone utility does four things:
+**validate_audio**: Advanced audio validation system that compares ASR transcriptions to expected text using multiple similarity metrics. Features include multi-backend transcription (Whisper, Google), robust text preprocessing, web dashboard integration, and comprehensive quality assessment. [📖 Detailed Documentation](validate_audio/README.md)
 
-web_dashboard.py: This utility is designed to be run as a web server that can be accessed from a browser. It is used to display the audio generation stats and the translations and audio by language.
+**dashboard.py**: This standalone utility does four things:
+
+**web_dashboard.py**: This utility is designed to be run as a web server that can be accessed from a browser. It is used to display the audio generation stats and the translations and audio by language.
 
 1) Shows current audio generation stats in the top frame
 2) Shows all our current translations and audio by language
@@ -18,6 +19,7 @@ web_dashboard.py: This utility is designed to be run as a web server that can be
 3) For evaluation purposes, allows selecting a voice from
    PlayHt or ElevenLabs to play the same text.
 4) Allows the addition of SSML tags to an edit box to evaluate their effect.
+5) **Audio Validation Interface**: Interactive validation system for reviewing, regenerating, and managing audio quality with ElevenLabs integration.
 
 
 ### Installing Levante-Audio-Tools
@@ -485,3 +487,60 @@ Notes
 
 - The `levante-surveys` repository contains survey/UI JSON translations.
 - Add new languages and translations there; our web dashboard can report coverage.
+
+## Recent System Improvements
+
+### 🔧 **Audio Generation Reliability (September 2025)**
+
+**Problem Solved: SSL Certificate Errors**
+- **Issue**: PlayHT imports were causing SSL certificate failures even for ElevenLabs-only languages (English)
+- **Solution**: Implemented conditional TTS imports - only loads the required service (PlayHT or ElevenLabs)
+- **Impact**: English audio generation now works flawlessly without PlayHT dependencies
+
+**Enhanced Error Handling**
+- Graceful failure with detailed error messages when TTS services are unavailable
+- Better debugging information for import and dependency issues
+
+### 📊 **Audio Validation System Enhancements**
+
+**Advanced Text Similarity**
+- **Multi-pass word matching**: Exact → Compound → Phonetic → Fuzzy matching
+- **German language support**: Automatic umlaut normalization (ä→a, ö→o, ü→u, ß→ss)
+- **Compound word handling**: Matches "medium-sized" ↔ "medium sized"
+- **Punctuation robustness**: Handles apostrophes, hyphens, case differences
+
+**Language Code Mapping**
+- Automatic conversion between locale codes (`es-CO`) and Whisper-compatible codes (`es`)
+- Shell script (`validate_language.sh`) for streamlined validation workflows
+
+**Warning Suppression**
+- Filters noisy NLTK BLEU score warnings for short texts
+- Cleaner console output during batch processing
+
+### 🌐 **Web Dashboard Integration**
+
+**Standalone Audio Validation Page**
+- Resizable, draggable interface replacing modal dialogs
+- Enhanced audio controls with speed/style regeneration options
+- Real-time duration comparison (original vs. regenerated)
+- Bulk save operations to Google Cloud Storage
+
+**Improved User Experience**
+- Better error handling and user feedback
+- Consistent button placement and functionality
+- Cache-busting for reliable deployment updates
+
+### 🚀 **Deployment & Performance**
+
+**Efficient Audio Deployment**
+- Rsync-based uploads avoid re-transferring identical files
+- Separate audio-only deployment options for faster updates
+- Successful deployment of 785 English audio files (11.7 MiB) to dev environment
+
+**GPU Acceleration**
+- Automatic detection and utilization of CUDA-enabled GPUs
+- Significantly faster processing for Whisper and CLAP models
+
+---
+
+For detailed audio validation documentation, see: [validate_audio/README.md](validate_audio/README.md)
