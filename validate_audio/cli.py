@@ -45,6 +45,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--output", help="Path to write results as JSON (list) or JSONL if ends with .jsonl")
     parser.add_argument("--web-dashboard", action="store_true", help="Save results to web-dashboard/data/ for UI viewing")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON to stdout")
+    parser.add_argument("--progress", action="store_true", help="Print progress while validating many files")
 
     args = parser.parse_args(argv)
 
@@ -67,6 +68,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         )
         results = [result]
     else:
+        if args.progress:
+            print(f"Validating {len(audio_paths)} files...", flush=True)
         results = validate_many(
             audio_paths=audio_paths,
             expected_texts=[args.expected] * len(audio_paths) if args.expected else None,
@@ -75,6 +78,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             model_size=args.model_size,
             include_quality=include_quality,
             id3_preferred_key=args.id3_key,
+            progress=args.progress,
         )
 
     if args.web_dashboard:

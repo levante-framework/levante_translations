@@ -35,6 +35,10 @@ class WhisperTranscriber:
         without_timestamps: bool = True,
     ) -> Dict[str, Any]:
         self._ensure_model()
+        try:
+            print(f"[whisper] transcribing: {audio_file_path} (model={self._model_size})", flush=True)
+        except Exception:
+            pass
 
         # The openai-whisper API returns a dict with keys like 'text', 'segments', and 'language'
         result = self._model.transcribe(

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from .id3_utils import read_expected_text_from_audio
 from .transcriber import WhisperTranscriber, GoogleSRTranscriber
-from .metrics import compute_basic_metrics, comprehensive_text_similarity, validate_elevenlabs_audio
+from .metrics import compute_basic_metrics, comprehensive_text_similarity, validate_elevenlabs_audio, crosslingual_meaning_similarity
 try:
     from .quality import assess_audio_quality_with_clap
 except Exception:  # pragma: no cover
@@ -55,7 +55,14 @@ def validate_audio_file(
         except Exception:
             quality = None
 
-    # 5) Aggregate - Include both old and new metrics
+    # 5) Meaning similarity using multilingual sentence-transformer (optional dependency)
+    meaning_similarity = None
+    try:
+        meaning_similarity = crosslingual_meaning_similarity(expected, transcribed_text)
+    except Exception:
+        meaning_similarity = None
+
+    # 6) Aggregate - Include both old and new metrics
     return {
         "audio_path": audio_path,
         "language": result.get("language") or language,
@@ -66,6 +73,7 @@ def validate_audio_file(
         "confidence": result.get("confidence"),
         "basic_metrics": basic,
         "comprehensive_metrics": comp,
+        "meaning_similarity": meaning_similarity,
         "elevenlabs_validation": elevenlabs_validation,
         "quality": quality,
     }
@@ -79,9 +87,20 @@ def validate_many(
     model_size: str = "base",
     include_quality: bool = True,
     id3_preferred_key: Optional[str] = None,
+    progress: bool = False,
 ) -> List[Dict[str, Any]]:
     results: List[Dict[str, Any]] = []
+    total = len(audio_paths)
     for idx, audio_file in enumerate(audio_paths):
+        if progress:
+            # Print a heartbeat every file, include simple percentage every 10 files
+            if idx == 0:
+                print(f"[validate] 1/{total}: {audio_file}", flush=True)
+            elif (idx + 1) % 10 == 0 or (idx + 1) == total:
+                pct = int(((idx + 1) / total) * 100)
+                print(f"[validate] {idx+1}/{total} ({pct}%)", flush=True)
+            else:
+                print(f"[validate] {idx+1}/{total}: {audio_file}", flush=True)
         expected = None
         if expected_texts and idx < len(expected_texts):
             expected = expected_texts[idx]

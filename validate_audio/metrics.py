@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from difflib import SequenceMatcher
 import warnings
 
@@ -369,3 +369,44 @@ def comprehensive_text_similarity(original_text: str, transcribed_text: str) -> 
         "bleu_score": bleu_score,
         "overall_similarity": overall_similarity,
     }
+
+
+# ----------------------------
+# Meaning similarity (multilingual)
+# ----------------------------
+_SBERT_MODEL = None  # Lazy singleton
+
+
+def _get_sbert_model(model_name: str):
+    global _SBERT_MODEL
+    if _SBERT_MODEL is not None:
+        return _SBERT_MODEL
+    try:
+        from sentence_transformers import SentenceTransformer  # type: ignore
+        _SBERT_MODEL = SentenceTransformer(model_name)
+    except Exception:
+        _SBERT_MODEL = None
+    return _SBERT_MODEL
+
+
+def crosslingual_meaning_similarity(text_a: str, text_b: str, model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2") -> Optional[float]:
+    """
+    Compute cosine similarity between two sentences that may be in different languages.
+    Returns None if the model or dependency is unavailable.
+    """
+    try:
+        from sentence_transformers import util as st_util  # type: ignore
+    except Exception:
+        return None
+
+    model = _get_sbert_model(model_name)
+    if model is None:
+        return None
+
+    try:
+        embeddings = model.encode([text_a or "", text_b or ""], convert_to_tensor=True, normalize_embeddings=True)
+        # Cosine similarity of the two vectors (0 and 1)
+        sim = st_util.cos_sim(embeddings[0:1], embeddings[1:2])[0][0]
+        return float(sim.detach().cpu().item())
+    except Exception:
+        return None

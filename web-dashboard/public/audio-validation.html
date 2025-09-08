@@ -52,19 +52,21 @@
 			<div style="border:1px solid #eee; border-radius:8px; overflow:auto; max-height:70vh;">
 				<table class="data-table" style="table-layout: fixed;">
 					<colgroup>
-						<col style="width: 15%">
-						<col style="width: 10%">
-						<col style="width: 27%">
-						<col style="width: 27%">
+						<col style="width: 13%">
 						<col style="width: 9%">
-						<col style="width: 5%">
-						<col style="width: 5%">
-						<col style="width: 5%">
+						<col style="width: 9%">
+						<col style="width: 24%">
+						<col style="width: 24%">
+						<col style="width: 9%">
+						<col style="width: 6%">
+						<col style="width: 6%">
+						<col style="width: 6%">
 					</colgroup>
 					<thead>
 						<tr>
 							<th @click="setSort('filename')" style="cursor:pointer">filename</th>
 							<th @click="setSort('similarity')" style="cursor:pointer">similarity_ratio</th>
+							<th @click="setSort('meaning')" style="cursor:pointer">meaning</th>
 							<th>expected</th>
 							<th>transcribed</th>
 							<th>durations</th>
@@ -77,6 +79,7 @@
 						<tr v-for="r in sortedRows" :key="r.audio_path">
 							<td class="audio-path">{{ r.filename }}</td>
 							<td>{{ (r.elevenlabs_validation?.word_level_similarity ?? r.elevenlabs_validation?.similarity_score ?? r.basic_metrics?.similarity_ratio ?? 0).toFixed(3) }}</td>
+							<td>{{ (typeof r.meaning_similarity==='number' ? r.meaning_similarity : 0).toFixed(3) }}</td>
 							<td class="text-cell">{{ r.expected_text }}</td>
 							<td class="text-cell">{{ r.transcribed_text }}</td>
 							<td class="durations-cell">
