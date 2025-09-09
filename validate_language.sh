@@ -75,14 +75,15 @@ cd "$SCRIPT_DIR"
 
 # Run the validation
 echo "🚀 Starting audio validation..."
-echo "Command: python -m validate_audio \"$AUDIO_DIR/*.mp3\" --language $WHISPER_LANGUAGE --web-dashboard --model-size base --backend whisper"
+echo "Command: python -m validate_audio \"$AUDIO_DIR/*.mp3\" --language $WHISPER_LANGUAGE --web-dashboard --model-size base --backend whisper --no-quality"
 echo ""
 
 python -m validate_audio "$AUDIO_DIR/*.mp3" \
     --language "$WHISPER_LANGUAGE" \
     --web-dashboard \
     --model-size base \
-    --backend whisper
+    --backend whisper \
+    --no-quality
 
 echo ""
 echo "✅ Audio validation completed for language: $LANGUAGE"

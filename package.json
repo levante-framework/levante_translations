@@ -4,12 +4,9 @@
   "description": "Levante Translation Dashboard with validation storage",
   "type": "module",
   "scripts": {
-    "deploy:levante-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only'",
-    "deploy:levante-prod": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod --csv-only'",
-    "deploy:levante-dev-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --dry-run'",
-    "deploy:levante-prod-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod --csv-only --dry-run'",
-    "deploy:levante-dev-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --validate-core-tasks'",
-    "deploy:levante-prod-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod --csv-only --validate-core-tasks'",
+    "deploy:levante-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --no-delete'",
+    "deploy:levante-dev-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --dry-run --no-delete'",
+    "deploy:levante-dev-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --validate-core-tasks --no-delete'",
     "deploy:web": "cd web-dashboard && npm run deploy",
     "deploy:web-dev": "cd web-dashboard && npm run deploy-dev",
     "deploy:crowdin-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/crowdin_to_gcs.py --bundle-id 18'",
@@ -38,14 +35,11 @@
     "fetch:translations-check": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/fetch_latest_translations.py --check-only'",
     "detect:languages": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/detect_new_languages.py'",
     "auto:add-languages": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 utilities/auto_add_languages.py'",
-    "deploy:translations-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev'",
-    "deploy:translations-prod": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod'",
-    "deploy:translations-dev-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --dry-run'",
-    "deploy:translations-prod-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod --dry-run'",
-    "deploy:translations-csv-only-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only'",
-    "deploy:translations-audio-only-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --audio-only'",
-    "deploy:translations-dev-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --validate-core-tasks'",
-    "deploy:translations-prod-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py prod --validate-core-tasks'",
+    "deploy:translations-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --no-delete'",
+    "deploy:translations-dev-dry": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --dry-run --no-delete'",
+    "deploy:translations-csv-only-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --csv-only --no-delete'",
+    "deploy:translations-audio-only-dev": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --audio-only --no-delete'",
+    "deploy:translations-dev-validate": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 deploy_translations.py dev --validate-core-tasks --no-delete'",
     "validate:core-tasks": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 validate_core_tasks.py'",
     "validate:core-tasks-quick": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 validate_core_tasks.py --quick'",
     "validate:core-tasks-interactive": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 validate_core_tasks.py --interactive'",
@@ -63,7 +57,11 @@
     "xcomet:all": "bash -lc 'source .venv/bin/activate && python xcomet/run_all_and_export_excel.py --csv translation_master.csv --gpu --matmul medium'",
     "xcomet:all-remote": "bash -lc 'source .venv/bin/activate && python xcomet/run_all_and_export_excel.py --csv https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv --gpu --matmul medium'",
     "xcomet:all-fetched": "bash -lc 'source .venv/bin/activate && python xcomet/run_all_and_export_excel.py --csv translation_text/item_bank_translations.csv --gpu --matmul medium'",
-    "seed:crowdin": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 seed_crowdin_language.py \"$@\"' --"
+    "seed:crowdin": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 seed_crowdin_language.py \"$@\"' --",
+
+    "validate:audio:setup": "bash -lc 'python3 -m venv .venv-validate-audio && source .venv-validate-audio/bin/activate && python -m pip install --upgrade pip && pip install -r validate_audio/requirements.txt && pip install sentence-transformers && pip install torch==2.3.1+cpu --index-url https://download.pytorch.org/whl/cpu || true'",
+    "validate:audio:lang": "bash -lc 'source .venv-validate-audio/bin/activate 2>/dev/null || npm run validate:audio:setup && source .venv-validate-audio/bin/activate; L=${npm_config_lang:-}; if [ -z \"$L\" ]; then echo \"Usage: npm run validate:audio:lang --lang=<code> (e.g., es-CO)\"; exit 2; fi; BASE=${L%%-*}; python -m validate_audio.cli \"audio_files/${L}\" --language \"$BASE\" --web-dashboard'",
+    "validate:audio:all": "bash -lc 'source .venv-validate-audio/bin/activate 2>/dev/null || npm run validate:audio:setup && source .venv-validate-audio/bin/activate; shopt -s nullglob; for d in audio_files/*; do [ -d \"$d\" ] || continue; LANG=$(basename \"$d\"); BASE=${LANG%%-*}; echo \"Validating $LANG (base=$BASE)\"; python -m validate_audio.cli \"$d\" --language \"$BASE\" --web-dashboard || true; done'"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0"
