@@ -375,18 +375,61 @@ def comprehensive_text_similarity(original_text: str, transcribed_text: str) -> 
 # Meaning similarity (multilingual)
 # ----------------------------
 _SBERT_MODEL = None  # Lazy singleton
+_SBERT_MODEL_NAME = None
+_SBERT_WARNED = False
 
 
 def _get_sbert_model(model_name: str):
-    global _SBERT_MODEL
+    global _SBERT_MODEL, _SBERT_MODEL_NAME, _SBERT_WARNED
     if _SBERT_MODEL is not None:
         return _SBERT_MODEL
+    # Allow environment override
+    try:
+        import os
+        env_name = os.environ.get('MEANING_MODEL')
+        if env_name:
+            model_name = env_name.strip()
+    except Exception:
+        pass
     try:
         from sentence_transformers import SentenceTransformer  # type: ignore
-        _SBERT_MODEL = SentenceTransformer(model_name)
-    except Exception:
-        _SBERT_MODEL = None
-    return _SBERT_MODEL
+        print(f"[meaning] loading model: {model_name}", flush=True)
+        # Prefer GPU if available
+        try:
+            import torch  # type: ignore
+            if torch.cuda.is_available():
+                _SBERT_MODEL = SentenceTransformer(model_name, device='cuda')
+            else:
+                _SBERT_MODEL = SentenceTransformer(model_name)
+        except Exception:
+            _SBERT_MODEL = SentenceTransformer(model_name)
+        _SBERT_MODEL_NAME = model_name
+        return _SBERT_MODEL
+    except Exception as e:
+        if not _SBERT_WARNED:
+            print(f"[meaning] failed to load {model_name}: {e}. Trying LaBSE...", flush=True)
+            _SBERT_WARNED = True
+        # Fallback to LaBSE
+        try:
+            from sentence_transformers import SentenceTransformer  # type: ignore
+            fallback = "sentence-transformers/LaBSE"
+            print(f"[meaning] loading fallback model: {fallback}", flush=True)
+            try:
+                import torch  # type: ignore
+                if torch.cuda.is_available():
+                    _SBERT_MODEL = SentenceTransformer(fallback, device='cuda')
+                else:
+                    _SBERT_MODEL = SentenceTransformer(fallback)
+            except Exception:
+                _SBERT_MODEL = SentenceTransformer(fallback)
+            _SBERT_MODEL_NAME = fallback
+            return _SBERT_MODEL
+        except Exception as e2:
+            if _SBERT_WARNED:
+                print(f"[meaning] fallback LaBSE failed: {e2}. Meaning will be None.", flush=True)
+            _SBERT_MODEL = None
+            _SBERT_MODEL_NAME = None
+            return None
 
 
 def crosslingual_meaning_similarity(text_a: str, text_b: str, model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2") -> Optional[float]:
