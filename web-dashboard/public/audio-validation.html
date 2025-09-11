@@ -20,6 +20,7 @@
 		.data-table th { background:#4facfe; color:#fff; padding:8px; text-align:left; position:sticky; top:0; }
 		.data-table td { padding:8px; border-bottom:1px solid #eee; vertical-align:top; }
 		.data-table tr:hover { background:#f8f9fa; }
+		.row-highlight { background:#fff7cc !important; outline:2px solid #f59e0b; outline-offset:-2px; }
 		.audio-path { font-family:monospace; font-size:11px; color:#6c757d; }
 		.text-cell { white-space:normal; word-wrap:break-word; }
 		.badge { padding:2px 6px; border-radius:12px; font-size:11px; background:#eef; color:#334; }
@@ -37,7 +38,10 @@
 			<div class="panel-header">
 				<div class="panel-title"><i class="fas fa-wave-square"></i> Audio Validation</div>
 				<div class="controls">
-					<label for="validationFile">Results file:</label>
+					<label for="searchBox">Search</label>
+					<input id="searchBox" v-model="search" @keyup.enter="doSearch" placeholder="Search filename or expected…" style="padding:6px 8px; border:1px solid #ddd; border-radius:6px;" />
+					<button class="btn btn-compact" @click="doSearch" title="Search"><i class="fas fa-search"></i></button>
+					<label for="validationFile" style="margin-left:16px;">Results file:</label>
 					<select id="validationFile" v-model="selectedFile" @change="loadSelected">
 						<option v-for="f in files" :key="f" :value="f">{{ f }}</option>
 					</select>
