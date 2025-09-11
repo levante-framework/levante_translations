@@ -88,10 +88,10 @@
 		}catch{ return 0; }
 	}
 	
-	async function regenerateElevenLabs(text, preferredVoiceId, options){ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) throw new Error('Missing ElevenLabs API key.'); let voiceId=preferredVoiceId||document.getElementById('elevenlabsVoice')?.value||''; if(!voiceId) throw new Error('No voice selected.'); const payload={ text, model_id:'eleven_monolingual_v1', voice_settings:{ stability:0.5, similarity_boost:0.75 } };
+	async function regenerateElevenLabs(text, preferredVoiceId, options){ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) throw new Error('Missing ElevenLabs API key.'); let voiceId=preferredVoiceId||document.getElementById('elevenlabsVoice')?.value||''; if(!voiceId) throw new Error('No voice selected.'); const payload={ text, model_id:'eleven_multilingual_v2', output_format:'mp3_22050_32' };
 		// Apply options
 		if(options && typeof options.audio_length==='number') payload.audio_length=options.audio_length;
-		if(options && typeof options.style==='number') payload.voice_settings.style=options.style;
+		if(options && typeof options.style==='number'){ payload.voice_settings = payload.voice_settings || {}; payload.voice_settings.style=options.style; }
 		const resp=await fetch(`/api/elevenlabs-proxy?voice_id=${encodeURIComponent(voiceId)}`,{ method:'POST', headers:{'Content-Type':'application/json','X-API-KEY':key}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`ElevenLabs error: ${resp.status}`); const blob=await resp.blob(); const url=URL.createObjectURL(blob); const audio=new Audio(url); await new Promise((resolve,reject)=>{ audio.addEventListener('canplaythrough',()=>{ audio.play().then(resolve).catch(reject); },{once:true}); audio.addEventListener('error',()=>reject(new Error('regen play failed')),{once:true}); }); const durationSec = await measureDurationSeconds(blob, audio); return { blob, url, voiceId, durationSec }; }
 	
 	function blobToDataUrl(blob){ return new Promise((resolve,reject)=>{ const fr=new FileReader(); fr.onload=()=>resolve(fr.result); fr.onerror=reject; fr.readAsDataURL(blob); }); }
@@ -119,7 +119,7 @@
 				
 				async function playRow(r){ const id=rowId(r); for(const L of langCandidates(r)){ const ok=await playAny(resolveUrlsFor(L,id)); if(ok) return; } alert('Could not play existing audio.'); }
 				async function regenAndPlay(r, options){ try{ const id=rowId(r); await ensureOriginalDuration(r); const urls=[]; for(const L of langCandidates(r)){ urls.push(...resolveUrlsFor(L,id)); } const vName=(await fetchVoiceTag(id, (r.language||'').trim(), urls)) || voiceName.value || ''; const vId=await findVoiceIdByName(vName); const { blob, url, voiceId, durationSec }=await regenerateElevenLabs(r.expected_text||'', vId, options); lastGen.value[id]={ audioBlob:blob, audioUrl:url, voiceId, voiceName:vName, durationSec }; const orig=origDurations.value[id]||0; console.log(`Compare durations for ${id}: original ${orig.toFixed(1)}s vs regenerated ${durationSec.toFixed(1)}s (options: ${JSON.stringify(options||{})})`); closeRegen(); }catch(e){ alert(String(e)); } }
-				function chooseRegen(r, choice){ const map={ default:{}, speed_0_9:{ audio_length:0.9 }, speed_0_7:{ audio_length:0.7 }, boost_style:{ style:0.2 } }; const opts=map[choice]||{}; return regenAndPlay(r, opts); }
+				function chooseRegen(r, choice){ const map={ default:{}, speed_0_9:{ audio_length:1.1 }, speed_0_7:{ audio_length:1.2 }, boost_style:{ style:0.2 } }; const opts=map[choice]||{}; return regenAndPlay(r, opts); }
 				async function saveRow(r){ try{ const id=rowId(r); const gen=lastGen.value[id]; if(!gen){ alert('Please regenerate first.'); return; } const langs=langCandidates(r); const langCode=langs[0]||(r.language||'').trim()||'en'; let existingVoice=''; const urls=[]; for(const L of langs){ urls.push(...resolveUrlsFor(L,id)); }
 				// Try to enrich voice tag from actual URL if missing
 				if(!existingVoice){ existingVoice=await fetchVoiceTag(id, langCode, urls); }
