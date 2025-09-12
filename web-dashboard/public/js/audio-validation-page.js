@@ -88,10 +88,10 @@
 		}catch{ return 0; }
 	}
 	
-	async function regenerateElevenLabs(text, preferredVoiceId, options){ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) throw new Error('Missing ElevenLabs API key.'); let voiceId=preferredVoiceId||document.getElementById('elevenlabsVoice')?.value||''; if(!voiceId) throw new Error('No voice selected.'); const payload={ text, model_id:'eleven_monolingual_v1', voice_settings:{ stability:0.5, similarity_boost:0.75 } };
+	async function regenerateElevenLabs(text, preferredVoiceId, options){ const creds=getCredentials(); const key=creds.elevenlabs_api_key||creds.elevenlabsApiKey; if(!key) throw new Error('Missing ElevenLabs API key.'); let voiceId=preferredVoiceId||document.getElementById('elevenlabsVoice')?.value||''; if(!voiceId) throw new Error('No voice selected.'); const payload={ text, model_id:'eleven_multilingual_v2', output_format:'mp3_22050_32' };
 		// Apply options
 		if(options && typeof options.audio_length==='number') payload.audio_length=options.audio_length;
-		if(options && typeof options.style==='number') payload.voice_settings.style=options.style;
+		if(options && typeof options.style==='number'){ payload.voice_settings = payload.voice_settings || {}; payload.voice_settings.style=options.style; }
 		const resp=await fetch(`/api/elevenlabs-proxy?voice_id=${encodeURIComponent(voiceId)}`,{ method:'POST', headers:{'Content-Type':'application/json','X-API-KEY':key}, body:JSON.stringify(payload)}); if(!resp.ok) throw new Error(`ElevenLabs error: ${resp.status}`); const blob=await resp.blob(); const url=URL.createObjectURL(blob); const audio=new Audio(url); await new Promise((resolve,reject)=>{ audio.addEventListener('canplaythrough',()=>{ audio.play().then(resolve).catch(reject); },{once:true}); audio.addEventListener('error',()=>reject(new Error('regen play failed')),{once:true}); }); const durationSec = await measureDurationSeconds(blob, audio); return { blob, url, voiceId, durationSec }; }
 	
 	function blobToDataUrl(blob){ return new Promise((resolve,reject)=>{ const fr=new FileReader(); fr.onload=()=>resolve(fr.result); fr.onerror=reject; fr.readAsDataURL(blob); }); }
@@ -100,6 +100,9 @@
 		return createApp({
 			setup(){
 				const files=ref([]), selectedFile=ref(''), loading=ref(false), error=ref('');
+				const search=ref('');
+				const matchResults=ref([]); // [{id, filename}]
+				const matchCursor=ref(-1);
 				const results=ref([]), sortKey=ref('similarity'), sortAsc=ref(false);
 				const displayLang=ref(''), voiceName=ref('');
 				const lastGen=ref({}); // itemId -> { audioBlob, audioUrl, voiceId, voiceName, durationSec }
@@ -109,6 +112,22 @@
 				const sortedRows=computed(()=>{ const rows=[...decorated.value]; const k=sortKey.value; rows.sort((a,b)=>{ if(k==='filename') return (a.filename||'').localeCompare(b.filename||''); if(k==='similarity') return ((a.elevenlabs_validation||{}).word_level_similarity||((a.elevenlabs_validation||{}).similarity_score||((a.basic_metrics||{}).similarity_ratio||0)))-((b.elevenlabs_validation||{}).word_level_similarity||((b.elevenlabs_validation||{}).similarity_score||((b.basic_metrics||{}).similarity_ratio||0))); if(k==='meaning') return (((typeof a.meaning_similarity==='number')?a.meaning_similarity:0)-((typeof b.meaning_similarity==='number')?b.meaning_similarity:0)); return 0; }); return sortAsc.value?rows:rows.reverse(); });
 				
 				async function loadFiles(){ try{ const r=await fetch('/api/list-validation-files'); const d=await r.json(); files.value=(d.files||[]).sort().reverse(); if(!selectedFile.value&&files.value.length) selectedFile.value=files.value[0]; }catch(e){ error.value=String(e); } }
+
+				function doSearch(){ try{ const q=(search.value||'').trim().toLowerCase(); if(!q){ return; } const rows=[...decorated.value]; const idx=rows.findIndex(r=> (r.filename||'').toLowerCase().includes(q) || ((r.expected_text||'')+'' ).toLowerCase().includes(q)); if(idx>=0){ const id=rowId(rows[idx]); regenOpenId.value=''; // close any open
+					// Clear previous highlights
+					document.querySelectorAll('tbody tr').forEach(tr=>tr.classList.remove('row-highlight'));
+					// Build all matches and set cursor to first
+					matchResults.value = rows.filter(r=> (r.filename||'').toLowerCase().includes(q) || ((r.expected_text||'')+'' ).toLowerCase().includes(q)).map(r=>({ id: rowId(r), filename: r.filename }));
+					matchCursor.value = matchResults.value.length ? 0 : -1;
+					// Find row element by filename cell match
+					let rowEl=null; const cells=document.querySelectorAll('tbody td.audio-path'); for(const c of cells){ if((c.textContent||'').trim()===rows[idx].filename){ rowEl=c.closest('tr'); break; } }
+					if(rowEl){ rowEl.classList.add('row-highlight'); rowEl.scrollIntoView({behavior:'smooth', block:'center'}); }
+					// Open regen menu for the row to indicate selection
+					regenOpenId.value=id; }
+				} catch(e){ console.warn('search failed', e); }
+				}
+
+				function nextSearch(){ try{ const list=matchResults.value||[]; if(!list.length){ doSearch(); return; } matchCursor.value = (matchCursor.value + 1) % list.length; const cur=list[matchCursor.value]; document.querySelectorAll('tbody tr').forEach(tr=>tr.classList.remove('row-highlight')); let rowEl=null; const cells=document.querySelectorAll('tbody td.audio-path'); for(const c of cells){ if((c.textContent||'').trim()===cur.filename){ rowEl=c.closest('tr'); break; } } if(rowEl){ rowEl.classList.add('row-highlight'); rowEl.scrollIntoView({behavior:'smooth', block:'center'}); } regenOpenId.value=cur.id; } catch(e){ console.warn('nextSearch failed', e); } }
 				async function loadSelected(){ if(!selectedFile.value) return; loading.value=true; error.value=''; try{ const r=await fetch(`/api/get-validation-file?name=${encodeURIComponent(selectedFile.value)}`); const d=await r.json(); results.value=Array.isArray(d)?d:[d]; const langs=new Set(results.value.map(x=>x.language).filter(Boolean)); displayLang.value=langs.size?Array.from(langs).join(', '):''; /* defer voiceName fetch to regen/play */ }catch(e){ error.value=String(e); } finally{ loading.value=false; } }
 				function setSort(k){ if(sortKey.value===k) sortAsc.value=!sortAsc.value; else { sortKey.value=k; sortAsc.value=true; } }
 				
@@ -128,7 +147,7 @@
 				onMounted(()=>{ loadFiles(); document.addEventListener('click', ()=>{ closeRegen(); }); });
 				return { files, selectedFile, loading, error, results, sortedRows,
 					summary: computed(()=>{ const sims=results.value.map(x=>(x.elevenlabs_validation||{}).word_level_similarity||((x.elevenlabs_validation||{}).similarity_score||((x.basic_metrics||{}).similarity_ratio||0))).filter(x=>typeof x==='number'&&x>0); const meanings=results.value.map(x=> (typeof x.meaning_similarity==='number'?x.meaning_similarity:undefined)).filter(x=>typeof x==='number'); if(!sims.length && !meanings.length) return null; const avg=(sims.length? (sims.reduce((a,b)=>a+b,0)/sims.length):0); const mAvg=(meanings.length? (meanings.reduce((a,b)=>a+b,0)/meanings.length):undefined); return { count:(sims.length||meanings.length), min:Math.min(...(sims.length?sims:[Infinity])), max:Math.max(...(sims.length?sims:[-Infinity])), avg, meaningAvg:mAvg }; }),
-					displayLang, voiceName, loadSelected, setSort, playRow, regenAndPlay, saveRow, lastGen, regenOpenId, toggleRegen, chooseRegen, rowId, origDurations };
+					displayLang, voiceName, loadSelected, setSort, playRow, regenAndPlay, saveRow, lastGen, regenOpenId, toggleRegen, chooseRegen, rowId, origDurations, search, doSearch, nextSearch };
 			}
 		});
 	}

@@ -345,15 +345,20 @@ def comprehensive_text_similarity(original_text: str, transcribed_text: str) -> 
     except Exception:
         pass
 
-    # BLEU on cleaned text
+    # BLEU on cleaned text (using lower n-gram order for better performance and accuracy)
     bleu_score = None
     try:
         _ensure_nltk_resource("tokenizers/punkt")
-        from nltk.translate.bleu_score import sentence_bleu  # type: ignore
+        from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction  # type: ignore
 
         reference_tokens = [orig_clean.split()]
         candidate_tokens = trans_clean.split()
-        bleu_score = sentence_bleu(reference_tokens, candidate_tokens)
+        
+        # Use smoothing function and lower n-gram order for better results with short texts
+        smoothing = SmoothingFunction().method1
+        bleu_score = sentence_bleu(reference_tokens, candidate_tokens, 
+                                 smoothing_function=smoothing,
+                                 weights=(0.5, 0.5))  # Only use 1-gram and 2-gram
     except Exception:
         pass
 
