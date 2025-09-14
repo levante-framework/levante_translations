@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="220" original="/main/dashboard/components/participant-sidebar-translations.csv" source-language="en" target-language="fr-CA" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="71040" resname="components/participant-sidebar.grade">
+        <source>Grade</source>
+        <target state="translated">Classe</target>
+        <context-group purpose="information">
+          <context context-type="source">components/participant-sidebar.grade</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71042" resname="components/participant-sidebar.studentInfo">
+        <source>Participant Info</source>
+        <target state="translated">Informations sur le participant</target>
+        <context-group purpose="information">
+          <context context-type="source">components/participant-sidebar.studentInfo</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71044" resname="components/participant-sidebar.tasksCompleted">
+        <source>tasks completed!</source>
+        <target state="translated">tâches complétées!</target>
+        <context-group purpose="information">
+          <context context-type="source">components/participant-sidebar.tasksCompleted</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
