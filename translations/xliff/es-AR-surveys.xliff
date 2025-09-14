@@ -6,7 +6,15 @@
     </header>
     <body>
       <trans-unit id="147908" resname="introduction.q.caregiversurveyintroa.html">
-        <source>&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;</source>
+        <source>Thank you to you and your child for participating in this research project!&lt;/b&gt;&lt;br&gt;
+
+The following survey will take approximately 20-30 minutes to complete and will ask questions about your child. &lt;br&gt;&lt;br&gt;
+
+When answering the questions, please think about your child who is participating in this research project. If you have more than one child participating in the research project, you will complete this survey separately for each participating child. &lt;br&gt;&lt;br&gt;
+Some questions will note a specific timeframe to consider when answering. If no timeframe is indicated, you can think about how the answer applies to your child in general. 
+&lt;br&gt;&lt;br&gt;
+We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;
+When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;Thank you</source>
         <target state="needs-review-translation" state-qualifier="leveraged-tm">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; ¡Gracias de nuevo por participar en este proyecto de investigación! &lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;Estimamos que diligenciar la siguiente parte de la encuesta le tomará aproximadamente 20-30 minutos. En esta encuesta se le harán preguntas sobre su hogar y sobre usted mismo(a).&lt;br&gt;&lt;br&gt;Le agradecemos que responda la encuesta de la forma más precisa posible con la información que tiene disponible. Si tiene alguna duda, comuníquesela a quien coordina esta aplicación. &lt;br&gt;&lt;br&gt;Cuando esté listo(a) para empezar, seleccione el botón Comenzar Encuesta.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;¡Muchas gracias!</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
