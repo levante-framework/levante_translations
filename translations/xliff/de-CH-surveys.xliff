@@ -6367,7 +6367,13 @@ completetext</context>
         <source>Thank you again for participating in this research project!&lt;br&gt; 
 The following survey will take approximately 20-30 minutes to complete and will ask questions about your home and yourself. &lt;br&gt;&lt;br&gt; We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;
 Thank you&quot;</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;</target>
+        <target state="translated">Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt! &lt;p&gt;
+
+Dieser Teil der Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihnen selbst und zu Ihrem häuslichen Umfeld.&lt;br&gt;&lt;br&gt;
+Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva. mpg. de).
+&lt;br&gt;&lt;br&gt;
+Wenn Sie bereit sind zu beginnen, klicken Sie auf \&quot;Umfrage starten\&quot;.&lt;br&gt;&lt;br&gt;
+Vielen Dank</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family.json
 introduction.q.caregiversurveyintrob.html
