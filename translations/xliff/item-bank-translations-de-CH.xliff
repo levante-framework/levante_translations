@@ -8874,9 +8874,9 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52908" resname="memory-game-instruct6-heavy">
+      <trans-unit id="52908" resname="memory-game-instruct6-heavy" approved="yes">
         <source>If you make a mistake, just keep going!</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Wenn du einen Fehler machst, mach einfach weiter!</target>
+        <target state="final">Wenn du einen Fehler machst, mach einfach weiter!</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct6-heavy
 </context>
