@@ -6367,7 +6367,15 @@ completetext</context>
         <source>Thank you again for participating in this research project!&lt;br&gt; 
 The following survey will take approximately 20-30 minutes to complete and will ask questions about your home and yourself. &lt;br&gt;&lt;br&gt; We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;
 Thank you&quot;</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt; ¡Gracias de nuevo por participar en este proyecto de investigación! &lt;/b&gt;&lt;br&gt; &lt;br&gt; &lt;p&gt;&lt;font face=Verdana size=4&gt;Estimamos que diligenciar la siguiente parte de la encuesta le tomará aproximadamente 20-30 minutos. En esta encuesta se le harán preguntas sobre su hogar y sobre usted mismo(a).&lt;br&gt;&lt;br&gt;Le agradecemos que responda la encuesta de la forma más precisa posible con la información que tiene disponible. Si tiene alguna duda, comuníquesela a quien coordina esta aplicación. &lt;br&gt;&lt;br&gt;Cuando esté listo(a) para empezar, seleccione el botón Comenzar Encuesta.&lt;br&gt;&lt;br&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;¡Muchas gracias!</target>
+        <target state="translated">¡Gracias de nuevo por participar en este proyecto de investigación!
+
+Estimamos que diligenciar la siguiente parte de la encuesta le tomará aproximadamente 20-30 minutos. En esta encuesta se le harán preguntas sobre su hogar y sobre usted mismo(a).
+
+Le agradecemos que responda la encuesta de la forma más precisa posible con la información que tiene disponible. Si tiene alguna duda, comuníquesela a quien coordina esta aplicación.
+
+Cuando esté listo(a) para empezar, seleccione el botón Comenzar Encuesta.
+
+¡Muchas gracias </target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family.json
 introduction.q.caregiversurveyintrob.html
