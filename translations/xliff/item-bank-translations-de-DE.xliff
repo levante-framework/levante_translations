@@ -6573,9 +6573,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Vocabulary</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52367" resname="shared-intro-devices">
+      <trans-unit id="52367" resname="shared-intro-devices" approved="yes">
         <source>You can tap on a touchscreen, use the touchpad, or press the arrow keys for this activity. Try it now.</source>
-        <target state="translated">Für diese Aktivität kannst du einen Touchscreen, ein Touchpad oder die Pfeiltasten verwenden. Probier es jetzt aus.</target>
+        <target state="final">Für diese Aktivität kannst du einen Touchscreen, ein Touchpad oder die Pfeiltasten verwenden. Probier es jetzt aus.</target>
         <context-group purpose="information">
           <context context-type="source">shared-intro-devices
 </context>
@@ -6583,9 +6583,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Sentence Understanding</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52369" resname="shared-choose-picture-press-arrow">
+      <trans-unit id="52369" resname="shared-choose-picture-press-arrow" approved="yes">
         <source>To use an arrow key to choose a picture, press the key that points the same direction as the arrow below the picture.</source>
-        <target state="translated">Um eine Bild mit einer Pfeiltaste auszuwählen, drücken Sie die Taste, die in dieselbe Richtung wie der Pfeil unter dem Bild zeigt.</target>
+        <target state="final">Um eine Bild mit einer Pfeiltaste auszuwählen, drücken Sie die Taste, die in dieselbe Richtung wie der Pfeil unter dem Bild zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">shared-choose-picture-press-arrow
 </context>
@@ -6593,9 +6593,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Sentence Understanding</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52371" resname="shared-intro-replay">
+      <trans-unit id="52371" resname="shared-intro-replay" approved="yes">
         <source>You can press the replay button to hear things again. Try it now.</source>
-        <target state="translated">Sie können die Wiedergabetaste drücken, um die Dinge noch einmal zu hören. Versuchen Sie es jetzt!</target>
+        <target state="final">Sie können die Wiedergabetaste drücken, um die Dinge noch einmal zu hören. Versuchen Sie es jetzt!</target>
         <context-group purpose="information">
           <context context-type="source">shared-intro-replay
 </context>
@@ -6603,9 +6603,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Sentence Understanding</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52373" resname="trog-instr1-matching">
+      <trans-unit id="52373" resname="trog-instr1-matching" approved="yes">
         <source>This is a matching activity. Listen to what I say, then look at the pictures carefully. Choose the picture that goes with the words you hear.</source>
-        <target state="translated">Dies ist eine Zuordnungsaufgabe. Hören Sie, was ich sage, und schauen Sie sich die Bilder sorgfältig an. Wählen Sie das Bild, das zu den Worten passt, die Sie hören.</target>
+        <target state="final">Dies ist eine Zuordnungsaufgabe. Hören Sie, was ich sage, und schauen Sie sich die Bilder sorgfältig an. Wählen Sie das Bild, das zu den Worten passt, die Sie hören.</target>
         <context-group purpose="information">
           <context context-type="source">trog-instr1-matching
 </context>
@@ -8275,27 +8275,27 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52681" resname="inferenceInstructions2">
+      <trans-unit id="52681" resname="inferenceInstructions2" approved="yes">
         <source>Welcome to ROAR - Inference</source>
-        <target state="translated">Willkommen bei ROAR - Schlussfolgerung</target>
+        <target state="final">Willkommen bei ROAR - Schlussfolgerung</target>
         <context-group purpose="information">
           <context context-type="source">inferenceInstructions2
 </context>
           <context context-type="x-crowdin-label">roar-inference</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52683" resname="inferenceInstructions">
+      <trans-unit id="52683" resname="inferenceInstructions" approved="yes">
         <source>Read each story carefully. Think about what happened in the story and what you know. Choose the best answer for each question.</source>
-        <target state="translated">Lesen Sie jede Geschichte sorgfältig. Denken Sie darüber nach, was in der Geschichte passiert ist und was Sie wissen. Wählen Sie die beste Antwort zu jeder Frage.</target>
+        <target state="final">Lesen Sie jede Geschichte sorgfältig. Denken Sie darüber nach, was in der Geschichte passiert ist und was Sie wissen. Wählen Sie die beste Antwort zu jeder Frage.</target>
         <context-group purpose="information">
           <context context-type="source">inferenceInstructions
 </context>
           <context context-type="x-crowdin-label">roar-inference</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52790" resname="sds-your-turn">
+      <trans-unit id="52790" resname="sds-your-turn" approved="yes">
         <source>Now it's your turn!</source>
-        <target state="translated">Jetzt bist du dran!</target>
+        <target state="final">Jetzt bist du dran!</target>
         <context-group purpose="information">
           <context context-type="source">sds-your-turn
 </context>
@@ -8303,9 +8303,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52792" resname="sds-prompt3-demo-heavy">
+      <trans-unit id="52792" resname="sds-prompt3-demo-heavy" approved="yes">
         <source>Here is another picture. I have to choose which of these pictures is the same as this new picture.</source>
-        <target state="translated">Hier ist ein weiteres Bild. Ich muss auswählen, welches dieser Bilder mit diesem neuen Bild übereinstimmt.</target>
+        <target state="final">Hier ist ein weiteres Bild. Ich muss auswählen, welches dieser Bilder mit diesem neuen Bild übereinstimmt.</target>
         <context-group purpose="information">
           <context context-type="source">sds-prompt3-demo-heavy
 </context>
@@ -8313,9 +8313,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52794" resname="sds-pick-square-demo-heavy">
+      <trans-unit id="52794" resname="sds-pick-square-demo-heavy" approved="yes">
         <source>I will pick this one! This one is the same as the new picture because they are both squares.</source>
-        <target state="translated">Ich wähle dieses! Dieses ist gleich dem neuen Bild, weil sie beide Quadrate sind.</target>
+        <target state="final">Ich wähle dieses! Dieses ist gleich dem neuen Bild, weil sie beide Quadrate sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-pick-square-demo-heavy
 </context>
@@ -8323,9 +8323,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52796" resname="same-different-selection-instruct1-heavy">
+      <trans-unit id="52796" resname="same-different-selection-instruct1-heavy" approved="yes">
         <source>This is the matching game. In this game, we are going to look at pictures and find things about them that are the same in some way.</source>
-        <target state="translated">Das ist das Zuordnungsspiel. In diesem Spiel werden wir uns Bilder anschauen und Dinge finden, die auf irgendeine Weise gleich sind.</target>
+        <target state="final">Das ist das Zuordnungsspiel. In diesem Spiel werden wir uns Bilder anschauen und Dinge finden, die auf irgendeine Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct1-heavy
 </context>
@@ -8333,9 +8333,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52798" resname="same-different-selection-instruct2-heavy">
+      <trans-unit id="52798" resname="same-different-selection-instruct2-heavy" approved="yes">
         <source>Now we're going to look at more pictures and find things about them that are the same. Let's learn how to play!</source>
-        <target state="translated">Jetzt schauen wir uns mehr Bilder an und finden Dinge heraus, die gleich sind. Lass uns lernen, wie man spielt!</target>
+        <target state="final">Jetzt schauen wir uns mehr Bilder an und finden Dinge heraus, die gleich sind. Lass uns lernen, wie man spielt!</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct2-heavy
 </context>
@@ -8343,9 +8343,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52800" resname="same-different-selection-instruct3-heavy">
+      <trans-unit id="52800" resname="same-different-selection-instruct3-heavy" approved="yes">
         <source>Now you're going to play the rest of the game on your own!</source>
-        <target state="translated">Jetzt wirst du den Rest des Spiels alleine spielen!</target>
+        <target state="final">Jetzt wirst du den Rest des Spiels alleine spielen!</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct3-heavy
 </context>
@@ -8353,9 +8353,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52802" resname="same-different-selection-instruct4-heavy">
+      <trans-unit id="52802" resname="same-different-selection-instruct4-heavy" approved="yes">
         <source>Now we're going to try something new! You're going to find pairs of shapes that are the same in some way. Let's learn how!</source>
-        <target state="translated">Jetzt werden wir etwas Neues ausprobieren! Du wirst Paare von Formen finden, die auf irgendeine Weise gleich sind. Lass uns lernen, wie das geht!</target>
+        <target state="final">Jetzt werden wir etwas Neues ausprobieren! Du wirst Paare von Formen finden, die auf irgendeine Weise gleich sind. Lass uns lernen, wie das geht!</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct4-heavy
 </context>
@@ -8363,9 +8363,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52804" resname="same-different-selection-instruct5-heavy">
+      <trans-unit id="52804" resname="same-different-selection-instruct5-heavy" approved="yes">
         <source>Here are three pictures. I have to choose 2 of them that are the same in some way. I will pick these 2 pictures because they are both triangles.</source>
-        <target state="translated">Hier sind drei Bilder. Ich muss zwei davon auswählen, die auf irgendeine Weise gleich sind. Ich wähle diese beiden Bilder, weil sie beide Dreiecke sind.</target>
+        <target state="final">Hier sind drei Bilder. Ich muss zwei davon auswählen, die auf irgendeine Weise gleich sind. Ich wähle diese beiden Bilder, weil sie beide Dreiecke sind.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct5-heavy
 </context>
@@ -8373,9 +8373,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52806" resname="same-different-selection-instruct6-heavy">
+      <trans-unit id="52806" resname="same-different-selection-instruct6-heavy" approved="yes">
         <source>Here are the same three pictures. I have to choose 2 of them that are the same in a different way. I will pick these 2 pictures because they are both red.</source>
-        <target state="translated">Hier sind dieselben drei Bilder. Ich muss zwei davon auswählen, die auf eine andere Weise gleich sind. Ich wähle diese beiden Bilder, weil sie beide rot sind.</target>
+        <target state="final">Hier sind dieselben drei Bilder. Ich muss zwei davon auswählen, die auf eine andere Weise gleich sind. Ich wähle diese beiden Bilder, weil sie beide rot sind.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-instruct6-heavy
 </context>
@@ -8383,9 +8383,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52808" resname="same-different-selection-touch-circle-heavy">
+      <trans-unit id="52808" resname="same-different-selection-touch-circle-heavy" approved="yes">
         <source>Show me the circle.</source>
-        <target state="translated">Zeige mir den Kreis.</target>
+        <target state="final">Zeige mir den Kreis.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-circle-heavy
 </context>
@@ -8393,9 +8393,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52810" resname="same-different-selection-touch-square-heavy">
+      <trans-unit id="52810" resname="same-different-selection-touch-square-heavy" approved="yes">
         <source>Show me the square.</source>
-        <target state="translated">Zeige mir das Quadrat.</target>
+        <target state="final">Zeige mir das Quadrat.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-square-heavy
 </context>
@@ -8403,9 +8403,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52812" resname="same-different-selection-touch-triangle-heavy">
+      <trans-unit id="52812" resname="same-different-selection-touch-triangle-heavy" approved="yes">
         <source>Show me the triangle.</source>
-        <target state="translated">Zeige mir das Dreieck.</target>
+        <target state="final">Zeige mir das Dreieck.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-triangle-heavy
 </context>
@@ -8413,9 +8413,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52814" resname="same-different-selection-touch-star-heavy">
+      <trans-unit id="52814" resname="same-different-selection-touch-star-heavy" approved="yes">
         <source>Show me the star.</source>
-        <target state="translated">Zeige mir den Stern.</target>
+        <target state="final">Zeige mir den Stern.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-star-heavy
 </context>
@@ -8423,9 +8423,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52816" resname="same-different-selection-touch-green-heavy">
+      <trans-unit id="52816" resname="same-different-selection-touch-green-heavy" approved="yes">
         <source>Show me the green one.</source>
-        <target state="translated">Zeige mir das grüne.</target>
+        <target state="final">Zeige mir das grüne.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-green-heavy
 </context>
@@ -8433,9 +8433,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52818" resname="same-different-selection-touch-red-heavy">
+      <trans-unit id="52818" resname="same-different-selection-touch-red-heavy" approved="yes">
         <source>Show me the red one.</source>
-        <target state="translated">Zeige mir das rote.</target>
+        <target state="final">Zeige mir das rote.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-red-heavy
 </context>
@@ -8443,9 +8443,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52820" resname="same-different-selection-touch-blue-heavy">
+      <trans-unit id="52820" resname="same-different-selection-touch-blue-heavy" approved="yes">
         <source>Show me the blue one.</source>
-        <target state="translated">Zeige mir das blaue.</target>
+        <target state="final">Zeige mir das blaue.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-blue-heavy
 </context>
@@ -8453,9 +8453,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52822" resname="same-different-selection-touch-yellow-heavy">
+      <trans-unit id="52822" resname="same-different-selection-touch-yellow-heavy" approved="yes">
         <source>Show me the yellow one.</source>
-        <target state="translated">Zeige mir das gelbe.</target>
+        <target state="final">Zeige mir das gelbe.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-yellow-heavy
 </context>
@@ -8463,9 +8463,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52824" resname="same-different-selection-touch-small-heavy">
+      <trans-unit id="52824" resname="same-different-selection-touch-small-heavy" approved="yes">
         <source>Show me the small one.</source>
-        <target state="translated">Zeige mir das kleine.</target>
+        <target state="final">Zeige mir das kleine.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-small-heavy
 </context>
@@ -8473,9 +8473,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52826" resname="same-different-selection-touch-medium-heavy">
+      <trans-unit id="52826" resname="same-different-selection-touch-medium-heavy" approved="yes">
         <source>Show me the medium one.</source>
-        <target state="translated">Zeige mir das mittelgroße.</target>
+        <target state="final">Zeige mir das mittelgroße.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-medium-heavy
 </context>
@@ -8483,9 +8483,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52828" resname="same-different-selection-touch-large-heavy">
+      <trans-unit id="52828" resname="same-different-selection-touch-large-heavy" approved="yes">
         <source>Show me the large one.</source>
-        <target state="translated">Zeige mir das große.</target>
+        <target state="final">Zeige mir das große.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-large-heavy
 </context>
@@ -8493,9 +8493,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52830" resname="same-different-selection-touch-white-heavy">
+      <trans-unit id="52830" resname="same-different-selection-touch-white-heavy" approved="yes">
         <source>Show me the picture with the white background.</source>
-        <target state="translated">Zeige mir das Bild mit dem weißen Hintergrund.</target>
+        <target state="final">Zeige mir das Bild mit dem weißen Hintergrund.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-white-heavy
 </context>
@@ -8503,9 +8503,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52832" resname="same-different-selection-touch-gray-heavy">
+      <trans-unit id="52832" resname="same-different-selection-touch-gray-heavy" approved="yes">
         <source>Show me the picture with the gray background.</source>
-        <target state="translated">Zeige mir das Bild mit dem grauen Hintergrund.</target>
+        <target state="final">Zeige mir das Bild mit dem grauen Hintergrund.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-gray-heavy
 </context>
@@ -8513,9 +8513,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52834" resname="same-different-selection-touch-black-heavy">
+      <trans-unit id="52834" resname="same-different-selection-touch-black-heavy" approved="yes">
         <source>Show me the picture with the black background.</source>
-        <target state="translated">Zeige mir das Bild mit dem schwarzen Hintergrund.</target>
+        <target state="final">Zeige mir das Bild mit dem schwarzen Hintergrund.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-black-heavy
 </context>
@@ -8523,9 +8523,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52836" resname="same-different-selection-touch-striped-heavy">
+      <trans-unit id="52836" resname="same-different-selection-touch-striped-heavy" approved="yes">
         <source>Show me the picture with the striped background.</source>
-        <target state="translated">Zeige mir das Bild mit dem gestreiften Hintergrund.</target>
+        <target state="final">Zeige mir das Bild mit dem gestreiften Hintergrund.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-striped-heavy
 </context>
@@ -8533,9 +8533,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52838" resname="same-different-selection-touch-1-heavy">
+      <trans-unit id="52838" resname="same-different-selection-touch-1-heavy" approved="yes">
         <source>Show me the picture with one shape.</source>
-        <target state="translated">Zeige mir das Bild mit einer Form.</target>
+        <target state="final">Zeige mir das Bild mit einer Form.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-1-heavy
 </context>
@@ -8543,9 +8543,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52840" resname="same-different-selection-touch-2-heavy">
+      <trans-unit id="52840" resname="same-different-selection-touch-2-heavy" approved="yes">
         <source>Show me the picture with two shapes.</source>
-        <target state="translated">Zeige mir das Bild mit zwei Formen.</target>
+        <target state="final">Zeige mir das Bild mit zwei Formen.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-2-heavy
 </context>
@@ -8553,9 +8553,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52842" resname="same-different-selection-touch-3-heavy">
+      <trans-unit id="52842" resname="same-different-selection-touch-3-heavy" approved="yes">
         <source>Show me the picture with three shapes.</source>
-        <target state="translated">Zeige mir das Bild mit drei Formen.</target>
+        <target state="final">Zeige mir das Bild mit drei Formen.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-3-heavy
 </context>
@@ -8563,9 +8563,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52844" resname="same-different-selection-touch-4-heavy">
+      <trans-unit id="52844" resname="same-different-selection-touch-4-heavy" approved="yes">
         <source>Show me the picture with four shapes.</source>
-        <target state="translated">Zeige mir das Bild mit vier Formen.</target>
+        <target state="final">Zeige mir das Bild mit vier Formen.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-touch-4-heavy
 </context>
@@ -8573,9 +8573,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52846" resname="same-different-selection-both-circles-heavy">
+      <trans-unit id="52846" resname="same-different-selection-both-circles-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both circles.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Kreise.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Kreise.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-circles-heavy
 </context>
@@ -8583,9 +8583,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52848" resname="same-different-selection-both-squares-heavy">
+      <trans-unit id="52848" resname="same-different-selection-both-squares-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both squares.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Quadrate.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Quadrate.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-squares-heavy
 </context>
@@ -8593,9 +8593,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52850" resname="same-different-selection-both-triangles-heavy">
+      <trans-unit id="52850" resname="same-different-selection-both-triangles-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both triangles.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Dreiecke.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind Dreiecke.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-triangles-heavy
 </context>
@@ -8603,9 +8603,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52852" resname="same-different-selection-both-red-heavy">
+      <trans-unit id="52852" resname="same-different-selection-both-red-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both red.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind rot.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind rot.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-red-heavy
 </context>
@@ -8613,9 +8613,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52854" resname="same-different-selection-both-green-heavy">
+      <trans-unit id="52854" resname="same-different-selection-both-green-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both green.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind grün.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind grün.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-green-heavy
 </context>
@@ -8623,9 +8623,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52856" resname="same-different-selection-both-yellow-heavy">
+      <trans-unit id="52856" resname="same-different-selection-both-yellow-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both yellow.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind gelb.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind gelb.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-yellow-heavy
 </context>
@@ -8633,9 +8633,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52858" resname="same-different-selection-both-blue-heavy">
+      <trans-unit id="52858" resname="same-different-selection-both-blue-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both blue.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind blau.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind blau.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-blue-heavy
 </context>
@@ -8643,9 +8643,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52860" resname="same-different-selection-both-small-heavy">
+      <trans-unit id="52860" resname="same-different-selection-both-small-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both small.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind klein.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind klein.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-small-heavy
 </context>
@@ -8653,9 +8653,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52862" resname="same-different-selection-both-medium-heavy">
+      <trans-unit id="52862" resname="same-different-selection-both-medium-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both medium.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind mittelgroß.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind mittelgroß.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-medium-heavy
 </context>
@@ -8663,9 +8663,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52864" resname="same-different-selection-both-large-heavy">
+      <trans-unit id="52864" resname="same-different-selection-both-large-heavy" approved="yes">
         <source>Here are two pictures. Something's the same. They're both large.</source>
-        <target state="translated">Hier sind zwei Bilder. Etwas ist gleich. Beide sind groß.</target>
+        <target state="final">Hier sind zwei Bilder. Etwas ist gleich. Beide sind groß.</target>
         <context-group purpose="information">
           <context context-type="source">same-different-selection-both-large-heavy
 </context>
@@ -8673,9 +8673,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52866" resname="sds-prompt3-heavy">
+      <trans-unit id="52866" resname="sds-prompt3-heavy" approved="yes">
         <source>Here is another picture. Which of these pictures is the same as this new picture?</source>
-        <target state="translated">Hier ist ein weiteres Bild. Welches dieser Bilder ist gleich dem neuen Bild?</target>
+        <target state="final">Hier ist ein weiteres Bild. Welches dieser Bilder ist gleich dem neuen Bild?</target>
         <context-group purpose="information">
           <context context-type="source">sds-prompt3-heavy
 </context>
@@ -8683,9 +8683,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52868" resname="sds-3match-prompt2-heavy">
+      <trans-unit id="52868" resname="sds-3match-prompt2-heavy" approved="yes">
         <source>Here are the same pictures. Choose two of them that are the same in a different way.</source>
-        <target state="translated">Hier sind die gleichen Bilder. Wählen Sie zwei davon aus, die auf eine andere Weise gleich sind.</target>
+        <target state="final">Hier sind die gleichen Bilder. Wählen Sie zwei davon aus, die auf eine andere Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-3match-prompt2-heavy
 </context>
@@ -8693,9 +8693,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52870" resname="sds-2match-prompt1-heavy">
+      <trans-unit id="52870" resname="sds-2match-prompt1-heavy" approved="yes">
         <source>Here are some new pictures. Choose two of them that are the same in some way.</source>
-        <target state="translated">Hier sind einige neue Bilder. Wählen Sie zwei davon aus, die in irgendeiner Weise gleich sind.</target>
+        <target state="final">Hier sind einige neue Bilder. Wählen Sie zwei davon aus, die in irgendeiner Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-2match-prompt1-heavy
 </context>
@@ -8703,9 +8703,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52872" resname="sds-2match-prompt2-heavy">
+      <trans-unit id="52872" resname="sds-2match-prompt2-heavy" approved="yes">
         <source>Now choose two pictures that are the same in a different way.</source>
-        <target state="translated">Jetzt wähle zwei Bilder aus, die auf eine andere Weise gleich sind.</target>
+        <target state="final">Jetzt wähle zwei Bilder aus, die auf eine andere Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-2match-prompt2-heavy
 </context>
@@ -8713,9 +8713,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52874" resname="sds-3unique-prompt1-heavy">
+      <trans-unit id="52874" resname="sds-3unique-prompt1-heavy" approved="yes">
         <source>Choose three pictures that are the same in only one way.</source>
-        <target state="translated">Wählen Sie drei Bilder aus, die nur auf eine Weise gleich sind.</target>
+        <target state="final">Wählen Sie drei Bilder aus, die nur auf eine Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-3unique-prompt1-heavy
 </context>
@@ -8723,9 +8723,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52876" resname="sds-3unique-prompt2-heavy">
+      <trans-unit id="52876" resname="sds-3unique-prompt2-heavy" approved="yes">
         <source>Choose another three pictures that are the same in only one way.</source>
-        <target state="translated">Wählen Sie weitere drei Bilder aus, die nur auf eine Weise gleich sind.</target>
+        <target state="final">Wählen Sie weitere drei Bilder aus, die nur auf eine Weise gleich sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-3unique-prompt2-heavy
 </context>
@@ -8733,9 +8733,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52878" resname="sds-match-demo1-heavy">
+      <trans-unit id="52878" resname="sds-match-demo1-heavy" approved="yes">
         <source>Here are three pictures. I have to choose two of them that are the same in some way. I will pick these two pictures because they are both triangles.</source>
-        <target state="translated">Hier sind drei Bilder. Ich muss zwei von ihnen auswählen, die auf irgendeine Weise gleich sind. Ich wähle diese zwei Bilder, weil sie beide Dreiecke sind.</target>
+        <target state="final">Hier sind drei Bilder. Ich muss zwei von ihnen auswählen, die auf irgendeine Weise gleich sind. Ich wähle diese zwei Bilder, weil sie beide Dreiecke sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-match-demo1-heavy
 </context>
@@ -8743,9 +8743,9 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52880" resname="sds-match-demo2-heavy">
+      <trans-unit id="52880" resname="sds-match-demo2-heavy" approved="yes">
         <source>Here are the same three pictures. I have to choose two of them that are the same in a different way. I will pick these two pictures because they are both small.</source>
-        <target state="translated">Hier sind die gleichen drei Bilder. Ich muss zwei von ihnen auswählen, die auf eine andere Weise gleich sind. Ich wähle diese zwei Bilder, weil sie beide klein sind.</target>
+        <target state="final">Hier sind die gleichen drei Bilder. Ich muss zwei von ihnen auswählen, die auf eine andere Weise gleich sind. Ich wähle diese zwei Bilder, weil sie beide klein sind.</target>
         <context-group purpose="information">
           <context context-type="source">sds-match-demo2-heavy
 </context>
@@ -8753,38 +8753,38 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
           <context context-type="x-crowdin-label-2">Same &amp; Different</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52882" resname="data-questionnaire-button-text1">
+      <trans-unit id="52882" resname="data-questionnaire-button-text1" approved="yes">
         <source>I have SERIOUS CONCERNS about these data (e.g., the child did not seem to understand the task, was frequently distracted/interrupted, etc.)</source>
-        <target state="translated">Ich habe ERNSTHAFTE BEDENKEN bezüglich dieser Daten (z. B. das Kind schien die Aufgabe nicht zu verstehen, war häufig abgelenkt/unterbrochen, etc.)</target>
+        <target state="final">Ich habe ERNSTHAFTE BEDENKEN bezüglich dieser Daten (z. B. das Kind schien die Aufgabe nicht zu verstehen, war häufig abgelenkt/unterbrochen, etc.)</target>
         <context-group purpose="information">
           <context context-type="source">data-questionnaire-button-text1
 </context>
           <context context-type="x-crowdin-label">general</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52884" resname="data-questionnaire-button-text2">
+      <trans-unit id="52884" resname="data-questionnaire-button-text2" approved="yes">
         <source>I feel OK about these data (e.g., the child seemed to understand the task pretty well, only experienced a few distractions/interruptions, etc.)</source>
-        <target state="translated">Ich fühle mich OK mit diesen Daten (z. B. das Kind schien die Aufgabe ziemlich gut zu verstehen, erlebte nur wenige Ablenkungen/Unterbrechungen, etc.)</target>
+        <target state="final">Ich fühle mich OK mit diesen Daten (z. B. das Kind schien die Aufgabe ziemlich gut zu verstehen, erlebte nur wenige Ablenkungen/Unterbrechungen, etc.)</target>
         <context-group purpose="information">
           <context context-type="source">data-questionnaire-button-text2
 </context>
           <context context-type="x-crowdin-label">general</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52886" resname="data-questionnaire-button-text3">
+      <trans-unit id="52886" resname="data-questionnaire-button-text3" approved="yes">
         <source>I feel GOOD about these data (e.g., the child clearly understood the task, had very few (if any) distractions/ interruptions, etc.)</source>
-        <target state="translated">Ich fühle mich GUT mit diesen Daten (z. B. das Kind verstand die Aufgabe klar, hatte sehr wenige (wenn überhaupt) Ablenkungen/Unterbrechungen, etc.)</target>
+        <target state="final">Ich fühle mich GUT mit diesen Daten (z. B. das Kind verstand die Aufgabe klar, hatte sehr wenige (wenn überhaupt) Ablenkungen/Unterbrechungen, etc.)</target>
         <context-group purpose="information">
           <context context-type="source">data-questionnaire-button-text3
 </context>
           <context context-type="x-crowdin-label">general</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52888" resname="math-instructions1-heavy">
+      <trans-unit id="52888" resname="math-instructions1-heavy" approved="yes">
         <source>In this game, you will play with numbers.
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!</source>
-        <target state="translated">In diesem Spiel wirst du mit Zahlen spielen.
+        <target state="final">In diesem Spiel wirst du mit Zahlen spielen.
 
 Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordnung! Bitte gib dein Bestes und nimm dir Zeit. Lass uns beginnen!</target>
         <context-group purpose="information">
@@ -8793,170 +8793,170 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52890" resname="math-intro1-heavy">
+      <trans-unit id="52890" resname="math-intro1-heavy" approved="yes">
         <source>It's time for the first number game! Let's practice.</source>
-        <target state="translated">Es ist Zeit für das erste Zahlenspiel! Lass uns üben.</target>
+        <target state="final">Es ist Zeit für das erste Zahlenspiel! Lass uns üben.</target>
         <context-group purpose="information">
           <context context-type="source">math-intro1-heavy
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52892" resname="math-intro2-heavy">
+      <trans-unit id="52892" resname="math-intro2-heavy" approved="yes">
         <source>It's time for the next number game! Let's practice.</source>
-        <target state="translated">Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.</target>
+        <target state="final">Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.</target>
         <context-group purpose="information">
           <context context-type="source">math-intro2-heavy
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52894" resname="counting-intro">
+      <trans-unit id="52894" resname="counting-intro" approved="yes">
         <source>In this number game, you will say how many things are in the picture! The grownup helping you will press the button.</source>
-        <target state="translated">In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.</target>
+        <target state="final">In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.</target>
         <context-group purpose="information">
           <context context-type="source">counting-intro
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52896" resname="counting-intro-afc">
+      <trans-unit id="52896" resname="counting-intro-afc" approved="yes">
         <source>This time, you will choose the button with the right number!</source>
-        <target state="translated">Dieses Mal wählst du die Taste mit der richtigen Zahl!</target>
+        <target state="final">Dieses Mal wählst du die Taste mit der richtigen Zahl!</target>
         <context-group purpose="information">
           <context context-type="source">counting-intro-afc
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52898" resname="memory-game-instruct1-heavy">
+      <trans-unit id="52898" resname="memory-game-instruct1-heavy" approved="yes">
         <source>This is the memory game. </source>
-        <target state="translated">Dies ist das Gedächtnisspiel.</target>
+        <target state="final">Dies ist das Gedächtnisspiel.</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct1-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52900" resname="memory-game-instruct2-heavy">
+      <trans-unit id="52900" resname="memory-game-instruct2-heavy" approved="yes">
         <source>In this game, we are going to see squares light up. Your job is to touch the squares that light up. </source>
-        <target state="translated">In diesem Spiel werden wir sehen, wie Quadrate aufleuchten. Deine Aufgabe ist es, die Quadrate zu berühren, die aufleuchten.</target>
+        <target state="final">In diesem Spiel werden wir sehen, wie Quadrate aufleuchten. Deine Aufgabe ist es, die Quadrate zu berühren, die aufleuchten.</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct2-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52902" resname="memory-game-instruct3-heavy">
+      <trans-unit id="52902" resname="memory-game-instruct3-heavy" approved="yes">
         <source>Now we will see two squares light up. Your job is to touch the squares in the same order as they light up!</source>
-        <target state="translated">Jetzt werden zwei Quadrate aufleuchten. Deine Aufgabe ist es, die Quadrate in derselben Reihenfolge zu berühren, in der sie aufleuchten!</target>
+        <target state="final">Jetzt werden zwei Quadrate aufleuchten. Deine Aufgabe ist es, die Quadrate in derselben Reihenfolge zu berühren, in der sie aufleuchten!</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct3-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52904" resname="memory-game-instruct4-heavy">
+      <trans-unit id="52904" resname="memory-game-instruct4-heavy" approved="yes">
         <source>Watch the squares light up. I will touch the squares in the same order.</source>
-        <target state="translated">Sieh zu, wie die Quadrate aufleuchten. Ich werde die Quadrate in derselben Reihenfolge berühren.</target>
+        <target state="final">Sieh zu, wie die Quadrate aufleuchten. Ich werde die Quadrate in derselben Reihenfolge berühren.</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct4-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52906" resname="memory-game-instruct5-heavy">
+      <trans-unit id="52906" resname="memory-game-instruct5-heavy" approved="yes">
         <source>OK, now you're going to play the rest of the memory game on your own. More squares will light up each time the longer you play, so watch carefully!</source>
-        <target state="translated">Okay, jetzt wirst du den Rest des Gedächtnisspiels alleine spielen. Mehr Quadrate werden aufleuchten, je länger du spielst, also beobachte sorgfältig!</target>
+        <target state="final">Okay, jetzt wirst du den Rest des Gedächtnisspiels alleine spielen. Mehr Quadrate werden aufleuchten, je länger du spielst, also beobachte sorgfältig!</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct5-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52908" resname="memory-game-instruct6-heavy">
+      <trans-unit id="52908" resname="memory-game-instruct6-heavy" approved="yes">
         <source>If you make a mistake, just keep going!</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Wenn du einen Fehler machst, mach einfach weiter!</target>
+        <target state="final">Wenn du einen Fehler machst, mach einfach weiter!</target>
         <context-group purpose="information">
           <context context-type="source">memory-game-instruct6-heavy
 </context>
           <context context-type="x-crowdin-label">memory-game</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52912" resname="ns-number-identification-1">
+      <trans-unit id="52912" resname="ns-number-identification-1" approved="yes">
         <source>Choose the card that shows 1 apple.</source>
-        <target state="translated">Wählen Sie die Karte, die 1 Apfel zeigt.</target>
+        <target state="final">Wählen Sie die Karte, die 1 Apfel zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-identification-1
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52914" resname="ns-number-identification-2">
+      <trans-unit id="52914" resname="ns-number-identification-2" approved="yes">
         <source>Choose the card that shows 2 cars.</source>
-        <target state="translated">Wählen Sie die Karte, die 2 Autos zeigt.</target>
+        <target state="final">Wählen Sie die Karte, die 2 Autos zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-identification-2</context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52916" resname="ns-number-identification-5">
+      <trans-unit id="52916" resname="ns-number-identification-5" approved="yes">
         <source>Choose the card that shows 5 apples.</source>
-        <target state="translated">Wählen Sie die Karte, die 5 Äpfel zeigt.</target>
+        <target state="final">Wählen Sie die Karte, die 5 Äpfel zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-identification-5
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52918" resname="ns-number-identification-7">
+      <trans-unit id="52918" resname="ns-number-identification-7" approved="yes">
         <source>Choose the card that shows 7 cars.</source>
-        <target state="translated">Wählen Sie die Karte, die 7 Autos zeigt.</target>
+        <target state="final">Wählen Sie die Karte, die 7 Autos zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-identification-7
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52920" resname="ns-number-identification-10">
+      <trans-unit id="52920" resname="ns-number-identification-10" approved="yes">
         <source>Choose the card that shows 10 apples.</source>
-        <target state="translated">Wählen Sie die Karte, die 10 Äpfel zeigt.</target>
+        <target state="final">Wählen Sie die Karte, die 10 Äpfel zeigt.</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-identification-10
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52922" resname="counting-1">
+      <trans-unit id="52922" resname="counting-1" approved="yes">
         <source>How many cars is this?</source>
-        <target state="translated">Wie viele Autos sind das?</target>
+        <target state="final">Wie viele Autos sind das?</target>
         <context-group purpose="information">
           <context context-type="source">counting-1
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52924" resname="counting-2">
+      <trans-unit id="52924" resname="counting-2" approved="yes">
         <source>How many apples is this?</source>
-        <target state="translated">Wie viele Äpfel sind das?</target>
+        <target state="final">Wie viele Äpfel sind das?</target>
         <context-group purpose="information">
           <context context-type="source">counting-2
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52926" resname="ns-number-comp-1">
+      <trans-unit id="52926" resname="ns-number-comp-1" approved="yes">
         <source>Which card has more apples?</source>
-        <target state="translated">Welche Karte hat mehr Äpfel?</target>
+        <target state="final">Welche Karte hat mehr Äpfel?</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-comp-1
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52928" resname="ns-number-comp-2">
+      <trans-unit id="52928" resname="ns-number-comp-2" approved="yes">
         <source>Which card has more cars?</source>
-        <target state="translated">Welche Karte hat mehr Autos?</target>
+        <target state="final">Welche Karte hat mehr Autos?</target>
         <context-group purpose="information">
           <context context-type="source">ns-number-comp-2
 </context>
