@@ -77,18 +77,18 @@ page1.q.respondentrelationship.choice.stepfather.text
 q.respondentrelationship</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="147924" resname="page1.q.respondentrelationship.choice.grandmother.text">
+      <trans-unit id="147924" resname="page1.q.respondentrelationship.choice.grandmother.text" approved="yes">
         <source>Grandmother</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Großmutter</target>
+        <target state="final">Großmutter</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page1.q.respondentrelationship.choice.grandmother.text
 q.respondentrelationship</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="147926" resname="page1.q.respondentrelationship.choice.grandfather.text">
+      <trans-unit id="147926" resname="page1.q.respondentrelationship.choice.grandfather.text" approved="yes">
         <source>Grandfather</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Großmutter</target>
+        <target state="final">Großmutter</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page1.q.respondentrelationship.choice.grandfather.text
@@ -1751,18 +1751,18 @@ page5.q.childsexbirth.title
 q.childsexbirth</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="148296" resname="page5.q.childsexbirth.choice.female.text">
+      <trans-unit id="148296" resname="page5.q.childsexbirth.choice.female.text" approved="yes">
         <source>Female</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Weiblich</target>
+        <target state="final">Weiblich</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childsexbirth.choice.female.text
 q.childsexbirth</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text">
+      <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text" approved="yes">
         <source>Male</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Weiblich</target>
+        <target state="final">Weiblich</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childsexbirth.choice.male.text
@@ -3533,11 +3533,11 @@ page12.q.caregiversectionintro3.html
 q.caregiversectionintro3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="148692" resname="page12.q.childelsitems.title">
+      <trans-unit id="148692" resname="page12.q.childelsitems.title" approved="yes">
         <source>If your child is in primary/elementary school (first grade or higher), think about the time before they started primary/elementary school. If your child has not yet started primary/elementary school, think about what happens right now.
 &lt;br&gt;&lt;br&gt;
 &lt;b&gt;How often did/do you or someone else in your home do the following activities with your child?&lt;/b&gt;</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Wenn Ihr Kind in der Grundschule ist (erste Klasse oder höher), denken Sie an die Zeit vor der Einschulung. Wenn Ihr Kind noch nicht in der Grundschule ist, beziehen Sie sich auf die jetzige Situation.&lt;br&gt;&lt;br&gt;&lt;b&gt;Wie oft haben Sie oder jemand anderes bei Ihnen zu Hause die folgenden Aktivitäten mit Ihrem Kind unternommen?&lt;/b&gt;?</target>
+        <target state="final">Wenn Ihr Kind in der Grundschule ist (erste Klasse oder höher), denken Sie an die Zeit vor der Einschulung. Wenn Ihr Kind noch nicht in der Grundschule ist, beziehen Sie sich auf die jetzige Situation.&lt;br&gt;&lt;br&gt;&lt;b&gt;Wie oft haben Sie oder jemand anderes bei Ihnen zu Hause die folgenden Aktivitäten mit Ihrem Kind unternommen?&lt;/b&gt;?</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page12.q.childelsitems.title
@@ -10557,18 +10557,18 @@ page1.q.teacherbackground.q.teachergender.title
 q.teacherbackground</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="150226" resname="page1.q.teacherbackground.q.teachergender.choice.female.text">
+      <trans-unit id="150226" resname="page1.q.teacherbackground.q.teachergender.choice.female.text" approved="yes">
         <source>Female</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Weiblich</target>
+        <target state="final">Weiblich</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_general.json
 page1.q.teacherbackground.q.teachergender.choice.female.text
 q.teacherbackground</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="150228" resname="page1.q.teacherbackground.q.teachergender.choice.male.text">
+      <trans-unit id="150228" resname="page1.q.teacherbackground.q.teachergender.choice.male.text" approved="yes">
         <source>Male</source>
-        <target state="needs-review-translation" state-qualifier="leveraged-tm">Weiblich</target>
+        <target state="final">Weiblich</target>
         <context-group purpose="information">
           <context context-type="source">teacher_survey_general.json
 page1.q.teacherbackground.q.teachergender.choice.male.text
