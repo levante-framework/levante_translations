@@ -20,6 +20,7 @@ When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt
           <context context-type="source">parent_survey_child.json
 introduction.q.caregiversurveyintroa.html
 q.caregiversurveyintroa</context>
+          <context context-type="x-crowdin-label">parent_survey_child</context>
         </context-group>
       </trans-unit>
       <trans-unit id="147910" resname="page1.q.caregiversectionintro1.title" approved="yes">
@@ -1770,7 +1771,7 @@ q.childsexbirth</context>
       </trans-unit>
       <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text">
         <source>Male</source>
-        <target state="translated">Hombre</target>
+        <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childsexbirth.choice.male.text
