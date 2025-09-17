@@ -30,6 +30,8 @@ import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+import xml.etree.ElementTree as ET
+from copy import deepcopy
 import requests
 
 API_BASE = os.environ.get("CROWDIN_API_BASE", "https://api.crowdin.com/api/v2").rstrip("/")
@@ -136,10 +138,18 @@ def download_xliff_file(project_id: str, headers: Dict[str, str], file_id: str,
         # Download the file bytes
         bin_resp = requests.get(download_url, timeout=60)
         bin_resp.raise_for_status()
+        # Optionally normalize content before saving
+        content = bin_resp.content
+        try:
+            content = _normalize_xliff_fill_targets_when_same_language(content)
+        except Exception:
+            # Best-effort; fall back to original content on any error
+            pass
+
         # Save to file
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'wb') as f:
-            f.write(bin_resp.content)
+            f.write(content)
         print(f"✅ Downloaded: {output_path}")
         return True
         
@@ -221,6 +231,102 @@ def download_xliff_translations(project_id: str, headers: Dict[str, str], output
             downloaded_files[file_name] = file_downloads
     
     return downloaded_files
+
+
+def _normalize_xliff_fill_targets_when_same_language(content: bytes) -> bytes:
+    """
+    If XLIFF target language equals source language, fill empty/missing <target>
+    from <source>. Supports XLIFF 1.2 and 2.0 (best-effort, with namespaces).
+    """
+    try:
+        root = ET.fromstring(content)
+    except Exception:
+        return content
+
+    def local(tag: str) -> str:
+        return tag.split('}', 1)[1] if '}' in tag else tag
+
+    def copy_source_to_target(src_el: ET.Element, tgt_el: ET.Element) -> None:
+        # Replace target content with a deep copy of source content
+        tgt_el.clear()
+        tgt_el.text = src_el.text
+        for child in list(src_el):
+            tgt_el.append(deepcopy(child))
+        tgt_el.tail = src_el.tail
+
+    version = root.attrib.get('version', '').strip()
+
+    # XLIFF 2.0 often uses default namespace and root has srcLang/trgLang
+    src_lang_20 = root.attrib.get('srcLang') or root.attrib.get('{urn:oasis:names:tc:xliff:document:2.0}srcLang')
+    trg_lang_20 = root.attrib.get('trgLang') or root.attrib.get('{urn:oasis:names:tc:xliff:document:2.0}trgLang')
+
+    if (version.startswith('2') or src_lang_20 or trg_lang_20) and src_lang_20 and trg_lang_20 and (src_lang_20 == trg_lang_20):
+        # Iterate segments
+        for unit in root.iter():
+            if local(unit.tag) == 'segment':
+                src = None
+                tgt = None
+                for child in list(unit):
+                    lt = local(child.tag)
+                    if lt == 'source':
+                        src = child
+                    elif lt == 'target':
+                        tgt = child
+                if src is None:
+                    continue
+                needs_fill = False
+                if tgt is None:
+                    tgt = ET.SubElement(unit, 'target')
+                    needs_fill = True
+                else:
+                    text = (tgt.text or '').strip()
+                    state = (tgt.attrib.get('state') or '').strip()
+                    if text == '' or state == 'needs-translation':
+                        needs_fill = True
+                if needs_fill:
+                    copy_source_to_target(src, tgt)
+
+        return ET.tostring(root, encoding='utf-8', xml_declaration=True)
+
+    # XLIFF 1.2: look for <file source-language target-language>
+    changed = False
+    for file_el in root.iter():
+        if local(file_el.tag) != 'file':
+            continue
+        src_lang = file_el.attrib.get('source-language')
+        trg_lang = file_el.attrib.get('target-language')
+        if not src_lang or not trg_lang or src_lang != trg_lang:
+            continue
+        # Within this file, update each trans-unit
+        for tu in file_el.iter():
+            if local(tu.tag) != 'trans-unit':
+                continue
+            src = None
+            tgt = None
+            for child in list(tu):
+                lt = local(child.tag)
+                if lt == 'source':
+                    src = child
+                elif lt == 'target':
+                    tgt = child
+            if src is None:
+                continue
+            needs_fill = False
+            if tgt is None:
+                tgt = ET.SubElement(tu, 'target')
+                needs_fill = True
+            else:
+                text = (tgt.text or '').strip()
+                state = (tgt.attrib.get('state') or '').strip()
+                if text == '' or state == 'needs-translation':
+                    needs_fill = True
+            if needs_fill:
+                copy_source_to_target(src, tgt)
+                changed = True
+
+    if changed:
+        return ET.tostring(root, encoding='utf-8', xml_declaration=True)
+    return content
 
 
 def find_file_by_path(project_id: str, headers: Dict[str, str], crowdin_path: str) -> Optional[Dict]:

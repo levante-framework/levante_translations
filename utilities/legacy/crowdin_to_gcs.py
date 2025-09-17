@@ -41,6 +41,11 @@ except ImportError:
     print("Warning: google-cloud-storage not available. Install with: pip install google-cloud-storage")
 
 from utilities.legacy.buckets import get_bucket_name, get_all_task_names, AUDIO_BUCKET_NAME_DEV
+try:
+    # For XLIFF normalization (fill empty targets when src==trg)
+    from utilities.crowdin_xliff_manager import _normalize_xliff_fill_targets_when_same_language  # type: ignore
+except Exception:
+    _normalize_xliff_fill_targets_when_same_language = None
 
 # Configuration constants
 DEFAULT_BUNDLE_ID = 18  # From crowdin.yml
@@ -235,6 +240,27 @@ class CrowdinToGCS:
             if len(extracted_files) > 10:
                 print(f"   ... and {len(extracted_files) - 10} more files")
             
+            # Normalize any XLIFF files: if srcLang == trgLang and target is empty/needs-translation,
+            # fill target content from source so downstream processing sees usable text.
+            if _normalize_xliff_fill_targets_when_same_language is not None:
+                try:
+                    for root_dir, _dirs, files in os.walk(extract_dir):
+                        for fname in files:
+                            if fname.lower().endswith('.xliff'):
+                                path = os.path.join(root_dir, fname)
+                                try:
+                                    with open(path, 'rb') as f:
+                                        data = f.read()
+                                    new_data = _normalize_xliff_fill_targets_when_same_language(data)
+                                    if new_data != data:
+                                        with open(path, 'wb') as f:
+                                            f.write(new_data)
+                                except Exception:
+                                    # Best-effort normalization; continue on errors
+                                    pass
+                except Exception:
+                    pass
+
             return extract_dir
             
         except Exception as e:
