@@ -69,46 +69,14 @@ def fetch_translations(output_path: str = None, force: bool = False) -> bool:
         else:
             print(f"✅ Validated CSV format: {len(first_line.split(','))} columns detected")
         
-        # Process the CSV header: rename 'identifier' to 'item_id' and canonicalize language headers
+        # Process the CSV header: only rename 'identifier' to 'item_id' for compatibility
         content_lines = content_str.split('\n')
         if content_lines:
             header = content_lines[0].strip('\r')
-            # Step 1: identifier -> item_id (once)
+            # Only fix identifier -> item_id mapping (no other changes)
             if 'identifier' in header:
                 print("🔄 Mapping 'identifier' column to 'item_id' for compatibility...")
                 header = header.replace('identifier', 'item_id', 1)
-
-            # Step 2: normalize language headers to canonical BCP-47 form (lang-lower, region-upper, hyphen)
-            # e.g., es_ar -> es-AR, es-ar -> es-AR, ES-AR -> es-AR
-            import re
-            cols = [c.strip().strip('"') for c in header.split(',')]
-
-            def canonicalize(col: str) -> str:
-                # Keep non-language columns untouched
-                if col in {'item_id', 'labels', 'en', 'de', 'nl', 'context'}:
-                    return col
-                # Fix common known cases
-                known = {
-                    'es-co': 'es-CO', 'fr-ca': 'fr-CA', 'de-ch': 'de-CH',
-                    'ES-CO': 'es-CO', 'FR-CA': 'fr-CA', 'DE-CH': 'de-CH',
-                }
-                lc = col.lower()
-                if lc in known:
-                    return known[lc]
-                # General BCP-47 (lang[_-]REGION)
-                m = re.match(r'^([A-Za-z]{2,3})[ _-]([A-Za-z]{2})$', col)
-                if m:
-                    lang = m.group(1).lower()
-                    region = m.group(2).upper()
-                    return f"{lang}-{region}"
-                return col
-
-            new_cols = [canonicalize(c) for c in cols]
-            if new_cols != cols:
-                print("🔧 Normalized language headers:")
-                print("   Old:", ','.join(cols))
-                print("   New:", ','.join(new_cols))
-                header = ','.join(new_cols)
                 content_lines[0] = header
                 processed_content = '\n'.join(content_lines)
                 content = processed_content.encode('utf-8')
