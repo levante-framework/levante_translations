@@ -1,3 +1,3 @@
-identifier,labels,text,en,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH
-components/navbar.greeting,,Hi,,¡Hola,Hallo,Salut,Hallo,Hallo,¡Hola,Hi
-components/navbar.signOut,,Sign Out,,Salir,Abmelden,Déconnexion,Afmelden,Abmelden,Salir,Sign Out
+identifier,labels,text,context,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH
+components/navbar.greeting,,Hi,components/navbar.greeting,¡Hola,Hallo,Hi,Hi,Hallo,Hi,Hi
+components/navbar.signOut,,Sign Out,components/navbar.signOut,Salir,Abmelden,Sign Out,Sign Out,Abmelden,Sign Out,Sign Out
