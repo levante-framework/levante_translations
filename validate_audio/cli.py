@@ -82,12 +82,12 @@ def main(argv: Optional[List[str]] = None) -> int:
         )
 
     if args.web_dashboard:
-        # Save to web-dashboard/data/ with easy-to-read date
+        # Save to web-dashboard/public/data/ with easy-to-read date (served by dashboard)
         from datetime import datetime
         date_str = datetime.now().strftime("%b-%d-%Y")  # e.g., Oct-07-2025
         lang = (args.language or "unknown").strip() or "unknown"
         out_name = f"validation-{lang}-{date_str}.json"
-        out_path = Path("web-dashboard/data") / out_name
+        out_path = Path("web-dashboard/public/data") / out_name
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(results if len(audio_paths) > 1 else results[0], f, ensure_ascii=False, indent=2)
