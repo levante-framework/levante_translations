@@ -78,8 +78,6 @@ const CONFIG = {
     curatedVoices: {
         playht: {
             'en': [
-                'English (US)_Susan (Advertising)',
-                'English (US)_Delilah',
                 'English (CA)_Charlotte (Narrative)',
                 'English (CA)_Olivia (Advertising)',
                 'English (IE)_Madison',
@@ -89,8 +87,6 @@ const CONFIG = {
             'es-CO': [
                 'Spanish_Violeta Narrative',
                 'Spanish_Violeta Conversational',
-                'Spanish_Patricia Narrative',
-                'Spanish_Patricia Conversational'
             ],
             'de': [
                 'German_Anke Narrative',
@@ -109,7 +105,6 @@ const CONFIG = {
                 'Spanish_Violeta Conversational'
             ],
             'en-GH': [
-                'English (US)_Susan (Advertising)',
                 'English (US)_Delilah'
             ],
             'de-CH': [
@@ -120,11 +115,8 @@ const CONFIG = {
         elevenlabs: {
             'en': [
                 'Yasmine',
-                'Alexandra - Conversational and Real',
-                'Aunt Annie - calm and professional',
                 'Claudia - Credible, Competent & Authentic',
                 'Zuri - New Yorker',
-                'Nia Davis- Black Female',
                 'Juniper',
                 'Jessica Anne Bogart - Conversations'
             ],
