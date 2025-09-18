@@ -1,4 +1,4 @@
-identifier,labels,text,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH,context
+identifier,labels,text,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH,isHidden
 math-instructions1,math,"In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!","En este juego, harás algunos problemas de matemáticas. Algunos serán como los que haces en la escuela y otros serán un poco diferentes de los que haces en la escuela. 
@@ -15,126 +15,66 @@ Einige Fragen könnten leicht für dich sein und einige könnten schwer sein. Da
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!","In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
 
-Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!","math-instructions1
-"
-math-intro1,math,Here is the first section. Let's start with some practice!,Esta es la primera sección. ¡Empecemos a practicar!,Hier kommt der erste Teil. Am Anfang üben wir erstmal nur.,Here is the first section. Let's start with some practice!,Here is the first section. Let's start with some practice!,Hier kommt der erste Teil. Am Anfang üben wir erstmal nur.,Here is the first section. Let's start with some practice!,Here is the first section. Let's start with some practice!,"math-intro1
-"
-math-intro2,math,Here is another section. The first few are for practice.,Esta es otra sección. Las primeras son para practicar.,Jetzt kommt der nächste Teil. Die ersten paar sind wieder zum Üben.,Here is another section. The first few are for practice.,Here is another section. The first few are for practice.,Jetzt kommt der nächste Teil. Die ersten paar sind wieder zum Üben.,Here is another section. The first few are for practice.,Here is another section. The first few are for practice.,"math-intro2
-"
-math-intro-fractions,math,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,En esta sección a veces tienes que sumar y a veces tienes que restar. Fíjate bien en el signo de suma o resta. Los primeros son para practicar.,"In diesem Teil musst du manchmal addieren und manchmal subtrahieren. Schau also genau, ob da ein Plus oder ein Minus steht. Die ersten paar sind wieder zum Üben.",In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,"In diesem Teil musst du manchmal addieren und manchmal subtrahieren. Schau also genau, ob da ein Plus oder ein Minus steht. Die ersten paar sind wieder zum Üben.",In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,"math-intro-fractions
-"
-number-comparison-prompt1,math,Which number is larger?,¿Cuál número es mayor?,Welche Zahl ist größer?,Which number is larger?,Which number is larger?,Welche Zahl ist größer?,Which number is larger?,Which number is larger?,"number-comparison-prompt1
-"
-number-comparison-prompt2,math,Which is larger?,¿Cuál es mayor?,Welche ist größer?,Which is larger?,Which is larger?,Welche ist größer?,Which is larger?,Which is larger?,"number-comparison-prompt2
-"
-number-identification-prompt1,math,Choose the number you hear.,Escoge el número cuando lo escuches.,"Wähle die Zahl, die du hörst.",Choose the number you hear.,Choose the number you hear.,"Wähle die Zahl, die du hörst.",Choose the number you hear.,Choose the number you hear.,"number-identification-prompt1
-"
-missing-number-prompt1,math,What number goes in the blank?,¿Cuál número va en el espacio en blanco?,Welche Zahl gehört in die Lücke?,What number goes in the blank?,What number goes in the blank?,Welche Zahl gehört in die Lücke?,What number goes in the blank?,What number goes in the blank?,"missing-number-prompt1
-"
-missing-number-prompt2,math,What number goes here?,¿Cuál número va aquí?,Welche Zahl gehört hierher?,What number goes here?,What number goes here?,Welche Zahl gehört hierher?,What number goes here?,What number goes here?,"missing-number-prompt2
-"
-missing-number-prompt3,math,What numbers go in the blanks?,¿Cuál números van en los espacios en blanco?,Welche Zahlen gehören in die Lücken?,What numbers go in the blanks?,What numbers go in the blanks?,Welche Zahlen gehören in die Lücken?,What numbers go in the blanks?,What numbers go in the blanks?,"missing-number-prompt3
-"
-addition-prompt1,math,Add the numbers and choose the correct answer.,Suma los números y escoge la respuesta correcta.,Addiere die Zahlen und wähle die richtige Antwort.,Add the numbers and choose the correct answer.,Add the numbers and choose the correct answer.,Addiere die Zahlen und wähle die richtige Antwort.,Add the numbers and choose the correct answer.,Add the numbers and choose the correct answer.,"addition-prompt1
-"
-addition-prompt2,math,Add the numbers.,Suma los números.,Addiere die Zahlen. ,Add the numbers.,Add the numbers.,Addiere die Zahlen. ,Add the numbers.,Add the numbers.,"addition-prompt2
-"
-subtraction-prompt1,math,Subtract the numbers and choose the correct answer.,Resta los números y escoge la respuesta correcta.,Ziehe die Zahlen ab und wähle die richtige Antwort.,Subtract the numbers and choose the correct answer.,Subtract the numbers and choose the correct answer.,Ziehe die Zahlen ab und wähle die richtige Antwort.,Subtract the numbers and choose the correct answer.,Subtract the numbers and choose the correct answer.,"subtraction-prompt1
-"
-subtraction-prompt2,math,Subtract the numbers.,Resta los números.,Ziehe die Zahlen ab. ,Subtract the numbers.,Subtract the numbers.,Ziehe die Zahlen ab. ,Subtract the numbers.,Subtract the numbers.,"subtraction-prompt2
-"
-multiplication-prompt1,math,Multiply the numbers and choose the correct answer.,Multiplica los números y escoge la respuesta correcta.,Multipliziere die Zahlen und wähle die richtige Antwort.,Multiply the numbers and choose the correct answer.,Multiply the numbers and choose the correct answer.,Multipliziere die Zahlen und wähle die richtige Antwort.,Multiply the numbers and choose the correct answer.,Multiply the numbers and choose the correct answer.,"multiplication-prompt1
-"
-multiplication-prompt2,math,Multiply the numbers.,Multiplica los números.,Multipliziere die Zahlen. ,Multiply the numbers.,Multiply the numbers.,Multipliziere die Zahlen. ,Multiply the numbers.,Multiply the numbers.,"multiplication-prompt2
-"
-number-line-instruct1,math,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Aquí tienes una recta numérica. Sobre ella hay un marcador que tu puedes mover hacia la derecha o izquierda. Tu debes ubicar este marcador en el lugar de la recta donde estaría ubicado el número que te indicará cada ejercicio. Asegúrate de revisar bien cuáles son los números de los extremos de la recta antes de decidir dónde ubicar el marcador. ,"Hier ist eine Zahlenreihe. Du kannst den Schieber vorwärts und rückwärts entlang der Linie bewegen. Ändere den Schieber so, dass er sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du den Schieber platzierst. ",Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,"Hier ist eine Zahlenreihe. Du kannst den Schieber vorwärts und rückwärts entlang der Linie bewegen. Ändere den Schieber so, dass er sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du den Schieber platzierst. ",Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,"number-line-instruct1
-"
-number-line-prompt1,math,Choose the number that is marked on the number line.,Escoge el número que está marcado en la recta numérica.,"Wähle die Zahl, die auf der Zahlenreihe markiert ist.",Choose the number that is marked on the number line.,Choose the number that is marked on the number line.,"Wähle die Zahl, die auf der Zahlenreihe markiert ist.",Choose the number that is marked on the number line.,Choose the number that is marked on the number line.,"number-line-prompt1
-"
-number-line-slider-prompt1,math,Move the slider to mark the number.,Ubica el marcador sobre la recta numérica para marcar el lugar del número.,Bewege den Schieber auf die angegebene Zahl.,Move the slider to mark the number.,Move the slider to mark the number.,Bewege den Schieber auf die angegebene Zahl.,Move the slider to mark the number.,Move the slider to mark the number.,"number-line-slider-prompt1
-"
-number-identification-1,math,Choose the number 1.,Escoge el número 1.,Wähle die Zahl Eins.,Choose the number 1.,Choose the number 1.,Wähle die Zahl Eins.,Choose the number 1.,Choose the number 1.,"number-identification-1
-"
-number-identification-2,math,Choose the 2.,Escoge el 2.,Wähle die Zwei.,Choose the 2.,Choose the 2.,Wähle die Zwei.,Choose the 2.,Choose the 2.,"number-identification-2
-"
-number-identification-3,math,Choose the 9.,Escoge el 9.,Wähle die Neun.,Choose the 9.,Choose the 9.,Wähle die Neun.,Choose the 9.,Choose the 9.,"number-identification-3
-"
-number-identification-4,math,Choose the 0.,Escoge el 0.,Wähle die Null.,Choose the 0.,Choose the 0.,Wähle die Null.,Choose the 0.,Choose the 0.,"number-identification-4
-"
-number-identification-5,math,Choose the 12.,Escoge el 12.,Wähle die Zwölf.,Choose the 12.,Choose the 12.,Wähle die Zwölf.,Choose the 12.,Choose the 12.,"number-identification-5
-"
-number-identification-6,math,Choose the 30.,Escoge el 30.,Wähle die Dreißig.,Choose the 30.,Choose the 30.,Wähle die Dreißig.,Choose the 30.,Choose the 30.,"number-identification-6
-"
-number-identification-7,math,Choose the 22.,Escoge el 22.,Wähle die  Zweiundzwanzig.,Choose the 22.,Choose the 22.,Wähle die  Zweiundzwanzig.,Choose the 22.,Choose the 22.,"number-identification-7
-"
-number-identification-8,math,Choose the 45.,Escoge el 45.,Wähle die  Fünfundvierzig.,Choose the 45.,Choose the 45.,Wähle die  Fünfundvierzig.,Choose the 45.,Choose the 45.,"number-identification-8
-"
-number-identification-9,math,Choose the 39.,Escoge el 39.,Wähle die  Neununddreißig.,Choose the 39.,Choose the 39.,Wähle die  Neununddreißig.,Choose the 39.,Choose the 39.,"number-identification-9
-"
-number-identification-10,math,Choose the 23.,Escoge el 23.,Wähle die  Dreiundzwanzig.,Choose the 23.,Choose the 23.,Wähle die  Dreiundzwanzig.,Choose the 23.,Choose the 23.,"number-identification-10
-"
-number-identification-11,math,Choose the 48.,Escoge el 48.,Wähle die  Achtundvierzig.,Choose the 48.,Choose the 48.,Wähle die  Achtundvierzig.,Choose the 48.,Choose the 48.,"number-identification-11
-"
-number-identification-12,math,Choose the 91.,Escoge el 91.,Wähle die  91.,Choose the 91.,Choose the 91.,Wähle die  91.,Choose the 91.,Choose the 91.,"number-identification-12
-"
-number-identification-13,math,Choose the 33.,Escoge el 33.,Wähle die  Dreiunddreißig.,Choose the 33.,Choose the 33.,Wähle die  Dreiunddreißig.,Choose the 33.,Choose the 33.,"number-identification-13
-"
-number-identification-14,math,Choose the 74.,Escoge el 74.,Wähle die  Vierundsiebzig.,Choose the 74.,Choose the 74.,Wähle die  Vierundsiebzig.,Choose the 74.,Choose the 74.,"number-identification-14
-"
-number-identification-15,math,Choose the 87.,Escoge el 87.,Wähle die  Siebenundachzig.,Choose the 87.,Choose the 87.,Wähle die  Siebenundachzig.,Choose the 87.,Choose the 87.,"number-identification-15
-"
-number-identification-16,math,Choose the 65.,Escoge el 65.,Wähle die  65.,Choose the 65.,Choose the 65.,Wähle die  65.,Choose the 65.,Choose the 65.,"number-identification-16
-"
-number-identification-17,math,Choose the 108.,Escoge el 108.,Wähle die  Einhundertacht.,Choose the 108.,Choose the 108.,Wähle die  Einhundertacht.,Choose the 108.,Choose the 108.,"number-identification-17
-"
-number-identification-18,math,Choose the 245.,"Escoge el,, doscientos, cuarenta y cinco.",Wähle die  Zweihundertfünfundvierzig.,Choose the 245.,Choose the 245.,Wähle die  Zweihundertfünfundvierzig.,Choose the 245.,Choose the 245.,"number-identification-18
-"
-number-identification-19,math,Choose the 587.,Escoge el quinientos ochenta y siete.,Wähle die  Fünfhundertsiebenundachzig.,Choose the 587.,Choose the 587.,Wähle die  Fünfhundertsiebenundachzig.,Choose the 587.,Choose the 587.,"number-identification-19
-"
-number-identification-20,math,Choose the 731.,"Escoge, el,, setecientos, treinta y uno.",Wähle die  Siebenhunderteinunddreißig.,Choose the 731.,Choose the 731.,Wähle die  Siebenhunderteinunddreißig.,Choose the 731.,Choose the 731.,"number-identification-20
-"
-number-identification-21,math,Choose the 989.,Escoge el 989. ,Wähle die  Neunhundertneunundachzig.,Choose the 989.,Choose the 989.,Wähle die  Neunhundertneunundachzig.,Choose the 989.,Choose the 989.,"number-identification-21
-"
-number-identification-22,math,Choose the 6.,Escoge el 6.,Wähle die sechs.,Choose the 6.,Choose the 6.,Wähle die sechs.,Choose the 6.,Choose the 6.,"number-identification-22
-"
-number-identification-23,math,Choose the 14.,Escoge el 14.,Wähle die vierzehn.,Choose the 14.,Choose the 14.,Wähle die vierzehn.,Choose the 14.,Choose the 14.,"number-identification-23
-"
-number-identification-24,math,Choose the 18.,Escoge el 18.,Wähle die achtzehn.,Choose the 18.,Choose the 18.,Wähle die achtzehn.,Choose the 18.,Choose the 18.,"number-identification-24
-"
-number-identification-25,math,Choose the 26.,Escoge el 26.,Wähle die sechsundzwanzig.,Choose the 26.,Choose the 26.,Wähle die sechsundzwanzig.,Choose the 26.,Choose the 26.,"number-identification-25
-"
-number-identification-26,math,Choose the 35.,Escoge el 35.,Wähle die fünfunddreißig.,Choose the 35.,Choose the 35.,Wähle die fünfunddreißig.,Choose the 35.,Choose the 35.,"number-identification-26
-"
-number-identification-27,math,Choose the 41.,Escoge el 41.,Wähle die einundvierzig.,Choose the 41.,Choose the 41.,Wähle die einundvierzig.,Choose the 41.,Choose the 41.,"number-identification-27
-"
-number-identification-28,math,Choose the 47.,Escoge el 47.,Wähle die siebenundvierzig.,Choose the 47.,Choose the 47.,Wähle die siebenundvierzig.,Choose the 47.,Choose the 47.,"number-identification-28
-"
-number-identification-29,math,Choose the 50.,Escoge el 50.,Wähle die fünfzig.,Choose the 50.,Choose the 50.,Wähle die fünfzig.,Choose the 50.,Choose the 50.,"number-identification-29
-"
-number-identification-30,math,Choose the 55.,Escoge el 55.,Wähle die fünfundfünfzig.,Choose the 55.,Choose the 55.,Wähle die fünfundfünfzig.,Choose the 55.,Choose the 55.,"number-identification-30
-"
-number-identification-31,math,Choose the 66.,Escoge el 66.,Wähle die sechsundsechzig.,Choose the 66.,Choose the 66.,Wähle die sechsundsechzig.,Choose the 66.,Choose the 66.,"number-identification-31
-"
-number-identification-32,math,Choose the 67.,Escoge el 67.,Wähle die siebenundsechzig.,Choose the 67.,Choose the 67.,Wähle die siebenundsechzig.,Choose the 67.,Choose the 67.,"number-identification-32
-"
-number-identification-33,math,Choose the 88.,Escoge el 88.,Wähle die achtundachtzig.,Choose the 88.,Choose the 88.,Wähle die achtundachtzig.,Choose the 88.,Choose the 88.,"number-identification-33
-"
-number-identification-34,math,Choose the 101.,Escoge el 101.,Wähle die einhunderteins.,Choose the 101.,Choose the 101.,Wähle die einhunderteins.,Choose the 101.,Choose the 101.,"number-identification-34
-"
-number-identification-35,math,Choose the 426.,Escoge el 426.,Wähle die vierhundertsechsundzwanzig.,Choose the 426.,Choose the 426.,Wähle die vierhundertsechsundzwanzig.,Choose the 426.,Choose the 426.,"number-identification-35
-"
-number-identification-36,math,Choose the 131.,Escoge el 131.,Wähle die einhunderteinunddreißig.,Choose the 131.,Choose the 131.,Wähle die einhunderteinunddreißig.,Choose the 131.,Choose the 131.,"number-identification-36
-"
-number-identification-37,math,Choose the 256.,Escoge el 256.,Wähle die zweihundertsechsundfünfzig.,Choose the 256.,Choose the 256.,Wähle die zweihundertsechsundfünfzig.,Choose the 256.,Choose the 256.,"number-identification-37
-"
-number-identification-38,math,Choose the 349.,Escoge el 349.,Wähle die dreihundertneunundvierzig.,Choose the 349.,Choose the 349.,Wähle die dreihundertneunundvierzig.,Choose the 349.,Choose the 349.,"number-identification-38
-"
-number-identification-39,math,Choose the 543.,Escoge el 543.,Wähle die fünfhundertdreiundvierzig.,Choose the 543.,Choose the 543.,Wähle die fünfhundertdreiundvierzig.,Choose the 543.,Choose the 543.,"number-identification-39
-"
-number-identification-40,math,Choose the 617.,Escoge el 617.,Wähle die sechshundertsiebzehn.,Choose the 617.,Choose the 617.,Wähle die sechshundertsiebzehn.,Choose the 617.,Choose the 617.,"number-identification-40
-"
-number-identification-41,math,Choose the 877.,Escoge el 877. ,Wähle die achthundertsiebenundsiebzig.,Choose the 877.,Choose the 877.,Wähle die achthundertsiebenundsiebzig.,Choose the 877.,Choose the 877.,"number-identification-41
-"
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!",
+math-intro1,math,Here is the first section. Let's start with some practice!,Esta es la primera sección. ¡Empecemos a practicar!,Hier kommt der erste Teil. Am Anfang üben wir erstmal nur.,Here is the first section. Let's start with some practice!,Here is the first section. Let's start with some practice!,Hier kommt der erste Teil. Am Anfang üben wir erstmal nur.,Here is the first section. Let's start with some practice!,Here is the first section. Let's start with some practice!,
+math-intro2,math,Here is another section. The first few are for practice.,Esta es otra sección. Las primeras son para practicar.,Jetzt kommt der nächste Teil. Die ersten paar sind wieder zum Üben.,Here is another section. The first few are for practice.,Here is another section. The first few are for practice.,Jetzt kommt der nächste Teil. Die ersten paar sind wieder zum Üben.,Here is another section. The first few are for practice.,Here is another section. The first few are for practice.,
+math-intro-fractions,math,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,En esta sección a veces tienes que sumar y a veces tienes que restar. Fíjate bien en el signo de suma o resta. Los primeros son para practicar.,"In diesem Teil musst du manchmal addieren und manchmal subtrahieren. Schau also genau, ob da ein Plus oder ein Minus steht. Die ersten paar sind wieder zum Üben.",In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,"In diesem Teil musst du manchmal addieren und manchmal subtrahieren. Schau also genau, ob da ein Plus oder ein Minus steht. Die ersten paar sind wieder zum Üben.",In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.,
+number-comparison-prompt1,math,Which number is larger?,¿Cuál número es mayor?,Welche Zahl ist größer?,Which number is larger?,Which number is larger?,Welche Zahl ist größer?,Which number is larger?,Which number is larger?,
+number-comparison-prompt2,math,Which is larger?,¿Cuál es mayor?,Welche ist größer?,Which is larger?,Which is larger?,Welche ist größer?,Which is larger?,Which is larger?,
+number-identification-prompt1,math,Choose the number you hear.,Escoge el número cuando lo escuches.,"Wähle die Zahl, die du hörst.",Choose the number you hear.,Choose the number you hear.,"Wähle die Zahl, die du hörst.",Choose the number you hear.,Choose the number you hear.,
+missing-number-prompt1,math,What number goes in the blank?,¿Cuál número va en el espacio en blanco?,Welche Zahl gehört in die Lücke?,What number goes in the blank?,What number goes in the blank?,Welche Zahl gehört in die Lücke?,What number goes in the blank?,What number goes in the blank?,
+missing-number-prompt2,math,What number goes here?,¿Cuál número va aquí?,Welche Zahl gehört hierher?,What number goes here?,What number goes here?,Welche Zahl gehört hierher?,What number goes here?,What number goes here?,
+missing-number-prompt3,math,What numbers go in the blanks?,¿Cuál números van en los espacios en blanco?,Welche Zahlen gehören in die Lücken?,What numbers go in the blanks?,What numbers go in the blanks?,Welche Zahlen gehören in die Lücken?,What numbers go in the blanks?,What numbers go in the blanks?,
+addition-prompt1,math,Add the numbers and choose the correct answer.,Suma los números y escoge la respuesta correcta.,Addiere die Zahlen und wähle die richtige Antwort.,Add the numbers and choose the correct answer.,Add the numbers and choose the correct answer.,Addiere die Zahlen und wähle die richtige Antwort.,Add the numbers and choose the correct answer.,Add the numbers and choose the correct answer.,
+addition-prompt2,math,Add the numbers.,Suma los números.,Addiere die Zahlen. ,Add the numbers.,Add the numbers.,Addiere die Zahlen. ,Add the numbers.,Add the numbers.,
+subtraction-prompt1,math,Subtract the numbers and choose the correct answer.,Resta los números y escoge la respuesta correcta.,Ziehe die Zahlen ab und wähle die richtige Antwort.,Subtract the numbers and choose the correct answer.,Subtract the numbers and choose the correct answer.,Ziehe die Zahlen ab und wähle die richtige Antwort.,Subtract the numbers and choose the correct answer.,Subtract the numbers and choose the correct answer.,
+subtraction-prompt2,math,Subtract the numbers.,Resta los números.,Ziehe die Zahlen ab. ,Subtract the numbers.,Subtract the numbers.,Ziehe die Zahlen ab. ,Subtract the numbers.,Subtract the numbers.,
+multiplication-prompt1,math,Multiply the numbers and choose the correct answer.,Multiplica los números y escoge la respuesta correcta.,Multipliziere die Zahlen und wähle die richtige Antwort.,Multiply the numbers and choose the correct answer.,Multiply the numbers and choose the correct answer.,Multipliziere die Zahlen und wähle die richtige Antwort.,Multiply the numbers and choose the correct answer.,Multiply the numbers and choose the correct answer.,
+multiplication-prompt2,math,Multiply the numbers.,Multiplica los números.,Multipliziere die Zahlen. ,Multiply the numbers.,Multiply the numbers.,Multipliziere die Zahlen. ,Multiply the numbers.,Multiply the numbers.,
+number-line-instruct1,math,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Aquí tienes una recta numérica. Sobre ella hay un marcador que tu puedes mover hacia la derecha o izquierda. Tu debes ubicar este marcador en el lugar de la recta donde estaría ubicado el número que te indicará cada ejercicio. Asegúrate de revisar bien cuáles son los números de los extremos de la recta antes de decidir dónde ubicar el marcador. ,"Hier ist eine Zahlenreihe. Du kannst den Schieber vorwärts und rückwärts entlang der Linie bewegen. Ändere den Schieber so, dass er sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du den Schieber platzierst. ",Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,"Hier ist eine Zahlenreihe. Du kannst den Schieber vorwärts und rückwärts entlang der Linie bewegen. Ändere den Schieber so, dass er sich an der richtigen Stelle befindet, um zu zeigen, wo die Zahl hingehört. Achte darauf, dass du die Zahlen an beiden Enden ansiehst, wenn du entscheidest, wohin du den Schieber platzierst. ",Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,Here is a number line. You can move the slider forward and backward along the line. Move the slider so it is in the right place to show where the number belongs. Make sure you look at the numbers at each end when deciding where to move the slider.,
+number-line-prompt1,math,Choose the number that is marked on the number line.,Escoge el número que está marcado en la recta numérica.,"Wähle die Zahl, die auf der Zahlenreihe markiert ist.",Choose the number that is marked on the number line.,Choose the number that is marked on the number line.,"Wähle die Zahl, die auf der Zahlenreihe markiert ist.",Choose the number that is marked on the number line.,Choose the number that is marked on the number line.,
+number-line-slider-prompt1,math,Move the slider to mark the number.,Ubica el marcador sobre la recta numérica para marcar el lugar del número.,Bewege den Schieber auf die angegebene Zahl.,Move the slider to mark the number.,Move the slider to mark the number.,Bewege den Schieber auf die angegebene Zahl.,Move the slider to mark the number.,Move the slider to mark the number.,
+number-identification-1,math,Choose the number 1.,Escoge el número 1.,Wähle die Zahl Eins.,Choose the number 1.,Choose the number 1.,Wähle die Zahl Eins.,Choose the number 1.,Choose the number 1.,
+number-identification-2,math,Choose the 2.,Escoge el 2.,Wähle die Zwei.,Choose the 2.,Choose the 2.,Wähle die Zwei.,Choose the 2.,Choose the 2.,
+number-identification-3,math,Choose the 9.,Escoge el 9.,Wähle die Neun.,Choose the 9.,Choose the 9.,Wähle die Neun.,Choose the 9.,Choose the 9.,
+number-identification-4,math,Choose the 0.,Escoge el 0.,Wähle die Null.,Choose the 0.,Choose the 0.,Wähle die Null.,Choose the 0.,Choose the 0.,
+number-identification-5,math,Choose the 12.,Escoge el 12.,Wähle die Zwölf.,Choose the 12.,Choose the 12.,Wähle die Zwölf.,Choose the 12.,Choose the 12.,
+number-identification-6,math,Choose the 30.,Escoge el 30.,Wähle die Dreißig.,Choose the 30.,Choose the 30.,Wähle die Dreißig.,Choose the 30.,Choose the 30.,
+number-identification-7,math,Choose the 22.,Escoge el 22.,Wähle die  Zweiundzwanzig.,Choose the 22.,Choose the 22.,Wähle die  Zweiundzwanzig.,Choose the 22.,Choose the 22.,
+number-identification-8,math,Choose the 45.,Escoge el 45.,Wähle die  Fünfundvierzig.,Choose the 45.,Choose the 45.,Wähle die  Fünfundvierzig.,Choose the 45.,Choose the 45.,
+number-identification-9,math,Choose the 39.,Escoge el 39.,Wähle die  Neununddreißig.,Choose the 39.,Choose the 39.,Wähle die  Neununddreißig.,Choose the 39.,Choose the 39.,
+number-identification-10,math,Choose the 23.,Escoge el 23.,Wähle die  Dreiundzwanzig.,Choose the 23.,Choose the 23.,Wähle die  Dreiundzwanzig.,Choose the 23.,Choose the 23.,
+number-identification-11,math,Choose the 48.,Escoge el 48.,Wähle die  Achtundvierzig.,Choose the 48.,Choose the 48.,Wähle die  Achtundvierzig.,Choose the 48.,Choose the 48.,
+number-identification-12,math,Choose the 91.,Escoge el 91.,Wähle die  91.,Choose the 91.,Choose the 91.,Wähle die  91.,Choose the 91.,Choose the 91.,
+number-identification-13,math,Choose the 33.,Escoge el 33.,Wähle die  Dreiunddreißig.,Choose the 33.,Choose the 33.,Wähle die  Dreiunddreißig.,Choose the 33.,Choose the 33.,
+number-identification-14,math,Choose the 74.,Escoge el 74.,Wähle die  Vierundsiebzig.,Choose the 74.,Choose the 74.,Wähle die  Vierundsiebzig.,Choose the 74.,Choose the 74.,
+number-identification-15,math,Choose the 87.,Escoge el 87.,Wähle die  Siebenundachzig.,Choose the 87.,Choose the 87.,Wähle die  Siebenundachzig.,Choose the 87.,Choose the 87.,
+number-identification-16,math,Choose the 65.,Escoge el 65.,Wähle die  65.,Choose the 65.,Choose the 65.,Wähle die  65.,Choose the 65.,Choose the 65.,
+number-identification-17,math,Choose the 108.,Escoge el 108.,Wähle die  Einhundertacht.,Choose the 108.,Choose the 108.,Wähle die  Einhundertacht.,Choose the 108.,Choose the 108.,
+number-identification-18,math,Choose the 245.,"Escoge el,, doscientos, cuarenta y cinco.",Wähle die  Zweihundertfünfundvierzig.,Choose the 245.,Choose the 245.,Wähle die  Zweihundertfünfundvierzig.,Choose the 245.,Choose the 245.,
+number-identification-19,math,Choose the 587.,Escoge el quinientos ochenta y siete.,Wähle die  Fünfhundertsiebenundachzig.,Choose the 587.,Choose the 587.,Wähle die  Fünfhundertsiebenundachzig.,Choose the 587.,Choose the 587.,
+number-identification-20,math,Choose the 731.,"Escoge, el,, setecientos, treinta y uno.",Wähle die  Siebenhunderteinunddreißig.,Choose the 731.,Choose the 731.,Wähle die  Siebenhunderteinunddreißig.,Choose the 731.,Choose the 731.,
+number-identification-21,math,Choose the 989.,Escoge el 989. ,Wähle die  Neunhundertneunundachzig.,Choose the 989.,Choose the 989.,Wähle die  Neunhundertneunundachzig.,Choose the 989.,Choose the 989.,
+number-identification-22,math,Choose the 6.,Escoge el 6.,Wähle die sechs.,Choose the 6.,Choose the 6.,Wähle die sechs.,Choose the 6.,Choose the 6.,
+number-identification-23,math,Choose the 14.,Escoge el 14.,Wähle die vierzehn.,Choose the 14.,Choose the 14.,Wähle die vierzehn.,Choose the 14.,Choose the 14.,
+number-identification-24,math,Choose the 18.,Escoge el 18.,Wähle die achtzehn.,Choose the 18.,Choose the 18.,Wähle die achtzehn.,Choose the 18.,Choose the 18.,
+number-identification-25,math,Choose the 26.,Escoge el 26.,Wähle die sechsundzwanzig.,Choose the 26.,Choose the 26.,Wähle die sechsundzwanzig.,Choose the 26.,Choose the 26.,
+number-identification-26,math,Choose the 35.,Escoge el 35.,Wähle die fünfunddreißig.,Choose the 35.,Choose the 35.,Wähle die fünfunddreißig.,Choose the 35.,Choose the 35.,
+number-identification-27,math,Choose the 41.,Escoge el 41.,Wähle die einundvierzig.,Choose the 41.,Choose the 41.,Wähle die einundvierzig.,Choose the 41.,Choose the 41.,
+number-identification-28,math,Choose the 47.,Escoge el 47.,Wähle die siebenundvierzig.,Choose the 47.,Choose the 47.,Wähle die siebenundvierzig.,Choose the 47.,Choose the 47.,
+number-identification-29,math,Choose the 50.,Escoge el 50.,Wähle die fünfzig.,Choose the 50.,Choose the 50.,Wähle die fünfzig.,Choose the 50.,Choose the 50.,
+number-identification-30,math,Choose the 55.,Escoge el 55.,Wähle die fünfundfünfzig.,Choose the 55.,Choose the 55.,Wähle die fünfundfünfzig.,Choose the 55.,Choose the 55.,
+number-identification-31,math,Choose the 66.,Escoge el 66.,Wähle die sechsundsechzig.,Choose the 66.,Choose the 66.,Wähle die sechsundsechzig.,Choose the 66.,Choose the 66.,
+number-identification-32,math,Choose the 67.,Escoge el 67.,Wähle die siebenundsechzig.,Choose the 67.,Choose the 67.,Wähle die siebenundsechzig.,Choose the 67.,Choose the 67.,
+number-identification-33,math,Choose the 88.,Escoge el 88.,Wähle die achtundachtzig.,Choose the 88.,Choose the 88.,Wähle die achtundachtzig.,Choose the 88.,Choose the 88.,
+number-identification-34,math,Choose the 101.,Escoge el 101.,Wähle die einhunderteins.,Choose the 101.,Choose the 101.,Wähle die einhunderteins.,Choose the 101.,Choose the 101.,
+number-identification-35,math,Choose the 426.,Escoge el 426.,Wähle die vierhundertsechsundzwanzig.,Choose the 426.,Choose the 426.,Wähle die vierhundertsechsundzwanzig.,Choose the 426.,Choose the 426.,
+number-identification-36,math,Choose the 131.,Escoge el 131.,Wähle die einhunderteinunddreißig.,Choose the 131.,Choose the 131.,Wähle die einhunderteinunddreißig.,Choose the 131.,Choose the 131.,
+number-identification-37,math,Choose the 256.,Escoge el 256.,Wähle die zweihundertsechsundfünfzig.,Choose the 256.,Choose the 256.,Wähle die zweihundertsechsundfünfzig.,Choose the 256.,Choose the 256.,
+number-identification-38,math,Choose the 349.,Escoge el 349.,Wähle die dreihundertneunundvierzig.,Choose the 349.,Choose the 349.,Wähle die dreihundertneunundvierzig.,Choose the 349.,Choose the 349.,
+number-identification-39,math,Choose the 543.,Escoge el 543.,Wähle die fünfhundertdreiundvierzig.,Choose the 543.,Choose the 543.,Wähle die fünfhundertdreiundvierzig.,Choose the 543.,Choose the 543.,
+number-identification-40,math,Choose the 617.,Escoge el 617.,Wähle die sechshundertsiebzehn.,Choose the 617.,Choose the 617.,Wähle die sechshundertsiebzehn.,Choose the 617.,Choose the 617.,
+number-identification-41,math,Choose the 877.,Escoge el 877. ,Wähle die achthundertsiebenundsiebzig.,Choose the 877.,Choose the 877.,Wähle die achthundertsiebenundsiebzig.,Choose the 877.,Choose the 877.,
 math-instructions1-heavy,math,"In this game, you will play with numbers.
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!","En este juego, jugarás con números.
@@ -151,32 +91,18 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
 
 Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!","In this game, you will play with numbers.
 
-Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!","math-instructions1-heavy
-"
-math-intro1-heavy,math,It's time for the first number game! Let's practice.,¡Es hora del primer juego de números! Vamos a practicar.,Es ist Zeit für das erste Zahlenspiel! Lass uns üben.,It's time for the first number game! Let's practice.,It's time for the first number game! Let's practice.,Es ist Zeit für das erste Zahlenspiel! Lass uns üben.,It's time for the first number game! Let's practice.,It's time for the first number game! Let's practice.,"math-intro1-heavy
-"
-math-intro2-heavy,math,It's time for the next number game! Let's practice.,¡Es hora del siguiente juego de números! Vamos a practicar.,Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.,It's time for the next number game! Let's practice.,It's time for the next number game! Let's practice.,Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.,It's time for the next number game! Let's practice.,It's time for the next number game! Let's practice.,"math-intro2-heavy
-"
-counting-intro,math,"In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","En este juego de números, dirás cuántas cosas hay en la imagen. El adulto que te está ayudando presionará el botón.","In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","counting-intro
-"
-counting-intro-afc,math,"This time, you will choose the button with the right number!","¡Esta vez, elegirás el botón con el número correcto!",Dieses Mal wählst du die Taste mit der richtigen Zahl!,"This time, you will choose the button with the right number!","This time, you will choose the button with the right number!",Dieses Mal wählst du die Taste mit der richtigen Zahl!,"This time, you will choose the button with the right number!","This time, you will choose the button with the right number!","counting-intro-afc
-"
-ns-number-identification-1,math,Choose the card that shows 1 apple.,Elige la carta que muestra 1 manzana.,"Wählen Sie die Karte, die 1 Apfel zeigt.",Choose the card that shows 1 apple.,Choose the card that shows 1 apple.,"Wählen Sie die Karte, die 1 Apfel zeigt.",Choose the card that shows 1 apple.,Choose the card that shows 1 apple.,"ns-number-identification-1
-"
-ns-number-identification-2,math,Choose the card that shows 2 cars.,Elige la carta que muestra 2 carros.,"Wählen Sie die Karte, die 2 Autos zeigt.",Choose the card that shows 2 cars.,Choose the card that shows 2 cars.,"Wählen Sie die Karte, die 2 Autos zeigt.",Choose the card that shows 2 cars.,Choose the card that shows 2 cars.,ns-number-identification-2
-ns-number-identification-5,math,Choose the card that shows 5 apples.,Elige la carta que muestra 5 manzanas.,"Wählen Sie die Karte, die 5 Äpfel zeigt.",Choose the card that shows 5 apples.,Choose the card that shows 5 apples.,"Wählen Sie die Karte, die 5 Äpfel zeigt.",Choose the card that shows 5 apples.,Choose the card that shows 5 apples.,"ns-number-identification-5
-"
-ns-number-identification-7,math,Choose the card that shows 7 cars.,Elige la carta que muestra 7 carros.,"Wählen Sie die Karte, die 7 Autos zeigt.",Choose the card that shows 7 cars.,Choose the card that shows 7 cars.,"Wählen Sie die Karte, die 7 Autos zeigt.",Choose the card that shows 7 cars.,Choose the card that shows 7 cars.,"ns-number-identification-7
-"
-ns-number-identification-10,math,Choose the card that shows 10 apples.,Elige la carta que muestra 10 manzanas.,"Wählen Sie die Karte, die 10 Äpfel zeigt.",Choose the card that shows 10 apples.,Choose the card that shows 10 apples.,"Wählen Sie die Karte, die 10 Äpfel zeigt.",Choose the card that shows 10 apples.,Choose the card that shows 10 apples.,"ns-number-identification-10
-"
-counting-1,math,How many cars is this?,¿Cuántos carros hay?,Wie viele Autos sind das?,How many cars is this?,How many cars is this?,Wie viele Autos sind das?,How many cars is this?,How many cars is this?,"counting-1
-"
-counting-2,math,How many apples is this?,¿Cuántas manzanas hay?,Wie viele Äpfel sind das?,How many apples is this?,How many apples is this?,Wie viele Äpfel sind das?,How many apples is this?,How many apples is this?,"counting-2
-"
-ns-number-comp-1,math,Which card has more apples?,¿Cuál carta tiene más manzanas?,Welche Karte hat mehr Äpfel?,Which card has more apples?,Which card has more apples?,Welche Karte hat mehr Äpfel?,Which card has more apples?,Which card has more apples?,"ns-number-comp-1
-"
-ns-number-comp-2,math,Which card has more cars?,¿Cuál carta tiene más carros?,Welche Karte hat mehr Autos?,Which card has more cars?,Which card has more cars?,Welche Karte hat mehr Autos?,Which card has more cars?,Which card has more cars?,"ns-number-comp-2
-"
-number-identification-42,math,Choose the 8.,Escoge el 8. ,Wähle die  8.,Choose the 8.,Choose the 8.,Wähle die  8.,Choose the 8.,Choose the 8.,"number-identification-42
-"
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Let’s get started!",
+math-intro1-heavy,math,It's time for the first number game! Let's practice.,¡Es hora del primer juego de números! Vamos a practicar.,Es ist Zeit für das erste Zahlenspiel! Lass uns üben.,It's time for the first number game! Let's practice.,It's time for the first number game! Let's practice.,Es ist Zeit für das erste Zahlenspiel! Lass uns üben.,It's time for the first number game! Let's practice.,It's time for the first number game! Let's practice.,
+math-intro2-heavy,math,It's time for the next number game! Let's practice.,¡Es hora del siguiente juego de números! Vamos a practicar.,Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.,It's time for the next number game! Let's practice.,It's time for the next number game! Let's practice.,Es ist Zeit für das nächste Zahlenspiel! Lass uns üben.,It's time for the next number game! Let's practice.,It's time for the next number game! Let's practice.,
+counting-intro,math,"In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","En este juego de números, dirás cuántas cosas hay en la imagen. El adulto que te está ayudando presionará el botón.","In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In diesem Zahlenspiel sagst du, wie viele Dinge auf dem Bild sind! Der Erwachsene, der dir hilft, wird den Knopf drücken.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.","In this number game, you will say how many things are in the picture! The grownup helping you will press the button.",
+counting-intro-afc,math,"This time, you will choose the button with the right number!","¡Esta vez, elegirás el botón con el número correcto!",Dieses Mal wählst du die Taste mit der richtigen Zahl!,"This time, you will choose the button with the right number!","This time, you will choose the button with the right number!",Dieses Mal wählst du die Taste mit der richtigen Zahl!,"This time, you will choose the button with the right number!","This time, you will choose the button with the right number!",
+ns-number-identification-1,math,Choose the card that shows 1 apple.,Elige la carta que muestra 1 manzana.,"Wählen Sie die Karte, die 1 Apfel zeigt.",Choose the card that shows 1 apple.,Choose the card that shows 1 apple.,"Wählen Sie die Karte, die 1 Apfel zeigt.",Choose the card that shows 1 apple.,Choose the card that shows 1 apple.,
+ns-number-identification-2,math,Choose the card that shows 2 cars.,Elige la carta que muestra 2 carros.,"Wählen Sie die Karte, die 2 Autos zeigt.",Choose the card that shows 2 cars.,Choose the card that shows 2 cars.,"Wählen Sie die Karte, die 2 Autos zeigt.",Choose the card that shows 2 cars.,Choose the card that shows 2 cars.,
+ns-number-identification-5,math,Choose the card that shows 5 apples.,Elige la carta que muestra 5 manzanas.,"Wählen Sie die Karte, die 5 Äpfel zeigt.",Choose the card that shows 5 apples.,Choose the card that shows 5 apples.,"Wählen Sie die Karte, die 5 Äpfel zeigt.",Choose the card that shows 5 apples.,Choose the card that shows 5 apples.,
+ns-number-identification-7,math,Choose the card that shows 7 cars.,Elige la carta que muestra 7 carros.,"Wählen Sie die Karte, die 7 Autos zeigt.",Choose the card that shows 7 cars.,Choose the card that shows 7 cars.,"Wählen Sie die Karte, die 7 Autos zeigt.",Choose the card that shows 7 cars.,Choose the card that shows 7 cars.,
+ns-number-identification-10,math,Choose the card that shows 10 apples.,Elige la carta que muestra 10 manzanas.,"Wählen Sie die Karte, die 10 Äpfel zeigt.",Choose the card that shows 10 apples.,Choose the card that shows 10 apples.,"Wählen Sie die Karte, die 10 Äpfel zeigt.",Choose the card that shows 10 apples.,Choose the card that shows 10 apples.,
+counting-1,math,How many cars is this?,¿Cuántos carros hay?,Wie viele Autos sind das?,How many cars is this?,How many cars is this?,Wie viele Autos sind das?,How many cars is this?,How many cars is this?,
+counting-2,math,How many apples is this?,¿Cuántas manzanas hay?,Wie viele Äpfel sind das?,How many apples is this?,How many apples is this?,Wie viele Äpfel sind das?,How many apples is this?,How many apples is this?,
+ns-number-comp-1,math,Which card has more apples?,¿Cuál carta tiene más manzanas?,Welche Karte hat mehr Äpfel?,Which card has more apples?,Which card has more apples?,Welche Karte hat mehr Äpfel?,Which card has more apples?,Which card has more apples?,
+ns-number-comp-2,math,Which card has more cars?,¿Cuál carta tiene más carros?,Welche Karte hat mehr Autos?,Which card has more cars?,Which card has more cars?,Welche Karte hat mehr Autos?,Which card has more cars?,Which card has more cars?,
+number-identification-42,math,Choose the 8.,Escoge el 8. ,Wähle die  8.,Choose the 8.,Choose the 8.,Wähle die  8.,Choose the 8.,Choose the 8.,
