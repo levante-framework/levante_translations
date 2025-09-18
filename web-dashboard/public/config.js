@@ -75,6 +75,7 @@ const CONFIG = {
     },
     
     // Curated voice selections for comparison evaluation
+    // LEGACY CONFIGURATION
     curatedVoices: {
         playht: {
             'en': [
@@ -121,7 +122,6 @@ const CONFIG = {
             'en': [
                 'Yasmine',
                 'Alexandra - Conversational and Real',
-                'Aunt Annie - calm and professional',
                 'Claudia - Credible, Competent & Authentic',
                 'Zuri - New Yorker',
                 'Nia Davis- Black Female',
@@ -131,26 +131,16 @@ const CONFIG = {
             'es-CO': [
                 'Yasmine',
                 'Alexandra - Conversational and Real',
-                'Aunt Annie - calm and professional',
                 'Claudia - Credible, Competent & Authentic',
-                'Zuri - New Yorker',
-                'Nia Davis- Black Female'
             ],
             'de': [
-                'Yasmine',
-                'Alexandra - Conversational and Real',
-                'Aunt Annie - calm and professional',
+                'Julia',
                 'Claudia - Credible, Competent & Authentic',
-                'Zuri - New Yorker',
-                'Nia Davis- Black Female'
+                'Zuri - New Yorker'
             ],
             'fr-CA': [
                 'Yasmine',
-                'Alexandra - Conversational and Real',
-                'Aunt Annie - calm and professional',
                 'Claudia - Credible, Competent & Authentic',
-                'Zuri - New Yorker',
-                'Nia Davis- Black Female'
             ],
             'nl': [
                 'Yasmine',
@@ -161,8 +151,6 @@ const CONFIG = {
                 'Nia Davis- Black Female'
             ],
             'es-AR': [
-                'Yasmine',
-                'Alexandra - Conversational and Real',
                 'Malena Tango',
                 'Claudia - Credible, Competent & Authentic'
             ],
@@ -173,9 +161,7 @@ const CONFIG = {
                 'Claudia - Credible, Competent & Authentic'
             ],
             'de-CH': [
-                'Yasmine',
                 'Julia',
-                'Alexandra - Conversational and Real',
                 'Claudia - Credible, Competent & Authentic'
             ]
         }
