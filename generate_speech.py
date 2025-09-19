@@ -304,17 +304,31 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False):
         except Exception:
             item_id = str(item_id_raw)
         
-        # Check if audio file already exists for this item (unless force mode is enabled)
+        # Check if audio file needs regeneration (text/voice validation)
         from utilities.utilities import audio_file_path
+        from utilities.audio_validation import needs_regeneration
+        
         # Safely coerce task name to string
         task_name_val = ourRow.get('labels', 'general')
         task_name = str(task_name_val.iloc[0]) if hasattr(task_name_val, 'iloc') else str(task_name_val)
         expected_audio_path = audio_file_path(task_name, item_id, audio_base_dir, lang_code)
         
-        if os.path.exists(expected_audio_path) and not force_regenerate:
-            print(f'Audio file already exists: {expected_audio_path}')
-            continue
-        elif os.path.exists(expected_audio_path) and force_regenerate:
+        if not force_regenerate:
+            # Use validation system to check if regeneration is needed
+            needs_regen, reason = needs_regeneration(
+                expected_audio_path,
+                translation_text,
+                voice,
+                service,
+                lang_code
+            )
+            
+            if not needs_regen:
+                print(f'✅ Audio file is up to date: {expected_audio_path}')
+                continue
+            else:
+                print(f'🔄 Audio needs regeneration: {reason}')
+        else:
             print(f'🔄 FORCE MODE: Regenerating existing file: {expected_audio_path}')
         
         print(f'Need to generate audio for: {item_id} -> {expected_audio_path}')
@@ -435,12 +449,36 @@ def main(
     user_id: str = None,
     api_key: str = None,
     force_regenerate: bool = False,
-    hi_fi: bool = False
+    hi_fi: bool = False,
+    validate_only: bool = False
 ):
     
-    # is a language which can then
-    # trigger the lang_code and voice
-    generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi)
+    if validate_only:
+        # Only validate audio files without regenerating
+        from utilities.audio_validation import validate_audio_files_for_language
+        import utilities.config as conf
+        
+        try:
+            language_dict = conf.get_languages()
+            translation_data = pd.read_csv(conf.item_bank_translations)
+            audio_base_dir = "audio_files"
+            
+            items_to_regenerate = validate_audio_files_for_language(
+                language, language_dict, translation_data, audio_base_dir
+            )
+            
+            if not items_to_regenerate.empty:
+                print(f"\n📝 Items that need regeneration saved to: needed_item_bank_translations.csv")
+                items_to_regenerate.to_csv("needed_item_bank_translations.csv", index=False)
+            else:
+                print(f"\n✅ All audio files for {language} are up to date!")
+                
+        except Exception as e:
+            print(f"❌ Validation failed: {e}")
+            return
+    else:
+        # Normal audio generation
+        generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi)
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate speech audio for translations')
@@ -450,6 +488,7 @@ if __name__ == "__main__":
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
     parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
+    parser.add_argument('--validate-only', action='store_true', help='Only validate audio files without regenerating them')
     
     args = parser.parse_args()
     
@@ -457,7 +496,8 @@ if __name__ == "__main__":
          user_id=args.user_id, 
          api_key=args.api_key,
          force_regenerate=args.force,
-         hi_fi=args.hi_fi)
+         hi_fi=args.hi_fi,
+         validate_only=args.validate_only)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 

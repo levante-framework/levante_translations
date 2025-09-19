@@ -54,7 +54,7 @@ function playAudio(itemId, langCode) {
      * Internal function to attempt audio playback with fallback logic
      */
     function tryPlayAudio(bucketLangCode, isRetry = false) {
-        const audioUrl = `https://storage.googleapis.com/levante-audio-dev/${bucketLangCode}/${itemId}.mp3`;
+        const audioUrl = `https://storage.googleapis.com/levante-assets-dev/audio/${bucketLangCode}/${itemId}.mp3`;
         console.log(`🎵 ${isRetry ? 'Trying fallback' : 'Playing'} audio: ${audioUrl}`);
         const audio = new Audio(audioUrl);
         audio.volume = 0.8;

@@ -69,17 +69,29 @@ def fetch_translations(output_path: str = None, force: bool = False) -> bool:
         else:
             print(f"✅ Validated CSV format: {len(first_line.split(','))} columns detected")
         
-        # Process the CSV header: only rename 'identifier' to 'item_id' for compatibility
+        # Process the CSV header: map columns for dashboard compatibility
         content_lines = content_str.split('\n')
         if content_lines:
             header = content_lines[0].strip('\r')
-            # Only fix identifier -> item_id mapping (no other changes)
+            changes_made = []
+            
+            # Map identifier -> item_id for compatibility
             if 'identifier' in header:
                 print("🔄 Mapping 'identifier' column to 'item_id' for compatibility...")
                 header = header.replace('identifier', 'item_id', 1)
+                changes_made.append("identifier→item_id")
+            
+            # Map text -> en for dashboard compatibility
+            if 'text' in header:
+                print("🔄 Mapping 'text' column to 'en' for dashboard compatibility...")
+                header = header.replace('text', 'en', 1)
+                changes_made.append("text→en")
+            
+            if changes_made:
                 content_lines[0] = header
                 processed_content = '\n'.join(content_lines)
                 content = processed_content.encode('utf-8')
+                print(f"✅ Applied column mappings: {', '.join(changes_made)}")
         
         # Write the file
         with open(output_path, 'wb') as f:

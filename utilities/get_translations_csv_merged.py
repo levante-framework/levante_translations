@@ -35,9 +35,11 @@ def fetch_csv_text(source_url: str) -> str:
 
 
 def remap_columns(df: pd.DataFrame) -> pd.DataFrame:
-	"""Only do essential column mapping: identifier -> item_id"""
+	"""Map columns for dashboard compatibility: identifier -> item_id, text -> en"""
 	if "identifier" in df.columns:
 		df = df.rename(columns={"identifier": "item_id"})
+	if "text" in df.columns:
+		df = df.rename(columns={"text": "en"})
 	return df
 
 
