@@ -185,8 +185,8 @@ const CONFIG = {
     
     // Data sources
     dataSources: {
-        // Prefer the same URL used by utilities/fetch_latest_translations.py
-        remoteCSV: 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv'
+        // Load from deployed dev bucket (with proper item_id column mapping)
+        remoteCSV: 'https://storage.googleapis.com/levante-dashboard-dev/itembank_translations.csv'
     }
 };
 

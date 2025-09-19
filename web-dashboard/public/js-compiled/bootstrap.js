@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loadCredentials();
             // Initialize language config app
             initLanguageConfigApp();
-            initAudioValidationApp();
         }
         else {
             // Retry in 50ms if modals aren't loaded yet
@@ -79,15 +78,11 @@ window.onclick = function (event) {
         return;
     const credentialsModal = document.getElementById('credentialsModal');
     const audioInfoModal = document.getElementById('audioInfoModal');
-    const audioValidationModal = document.getElementById('audioValidationModal');
     if (target === credentialsModal) {
         closeCredentialsModal();
     }
     else if (target === audioInfoModal) {
         closeAudioInfoModal();
-    }
-    else if (target === audioValidationModal) {
-        closeAudioValidationModal();
     }
 };
 // Function is globally available - no exports needed in non-module mode
