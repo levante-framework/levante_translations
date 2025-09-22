@@ -1,0 +1,290 @@
+{
+  "generated_at": "2025-09-19T16:16:00.154713",
+  "corrected_understanding": "Comma-separated spelled-out versions are BETTER for audio generation",
+  "summary": {
+    "total_items": 5,
+    "audio_exists_count": 5,
+    "excellent_count": 3,
+    "good_count": 0,
+    "moderate_count": 2,
+    "poor_count": 0,
+    "average_improvement": 0.5204
+  },
+  "results": [
+    {
+      "item_id": "number-identification-18",
+      "number": "245",
+      "spelled_out_text": "Escoge el,, doscientos, cuarenta y cinco.",
+      "spelled_out_score": 1.0,
+      "simple_alternative": "Escoge el 245.",
+      "simple_score": 0.308,
+      "improvement": 0.692,
+      "transcribed_text": "Escoge el 245.",
+      "audio_analysis": "Audio system normalized complex text to clean numeric; Audio system successfully handled comma separation",
+      "quality_score": null,
+      "quality_category": "🎯 Excellent - Spelled-out version works perfectly",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 1.0,
+        "fuzzy_token_ratio": 1.0,
+        "rouge_1_f": 0.999999995,
+        "rouge_l_f": 0.999999995,
+        "bleu_score": 1.0,
+        "overall_similarity": 0.9999999983333333
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escoge el 245.",
+        "similarity_score": 1.0,
+        "word_level_similarity": 1.0,
+        "perfect_matches": [
+          [
+            "escoge",
+            "escoge",
+            1.0
+          ],
+          [
+            "el",
+            "el",
+            1.0
+          ],
+          [
+            "245.",
+            "245.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [],
+        "word_error_rate": 0.0,
+        "validation_passed": true,
+        "validation_level": "EXCELLENT",
+        "recommendations": [
+          "Audio quality is excellent, no action needed"
+        ],
+        "original_cleaned": "escoge el 245.",
+        "transcribed_cleaned": "escoge el 245."
+      }
+    },
+    {
+      "item_id": "number-identification-20",
+      "number": "731",
+      "spelled_out_text": "Escoge, el,, setecientos, treinta y uno.",
+      "spelled_out_score": 0.929,
+      "simple_alternative": "Escoge el 731.",
+      "simple_score": 0.346,
+      "improvement": 0.5830000000000001,
+      "transcribed_text": "Escog el 7-31.",
+      "audio_analysis": "Audio system successfully handled comma separation",
+      "quality_score": null,
+      "quality_category": "🎯 Excellent - Spelled-out version works perfectly",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.9285714285714286,
+        "fuzzy_token_ratio": 0.8571428571428572,
+        "rouge_1_f": 0.2857142808163266,
+        "rouge_l_f": 0.2857142808163266,
+        "bleu_score": 0.09128709291752769,
+        "overall_similarity": 0.43519093410176096
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escog el 7-31.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "el",
+            "el",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 731.",
+        "transcribed_cleaned": "escog el 7 31."
+      }
+    },
+    {
+      "item_id": "number-identification-21",
+      "number": "989",
+      "spelled_out_text": "Escoge,, el,, novecientos ochenta y nueve",
+      "spelled_out_score": 0.923,
+      "simple_alternative": "Escoge el 989.",
+      "simple_score": 0.308,
+      "improvement": 0.615,
+      "transcribed_text": "Escogel 989.",
+      "audio_analysis": "Audio system normalized complex text to clean numeric; Audio system successfully handled comma separation",
+      "quality_score": null,
+      "quality_category": "🎯 Excellent - Spelled-out version works perfectly",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.923076923076923,
+        "fuzzy_token_ratio": 0.8461538461538461,
+        "rouge_1_f": 0.39999999520000007,
+        "rouge_l_f": 0.39999999520000007,
+        "bleu_score": 0.13562437855552414,
+        "overall_similarity": 0.48623376561081577
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escogel 989.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "989.",
+            "989.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "el",
+            "escogel",
+            0.4444444444444444
+          ]
+        ],
+        "word_error_rate": 0.6666666666666666,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 0.667",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 989.",
+        "transcribed_cleaned": "escogel 989."
+      }
+    },
+    {
+      "item_id": "number-identification-31",
+      "number": "66",
+      "spelled_out_text": "Escoge, el, 66.",
+      "spelled_out_score": 0.636,
+      "simple_alternative": "Escoge el 66.",
+      "simple_score": 0.308,
+      "improvement": 0.328,
+      "transcribed_text": "Escógil66",
+      "audio_analysis": "Audio system successfully converted spelled-out to numeric; Audio system successfully handled comma separation",
+      "quality_score": null,
+      "quality_category": "⚠️ Moderate - Spelled-out version better than simple",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.6363636363636364,
+        "fuzzy_token_ratio": 0.36363636363636365,
+        "rouge_1_f": 0.0,
+        "rouge_l_f": 0.0,
+        "bleu_score": 0,
+        "overall_similarity": 0.21212121212121213
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escógil66",
+        "similarity_score": 0.0,
+        "word_level_similarity": 0.0,
+        "perfect_matches": [],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "escoge",
+            "escógil66",
+            0.5333333333333333
+          ],
+          [
+            "el",
+            "escógil66",
+            0.36363636363636365
+          ],
+          [
+            "66.",
+            "escógil66",
+            0.36363636363636365
+          ]
+        ],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.000, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 66.",
+        "transcribed_cleaned": "escógil66"
+      }
+    },
+    {
+      "item_id": "number-identification-36",
+      "number": "131",
+      "spelled_out_text": "Escoge,, el ciento, treinta y uno",
+      "spelled_out_score": 0.692,
+      "simple_alternative": "Escoge el 131.",
+      "simple_score": 0.308,
+      "improvement": 0.38399999999999995,
+      "transcribed_text": "Escójen 131.",
+      "audio_analysis": "Audio system normalized complex text to clean numeric; Audio system successfully handled comma separation",
+      "quality_score": null,
+      "quality_category": "⚠️ Moderate - Spelled-out version better than simple",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.6923076923076923,
+        "fuzzy_token_ratio": 0.6923076923076923,
+        "rouge_1_f": 0.39999999520000007,
+        "rouge_l_f": 0.39999999520000007,
+        "bleu_score": 0.13562437855552414,
+        "overall_similarity": 0.40931068868773884
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escójen 131.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "131.",
+            "131.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "escoge",
+            "escójen",
+            0.6153846153846154
+          ],
+          [
+            "el",
+            "escójen",
+            0.2222222222222222
+          ]
+        ],
+        "word_error_rate": 0.6666666666666666,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 0.667",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 131.",
+        "transcribed_cleaned": "escójen 131."
+      }
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "generated_at": "2025-09-19T15:42:40.180180",
+  "summary": {
+    "total_items": 4,
+    "text_changed_count": 0,
+    "audio_exists_count": 4,
+    "improved_count": 4,
+    "excellent_count": 3,
+    "warning_count": 1,
+    "poor_count": 0,
+    "no_validation_count": 0,
+    "average_improvement": 0.5504849624060151
+  },
+  "results": [
+    {
+      "item_id": "number-identification-20",
+      "category": "Math - Number Identification",
+      "old_text": "Escoge, el,, setecientos, treinta y uno.",
+      "new_text": "Escoge, el,, setecientos, treinta y uno.",
+      "text_changed": false,
+      "old_similarity": 0.346,
+      "new_similarity": 0.9285714285714286,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "Escog el 7-31.",
+      "transcription_analysis": "Missing: y, el,,, escoge,, uno., treinta, setecientos,; Extra: escog, 7-31., el",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "✅ Excellent - No action needed",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.9285714285714286,
+        "fuzzy_token_ratio": 0.8571428571428572,
+        "rouge_1_f": 0.2857142808163266,
+        "rouge_l_f": 0.2857142808163266,
+        "bleu_score": 0.09128709291752769,
+        "overall_similarity": 0.43519093410176096
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escog el 7-31.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "el",
+            "el",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 731.",
+        "transcribed_cleaned": "escog el 7 31."
+      }
+    },
+    {
+      "item_id": "vocab-item-119",
+      "category": "Vocabulary - Action Verb",
+      "old_text": "traer",
+      "new_text": "traer",
+      "text_changed": false,
+      "old_similarity": 0.346,
+      "new_similarity": 1.0,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "traer",
+      "transcription_analysis": "Perfect match",
+      "quality_score": null,
+      "old_issues": "Simple word, should be high quality",
+      "audio_exists": true,
+      "audio_size_mb": 0.0,
+      "recommendation": "✅ Excellent - No action needed",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 1.0,
+        "fuzzy_token_ratio": 1.0,
+        "rouge_1_f": 0.999999995,
+        "rouge_l_f": 0.999999995,
+        "bleu_score": 0.316227766016838,
+        "overall_similarity": 0.772075920338946
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "traer",
+        "similarity_score": 1.0,
+        "word_level_similarity": 1.0,
+        "perfect_matches": [
+          [
+            "traer",
+            "traer",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 1,
+        "mismatched_words": [],
+        "word_error_rate": 0.0,
+        "validation_passed": true,
+        "validation_level": "EXCELLENT",
+        "recommendations": [
+          "Audio quality is excellent, no action needed"
+        ],
+        "original_cleaned": "traer",
+        "transcribed_cleaned": "traer"
+      }
+    },
+    {
+      "item_id": "vocab-item-034",
+      "category": "Vocabulary - Game/Activity",
+      "old_text": "la golosa",
+      "new_text": "la golosa",
+      "text_changed": false,
+      "old_similarity": 0.365,
+      "new_similarity": 0.9473684210526315,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "La golosa.",
+      "transcription_analysis": "Missing: golosa; Extra: golosa.",
+      "quality_score": null,
+      "old_issues": "Regional term for hopscotch",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "✅ Excellent - No action needed",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.9473684210526316,
+        "fuzzy_token_ratio": 0.9473684210526316,
+        "rouge_1_f": 0.999999995,
+        "rouge_l_f": 0.999999995,
+        "bleu_score": 0.223606797749979,
+        "overall_similarity": 0.7236584046008702
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "La golosa.",
+        "similarity_score": 1.0,
+        "word_level_similarity": 1.0,
+        "perfect_matches": [
+          [
+            "la",
+            "la",
+            1.0
+          ],
+          [
+            "golosa",
+            "golosa.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 2,
+        "mismatched_words": [],
+        "word_error_rate": 0.5,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 1.000, WER: 0.500",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "la golosa",
+        "transcribed_cleaned": "la golosa."
+      }
+    },
+    {
+      "item_id": "vocab-item-028",
+      "category": "Vocabulary - Household Item",
+      "old_text": "la lavapiés",
+      "new_text": "la lavapiés",
+      "text_changed": false,
+      "old_similarity": 0.367,
+      "new_similarity": 0.75,
+      "improvement_category": "📈 Major Improvement",
+      "transcribed_text": "La lava pier.",
+      "transcription_analysis": "Missing: lavapiés; Extra: pier., lava",
+      "quality_score": null,
+      "old_issues": "Compound word translation",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "⚠️ Good - Monitor for consistency",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.75,
+        "fuzzy_token_ratio": 0.75,
+        "rouge_1_f": 0.39999999520000007,
+        "rouge_l_f": 0.39999999520000007,
+        "bleu_score": 0.12909944487358058,
+        "overall_similarity": 0.4263664800245269
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "La lava pier.",
+        "similarity_score": 0.5,
+        "word_level_similarity": 0.5,
+        "perfect_matches": [
+          [
+            "la",
+            "la",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 2,
+        "mismatched_words": [
+          [
+            "lavapiés",
+            "lava",
+            0.6666666666666666
+          ]
+        ],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.500, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "la lavapiés",
+        "transcribed_cleaned": "la lava pier."
+      }
+    }
+  ]
+}

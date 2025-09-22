@@ -1,0 +1,58 @@
+[
+  {
+    "item_id": "number-identification-20",
+    "old_text": "Escoge, el,, setecientos, treinta y uno.",
+    "new_text": "Escoge, el,, setecientos, treinta y uno.",
+    "text_changed": false,
+    "old_similarity": 0.346,
+    "new_similarity": 0.9285714285714286,
+    "improvement": "📈 +0.583",
+    "transcribed_text": "Escog el 7-31.",
+    "quality_score": null,
+    "old_issues": "Comma-separated text causing parsing issues",
+    "audio_exists": true,
+    "audio_size_mb": 0.01
+  },
+  {
+    "item_id": "vocab-item-119",
+    "old_text": "traer",
+    "new_text": "traer",
+    "text_changed": false,
+    "old_similarity": 0.346,
+    "new_similarity": 1.0,
+    "improvement": "📈 +0.654",
+    "transcribed_text": "traer",
+    "quality_score": null,
+    "old_issues": "Simple word, should be high quality",
+    "audio_exists": true,
+    "audio_size_mb": 0.0
+  },
+  {
+    "item_id": "vocab-item-034",
+    "old_text": "la golosa",
+    "new_text": "la golosa",
+    "text_changed": false,
+    "old_similarity": 0.365,
+    "new_similarity": 0.9473684210526315,
+    "improvement": "📈 +0.582",
+    "transcribed_text": "La golosa.",
+    "quality_score": null,
+    "old_issues": "Regional term for hopscotch",
+    "audio_exists": true,
+    "audio_size_mb": 0.01
+  },
+  {
+    "item_id": "vocab-item-028",
+    "old_text": "la lavapiés",
+    "new_text": "la lavapiés",
+    "text_changed": false,
+    "old_similarity": 0.367,
+    "new_similarity": 0.75,
+    "improvement": "📈 +0.383",
+    "transcribed_text": "La lava pier.",
+    "quality_score": null,
+    "old_issues": "Compound word translation",
+    "audio_exists": true,
+    "audio_size_mb": 0.01
+  }
+]

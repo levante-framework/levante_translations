@@ -1,0 +1,303 @@
+{
+  "generated_at": "2025-09-19T15:47:29.037275",
+  "focus": "Number identification items with comma-separated text issues",
+  "summary": {
+    "total_items": 5,
+    "text_changed_count": 2,
+    "audio_exists_count": 5,
+    "improved_count": 5,
+    "excellent_count": 3,
+    "warning_count": 0,
+    "poor_count": 2,
+    "no_validation_count": 0,
+    "average_improvement": 0.520463936063936,
+    "comma_issues_resolved": 3
+  },
+  "results": [
+    {
+      "item_id": "number-identification-18",
+      "number": "245",
+      "old_text": "Escoge el,, doscientos, cuarenta y cinco.",
+      "new_text": "Escoge el,, doscientos, cuarenta y cinco.",
+      "text_changed": false,
+      "old_similarity": 0.308,
+      "new_similarity": 1.0,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "Escoge el 245.",
+      "transcription_analysis": "Missing: cuarenta, y, cinco., doscientos,, el,,; Extra: 245., el; Unexpected number 245; Commas removed",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "✅ Excellent - Comma issues resolved",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 1.0,
+        "fuzzy_token_ratio": 1.0,
+        "rouge_1_f": 0.999999995,
+        "rouge_l_f": 0.999999995,
+        "bleu_score": 1.0,
+        "overall_similarity": 0.9999999983333333
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escoge el 245.",
+        "similarity_score": 1.0,
+        "word_level_similarity": 1.0,
+        "perfect_matches": [
+          [
+            "escoge",
+            "escoge",
+            1.0
+          ],
+          [
+            "el",
+            "el",
+            1.0
+          ],
+          [
+            "245.",
+            "245.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [],
+        "word_error_rate": 0.0,
+        "validation_passed": true,
+        "validation_level": "EXCELLENT",
+        "recommendations": [
+          "Audio quality is excellent, no action needed"
+        ],
+        "original_cleaned": "escoge el 245.",
+        "transcribed_cleaned": "escoge el 245."
+      }
+    },
+    {
+      "item_id": "number-identification-20",
+      "number": "731",
+      "old_text": "Escoge, el,, setecientos, treinta y uno.",
+      "new_text": "Escoge, el,, setecientos, treinta y uno.",
+      "text_changed": false,
+      "old_similarity": 0.346,
+      "new_similarity": 0.9285714285714286,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "Escog el 7-31.",
+      "transcription_analysis": "Missing: y, setecientos,, treinta, el,,, escoge,, uno.; Extra: 7-31., el, escog; Commas removed",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "✅ Excellent - Comma issues resolved",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.9285714285714286,
+        "fuzzy_token_ratio": 0.8571428571428572,
+        "rouge_1_f": 0.2857142808163266,
+        "rouge_l_f": 0.2857142808163266,
+        "bleu_score": 0.09128709291752769,
+        "overall_similarity": 0.43519093410176096
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escog el 7-31.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "el",
+            "el",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 731.",
+        "transcribed_cleaned": "escog el 7 31."
+      }
+    },
+    {
+      "item_id": "number-identification-21",
+      "number": "989",
+      "old_text": " Escoge,, el,, novecientos ochenta y nueve",
+      "new_text": "Escoge,, el,, novecientos ochenta y nueve",
+      "text_changed": true,
+      "old_similarity": 0.308,
+      "new_similarity": 0.9230769230769231,
+      "improvement_category": "🚀 Dramatic Improvement",
+      "transcribed_text": "Escogel 989.",
+      "transcription_analysis": "Missing: nueve, y, novecientos, escoge,,, el,,, ochenta; Extra: escogel, 989.; Unexpected number 989; Commas removed",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "✅ Excellent - Comma issues resolved",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.923076923076923,
+        "fuzzy_token_ratio": 0.8461538461538461,
+        "rouge_1_f": 0.39999999520000007,
+        "rouge_l_f": 0.39999999520000007,
+        "bleu_score": 0.13562437855552414,
+        "overall_similarity": 0.48623376561081577
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escogel 989.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "989.",
+            "989.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "el",
+            "escogel",
+            0.4444444444444444
+          ]
+        ],
+        "word_error_rate": 0.6666666666666666,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 0.667",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 989.",
+        "transcribed_cleaned": "escogel 989."
+      }
+    },
+    {
+      "item_id": "number-identification-31",
+      "number": "66",
+      "old_text": "Escoge, el, 66.",
+      "new_text": "Escoge, el, 66.",
+      "text_changed": false,
+      "old_similarity": 0.308,
+      "new_similarity": 0.6363636363636364,
+      "improvement_category": "📈 Major Improvement",
+      "transcribed_text": "Escógil66",
+      "transcription_analysis": "Missing: 66., escoge,, el,; Extra: escógil66; Commas removed",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "🔴 Needs attention - Comma issues persist",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.6363636363636364,
+        "fuzzy_token_ratio": 0.36363636363636365,
+        "rouge_1_f": 0.0,
+        "rouge_l_f": 0.0,
+        "bleu_score": 0,
+        "overall_similarity": 0.21212121212121213
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escógil66",
+        "similarity_score": 0.0,
+        "word_level_similarity": 0.0,
+        "perfect_matches": [],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "escoge",
+            "escógil66",
+            0.5333333333333333
+          ],
+          [
+            "el",
+            "escógil66",
+            0.36363636363636365
+          ],
+          [
+            "66.",
+            "escógil66",
+            0.36363636363636365
+          ]
+        ],
+        "word_error_rate": 1.0,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.000, WER: 1.000",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 66.",
+        "transcribed_cleaned": "escógil66"
+      }
+    },
+    {
+      "item_id": "number-identification-36",
+      "number": "131",
+      "old_text": " Escoge,, el ciento, treinta y uno",
+      "new_text": "Escoge,, el ciento, treinta y uno",
+      "text_changed": true,
+      "old_similarity": 0.308,
+      "new_similarity": 0.6923076923076923,
+      "improvement_category": "📈 Major Improvement",
+      "transcribed_text": "Escójen 131.",
+      "transcription_analysis": "Missing: ciento,, y, escoge,,, treinta, el, uno; Extra: 131., escójen; Unexpected number 131; Commas removed",
+      "quality_score": null,
+      "old_issues": "Comma-separated text causing parsing issues",
+      "audio_exists": true,
+      "audio_size_mb": 0.01,
+      "recommendation": "🔴 Needs attention - Comma issues persist",
+      "comprehensive_metrics": {
+        "fuzzy_ratio": 0.6923076923076923,
+        "fuzzy_token_ratio": 0.6923076923076923,
+        "rouge_1_f": 0.39999999520000007,
+        "rouge_l_f": 0.39999999520000007,
+        "bleu_score": 0.13562437855552414,
+        "overall_similarity": 0.40931068868773884
+      },
+      "elevenlabs_validation": {
+        "transcribed_text": "Escójen 131.",
+        "similarity_score": 0.3333333333333333,
+        "word_level_similarity": 0.3333333333333333,
+        "perfect_matches": [
+          [
+            "131.",
+            "131.",
+            1.0
+          ]
+        ],
+        "phonetic_matches": [],
+        "total_words": 3,
+        "mismatched_words": [
+          [
+            "escoge",
+            "escójen",
+            0.6153846153846154
+          ],
+          [
+            "el",
+            "escójen",
+            0.2222222222222222
+          ]
+        ],
+        "word_error_rate": 0.6666666666666666,
+        "validation_passed": false,
+        "validation_level": "NEEDS_REVIEW",
+        "recommendations": [
+          "Audio quality below acceptable threshold",
+          "Similarity: 0.333, WER: 0.667",
+          "Consider regenerating audio or reviewing input text"
+        ],
+        "original_cleaned": "escoge el 131.",
+        "transcribed_cleaned": "escójen 131."
+      }
+    }
+  ]
+}
