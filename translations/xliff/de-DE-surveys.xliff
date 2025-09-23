@@ -11808,4 +11808,82 @@ completetext</context>
       </trans-unit>
     </body>
   </file>
+  <file id="712" original="/main/surveys/surveyjs.xliff" source-language="en" target-language="de" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="150544" resname="startsurveytext" approved="yes">
+        <source>Start Survey</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+startsurveytext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150546" resname="pageprevtext" approved="yes">
+        <source>Previous</source>
+        <target state="final">Previous</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pageprevtext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150548" resname="pagenexttext" approved="yes">
+        <source>Next</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pagenexttext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150550" resname="completetext" approved="yes">
+        <source>Finish</source>
+        <target state="final">Finish</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+completetext</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+  <file id="716" original="/surveys/surveyjs.xliff" source-language="en" target-language="de" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="150552" resname="startsurveytext" approved="yes">
+        <source>Start Survey</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+startsurveytext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150554" resname="pageprevtext" approved="yes">
+        <source>Previous</source>
+        <target state="final">Previous</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pageprevtext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150556" resname="pagenexttext" approved="yes">
+        <source>Next</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pagenexttext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150558" resname="completetext" approved="yes">
+        <source>Finish</source>
+        <target state="final">Finish</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+completetext</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
