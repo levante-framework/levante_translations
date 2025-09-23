@@ -2657,7 +2657,7 @@ Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Es
       </trans-unit>
       <trans-unit id="51683" resname="ToM-intro" approved="yes">
         <source>This is the Stories Game. In this game, you will listen to some stories. Then you will answer questions about the stories.</source>
-        <target state="final">Este es el Juego de las historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias.</target>
+        <target state="final">Este es el Juego de las Historias. En este juego vas a escuchar algunas historias y luego vas a responder preguntas sobre esas historias. </target>
         <context-group purpose="information">
           <context context-type="source">ToM-intro
 </context>
@@ -5364,6 +5364,7 @@ Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. &quot;¿Ven
           <context context-type="x-crowdin-label-1">vocab</context>
           <context context-type="x-crowdin-label-2">Vocabulary</context>
         </context-group>
+        <note from="Amy Lightbody (alkuhns)" priority="4">This item is not part of the Spanish, Colombia item bank.</note>
       </trans-unit>
       <trans-unit id="52147" resname="vocab-item-065" approved="yes">
         <source>the spatula</source>
@@ -5908,7 +5909,7 @@ Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. &quot;¿Ven
       </trans-unit>
       <trans-unit id="52245" resname="vocab-item-114" approved="yes">
         <source>the dentist</source>
-        <target state="final">la dentista</target>
+        <target state="final">dentista </target>
         <context-group purpose="information">
           <context context-type="source">vocab-item-114
 </context>
@@ -7088,7 +7089,8 @@ Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. &quot;¿Ven
       </trans-unit>
       <trans-unit id="52465" resname="ToM-scene-9-instruct1" approved="yes">
         <source>This is Mark. Mark is playing a really silly game today and not saying any words all day long. Instead, Mark is drawing pictures. Mark is at the library, deciding which book he would like to read. Mom shows Mark two books, a book about cups and a book about hills.</source>
-        <target state="final">Este es Marco. Marco está jugando hoy un juego un poco loco en el que no dice ninguna palabra en todo el día. En vez de hablar, está haciendo dibujos. Marco está en la biblioteca, decidiendo qué libro le gustaría leer. La mamá le muestra a Marco dos libros: uno sobre tazas y otro sobre montañas.</target>
+        <target state="final">Este es Marco. Marco está jugando hoy un juego un poco loco en el que no dice ninguna palabra en todo el día. En vez de hablar, está haciendo dibujos. Marco está en la biblioteca, decidiendo qué libro le gustaría leer. La mamá le muestra a Marco dos libros: uno sobre tazas y otro sobre montañas.
+</target>
         <context-group purpose="information">
           <context context-type="source">ToM-scene-9-instruct1
 </context>
