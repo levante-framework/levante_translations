@@ -11844,6 +11844,21 @@ pagenexttext</context>
 completetext</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="150560" resname="progressText">
+        <source>Page {0} of {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">progressText</context>
+          <context context-type="x-crowdin-label">parent_survey_family</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150562" resname="requiredError">
+        <source>Response required</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">requiredError</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
