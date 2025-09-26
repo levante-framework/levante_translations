@@ -15,7 +15,7 @@ Some questions will note a specific timeframe to consider when answering. If no 
 &lt;br&gt;&lt;br&gt;
 We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;
 When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;Thank you</source>
-        <target state="final">¡Gracias a usted y a su niño(a) por participar en este proyecto de investigación!&lt;/b&gt;&lt;br&gt; Estimamos que diligenciar la siguiente encuesta le tomará aproximadamente 40 minutos. En la encuesta se le harán preguntas sobre su niño(a).&lt;br&gt;&lt;br&gt;Si tiene más de un niño(a) y solo uno participa en el proyecto de investigación, responda a las preguntas pensando únicamente en ese niño(a). Si tiene más de un(a) niño(a) y más de uno(a) participa en el proyecto de investigación, debe diligenciar esta encuesta por separado para cada niño(a) participante. &lt;br&gt;&lt;br&gt;En algunas preguntas se indica un marco temporal específico que debe tenerse en cuenta al responder. Si no se indica ningún marco temporal, puede pensar en cómo se aplica la respuesta a usted o a su niño(a) en general.&lt;br&gt;&lt;br&gt; Le agradecemos que responda la encuesta de la forma más precisa posible con la información de que dispone. Si tiene alguna duda, comuníquesela a quien apoya esta aplicación.&lt;br&gt;&lt;br&gt;Cuando esté listo(a) para empezar, seleccione el botón \&quot;Comenzar Encuesta\&quot;.&lt;br&gt;&lt;br&gt;¡Muchas gracias</target>
+        <target state="final">¡Gracias a usted y a su niño(a) por participar en este proyecto de investigación!&lt;/b&gt;&lt;br&gt; Estimamos que diligenciar la siguiente encuesta le tomará aproximadamente 40 minutos. En la encuesta se le harán preguntas sobre su niño(a).&lt;br&gt;&lt;br&gt;Si tiene más de un niño(a) y solo uno participa en el proyecto de investigación, responda a las preguntas pensando únicamente en ese niño(a). Si tiene más de un(a) niño(a) y más de uno(a) participa en el proyecto de investigación, debe diligenciar esta encuesta por separado para cada niño(a) participante. &lt;br&gt;&lt;br&gt;En algunas preguntas se indica un marco temporal específico que debe tenerse en cuenta al responder. Si no se indica ningún marco temporal, puede pensar en cómo se aplica la respuesta a usted o a su niño(a) en general.&lt;br&gt;&lt;br&gt; Le agradecemos que responda la encuesta de la forma más precisa posible con la información de que dispone. Si tiene alguna duda, comuníquesela a quien apoya esta aplicación.&lt;br&gt;&lt;br&gt;Cuando esté listo(a) para empezar, seleccione el botón &quot;Comenzar Encuesta&quot;.&lt;br&gt;&lt;br&gt;¡Muchas gracias!</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 introduction.q.caregiversurveyintroa.html
@@ -3535,7 +3535,7 @@ q.childbullyothers</context>
       </trans-unit>
       <trans-unit id="148690" resname="page12.q.caregiversectionintro3.html" approved="yes">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks questions related to learning.</source>
-        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks questions related to learning.</target>
+        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Esta sección hace preguntas relacionadas con el aprendizaje.</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page12.q.caregiversectionintro3.html
@@ -4203,7 +4203,8 @@ q.childsocialmedia</context>
       </trans-unit>
       <trans-unit id="148838" resname="page14.q.childefq.q.childefqintro.html" approved="yes">
         <source>&lt;b&gt;We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Always on their own (No support needed)&lt;br&gt;&lt;br&gt;</source>
-        <target state="final">&lt;b&gt;We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Always on their own (No support needed)&lt;br&gt;&lt;br&gt;</target>
+        <target state="final">&lt;b&gt;Nos interesa saber con qué frecuencia, de manera independiente, mientras que la mayoría de los niños estarán entre 3 y 2. Aquellos que todavía están desarrollándose y necesitan mucho apoyo deben recibir una calificación de 1. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Siempre por sí solos (No necesitan apoyo)&lt;br&gt;&lt;br&gt;
+</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page14.q.childefq.q.childefqintro.html
@@ -4554,7 +4555,7 @@ q.childefq</context>
       </trans-unit>
       <trans-unit id="148916" resname="page15.q.caregiversectionintro4.html" approved="yes">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks about your home environment.</source>
-        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks about your home environment.</target>
+        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;Esta sección pregunta sobre su entorno en el hogar.</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page15.q.caregiversectionintro4.html
@@ -6376,7 +6377,7 @@ Le agradecemos que responda la encuesta de la forma más precisa posible con la 
 
 Cuando esté listo(a) para empezar, seleccione el botón Comenzar Encuesta.
 
-¡Muchas gracias </target>
+¡Muchas gracias!</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_family.json
 introduction.q.caregiversurveyintrob.html
