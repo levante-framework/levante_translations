@@ -8983,14 +8983,17 @@ Algunas preguntas pueden ser fáciles para ti y algunas pueden ser difíciles. �
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="150494" resname="number-identification-45">
+      <trans-unit id="150494" resname="number-identification-45" approved="yes">
         <source>Choose the 3.</source>
-        <target state="needs-translation"/>
+        <target state="final">Escoge, el, 3. </target>
         <context-group purpose="information">
           <context context-type="source">number-identification-45
 </context>
           <context context-type="x-crowdin-label">math</context>
         </context-group>
+        <note from="David Cardinal (david_cardinal)" priority="4">It looks like someone suggested adding the accent. I clicked on that comment and I think it is now saved, but not approved.</note>
+        <note from="Amy Lightbody (alkuhns)" priority="4">Could you tell who suggested it? I don't think it should have an accent mark.</note>
+        <note from="David Cardinal (david_cardinal)" priority="4">Amusingly, I was mostly just looking for something to comment on in crowdin to see if I can get Slack integration working:)</note>
       </trans-unit>
       <trans-unit id="150570" resname="vocab-item-171" approved="yes">
         <source>the colander</source>
