@@ -364,24 +364,6 @@ npm run test:dry-run-all           # Test all deployments
 npm run help                       # Show available commands
 ```
 
-### Why Use npm Scripts?
-
-✅ **Consistent Interface**: Same `npm run` pattern for all commands  
-✅ **Cross-Platform**: Works on Windows, Mac, and Linux  
-✅ **Easy to Remember**: Descriptive command names  
-✅ **No Path Issues**: Scripts run from project root  
-✅ **Team Friendly**: Everyone uses the same commands
-
-## Contributing
-
-This project welcomes contributions! Please see:
-
-- **[Contributing Guide](.github/CONTRIBUTING.md)**: Comprehensive guide for contributors
-- **[Issue Templates](.github/ISSUE_TEMPLATE/)**: Report bugs or request features
-- **[GitHub Workflows](.github/workflows/)**: Automated testing and quality checks
-
-Before contributing, run `npm run test:dry-run-all` to ensure your changes work correctly.
-
 ## Troubleshooting
 
 ### Common Issues

@@ -287,20 +287,24 @@ def validate_core_tasks(core_tasks_path: str) -> bool:
     description = "Validate core-tasks repository with Cypress tests"
     return run_command(cmd, description, dry_run=False)
 
-def deploy_audio(environment: str, dry_run: bool = False, force: bool = False, no_delete: bool = False) -> bool:
+def deploy_audio(environment: str, dry_run: bool = False, force: bool = False, delete: bool = False) -> bool:
     """Deploy audio files using gsutil rsync (checksum)."""
     print_section(f"Audio Deployment to {environment.upper()}")
     bucket_name = get_audio_bucket_name(environment)
     source_path = f"{AUDIO_SOURCE_DIR}/"
     target_path = f"gs://{bucket_name}/{AUDIO_BUCKET_DIR}/"
     cmd = ["gsutil", "-m", "rsync", "-c", "-r"]
-    if not no_delete:
+    if delete:
         cmd.append("-d")
     if dry_run:
         cmd.append("-n")
     cmd.extend([source_path, target_path])
     print(f"📁 Source: {source_path}")
     print(f"🪣 Target: {target_path}")
+    if delete:
+        print("⚠️  DELETE mode enabled - will remove files not in local directory")
+    else:
+        print("🛡️  SAFE mode - will not delete existing files")
     if dry_run:
         print("🧪 DRY RUN - Audio files that would be synced:")
     return run_command(cmd, f"Sync audio files to {bucket_name}", dry_run)
@@ -396,7 +400,7 @@ def promote_xliff_from_dev_to_prod(languages_csv, dry_run=False):
 
 # NEW: ICU JSON sync to assets bucket
 
-def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = False, no_delete: bool = False) -> bool:
+def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = False, delete: bool = False) -> bool:
     """Sync ICU JSON files to levante-assets-* bucket under translations/icu/."""
     print_section(f"ICU JSON Mirror to Assets ({environment.upper()})")
     if not Path(ICU_SOURCE_DIR).exists():
@@ -408,20 +412,24 @@ def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = 
     if force:
         run_command(["gsutil", "-m", "rm", "-r", target_path], "Remove remote ICU dir (force)")
     cmd = ["gsutil", "-m", "rsync", "-c", "-r"]
-    if not no_delete:
+    if delete:
         cmd.append("-d")
     if dry_run:
         cmd.append("-n")
     cmd.extend([source_path, target_path])
     print(f"📁 Source: {source_path}")
     print(f"🪣 Target: {target_path}")
+    if delete:
+        print("⚠️  DELETE mode enabled - will remove files not in local directory")
+    else:
+        print("🛡️  SAFE mode - will not delete existing files")
     if dry_run:
         print("🧪 DRY RUN - ICU JSON files that would be synced:")
     return run_command(cmd, f"Sync ICU JSON to {target_path}", dry_run)
 
 # NEW: Fetch XLIFF from GitHub and mirror to assets bucket
 
-def deploy_xliff_to_assets_from_github(environment: str, dry_run: bool = False, force: bool = False, no_delete: bool = False) -> bool:
+def deploy_xliff_to_assets_from_github(environment: str, dry_run: bool = False, force: bool = False, delete: bool = False) -> bool:
     """Fetch XLIFF files from GitHub and rsync to gs://levante-assets-*/translations/xliff/."""
     print_section(f"XLIFF Mirror to Assets from GitHub ({environment.upper()})")
     try:
@@ -462,8 +470,14 @@ def deploy_xliff_to_assets_from_github(environment: str, dry_run: bool = False, 
         if force:
             run_command(["gsutil", "-m", "rm", "-r", target_path], "Remove remote XLIFF dir (force)")
         cmd = ["gsutil", "-m", "rsync", "-c", "-r", f"{tmpdir}/", target_path]
-        if not no_delete:
+        if delete:
             cmd.insert(5, "-d")
+        print(f"📁 Source: {tmpdir}/")
+        print(f"🪣 Target: {target_path}")
+        if delete:
+            print("⚠️  DELETE mode enabled - will remove files not in local directory")
+        else:
+            print("🛡️  SAFE mode - will not delete existing files")
         return run_command(cmd, f"Rsync XLIFF to {target_path}", dry_run)
 
 # NEW: CSV upload to levante-dashboard bucket via rsync
@@ -545,9 +559,9 @@ Examples:
         help='Force uploads (use cp instead of rsync)'
     )
     parser.add_argument(
-        '--no-delete',
+        '--delete',
         action='store_true',
-        help='Do not delete remote files that are missing locally (omit rsync -d)'
+        help='Delete remote files that are missing locally (use rsync -d)'
     )
 
     # Promotion options (dev → prod)
@@ -670,15 +684,15 @@ Examples:
         if csv_success:
             _ = deploy_csv_to_assets(args.environment, args.dry_run, args.force)
             # Also mirror ICU JSONs
-            _ = deploy_icu_to_assets(args.environment, args.dry_run, args.force, no_delete=args.no_delete)
+            _ = deploy_icu_to_assets(args.environment, args.dry_run, args.force, delete=args.delete)
             # And fetch+mirror XLIFF files from GitHub
-            _ = deploy_xliff_to_assets_from_github(args.environment, args.dry_run, args.force, no_delete=args.no_delete)
+            _ = deploy_xliff_to_assets_from_github(args.environment, args.dry_run, args.force, delete=args.delete)
         if not csv_success:
             print(f"\n❌ CSV deployment failed!")
     
     # Deploy Audio  
     if deploy_audio_flag:
-        audio_success = deploy_audio(args.environment, args.dry_run, args.force, no_delete=args.no_delete)
+        audio_success = deploy_audio(args.environment, args.dry_run, args.force, delete=args.delete)
         if not audio_success:
             print(f"\n❌ Audio deployment failed!")
     
