@@ -170,6 +170,8 @@ Output: `xliff/translations-icu/<lang>.json`
   - `translations/xliff/` for XLIFF mirrors
   - `translations/icu/` for ICU JSON mirrors (future dashboard/surveys use)
   - `surveys/` for SurveyJS assets (if deployed)
+  - `audio/` for audio files
+  - `audio/child-survey/` for child survey audio files
 
 ### Orchestration and commands
 
