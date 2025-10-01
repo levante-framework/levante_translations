@@ -257,6 +257,23 @@ async function listRepoLanguages() {
     }
 }
 
+// List files with a specific prefix in the bucket
+async function listFilesWithPrefix(bucketName, prefix) {
+    try {
+        const storage = await initializeGCS();
+        const bucket = storage.bucket(bucketName);
+        
+        // List all files with the given prefix
+        const [files] = await bucket.getFiles({ prefix: prefix });
+        
+        // Return just the file paths
+        return files.map(file => file.name);
+    } catch (err) {
+        console.warn('⚠️ Failed to list files with prefix:', err.message);
+        return [];
+    }
+}
+
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -275,7 +292,7 @@ export default async function handler(req, res) {
     }
     
     try {
-        const { itemId, langCode, list } = req.method === 'GET' ? req.query : req.body;
+        const { itemId, langCode, list, prefix } = req.method === 'GET' ? req.query : req.body;
         // Optional bucket override (default to assets-dev)
         const requestedBucket = (req.method === 'GET' ? req.query.bucket : req.body?.bucket) || '';
         const bucketOverride = typeof requestedBucket === 'string' && requestedBucket.trim().length > 0 ? requestedBucket.trim() : null;
@@ -290,6 +307,14 @@ export default async function handler(req, res) {
                 return;
             }
             const bucketName = bucketOverride || ASSETS_BUCKET;
+            
+            // Handle prefix parameter for listing files
+            if (prefix) {
+                const files = await listFilesWithPrefix(bucketName, prefix);
+                res.status(200).json({ bucket: bucketName, prefix: prefix, files: files });
+                return;
+            }
+            
             const languages = await listAudioLanguagesFromBucket(bucketName);
             res.status(200).json({ bucket: bucketName, languages });
             return;
@@ -341,10 +366,11 @@ export default async function handler(req, res) {
         let audioUrl = '';
         let targetBucket = bucketOverride || ASSETS_BUCKET;
         const encItemId = encodeURIComponent(itemId);
+        const audioPrefix = prefix ? `${prefix}/` : '';
         if (source === 'repo') {
-            audioUrl = `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${encodeURIComponent(langCode)}/${encItemId}.mp3`;
+            audioUrl = `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${audioPrefix}${encodeURIComponent(langCode)}/${encItemId}.mp3`;
         } else {
-            audioUrl = `https://storage.googleapis.com/${encodeURIComponent(targetBucket)}/audio/${encodeURIComponent(langCode)}/${encItemId}.mp3`;
+            audioUrl = `https://storage.googleapis.com/${encodeURIComponent(targetBucket)}/audio/${audioPrefix}${encodeURIComponent(langCode)}/${encItemId}.mp3`;
         }
         
         console.log(`🔍 Reading metadata for: ${itemId} in ${langCode}`);
