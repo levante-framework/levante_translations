@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Languages Preflight Readiness Report</title>
+	<title>Assets Preflight Readiness Report</title>
 	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 	<link rel="stylesheet" href="./styles.css">
@@ -25,7 +25,7 @@
 	</style>
 </head>
 <body>
-	<h1><i class="fas fa-clipboard-list"></i> Languages Preflight Readiness Report</h1>
+	<h1><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
 	<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
 		<label for="envSelect" class="small" style="font-weight: 600;">Environment:</label>
 		<select id="envSelect" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; background: white; font-size: 13px;">
@@ -34,6 +34,11 @@
 		</select>
 		<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
 	</div>
+	
+	<div class="section" id="translationsAuditSection">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Translations Audit</h2>
+	</div>
+	
 	<table class="table" id="reportTable" aria-label="Languages Preflight Readiness table">
 		<thead>
 			<tr>
@@ -262,6 +267,14 @@
 			if (parts.length === 2) {
 				return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${parts[0]}/${parts[1]}/${lower}-componentTranslations.json`;
 			}
+			// Special handling for 'en' - try both en and en-US paths
+			if (lower === 'en') {
+				// First try the standard path
+				const standardPath = `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${lower}/${lower}-componentTranslations.json`;
+				// Also try en-US as fallback
+				const enUSPath = `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/en/us/en-US-componentTranslations.json`;
+				return standardPath; // We'll handle the fallback in the calling function
+			}
 			return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${lower}/${lower}-componentTranslations.json`;
 		}
 		async function fetchDashboardJson(code) {
@@ -284,7 +297,14 @@
 			let exactMatch = false;
 			let baseMatch = false;
 			try { const r = await fetch(exactUrl, { method: 'HEAD', cache: 'no-cache' }); if (r.ok) exactMatch = true; } catch (e) {}
-			if (!exactMatch && lang.includes('-')) {
+			
+			// Special handling for 'en' - try en-US fallback
+			if (!exactMatch && lang === 'en') {
+				const enUSUrl = `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/en/us/en-US-componentTranslations.json`;
+				try { const r = await fetch(enUSUrl, { method: 'HEAD', cache: 'no-cache' }); if (r.ok) baseMatch = true; } catch (e) {}
+			}
+			
+			if (!exactMatch && !baseMatch && lang.includes('-')) {
 				const baseUrl = await fetchDashboardJsonPath(toBase(lang));
 				try { const r2 = await fetch(baseUrl, { method: 'HEAD', cache: 'no-cache' }); if (r2.ok) baseMatch = true; } catch (e) {}
 			}
