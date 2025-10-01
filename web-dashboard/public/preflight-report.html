@@ -26,7 +26,14 @@
 </head>
 <body>
 	<h1><i class="fas fa-clipboard-list"></i> Languages Preflight Readiness Report</h1>
-	<p class="small">Environment: <span id="envLabel" class="code">dev</span></p>
+	<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+		<label for="envSelect" class="small" style="font-weight: 600;">Environment:</label>
+		<select id="envSelect" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; background: white; font-size: 13px;">
+			<option value="dev">Dev</option>
+			<option value="prod">Prod</option>
+		</select>
+		<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
+	</div>
 	<table class="table" id="reportTable" aria-label="Languages Preflight Readiness table">
 		<thead>
 			<tr>
@@ -58,6 +65,43 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="section" id="audioAuditsSection">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Audio Assets Audit</h2>
+		<div id="audioPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="audioAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Bucket: <span id="audioBucket" class="code"></span> · Prefix: <span id="audioPrefix" class="code">audio/</span></p>
+				<p id="audioSummary" class="small">Loading…</p>
+				<p class="small"><span id="audioDetails" class="link" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
+			</div>
+			<div id="audioAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Bucket: <span id="audioBucketProd" class="code"></span> · Prefix: <span id="audioPrefixProd" class="code">audio/</span></p>
+				<p id="audioSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="audioDetailsProd" class="link" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="coreTasksAuditsSection">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Core Tasks Audit</h2>
+		<div id="coreTasksPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="coreTasksAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Bucket: <span id="coreTasksBucket" class="code"></span> · Prefix: <span id="coreTasksPrefix" class="code">corpus/</span></p>
+				<p id="coreTasksSummary" class="small">Loading…</p>
+				<p class="small"><span id="coreTasksDetails" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+			<div id="coreTasksAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Bucket: <span id="coreTasksBucketProd" class="code"></span> · Prefix: <span id="coreTasksPrefixProd" class="code">corpus/</span></p>
+				<p id="coreTasksSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="coreTasksDetailsProd" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+		</div>
+	</div>
+
 	<div class="footer">
 		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
 		<div class="small" style="margin-top:6px;">
@@ -71,9 +115,50 @@
 
 	<script>
 	(async function() {
+		// Environment handling
+		let env = 'dev';
+		
+		// Initialize from URL parameters
 		const urlParams = new URLSearchParams(window.location.search);
-		const env = (urlParams.get('env') || 'dev').toLowerCase();
-		document.getElementById('envLabel').textContent = env;
+		const urlEnv = urlParams.get('env');
+		if (urlEnv === 'prod' || urlEnv === 'dev') {
+			env = urlEnv.toLowerCase();
+		}
+		
+		// Set up environment selector
+		const envSelect = document.getElementById('envSelect');
+		const refreshBtn = document.getElementById('refreshBtn');
+		
+		envSelect.value = env;
+		
+		// Environment change handler
+		envSelect.addEventListener('change', () => {
+			env = envSelect.value;
+			refreshReport();
+		});
+		
+		// Refresh button handler
+		refreshBtn.addEventListener('click', () => {
+			refreshReport();
+		});
+		
+		// Function to refresh the entire report
+		async function refreshReport() {
+			// Clear existing content
+			document.querySelector('#reportTable tbody').innerHTML = '';
+			document.getElementById('visualSummary').textContent = 'Loading…';
+			document.getElementById('visualSummaryProd').textContent = 'Loading…';
+			document.getElementById('audioSummary').textContent = 'Loading…';
+			document.getElementById('audioSummaryProd').textContent = 'Loading…';
+			document.getElementById('coreTasksSummary').textContent = 'Loading…';
+			document.getElementById('coreTasksSummaryProd').textContent = 'Loading…';
+			
+			// Reload all data
+			await loadReportData();
+		}
+		
+		// Main data loading function
+		async function loadReportData() {
 
 		// Load dashboard config and CSV data
 		const cfg = await fetch('./config.js').then(r => r.text()).then(js => { const m = {}; const f = new Function('module', js + '; return module.exports;'); return f(m); }).catch(() => ({}));
@@ -340,54 +425,302 @@
 			}
 		}
 
-		await refreshVisualAudit();
-		await refreshVisualAuditProd();
-
-		const fixBtn = document.getElementById('visualFixBtn');
-		if (fixBtn) {
-			fixBtn.addEventListener('click', async () => {
-				const prev = fixBtn.textContent;
-				fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
-				try {
-					const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
-					if (res.ok) {
-						const data = await res.json();
-						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
-						alert(`WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
-						await refreshVisualAudit();
-					} else {
-						alert('Fix failed: API error');
-					}
-				} catch (e) {
-					alert('Fix failed: ' + (e && e.message ? e.message : 'unknown error'));
-				} finally {
-					fixBtn.disabled = false; fixBtn.textContent = prev;
+		// Audio assets audit (dev) + View Coverage
+		async function refreshAudioAudit() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-dev`, { cache: 'no-cache' });
+				if (!res.ok) { document.getElementById('audioSummary').textContent = 'Audio audit unavailable (API error)'; return; }
+				const data = await res.json();
+				document.getElementById('audioBucket').textContent = data.bucket || 'levante-assets-dev';
+				const languages = Array.isArray(data.languages) ? data.languages : [];
+				const totalLanguages = languages.length;
+				const summary = document.getElementById('audioSummary');
+				summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>`;
+				const detailsLink = document.getElementById('audioDetails');
+				const coverageBtn = document.getElementById('audioCoverageBtn');
+				if (totalLanguages > 0) {
+					detailsLink.style.display = '';
+					coverageBtn.style.display = '';
+					detailsLink.onclick = () => { alert('Available languages:\n- ' + languages.join('\n- ')); };
+					coverageBtn.onclick = () => { window.open('./audio-coverage.html?env=dev', '_blank'); };
+				} else {
+					detailsLink.style.display = 'none';
+					coverageBtn.style.display = 'none';
 				}
-			});
+			} catch (e) {
+				document.getElementById('audioSummary').textContent = 'Audio audit unavailable';
+			}
 		}
 
-		const fixBtnProd = document.getElementById('visualFixBtnProd');
-		if (fixBtnProd) {
-			fixBtnProd.addEventListener('click', async () => {
-				const prev = fixBtnProd.textContent;
-				fixBtnProd.disabled = true; fixBtnProd.textContent = 'Fixing…';
-				try {
-					const res = await fetch(`/api/visual-fix?env=prod&prefix=visual/&limit=200`, { method: 'POST' });
-					if (res.ok) {
-						const data = await res.json();
-						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
-						alert(`(prod) WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
-						await refreshVisualAuditProd();
-					} else {
-						alert('Fix failed (prod): API error');
-					}
-				} catch (e) {
-					alert('Fix failed (prod): ' + (e && e.message ? e.message : 'unknown error'));
-				} finally {
-					fixBtnProd.disabled = false; fixBtnProd.textContent = prev;
+		// Audio assets audit (prod) + View Coverage
+		async function refreshAudioAuditProd() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-prod`, { cache: 'no-cache' });
+				if (!res.ok) { const el = document.getElementById('audioSummaryProd'); if (el) el.textContent = 'Audio audit (prod) unavailable (API error)'; return; }
+				const data = await res.json();
+				const bucketEl = document.getElementById('audioBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
+				const languages = Array.isArray(data.languages) ? data.languages : [];
+				const totalLanguages = languages.length;
+				const summary = document.getElementById('audioSummaryProd');
+				if (summary) summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>`;
+				const detailsLink = document.getElementById('audioDetailsProd');
+				const coverageBtn = document.getElementById('audioCoverageBtnProd');
+				if (totalLanguages > 0) {
+					if (detailsLink) detailsLink.style.display = '';
+					if (coverageBtn) coverageBtn.style.display = '';
+					if (detailsLink) detailsLink.onclick = () => { alert('Available languages:\n- ' + languages.join('\n- ')); };
+					if (coverageBtn) coverageBtn.onclick = () => { window.open('./audio-coverage.html?env=prod', '_blank'); };
+				} else {
+					if (detailsLink) detailsLink.style.display = 'none';
+					if (coverageBtn) coverageBtn.style.display = 'none';
 				}
-			});
+			} catch (e) {
+				const el = document.getElementById('audioSummaryProd'); if (el) el.textContent = 'Audio audit (prod) unavailable';
+			}
 		}
+
+		// Core Tasks audit (dev) + Validate
+		async function refreshCoreTasksAudit() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-dev&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { document.getElementById('coreTasksSummary').textContent = 'Core tasks audit unavailable (API error)'; return; }
+				const data = await res.json();
+				document.getElementById('coreTasksBucket').textContent = data.bucket || 'levante-assets-dev';
+				const files = Array.isArray(data.files) ? data.files : [];
+				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+				const totalFiles = files.length;
+				const csvCount = csvFiles.length;
+				const summary = document.getElementById('coreTasksSummary');
+				summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('coreTasksDetails');
+				const validateBtn = document.getElementById('coreTasksValidateBtn');
+				if (totalFiles > 0) {
+					detailsLink.style.display = '';
+					validateBtn.style.display = '';
+					detailsLink.onclick = () => { 
+						const fileList = files.slice(0, 50).join('\n- ');
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
+						alert(`Corpus files (${files.length} total):\n- ${fileList}${moreText}`); 
+					};
+					validateBtn.onclick = () => { validateCoreTasks('dev'); };
+				} else {
+					detailsLink.style.display = 'none';
+					validateBtn.style.display = 'none';
+				}
+			} catch (e) {
+				document.getElementById('coreTasksSummary').textContent = 'Core tasks audit unavailable';
+			}
+		}
+
+		// Core Tasks audit (prod) + Validate
+		async function refreshCoreTasksAuditProd() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-prod&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { const el = document.getElementById('coreTasksSummaryProd'); if (el) el.textContent = 'Core tasks audit (prod) unavailable (API error)'; return; }
+				const data = await res.json();
+				const bucketEl = document.getElementById('coreTasksBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
+				const files = Array.isArray(data.files) ? data.files : [];
+				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+				const totalFiles = files.length;
+				const csvCount = csvFiles.length;
+				const summary = document.getElementById('coreTasksSummaryProd');
+				if (summary) summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('coreTasksDetailsProd');
+				const validateBtn = document.getElementById('coreTasksValidateBtnProd');
+				if (totalFiles > 0) {
+					if (detailsLink) detailsLink.style.display = '';
+					if (validateBtn) validateBtn.style.display = '';
+					if (detailsLink) detailsLink.onclick = () => { 
+						const fileList = files.slice(0, 50).join('\n- ');
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
+						alert(`Corpus files (${files.length} total):\n- ${fileList}${moreText}`); 
+					};
+					if (validateBtn) validateBtn.onclick = () => { validateCoreTasks('prod'); };
+				} else {
+					if (detailsLink) detailsLink.style.display = 'none';
+					if (validateBtn) validateBtn.style.display = 'none';
+				}
+			} catch (e) {
+				const el = document.getElementById('coreTasksSummaryProd'); if (el) el.textContent = 'Core tasks audit (prod) unavailable';
+			}
+		}
+
+		// Validate Core Tasks CSV contents
+		async function validateCoreTasks(environment) {
+			try {
+				const bucket = environment === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
+				
+				// Get corpus files
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { alert(`Failed to fetch corpus files from ${bucket}`); return; }
+				const data = await res.json();
+				const files = Array.isArray(data.files) ? data.files : [];
+				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+				
+				if (csvFiles.length === 0) {
+					alert(`No CSV files found in ${bucket}/corpus/`);
+					return;
+				}
+				
+				// Get current core tasks from item bank
+				const currentItems = await getCurrentCoreTasks();
+				
+				// Validate each CSV
+				let validationResults = [];
+				for (const csvFile of csvFiles) {
+					try {
+						const csvUrl = `https://storage.googleapis.com/${bucket}/${csvFile}`;
+						const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+						if (!csvRes.ok) continue;
+						
+						const csvText = await csvRes.text();
+						const csvData = parseCSVWithEmbeddedNewlines(csvText);
+						
+						if (csvData.length === 0) continue;
+						
+						const header = csvData[0].map(h => h.trim());
+						const idIndex = header.findIndex(h => h.toLowerCase().includes('id') || h.toLowerCase().includes('item'));
+						
+						if (idIndex === -1) continue;
+						
+						const csvItems = new Set();
+						for (let i = 1; i < csvData.length; i++) {
+							const itemId = (csvData[i][idIndex] || '').toString().trim();
+							if (itemId) csvItems.add(itemId);
+						}
+						
+						// Compare with current items
+						const missing = currentItems.filter(id => !csvItems.has(id));
+						const extra = Array.from(csvItems).filter(id => !currentItems.includes(id));
+						const matching = currentItems.filter(id => csvItems.has(id));
+						
+						validationResults.push({
+							file: csvFile.split('/').pop(),
+							total: csvItems.size,
+							matching: matching.length,
+							missing: missing.length,
+							extra: extra.length,
+							coverage: currentItems.length > 0 ? Math.round((matching.length / currentItems.length) * 100) : 0
+						});
+					} catch (e) {
+						console.warn(`Failed to validate ${csvFile}:`, e);
+					}
+				}
+				
+				// Display results
+				if (validationResults.length === 0) {
+					alert(`No valid CSV files found in ${bucket}/corpus/`);
+					return;
+				}
+				
+				const resultsText = validationResults.map(r => 
+					`${r.file}:\n` +
+					`  Coverage: ${r.coverage}% (${r.matching}/${currentItems.length} items)\n` +
+					`  Missing: ${r.missing} items\n` +
+					`  Extra: ${r.extra} items\n` +
+					`  Total in CSV: ${r.total}`
+				).join('\n\n');
+				
+				alert(`Core Tasks Validation Results (${environment.toUpperCase()}):\n\nCurrent Items: ${currentItems.length}\n\n${resultsText}`);
+				
+			} catch (e) {
+				alert(`Validation failed: ${e.message}`);
+			}
+		}
+		
+		// Get current core tasks from item bank
+		async function getCurrentCoreTasks() {
+			try {
+				// Use the same CSV loading logic as the main report
+				const csvUrl = (CONFIG && CONFIG.dataSources && CONFIG.dataSources.remoteCSV) || 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+				const res = await fetch(csvUrl, { cache: 'no-cache' });
+				if (!res.ok) return [];
+				
+				const csvText = await res.text();
+				const rows = parseCSVWithEmbeddedNewlines(csvText);
+				if (rows.length === 0) return [];
+				
+				const header = rows[0].map(h => h.trim());
+				const idIndex = header.findIndex(h => h.toLowerCase().includes('item_id') || h.toLowerCase().includes('identifier'));
+				const taskIndex = header.findIndex(h => h.toLowerCase().includes('task') || h.toLowerCase().includes('label'));
+				
+				if (idIndex === -1) return [];
+				
+				const coreTasks = [];
+				for (let i = 1; i < rows.length; i++) {
+					const row = rows[i];
+					const itemId = (row[idIndex] || '').toString().trim();
+					const task = taskIndex >= 0 ? (row[taskIndex] || '').toString().trim().toLowerCase() : '';
+					
+					// Filter for core tasks (you may need to adjust this logic based on your data)
+					if (itemId && (task.includes('core') || task.includes('task') || task === '')) {
+						coreTasks.push(itemId);
+					}
+				}
+				
+				return coreTasks;
+			} catch (e) {
+				console.warn('Failed to load current core tasks:', e);
+				return [];
+			}
+		}
+
+			await refreshVisualAudit();
+			await refreshVisualAuditProd();
+			await refreshAudioAudit();
+			await refreshAudioAuditProd();
+			await refreshCoreTasksAudit();
+			await refreshCoreTasksAuditProd();
+
+			const fixBtn = document.getElementById('visualFixBtn');
+			if (fixBtn) {
+				fixBtn.addEventListener('click', async () => {
+					const prev = fixBtn.textContent;
+					fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
+					try {
+						const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
+						if (res.ok) {
+							const data = await res.json();
+							const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
+							alert(`WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
+							await refreshVisualAudit();
+						} else {
+							alert('Fix failed: API error');
+						}
+					} catch (e) {
+						alert('Fix failed: ' + (e && e.message ? e.message : 'unknown error'));
+					} finally {
+						fixBtn.disabled = false; fixBtn.textContent = prev;
+					}
+				});
+			}
+
+			const fixBtnProd = document.getElementById('visualFixBtnProd');
+			if (fixBtnProd) {
+				fixBtnProd.addEventListener('click', async () => {
+					const prev = fixBtnProd.textContent;
+					fixBtnProd.disabled = true; fixBtnProd.textContent = 'Fixing…';
+					try {
+						const res = await fetch(`/api/visual-fix?env=prod&prefix=visual/&limit=200`, { method: 'POST' });
+						if (res.ok) {
+							const data = await res.json();
+							const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
+							alert(`(prod) WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
+							await refreshVisualAuditProd();
+						} else {
+							alert('Fix failed (prod): API error');
+						}
+					} catch (e) {
+						alert('Fix failed (prod): ' + (e && e.message ? e.message : 'unknown error'));
+					} finally {
+						fixBtnProd.disabled = false; fixBtnProd.textContent = prev;
+					}
+				});
+			}
+		}
+		
+		// Initial load
+		await loadReportData();
 	})();
 	</script>
 </body>

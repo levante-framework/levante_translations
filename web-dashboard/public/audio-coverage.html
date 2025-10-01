@@ -78,6 +78,19 @@
       const val = (el && el.value || '').trim();
       return val || 'levante-assets-dev';
     }
+
+    // Check URL parameters for environment selection
+    function initializeFromUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const env = urlParams.get('env');
+      if (env === 'prod') {
+        document.getElementById('useProd').click();
+      } else if (env === 'dev') {
+        document.getElementById('useDev').click();
+      } else if (env === 'repo') {
+        document.getElementById('useRepo').click();
+      }
+    }
     function rememberBucket(val){ try{ localStorage.setItem('levante_audio_bucket', val); }catch(_){} }
     function rememberSource(val){ try{ localStorage.setItem('levante_audio_source', val); }catch(_){} }
     function updateSourceUI(){
@@ -620,6 +633,9 @@
 
     console.log('Debug function available: window.debugCoverage()');
     console.log('Child-survey counting function available: window.countChildSurveyFiles()');
+    
+    // Initialize from URL parameters
+    initializeFromUrlParams();
     
     build().catch(e=>{ console.error(e); alert('Failed to build coverage: '+e.message); });
   </script>
