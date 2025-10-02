@@ -17,6 +17,28 @@
 		.ok { background: #e7f7ec; color: #1f7a37; }
 		.warn { background: #fff7e6; color: #8a6d1f; }
 		.err { background: #fde7ea; color: #842029; }
+		
+		/* Stoplight button styles */
+		.stoplight.go { background: #059669; color: white; border-color: #059669; }
+		.stoplight.diff { background: #f59e0b; color: white; border-color: #f59e0b; cursor: pointer; }
+		.stoplight.diff:hover { background: #d97706; }
+		.stoplight.fail { background: #dc2626; color: white; border-color: #dc2626; }
+		.stoplight.loading { background: #6b7280; color: white; border-color: #6b7280; }
+		
+		/* Modal styles */
+		.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+		.modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; border-radius: 8px; width: 80%; max-width: 800px; max-height: 80vh; overflow-y: auto; }
+		.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+		.modal-title { font-size: 18px; font-weight: 600; color: #111827; }
+		.close { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+		.close:hover { color: #000; }
+		.modal-body { font-size: 14px; line-height: 1.5; }
+		.diff-section { margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 6px; }
+		.diff-section h4 { margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #374151; }
+		.diff-value { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+		.diff-comparison { display: flex; gap: 16px; align-items: center; }
+		.diff-item { flex: 1; text-align: center; }
+		.diff-arrow { font-size: 18px; color: #6b7280; }
 		.small { color: #374151; font-size: 12px; font-weight: 500; }
 		.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
 		.footer { margin-top: 16px; font-size: 12px; color: #6b7280; }
@@ -53,8 +75,22 @@
 		<tbody></tbody>
 	</table>
 
+	<div class="footer" style="margin: 16px 0;">
+		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
+		<div class="small" style="margin-top:6px;">
+			- <span class="badge ok">yes</span>: exact locale file exists in levante-dashboard (e.g., de-CH)
+			- <span class="badge warn">base</span>: only base language file exists (e.g., de)
+			- <span class="badge err">missing</span>: neither exact nor base locale file exists
+			- Surveys %: percentage of survey JSONs that include the locale (or base for fallback; English counts implicit defaults)
+			- From Crowdin: coverage of Item Bank CSV translations
+		</div>
+	</div>
+
 	<div class="section" id="visualAuditsSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Visual Assets Audit</h2>
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Visual Assets Audit</h2>
+			<button id="visualStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
 		<div id="visualPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
 			<div id="visualAudit" style="flex:1; min-width:280px;">
 				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
@@ -72,7 +108,10 @@
 	</div>
 
 	<div class="section" id="audioAuditsSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Audio Assets Audit</h2>
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Audio Assets Audit</h2>
+			<button id="audioStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
 		<div id="audioPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
 			<div id="audioAudit" style="flex:1; min-width:280px;">
 				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
@@ -90,7 +129,10 @@
 	</div>
 
 	<div class="section" id="coreTasksAuditsSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Core Tasks Audit</h2>
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Core Tasks Audit</h2>
+			<button id="coreTasksStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
 		<div id="coreTasksPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
 			<div id="coreTasksAudit" style="flex:1; min-width:280px;">
 				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
@@ -107,32 +149,37 @@
 		</div>
 	</div>
 
-	<div class="section" id="coreAssetsAuditsSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Core Assets Audit</h2>
-		<div id="coreAssetsPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="coreAssetsAudit" style="flex:1; min-width:280px;">
+	<div class="section" id="corpusAuditsSection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Corpus Audit</h2>
+			<button id="corpusStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="corpusPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="corpusAudit" style="flex:1; min-width:280px;">
 				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Bucket: <span id="coreAssetsBucket" class="code"></span> · Prefix: <span id="coreAssetsPrefix" class="code">core-assets/</span></p>
-				<p id="coreAssetsSummary" class="small">Loading…</p>
-				<p class="small"><span id="coreAssetsDetails" class="link" style="display:none; margin-right:12px;">Show core-assets details</span><button id="coreAssetsValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+				<p class="small">Bucket: <span id="corpusBucket" class="code"></span> · Prefix: <span id="corpusPrefix" class="code">corpus/</span></p>
+				<p id="corpusSummary" class="small">Loading…</p>
+				<p class="small"><span id="corpusDetails" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
 			</div>
-			<div id="coreAssetsAuditProd" style="flex:1; min-width:280px;">
+			<div id="corpusAuditProd" style="flex:1; min-width:280px;">
 				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Bucket: <span id="coreAssetsBucketProd" class="code"></span> · Prefix: <span id="coreAssetsPrefixProd" class="code">core-assets/</span></p>
-				<p id="coreAssetsSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="coreAssetsDetailsProd" class="link" style="display:none; margin-right:12px;">Show core-assets details</span><button id="coreAssetsValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+				<p class="small">Bucket: <span id="corpusBucketProd" class="code"></span> · Prefix: <span id="corpusPrefixProd" class="code">corpus/</span></p>
+				<p id="corpusSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="corpusDetailsProd" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
 			</div>
 		</div>
 	</div>
 
-	<div class="footer">
-		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
-		<div class="small" style="margin-top:6px;">
-			- <span class="badge ok">yes</span>: exact locale file exists in levante-dashboard (e.g., de-CH)
-			- <span class="badge warn">base</span>: only base language file exists (e.g., de)
-			- <span class="badge err">missing</span>: neither exact nor base locale file exists
-			- Surveys %: percentage of survey JSONs that include the locale (or base for fallback; English counts implicit defaults)
-			- From Crowdin: coverage of Item Bank CSV translations
+	<!-- Diff Modal -->
+	<div id="diffModal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title" id="diffModalTitle">Environment Differences</h2>
+				<span class="close" id="diffModalClose">&times;</span>
+			</div>
+			<div class="modal-body" id="diffModalBody">
+				<!-- Content will be populated by JavaScript -->
+			</div>
 		</div>
 	</div>
 
@@ -175,11 +222,450 @@
 			document.getElementById('audioSummaryProd').textContent = 'Loading…';
 			document.getElementById('coreTasksSummary').textContent = 'Loading…';
 			document.getElementById('coreTasksSummaryProd').textContent = 'Loading…';
-			document.getElementById('coreAssetsSummary').textContent = 'Loading…';
-			document.getElementById('coreAssetsSummaryProd').textContent = 'Loading…';
+			document.getElementById('corpusSummary').textContent = 'Loading…';
+			document.getElementById('corpusSummaryProd').textContent = 'Loading…';
+			
+			// Reset stoplight buttons
+			resetStoplights();
 			
 			// Reload all data
 			await loadReportData();
+		}
+		
+		// Reset all stoplight buttons to loading state
+		function resetStoplights() {
+			const stoplights = ['visualStoplight', 'audioStoplight', 'coreTasksStoplight', 'corpusStoplight'];
+			stoplights.forEach(id => {
+				const btn = document.getElementById(id);
+				if (btn) {
+					btn.style.display = 'inline-block';
+					btn.textContent = 'Loading...';
+					btn.className = 'stoplight loading';
+				}
+			});
+		}
+		
+		// Update stoplight button based on comparison
+		function updateStoplight(buttonId, devValue, prodValue) {
+			const btn = document.getElementById(buttonId);
+			if (!btn) return;
+			
+			btn.style.display = 'inline-block';
+			
+			// Check if either value is empty/null/undefined
+			if (devValue === null || devValue === undefined || devValue === '' || 
+				prodValue === null || prodValue === undefined || prodValue === '') {
+				btn.textContent = 'Fail';
+				btn.className = 'stoplight fail';
+				return;
+			}
+			
+			// Check if values match
+			if (devValue === prodValue) {
+				btn.textContent = 'Go';
+				btn.className = 'stoplight go';
+			} else {
+				btn.textContent = 'Diff';
+				btn.className = 'stoplight diff';
+				// Add click handler for diff buttons
+				btn.onclick = () => showDiffModal(buttonId, devValue, prodValue);
+			}
+		}
+		
+		// Show diff modal with detailed comparison
+		async function showDiffModal(buttonId, devValue, prodValue) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			// Show loading state
+			title.textContent = 'Loading detailed differences...';
+			body.innerHTML = '<div style="text-align: center; padding: 20px;"><div>Loading detailed information...</div></div>';
+			modal.style.display = 'block';
+			
+			// Determine section type and set title
+			let sectionName = '';
+			let parameterName = '';
+			
+			if (buttonId === 'visualStoplight') {
+				sectionName = 'Visual Assets Audit';
+				parameterName = 'PNGs needing WEBP conversion';
+			} else if (buttonId === 'audioStoplight') {
+				sectionName = 'Audio Assets Audit';
+				parameterName = 'Available languages';
+			} else if (buttonId === 'coreTasksStoplight') {
+				sectionName = 'Core Tasks Audit';
+				parameterName = 'CSV files in corpus';
+			} else if (buttonId === 'corpusStoplight') {
+				sectionName = 'Corpus Audit';
+				parameterName = 'Unique item_ids in corpus';
+			}
+			
+			title.textContent = `${sectionName} - Environment Differences`;
+			
+			// Fetch detailed information based on section
+			let detailedContent = '';
+			try {
+				if (buttonId === 'visualStoplight') {
+					detailedContent = await getVisualDifferences();
+				} else if (buttonId === 'audioStoplight') {
+					detailedContent = await getAudioDifferences();
+				} else if (buttonId === 'coreTasksStoplight') {
+					detailedContent = await getCoreTasksDifferences();
+				} else if (buttonId === 'corpusStoplight') {
+					detailedContent = await getCorpusDifferences();
+				}
+			} catch (error) {
+				detailedContent = `<div style="color: #dc2626; padding: 12px; background: #fef2f2; border-radius: 4px; border-left: 4px solid #dc2626;">
+					<strong>Error loading detailed information:</strong> ${error.message}
+				</div>`;
+			}
+			
+			// Create comprehensive diff content
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>Summary</h4>
+					<div class="diff-comparison">
+						<div class="diff-item">
+							<strong>Dev Environment</strong><br>
+							<span class="diff-value">${devValue}</span>
+						</div>
+						<div class="diff-arrow">→</div>
+						<div class="diff-item">
+							<strong>Prod Environment</strong><br>
+							<span class="diff-value">${prodValue}</span>
+						</div>
+					</div>
+					<div style="margin-top: 12px; padding: 8px; background: #fef3c7; border-radius: 4px; border-left: 4px solid #f59e0b;">
+						<strong>Difference:</strong> ${Math.abs(devValue - prodValue)} ${devValue > prodValue ? '(Dev has more)' : '(Prod has more)'}
+					</div>
+				</div>
+				${detailedContent}
+				<div class="diff-section">
+					<h4>Recommendation</h4>
+					<p>${getRecommendation(buttonId, devValue, prodValue)}</p>
+				</div>
+			`;
+		}
+		
+		// Get detailed visual differences
+		async function getVisualDifferences() {
+			try {
+				const [devRes, prodRes] = await Promise.all([
+					fetch('/api/visual-audit?env=dev&prefix=visual/', { cache: 'no-cache' }),
+					fetch('/api/visual-audit?env=prod&prefix=visual/', { cache: 'no-cache' })
+				]);
+				
+				const devData = await devRes.json();
+				const prodData = await prodRes.json();
+				
+				const devMissing = devData.missing || [];
+				const prodMissing = prodData.missing || [];
+				
+				const devOnly = devMissing.filter(f => !prodMissing.includes(f));
+				const prodOnly = prodMissing.filter(f => !devMissing.includes(f));
+				const common = devMissing.filter(f => prodMissing.includes(f));
+				
+				return `
+					<div class="diff-section">
+						<h4>Detailed Analysis</h4>
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
+								<strong>Dev Only</strong><br>
+								<span class="diff-value">${devOnly.length}</span> files<br>
+								<small>PNGs in dev that don't need conversion in prod</small>
+							</div>
+							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+								<strong>Prod Only</strong><br>
+								<span class="diff-value">${prodOnly.length}</span> files<br>
+								<small>PNGs in prod that don't need conversion in dev</small>
+							</div>
+						</div>
+						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
+							<strong>Common Issues</strong><br>
+							<span class="diff-value">${common.length}</span> files need conversion in both environments
+						</div>
+						${devOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Files only needing conversion in Dev (first 10):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${devOnly.slice(0, 10).map(f => `• ${f}`).join('<br>')}
+									${devOnly.length > 10 ? `<br>... and ${devOnly.length - 10} more files` : ''}
+								</div>
+							</div>
+						` : ''}
+						${prodOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Files only needing conversion in Prod (first 10):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${prodOnly.slice(0, 10).map(f => `• ${f}`).join('<br>')}
+									${prodOnly.length > 10 ? `<br>... and ${prodOnly.length - 10} more files` : ''}
+								</div>
+							</div>
+						` : ''}
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626;">Error loading visual differences: ${error.message}</div>`;
+			}
+		}
+		
+		// Get detailed audio differences
+		async function getAudioDifferences() {
+			try {
+				const [devRes, prodRes] = await Promise.all([
+					fetch('/api/read-tags?list=1&bucket=levante-assets-dev', { cache: 'no-cache' }),
+					fetch('/api/read-tags?list=1&bucket=levante-assets-prod', { cache: 'no-cache' })
+				]);
+				
+				const devData = await devRes.json();
+				const prodData = await prodRes.json();
+				
+				const devLangs = devData.languages || [];
+				const prodLangs = prodData.languages || [];
+				
+				const devOnly = devLangs.filter(l => !prodLangs.includes(l));
+				const prodOnly = prodLangs.filter(l => !devLangs.includes(l));
+				const common = devLangs.filter(l => prodLangs.includes(l));
+				
+				return `
+					<div class="diff-section">
+						<h4>Language Analysis</h4>
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
+								<strong>Dev Only</strong><br>
+								<span class="diff-value">${devOnly.length}</span> languages<br>
+								<small>Available in dev but not in prod</small>
+							</div>
+							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+								<strong>Prod Only</strong><br>
+								<span class="diff-value">${prodOnly.length}</span> languages<br>
+								<small>Available in prod but not in dev</small>
+							</div>
+						</div>
+						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
+							<strong>Common Languages</strong><br>
+							<span class="diff-value">${common.length}</span> languages available in both environments
+						</div>
+						${devOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Languages only in Dev:</strong><br>
+								<div style="background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${devOnly.map(l => `• ${l}`).join('<br>')}
+								</div>
+							</div>
+						` : ''}
+						${prodOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Languages only in Prod:</strong><br>
+								<div style="background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${prodOnly.map(l => `• ${l}`).join('<br>')}
+								</div>
+							</div>
+						` : ''}
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626;">Error loading audio differences: ${error.message}</div>`;
+			}
+		}
+		
+		// Get detailed core tasks differences
+		async function getCoreTasksDifferences() {
+			try {
+				const [devRes, prodRes] = await Promise.all([
+					fetch('/api/read-tags?list=1&bucket=levante-assets-dev&prefix=corpus/', { cache: 'no-cache' }),
+					fetch('/api/read-tags?list=1&bucket=levante-assets-prod&prefix=corpus/', { cache: 'no-cache' })
+				]);
+				
+				const devData = await devRes.json();
+				const prodData = await prodRes.json();
+				
+				const devFiles = (devData.files || []).filter(f => f.toLowerCase().endsWith('.csv'));
+				const prodFiles = (prodData.files || []).filter(f => f.toLowerCase().endsWith('.csv'));
+				
+				const devOnly = devFiles.filter(f => !prodFiles.includes(f));
+				const prodOnly = prodFiles.filter(f => !devFiles.includes(f));
+				const common = devFiles.filter(f => prodFiles.includes(f));
+				
+				return `
+					<div class="diff-section">
+						<h4>CSV File Analysis</h4>
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
+								<strong>Dev Only</strong><br>
+								<span class="diff-value">${devOnly.length}</span> CSV files<br>
+								<small>Present in dev but not in prod</small>
+							</div>
+							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+								<strong>Prod Only</strong><br>
+								<span class="diff-value">${prodOnly.length}</span> CSV files<br>
+								<small>Present in prod but not in dev</small>
+							</div>
+						</div>
+						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
+							<strong>Common Files</strong><br>
+							<span class="diff-value">${common.length}</span> CSV files present in both environments
+						</div>
+						${devOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>CSV files only in Dev:</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${devOnly.map(f => `• ${f}`).join('<br>')}
+								</div>
+							</div>
+						` : ''}
+						${prodOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>CSV files only in Prod:</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${prodOnly.map(f => `• ${f}`).join('<br>')}
+								</div>
+							</div>
+						` : ''}
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626;">Error loading core tasks differences: ${error.message}</div>`;
+			}
+		}
+		
+		// Get detailed corpus differences
+		async function getCorpusDifferences() {
+			try {
+				const [devRes, prodRes] = await Promise.all([
+					fetch('/api/read-tags?list=1&bucket=levante-assets-dev&prefix=corpus/', { cache: 'no-cache' }),
+					fetch('/api/read-tags?list=1&bucket=levante-assets-prod&prefix=corpus/', { cache: 'no-cache' })
+				]);
+				
+				const devData = await devRes.json();
+				const prodData = await prodRes.json();
+				
+				// Get unique item_ids from both environments
+				const devItemIds = await getUniqueItemIds('levante-assets-dev', devData.files || []);
+				const prodItemIds = await getUniqueItemIds('levante-assets-prod', prodData.files || []);
+				
+				const devOnly = devItemIds.filter(id => !prodItemIds.includes(id));
+				const prodOnly = prodItemIds.filter(id => !devItemIds.includes(id));
+				const common = devItemIds.filter(id => prodItemIds.includes(id));
+				
+				return `
+					<div class="diff-section">
+						<h4>Item ID Analysis</h4>
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
+								<strong>Dev Only</strong><br>
+								<span class="diff-value">${devOnly.length}</span> item_ids<br>
+								<small>Present in dev but not in prod</small>
+							</div>
+							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
+								<strong>Prod Only</strong><br>
+								<span class="diff-value">${prodOnly.length}</span> item_ids<br>
+								<small>Present in prod but not in dev</small>
+							</div>
+						</div>
+						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
+							<strong>Common Item IDs</strong><br>
+							<span class="diff-value">${common.length}</span> item_ids present in both environments
+						</div>
+						${devOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Item IDs only in Dev (first 20):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${devOnly.slice(0, 20).map(id => `• ${id}`).join('<br>')}
+									${devOnly.length > 20 ? `<br>... and ${devOnly.length - 20} more item_ids` : ''}
+								</div>
+							</div>
+						` : ''}
+						${prodOnly.length > 0 ? `
+							<div style="margin-top: 12px;">
+								<strong>Item IDs only in Prod (first 20):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+									${prodOnly.slice(0, 20).map(id => `• ${id}`).join('<br>')}
+									${prodOnly.length > 20 ? `<br>... and ${prodOnly.length - 20} more item_ids` : ''}
+								</div>
+							</div>
+						` : ''}
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626;">Error loading corpus differences: ${error.message}</div>`;
+			}
+		}
+		
+		// Helper function to get unique item_ids from CSV files
+		async function getUniqueItemIds(bucket, files) {
+			const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+			const uniqueItemIds = new Set();
+			
+			for (const csvFile of csvFiles) {
+				try {
+					const csvUrl = `https://storage.googleapis.com/${bucket}/${csvFile}`;
+					const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+					if (csvRes.ok) {
+						const csvText = await csvRes.text();
+						const lines = csvText.split('\n');
+						const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+						const itemIdIndex = header.findIndex(h => h.includes('item_id') || h.includes('identifier'));
+						
+						if (itemIdIndex !== -1) {
+							for (let i = 1; i < lines.length; i++) {
+								const row = lines[i].split(',');
+								const itemId = row[itemIdIndex]?.trim();
+								if (itemId && itemId !== '') {
+									uniqueItemIds.add(itemId);
+								}
+							}
+						}
+					}
+				} catch (e) {
+					console.warn(`Failed to process CSV file ${csvFile}:`, e);
+				}
+			}
+			
+			return Array.from(uniqueItemIds);
+		}
+		
+		// Get recommendation based on section and values
+		function getRecommendation(buttonId, devValue, prodValue) {
+			if (buttonId === 'visualStoplight') {
+				if (devValue > prodValue) {
+					return 'Dev has more PNGs needing conversion. Consider running the visual fix process on dev to convert more PNGs to WEBP format.';
+				} else {
+					return 'Prod has more PNGs needing conversion. Consider running the visual fix process on prod to convert more PNGs to WEBP format.';
+				}
+			} else if (buttonId === 'audioStoplight') {
+				if (devValue > prodValue) {
+					return 'Dev has more languages available. Consider deploying audio files from dev to prod to sync the environments.';
+				} else {
+					return 'Prod has more languages available. This may indicate that prod has additional language support that dev lacks.';
+				}
+			} else if (buttonId === 'coreTasksStoplight') {
+				if (devValue > prodValue) {
+					return 'Dev has more CSV files in corpus. Consider deploying corpus files from dev to prod to sync the environments.';
+				} else {
+					return 'Prod has more CSV files in corpus. This may indicate that prod has additional corpus data that dev lacks.';
+				}
+			} else if (buttonId === 'corpusStoplight') {
+				if (devValue > prodValue) {
+					return 'Dev has more unique item_ids in corpus. Consider deploying corpus files from dev to prod to sync the environments.';
+				} else {
+					return 'Prod has more unique item_ids in corpus. This may indicate that prod has additional corpus data that dev lacks.';
+				}
+			}
+			return 'Review the differences and consider syncing the environments.';
+		}
+		
+		// Modal event handlers
+		document.getElementById('diffModalClose').onclick = function() {
+			document.getElementById('diffModal').style.display = 'none';
+		}
+		
+		window.onclick = function(event) {
+			const modal = document.getElementById('diffModal');
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
 		}
 		
 		// Main data loading function
@@ -432,8 +918,12 @@
 					detailsLink.style.display = 'none';
 					fixBtn.style.display = 'none';
 				}
+				
+				// Store missing count for stoplight comparison
+				window.visualDevMissing = missingCount;
 			} catch (e) {
 				document.getElementById('visualSummary').textContent = 'Visual audit unavailable';
+				window.visualDevMissing = null;
 			}
 		}
 
@@ -460,8 +950,12 @@
 					if (detailsLink) detailsLink.style.display = 'none';
 					if (fixBtn) fixBtn.style.display = 'none';
 				}
+				
+				// Store missing count for stoplight comparison
+				window.visualProdMissing = missingCount;
 			} catch (e) {
 				const el = document.getElementById('visualSummaryProd'); if (el) el.textContent = 'Visual audit (prod) unavailable';
+				window.visualProdMissing = null;
 			}
 		}
 
@@ -487,8 +981,12 @@
 					detailsLink.style.display = 'none';
 					coverageBtn.style.display = 'none';
 				}
+				
+				// Store language count for stoplight comparison
+				window.audioDevLanguages = totalLanguages;
 			} catch (e) {
 				document.getElementById('audioSummary').textContent = 'Audio audit unavailable';
+				window.audioDevLanguages = null;
 			}
 		}
 
@@ -514,8 +1012,12 @@
 					if (detailsLink) detailsLink.style.display = 'none';
 					if (coverageBtn) coverageBtn.style.display = 'none';
 				}
+				
+				// Store language count for stoplight comparison
+				window.audioProdLanguages = totalLanguages;
 			} catch (e) {
 				const el = document.getElementById('audioSummaryProd'); if (el) el.textContent = 'Audio audit (prod) unavailable';
+				window.audioProdLanguages = null;
 			}
 		}
 
@@ -527,28 +1029,37 @@
 				const data = await res.json();
 				document.getElementById('coreTasksBucket').textContent = data.bucket || 'levante-assets-dev';
 				const files = Array.isArray(data.files) ? data.files : [];
+				
+				// Count folders and files (consistent with Corpus section)
+				const folders = files.filter(f => f.endsWith('/'));
+				const fileCount = files.filter(f => !f.endsWith('/')).length;
+				const folderCount = folders.length;
 				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
-				const totalFiles = files.length;
 				const csvCount = csvFiles.length;
+				
 				const summary = document.getElementById('coreTasksSummary');
-				summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
+				summary.innerHTML = `Folders: <span class="code">${folderCount}</span> · Files: <span class="code">${fileCount}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
 				const detailsLink = document.getElementById('coreTasksDetails');
 				const validateBtn = document.getElementById('coreTasksValidateBtn');
-				if (totalFiles > 0) {
+				if (files.length > 0) {
 					detailsLink.style.display = '';
 					validateBtn.style.display = '';
 					detailsLink.onclick = () => { 
 						const fileList = files.slice(0, 50).join('\n- ');
-						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
-						alert(`Corpus files (${files.length} total):\n- ${fileList}${moreText}`); 
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more items` : '';
+						alert(`Corpus items (${files.length} total):\n- ${fileList}${moreText}`); 
 					};
 					validateBtn.onclick = () => { validateCoreTasks('dev'); };
 				} else {
 					detailsLink.style.display = 'none';
 					validateBtn.style.display = 'none';
 				}
+				
+				// Store CSV count for stoplight comparison
+				window.coreTasksDevCsvs = csvCount;
 			} catch (e) {
 				document.getElementById('coreTasksSummary').textContent = 'Core tasks audit unavailable';
+				window.coreTasksDevCsvs = null;
 			}
 		}
 
@@ -560,28 +1071,37 @@
 				const data = await res.json();
 				const bucketEl = document.getElementById('coreTasksBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
 				const files = Array.isArray(data.files) ? data.files : [];
+				
+				// Count folders and files (consistent with Corpus section)
+				const folders = files.filter(f => f.endsWith('/'));
+				const fileCount = files.filter(f => !f.endsWith('/')).length;
+				const folderCount = folders.length;
 				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
-				const totalFiles = files.length;
 				const csvCount = csvFiles.length;
+				
 				const summary = document.getElementById('coreTasksSummaryProd');
-				if (summary) summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
+				if (summary) summary.innerHTML = `Folders: <span class="code">${folderCount}</span> · Files: <span class="code">${fileCount}</span> · CSVs: <span class="code">${csvCount}</span> · Status: <span class="badge ${csvCount > 0 ? 'ok' : 'err'}">${csvCount > 0 ? 'Available' : 'Missing'}</span>`;
 				const detailsLink = document.getElementById('coreTasksDetailsProd');
 				const validateBtn = document.getElementById('coreTasksValidateBtnProd');
-				if (totalFiles > 0) {
+				if (files.length > 0) {
 					if (detailsLink) detailsLink.style.display = '';
 					if (validateBtn) validateBtn.style.display = '';
 					if (detailsLink) detailsLink.onclick = () => { 
 						const fileList = files.slice(0, 50).join('\n- ');
-						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
-						alert(`Corpus files (${files.length} total):\n- ${fileList}${moreText}`); 
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more items` : '';
+						alert(`Corpus items (${files.length} total):\n- ${fileList}${moreText}`); 
 					};
 					if (validateBtn) validateBtn.onclick = () => { validateCoreTasks('prod'); };
 				} else {
 					if (detailsLink) detailsLink.style.display = 'none';
 					if (validateBtn) validateBtn.style.display = 'none';
 				}
+				
+				// Store CSV count for stoplight comparison
+				window.coreTasksProdCsvs = csvCount;
 			} catch (e) {
 				const el = document.getElementById('coreTasksSummaryProd'); if (el) el.textContent = 'Core tasks audit (prod) unavailable';
+				window.coreTasksProdCsvs = null;
 			}
 		}
 
@@ -705,86 +1225,164 @@
 			}
 		}
 
-		// Core Assets audit (dev) + Validate
-		async function refreshCoreAssetsAudit() {
+		// Corpus audit (dev) + Validate
+		async function refreshCorpusAudit() {
 			try {
-				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-dev&prefix=core-assets/`, { cache: 'no-cache' });
-				if (!res.ok) { document.getElementById('coreAssetsSummary').textContent = 'Core assets audit unavailable (API error)'; return; }
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-dev&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { document.getElementById('corpusSummary').textContent = 'Corpus audit unavailable (API error)'; return; }
 				const data = await res.json();
-				document.getElementById('coreAssetsBucket').textContent = data.bucket || 'levante-assets-dev';
+				document.getElementById('corpusBucket').textContent = data.bucket || 'levante-assets-dev';
 				const files = Array.isArray(data.files) ? data.files : [];
-				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
-				const totalFiles = files.length;
-				const textCount = textFiles.length;
-				const summary = document.getElementById('coreAssetsSummary');
-				summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · Text/JSON: <span class="code">${textCount}</span> · Status: <span class="badge ${textCount > 0 ? 'ok' : 'err'}">${textCount > 0 ? 'Available' : 'Missing'}</span>`;
-				const detailsLink = document.getElementById('coreAssetsDetails');
-				const validateBtn = document.getElementById('coreAssetsValidateBtn');
-				if (totalFiles > 0) {
+				
+				// Count folders and files
+				const folders = files.filter(f => f.endsWith('/'));
+				const fileCount = files.filter(f => !f.endsWith('/')).length;
+				const folderCount = folders.length;
+				
+				// Count unique item_ids from CSV files
+				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+				let uniqueItemIds = new Set();
+				
+				// Fetch and analyze each CSV file
+				for (const csvFile of csvFiles) {
+					try {
+						const csvUrl = `https://storage.googleapis.com/levante-assets-dev/${csvFile}`;
+						const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+						if (csvRes.ok) {
+							const csvText = await csvRes.text();
+							const lines = csvText.split('\n');
+							const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+							const itemIdIndex = header.findIndex(h => h.includes('item_id') || h.includes('identifier'));
+							
+							if (itemIdIndex !== -1) {
+								for (let i = 1; i < lines.length; i++) {
+									const row = lines[i].split(',');
+									const itemId = row[itemIdIndex]?.trim();
+									if (itemId && itemId !== '') {
+										uniqueItemIds.add(itemId);
+									}
+								}
+							}
+						}
+					} catch (e) {
+						console.warn(`Failed to process CSV file ${csvFile}:`, e);
+					}
+				}
+				
+				const uniqueItemIdCount = uniqueItemIds.size;
+				
+				const summary = document.getElementById('corpusSummary');
+				summary.innerHTML = `Folders: <span class="code">${folderCount}</span> · Files: <span class="code">${fileCount}</span> · Unique Items: <span class="code">${uniqueItemIdCount}</span> · Status: <span class="badge ${fileCount > 0 ? 'ok' : 'err'}">${fileCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('corpusDetails');
+				const validateBtn = document.getElementById('corpusValidateBtn');
+				if (files.length > 0) {
 					detailsLink.style.display = '';
 					validateBtn.style.display = '';
 					detailsLink.onclick = () => { 
 						const fileList = files.slice(0, 50).join('\n- ');
-						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
-						alert(`Core assets files (${files.length} total):\n- ${fileList}${moreText}`); 
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more items` : '';
+						alert(`Corpus items (${files.length} total):\n- ${fileList}${moreText}`); 
 					};
-					validateBtn.onclick = () => { validateCoreAssets('dev'); };
+					validateBtn.onclick = () => { validateCorpus('dev'); };
 				} else {
 					detailsLink.style.display = 'none';
 					validateBtn.style.display = 'none';
 				}
+				
+				// Store unique item_id count for stoplight comparison
+				window.corpusDevItemIds = uniqueItemIdCount;
 			} catch (e) {
-				document.getElementById('coreAssetsSummary').textContent = 'Core assets audit unavailable';
+				document.getElementById('corpusSummary').textContent = 'Corpus audit unavailable';
+				window.corpusDevItemIds = null;
 			}
 		}
 
-		// Core Assets audit (prod) + Validate
-		async function refreshCoreAssetsAuditProd() {
+		// Corpus audit (prod) + Validate
+		async function refreshCorpusAuditProd() {
 			try {
-				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-prod&prefix=core-assets/`, { cache: 'no-cache' });
-				if (!res.ok) { const el = document.getElementById('coreAssetsSummaryProd'); if (el) el.textContent = 'Core assets audit (prod) unavailable (API error)'; return; }
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-prod&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { const el = document.getElementById('corpusSummaryProd'); if (el) el.textContent = 'Corpus audit (prod) unavailable (API error)'; return; }
 				const data = await res.json();
-				const bucketEl = document.getElementById('coreAssetsBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
+				const bucketEl = document.getElementById('corpusBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
 				const files = Array.isArray(data.files) ? data.files : [];
-				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
-				const totalFiles = files.length;
-				const textCount = textFiles.length;
-				const summary = document.getElementById('coreAssetsSummaryProd');
-				if (summary) summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · Text/JSON: <span class="code">${textCount}</span> · Status: <span class="badge ${textCount > 0 ? 'ok' : 'err'}">${textCount > 0 ? 'Available' : 'Missing'}</span>`;
-				const detailsLink = document.getElementById('coreAssetsDetailsProd');
-				const validateBtn = document.getElementById('coreAssetsValidateBtnProd');
-				if (totalFiles > 0) {
+				
+				// Count folders and files
+				const folders = files.filter(f => f.endsWith('/'));
+				const fileCount = files.filter(f => !f.endsWith('/')).length;
+				const folderCount = folders.length;
+				
+				// Count unique item_ids from CSV files
+				const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+				let uniqueItemIds = new Set();
+				
+				// Fetch and analyze each CSV file
+				for (const csvFile of csvFiles) {
+					try {
+						const csvUrl = `https://storage.googleapis.com/levante-assets-prod/${csvFile}`;
+						const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+						if (csvRes.ok) {
+							const csvText = await csvRes.text();
+							const lines = csvText.split('\n');
+							const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+							const itemIdIndex = header.findIndex(h => h.includes('item_id') || h.includes('identifier'));
+							
+							if (itemIdIndex !== -1) {
+								for (let i = 1; i < lines.length; i++) {
+									const row = lines[i].split(',');
+									const itemId = row[itemIdIndex]?.trim();
+									if (itemId && itemId !== '') {
+										uniqueItemIds.add(itemId);
+									}
+								}
+							}
+						}
+					} catch (e) {
+						console.warn(`Failed to process CSV file ${csvFile}:`, e);
+					}
+				}
+				
+				const uniqueItemIdCount = uniqueItemIds.size;
+				
+				const summary = document.getElementById('corpusSummaryProd');
+				if (summary) summary.innerHTML = `Folders: <span class="code">${folderCount}</span> · Files: <span class="code">${fileCount}</span> · Unique Items: <span class="code">${uniqueItemIdCount}</span> · Status: <span class="badge ${fileCount > 0 ? 'ok' : 'err'}">${fileCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('corpusDetailsProd');
+				const validateBtn = document.getElementById('corpusValidateBtnProd');
+				if (files.length > 0) {
 					if (detailsLink) detailsLink.style.display = '';
 					if (validateBtn) validateBtn.style.display = '';
 					if (detailsLink) detailsLink.onclick = () => { 
 						const fileList = files.slice(0, 50).join('\n- ');
-						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
-						alert(`Core assets files (${files.length} total):\n- ${fileList}${moreText}`); 
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more items` : '';
+						alert(`Corpus items (${files.length} total):\n- ${fileList}${moreText}`); 
 					};
-					if (validateBtn) validateBtn.onclick = () => { validateCoreAssets('prod'); };
+					if (validateBtn) validateBtn.onclick = () => { validateCorpus('prod'); };
 				} else {
 					if (detailsLink) detailsLink.style.display = 'none';
 					if (validateBtn) validateBtn.style.display = 'none';
 				}
+				
+				// Store unique item_id count for stoplight comparison
+				window.corpusProdItemIds = uniqueItemIdCount;
 			} catch (e) {
-				const el = document.getElementById('coreAssetsSummaryProd'); if (el) el.textContent = 'Core assets audit (prod) unavailable';
+				const el = document.getElementById('corpusSummaryProd'); if (el) el.textContent = 'Corpus audit (prod) unavailable';
+				window.corpusProdItemIds = null;
 			}
 		}
 
-		// Validate Core Assets text content
-		async function validateCoreAssets(environment) {
+		// Validate Corpus content
+		async function validateCorpus(environment) {
 			try {
 				const bucket = environment === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
 				
-				// Get core-assets files
-				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}&prefix=core-assets/`, { cache: 'no-cache' });
-				if (!res.ok) { alert(`Failed to fetch core-assets files from ${bucket}`); return; }
+				// Get corpus files
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}&prefix=corpus/`, { cache: 'no-cache' });
+				if (!res.ok) { alert(`Failed to fetch corpus files from ${bucket}`); return; }
 				const data = await res.json();
 				const files = Array.isArray(data.files) ? data.files : [];
-				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
+				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json') || f.toLowerCase().endsWith('.csv'));
 				
 				if (textFiles.length === 0) {
-					alert(`No text/JSON files found in ${bucket}/core-assets/`);
+					alert(`No text/JSON/CSV files found in ${bucket}/corpus/`);
 					return;
 				}
 				
@@ -838,67 +1436,73 @@
 					`  Unicode Content: ${r.hasUnicode ? 'Yes' : 'No'}`
 				).join('\n\n');
 				
-				alert(`Core Assets Validation Results (${environment.toUpperCase()}):\n\n${resultsText}`);
+				alert(`Corpus Validation Results (${environment.toUpperCase()}):\n\n${resultsText}`);
 				
 			} catch (e) {
 				alert(`Validation failed: ${e.message}`);
 			}
 		}
 
-			await refreshVisualAudit();
-			await refreshVisualAuditProd();
+		await refreshVisualAudit();
+		await refreshVisualAuditProd();
 			await refreshAudioAudit();
 			await refreshAudioAuditProd();
 			await refreshCoreTasksAudit();
 			await refreshCoreTasksAuditProd();
-			await refreshCoreAssetsAudit();
-			await refreshCoreAssetsAuditProd();
+			await refreshCorpusAudit();
+			await refreshCorpusAuditProd();
+			
+			// Update stoplight buttons after all audits complete
+			updateStoplight('visualStoplight', window.visualDevMissing, window.visualProdMissing);
+			updateStoplight('audioStoplight', window.audioDevLanguages, window.audioProdLanguages);
+			updateStoplight('coreTasksStoplight', window.coreTasksDevCsvs, window.coreTasksProdCsvs);
+			updateStoplight('corpusStoplight', window.corpusDevItemIds, window.corpusProdItemIds);
 
-			const fixBtn = document.getElementById('visualFixBtn');
-			if (fixBtn) {
-				fixBtn.addEventListener('click', async () => {
-					const prev = fixBtn.textContent;
-					fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
-					try {
-						const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
-						if (res.ok) {
-							const data = await res.json();
-							const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
-							alert(`WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
-							await refreshVisualAudit();
-						} else {
-							alert('Fix failed: API error');
-						}
-					} catch (e) {
-						alert('Fix failed: ' + (e && e.message ? e.message : 'unknown error'));
-					} finally {
-						fixBtn.disabled = false; fixBtn.textContent = prev;
+		const fixBtn = document.getElementById('visualFixBtn');
+		if (fixBtn) {
+			fixBtn.addEventListener('click', async () => {
+				const prev = fixBtn.textContent;
+				fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
+				try {
+					const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
+					if (res.ok) {
+						const data = await res.json();
+						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
+						alert(`WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
+						await refreshVisualAudit();
+					} else {
+						alert('Fix failed: API error');
 					}
-				});
-			}
+				} catch (e) {
+					alert('Fix failed: ' + (e && e.message ? e.message : 'unknown error'));
+				} finally {
+					fixBtn.disabled = false; fixBtn.textContent = prev;
+				}
+			});
+		}
 
-			const fixBtnProd = document.getElementById('visualFixBtnProd');
-			if (fixBtnProd) {
-				fixBtnProd.addEventListener('click', async () => {
-					const prev = fixBtnProd.textContent;
-					fixBtnProd.disabled = true; fixBtnProd.textContent = 'Fixing…';
-					try {
-						const res = await fetch(`/api/visual-fix?env=prod&prefix=visual/&limit=200`, { method: 'POST' });
-						if (res.ok) {
-							const data = await res.json();
-							const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
-							alert(`(prod) WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
-							await refreshVisualAuditProd();
-						} else {
-							alert('Fix failed (prod): API error');
-						}
-					} catch (e) {
-						alert('Fix failed (prod): ' + (e && e.message ? e.message : 'unknown error'));
-					} finally {
-						fixBtnProd.disabled = false; fixBtnProd.textContent = prev;
+		const fixBtnProd = document.getElementById('visualFixBtnProd');
+		if (fixBtnProd) {
+			fixBtnProd.addEventListener('click', async () => {
+				const prev = fixBtnProd.textContent;
+				fixBtnProd.disabled = true; fixBtnProd.textContent = 'Fixing…';
+				try {
+					const res = await fetch(`/api/visual-fix?env=prod&prefix=visual/&limit=200`, { method: 'POST' });
+					if (res.ok) {
+						const data = await res.json();
+						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
+						alert(`(prod) WEBP created: ${data.created}\nFailed: ${data.failed}\nRemaining (est): ${data.remainingEstimate}${top}`);
+						await refreshVisualAuditProd();
+					} else {
+						alert('Fix failed (prod): API error');
 					}
-				});
-			}
+				} catch (e) {
+					alert('Fix failed (prod): ' + (e && e.message ? e.message : 'unknown error'));
+				} finally {
+					fixBtnProd.disabled = false; fixBtnProd.textContent = prev;
+				}
+			});
+		}
 		}
 		
 		// Initial load
