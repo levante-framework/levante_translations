@@ -107,6 +107,24 @@
 		</div>
 	</div>
 
+	<div class="section" id="coreAssetsAuditsSection">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Core Assets Audit</h2>
+		<div id="coreAssetsPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="coreAssetsAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Bucket: <span id="coreAssetsBucket" class="code"></span> · Prefix: <span id="coreAssetsPrefix" class="code">core-assets/</span></p>
+				<p id="coreAssetsSummary" class="small">Loading…</p>
+				<p class="small"><span id="coreAssetsDetails" class="link" style="display:none; margin-right:12px;">Show core-assets details</span><button id="coreAssetsValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+			<div id="coreAssetsAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Bucket: <span id="coreAssetsBucketProd" class="code"></span> · Prefix: <span id="coreAssetsPrefixProd" class="code">core-assets/</span></p>
+				<p id="coreAssetsSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="coreAssetsDetailsProd" class="link" style="display:none; margin-right:12px;">Show core-assets details</span><button id="coreAssetsValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+		</div>
+	</div>
+
 	<div class="footer">
 		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
 		<div class="small" style="margin-top:6px;">
@@ -157,6 +175,8 @@
 			document.getElementById('audioSummaryProd').textContent = 'Loading…';
 			document.getElementById('coreTasksSummary').textContent = 'Loading…';
 			document.getElementById('coreTasksSummaryProd').textContent = 'Loading…';
+			document.getElementById('coreAssetsSummary').textContent = 'Loading…';
+			document.getElementById('coreAssetsSummaryProd').textContent = 'Loading…';
 			
 			// Reload all data
 			await loadReportData();
@@ -685,12 +705,154 @@
 			}
 		}
 
+		// Core Assets audit (dev) + Validate
+		async function refreshCoreAssetsAudit() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-dev&prefix=core-assets/`, { cache: 'no-cache' });
+				if (!res.ok) { document.getElementById('coreAssetsSummary').textContent = 'Core assets audit unavailable (API error)'; return; }
+				const data = await res.json();
+				document.getElementById('coreAssetsBucket').textContent = data.bucket || 'levante-assets-dev';
+				const files = Array.isArray(data.files) ? data.files : [];
+				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
+				const totalFiles = files.length;
+				const textCount = textFiles.length;
+				const summary = document.getElementById('coreAssetsSummary');
+				summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · Text/JSON: <span class="code">${textCount}</span> · Status: <span class="badge ${textCount > 0 ? 'ok' : 'err'}">${textCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('coreAssetsDetails');
+				const validateBtn = document.getElementById('coreAssetsValidateBtn');
+				if (totalFiles > 0) {
+					detailsLink.style.display = '';
+					validateBtn.style.display = '';
+					detailsLink.onclick = () => { 
+						const fileList = files.slice(0, 50).join('\n- ');
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
+						alert(`Core assets files (${files.length} total):\n- ${fileList}${moreText}`); 
+					};
+					validateBtn.onclick = () => { validateCoreAssets('dev'); };
+				} else {
+					detailsLink.style.display = 'none';
+					validateBtn.style.display = 'none';
+				}
+			} catch (e) {
+				document.getElementById('coreAssetsSummary').textContent = 'Core assets audit unavailable';
+			}
+		}
+
+		// Core Assets audit (prod) + Validate
+		async function refreshCoreAssetsAuditProd() {
+			try {
+				const res = await fetch(`/api/read-tags?list=1&bucket=levante-assets-prod&prefix=core-assets/`, { cache: 'no-cache' });
+				if (!res.ok) { const el = document.getElementById('coreAssetsSummaryProd'); if (el) el.textContent = 'Core assets audit (prod) unavailable (API error)'; return; }
+				const data = await res.json();
+				const bucketEl = document.getElementById('coreAssetsBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
+				const files = Array.isArray(data.files) ? data.files : [];
+				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
+				const totalFiles = files.length;
+				const textCount = textFiles.length;
+				const summary = document.getElementById('coreAssetsSummaryProd');
+				if (summary) summary.innerHTML = `Files: <span class="code">${totalFiles}</span> · Text/JSON: <span class="code">${textCount}</span> · Status: <span class="badge ${textCount > 0 ? 'ok' : 'err'}">${textCount > 0 ? 'Available' : 'Missing'}</span>`;
+				const detailsLink = document.getElementById('coreAssetsDetailsProd');
+				const validateBtn = document.getElementById('coreAssetsValidateBtnProd');
+				if (totalFiles > 0) {
+					if (detailsLink) detailsLink.style.display = '';
+					if (validateBtn) validateBtn.style.display = '';
+					if (detailsLink) detailsLink.onclick = () => { 
+						const fileList = files.slice(0, 50).join('\n- ');
+						const moreText = files.length > 50 ? `\n... and ${files.length - 50} more files` : '';
+						alert(`Core assets files (${files.length} total):\n- ${fileList}${moreText}`); 
+					};
+					if (validateBtn) validateBtn.onclick = () => { validateCoreAssets('prod'); };
+				} else {
+					if (detailsLink) detailsLink.style.display = 'none';
+					if (validateBtn) validateBtn.style.display = 'none';
+				}
+			} catch (e) {
+				const el = document.getElementById('coreAssetsSummaryProd'); if (el) el.textContent = 'Core assets audit (prod) unavailable';
+			}
+		}
+
+		// Validate Core Assets text content
+		async function validateCoreAssets(environment) {
+			try {
+				const bucket = environment === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
+				
+				// Get core-assets files
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}&prefix=core-assets/`, { cache: 'no-cache' });
+				if (!res.ok) { alert(`Failed to fetch core-assets files from ${bucket}`); return; }
+				const data = await res.json();
+				const files = Array.isArray(data.files) ? data.files : [];
+				const textFiles = files.filter(f => f.toLowerCase().endsWith('.txt') || f.toLowerCase().endsWith('.json'));
+				
+				if (textFiles.length === 0) {
+					alert(`No text/JSON files found in ${bucket}/core-assets/`);
+					return;
+				}
+				
+				// Analyze each text file
+				let validationResults = [];
+				for (const textFile of textFiles) {
+					try {
+						const fileUrl = `https://storage.googleapis.com/${bucket}/${textFile}`;
+						const fileRes = await fetch(fileUrl, { cache: 'no-cache' });
+						if (!fileRes.ok) continue;
+						
+						const fileText = await fileRes.text();
+						const fileName = textFile.split('/').pop();
+						
+						// Basic text analysis
+						const lines = fileText.split('\n').filter(line => line.trim().length > 0);
+						const words = fileText.split(/\s+/).filter(word => word.trim().length > 0);
+						const chars = fileText.length;
+						
+						// Check for translation indicators
+						const hasTranslationKeys = /"[a-zA-Z_][a-zA-Z0-9_]*"\s*:/.test(fileText);
+						const hasLanguageCodes = /[a-z]{2}(-[A-Z]{2})?/.test(fileText);
+						const hasUnicode = /[\u0080-\uFFFF]/.test(fileText);
+						
+						validationResults.push({
+							file: fileName,
+							lines: lines.length,
+							words: words.length,
+							characters: chars,
+							hasTranslationKeys,
+							hasLanguageCodes,
+							hasUnicode,
+							fileType: fileName.toLowerCase().endsWith('.json') ? 'JSON' : 'TXT'
+						});
+					} catch (e) {
+						console.warn(`Failed to validate ${textFile}:`, e);
+					}
+				}
+				
+				// Display results
+				if (validationResults.length === 0) {
+					alert(`No valid text/JSON files found in ${bucket}/core-assets/`);
+					return;
+				}
+				
+				const resultsText = validationResults.map(r => 
+					`${r.file} (${r.fileType}):\n` +
+					`  Lines: ${r.lines} · Words: ${r.words} · Characters: ${r.characters}\n` +
+					`  Translation Keys: ${r.hasTranslationKeys ? 'Yes' : 'No'}\n` +
+					`  Language Codes: ${r.hasLanguageCodes ? 'Yes' : 'No'}\n` +
+					`  Unicode Content: ${r.hasUnicode ? 'Yes' : 'No'}`
+				).join('\n\n');
+				
+				alert(`Core Assets Validation Results (${environment.toUpperCase()}):\n\n${resultsText}`);
+				
+			} catch (e) {
+				alert(`Validation failed: ${e.message}`);
+			}
+		}
+
 			await refreshVisualAudit();
 			await refreshVisualAuditProd();
 			await refreshAudioAudit();
 			await refreshAudioAuditProd();
 			await refreshCoreTasksAudit();
 			await refreshCoreTasksAuditProd();
+			await refreshCoreAssetsAudit();
+			await refreshCoreAssetsAuditProd();
 
 			const fixBtn = document.getElementById('visualFixBtn');
 			if (fixBtn) {
