@@ -49,11 +49,6 @@
 <body>
 	<h1><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
 	<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-		<label for="envSelect" class="small" style="font-weight: 600;">Environment:</label>
-		<select id="envSelect" style="padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px; background: white; font-size: 13px;">
-			<option value="dev">Dev</option>
-			<option value="prod">Prod</option>
-		</select>
 		<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
 	</div>
 	
@@ -64,8 +59,16 @@
 	<table class="table" id="reportTable" aria-label="Languages Preflight Readiness table">
 		<thead>
 			<tr>
-				<th>Language</th>
-				<th>Code</th>
+				<th rowspan="2">Language</th>
+				<th rowspan="2">Code</th>
+				<th colspan="4" style="text-align: center; background: #f8f9fa;">Dev Environment</th>
+				<th colspan="4" style="text-align: center; background: #f8f9fa;">Prod Environment</th>
+			</tr>
+			<tr>
+				<th>From Crowdin</th>
+				<th>Surveys</th>
+				<th>Dashboard</th>
+				<th>Audio</th>
 				<th>From Crowdin</th>
 				<th>Surveys</th>
 				<th>Dashboard</th>
@@ -248,29 +251,8 @@
 
 	<script>
 	(async function() {
-		// Environment handling
-		let env = 'dev';
-		
-		// Initialize from URL parameters
-		const urlParams = new URLSearchParams(window.location.search);
-		const urlEnv = urlParams.get('env');
-		if (urlEnv === 'prod' || urlEnv === 'dev') {
-			env = urlEnv.toLowerCase();
-		}
-		
-		// Set up environment selector
-		const envSelect = document.getElementById('envSelect');
-		const refreshBtn = document.getElementById('refreshBtn');
-		
-		envSelect.value = env;
-		
-		// Environment change handler
-		envSelect.addEventListener('change', () => {
-			env = envSelect.value;
-			refreshReport();
-		});
-		
 		// Refresh button handler
+		const refreshBtn = document.getElementById('refreshBtn');
 		refreshBtn.addEventListener('click', () => {
 			refreshReport();
 		});
@@ -1016,7 +998,7 @@
 		}
 
 		// ItemBank readiness per language
-		function itembankStats(lang) {
+		function itembankStats(lang, environment = 'dev') {
 			const exact = items.filter(r => (r[lang] || '').trim().length > 0).length;
 			const base = toBase(lang);
 			const withBase = items.filter(r => ((r[lang] || r[base] || '').trim().length > 0)).length;
@@ -1055,7 +1037,7 @@
 			}
 			return count;
 		}
-		async function dashboardStats(lang) {
+		async function dashboardStats(lang, environment = 'dev') {
 			const exactUrl = await fetchDashboardJsonPath(lang);
 			let exactMatch = false;
 			let baseMatch = false;
@@ -1075,7 +1057,7 @@
 		}
 
 		// Survey translations: list JSONs from levante-dashboard-dev and check for keys
-		async function surveyStats(lang) {
+		async function surveyStats(lang, environment = 'dev') {
 			try {
 				// Static list based on known files in bucket (as exposed in repo), adjust if endpoint exists later
 				const candidates = ['child_survey.json','parent_survey_child.json','parent_survey_family.json','teacher_survey_classroom.json','teacher_survey_general.json'];
@@ -1106,9 +1088,10 @@
 		}
 
 		// Audio presence: ping api/read-tags in strict mode for a subset, but here aggregate presence by listing top-level prefixes from bucket via API list=1
-		async function audioStats(lang) {
+		async function audioStats(lang, environment = 'dev') {
 			try {
-				const res = await fetch('/api/read-tags?list=1', { cache: 'no-cache' });
+				const bucket = environment === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}`, { cache: 'no-cache' });
 				if (!res.ok) return { present: false };
 				const data = await res.json();
 				const present = Array.isArray(data.languages) && data.languages.includes(lang);
@@ -1116,46 +1099,10 @@
 			} catch { return { present: false }; }
 		}
 
-		// Build table rows with bounded concurrency
-		const tbody = document.querySelector('#reportTable tbody');
-		for (const lang of languageCodes) {
-			const ib = itembankStats(lang);
-			const ds = await dashboardStats(lang);
-			const [sv, au] = await Promise.all([surveyStats(lang), audioStats(lang)]);
-			const tr = document.createElement('tr');
-			tr.innerHTML = `
-				<td>${languageDisplayName(lang)}</td>
-				<td><span class="code">${lang}</span></td>
-				<td>${badge(ib.exact, ib.total)} <span class="small">(${ib.exact}/${ib.total})</span></td>
-				<td class="svcell">${sv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(sv.exact + sv.withBase, sv.checked)} <span class="small">(${sv.exact}/${sv.checked}, base ${sv.withBase})</span></td>
-				<td>${ds.exactMatch ? '<span class="badge ok">yes</span>' : (ds.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
-				<td>${au.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
-			`;
-			const svCell = tr.querySelector('.svcell');
-			if (svCell) {
-				const infoBtn = document.createElement('button');
-				infoBtn.title = 'Show survey details';
-				infoBtn.setAttribute('aria-label', 'Show survey details');
-				infoBtn.style.border = 'none';
-				infoBtn.style.background = 'none';
-				infoBtn.style.cursor = 'pointer';
-				infoBtn.style.color = '#0d6efd';
-				infoBtn.textContent = 'ℹ️';
-				const details = sv.details || [];
-				infoBtn.addEventListener('click', () => {
-					const ok = details.filter(x => x.hasExact || x.hasBase).map(x => x.file);
-					const missing = details.filter(x => !x.hasExact && !x.hasBase).map(x => x.file);
-					alert('Translated (or base):\n- ' + (ok.join('\n- ') || 'None') + '\n\nMissing:\n- ' + (missing.join('\n- ') || 'None'));
-				});
-				svCell.appendChild(infoBtn);
-			}
-			tbody.appendChild(tr);
-		}
-
-		// Visual assets audit (env-selected) + Fix It
+		// Visual assets audit (dev) + Fix It
 		async function refreshVisualAudit() {
 			try {
-				const res = await fetch(`/api/visual-audit?env=${encodeURIComponent(env)}&prefix=visual/`, { cache: 'no-cache' });
+				const res = await fetch(`/api/visual-audit?env=dev&prefix=visual/`, { cache: 'no-cache' });
 				if (!res.ok) { document.getElementById('visualSummary').textContent = 'Visual audit unavailable (API error)'; return; }
 				const data = await res.json();
 				document.getElementById('visualBucket').textContent = data.bucket || '';
@@ -2518,6 +2465,62 @@
 			alert(`Configuration Validation:\n\nTotal checks: ${checks.length}\nValid: ${checks.filter(c => c.status === 'valid').length}\nWarnings: ${warningCount}\nErrors: ${errorCount}\n\nThis validation checks environment variables, API keys, database connections, and file permissions.`);
 		}
 
+		// Build table rows with bounded concurrency
+		const tbody = document.querySelector('#reportTable tbody');
+		for (const lang of languageCodes) {
+			// Get data for both dev and prod environments
+			const [devData, prodData] = await Promise.all([
+				Promise.all([
+					itembankStats(lang, 'dev'),
+					dashboardStats(lang, 'dev'),
+					surveyStats(lang, 'dev'),
+					audioStats(lang, 'dev')
+				]),
+				Promise.all([
+					itembankStats(lang, 'prod'),
+					dashboardStats(lang, 'prod'),
+					surveyStats(lang, 'prod'),
+					audioStats(lang, 'prod')
+				])
+			]);
+			
+			const [devIb, devDs, devSv, devAu] = devData;
+			const [prodIb, prodDs, prodSv, prodAu] = prodData;
+			
+			const tr = document.createElement('tr');
+			tr.innerHTML = `
+				<td>${languageDisplayName(lang)}</td>
+				<td><span class="code">${lang}</span></td>
+				<td>${badge(devIb.exact, devIb.total)} <span class="small">(${devIb.exact}/${devIb.total})</span></td>
+				<td class="svcell">${devSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(devSv.exact + devSv.withBase, devSv.checked)} <span class="small">(${devSv.exact}/${devSv.checked}, base ${devSv.withBase})</span></td>
+				<td>${devDs.exactMatch ? '<span class="badge ok">yes</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
+				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
+				<td>${badge(prodIb.exact, prodIb.total)} <span class="small">(${prodIb.exact}/${prodIb.total})</span></td>
+				<td class="svcell">${prodSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(prodSv.exact + prodSv.withBase, prodSv.checked)} <span class="small">(${prodSv.exact}/${prodSv.checked}, base ${prodSv.withBase})</span></td>
+				<td>${prodDs.exactMatch ? '<span class="badge ok">yes</span>' : (prodDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
+				<td>${prodAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
+			`;
+			const svCell = tr.querySelector('.svcell');
+			if (svCell) {
+				const infoBtn = document.createElement('button');
+				infoBtn.title = 'Show survey details';
+				infoBtn.setAttribute('aria-label', 'Show survey details');
+				infoBtn.style.border = 'none';
+				infoBtn.style.background = 'none';
+				infoBtn.style.cursor = 'pointer';
+				infoBtn.style.color = '#0d6efd';
+				infoBtn.textContent = 'ℹ️';
+				const details = devSv.details || [];
+				infoBtn.addEventListener('click', () => {
+					const ok = details.filter(x => x.hasExact || x.hasBase).map(x => x.file);
+					const missing = details.filter(x => !x.hasExact && !x.hasBase).map(x => x.file);
+					alert('Translated (or base):\n- ' + (ok.join('\n- ') || 'None') + '\n\nMissing:\n- ' + (missing.join('\n- ') || 'None'));
+				});
+				svCell.appendChild(infoBtn);
+			}
+			tbody.appendChild(tr);
+		}
+
 		await refreshVisualAudit();
 		await refreshVisualAuditProd();
 			await refreshAudioAudit();
@@ -2548,7 +2551,7 @@
 				const prev = fixBtn.textContent;
 				fixBtn.disabled = true; fixBtn.textContent = 'Fixing…';
 				try {
-					const res = await fetch(`/api/visual-fix?env=${encodeURIComponent(env)}&prefix=visual/&limit=200`, { method: 'POST' });
+					const res = await fetch(`/api/visual-fix?env=dev&prefix=visual/&limit=200`, { method: 'POST' });
 					if (res.ok) {
 						const data = await res.json();
 						const top = Array.isArray(data.topReasons) && data.topReasons.length ? ('\nTop reasons: ' + data.topReasons.map(r=>`${r.reason} (${r.count})`).join(', ')) : '';
