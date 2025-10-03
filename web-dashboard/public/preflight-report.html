@@ -24,6 +24,58 @@
 		.stoplight.diff:hover { background: #d97706; }
 		.stoplight.fail { background: #dc2626; color: white; border-color: #dc2626; }
 		.stoplight.loading { background: #6b7280; color: white; border-color: #6b7280; }
+		.warning-icon { 
+			color: #ff8c00; 
+			cursor: pointer; 
+			margin-left: 5px; 
+			font-size: 14px;
+			display: inline-block;
+		}
+		.warning-icon:hover { 
+			color: #ff6b00; 
+			transform: scale(1.1);
+		}
+		
+		/* Untranslated items modal styles */
+		.untranslated-items { margin: 16px 0; }
+		.items-list { max-height: 400px; overflow-y: auto; }
+		.item-card { 
+			border: 1px solid #e5e7eb; 
+			border-radius: 8px; 
+			padding: 12px; 
+			margin: 8px 0; 
+			background: #f9fafb;
+		}
+		.item-header { 
+			display: flex; 
+			justify-content: space-between; 
+			align-items: center; 
+			margin-bottom: 8px; 
+		}
+		.source-file { 
+			font-size: 12px; 
+			color: #6b7280; 
+			background: #e5e7eb; 
+			padding: 2px 6px; 
+			border-radius: 4px;
+		}
+		.source-text { 
+			background: #ffffff; 
+			border: 1px solid #d1d5db; 
+			border-radius: 4px; 
+			padding: 8px; 
+			font-family: monospace; 
+			font-size: 14px; 
+			white-space: pre-wrap;
+			max-height: 100px;
+			overflow-y: auto;
+		}
+		.no-items, .error { 
+			text-align: center; 
+			padding: 20px; 
+			color: #6b7280; 
+		}
+		.error { color: #dc2626; }
 		
 		/* Modal styles */
 		.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
@@ -244,6 +296,19 @@
 				<span class="close" id="diffModalClose">&times;</span>
 			</div>
 			<div class="modal-body" id="diffModalBody">
+				<!-- Content will be populated by JavaScript -->
+			</div>
+		</div>
+	</div>
+
+	<!-- Untranslated Items Modal -->
+	<div id="untranslatedModal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title" id="untranslatedModalTitle">Untranslated Items</h2>
+				<span class="close" id="untranslatedModalClose">&times;</span>
+			</div>
+			<div class="modal-body" id="untranslatedModalBody">
 				<!-- Content will be populated by JavaScript -->
 			</div>
 		</div>
@@ -898,6 +963,56 @@
 		// Modal event handlers
 		document.getElementById('diffModalClose').onclick = function() {
 			document.getElementById('diffModal').style.display = 'none';
+		}
+		
+		document.getElementById('untranslatedModalClose').onclick = function() {
+			document.getElementById('untranslatedModal').style.display = 'none';
+		}
+		
+		// Show untranslated items modal
+		async function showUntranslatedModal(lang, env) {
+			const modal = document.getElementById('untranslatedModal');
+			const title = document.getElementById('untranslatedModalTitle');
+			const body = document.getElementById('untranslatedModalBody');
+			
+			title.textContent = `Untranslated Items - ${lang.toUpperCase()} (${env})`;
+			body.innerHTML = '<div class="loading">Loading untranslated items...</div>';
+			modal.style.display = 'block';
+			
+			try {
+				const response = await fetch(`/api/crowdin-untranslated?lang=${lang}&env=${env}`, { cache: 'no-cache' });
+				if (!response.ok) {
+					throw new Error(`API error: ${response.status}`);
+				}
+				
+				const data = await response.json();
+				
+				if (data.untranslated && data.untranslated.length > 0) {
+					body.innerHTML = `
+						<div class="untranslated-items">
+							<p><strong>Found ${data.untranslated.length} untranslated items:</strong></p>
+							<div class="items-list">
+								${data.untranslated.map(item => `
+									<div class="item-card">
+										<div class="item-header">
+											<strong>${item.item_id}</strong>
+											<span class="source-file">${item.source_file}</span>
+										</div>
+										<div class="item-content">
+											<p><strong>Source Text:</strong></p>
+											<div class="source-text">${item.source_text}</div>
+										</div>
+									</div>
+								`).join('')}
+							</div>
+						</div>
+					`;
+				} else {
+					body.innerHTML = '<div class="no-items">No untranslated items found.</div>';
+				}
+			} catch (error) {
+				body.innerHTML = `<div class="error">Error loading untranslated items: ${error.message}</div>`;
+			}
 		}
 		
 		window.onclick = function(event) {
@@ -2514,11 +2629,17 @@
 			tr.innerHTML = `
 				<td>${languageDisplayName(lang)}</td>
 				<td><span class="code">${lang}</span></td>
-				<td>${badge(devIb.exact, devIb.total)} <span class="small">(${devIb.exact}/${devIb.total})</span></td>
+				<td class="crowdin-cell" data-lang="${lang}" data-env="dev">
+					${badge(devIb.exact, devIb.total)} <span class="small">(${devIb.exact}/${devIb.total})</span>
+					${devIb.total > 0 && (devIb.exact / devIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
+				</td>
 				<td class="svcell">${devSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(devSv.exact + devSv.withBase, devSv.checked)} <span class="small">(${devSv.exact}/${devSv.checked}, base ${devSv.withBase})</span></td>
 				<td>${devDs.exactMatch ? '<span class="badge ok">yes</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
 				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
-				<td>${badge(prodIb.exact, prodIb.total)} <span class="small">(${prodIb.exact}/${prodIb.total})</span></td>
+				<td class="crowdin-cell" data-lang="${lang}" data-env="prod">
+					${badge(prodIb.exact, prodIb.total)} <span class="small">(${prodIb.exact}/${prodIb.total})</span>
+					${prodIb.total > 0 && (prodIb.exact / prodIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
+				</td>
 				<td class="svcell">${prodSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(prodSv.exact + prodSv.withBase, prodSv.checked)} <span class="small">(${prodSv.exact}/${prodSv.checked}, base ${prodSv.withBase})</span></td>
 				<td>${prodDs.exactMatch ? '<span class="badge ok">yes</span>' : (prodDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
 				<td>${prodAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
@@ -2545,6 +2666,16 @@
 			}
 			tbody.appendChild(tr);
 		}
+		
+		// Add event listeners for warning icons
+		document.querySelectorAll('.warning-icon').forEach(icon => {
+			icon.addEventListener('click', function() {
+				const cell = this.closest('.crowdin-cell');
+				const lang = cell.dataset.lang;
+				const env = cell.dataset.env;
+				showUntranslatedModal(lang, env);
+			});
+		});
 
 		await refreshVisualAudit();
 		await refreshVisualAuditProd();

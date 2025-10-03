@@ -13,7 +13,8 @@
     "api/list-validation-files.js": { "maxDuration": 10 },
     "api/get-validation-file.js": { "maxDuration": 10 },
     "api/save-audio.js": { "maxDuration": 60 },
-    "api/crowdin-stats.js": { "maxDuration": 30 }
+    "api/crowdin-stats.js": { "maxDuration": 30 },
+    "api/crowdin-untranslated.js": { "maxDuration": 60 }
   },
   "rewrites": [
     { "source": "/proxy/elevenlabs/voices", "destination": "/api/elevenlabs-proxy" },
