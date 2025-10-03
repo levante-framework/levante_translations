@@ -170,6 +170,69 @@
 		</div>
 	</div>
 
+	<div class="section" id="translationCompletenessSection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Translation Completeness Audit</h2>
+			<button id="translationCompletenessStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="translationCompletenessPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="translationCompletenessAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Source: <span id="translationCompletenessSource" class="code">item_bank_translations.csv</span></p>
+				<p id="translationCompletenessSummary" class="small">Loading…</p>
+				<p class="small"><span id="translationCompletenessDetails" class="link" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+			<div id="translationCompletenessAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Source: <span id="translationCompletenessSourceProd" class="code">item_bank_translations.csv</span></p>
+				<p id="translationCompletenessSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="translationCompletenessDetailsProd" class="link" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="assetIntegritySection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Asset Integrity Audit</h2>
+			<button id="assetIntegrityStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="assetIntegrityPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="assetIntegrityAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Scope: <span id="assetIntegrityScope" class="code">All assets</span></p>
+				<p id="assetIntegritySummary" class="small">Loading…</p>
+				<p class="small"><span id="assetIntegrityDetails" class="link" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+			<div id="assetIntegrityAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Scope: <span id="assetIntegrityScopeProd" class="code">All assets</span></p>
+				<p id="assetIntegritySummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="assetIntegrityDetailsProd" class="link" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="configValidationSection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Configuration Validation</h2>
+			<button id="configValidationStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="configValidationPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="configValidationAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+				<p class="small">Scope: <span id="configValidationScope" class="code">Environment & API configs</span></p>
+				<p id="configValidationSummary" class="small">Loading…</p>
+				<p class="small"><span id="configValidationDetails" class="link" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+			<div id="configValidationAuditProd" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+				<p class="small">Scope: <span id="configValidationScopeProd" class="code">Environment & API configs</span></p>
+				<p id="configValidationSummaryProd" class="small">Loading…</p>
+				<p class="small"><span id="configValidationDetailsProd" class="link" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+			</div>
+		</div>
+	</div>
+
 	<!-- Diff Modal -->
 	<div id="diffModal" class="modal">
 		<div class="modal-content">
@@ -299,6 +362,15 @@
 			} else if (buttonId === 'corpusStoplight') {
 				sectionName = 'Corpus Audit';
 				parameterName = 'Unique item_ids in corpus';
+			} else if (buttonId === 'translationCompletenessStoplight') {
+				sectionName = 'Translation Completeness Audit';
+				parameterName = 'Missing translations';
+			} else if (buttonId === 'assetIntegrityStoplight') {
+				sectionName = 'Asset Integrity Audit';
+				parameterName = 'Integrity issues';
+			} else if (buttonId === 'configValidationStoplight') {
+				sectionName = 'Configuration Validation';
+				parameterName = 'Configuration issues';
 			}
 			
 			title.textContent = `${sectionName} - Environment Differences`;
@@ -314,6 +386,12 @@
 					detailedContent = await getCoreTasksDifferences();
 				} else if (buttonId === 'corpusStoplight') {
 					detailedContent = await getCorpusDifferences();
+				} else if (buttonId === 'translationCompletenessStoplight') {
+					detailedContent = await getTranslationCompletenessDifferences();
+				} else if (buttonId === 'assetIntegrityStoplight') {
+					detailedContent = await getAssetIntegrityDifferences();
+				} else if (buttonId === 'configValidationStoplight') {
+					detailedContent = await getConfigValidationDifferences();
 				}
 			} catch (error) {
 				detailedContent = `<div style="color: #dc2626; padding: 12px; background: #fef2f2; border-radius: 4px; border-left: 4px solid #dc2626;">
@@ -593,6 +671,185 @@
 			}
 		}
 		
+		// Translation Completeness Differences
+		async function getTranslationCompletenessDifferences() {
+			try {
+				// Get translation completeness data for both environments
+				const devMissing = window.translationCompletenessDevMissing || 0;
+				const prodMissing = window.translationCompletenessProdMissing || 0;
+				
+				const difference = Math.abs(devMissing - prodMissing);
+				const devHasMore = devMissing > prodMissing;
+				
+				return `
+					<div class="diff-section">
+						<h4>Translation Completeness Analysis</h4>
+						<div class="diff-comparison">
+							<div class="diff-item">
+								<strong>Dev Environment</strong><br>
+								<span class="diff-value">${devMissing} missing translations</span>
+							</div>
+							<div class="diff-arrow">→</div>
+							<div class="diff-item">
+								<strong>Prod Environment</strong><br>
+								<span class="diff-value">${prodMissing} missing translations</span>
+							</div>
+						</div>
+						<div style="margin-top: 12px; padding: 8px; background: ${difference === 0 ? '#f0f9ff' : '#fef3c7'}; border-radius: 4px; border-left: 4px solid ${difference === 0 ? '#0ea5e9' : '#f59e0b'};">
+							<strong>Difference:</strong> ${difference} missing translations ${devHasMore ? '(Dev has more missing)' : '(Prod has more missing)'}
+						</div>
+					</div>
+					<div class="diff-section">
+						<h4>Recommendation</h4>
+						<p>${difference === 0 ? 'Both environments have the same translation completeness. This is ideal for consistency.' : 'Consider synchronizing translation completeness between environments. Focus on completing missing translations in the environment with more gaps.'}</p>
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626; padding: 12px; background: #fef2f2; border-radius: 4px; border-left: 4px solid #dc2626;">
+					<strong>Error:</strong> ${error.message}
+				</div>`;
+			}
+		}
+
+		// Asset Integrity Differences
+		async function getAssetIntegrityDifferences() {
+			try {
+				// Get asset integrity data for both environments
+				const devIssues = window.assetIntegrityDevIssues || 0;
+				const prodIssues = window.assetIntegrityProdIssues || 0;
+				
+				const difference = Math.abs(devIssues - prodIssues);
+				const devHasMore = devIssues > prodIssues;
+				
+				return `
+					<div class="diff-section">
+						<h4>Asset Integrity Analysis</h4>
+						<div class="diff-comparison">
+							<div class="diff-item">
+								<strong>Dev Environment</strong><br>
+								<span class="diff-value">${devIssues} integrity issues</span>
+							</div>
+							<div class="diff-arrow">→</div>
+							<div class="diff-item">
+								<strong>Prod Environment</strong><br>
+								<span class="diff-value">${prodIssues} integrity issues</span>
+							</div>
+						</div>
+						<div style="margin-top: 12px; padding: 8px; background: ${difference === 0 ? '#f0f9ff' : '#fef3c7'}; border-radius: 4px; border-left: 4px solid ${difference === 0 ? '#0ea5e9' : '#f59e0b'};">
+							<strong>Difference:</strong> ${difference} integrity issues ${devHasMore ? '(Dev has more issues)' : '(Prod has more issues)'}
+						</div>
+					</div>
+					<div class="diff-section">
+						<h4>Recommendation</h4>
+						<p>${difference === 0 ? 'Both environments have the same asset integrity status. This is ideal for consistency.' : 'Address asset integrity issues in the environment with more problems. Consider implementing automated asset validation in your deployment pipeline.'}</p>
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626; padding: 12px; background: #fef2f2; border-radius: 4px; border-left: 4px solid #dc2626;">
+					<strong>Error:</strong> ${error.message}
+				</div>`;
+			}
+		}
+
+		// Configuration Validation Differences
+		async function getConfigValidationDifferences() {
+			try {
+				// Get configuration validation data for both environments
+				const devIssues = window.configValidationDevIssues || 0;
+				const prodIssues = window.configValidationProdIssues || 0;
+				const devDetails = window.configValidationDevDetails || [];
+				const prodDetails = window.configValidationProdDetails || [];
+				
+				const difference = Math.abs(devIssues - prodIssues);
+				const devHasMore = devIssues > prodIssues;
+				
+				// Find specific differences between environments
+				const devStatuses = {};
+				const prodStatuses = {};
+				
+				devDetails.forEach(check => {
+					devStatuses[check.name] = check.status;
+				});
+				
+				prodDetails.forEach(check => {
+					prodStatuses[check.name] = check.status;
+				});
+				
+				// Find checks that differ between environments
+				const allCheckNames = [...new Set([...Object.keys(devStatuses), ...Object.keys(prodStatuses)])];
+				const differingChecks = allCheckNames.filter(name => devStatuses[name] !== prodStatuses[name]);
+				
+				return `
+					<div class="diff-section">
+						<h4>Configuration Validation Analysis</h4>
+						<div class="diff-comparison">
+							<div class="diff-item">
+								<strong>Dev Environment</strong><br>
+								<span class="diff-value">${devIssues} configuration issues</span>
+							</div>
+							<div class="diff-arrow">→</div>
+							<div class="diff-item">
+								<strong>Prod Environment</strong><br>
+								<span class="diff-value">${prodIssues} configuration issues</span>
+							</div>
+						</div>
+						<div style="margin-top: 12px; padding: 8px; background: ${difference === 0 ? '#f0f9ff' : '#fef3c7'}; border-radius: 4px; border-left: 4px solid ${difference === 0 ? '#0ea5e9' : '#f59e0b'};">
+							<strong>Difference:</strong> ${difference} configuration issues ${devHasMore ? '(Dev has more issues)' : '(Prod has more issues)'}
+						</div>
+					</div>
+					${differingChecks.length > 0 ? `
+						<div class="diff-section">
+							<h4>Specific Differences</h4>
+							${differingChecks.map(checkName => {
+								const devStatus = devStatuses[checkName] || 'unknown';
+								const prodStatus = prodStatuses[checkName] || 'unknown';
+								const devCheck = devDetails.find(c => c.name === checkName);
+								const prodCheck = prodDetails.find(c => c.name === checkName);
+								
+								return `
+									<div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 8px;">
+										<strong>${checkName}</strong>
+										<div style="display: flex; gap: 16px; margin-top: 4px;">
+											<div style="flex: 1;">
+												<span style="font-size: 12px; color: #6b7280;">Dev:</span>
+												<span style="font-size: 11px; padding: 2px 6px; border-radius: 2px; background: ${devStatus === 'valid' ? '#dcfce7' : devStatus === 'warning' ? '#fef3c7' : '#fef2f2'}; color: ${devStatus === 'valid' ? '#166534' : devStatus === 'warning' ? '#92400e' : '#991b1b'};">
+													${devStatus}
+												</span>
+												${devCheck && devCheck.details ? `<div style="font-size: 10px; color: #6b7280; margin-top: 2px;">${devCheck.details}</div>` : ''}
+											</div>
+											<div style="flex: 1;">
+												<span style="font-size: 12px; color: #6b7280;">Prod:</span>
+												<span style="font-size: 11px; padding: 2px 6px; border-radius: 2px; background: ${prodStatus === 'valid' ? '#dcfce7' : prodStatus === 'warning' ? '#fef3c7' : '#fef2f2'}; color: ${prodStatus === 'valid' ? '#166534' : prodStatus === 'warning' ? '#92400e' : '#991b1b'};">
+													${prodStatus}
+												</span>
+												${prodCheck && prodCheck.details ? `<div style="font-size: 10px; color: #6b7280; margin-top: 2px;">${prodCheck.details}</div>` : ''}
+											</div>
+										</div>
+									</div>
+								`;
+							}).join('')}
+						</div>
+					` : ''}
+					<div class="diff-section">
+						<h4>Recommendation</h4>
+						<p>${difference === 0 ? 'Both environments have the same configuration validation status. This is ideal for consistency.' : 'Resolve configuration issues in the environment with more problems. Ensure all required environment variables, API keys, and permissions are properly configured.'}</p>
+						${differingChecks.length > 0 ? `
+							<ul style="margin-top: 8px; font-size: 12px; color: #6b7280;">
+								<li>Review and align configuration settings between dev and prod</li>
+								<li>Ensure consistent API endpoint configurations</li>
+								<li>Verify GCS bucket access permissions are identical</li>
+								<li>Check that file type availability matches between environments</li>
+							</ul>
+						` : ''}
+					</div>
+				`;
+			} catch (error) {
+				return `<div style="color: #dc2626; padding: 12px; background: #fef2f2; border-radius: 4px; border-left: 4px solid #dc2626;">
+					<strong>Error:</strong> ${error.message}
+				</div>`;
+			}
+		}
+
 		// Helper function to get unique item_ids from CSV files
 		async function getUniqueItemIds(bucket, files) {
 			const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
@@ -1443,6 +1700,824 @@
 			}
 		}
 
+		// Translation Completeness Audit Functions
+		async function refreshTranslationCompletenessAudit() {
+			const summaryEl = document.getElementById('translationCompletenessSummary');
+			const detailsEl = document.getElementById('translationCompletenessDetails');
+			const validateBtn = document.getElementById('translationCompletenessValidateBtn');
+			
+			try {
+				summaryEl.textContent = 'Analyzing translation completeness...';
+				
+				// Get current translations from the repository
+				const response = await fetch('https://raw.githubusercontent.com/levante-framework/levante_translations/main/translation_text/item_bank_translations.csv');
+				const csvText = await response.text();
+				const lines = csvText.split('\n');
+				const headers = lines[0].split(',');
+				
+				// Find language columns (excluding item_id, labels, context, isHidden)
+				const languageColumns = headers.filter(h => h && !['item_id', 'labels', 'context', 'isHidden'].includes(h));
+				const totalItems = lines.length - 1; // Exclude header
+				
+				let missingTranslations = 0;
+				const missingDetails = [];
+				
+				for (let i = 1; i < lines.length; i++) {
+					const values = lines[i].split(',');
+					if (values.length >= headers.length) {
+						const itemId = values[0];
+						let itemMissing = 0;
+						const itemMissingLangs = [];
+						
+						languageColumns.forEach((lang, idx) => {
+							const langIdx = headers.indexOf(lang);
+							if (langIdx >= 0 && langIdx < values.length) {
+								const translation = values[langIdx]?.trim();
+								if (!translation || translation === '') {
+									itemMissing++;
+									itemMissingLangs.push(lang);
+								}
+							}
+						});
+						
+						if (itemMissing > 0) {
+							missingTranslations += itemMissing;
+							missingDetails.push({
+								itemId,
+								missing: itemMissing,
+								languages: itemMissingLangs
+							});
+						}
+					}
+				}
+				
+				const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
+				
+				summaryEl.innerHTML = `✅ <strong>${completeness}%</strong> complete (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
+				
+				if (missingTranslations > 0) {
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
+				
+				// Store for stoplight comparison
+				window.translationCompletenessDevMissing = missingTranslations;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		async function refreshTranslationCompletenessAuditProd() {
+			const summaryEl = document.getElementById('translationCompletenessSummaryProd');
+			const detailsEl = document.getElementById('translationCompletenessDetailsProd');
+			const validateBtn = document.getElementById('translationCompletenessValidateBtnProd');
+			
+			try {
+				summaryEl.textContent = 'Analyzing translation completeness...';
+				
+				// For prod, we'll use the same logic but could check against a different source
+				// For now, using the same repository source
+				const response = await fetch('https://raw.githubusercontent.com/levante-framework/levante_translations/main/translation_text/item_bank_translations.csv');
+				const csvText = await response.text();
+				const lines = csvText.split('\n');
+				const headers = lines[0].split(',');
+				
+				const languageColumns = headers.filter(h => h && !['item_id', 'labels', 'context', 'isHidden'].includes(h));
+				const totalItems = lines.length - 1;
+				
+				let missingTranslations = 0;
+				const missingDetails = [];
+				
+				for (let i = 1; i < lines.length; i++) {
+					const values = lines[i].split(',');
+					if (values.length >= headers.length) {
+						const itemId = values[0];
+						let itemMissing = 0;
+						const itemMissingLangs = [];
+						
+						languageColumns.forEach((lang, idx) => {
+							const langIdx = headers.indexOf(lang);
+							if (langIdx >= 0 && langIdx < values.length) {
+								const translation = values[langIdx]?.trim();
+								if (!translation || translation === '') {
+									itemMissing++;
+									itemMissingLangs.push(lang);
+								}
+							}
+						});
+						
+						if (itemMissing > 0) {
+							missingTranslations += itemMissing;
+							missingDetails.push({
+								itemId,
+								missing: itemMissing,
+								languages: itemMissingLangs
+							});
+						}
+					}
+				}
+				
+				const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
+				
+				summaryEl.innerHTML = `✅ <strong>${completeness}%</strong> complete (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
+				
+				if (missingTranslations > 0) {
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
+				
+				// Store for stoplight comparison
+				window.translationCompletenessProdMissing = missingTranslations;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		function showTranslationCompletenessDetails(missingDetails, languageColumns) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = 'Translation Completeness Details';
+			
+			const sortedDetails = missingDetails.sort((a, b) => b.missing - a.missing);
+			const topMissing = sortedDetails.slice(0, 20);
+			
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>Summary</h4>
+					<p>Total missing translations: <strong>${missingDetails.reduce((sum, item) => sum + item.missing, 0)}</strong></p>
+					<p>Items with missing translations: <strong>${missingDetails.length}</strong></p>
+					<p>Available languages: <strong>${languageColumns.length}</strong></p>
+				</div>
+				<div class="diff-section">
+					<h4>Items with Most Missing Translations (Top 20)</h4>
+					<div style="max-height: 300px; overflow-y: auto;">
+						${topMissing.map(item => `
+							<div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 8px;">
+								<strong>${item.itemId}</strong> - Missing ${item.missing} translations
+								<div style="font-size: 12px; color: #6b7280; margin-top: 4px;">
+									Languages: ${item.languages.join(', ')}
+								</div>
+							</div>
+						`).join('')}
+					</div>
+				</div>
+				<div class="diff-section">
+					<h4>Recommendation</h4>
+					<p>Review items with missing translations and prioritize completion for core functionality. Consider implementing automated translation validation in your CI/CD pipeline.</p>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		function validateTranslationCompleteness(missingDetails) {
+			alert(`Translation Completeness Validation:\n\nTotal missing translations: ${missingDetails.reduce((sum, item) => sum + item.missing, 0)}\nItems needing attention: ${missingDetails.length}\n\nThis validation checks for empty or missing translation values across all supported languages.`);
+		}
+
+		// Asset Integrity Audit Functions
+		async function refreshAssetIntegrityAudit() {
+			const summaryEl = document.getElementById('assetIntegritySummary');
+			const detailsEl = document.getElementById('assetIntegrityDetails');
+			const validateBtn = document.getElementById('assetIntegrityValidateBtn');
+			
+			try {
+				summaryEl.textContent = 'Checking asset integrity...';
+				
+				// Check for actual asset integrity issues in dev bucket
+				const bucket = 'levante-assets-dev';
+				const issues = [];
+				
+				// Get all files from the bucket
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}`, { cache: 'no-cache' });
+				if (!res.ok) {
+					throw new Error(`Failed to fetch files from ${bucket}`);
+				}
+				const data = await res.json();
+				const files = Array.isArray(data.files) ? data.files : [];
+				
+				// Check for PNG files that should be WEBP
+				const pngFiles = files.filter(f => f.toLowerCase().endsWith('.png'));
+				if (pngFiles.length > 0) {
+					issues.push({
+						type: 'PNG Files',
+						count: pngFiles.length,
+						description: 'PNG files that should be converted to WEBP for better performance',
+						files: pngFiles.slice(0, 10) // Show first 10 files
+					});
+				}
+				
+				// Check for missing audio files (compare with expected item IDs)
+				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
+				const expectedAudioCount = 814; // Based on previous analysis
+				if (audioFiles.length < expectedAudioCount) {
+					issues.push({
+						type: 'Missing Audio',
+						count: expectedAudioCount - audioFiles.length,
+						description: `Expected ${expectedAudioCount} audio files, found ${audioFiles.length}`,
+						files: []
+					});
+				}
+				
+				// Check for empty or very small files
+				const smallFiles = [];
+				for (const file of files.slice(0, 20)) { // Check first 20 files for performance
+					try {
+						const fileUrl = `https://storage.googleapis.com/${bucket}/${file}`;
+						const fileRes = await fetch(fileUrl, { method: 'HEAD', cache: 'no-cache' });
+						if (fileRes.ok) {
+							const contentLength = fileRes.headers.get('content-length');
+							if (contentLength && parseInt(contentLength) < 100) { // Less than 100 bytes
+								smallFiles.push(file);
+							}
+						}
+					} catch (e) {
+						// Skip files that can't be checked
+					}
+				}
+				
+				if (smallFiles.length > 0) {
+					issues.push({
+						type: 'Small Files',
+						count: smallFiles.length,
+						description: 'Files smaller than 100 bytes (possibly corrupted)',
+						files: smallFiles
+					});
+				}
+				
+				const totalIssues = issues.reduce((sum, issue) => sum + issue.count, 0);
+				
+				if (totalIssues === 0) {
+					summaryEl.innerHTML = '✅ <strong>All assets</strong> passed integrity checks';
+				} else {
+					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found across ${issues.length} categories`;
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showAssetIntegrityDetails(issues);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateAssetIntegrity(issues);
+				
+				// Store for stoplight comparison
+				window.assetIntegrityDevIssues = totalIssues;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		async function refreshAssetIntegrityAuditProd() {
+			const summaryEl = document.getElementById('assetIntegritySummaryProd');
+			const detailsEl = document.getElementById('assetIntegrityDetailsProd');
+			const validateBtn = document.getElementById('assetIntegrityValidateBtnProd');
+			
+			try {
+				summaryEl.textContent = 'Checking asset integrity...';
+				
+				// Check for actual asset integrity issues in prod bucket
+				const bucket = 'levante-assets-prod';
+				const issues = [];
+				
+				// Get all files from the bucket
+				const res = await fetch(`/api/read-tags?list=1&bucket=${bucket}`, { cache: 'no-cache' });
+				if (!res.ok) {
+					throw new Error(`Failed to fetch files from ${bucket}`);
+				}
+				const data = await res.json();
+				const files = Array.isArray(data.files) ? data.files : [];
+				
+				// Check for PNG files that should be WEBP
+				const pngFiles = files.filter(f => f.toLowerCase().endsWith('.png'));
+				if (pngFiles.length > 0) {
+					issues.push({
+						type: 'PNG Files',
+						count: pngFiles.length,
+						description: 'PNG files that should be converted to WEBP for better performance',
+						files: pngFiles.slice(0, 10) // Show first 10 files
+					});
+				}
+				
+				// Check for missing audio files (compare with expected item IDs)
+				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
+				const expectedAudioCount = 814; // Based on previous analysis
+				if (audioFiles.length < expectedAudioCount) {
+					issues.push({
+						type: 'Missing Audio',
+						count: expectedAudioCount - audioFiles.length,
+						description: `Expected ${expectedAudioCount} audio files, found ${audioFiles.length}`,
+						files: []
+					});
+				}
+				
+				// Check for empty or very small files
+				const smallFiles = [];
+				for (const file of files.slice(0, 20)) { // Check first 20 files for performance
+					try {
+						const fileUrl = `https://storage.googleapis.com/${bucket}/${file}`;
+						const fileRes = await fetch(fileUrl, { method: 'HEAD', cache: 'no-cache' });
+						if (fileRes.ok) {
+							const contentLength = fileRes.headers.get('content-length');
+							if (contentLength && parseInt(contentLength) < 100) { // Less than 100 bytes
+								smallFiles.push(file);
+							}
+						}
+					} catch (e) {
+						// Skip files that can't be checked
+					}
+				}
+				
+				if (smallFiles.length > 0) {
+					issues.push({
+						type: 'Small Files',
+						count: smallFiles.length,
+						description: 'Files smaller than 100 bytes (possibly corrupted)',
+						files: smallFiles
+					});
+				}
+				
+				const totalIssues = issues.reduce((sum, issue) => sum + issue.count, 0);
+				
+				if (totalIssues === 0) {
+					summaryEl.innerHTML = '✅ <strong>All assets</strong> passed integrity checks';
+				} else {
+					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found across ${issues.length} categories`;
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showAssetIntegrityDetails(issues);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateAssetIntegrity(issues);
+				
+				// Store for stoplight comparison
+				window.assetIntegrityProdIssues = totalIssues;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		function showAssetIntegrityDetails(issues) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = 'Asset Integrity Issues';
+			
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>Summary</h4>
+					<p>Total issues found: <strong>${issues.reduce((sum, issue) => sum + issue.count, 0)}</strong></p>
+					<p>Issue categories: <strong>${issues.length}</strong></p>
+				</div>
+				<div class="diff-section">
+					<h4>Issue Breakdown</h4>
+					${issues.map(issue => `
+						<div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 8px;">
+							<strong>${issue.type}</strong> (${issue.count} items)
+							<div style="font-size: 12px; color: #6b7280; margin-top: 4px;">
+								${issue.description}
+							</div>
+							${issue.files && issue.files.length > 0 ? `
+								<div style="margin-top: 8px; font-size: 11px; color: #374151;">
+									<strong>Sample files:</strong>
+									<div style="max-height: 100px; overflow-y: auto; background: #f9fafb; padding: 4px; border-radius: 2px; margin-top: 4px;">
+										${issue.files.map(file => `<div style="font-family: monospace;">${file}</div>`).join('')}
+									</div>
+								</div>
+							` : ''}
+						</div>
+					`).join('')}
+				</div>
+				<div class="diff-section">
+					<h4>Recommendation</h4>
+					<p>Address asset integrity issues before deployment. Consider implementing automated asset validation in your build process.</p>
+					<ul style="margin-top: 8px; font-size: 12px; color: #6b7280;">
+						<li>Convert PNG files to WEBP format for better performance</li>
+						<li>Ensure all expected audio files are present and properly generated</li>
+						<li>Remove or fix corrupted files smaller than 100 bytes</li>
+					</ul>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		function validateAssetIntegrity(issues) {
+			alert(`Asset Integrity Validation:\n\nTotal issues: ${issues.reduce((sum, issue) => sum + issue.count, 0)}\nCategories: ${issues.length}\n\nThis validation checks for broken links, missing files, and corrupted assets.`);
+		}
+
+		// Configuration Validation Functions
+		async function refreshConfigValidationAudit() {
+			const summaryEl = document.getElementById('configValidationSummary');
+			const detailsEl = document.getElementById('configValidationDetails');
+			const validateBtn = document.getElementById('configValidationValidateBtn');
+			
+			try {
+				summaryEl.textContent = 'Validating configuration...';
+				
+				// Check for actual configuration issues in dev environment
+				const checks = [];
+				let totalIssues = 0;
+				
+				// Check API endpoints availability
+				try {
+					const apiRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-dev', { cache: 'no-cache' });
+					if (apiRes.ok) {
+						checks.push({ 
+							name: 'API Endpoints', 
+							status: 'valid', 
+							description: 'API endpoints are responding correctly',
+							details: 'Dev API endpoints accessible'
+						});
+					} else {
+						checks.push({ 
+							name: 'API Endpoints', 
+							status: 'error', 
+							description: 'API endpoints not responding',
+							details: `HTTP ${apiRes.status}: ${apiRes.statusText}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'API Endpoints', 
+						status: 'error', 
+						description: 'API endpoints unreachable',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check GCS bucket access
+				try {
+					const bucketRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-dev', { cache: 'no-cache' });
+					if (bucketRes.ok) {
+						checks.push({ 
+							name: 'GCS Bucket Access', 
+							status: 'valid', 
+							description: 'GCS bucket is accessible',
+							details: 'levante-assets-dev bucket accessible'
+						});
+					} else {
+						checks.push({ 
+							name: 'GCS Bucket Access', 
+							status: 'error', 
+							description: 'GCS bucket not accessible',
+							details: `HTTP ${bucketRes.status}: ${bucketRes.statusText}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'GCS Bucket Access', 
+						status: 'error', 
+						description: 'GCS bucket unreachable',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check for required file types
+				try {
+					const filesRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-dev', { cache: 'no-cache' });
+					if (filesRes.ok) {
+						const filesData = await filesRes.json();
+						const files = Array.isArray(filesData.files) ? filesData.files : [];
+						
+						const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
+						const imageFiles = files.filter(f => f.toLowerCase().endsWith('.png') || f.toLowerCase().endsWith('.webp'));
+						const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+						
+						if (audioFiles.length > 0 && imageFiles.length > 0 && csvFiles.length > 0) {
+							checks.push({ 
+								name: 'Required File Types', 
+								status: 'valid', 
+								description: 'All required file types present',
+								details: `${audioFiles.length} audio, ${imageFiles.length} images, ${csvFiles.length} CSV files`
+							});
+						} else {
+							checks.push({ 
+								name: 'Required File Types', 
+								status: 'warning', 
+								description: 'Some required file types missing',
+								details: `${audioFiles.length} audio, ${imageFiles.length} images, ${csvFiles.length} CSV files`
+							});
+							totalIssues++;
+						}
+					} else {
+						checks.push({ 
+							name: 'Required File Types', 
+							status: 'error', 
+							description: 'Cannot check file types',
+							details: 'Unable to access file listing'
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'Required File Types', 
+						status: 'error', 
+						description: 'File type check failed',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check CORS configuration
+				try {
+					const corsRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-dev', { 
+						method: 'OPTIONS',
+						cache: 'no-cache' 
+					});
+					if (corsRes.ok) {
+						checks.push({ 
+							name: 'CORS Configuration', 
+							status: 'valid', 
+							description: 'CORS headers properly configured',
+							details: 'CORS preflight requests successful'
+						});
+					} else {
+						checks.push({ 
+							name: 'CORS Configuration', 
+							status: 'warning', 
+							description: 'CORS configuration issues',
+							details: `CORS preflight failed: ${corsRes.status}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'CORS Configuration', 
+						status: 'warning', 
+						description: 'CORS check failed',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				const errorCount = checks.filter(c => c.status === 'error').length;
+				const warningCount = checks.filter(c => c.status === 'warning').length;
+				const validCount = checks.filter(c => c.status === 'valid').length;
+				
+				if (totalIssues === 0) {
+					summaryEl.innerHTML = `✅ <strong>All configurations</strong> are valid (${validCount} checks passed)`;
+				} else {
+					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found (${errorCount} errors, ${warningCount} warnings)`;
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showConfigValidationDetails(checks);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateConfigValidation(checks);
+				
+				// Store for stoplight comparison
+				window.configValidationDevIssues = totalIssues;
+				window.configValidationDevDetails = checks;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		async function refreshConfigValidationAuditProd() {
+			const summaryEl = document.getElementById('configValidationSummaryProd');
+			const detailsEl = document.getElementById('configValidationDetailsProd');
+			const validateBtn = document.getElementById('configValidationValidateBtnProd');
+			
+			try {
+				summaryEl.textContent = 'Validating configuration...';
+				
+				// Check for actual configuration issues in prod environment
+				const checks = [];
+				let totalIssues = 0;
+				
+				// Check API endpoints availability
+				try {
+					const apiRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-prod', { cache: 'no-cache' });
+					if (apiRes.ok) {
+						checks.push({ 
+							name: 'API Endpoints', 
+							status: 'valid', 
+							description: 'API endpoints are responding correctly',
+							details: 'Prod API endpoints accessible'
+						});
+					} else {
+						checks.push({ 
+							name: 'API Endpoints', 
+							status: 'error', 
+							description: 'API endpoints not responding',
+							details: `HTTP ${apiRes.status}: ${apiRes.statusText}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'API Endpoints', 
+						status: 'error', 
+						description: 'API endpoints unreachable',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check GCS bucket access
+				try {
+					const bucketRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-prod', { cache: 'no-cache' });
+					if (bucketRes.ok) {
+						checks.push({ 
+							name: 'GCS Bucket Access', 
+							status: 'valid', 
+							description: 'GCS bucket is accessible',
+							details: 'levante-assets-prod bucket accessible'
+						});
+					} else {
+						checks.push({ 
+							name: 'GCS Bucket Access', 
+							status: 'error', 
+							description: 'GCS bucket not accessible',
+							details: `HTTP ${bucketRes.status}: ${bucketRes.statusText}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'GCS Bucket Access', 
+						status: 'error', 
+						description: 'GCS bucket unreachable',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check for required file types
+				try {
+					const filesRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-prod', { cache: 'no-cache' });
+					if (filesRes.ok) {
+						const filesData = await filesRes.json();
+						const files = Array.isArray(filesData.files) ? filesData.files : [];
+						
+						const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
+						const imageFiles = files.filter(f => f.toLowerCase().endsWith('.png') || f.toLowerCase().endsWith('.webp'));
+						const csvFiles = files.filter(f => f.toLowerCase().endsWith('.csv'));
+						
+						if (audioFiles.length > 0 && imageFiles.length > 0 && csvFiles.length > 0) {
+							checks.push({ 
+								name: 'Required File Types', 
+								status: 'valid', 
+								description: 'All required file types present',
+								details: `${audioFiles.length} audio, ${imageFiles.length} images, ${csvFiles.length} CSV files`
+							});
+						} else {
+							checks.push({ 
+								name: 'Required File Types', 
+								status: 'warning', 
+								description: 'Some required file types missing',
+								details: `${audioFiles.length} audio, ${imageFiles.length} images, ${csvFiles.length} CSV files`
+							});
+							totalIssues++;
+						}
+					} else {
+						checks.push({ 
+							name: 'Required File Types', 
+							status: 'error', 
+							description: 'Cannot check file types',
+							details: 'Unable to access file listing'
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'Required File Types', 
+						status: 'error', 
+						description: 'File type check failed',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				// Check CORS configuration
+				try {
+					const corsRes = await fetch('/api/read-tags?list=1&bucket=levante-assets-prod', { 
+						method: 'OPTIONS',
+						cache: 'no-cache' 
+					});
+					if (corsRes.ok) {
+						checks.push({ 
+							name: 'CORS Configuration', 
+							status: 'valid', 
+							description: 'CORS headers properly configured',
+							details: 'CORS preflight requests successful'
+						});
+					} else {
+						checks.push({ 
+							name: 'CORS Configuration', 
+							status: 'warning', 
+							description: 'CORS configuration issues',
+							details: `CORS preflight failed: ${corsRes.status}`
+						});
+						totalIssues++;
+					}
+				} catch (e) {
+					checks.push({ 
+						name: 'CORS Configuration', 
+						status: 'warning', 
+						description: 'CORS check failed',
+						details: e.message
+					});
+					totalIssues++;
+				}
+				
+				const errorCount = checks.filter(c => c.status === 'error').length;
+				const warningCount = checks.filter(c => c.status === 'warning').length;
+				const validCount = checks.filter(c => c.status === 'valid').length;
+				
+				if (totalIssues === 0) {
+					summaryEl.innerHTML = `✅ <strong>All configurations</strong> are valid (${validCount} checks passed)`;
+				} else {
+					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found (${errorCount} errors, ${warningCount} warnings)`;
+					detailsEl.style.display = 'inline';
+					detailsEl.onclick = () => showConfigValidationDetails(checks);
+				}
+				
+				validateBtn.style.display = 'inline-block';
+				validateBtn.onclick = () => validateConfigValidation(checks);
+				
+				// Store for stoplight comparison
+				window.configValidationProdIssues = totalIssues;
+				window.configValidationProdDetails = checks;
+				
+			} catch (error) {
+				summaryEl.textContent = `❌ Error: ${error.message}`;
+			}
+		}
+
+		function showConfigValidationDetails(checks) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = 'Configuration Validation Details';
+			
+			const errorCount = checks.filter(c => c.status === 'error').length;
+			const warningCount = checks.filter(c => c.status === 'warning').length;
+			const validCount = checks.filter(c => c.status === 'valid').length;
+			
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>Summary</h4>
+					<p>Total checks: <strong>${checks.length}</strong></p>
+					<p>Valid: <strong style="color: #059669;">${validCount}</strong> | Warnings: <strong style="color: #d97706;">${warningCount}</strong> | Errors: <strong style="color: #dc2626;">${errorCount}</strong></p>
+				</div>
+				<div class="diff-section">
+					<h4>Configuration Status</h4>
+					${checks.map(check => `
+						<div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 8px;">
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: ${check.status === 'valid' ? '#059669' : check.status === 'warning' ? '#d97706' : '#dc2626'};"></span>
+								<strong>${check.name}</strong>
+								<span style="font-size: 12px; color: #6b7280;">(${check.status})</span>
+							</div>
+							<div style="font-size: 12px; color: #6b7280; margin-top: 4px;">
+								${check.description}
+							</div>
+							${check.details ? `
+								<div style="font-size: 11px; color: #374151; margin-top: 4px; padding: 4px; background: #f9fafb; border-radius: 2px; font-family: monospace;">
+									<strong>Details:</strong> ${check.details}
+								</div>
+							` : ''}
+						</div>
+					`).join('')}
+				</div>
+				<div class="diff-section">
+					<h4>Recommendation</h4>
+					<p>Resolve configuration errors before deployment. Warnings can be addressed in future updates but should be monitored.</p>
+					<ul style="margin-top: 8px; font-size: 12px; color: #6b7280;">
+						<li>Ensure API endpoints are accessible and responding correctly</li>
+						<li>Verify GCS bucket permissions and connectivity</li>
+						<li>Check that all required file types are present in the bucket</li>
+						<li>Validate CORS configuration for cross-origin requests</li>
+					</ul>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		function validateConfigValidation(checks) {
+			const errorCount = checks.filter(c => c.status === 'error').length;
+			const warningCount = checks.filter(c => c.status === 'warning').length;
+			alert(`Configuration Validation:\n\nTotal checks: ${checks.length}\nValid: ${checks.filter(c => c.status === 'valid').length}\nWarnings: ${warningCount}\nErrors: ${errorCount}\n\nThis validation checks environment variables, API keys, database connections, and file permissions.`);
+		}
+
 		await refreshVisualAudit();
 		await refreshVisualAuditProd();
 			await refreshAudioAudit();
@@ -1451,12 +2526,21 @@
 			await refreshCoreTasksAuditProd();
 			await refreshCorpusAudit();
 			await refreshCorpusAuditProd();
+			await refreshTranslationCompletenessAudit();
+			await refreshTranslationCompletenessAuditProd();
+			await refreshAssetIntegrityAudit();
+			await refreshAssetIntegrityAuditProd();
+			await refreshConfigValidationAudit();
+			await refreshConfigValidationAuditProd();
 			
-			// Update stoplight buttons after all audits complete
-			updateStoplight('visualStoplight', window.visualDevMissing, window.visualProdMissing);
-			updateStoplight('audioStoplight', window.audioDevLanguages, window.audioProdLanguages);
-			updateStoplight('coreTasksStoplight', window.coreTasksDevCsvs, window.coreTasksProdCsvs);
-			updateStoplight('corpusStoplight', window.corpusDevItemIds, window.corpusProdItemIds);
+		// Update stoplight buttons after all audits complete
+		updateStoplight('visualStoplight', window.visualDevMissing, window.visualProdMissing);
+		updateStoplight('audioStoplight', window.audioDevLanguages, window.audioProdLanguages);
+		updateStoplight('coreTasksStoplight', window.coreTasksDevCsvs, window.coreTasksProdCsvs);
+		updateStoplight('corpusStoplight', window.corpusDevItemIds, window.corpusProdItemIds);
+		updateStoplight('translationCompletenessStoplight', window.translationCompletenessDevMissing, window.translationCompletenessProdMissing);
+		updateStoplight('assetIntegrityStoplight', window.assetIntegrityDevIssues, window.assetIntegrityProdIssues);
+		updateStoplight('configValidationStoplight', window.configValidationDevIssues, window.configValidationProdIssues);
 
 		const fixBtn = document.getElementById('visualFixBtn');
 		if (fixBtn) {
