@@ -997,12 +997,35 @@
 			}
 		}
 
-		// ItemBank readiness per language
-		function itembankStats(lang, environment = 'dev') {
-			const exact = items.filter(r => (r[lang] || '').trim().length > 0).length;
-			const base = toBase(lang);
-			const withBase = items.filter(r => ((r[lang] || r[base] || '').trim().length > 0)).length;
-			return { total: items.length, exact, withBase };
+		// Crowdin translation statistics per language
+		async function itembankStats(lang, environment = 'dev') {
+			try {
+				console.log(`Fetching Crowdin stats for ${lang}...`);
+				const res = await fetch(`/api/crowdin-stats`, { cache: 'no-cache' });
+				if (!res.ok) {
+					console.warn(`Crowdin API error for ${lang}:`, res.status);
+					return { total: 0, exact: 0, withBase: 0 };
+				}
+				
+				const data = await res.json();
+				console.log(`Crowdin API response for ${lang}:`, data);
+				const langStats = data.languages[lang];
+				
+				if (!langStats) {
+					console.warn(`No Crowdin data for language: ${lang}`);
+					return { total: 0, exact: 0, withBase: 0 };
+				}
+				
+				console.log(`Crowdin stats for ${lang}:`, langStats);
+				return {
+					total: langStats.total,
+					exact: langStats.approved,
+					withBase: langStats.translated
+				};
+			} catch (error) {
+				console.error(`Error fetching Crowdin stats for ${lang}:`, error);
+				return { total: 0, exact: 0, withBase: 0 };
+			}
 		}
 
 		// Dashboard translations: fetch from levante-dashboard repo JSONs (componentTranslations)
@@ -2514,7 +2537,9 @@
 				infoBtn.addEventListener('click', () => {
 					const ok = details.filter(x => x.hasExact || x.hasBase).map(x => x.file);
 					const missing = details.filter(x => !x.hasExact && !x.hasBase).map(x => x.file);
-					alert('Translated (or base):\n- ' + (ok.join('\n- ') || 'None') + '\n\nMissing:\n- ' + (missing.join('\n- ') || 'None'));
+					const baseLang = toBase(lang);
+					const langInfo = lang === baseLang ? `Language: ${lang}` : `Language: ${lang} (base: ${baseLang})`;
+					alert(`${langInfo}\n\nTranslated (or base):\n- ` + (ok.join('\n- ') || 'None') + '\n\nMissing:\n- ' + (missing.join('\n- ') || 'None'));
 				});
 				svCell.appendChild(infoBtn);
 			}
