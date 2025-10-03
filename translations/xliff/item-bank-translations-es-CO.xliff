@@ -9003,6 +9003,24 @@ Algunas preguntas pueden ser fáciles para ti y algunas pueden ser difíciles. �
 </context>
         </context-group>
       </trans-unit>
+      <trans-unit id="150572" resname="sds-prompt3-demo-heavy-part1">
+        <source>Here is a new picture. I have to choose which of these pictures</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">sds-prompt3-demo-heavy-part1
+</context>
+          <context context-type="x-crowdin-label">same-different-selection</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150574" resname="sds-prompt3-demo-heavy-part2">
+        <source>is the same as this new picture.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">sds-prompt3-demo-heavy-part2
+</context>
+          <context context-type="x-crowdin-label">same-different-selection</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
