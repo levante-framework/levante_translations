@@ -1142,31 +1142,31 @@
 		// Crowdin translation statistics per language
 		async function itembankStats(lang, environment = 'dev') {
 			try {
-				console.log(`Fetching Crowdin stats for ${lang}...`);
+				// Fetch overall totals (strings/phrases) and approved
 				const res = await fetch(`/api/crowdin-stats`, { cache: 'no-cache' });
 				if (!res.ok) {
-					console.warn(`Crowdin API error for ${lang}:`, res.status);
-					return { total: 0, exact: 0, withBase: 0 };
+					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 				}
-				
 				const data = await res.json();
-				console.log(`Crowdin API response for ${lang}:`, data);
 				const langStats = data.languages[lang];
-				
 				if (!langStats) {
-					console.warn(`No Crowdin data for language: ${lang}`);
-					return { total: 0, exact: 0, withBase: 0 };
+					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 				}
-				
-				console.log(`Crowdin stats for ${lang}:`, langStats);
-				return {
-					total: langStats.total,
-					exact: langStats.approved,
-					withBase: langStats.translated
-				};
+				const total = langStats.total || 0;
+				// Fetch missing breakdown (unapproved + untranslated) from modal API
+				const missRes = await fetch(`/api/crowdin-untranslated?lang=${encodeURIComponent(lang)}&env=${encodeURIComponent(environment)}`, { cache: 'no-cache' });
+				let unapproved = 0, untranslated = 0, missing = 0;
+				if (missRes.ok) {
+					const miss = await missRes.json();
+					unapproved = miss?.totals?.unapproved || 0;
+					untranslated = miss?.totals?.untranslated || 0;
+					missing = unapproved + untranslated;
+				}
+				const approved = Math.max(0, total - missing);
+				const translated = Math.max(0, approved + unapproved);
+				return { total, exact: approved, withBase: translated, unapproved, untranslated, missing };
 			} catch (error) {
-				console.error(`Error fetching Crowdin stats for ${lang}:`, error);
-				return { total: 0, exact: 0, withBase: 0 };
+				return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 			}
 		}
 
@@ -2652,19 +2652,32 @@
 			const [devIb, devDs, devSv, devAu] = devData;
 			const [prodIb, prodDs, prodSv, prodAu] = prodData;
 			
+			// Compute breakdowns for Crowdin stats
+			const devApproved = devIb.exact || 0;
+			const devTranslated = devIb.withBase || 0; // includes approved + unapproved
+			const devUnapproved = Math.max(0, devTranslated - devApproved);
+			const devUntranslated = Math.max(0, (devIb.total || 0) - devTranslated);
+			const devBreakdown = `<span class="small">(A ${devApproved}, UA ${devUnapproved}, NT ${devUntranslated})</span>`;
+			
+			const prodApproved = prodIb.exact || 0;
+			const prodTranslated = prodIb.withBase || 0;
+			const prodUnapproved = Math.max(0, prodTranslated - prodApproved);
+			const prodUntranslated = Math.max(0, (prodIb.total || 0) - prodTranslated);
+			const prodBreakdown = `<span class="small">(A ${prodApproved}, UA ${prodUnapproved}, NT ${prodUntranslated})</span>`;
+			
 			const tr = document.createElement('tr');
 			tr.innerHTML = `
 				<td>${languageDisplayName(lang)}</td>
 				<td><span class="code">${lang}</span></td>
 				<td class="crowdin-cell" data-lang="${lang}" data-env="dev">
-					${badge(devIb.exact, devIb.total)} <span class="small">(${devIb.exact}/${devIb.total})</span>
+					${badge(devIb.exact, devIb.total)} <span class=\"small\">(${devIb.exact}/${devIb.total}; UA ${devUnapproved}, NT ${devUntranslated})</span>
 					${devIb.total > 0 && (devIb.exact / devIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
 				</td>
 				<td class="svcell">${devSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(devSv.exact + devSv.withBase, devSv.checked)} <span class="small">(${devSv.exact}/${devSv.checked}, base ${devSv.withBase})</span></td>
 				<td>${devDs.exactMatch ? '<span class="badge ok">yes</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
 				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
 				<td class="crowdin-cell" data-lang="${lang}" data-env="prod">
-					${badge(prodIb.exact, prodIb.total)} <span class="small">(${prodIb.exact}/${prodIb.total})</span>
+					${badge(prodIb.exact, prodIb.total)} <span class=\"small\">(${prodIb.exact}/${prodIb.total}; UA ${prodUnapproved}, NT ${prodUntranslated})</span>
 					${prodIb.total > 0 && (prodIb.exact / prodIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
 				</td>
 				<td class="svcell">${prodSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(prodSv.exact + prodSv.withBase, prodSv.checked)} <span class="small">(${prodSv.exact}/${prodSv.checked}, base ${prodSv.withBase})</span></td>
