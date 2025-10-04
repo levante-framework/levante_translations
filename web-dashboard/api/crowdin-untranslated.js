@@ -81,23 +81,32 @@ export default async function handler(req, res) {
             return;
         }
         
-        // Use CroQL to get strings that have translations for this language
-        // We'll process the results to determine which are unapproved
-        const croql = `count of translations where (language = @language:"${lang}") > 0`;
+        // Use CroQL to get strings by category for this language
+        // Untranslated: no translations for the language
+        const untranslatedCroql = `count of translations where ( language = @language:"${lang}" ) = 0`;
+        // Unapproved: has translations for the language, but none of those translations are approved
+        const unapprovedCroql = `count of translations where ( language = @language:"${lang}" and ( count of approvals > 0 ) ) = 0 and count of translations where ( language = @language:"${lang}" ) > 0`;
         
-        const stringsResponse = await fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/strings?croql=${encodeURIComponent(croql)}`, {
-            headers: {
-                'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        });
+        const [untranslatedRes, unapprovedRes] = await Promise.all([
+            fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/strings?croql=${encodeURIComponent(untranslatedCroql)}`, {
+                headers: { 'Authorization': `Bearer ${CROWDIN_TOKEN}`, 'Content-Type': 'application/json' }
+            }),
+            fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/strings?croql=${encodeURIComponent(unapprovedCroql)}`, {
+                headers: { 'Authorization': `Bearer ${CROWDIN_TOKEN}`, 'Content-Type': 'application/json' }
+            })
+        ]);
 
-        if (!stringsResponse.ok) {
-            const errorText = await stringsResponse.text();
-            throw new Error(`Crowdin strings API error: ${stringsResponse.status} ${stringsResponse.statusText} - ${errorText}`);
+        if (!untranslatedRes.ok) {
+            const errorText = await untranslatedRes.text();
+            throw new Error(`Crowdin strings API error (untranslated): ${untranslatedRes.status} ${untranslatedRes.statusText} - ${errorText}`);
+        }
+        if (!unapprovedRes.ok) {
+            const errorText = await unapprovedRes.text();
+            throw new Error(`Crowdin strings API error (unapproved): ${unapprovedRes.status} ${unapprovedRes.statusText} - ${errorText}`);
         }
 
-        const stringsData = await stringsResponse.json();
+        const untranslatedData = await untranslatedRes.json();
+        const unapprovedData = await unapprovedRes.json();
         
         // Get file information for mapping
         const filesResponse = await fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/files`, {
@@ -117,71 +126,52 @@ export default async function handler(req, res) {
             }
         }
         
-        // Get translation details for each string to check approval status
-        const untranslated = [];
-        let unapprovedCount = 0;
+        // Get translation details for each string to classify status
+        const items = [];
+        let untranslatedCount = 0; // no translation at all
+        let unapprovedCount = 0;   // has translation but none approved
         
-        if (stringsData.data && Array.isArray(stringsData.data)) {
-            for (const stringItem of stringsData.data) {
-                const stringId = stringItem.data.id;
-                
-                // Get translations for this specific string
-                const translationResponse = await fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/strings/${stringId}/translations?languageId=${lang}`, {
-                    headers: {
-                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                if (translationResponse.ok) {
-                    const translationData = await translationResponse.json();
-                    
-                    // Check if any translation is approved
-                    let hasApprovedTranslation = false;
-                    if (translationData.data && Array.isArray(translationData.data)) {
-                        for (const translation of translationData.data) {
-                            if (translation.data.approved === true) {
-                                hasApprovedTranslation = true;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    // If no approved translation found, add to unapproved list
-                    if (!hasApprovedTranslation) {
-                        unapprovedCount++;
-                        
-                        // Add to display list (limit to 20 for UI)
-                        if (untranslated.length < 20) {
-                            const fileId = stringItem.data.fileId;
-                            const fileName = filesMap[fileId] || 'Unknown file';
-                            const sourceText = stringItem.data.text || stringItem.data.sourceText || 'No text available';
-                            
-                            untranslated.push({
-                                item_id: stringItem.data.identifier || stringItem.data.id,
-                                source_file: fileName,
-                                source_text: sourceText
-                            });
-                        }
-                    }
+        // Add untranslated items
+        if (untranslatedData.data && Array.isArray(untranslatedData.data)) {
+            for (const stringItem of untranslatedData.data) {
+                untranslatedCount++;
+                if (items.length < 20) {
+                    const fileId = stringItem.data.fileId;
+                    const fileName = filesMap[fileId] || 'Unknown file';
+                    const sourceText = stringItem.data.text || stringItem.data.sourceText || 'No text available';
+                    items.push({ item_id: stringItem.data.identifier || stringItem.data.id, source_file: fileName, source_text: sourceText, status: 'untranslated' });
                 }
             }
         }
         
-        // Add summary if there are more items than displayed
-        if (unapprovedCount > 20) {
-            untranslated.push({
-                item_id: `... and ${unapprovedCount - 20} more unapproved items`,
-                source_file: 'Multiple source files',
-                source_text: `Total unapproved items: ${unapprovedCount}. Showing first 20 items above.`
-            });
+        // Add unapproved items
+        if (unapprovedData.data && Array.isArray(unapprovedData.data)) {
+            for (const stringItem of unapprovedData.data) {
+                unapprovedCount++;
+                if (items.length < 20) {
+                    const fileId = stringItem.data.fileId;
+                    const fileName = filesMap[fileId] || 'Unknown file';
+                    const sourceText = stringItem.data.text || stringItem.data.sourceText || 'No text available';
+                    items.push({ item_id: stringItem.data.identifier || stringItem.data.id, source_file: fileName, source_text: sourceText, status: 'unapproved' });
+                }
+            }
+        }
+        
+        // Add summary if more than we displayed
+        const more = untranslatedCount + unapprovedCount - items.length;
+        if (more > 0) {
+            items.push({ item_id: `... and ${more} more`, source_file: 'Multiple files', source_text: `Additional items not shown`, status: 'summary' });
         }
         
         res.status(200).json({
             language: lang,
             environment: env,
-            total_untranslated: unapprovedCount,
-            untranslated: untranslated,
+            totals: {
+                untranslated: untranslatedCount,
+                unapproved: unapprovedCount,
+                missing: untranslatedCount + unapprovedCount
+            },
+            items,
             timestamp: new Date().toISOString()
         });
 

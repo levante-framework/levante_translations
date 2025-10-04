@@ -74,30 +74,34 @@ export default async function handler(req, res) {
         // Get source language info
         const sourceLanguage = projectData.data.sourceLanguageId;
         
-        // Get total strings from the first language progress entry
+        // Get total strings (phrases/strings preferred over words)
         let totalStrings = 0;
         if (Array.isArray(progressData.data) && progressData.data.length > 0) {
-            totalStrings = progressData.data[0].data.words?.total || 0;
+            const first = progressData.data[0].data || {};
+            totalStrings = (first.phrases?.total ?? first.strings?.total ?? first.words?.total ?? 0);
         }
         
         // Debug: log the project data to understand the structure
         console.log('Project data structure:', JSON.stringify(projectData.data, null, 2));
         
-        // Process each target language - progressData.data is an array
+        // Process each target language - prefer phrases/strings metrics
         if (Array.isArray(progressData.data)) {
             for (const languageProgress of progressData.data) {
-                const languageId = languageProgress.data.languageId;
-                const approved = languageProgress.data.words?.approved || 0;
-                const translated = languageProgress.data.words?.translated || 0;
+                const lp = languageProgress.data || {};
+                const languageId = lp.languageId;
+                const approved = (lp.phrases?.approved ?? lp.strings?.approved ?? lp.words?.approved ?? 0);
+                const translated = (lp.phrases?.translated ?? lp.strings?.translated ?? lp.words?.translated ?? 0);
                 
                 // Map Crowdin language IDs to our language codes
                 const langCode = mapCrowdinLanguageId(languageId);
                 
                 if (langCode) {
+                    const missing = Math.max(0, totalStrings - approved);
                     stats[langCode] = {
                         approved,
                         translated,
                         total: totalStrings,
+                        missing,
                         percentage: totalStrings > 0 ? Math.round((approved / totalStrings) * 100) : 0
                     };
                 }

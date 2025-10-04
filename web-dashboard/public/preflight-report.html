@@ -987,12 +987,39 @@
 				
 				const data = await response.json();
 				
-				if (data.untranslated && data.untranslated.length > 0) {
+				const items = data.items || data.untranslated || [];
+				const totals = data.totals || { 
+					untranslated: items.filter(i => i.status === 'untranslated').length,
+					unapproved: items.filter(i => i.status === 'unapproved').length,
+					missing: items.length
+				};
+				
+				if ((totals.missing ?? items.length) > 0) {
+					const grouped = {
+						untranslated: items.filter(i => i.status === 'untranslated'),
+						unapproved: items.filter(i => i.status === 'unapproved')
+					};
 					body.innerHTML = `
 						<div class="untranslated-items">
-							<p><strong>Found ${data.untranslated.length} untranslated items:</strong></p>
+							<p><strong>Missing items:</strong> ${totals.missing} <span class="small">(untranslated: ${totals.untranslated}, unapproved: ${totals.unapproved})</span></p>
+							${grouped.untranslated.length ? `<h4>Untranslated (${grouped.untranslated.length})</h4>` : ''}
 							<div class="items-list">
-								${data.untranslated.map(item => `
+								${grouped.untranslated.map(item => `
+									<div class="item-card">
+										<div class="item-header">
+											<strong>${item.item_id}</strong>
+											<span class="source-file">${item.source_file}</span>
+										</div>
+										<div class="item-content">
+											<p><strong>Source Text:</strong></p>
+											<div class="source-text">${item.source_text}</div>
+										</div>
+									</div>
+								`).join('')}
+							</div>
+							${grouped.unapproved.length ? `<h4 style="margin-top:12px;">Translated but not approved (${grouped.unapproved.length})</h4>` : ''}
+							<div class="items-list">
+								${grouped.unapproved.map(item => `
 									<div class="item-card">
 										<div class="item-header">
 											<strong>${item.item_id}</strong>
@@ -1008,7 +1035,7 @@
 						</div>
 					`;
 				} else {
-					body.innerHTML = '<div class="no-items">No untranslated items found.</div>';
+					body.innerHTML = '<div class="no-items">No untranslated or unapproved items found.</div>';
 				}
 			} catch (error) {
 				body.innerHTML = `<div class="error">Error loading untranslated items: ${error.message}</div>`;
