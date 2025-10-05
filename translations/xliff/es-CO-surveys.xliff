@@ -1769,15 +1769,6 @@ page5.q.childsexbirth.choice.female.text
 q.childsexbirth</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text">
-        <source>Male</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-page5.q.childsexbirth.choice.male.text
-q.childsexbirth</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="148300" resname="page5.q.childsexbirth.othertext" approved="yes">
         <source>Other (describe)</source>
         <target state="final">Otro (describir)</target>
@@ -6324,14 +6315,6 @@ q.selfparentmics</context>
           <context context-type="source">parent_survey_child.json
 page19.q.selfparentmics.q.selfparentmics12.labelfalse
 q.selfparentmics</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="146692" resname="startsurveytext">
-        <source>Start Survey</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-startsurveytext</context>
         </context-group>
       </trans-unit>
       <trans-unit id="146694" resname="pageprevtext" approved="yes">
