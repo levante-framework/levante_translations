@@ -12,13 +12,17 @@ import utilities.utilities as u
 # language_dict = conf.get_languages()
 
 
-def generate_audio(language, force_regenerate=False, hi_fi: bool = False): 
+def generate_audio(language, force_regenerate=False, hi_fi: bool = False, force_id: bool = False): 
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
     print(f"Using simplified folder structure: audio_files/<language_code>/")
     print("Audio quality: " + ("High-fidelity (mp3_44100_64)" if hi_fi else "Compressed default (mp3_22050_32)"))
     if force_regenerate:
         print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
+    if force_id:
+        print("🔄 FORCE-ID MODE: Will regenerate files without ID3 tags")
+    else:
+        print("⏭️  SKIP MODE: Will skip existing files without ID3 tags (use --force-id to regenerate)")
     print("="*60)
 
     # Always re-read latest language configuration (from GCS when available)
@@ -320,7 +324,8 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False):
                 translation_text,
                 voice,
                 service,
-                lang_code
+                lang_code,
+                force_id
             )
             
             if not needs_regen:
@@ -421,18 +426,44 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False):
         print(f"   Items with errors: {result.get('Errors', 0)}")
         print(f"   Items with no task assigned: {result.get('NoTask', 0)}")
         total_attempted = result.get('Processed', 0) + result.get('Errors', 0) + result.get('NoTask', 0)
-        print(f"   Total items attempted: {total_attempted}")
+        print(f"   Items attempted this run: {total_attempted}")
     else:
         print(f"   Items attempted this run: {len(diffData) if not diffData.empty else 0}")
     
+    print(f"\n   📊 Dataset Overview:")
     print(f"   Total items in dataset: {len(translationData)}")
+    
+    # Count items with valid translations
+    valid_translation_count = 0
+    empty_translation_count = 0
+    for index, row in translationData.iterrows():
+        translation = row.get(lang_code, '')
+        if pd.isna(translation) or translation == '' or translation is None:
+            empty_translation_count += 1
+        else:
+            valid_translation_count += 1
+    
+    print(f"   Items with valid {lang_code} translations: {valid_translation_count}")
+    if empty_translation_count > 0:
+        print(f"   Items with empty/missing translations: {empty_translation_count}")
     
     # Count total audio files for this language (for reference)
     try:
-        total_audio_files = u.count_audio_files(lang_code)
-        print(f"   Total existing audio files on disk: {total_audio_files}")
-    except:
-        print(f"   Total existing audio files on disk: Unable to count")
+        total_audio_files = int(u.count_audio_files(lang_code))
+        print(f"\n   💾 Audio Files on Disk:")
+        print(f"   Total existing audio files: {total_audio_files}")
+        print(f"   Expected audio files: {valid_translation_count}")
+        
+        diff = total_audio_files - valid_translation_count
+        if diff > 0:
+            print(f"   ⚠️  Extra files on disk: {diff} (possibly orphaned)")
+        elif diff < 0:
+            print(f"   ⚠️  Missing files: {abs(diff)}")
+        else:
+            print(f"   ✅ Audio files match expected count")
+    except Exception as e:
+        print(f"\n   💾 Audio Files on Disk:")
+        print(f"   Total existing audio files: Unable to count (error: {e})")
     
     print(f"\nAudio generation for {language} complete!")
     print("=" * 60)
@@ -450,7 +481,8 @@ def main(
     api_key: str = None,
     force_regenerate: bool = False,
     hi_fi: bool = False,
-    validate_only: bool = False
+    validate_only: bool = False,
+    force_id: bool = False
 ):
     
     if validate_only:
@@ -464,7 +496,7 @@ def main(
             audio_base_dir = "audio_files"
             
             items_to_regenerate = validate_audio_files_for_language(
-                language, language_dict, translation_data, audio_base_dir
+                language, language_dict, translation_data, audio_base_dir, force_id
             )
             
             if not items_to_regenerate.empty:
@@ -478,13 +510,15 @@ def main(
             return
     else:
         # Normal audio generation
-        generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi)
+        generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi, force_id=force_id)
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate speech audio for translations')
     parser.add_argument('language', help='Language to generate audio for (e.g., German, Spanish, French, Dutch, English)')
     parser.add_argument('--force', '-f', action='store_true', 
                         help='Force regenerate: clears translation cache for the language and regenerates ALL audio items using the current voice from config')
+    parser.add_argument('--force-id', action='store_true', 
+                        help='Force regenerate files without ID3 tags (by default, files without ID3 tags are skipped)')
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
     parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
@@ -497,7 +531,8 @@ if __name__ == "__main__":
          api_key=args.api_key,
          force_regenerate=args.force,
          hi_fi=args.hi_fi,
-         validate_only=args.validate_only)
+         validate_only=args.validate_only,
+         force_id=args.force_id)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 

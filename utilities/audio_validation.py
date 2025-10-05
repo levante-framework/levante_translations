@@ -74,7 +74,8 @@ def needs_regeneration(
     current_text: str, 
     current_voice: str, 
     current_service: str,
-    current_lang_code: str
+    current_lang_code: str,
+    force_id: bool = False
 ) -> Tuple[bool, str]:
     """
     Check if an audio file needs regeneration based on text or voice changes.
@@ -85,6 +86,7 @@ def needs_regeneration(
         current_voice (str): Current voice name
         current_service (str): Current TTS service (ElevenLabs, PlayHT)
         current_lang_code (str): Current language code
+        force_id (bool): If True, regenerate files without ID3 tags. If False, skip them.
         
     Returns:
         Tuple of (needs_regeneration: bool, reason: str)
@@ -94,7 +96,10 @@ def needs_regeneration(
     
     metadata = read_audio_metadata(audio_file_path)
     if not metadata:
-        return True, "Cannot read audio metadata (missing ID3 tags)"
+        if force_id:
+            return True, "Cannot read audio metadata (missing ID3 tags) - forcing regeneration"
+        else:
+            return False, "Skipping file without ID3 tags (use --force-id to regenerate)"
     
     # Check text content
     stored_text = metadata.get('text', '').strip()
@@ -125,7 +130,8 @@ def validate_audio_files_for_language(
     language: str,
     language_dict: Dict[str, Any],
     translation_data: pd.DataFrame,
-    audio_base_dir: str
+    audio_base_dir: str,
+    force_id: bool = False
 ) -> pd.DataFrame:
     """
     Validate all audio files for a language and return items that need regeneration.
@@ -135,6 +141,7 @@ def validate_audio_files_for_language(
         language_dict (Dict): Language configuration dictionary
         translation_data (pd.DataFrame): Translation data
         audio_base_dir (str): Base directory for audio files
+        force_id (bool): If True, regenerate files without ID3 tags. If False, skip them.
         
     Returns:
         pd.DataFrame: Items that need audio regeneration
@@ -176,7 +183,8 @@ def validate_audio_files_for_language(
             translation_text,
             voice,
             service,
-            lang_code
+            lang_code,
+            force_id
         )
         
         if needs_regen:
