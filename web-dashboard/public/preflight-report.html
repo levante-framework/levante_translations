@@ -35,6 +35,17 @@
 			color: #ff6b00; 
 			transform: scale(1.1);
 		}
+		.info-icon {
+			color: #0d6efd;
+			cursor: pointer;
+			margin-left: 5px;
+			font-size: 12px;
+			display: inline-block;
+		}
+		.info-icon:hover {
+			color: #0a58ca;
+			transform: scale(1.1);
+		}
 		
 		/* Untranslated items modal styles */
 		.untranslated-items { margin: 16px 0; }
@@ -99,8 +110,8 @@
 	</style>
 </head>
 <body>
-	<h1><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
-	<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+	<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+		<h1 style="margin: 0;"><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
 		<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
 	</div>
 	
@@ -117,11 +128,11 @@
 				<th colspan="4" style="text-align: center; background: #f8f9fa;">Prod Environment</th>
 			</tr>
 			<tr>
-				<th>From Crowdin</th>
+				<th>Item Bank</th>
 				<th>Surveys</th>
 				<th>Dashboard</th>
 				<th>Audio</th>
-				<th>From Crowdin</th>
+				<th>Item Bank</th>
 				<th>Surveys</th>
 				<th>Dashboard</th>
 				<th>Audio</th>
@@ -137,7 +148,7 @@
 			- <span class="badge warn">base</span>: only base language file exists (e.g., de)
 			- <span class="badge err">missing</span>: neither exact nor base locale file exists
 			- Surveys %: percentage of survey JSONs that include the locale (or base for fallback; English counts implicit defaults)
-			- From Crowdin: coverage of Item Bank CSV translations
+			- Item Bank: coverage of translations in item-bank-translations.csv from GCS buckets (NT = Not Translated)
 		</div>
 	</div>
 
@@ -285,6 +296,30 @@
 				<p id="configValidationSummaryProd" class="small">Loading…</p>
 				<p class="small"><span id="configValidationDetailsProd" class="link" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
 			</div>
+		</div>
+	</div>
+
+	<div class="section" id="crowdinAuditSection">
+		<h2 style="font-size:16px; margin:0 0 8px 0;">Crowdin</h2>
+	</div>
+	
+	<table class="table" id="crowdinTable" aria-label="Crowdin Translation Status table">
+		<thead>
+			<tr>
+				<th>Language</th>
+				<th>Code</th>
+				<th>From Crowdin</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+
+	<div class="footer" style="margin: 16px 0;">
+		<div class="small" style="margin-top:6px;">
+			- From Crowdin: coverage of Item Bank CSV translations from Crowdin API
+			- A: Approved translations
+			- UA: Unapproved (translated but not approved)
+			- NT: Not Translated
 		</div>
 	</div>
 
@@ -969,13 +1004,89 @@
 			document.getElementById('untranslatedModal').style.display = 'none';
 		}
 		
-		// Show untranslated items modal
+		// Show untranslated items modal for bucket (Item Bank)
+		async function showBucketUntranslatedModal(lang, env) {
+			const modal = document.getElementById('untranslatedModal');
+			const title = document.getElementById('untranslatedModalTitle');
+			const body = document.getElementById('untranslatedModalBody');
+			
+			title.textContent = `Item Bank - Untranslated Items - ${lang.toUpperCase()} (${env})`;
+			body.innerHTML = '<div class="loading">Loading untranslated items...</div>';
+			modal.style.display = 'block';
+			
+			try {
+				const bucket = env === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
+				const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
+				
+				const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+				if (!csvRes.ok) {
+					throw new Error(`Failed to fetch CSV: ${csvRes.status}`);
+				}
+				
+				const csvText = await csvRes.text();
+				const rows = parseCSVWithEmbeddedNewlines(csvText);
+				
+				if (rows.length < 2) {
+					throw new Error('CSV file is empty or invalid');
+				}
+				
+				const header = rows[0].map(h => h.trim());
+				const langIndex = header.findIndex(h => h.toLowerCase() === lang.toLowerCase());
+				const itemIdIndex = header.findIndex(h => h.toLowerCase() === 'item_id');
+				const enIndex = header.findIndex(h => h.toLowerCase() === 'en');
+				
+				if (langIndex === -1) {
+					throw new Error(`Language ${lang} not found in CSV`);
+				}
+				
+				const untranslatedItems = [];
+				for (let i = 1; i < rows.length; i++) {
+					const row = rows[i];
+					if (row.length > langIndex) {
+						const translation = row[langIndex]?.trim();
+						if (!translation || translation === '') {
+							const itemId = itemIdIndex >= 0 ? row[itemIdIndex]?.trim() : `Row ${i}`;
+							const sourceText = enIndex >= 0 ? row[enIndex]?.trim() : 'N/A';
+							untranslatedItems.push({ item_id: itemId, source_text: sourceText });
+						}
+					}
+				}
+				
+				if (untranslatedItems.length > 0) {
+					body.innerHTML = `
+						<div class="untranslated-items">
+							<p><strong>Untranslated items:</strong> ${untranslatedItems.length}</p>
+							<div class="items-list">
+								${untranslatedItems.map(item => `
+									<div class="item-card">
+										<div class="item-header">
+											<strong>${item.item_id}</strong>
+											<span class="source-file">item-bank-translations.csv</span>
+										</div>
+										<div class="item-content">
+											<p><strong>Source Text (English):</strong></p>
+											<div class="source-text">${item.source_text}</div>
+										</div>
+									</div>
+								`).join('')}
+							</div>
+						</div>
+					`;
+				} else {
+					body.innerHTML = '<div class="no-items">No untranslated items found.</div>';
+				}
+			} catch (error) {
+				body.innerHTML = `<div class="error">Error loading untranslated items: ${error.message}</div>`;
+			}
+		}
+		
+		// Show untranslated items modal (for Crowdin)
 		async function showUntranslatedModal(lang, env) {
 			const modal = document.getElementById('untranslatedModal');
 			const title = document.getElementById('untranslatedModalTitle');
 			const body = document.getElementById('untranslatedModalBody');
 			
-			title.textContent = `Untranslated Items - ${lang.toUpperCase()} (${env})`;
+			title.textContent = `Crowdin - Untranslated Items - ${lang.toUpperCase()} (${env})`;
 			body.innerHTML = '<div class="loading">Loading untranslated items...</div>';
 			modal.style.display = 'block';
 			
@@ -1049,6 +1160,20 @@
 			}
 		}
 		
+		// CSV parsing functions (global scope for reuse)
+		function parseCSVWithEmbeddedNewlines(csvText) {
+			const rows = []; let currentRow = []; let currentField = ''; let inQuotes = false; let i = 0;
+			while (i < csvText.length) {
+				const ch = csvText[i]; const next = i + 1 < csvText.length ? csvText[i + 1] : '';
+				if (ch === '"') { if (inQuotes && next === '"') { currentField += '"'; i += 2; } else { inQuotes = !inQuotes; i++; } }
+				else if (ch === ',' && !inQuotes) { currentRow.push(currentField.trim()); currentField = ''; i++; }
+				else if ((ch === '\n' || ch === '\r') && !inQuotes) { if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); currentRow = []; currentField = ''; } if (ch === '\r' && next === '\n') i += 2; else i++; }
+				else { currentField += ch; i++; }
+			}
+			if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); }
+			return rows.filter(r => r.length > 0 && r.some(f => f && f.trim().length > 0));
+		}
+		
 		// Main data loading function
 		async function loadReportData() {
 
@@ -1070,18 +1195,6 @@
 			} catch (e) {}
 		}
 
-		function parseCSVWithEmbeddedNewlines(csvText) {
-			const rows = []; let currentRow = []; let currentField = ''; let inQuotes = false; let i = 0;
-			while (i < csvText.length) {
-				const ch = csvText[i]; const next = i + 1 < csvText.length ? csvText[i + 1] : '';
-				if (ch === '"') { if (inQuotes && next === '"') { currentField += '"'; i += 2; } else { inQuotes = !inQuotes; i++; } }
-				else if (ch === ',' && !inQuotes) { currentRow.push(currentField.trim()); currentField = ''; i++; }
-				else if ((ch === '\n' || ch === '\r') && !inQuotes) { if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); currentRow = []; currentField = ''; } if (ch === '\r' && next === '\n') i += 2; else i++; }
-				else { currentField += ch; i++; }
-			}
-			if (currentField.trim() || currentRow.length > 0) { currentRow.push(currentField.trim()); if (currentRow.some(f => f.length > 0)) rows.push(currentRow); }
-			return rows.filter(r => r.length > 0 && r.some(f => f && f.trim().length > 0));
-		}
 		function csvToObjects(csvText) {
 			const rows = parseCSVWithEmbeddedNewlines(csvText); if (rows.length === 0) return [];
 			const headers = rows[0]; const data = [];
@@ -1136,6 +1249,60 @@
 				return capitalize(languageName);
 			} catch (e) {
 				return regionPart ? `${langPart} (${regionPart.toUpperCase()})` : langPart;
+			}
+		}
+
+		// Item Bank translation statistics per language (from translations/item-bank-translations.csv)
+		async function bucketStats(lang, environment = 'dev') {
+			try {
+				const bucket = environment === 'prod' ? 'levante-assets-prod' : 'levante-assets-dev';
+				const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
+				
+				const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+				if (!csvRes.ok) {
+					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
+				}
+				
+				const csvText = await csvRes.text();
+				const rows = parseCSVWithEmbeddedNewlines(csvText);
+				
+				if (rows.length < 2) {
+					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
+				}
+				
+				const header = rows[0].map(h => h.trim().toLowerCase());
+				const langIndex = header.findIndex(h => h === lang.toLowerCase());
+				
+				if (langIndex === -1) {
+					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
+				}
+				
+				let totalItems = 0;
+				let approvedItems = 0;
+				
+				for (let i = 1; i < rows.length; i++) {
+					const row = rows[i];
+					if (row.length > langIndex) {
+						totalItems++;
+						const translation = row[langIndex]?.trim();
+						if (translation && translation !== '') {
+							approvedItems++;
+						}
+					}
+				}
+				
+				const untranslated = totalItems - approvedItems;
+				return { 
+					total: totalItems, 
+					exact: approvedItems, 
+					withBase: approvedItems, 
+					unapproved: 0, 
+					untranslated, 
+					missing: untranslated 
+				};
+			} catch (error) {
+				console.error(`Failed to fetch item bank stats for ${lang} in ${environment}:`, error);
+				return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 			}
 		}
 
@@ -2636,49 +2803,43 @@
 			// Get data for both dev and prod environments
 			const [devData, prodData] = await Promise.all([
 				Promise.all([
-					itembankStats(lang, 'dev'),
+					bucketStats(lang, 'dev'),
 					dashboardStats(lang, 'dev'),
 					surveyStats(lang, 'dev'),
 					audioStats(lang, 'dev')
 				]),
 				Promise.all([
-					itembankStats(lang, 'prod'),
+					bucketStats(lang, 'prod'),
 					dashboardStats(lang, 'prod'),
 					surveyStats(lang, 'prod'),
 					audioStats(lang, 'prod')
 				])
 			]);
 			
-			const [devIb, devDs, devSv, devAu] = devData;
-			const [prodIb, prodDs, prodSv, prodAu] = prodData;
+			const [devBucket, devDs, devSv, devAu] = devData;
+			const [prodBucket, prodDs, prodSv, prodAu] = prodData;
 			
-			// Compute breakdowns for Crowdin stats
-			const devApproved = devIb.exact || 0;
-			const devTranslated = devIb.withBase || 0; // includes approved + unapproved
-			const devUnapproved = Math.max(0, devTranslated - devApproved);
-			const devUntranslated = Math.max(0, (devIb.total || 0) - devTranslated);
-			const devBreakdown = `<span class="small">(A ${devApproved}, UA ${devUnapproved}, NT ${devUntranslated})</span>`;
+			// Compute breakdowns for bucket stats (A = approved/present, NT = not translated)
+			const devApproved = devBucket.exact || 0;
+			const devUntranslated = devBucket.untranslated || 0;
 			
-			const prodApproved = prodIb.exact || 0;
-			const prodTranslated = prodIb.withBase || 0;
-			const prodUnapproved = Math.max(0, prodTranslated - prodApproved);
-			const prodUntranslated = Math.max(0, (prodIb.total || 0) - prodTranslated);
-			const prodBreakdown = `<span class="small">(A ${prodApproved}, UA ${prodUnapproved}, NT ${prodUntranslated})</span>`;
+			const prodApproved = prodBucket.exact || 0;
+			const prodUntranslated = prodBucket.untranslated || 0;
 			
 			const tr = document.createElement('tr');
 			tr.innerHTML = `
 				<td>${languageDisplayName(lang)}</td>
 				<td><span class="code">${lang}</span></td>
-				<td class="crowdin-cell" data-lang="${lang}" data-env="dev">
-					${badge(devIb.exact, devIb.total)} <span class=\"small\">(${devIb.exact}/${devIb.total}; UA ${devUnapproved}, NT ${devUntranslated})</span>
-					${devIb.total > 0 && (devIb.exact / devIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
+				<td class="bucket-cell" data-lang="${lang}" data-env="dev">
+					${badge(devBucket.exact, devBucket.total)} <span class=\"small\">(${devBucket.exact}/${devBucket.total}; NT ${devUntranslated})</span>
+					${devUntranslated > 0 ? '<span class="info-icon" title="Click to view untranslated items">ℹ️</span>' : ''}
 				</td>
 				<td class="svcell">${devSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(devSv.exact + devSv.withBase, devSv.checked)} <span class="small">(${devSv.exact}/${devSv.checked}, base ${devSv.withBase})</span></td>
 				<td>${devDs.exactMatch ? '<span class="badge ok">yes</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
 				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
-				<td class="crowdin-cell" data-lang="${lang}" data-env="prod">
-					${badge(prodIb.exact, prodIb.total)} <span class=\"small\">(${prodIb.exact}/${prodIb.total}; UA ${prodUnapproved}, NT ${prodUntranslated})</span>
-					${prodIb.total > 0 && (prodIb.exact / prodIb.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
+				<td class="bucket-cell" data-lang="${lang}" data-env="prod">
+					${badge(prodBucket.exact, prodBucket.total)} <span class=\"small\">(${prodBucket.exact}/${prodBucket.total}; NT ${prodUntranslated})</span>
+					${prodUntranslated > 0 ? '<span class="info-icon" title="Click to view untranslated items">ℹ️</span>' : ''}
 				</td>
 				<td class="svcell">${prodSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(prodSv.exact + prodSv.withBase, prodSv.checked)} <span class="small">(${prodSv.exact}/${prodSv.checked}, base ${prodSv.withBase})</span></td>
 				<td>${prodDs.exactMatch ? '<span class="badge ok">yes</span>' : (prodDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
@@ -2707,8 +2868,41 @@
 			tbody.appendChild(tr);
 		}
 		
-		// Add event listeners for warning icons
-		document.querySelectorAll('.warning-icon').forEach(icon => {
+		// Add event listeners for info icons in Item Bank cells
+		document.querySelectorAll('#reportTable .info-icon').forEach(icon => {
+			icon.addEventListener('click', function() {
+				const cell = this.closest('.bucket-cell');
+				const lang = cell.dataset.lang;
+				const env = cell.dataset.env;
+				showBucketUntranslatedModal(lang, env);
+			});
+		});
+		
+		// Build Crowdin table
+		const crowdinTbody = document.querySelector('#crowdinTable tbody');
+		for (const lang of languageCodes) {
+			const crowdinData = await itembankStats(lang, 'dev');
+			
+			// Compute breakdowns for Crowdin stats
+			const approved = crowdinData.exact || 0;
+			const translated = crowdinData.withBase || 0;
+			const unapproved = Math.max(0, translated - approved);
+			const untranslated = Math.max(0, (crowdinData.total || 0) - translated);
+			
+			const crowdinTr = document.createElement('tr');
+			crowdinTr.innerHTML = `
+				<td>${languageDisplayName(lang)}</td>
+				<td><span class="code">${lang}</span></td>
+				<td class="crowdin-cell" data-lang="${lang}" data-env="dev">
+					${badge(crowdinData.exact, crowdinData.total)} <span class=\"small\">(${crowdinData.exact}/${crowdinData.total}; UA ${unapproved}, NT ${untranslated})</span>
+					${crowdinData.total > 0 && (crowdinData.exact / crowdinData.total) < 1 ? '<span class="warning-icon" title="Click to view untranslated items">⚠️</span>' : ''}
+				</td>
+			`;
+			crowdinTbody.appendChild(crowdinTr);
+		}
+		
+		// Add event listeners for warning icons in Crowdin table
+		document.querySelectorAll('#crowdinTable .warning-icon').forEach(icon => {
 			icon.addEventListener('click', function() {
 				const cell = this.closest('.crowdin-cell');
 				const lang = cell.dataset.lang;
