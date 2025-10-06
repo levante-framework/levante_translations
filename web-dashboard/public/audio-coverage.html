@@ -448,16 +448,30 @@
       const idsWithAnyAudio = new Set(results.filter(r => r && r.ok).map(r => r.id));
       const totalAny = idsWithAnyAudio.size;
       const okPerLang = new Map();
+      const foundIdsPerLang = new Map(); // Track which IDs were found per language
       for (const r of results) {
         if (r && r.ok) {
           okPerLang.set(r.lang, (okPerLang.get(r.lang) || 0) + 1);
+          if (!foundIdsPerLang.has(r.lang)) {
+            foundIdsPerLang.set(r.lang, new Set());
+          }
+          foundIdsPerLang.get(r.lang).add(r.id);
         }
       }
       const missingPerLang = new Map();
+      const missingIdsPerLang = new Map(); // Track which specific IDs are missing per language
       for (const code of langCodes) {
         const okCount = okPerLang.get(code) || 0;
         missingPerLang.set(code, Math.max(0, totalAny - okCount));
+        
+        // Calculate which specific IDs are missing for this language
+        const foundIds = foundIdsPerLang.get(code) || new Set();
+        const missingIds = Array.from(idsWithAnyAudio).filter(id => !foundIds.has(id));
+        missingIdsPerLang.set(code, missingIds);
       }
+      
+      // Store globally for modal access
+      window.missingAudioData = { missingIdsPerLang, results };
 
       // Get child-survey counts
       let childSurveyCounts = {};
@@ -709,54 +723,38 @@
     // Function to load and display missing audio details
     async function loadMissingAudioDetails(lang, voice, container) {
       try {
-        const bucket = getSelectedBucket();
-        const source = currentSource;
-        
-        // Get all item IDs from the CSV
-        const allItemIds = await getAllItemIds();
-        
-        // Check which items are missing for this language/voice combination
-        const missingItems = [];
-        
-        for (const itemId of allItemIds) {
-          try {
-            const result = await readTag({lang, id: itemId});
-            if (!result || !result.ok || result.voice !== voice) {
-              missingItems.push({
-                id: itemId,
-                reason: !result ? 'File not found' : 
-                       !result.ok ? 'Error reading file' : 
-                       'Voice mismatch'
-              });
-            }
-          } catch (error) {
-            missingItems.push({
-              id: itemId,
-              reason: 'Error: ' + error.message
-            });
-          }
+        // Use pre-computed missing audio data from the scan
+        if (!window.missingAudioData || !window.missingAudioData.missingIdsPerLang) {
+          container.innerHTML = '<p style="color: orange;">⚠️ Please run a scan first to see missing audio details.</p>';
+          return;
         }
         
+        const { missingIdsPerLang } = window.missingAudioData;
+        const missingIds = missingIdsPerLang.get(lang) || [];
+        
         // Display missing items
-        if (missingItems.length === 0) {
-          container.innerHTML = '<p style="color: green;">No missing audio files found!</p>';
+        if (missingIds.length === 0) {
+          container.innerHTML = '<p style="color: green;">✅ No missing audio files found for this language!</p>';
         } else {
-          const itemsList = missingItems.slice(0, 50).map(item => 
-            `<div style="padding: 5px; border-bottom: 1px solid #eee;">
-              <strong>${item.id}</strong> - ${item.reason}
+          const itemsList = missingIds.slice(0, 100).map(id => 
+            `<div style="padding: 5px; border-bottom: 1px solid #eee; font-family: monospace;">
+              ${id}
             </div>`
           ).join('');
           
           container.innerHTML = `
-            <h4>Missing Audio Files (${Math.min(50, missingItems.length)} of ${missingItems.length} shown):</h4>
-            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+            <h4>Missing Audio Files (${Math.min(100, missingIds.length)} of ${missingIds.length} shown):</h4>
+            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9fafb;">
               ${itemsList}
             </div>
-            ${missingItems.length > 50 ? '<p style="color: #666; font-style: italic;">... and ' + (missingItems.length - 50) + ' more</p>' : ''}
+            ${missingIds.length > 100 ? '<p style="color: #666; font-style: italic; margin-top: 8px;">... and ' + (missingIds.length - 100) + ' more</p>' : ''}
+            <p style="margin-top: 12px; font-size: 13px; color: #6b7280;">
+              <strong>Note:</strong> These items exist in other languages but are missing audio files for <strong>${lang}</strong>.
+            </p>
           `;
         }
       } catch (error) {
-        container.innerHTML = `<p style="color: red;">Error loading details: ${error.message}</p>`;
+        container.innerHTML = `<p style="color: red;">❌ Error loading missing audio details: ${error.message}</p>`;
       }
     }
 
