@@ -54,7 +54,7 @@
 </context>
           <context context-type="x-crowdin-label">general</context>
         </context-group>
-        <note from="sachinallums" priority="4">Says, &quot;Translation is outdated. Added 05 August 2025 16:08 before last source update 12 Aug 2025, 10:59&quot;</note>
+        <note from="Sachin Allums (sachinallums)" priority="4">Says, &quot;Translation is outdated. Added 05 August 2025 16:08 before last source update 12 Aug 2025, 10:59&quot;</note>
       </trans-unit>
       <trans-unit id="51317" resname="general-intro3" approved="yes">
         <source>Now that you have your buddy, we want to explain how the games work.</source>
@@ -3063,6 +3063,18 @@ Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Es
           <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="51749" resname="ToM-scene3-q3-emotion_reasoning" approved="yes">
+        <source>Look, Isabel and Ivan found Joshua, and won the game! How do you think Isabel feels about winning the game?</source>
+        <target state="final">¡Mira, Isabel e Iván encontraron a Johan y ganaron el juego! ¿Cómo crees que se siente Isabel por ganar el juego?</target>
+        <context-group purpose="information">
+          <context context-type="source">ToM-scene3-q3-emotion_reasoning
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3p413c595r4r46535a533g6s44335v4j676g403n4a3k4i615n4?t=51749</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3r473c595r4r46535a533g6s44335v4j676g403n4a3k4i615n4?t=51749</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="51751" resname="ToM-scene4-instruct1" approved="yes">
         <source>Now the games are over, and it's almost time to go home. Mother tells the kids to find all of their toys. </source>
         <target state="final">Ya se acabaron los juegos y es hora de volver a casa. Mamá les dice a los niños que busquen todos sus juguetes.</target>
@@ -3107,6 +3119,18 @@ Algunas preguntas te resultarán fáciles y otras difíciles. ¡No pasa nada! Es
 </context>
           <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3p493c595r4r46535a533g6s44335v4j676g403o443k4i615n4?t=51757</context>
           <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3s453c595r4r46535a533g6s44335v4j676g403o443k4i615n4?t=51757</context>
+          <context context-type="x-crowdin-label-1">theory-of-mind</context>
+          <context context-type="x-crowdin-label-2">Stories</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51759" resname="ToM-scene4-instruct3" approved="yes">
+        <source>Joshua can't find his truck because earlier in the day, when no one was looking, Isabel took the toy truck and buried it in the sandbox. </source>
+        <target state="final">Johan no encuentra su camión porque antes, cuando nadie miraba, Isabel cogió el camión de juguete y lo enterró en la arena. </target>
+        <context-group purpose="information">
+          <context context-type="source">ToM-scene4-instruct3
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3q413c595r4r46535a533g6s44335v4j676g403o453k4i615n4?t=51759</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3s473c595r4r46535a533g6s44335v4j676g403o453k4i615n4?t=51759</context>
           <context context-type="x-crowdin-label-1">theory-of-mind</context>
           <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
@@ -4740,7 +4764,7 @@ Mamá llega a casa y le dice a Sam que acaba de pasar por la tienda. &quot;¿Ven
           <context context-type="x-crowdin-label-1">vocab</context>
           <context context-type="x-crowdin-label-2">Vocabulary</context>
         </context-group>
-        <note from="sachinallums" priority="4">Vocab items for German aren't capitalized for any of the nouns, though they probably should be</note>
+        <note from="Sachin Allums (sachinallums)" priority="4">Vocab items for German aren't capitalized for any of the nouns, though they probably should be</note>
       </trans-unit>
       <trans-unit id="52037" resname="vocab-item-010" approved="yes">
         <source>the buffet</source>
