@@ -407,8 +407,24 @@
 			
 			// Check if values match
 			if (devValue === prodValue) {
-				btn.textContent = 'Go';
-				btn.className = 'stoplight go';
+				// Special case: if both environments have the same problem, show "Needs fixing"
+				// For Translation Completeness: both have missing translations
+				// For Asset Integrity: both have issues
+				// For Visual Assets: both have PNGs to convert
+				const needsFixing = (
+					(buttonId === 'translationCompletenessStoplight' && devValue > 0) ||
+					(buttonId === 'assetIntegrityStoplight' && devValue > 0) ||
+					(buttonId === 'visualStoplight' && devValue > 0)
+				);
+				
+				if (needsFixing) {
+					btn.textContent = 'Needs fixing';
+					btn.className = 'stoplight diff'; // Use warning color
+					btn.onclick = () => showDiffModal(buttonId, devValue, prodValue);
+				} else {
+					btn.textContent = 'Ready to go';
+					btn.className = 'stoplight go';
+				}
 			} else {
 				btn.textContent = 'Diff';
 				btn.className = 'stoplight diff';
@@ -1322,19 +1338,25 @@
 				if (!langStats) {
 					return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 				}
-				const total = langStats.total || 0;
-				// Fetch missing breakdown (unapproved + untranslated) from modal API
-				const missRes = await fetch(`/api/crowdin-untranslated?lang=${encodeURIComponent(lang)}&env=${encodeURIComponent(environment)}`, { cache: 'no-cache' });
-				let unapproved = 0, untranslated = 0, missing = 0;
-				if (missRes.ok) {
-					const miss = await missRes.json();
+			const total = langStats.total || 0;
+			// Fetch missing breakdown (unapproved + untranslated) from modal API
+			const missRes = await fetch(`/api/crowdin-untranslated?lang=${encodeURIComponent(lang)}&env=${encodeURIComponent(environment)}`, { cache: 'no-cache' });
+			let unapproved = 0, untranslated = 0, missing = 0;
+			if (missRes.ok) {
+				const miss = await missRes.json();
+				if (miss.error) {
+					console.warn(`Crowdin untranslated API error for ${lang}:`, miss.error, miss.details);
+				} else {
 					unapproved = miss?.totals?.unapproved || 0;
 					untranslated = miss?.totals?.untranslated || 0;
 					missing = unapproved + untranslated;
 				}
-				const approved = Math.max(0, total - missing);
-				const translated = Math.max(0, approved + unapproved);
-				return { total, exact: approved, withBase: translated, unapproved, untranslated, missing };
+			} else {
+				console.warn(`Failed to fetch untranslated data for ${lang}: ${missRes.status} ${missRes.statusText}`);
+			}
+			const approved = Math.max(0, total - missing);
+			const translated = Math.max(0, approved + unapproved);
+			return { total, exact: approved, withBase: translated, unapproved, untranslated, missing };
 			} catch (error) {
 				return { total: 0, exact: 0, withBase: 0, unapproved: 0, untranslated: 0, missing: 0 };
 			}
@@ -2033,23 +2055,27 @@
 								languages: itemMissingLangs
 							});
 						}
-					}
-				}
-				
-				const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
-				
-				summaryEl.innerHTML = `✅ <strong>${completeness}%</strong> complete (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
-				
-				if (missingTranslations > 0) {
-					detailsEl.style.display = 'inline';
-					detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
-				}
-				
-				validateBtn.style.display = 'inline-block';
-				validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
-				
-				// Store for stoplight comparison
-				window.translationCompletenessDevMissing = missingTranslations;
+			}
+		}
+		
+		const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
+		
+		// Choose icon based on completeness level
+		const icon = completeness >= 100 ? '✅' : (completeness >= 95 ? '⚠️' : '❌');
+		const statusText = completeness >= 100 ? 'complete' : 'incomplete';
+		
+		summaryEl.innerHTML = `${icon} <strong>${completeness}%</strong> ${statusText} (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
+		
+		if (missingTranslations > 0) {
+			detailsEl.style.display = 'inline';
+			detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
+		}
+		
+		validateBtn.style.display = 'inline-block';
+		validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
+		
+		// Store for stoplight comparison
+		window.translationCompletenessDevMissing = missingTranslations;
 				
 			} catch (error) {
 				summaryEl.textContent = `❌ Error: ${error.message}`;
@@ -2102,24 +2128,28 @@
 								missing: itemMissing,
 								languages: itemMissingLangs
 							});
-						}
 					}
 				}
-				
-				const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
-				
-				summaryEl.innerHTML = `✅ <strong>${completeness}%</strong> complete (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
-				
-				if (missingTranslations > 0) {
-					detailsEl.style.display = 'inline';
-					detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
-				}
-				
-				validateBtn.style.display = 'inline-block';
-				validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
-				
-				// Store for stoplight comparison
-				window.translationCompletenessProdMissing = missingTranslations;
+			}
+			
+			const completeness = ((totalItems * languageColumns.length - missingTranslations) / (totalItems * languageColumns.length) * 100).toFixed(1);
+			
+			// Choose icon based on completeness level
+			const icon = completeness >= 100 ? '✅' : (completeness >= 95 ? '⚠️' : '❌');
+			const statusText = completeness >= 100 ? 'complete' : 'incomplete';
+			
+			summaryEl.innerHTML = `${icon} <strong>${completeness}%</strong> ${statusText} (${missingTranslations} missing translations across ${languageColumns.length} languages)`;
+			
+			if (missingTranslations > 0) {
+				detailsEl.style.display = 'inline';
+				detailsEl.onclick = () => showTranslationCompletenessDetails(missingDetails, languageColumns);
+			}
+			
+			validateBtn.style.display = 'inline-block';
+			validateBtn.onclick = () => validateTranslationCompleteness(missingDetails);
+			
+			// Store for stoplight comparison
+			window.translationCompletenessProdMissing = missingTranslations;
 				
 			} catch (error) {
 				summaryEl.textContent = `❌ Error: ${error.message}`;
@@ -2201,47 +2231,8 @@
 					});
 				}
 				
-				// Check for missing audio files (compare with expected item IDs from CSV)
-				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
-				const audioFileIds = new Set(audioFiles.map(f => {
-					const parts = f.split('/');
-					const filename = parts[parts.length - 1];
-					return filename.replace('.mp3', '');
-				}));
-				
-				// Get expected item IDs from the CSV
-				let missingAudioFiles = [];
-				try {
-					const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
-					const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
-					if (csvRes.ok) {
-						const csvText = await csvRes.text();
-						const csvRows = parseCSVWithEmbeddedNewlines(csvText);
-						if (csvRows.length > 1) {
-							const header = csvRows[0].map(h => h.trim().toLowerCase());
-							const itemIdIndex = header.findIndex(h => h === 'item_id');
-							if (itemIdIndex >= 0) {
-								for (let i = 1; i < csvRows.length; i++) {
-									const itemId = csvRows[i][itemIdIndex]?.trim();
-									if (itemId && !audioFileIds.has(itemId)) {
-										missingAudioFiles.push(itemId);
-									}
-								}
-							}
-						}
-					}
-				} catch (e) {
-					console.warn('Failed to check missing audio files:', e);
-				}
-				
-				if (missingAudioFiles.length > 0) {
-					issues.push({
-						type: 'Missing Audio Files',
-						count: missingAudioFiles.length,
-						description: `${missingAudioFiles.length} item(s) from CSV are missing audio files`,
-						files: missingAudioFiles.slice(0, 20) // Show first 20 missing files
-					});
-				}
+		// Note: Audio file checking removed - use Audio Coverage report for detailed audio analysis
+		// The previous check was too broad and didn't account for language-specific audio or items without translations
 				
 				// Check for empty or very small files
 				const smallFiles = [];
@@ -2321,47 +2312,8 @@
 					});
 				}
 				
-				// Check for missing audio files (compare with expected item IDs from CSV)
-				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
-				const audioFileIds = new Set(audioFiles.map(f => {
-					const parts = f.split('/');
-					const filename = parts[parts.length - 1];
-					return filename.replace('.mp3', '');
-				}));
-				
-				// Get expected item IDs from the CSV
-				let missingAudioFiles = [];
-				try {
-					const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
-					const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
-					if (csvRes.ok) {
-						const csvText = await csvRes.text();
-						const csvRows = parseCSVWithEmbeddedNewlines(csvText);
-						if (csvRows.length > 1) {
-							const header = csvRows[0].map(h => h.trim().toLowerCase());
-							const itemIdIndex = header.findIndex(h => h === 'item_id');
-							if (itemIdIndex >= 0) {
-								for (let i = 1; i < csvRows.length; i++) {
-									const itemId = csvRows[i][itemIdIndex]?.trim();
-									if (itemId && !audioFileIds.has(itemId)) {
-										missingAudioFiles.push(itemId);
-									}
-								}
-							}
-						}
-					}
-				} catch (e) {
-					console.warn('Failed to check missing audio files:', e);
-				}
-				
-				if (missingAudioFiles.length > 0) {
-					issues.push({
-						type: 'Missing Audio Files',
-						count: missingAudioFiles.length,
-						description: `${missingAudioFiles.length} item(s) from CSV are missing audio files`,
-						files: missingAudioFiles.slice(0, 20) // Show first 20 missing files
-					});
-				}
+		// Note: Audio file checking removed - use Audio Coverage report for detailed audio analysis
+		// The previous check was too broad and didn't account for language-specific audio or items without translations
 				
 				// Check for empty or very small files
 				const smallFiles = [];

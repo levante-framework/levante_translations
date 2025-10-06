@@ -81,11 +81,38 @@ export default async function handler(req, res) {
             return;
         }
         
+        // First, get the file ID for item-bank-translations.xlsx
+        const filesResponse = await fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/files`, {
+            headers: {
+                'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        let itemBankFileId = null;
+        let filesData = null;
+        if (filesResponse.ok) {
+            filesData = await filesResponse.json();
+            if (filesData.data && Array.isArray(filesData.data)) {
+                const itemBankFile = filesData.data.find(f => 
+                    f.data.name && f.data.name.toLowerCase().includes('item-bank-translations')
+                );
+                if (itemBankFile) {
+                    itemBankFileId = itemBankFile.data.id;
+                }
+            }
+        }
+        
         // Use CroQL to get strings by category for this language
+        // Filter by item-bank file and exclude duplicates
         // Untranslated: no translations for the language
-        const untranslatedCroql = `count of translations where ( language = @language:"${lang}" ) = 0`;
+        const untranslatedCroql = itemBankFileId != null
+            ? `id of file = ${itemBankFileId} and count of translations where ( language = @language:"${lang}" ) = 0 and not is duplicate`
+            : `count of translations where ( language = @language:"${lang}" ) = 0 and not is duplicate`;
         // Unapproved: has translations for the language, but none of those translations are approved
-        const unapprovedCroql = `count of translations where ( language = @language:"${lang}" and ( count of approvals > 0 ) ) = 0 and count of translations where ( language = @language:"${lang}" ) > 0`;
+        const unapprovedCroql = itemBankFileId != null
+            ? `id of file = ${itemBankFileId} and count of translations where ( language = @language:"${lang}" ) > 0 and count of translations where ( language = @language:"${lang}" and ( count of approvals > 0 ) ) = 0 and not is duplicate`
+            : `count of translations where ( language = @language:"${lang}" ) > 0 and count of translations where ( language = @language:"${lang}" and ( count of approvals > 0 ) ) = 0 and not is duplicate`;
         
         const [untranslatedRes, unapprovedRes] = await Promise.all([
             fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/strings?croql=${encodeURIComponent(untranslatedCroql)}`, {
@@ -108,21 +135,11 @@ export default async function handler(req, res) {
         const untranslatedData = await untranslatedRes.json();
         const unapprovedData = await unapprovedRes.json();
         
-        // Get file information for mapping
-        const filesResponse = await fetch(`${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/files`, {
-            headers: {
-                'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
+        // Build file name map from the files we already fetched
         let filesMap = {};
-        if (filesResponse.ok) {
-            const filesData = await filesResponse.json();
-            if (filesData.data && Array.isArray(filesData.data)) {
-                for (const file of filesData.data) {
-                    filesMap[file.data.id] = file.data.name || 'Unknown file';
-                }
+        if (filesData && filesData.data && Array.isArray(filesData.data)) {
+            for (const file of filesData.data) {
+                filesMap[file.data.id] = file.data.name || 'Unknown file';
             }
         }
         
