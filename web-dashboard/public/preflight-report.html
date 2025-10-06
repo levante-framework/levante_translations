@@ -986,10 +986,13 @@
 					return 'Prod has more CSV files in corpus. This may indicate that prod has additional corpus data that dev lacks.';
 				}
 			} else if (buttonId === 'corpusStoplight') {
+				const diff = Math.abs(devValue - prodValue);
 				if (devValue > prodValue) {
-					return 'Dev has more unique item_ids in corpus. Consider deploying corpus files from dev to prod to sync the environments.';
+					return `Dev has ${diff} more unique item_ids in corpus CSV files (${devValue} vs ${prodValue}). Consider deploying corpus files from dev to prod to sync the environments.`;
+				} else if (prodValue > devValue) {
+					return `Prod has ${diff} more unique item_ids in corpus CSV files (${prodValue} vs ${devValue}). This may indicate that prod has additional corpus data that dev lacks.`;
 				} else {
-					return 'Prod has more unique item_ids in corpus. This may indicate that prod has additional corpus data that dev lacks.';
+					return 'Both environments have the same number of unique item_ids in corpus CSV files.';
 				}
 			}
 			return 'Review the differences and consider syncing the environments.';
