@@ -2895,15 +2895,15 @@
 					${devUntranslated > 0 ? '<span class="info-icon" title="Click to view untranslated items">ℹ️</span>' : ''}
 				</td>
 				<td class="svcell">${devSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(devSv.exact + devSv.withBase, devSv.checked)} <span class="small">(${devSv.exact}/${devSv.checked}, base ${devSv.withBase})</span></td>
-				<td>${devDs.exactMatch ? '<span class="badge ok">yes</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
-				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
+				<td>${devDs.exactMatch ? '<span class="badge ok">exact</span>' : (devDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')} <span class="small">(${devDs.exactMatch ? 'exact match' : (devDs.baseMatch ? 'base fallback' : 'not found')})</span></td>
+				<td>${devAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'} <span class="small">(${devAu.present ? 'folder exists' : 'folder not found'})</span></td>
 				<td class="bucket-cell" data-lang="${lang}" data-env="prod">
 					${badge(prodBucket.exact, prodBucket.total)} <span class=\"small\">(${prodBucket.exact}/${prodBucket.total}; NT ${prodUntranslated})</span>
 					${prodUntranslated > 0 ? '<span class="info-icon" title="Click to view untranslated items">ℹ️</span>' : ''}
 				</td>
 				<td class="svcell">${prodSv.checked === 0 ? '<span class="badge warn">n/a</span>' : badge(prodSv.exact + prodSv.withBase, prodSv.checked)} <span class="small">(${prodSv.exact}/${prodSv.checked}, base ${prodSv.withBase})</span></td>
-				<td>${prodDs.exactMatch ? '<span class="badge ok">yes</span>' : (prodDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')}</td>
-				<td>${prodAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'}</td>
+				<td>${prodDs.exactMatch ? '<span class="badge ok">exact</span>' : (prodDs.baseMatch ? '<span class="badge warn">base</span>' : '<span class="badge err">missing</span>')} <span class="small">(${prodDs.exactMatch ? 'exact match' : (prodDs.baseMatch ? 'base fallback' : 'not found')})</span></td>
+				<td>${prodAu.present ? '<span class="badge ok">present</span>' : '<span class="badge err">missing</span>'} <span class="small">(${prodAu.present ? 'folder exists' : 'folder not found'})</span></td>
 			`;
 			const svCell = tr.querySelector('.svcell');
 			if (svCell) {
