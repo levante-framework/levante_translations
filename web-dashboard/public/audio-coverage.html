@@ -34,12 +34,14 @@
           <input id="bucketInput" type="text" value="levante-assets-dev" placeholder="levante-assets-dev" />
           <span class="hint">audio URLs: <code>gs://&lt;bucket&gt;/audio/&lt;lang&gt;/&lt;id&gt;.mp3</code></span>
         </div>
+        <!-- COMMENTED OUT: child-survey files are duplicates of main audio files
         <div class="source-detail" style="margin-top: 8px;">
           <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
             <input type="checkbox" id="includeChildSurvey" checked style="cursor: pointer;" />
             <span style="font-size: 13px; color: #374151;">Include child-survey files (slower)</span>
           </label>
         </div>
+        -->
       </div>
     </div>
     <div id="summary"></div>
@@ -349,17 +351,17 @@
       }
 
       const ids = await getAllItemIds();
-      const includeChildSurvey = document.getElementById('includeChildSurvey')?.checked ?? true;
+      const includeChildSurvey = false; // document.getElementById('includeChildSurvey')?.checked ?? true;
       const allItems = [];
       if(currentSource === 'repo'){
         for(const code of langCodes){
           for(const id of ids){
             // Standard audio files
             allItems.push({ lang: code, id, url: `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3` });
-            // Child-survey audio files (optional)
-            if (includeChildSurvey) {
-              allItems.push({ lang: code, id, url: `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/child-survey/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3`, isChildSurvey: true });
-            }
+            // Child-survey audio files (optional) - COMMENTED OUT: survey items are duplicates of main audio files
+            // if (includeChildSurvey) {
+            //   allItems.push({ lang: code, id, url: `https://raw.githubusercontent.com/levante-framework/levante_translations/main/audio_files/child-survey/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3`, isChildSurvey: true });
+            // }
           }
         }
       } else {
@@ -368,10 +370,10 @@
           for(const id of ids){
             // Standard audio files
             allItems.push({ lang: code, id, url: `https://storage.googleapis.com/${encodeURIComponent(bucket)}/audio/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3` });
-            // Child-survey audio files (optional)
-            if (includeChildSurvey) {
-              allItems.push({ lang: code, id, url: `https://storage.googleapis.com/${encodeURIComponent(bucket)}/audio/child-survey/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3`, isChildSurvey: true });
-            }
+            // Child-survey audio files (optional) - COMMENTED OUT: survey items are duplicates of main audio files
+            // if (includeChildSurvey) {
+            //   allItems.push({ lang: code, id, url: `https://storage.googleapis.com/${encodeURIComponent(bucket)}/audio/child-survey/${encodeURIComponent(code)}/${encodeURIComponent(id)}.mp3`, isChildSurvey: true });
+            // }
           }
         }
       }
@@ -520,23 +522,23 @@
         });
       }
 
-      // Add child-survey section (only if checkbox is checked)
-      if (includeChildSurvey) {
-        const childSurveyLangs = Object.keys(childSurveyCounts).sort();
-        if (childSurveyLangs.length > 0) {
-          // Separator row
-          const sep = document.createElement('tr');
-          sep.innerHTML = `<td colspan="4" style="background:#e3f2fd; color:#1976d2; font-weight:bold; text-align:center;">Child-Survey Audio Files</td>`;
-          tbody.appendChild(sep);
-
-          childSurveyLangs.forEach(lang => {
-            const count = childSurveyCounts[lang];
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${lang}</td><td>Child-Survey</td><td>${count}</td><td>-</td>`;
-            tbody.appendChild(tr);
-          });
-        }
-      }
+      // Add child-survey section (only if checkbox is checked) - COMMENTED OUT: survey items are duplicates
+      // if (includeChildSurvey) {
+      //   const childSurveyLangs = Object.keys(childSurveyCounts).sort();
+      //   if (childSurveyLangs.length > 0) {
+      //     // Separator row
+      //     const sep = document.createElement('tr');
+      //     sep.innerHTML = `<td colspan="4" style="background:#e3f2fd; color:#1976d2; font-weight:bold; text-align:center;">Child-Survey Audio Files</td>`;
+      //     tbody.appendChild(sep);
+      //
+      //     childSurveyLangs.forEach(lang => {
+      //       const count = childSurveyCounts[lang];
+      //       const tr = document.createElement('tr');
+      //       tr.innerHTML = `<td>${lang}</td><td>Child-Survey</td><td>${count}</td><td>-</td>`;
+      //       tbody.appendChild(tr);
+      //     });
+      //   }
+      // }
     }
 
     // Add debug logging for the first few items to see what IDs we're checking

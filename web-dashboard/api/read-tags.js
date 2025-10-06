@@ -231,7 +231,26 @@ async function listAudioLanguagesFromBucket(bucketName) {
         const langs = prefixes
             .map(p => p.replace(/^audio\//, '').replace(/\/$/, ''))
             .filter(Boolean)
-            .filter(code => code !== 'validations' && code !== '_gsdata_');
+            .filter(code => code !== 'validations' && code !== '_gsdata_' && code !== 'child-survey');
+        
+        // Also check for languages inside audio/child-survey/
+        try {
+            const [, , childSurveyResp] = await bucket.getFiles({ delimiter: '/', prefix: 'audio/child-survey/' });
+            const childSurveyPrefixes = (childSurveyResp && childSurveyResp.prefixes) || [];
+            const childSurveyLangs = childSurveyPrefixes
+                .map(p => p.replace(/^audio\/child-survey\//, '').replace(/\/$/, ''))
+                .filter(Boolean);
+            
+            // Add child-survey languages to the main list if they're not already there
+            childSurveyLangs.forEach(lang => {
+                if (!langs.includes(lang)) {
+                    langs.push(lang);
+                }
+            });
+        } catch (err) {
+            console.warn('⚠️ Failed to list child-survey languages:', err.message);
+        }
+        
         return langs;
     } catch (err) {
         console.warn('⚠️ Failed to list languages in bucket:', err.message);
@@ -247,10 +266,36 @@ async function listRepoLanguages() {
         if (!resp.ok) return [];
         const data = await resp.json();
         if (!Array.isArray(data)) return [];
-        return data
-            .filter(e => e && e.type === 'dir' && e.name)
+        const langs = data
+            .filter(e => e && e.type === 'dir' && e.name && e.name !== 'child-survey')
             .map(e => e.name)
             .filter(Boolean);
+        
+        // Also check for languages inside audio_files/child-survey/
+        try {
+            const childSurveyUrl = 'https://api.github.com/repos/levante-framework/levante_translations/contents/audio_files/child-survey?ref=main';
+            const childResp = await fetch(childSurveyUrl, { headers: { 'User-Agent': 'levante-audio-dashboard' } });
+            if (childResp.ok) {
+                const childData = await childResp.json();
+                if (Array.isArray(childData)) {
+                    const childSurveyLangs = childData
+                        .filter(e => e && e.type === 'dir' && e.name)
+                        .map(e => e.name)
+                        .filter(Boolean);
+                    
+                    // Add child-survey languages to the main list if they're not already there
+                    childSurveyLangs.forEach(lang => {
+                        if (!langs.includes(lang)) {
+                            langs.push(lang);
+                        }
+                    });
+                }
+            }
+        } catch (err) {
+            console.warn('⚠️ Failed to list child-survey languages from repo:', err.message);
+        }
+        
+        return langs;
     } catch (err) {
         console.warn('⚠️ Failed to list repo languages:', err.message);
         return [];

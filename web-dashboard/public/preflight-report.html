@@ -106,7 +106,7 @@
 		.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
 		.footer { margin-top: 16px; font-size: 12px; color: #6b7280; }
 		.section { margin-top: 20px; padding-top: 8px; border-top: 1px solid #e5e7eb; }
-		.link { color: #0d6efd; cursor: pointer; text-decoration: underline; }
+		.link { color: #0a58ca; cursor: pointer; text-decoration: underline; font-weight: 700; }
 	</style>
 </head>
 <body>
@@ -2195,15 +2195,45 @@
 					});
 				}
 				
-				// Check for missing audio files (compare with expected item IDs)
+				// Check for missing audio files (compare with expected item IDs from CSV)
 				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
-				const expectedAudioCount = 814; // Based on previous analysis
-				if (audioFiles.length < expectedAudioCount) {
+				const audioFileIds = new Set(audioFiles.map(f => {
+					const parts = f.split('/');
+					const filename = parts[parts.length - 1];
+					return filename.replace('.mp3', '');
+				}));
+				
+				// Get expected item IDs from the CSV
+				let missingAudioFiles = [];
+				try {
+					const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
+					const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+					if (csvRes.ok) {
+						const csvText = await csvRes.text();
+						const csvRows = parseCSVWithEmbeddedNewlines(csvText);
+						if (csvRows.length > 1) {
+							const header = csvRows[0].map(h => h.trim().toLowerCase());
+							const itemIdIndex = header.findIndex(h => h === 'item_id');
+							if (itemIdIndex >= 0) {
+								for (let i = 1; i < csvRows.length; i++) {
+									const itemId = csvRows[i][itemIdIndex]?.trim();
+									if (itemId && !audioFileIds.has(itemId)) {
+										missingAudioFiles.push(itemId);
+									}
+								}
+							}
+						}
+					}
+				} catch (e) {
+					console.warn('Failed to check missing audio files:', e);
+				}
+				
+				if (missingAudioFiles.length > 0) {
 					issues.push({
-						type: 'Missing Audio',
-						count: expectedAudioCount - audioFiles.length,
-						description: `Expected ${expectedAudioCount} audio files, found ${audioFiles.length}`,
-						files: []
+						type: 'Missing Audio Files',
+						count: missingAudioFiles.length,
+						description: `${missingAudioFiles.length} item(s) from CSV are missing audio files`,
+						files: missingAudioFiles.slice(0, 20) // Show first 20 missing files
 					});
 				}
 				
@@ -2240,7 +2270,7 @@
 				} else {
 					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found across ${issues.length} categories`;
 					detailsEl.style.display = 'inline';
-					detailsEl.onclick = () => showAssetIntegrityDetails(issues);
+					detailsEl.onclick = () => showAssetIntegrityDetails(issues, 'Dev');
 				}
 				
 				validateBtn.style.display = 'inline-block';
@@ -2285,15 +2315,45 @@
 					});
 				}
 				
-				// Check for missing audio files (compare with expected item IDs)
+				// Check for missing audio files (compare with expected item IDs from CSV)
 				const audioFiles = files.filter(f => f.toLowerCase().endsWith('.mp3'));
-				const expectedAudioCount = 814; // Based on previous analysis
-				if (audioFiles.length < expectedAudioCount) {
+				const audioFileIds = new Set(audioFiles.map(f => {
+					const parts = f.split('/');
+					const filename = parts[parts.length - 1];
+					return filename.replace('.mp3', '');
+				}));
+				
+				// Get expected item IDs from the CSV
+				let missingAudioFiles = [];
+				try {
+					const csvUrl = `https://storage.googleapis.com/${bucket}/translations/item-bank-translations.csv`;
+					const csvRes = await fetch(csvUrl, { cache: 'no-cache' });
+					if (csvRes.ok) {
+						const csvText = await csvRes.text();
+						const csvRows = parseCSVWithEmbeddedNewlines(csvText);
+						if (csvRows.length > 1) {
+							const header = csvRows[0].map(h => h.trim().toLowerCase());
+							const itemIdIndex = header.findIndex(h => h === 'item_id');
+							if (itemIdIndex >= 0) {
+								for (let i = 1; i < csvRows.length; i++) {
+									const itemId = csvRows[i][itemIdIndex]?.trim();
+									if (itemId && !audioFileIds.has(itemId)) {
+										missingAudioFiles.push(itemId);
+									}
+								}
+							}
+						}
+					}
+				} catch (e) {
+					console.warn('Failed to check missing audio files:', e);
+				}
+				
+				if (missingAudioFiles.length > 0) {
 					issues.push({
-						type: 'Missing Audio',
-						count: expectedAudioCount - audioFiles.length,
-						description: `Expected ${expectedAudioCount} audio files, found ${audioFiles.length}`,
-						files: []
+						type: 'Missing Audio Files',
+						count: missingAudioFiles.length,
+						description: `${missingAudioFiles.length} item(s) from CSV are missing audio files`,
+						files: missingAudioFiles.slice(0, 20) // Show first 20 missing files
 					});
 				}
 				
@@ -2330,7 +2390,7 @@
 				} else {
 					summaryEl.innerHTML = `⚠️ <strong>${totalIssues} issues</strong> found across ${issues.length} categories`;
 					detailsEl.style.display = 'inline';
-					detailsEl.onclick = () => showAssetIntegrityDetails(issues);
+					detailsEl.onclick = () => showAssetIntegrityDetails(issues, 'Prod');
 				}
 				
 				validateBtn.style.display = 'inline-block';
@@ -2344,12 +2404,12 @@
 			}
 		}
 
-		function showAssetIntegrityDetails(issues) {
+		function showAssetIntegrityDetails(issues, environment = 'Dev') {
 			const modal = document.getElementById('diffModal');
 			const title = document.getElementById('diffModalTitle');
 			const body = document.getElementById('diffModalBody');
 			
-			title.textContent = 'Asset Integrity Issues';
+			title.textContent = `Asset Integrity Issues - ${environment} Environment`;
 			
 			body.innerHTML = `
 				<div class="diff-section">
