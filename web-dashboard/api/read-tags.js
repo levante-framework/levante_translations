@@ -231,7 +231,7 @@ async function listAudioLanguagesFromBucket(bucketName) {
         const langs = prefixes
             .map(p => p.replace(/^audio\//, '').replace(/\/$/, ''))
             .filter(Boolean)
-            .filter(code => code !== 'validations' && code !== '_gsdata_' && code !== 'child-survey');
+            .filter(code => code !== 'validations' && code !== '_gsdata_' && code !== 'child-survey' && code !== 'child_survey' && code !== 'shared');
         
         // Also check for languages inside audio/child-survey/
         try {
