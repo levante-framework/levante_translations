@@ -1339,12 +1339,15 @@
 
 		// Dashboard translations: fetch from levante-dashboard repo JSONs (componentTranslations)
 		async function fetchDashboardJsonPath(code) {
-			const lower = code.toLowerCase();
-			const parts = lower.split('-');
+			const parts = code.split('-');
 			if (parts.length === 2) {
-				return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${parts[0]}/${parts[1]}/${lower}-componentTranslations.json`;
+				// Keep original case for filename, but use lowercase for directory path
+				const langLower = parts[0].toLowerCase();
+				const regionLower = parts[1].toLowerCase();
+				return `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${langLower}/${regionLower}/${code}-componentTranslations.json`;
 			}
 			// Special handling for 'en' - try both en and en-US paths
+			const lower = code.toLowerCase();
 			if (lower === 'en') {
 				// First try the standard path
 				const standardPath = `https://raw.githubusercontent.com/levante-framework/levante-dashboard/main/src/translations/${lower}/${lower}-componentTranslations.json`;
