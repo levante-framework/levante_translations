@@ -17,7 +17,8 @@ const FIREBASE_CONFIG = {
 // Superadmin email list (alternative to Firestore role checking)
 const SUPERADMIN_EMAILS = [
     "admin@levante.com",
-    "superadmin@levante.com"
+    "superadmin@levante.com",
+    "david81@stanford.edu"  // Your email for direct access
     // Add more superadmin emails here if needed
 ];
 
