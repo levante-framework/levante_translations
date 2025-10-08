@@ -238,15 +238,15 @@ class AuthManager {
         if (userName) userName.textContent = this.currentUser.email;
         
         // Clear login form
-        document.getElementById('emailInput').value = '';
-        document.getElementById('passwordInput').value = '';
+        if (document.getElementById('emailInput')) {
+            document.getElementById('emailInput').value = '';
+        }
+        if (document.getElementById('passwordInput')) {
+            document.getElementById('passwordInput').value = '';
+        }
         this.clearMessages();
         
-        // Initialize dashboard if not already initialized
-        if (!window.dashboardInstance) {
-            console.log('Initializing dashboard after authentication...');
-            window.dashboardInstance = new Dashboard();
-        }
+        console.log('✅ Dashboard is now visible');
     }
 
     showLoading(show) {
