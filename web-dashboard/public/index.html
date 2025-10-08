@@ -4,388 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Levante Translation & Audio Dashboard</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="./favicon-192x192.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .dashboard-container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 300; }
+        .main-content { padding: 30px; }
+        .controls-section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4facfe; }
+        .control-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 200px; }
+        .tabs { margin-bottom: 30px; }
+        .tab-buttons { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-button { padding: 15px 25px; background: #f8f9fa; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .tab-button.active { background: #007bff; color: white; }
+        .tab-content { display: none; padding: 20px; background: #f8f9fa; border-radius: 0 10px 10px 10px; }
+        .tab-content.active { display: block; }
+        .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #333; color: white; padding: 10px 20px; font-size: 14px; z-index: 1000; }
+        
+        /* Authentication Styles */
+        .auth-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; }
+        .auth-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-width: 400px; width: 90%; }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header h2 { color: #333; margin-bottom: 10px; }
+        .auth-header p { color: #666; font-size: 14px; }
+        .auth-form { display: flex; flex-direction: column; gap: 20px; }
+        .auth-input { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .auth-input:focus { outline: none; border-color: #007bff; }
+        .auth-button { padding: 12px 24px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+        .auth-button:hover { background: #0056b3; }
+        .auth-button:disabled { background: #ccc; cursor: not-allowed; }
+        .auth-error { color: #dc3545; font-size: 14px; margin-top: 10px; text-align: center; }
+        .auth-success { color: #28a745; font-size: 14px; margin-top: 10px; text-align: center; }
+        .user-info { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 15px; }
+        .user-info .user-name { color: white; font-weight: 600; }
+        .user-info .logout-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+        .user-info .logout-btn:hover { background: rgba(255,255,255,0.3); }
+        .loading { display: none; text-align: center; color: #666; }
+        
+        /* SSO Button Styles */
+        .auth-divider { 
+            text-align: center; 
+            margin: 20px 0; 
+            position: relative; 
+        }
+        .auth-divider::before { 
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 0; 
+            right: 0; 
+            height: 1px; 
+            background: #e0e0e0; 
+        }
+        .auth-divider span { 
+            background: white; 
+            padding: 0 15px; 
+            color: #666; 
+            font-size: 14px; 
+        }
+        .sso-buttons { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        .sso-button { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            font-size: 14px; 
+        }
+        .sso-button.google { 
+            background: #db4437; 
+            color: white; 
+        }
+        .sso-button.google:hover { 
+            background: #c23321; 
+        }
+        .sso-button.microsoft { 
+            background: #0078d4; 
+            color: white; 
+        }
+        .sso-button.microsoft:hover { 
+            background: #106ebe; 
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="fas fa-language"></i> <i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
-            <!-- Cache bust: v2.1 -->
-            <div class="header-actions-left">
-                <div class="dropdown tools-dropdown" tabindex="0">
-                    <button class="btn btn-secondary dropdown-toggle" title="Tools and reports">
-                        <i class="fas fa-tools"></i> Tools
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="#" onclick="openAudioCoverage(); return false;">
-                            <i class="fas fa-table"></i> Audio Coverage Report
-                        </a>
-                        <a href="#" onclick="openPreflightReport(); return false;">
-                            <i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report
-                        </a>
-                        <a href="#" onclick="openBucketInfo(); return false;">
-                            <i class="fas fa-database"></i> Bucket Info
-                        </a>
-                    </div>
-                </div>
+            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <p>Compare, validate, and generate TTS audio across multiple languages and services</p>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span class="user-name" id="userName"></span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
             </div>
-            <div class="header-actions">
-                <div class="dropdown help-dropdown" tabindex="0">
-                    <button class="btn btn-secondary dropdown-toggle" title="Help and documentation">
-                        <i class="fas fa-question-circle"></i> Help
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="#" onclick="openHelp('docs/README_WebDashboard.md'); return false;">
-                            <i class="fas fa-book"></i> Web Dashboard README
-                        </a>
-                        <a href="#" onclick="openHelp('docs/README_ADD_LANGUAGE.md'); return false;">
-                            <i class="fas fa-language"></i> Add Language Guide
-                        </a>
-                        <a href="#" onclick="openHelp('docs/README_VALIDATION.md'); return false;">
-                            <i class="fas fa-clipboard-check"></i> Validation Guide
-                        </a>
-                        <a href="#" onclick="openSlides(); return false;">
-                            <i class="fas fa-sitemap"></i> Translation Pipeline Architecture
-                        </a>
-                        <a href="#" onclick="openMermaidSlides(); return false;">
-                            <i class="fas fa-project-diagram"></i> Pipeline Architecture (Interactive)
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <p>Multi-language Translation Validation and TTS audio generation</p>
         </div>
         <div class="main-content">
             <div class="controls-section">
                 <div class="control-group">
-                    <label><i class="fas fa-volume-up"></i> Voice Comparison Tools:</label>
-                    <div class="voice-controls">
-                        <div class="voice-control">
-                            <label for="playhtVoice">PlayHT Voice</label>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <select id="playhtVoice" class="voice-select">
-                                    <option value="">Select PlayHT Voice...</option>
-                                </select>
-                                <button id="copyPlayhtVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="voice-control">
-                            <label for="elevenlabsVoice">ElevenLabs Voice</label>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <select id="elevenlabsVoice" class="voice-select">
-                                    <option value="">Select ElevenLabs Voice...</option>
-                                </select>
-                                <button id="copyElevenlabsVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button id="refreshVoices" class="btn btn-info">
-                            <i class="fas fa-sync-alt"></i> Refresh Voices
-                        </button>
-                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
-                            <i class="fas fa-key"></i> Credentials
-                        </button>
-                        <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration" data-version="v2.1">
-                            <i class="fas fa-language"></i> Languages
-                        </button>
+                    <label><i class="fas fa-volume-up"></i> Voice Comparison:</label>
+                    <div>
+                        <label for="playhtVoice">PlayHT Voice:</label>
+                        <select id="playhtVoice" class="voice-select">
+                            <option value="">Select PlayHT Voice...</option>
+                        </select>
                     </div>
-                </div>
-                
-                <!-- Text Generation Section -->
-                <div class="control-group">
-                    <label><i class="fas fa-edit"></i> Text to Speech Generation:</label>
-                    <div style="display: flex; gap: 15px; width: 100%; align-items: flex-start;">
-                        <textarea id="textInput" placeholder="Enter text to convert to speech, or select an item from the table below..." 
-                                  style="flex: 1; min-height: 100px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
-                        <div style="display: flex; flex-direction: column; gap: 10px; min-width: 180px;">
-                            <button id="generateAudio" class="btn btn-success">
-                                <i class="fas fa-play"></i> Generate Audio
-                            </button>
-                            <button id="populateSelected" class="btn btn-primary">
-                                <i class="fas fa-arrow-down"></i> Use Selected Item
-                            </button>
-                            <button id="clearText" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Clear Text
-                            </button>
-                        </div>
+                    <div>
+                        <label for="elevenlabsVoice">ElevenLabs Voice:</label>
+                        <select id="elevenlabsVoice" class="voice-select">
+                            <option value="">Select ElevenLabs Voice...</option>
+                        </select>
                     </div>
+                    <button id="refreshVoices" class="btn btn-info">
+                        <i class="fas fa-sync-alt"></i> Refresh Voices
+                    </button>
                 </div>
             </div>
-            
-            <!-- Translation Validation Panel -->
-            <div class="validation-panel">
-                <div class="validation-header" onclick="toggleValidationPanel()">
-                    <span><i class="fas fa-check-circle"></i> Translation Validation</span>
-                    <span class="collapse-icon">▲</span>
-                </div>
-                <div class="validation-content expanded" id="validationContent">
-                    <!-- Validation Controls -->
-                    <div class="validation-controls" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-                        <button id="validateSelected" class="btn validation-button btn-compact" onclick="validateSelected()">
-                            <i class="fas fa-check-double"></i> Validate Selected
-                        </button>
-                        <button id="validateAll" class="btn validation-button btn-compact" onclick="validateAll()">
-                            <i class="fas fa-check-circle"></i> Validate All
-                        </button>
-                        <button id="saveValidations" class="btn btn-success btn-compact" onclick="saveValidationsManually()" title="Save validation results to browser storage and shared team storage">
-                            <i class="fas fa-save"></i> Save
-                        </button>
-                        <button id="loadValidations" class="btn btn-info btn-compact" onclick="loadValidationsFromShared()" title="Load latest validation results from shared team storage">
-                            <i class="fas fa-cloud-download-alt"></i> Load
-                        </button>
-                        <button id="exportValidations" class="btn btn-secondary btn-compact" onclick="exportValidationsToJSONFile()" title="Download validation results as JSON file for backup">
-                            <i class="fas fa-download"></i> Export
-                        </button>
-                        <button id="viewValidations" class="btn btn-info btn-compact" onclick="showValidationSummaryReport()" title="View summary of all validation results">
-                            <i class="fas fa-chart-bar"></i> View
-                        </button>
-                        <button class="btn btn-warning btn-compact" onclick="clearCacheAndReload()" title="Clear localStorage cache and reload data">
-                            <i class="fas fa-trash"></i> Clear Cache
-                        </button>
-
-                    </div>
-                    
-                    <!-- Validation Summary -->
-                    <div id="validationSummary" style="border-top: 1px solid #e0e0e0; padding-top: 15px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                            <h4 style="margin: 0; color: #333; font-size: 1.1em;"><i class="fas fa-chart-bar"></i> Validation Summary</h4>
-                            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 18px; font-weight: bold; color: #28a745;" id="goodCount">0</span>
-                                    <span style="color: #6c757d; font-size: 0.9em;">Good</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 18px; font-weight: bold; color: #ffc107;" id="warningCount">0</span>
-                                    <span style="color: #6c757d; font-size: 0.9em;">Warning</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 18px; font-weight: bold; color: #dc3545;" id="errorCount">0</span>
-                                    <span style="color: #6c757d; font-size: 0.9em;">Review</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 18px; font-weight: bold; color: #6c757d;" id="pendingCount">0</span>
-                                    <span style="color: #6c757d; font-size: 0.9em;">Pending</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
             <div class="tabs">
                 <div class="tab-buttons" id="tabButtons"></div>
             </div>
             <div id="tabContent"></div>
         </div>
-        <div class="status-bar" id="statusBar">
-            <i class="fas fa-circle status-icon loading"></i>
-            <span>Loading dashboard...</span>
-        </div>
+        <div class="status-bar" id="statusBar">Ready</div>
     </div>
-    
-    <!-- Load Modals -->
-    <div id="modals-container"></div>
-    
-    <!-- Scripts -->
-    <script src="./config.js"></script>
-    <script>
-        async function openHelp(docPath) {
-            const helpModal = document.getElementById('helpModal');
-            const helpLoading = document.getElementById('helpLoading');
-            const helpContent = document.getElementById('helpContent');
-            helpContent.innerHTML = '';
-            helpLoading.style.display = 'block';
-            helpModal.style.display = 'block';
 
-            try {
-                const resp = await fetch(docPath);
-                const md = await resp.text();
-                helpContent.innerHTML = window.marked ? window.marked.parse(md) : md;
-            } catch (e) {
-                helpContent.innerHTML = '<p style="color:#dc3545;">Failed to load documentation.</p>';
-            } finally {
-                helpLoading.style.display = 'none';
+    <script>
+        // Voice data matching exact config.py settings
+        const VOICES = {
+            "playht": {
+                "en": [{"voice_id": "s3://voice-cloning-zero-shot/adb83b67-8d75-48ff-ad4d-a0840d231ef1/original/manifest.json", "name": "Inara", "language": "en", "gender": "female"}],
+                "de": [{"voice_id": "s3://voice-cloning-zero-shot/3d1a2ebc-6fe3-4b9b-b8f3-d23a3e5b6c7d/original/manifest.json", "name": "German_Anke Narrative", "language": "de", "gender": "female"}]
+            },
+            "elevenlabs": {
+                "de": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "German Voice", "language": "de", "gender": "female"}],
+                "fr-CA": [{"voice_id": "D4BIjjCRFRZhH8fGOzGP", "name": "Caroline - Top France - Narrative, warm, sweet", "language": "fr-CA", "gender": "female"}],
+                "nl": [{"voice_id": "BmGJM2HQCL8H5KfGOzGP", "name": "Emma - Natural conversations in Dutch", "language": "nl", "gender": "female"}]
+            }
+        };
+
+        class Dashboard {
+            constructor() {
+                // Match exact config.py language settings
+                this.languages = {
+                    'German': { lang_code: 'de', service: 'PlayHT', voice: 'German_Anke Narrative' },
+                    'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
+                    'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' }
+                };
+                this.currentLanguage = 'English';
+                this.init();
+            }
+
+            init() {
+                console.log('Dashboard initializing...');
+                this.createTabs();
+                this.setupEventListeners();
+                this.populateVoices();
+                this.setStatus('Dashboard ready!');
+            }
+
+            createTabs() {
+                const tabButtons = document.getElementById('tabButtons');
+                const tabContent = document.getElementById('tabContent');
+                
+                Object.keys(this.languages).forEach((language, index) => {
+                    const button = document.createElement('button');
+                    button.className = `tab-button ${index === 0 ? 'active' : ''}`;
+                    button.textContent = language;
+                    button.addEventListener('click', () => this.switchTab(language, button));
+                    tabButtons.appendChild(button);
+
+                    const content = document.createElement('div');
+                    content.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                    content.id = `tab-${language}`;
+                    content.innerHTML = `<h3>${language} Audio Generation</h3><p>Language: ${this.languages[language].lang_code}<br>Default Service: ${this.languages[language].service}<br>Default Voice: ${this.languages[language].voice}</p>`;
+                    tabContent.appendChild(content);
+                });
+            }
+
+            switchTab(language, button) {
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(`tab-${language}`).classList.add('active');
+                
+                this.currentLanguage = language;
+                this.populateVoices();
+                this.setStatus(`Switched to ${language}`);
+            }
+
+            populateVoices() {
+                const playhtSelect = document.getElementById('playhtVoice');
+                const elevenlabsSelect = document.getElementById('elevenlabsVoice');
+                
+                playhtSelect.innerHTML = '<option value="">Select PlayHT Voice...</option>';
+                elevenlabsSelect.innerHTML = '<option value="">Select ElevenLabs Voice...</option>';
+                
+                const langCode = this.languages[this.currentLanguage].lang_code;
+                
+                // Populate PlayHT voices
+                if (VOICES.playht[langCode]) {
+                    VOICES.playht[langCode].forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voice_id;
+                        option.textContent = voice.name;
+                        playhtSelect.appendChild(option);
+                    });
+                }
+                
+                // Populate ElevenLabs voices
+                if (VOICES.elevenlabs[langCode]) {
+                    VOICES.elevenlabs[langCode].forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voice_id;
+                        option.textContent = voice.name;
+                        elevenlabsSelect.appendChild(option);
+                    });
+                }
+            }
+
+            setupEventListeners() {
+                document.getElementById('refreshVoices').addEventListener('click', () => {
+                    this.populateVoices();
+                    this.setStatus('Voices refreshed!');
+                });
+            }
+
+            setStatus(message) {
+                document.getElementById('statusBar').textContent = message;
             }
         }
-        function closeHelpModal() { document.getElementById('helpModal').style.display = 'none'; }
-        
-        function showValidationResults(itemId, langCode, result, scoreEmoji, score, statusClass) {
-            const modal = document.getElementById('validationResultsModal');
-            
-            // Update title and score
-            document.getElementById('validationModalTitle').innerHTML = `<i class="fas fa-clipboard-check"></i> Validation Results - ${itemId}`;
-            document.getElementById('validationScoreEmoji').textContent = scoreEmoji;
-            document.getElementById('validationScoreText').textContent = `${score}% Similarity`;
-            
-            // Update status badge
-            const statusBadge = document.getElementById('validationStatusBadge');
-            statusBadge.className = `validation-status-badge ${statusClass === 'status-good' ? 'excellent' : statusClass === 'status-warning' ? 'warning' : 'poor'}`;
-            statusBadge.textContent = statusClass === 'status-good' ? 'Excellent' : statusClass === 'status-warning' ? 'Good (Review)' : 'Poor Quality';
-            
-            // Update language info
-            const languageNames = {
-                'en': 'English',
-                'es-CO': 'Spanish (Colombia)', 
-                'es': 'Spanish',
-                'de': 'German',
-                'fr-CA': 'French (Canada)',
-                'fr': 'French',
-                'nl': 'Dutch'
-            };
-            document.getElementById('validationTargetLang').textContent = languageNames[langCode] || langCode;
-            
-            // Update text content
-            document.getElementById('validationOriginalText').textContent = result.originalText;
-            document.getElementById('validationTranslatedText').textContent = result.translatedText;
-            document.getElementById('validationBackTranslation').textContent = result.backTranslation;
-            document.getElementById('validationNotes').textContent = result.notes;
-            
-            // Update metadata
-            document.getElementById('validationItemId').textContent = itemId;
-            document.getElementById('validationLangCode').textContent = langCode;
-            document.getElementById('validationTimestamp').textContent = new Date(result.timestamp).toLocaleString();
-            
-            modal.style.display = 'block';
-        }
-        
-        function closeValidationResultsModal() { 
-            document.getElementById('validationResultsModal').style.display = 'none'; 
-        }
-        
-        function closeValidationSummaryModal() {
-            document.getElementById('validationSummaryModal').style.display = 'none';
-        }
-        function openAudioCoverage() {
-            window.open('./audio-coverage.html', '_blank');
-        }
-        function openPreflightReport() {
-            window.open('./preflight-report.html', '_blank');
-        }
-        function openBucketInfo() {
-            window.open('./bucket-info.html', '_blank');
-        }
-        function openSlides() {
-            window.open('./levante-slides.html', '_blank');
-        }
-        function openMermaidSlides() {
-            window.open('./levante-slides-with-mermaid.html', '_blank');
-        }
-        
-        function showValidationSummaryReport() {
-            const modal = document.getElementById('validationSummaryModal');
-            const header = document.getElementById('validationSummaryHeader');
-            const body = document.getElementById('validationSummaryBody');
-            const results = window.dashboard?.validation_results || {};
-            const languages = window.dashboard?.languages || {};
-            
-            // Build header chips per language
-            header.innerHTML = '';
-            const langCodes = Object.values(languages).map(cfg => cfg.lang_code);
-            const uniqueLangs = Array.from(new Set(langCodes));
-            uniqueLangs.forEach(code => {
-                // Count statuses for this language across items
-                let good = 0, warning = 0, error = 0, pending = 0;
-                Object.keys(results).forEach(itemId => {
-                    const r = results[itemId][code];
-                    if (!r) { pending++; return; }
-                    const score = Math.round((r.score || 0) * 100);
-                    if (score >= 85) good++; else if (score >= 70) warning++; else error++;
-                });
-                const chip = document.createElement('div');
-                chip.className = 'summary-chip';
-                const total = good + warning + error + pending || 1;
-                const goodPct = Math.round((good / total) * 100);
-                const warnPct = Math.round((warning / total) * 100);
-                const errPct = Math.round((error / total) * 100);
-                const pendPct = 100 - goodPct - warnPct - errPct;
-                chip.innerHTML = `
-                    <div class="summary-line">
-                        <span class="label">${code.toUpperCase()}</span>
-                        <span class="value">✅ ${good}  ⚠️ ${warning}  ❌ ${error}  ⏳ ${pending}</span>
-                    </div>
-                    <div class="bar" aria-hidden="true">
-                        <div class="bar-seg bar-good" style="width:${goodPct}%"></div>
-                        <div class="bar-seg bar-warning" style="width:${warnPct}%"></div>
-                        <div class="bar-seg bar-error" style="width:${errPct}%"></div>
-                        <div class="bar-seg bar-pending" style="width:${pendPct}%"></div>
-                    </div>`;
-                header.appendChild(chip);
-            });
-            
-            // Build table of items with per-language dots
-            const allItemIds = Object.keys(results);
-            const langList = uniqueLangs;
-            const table = document.createElement('table');
-            table.className = 'summary-table';
-            const thead = document.createElement('thead');
-            thead.innerHTML = `<tr><th>Item</th>${langList.map(c => `<th>${c.toUpperCase()}</th>`).join('')}</tr>`;
-            table.appendChild(thead);
-            const tbody = document.createElement('tbody');
-            
-            allItemIds.forEach(itemId => {
-                const tr = document.createElement('tr');
-                const tdItem = document.createElement('td');
-                tdItem.textContent = itemId;
-                tr.appendChild(tdItem);
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, starting dashboard...');
+            // Wait for authentication before initializing dashboard
+            if (window.authManager && window.authManager.isAuthenticated()) {
+                window.dashboardInstance = new Dashboard();
+            } else {
+                // Dashboard will be initialized by auth manager when user is authenticated
+                console.log('Waiting for authentication...');
+            }
+        });
+    </script>
+
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+
+    <!-- Authentication Modal -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2><i class="fas fa-shield-alt"></i> Superadmin Access Required</h2>
+                <p>Please sign in with your Levante superadmin account</p>
+            </div>
+            <form class="auth-form" id="authForm">
+                <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
+                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                <button type="submit" class="auth-button" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
                 
-                langList.forEach(code => {
-                    const td = document.createElement('td');
-                    const r = results[itemId][code];
-                    let cls = 'dot-pending';
-                    if (r) {
-                        const score = Math.round((r.score || 0) * 100);
-                        if (score >= 85) cls = 'dot-good'; else if (score >= 70) cls = 'dot-warning'; else cls = 'dot-error';
-                        td.title = `${score}% - ${r.notes || ''}`;
-                        td.style.cursor = 'pointer';
-                        td.onclick = () => showValidationResults(itemId, code, r, score >= 85 ? '✅' : score >= 70 ? '⚠️' : '❌', score, score >= 85 ? 'status-good' : score >= 70 ? 'status-warning' : 'status-error');
-                    } else {
-                        td.title = 'Pending - Not validated';
-                    }
-                    td.innerHTML = `<span class="status-dot ${cls}"></span>`;
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            });
-            table.appendChild(tbody);
-            
-            body.innerHTML = '';
-            body.appendChild(table);
-            
-            modal.style.display = 'block';
-        }
-    </script>
-    <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="./js-compiled/utils.js"></script>
-    <script src="./js-compiled/credentials.js"></script>
-    <script src="./js/audio-validation.js"></script>
-    <script src="./js/audio-validation.js"></script>
-    <script src="./js/validation-toolbar.js"></script>
-    <script src="./js/validation.js"></script>
-    <script src="./js-compiled/audio.js"></script>
-    <script src="./js-compiled/language-config.js"></script>
-    <script src="./dashboard.js"></script>
-    <script src="./js-compiled/bootstrap.js"></script>
-    
-    <script>
-        // Load modals dynamically
-        fetch('./modals.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('modals-container').innerHTML = html;
-            })
-            .catch(error => console.warn('Could not load modals:', error));
-    </script>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <div class="sso-buttons">
+                    <button type="button" class="auth-button sso-button google" id="googleLoginBtn">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </button>
+                    <button type="button" class="auth-button sso-button microsoft" id="microsoftLoginBtn">
+                        <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                </div>
+                
+                <div class="loading" id="authLoading">
+                    <i class="fas fa-spinner fa-spin"></i> Authenticating...
+                </div>
+                <div class="auth-error" id="authError"></div>
+                <div class="auth-success" id="authSuccess"></div>
+            </form>
+        </div>
+    </div>
 </body>
-</html>
+</html>  
