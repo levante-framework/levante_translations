@@ -39,13 +39,66 @@ cd levante_translations
 [For stable behavior, use the main branch]
 git checkout main
 
-[Install all the needed packages:]
-pip (or pip3) install -r requirements.txt --user
+### Virtual Environments
 
-# If you get externally-managed-environment error:
-pip3 install -r requirements.txt --break-system-packages
+This project uses **two separate virtual environments** for different purposes:
 
-[Add PlayHt credentials to your enviornment]
+#### 1. Main Environment (`.venv`)
+Used for most operations including speech generation, deployment, utilities, and the desktop dashboard.
+
+```bash
+# Create and set up the main environment
+npm run venv:setup
+
+# Or manually:
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install "unbabel-comet>=2.2.0" pandas openpyxl tqdm pyyaml requests \
+    huggingface_hub google-cloud-storage playsound==1.2.2 pyht elevenlabs \
+    mutagen customtkinter CTkToolTip
+```
+
+**Used for:**
+- 🎯 Audio generation (English, Spanish, German, etc.)
+- 📤 Deployment scripts (translations, audio, CSV)
+- 🔧 Utilities (export voices, fix CSV, fetch translations)
+- 🎨 Desktop dashboard (`dashboard.py`)
+- 📊 xCOMET translation quality assessment
+- 🌍 Crowdin integration
+
+**Activate before running:**
+```bash
+source .venv/bin/activate
+python dashboard.py
+npm run generate:spanish
+```
+
+#### 2. Audio Validation Environment (`.venv-validate-audio`)
+Specialized environment with heavy ML dependencies for audio quality validation.
+
+```bash
+# Create and set up the audio validation environment
+npm run validate:audio:setup
+```
+
+**Used for:**
+- 🎵 Audio file validation with AI analysis
+- 🤖 ASR transcription comparison (Whisper, Google)
+- 📝 Validation reports for web dashboard
+
+**Why separate?**
+The audio validation environment includes PyTorch and sentence-transformers (~2GB), which take time to install and aren't needed for daily tasks. Keeping them separate makes the main environment faster to set up.
+
+**Activate for audio validation:**
+```bash
+npm run validate:audio:lang --lang=es-CO
+npm run validate:audio:all
+```
+
+### Setting Up Credentials
+
+[Add PlayHt credentials to your environment]
 [For Levante team, credentials are in Slack]
 [For python, They are placed in an environment variable called PLAY_DOT_HT_API_KEY, and PLAY_DOT_HT_USER_ID]
 [For Web Dashboard, you'll be prompted to enter them]
@@ -57,8 +110,14 @@ export PLAY_DOT_HT_USER_ID=<USER_ID>
 
 You may also need to install ffmpeg to hear some of the audio.
 
-[Hopefully the Dashboard will now run:]
-python (or py) dashboard.py
+### Running the Dashboard
+
+Make sure to activate the virtual environment first:
+
+```bash
+source .venv/bin/activate
+python dashboard.py
+```
 
 ### Generating Audio Files
 
