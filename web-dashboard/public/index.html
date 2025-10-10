@@ -13,12 +13,56 @@
     <link rel="apple-touch-icon" sizes="192x192" href="./favicon-192x192.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="dashboard-container">
+    <!-- Authentication Modal -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2><i class="fas fa-shield-alt"></i> Superadmin Access Required</h2>
+                <p>Please sign in with your Levante superadmin account</p>
+            </div>
+            <form class="auth-form" id="authForm">
+                <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
+                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                <button type="submit" class="auth-button" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="sso-buttons">
+                    <button type="button" class="auth-button sso-button google" id="googleLoginBtn">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </button>
+                    <button type="button" class="auth-button sso-button microsoft" id="microsoftLoginBtn">
+                        <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                </div>
+                
+                <div id="authError" class="auth-error" style="display: none;"></div>
+                <div id="authSuccess" class="auth-success" style="display: none;"></div>
+                <div id="authLoading" class="loading">Authenticating...</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="dashboard-container" style="display: none;">
         <div class="header">
             <h1><i class="fas fa-language"></i> <i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
             <!-- Cache bust: v2.1 -->
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span class="user-name" id="userName"></span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
             <div class="header-actions-left">
                 <div class="dropdown tools-dropdown" tabindex="0">
                     <button class="btn btn-secondary dropdown-toggle" title="Tools and reports">
@@ -34,9 +78,11 @@
                         <a href="#" onclick="openTaskTemplate(); return false;">
                             <i class="fas fa-plus-circle"></i> Add Task Template
                         </a>
+                        <!-- Bucket Info temporarily hidden until authorization is sorted out
                         <a href="#" onclick="openBucketInfo(); return false;">
                             <i class="fas fa-database"></i> Bucket Info
                         </a>
+                        -->
                     </div>
                 </div>
             </div>
@@ -393,5 +439,9 @@
             })
             .catch(error => console.warn('Could not load modals:', error));
     </script>
+    
+    <!-- Firebase Configuration and Authentication -->
+    <script src="./firebase-config.js"></script>
+    <script src="./auth.js"></script>
 </body>
 </html>

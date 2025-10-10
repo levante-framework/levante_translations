@@ -1,0 +1,3 @@
+# Add this to your ~/.bashrc for easy deployment
+alias deploy-levante='cd /home/djc/levante/levante_translations && ./deploy.sh'
+
