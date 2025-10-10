@@ -50,6 +50,12 @@
             align-items: center;
             gap: 8px;
         }
+        .form-section h3 {
+            margin: 16px 0 12px 0;
+            font-size: 15px;
+            color: #475569;
+            font-weight: 600;
+        }
         .form-group {
             margin-bottom: 20px;
         }
@@ -61,6 +67,8 @@
             font-size: 14px;
         }
         .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 10px 12px;
@@ -76,6 +84,7 @@
             font-family: 'Courier New', monospace;
         }
         .form-group input:focus,
+        .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #3b82f6;
@@ -117,48 +126,34 @@
             font-size: 14px;
             font-weight: normal;
         }
-        .status-table {
-            width: 100%;
-            border-collapse: collapse;
+        .checklist {
             margin-top: 16px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-top: 3px;
+        }
+        .checklist-item label {
+            flex: 1;
             font-size: 14px;
+            color: #334155;
+            cursor: pointer;
         }
-        .status-table th,
-        .status-table td {
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .status-table th {
+        .checklist-item .code {
+            font-family: 'Courier New', monospace;
             background: #f1f5f9;
-            font-weight: 600;
-            color: #475569;
-        }
-        .status-table tbody tr:hover {
-            background: #f8fafc;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 2px 6px;
+            border-radius: 3px;
             font-size: 12px;
-            font-weight: 500;
-        }
-        .status-loading {
-            background: #e0e7ff;
-            color: #4f46e5;
-        }
-        .status-available {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .status-missing {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .status-partial {
-            background: #fef3c7;
-            color: #92400e;
         }
         .btn {
             padding: 10px 20px;
@@ -185,6 +180,13 @@
         }
         .btn-secondary:hover {
             background: #475569;
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #059669;
         }
         .btn:disabled {
             opacity: 0.5;
@@ -230,20 +232,54 @@
             color: #92400e;
             border: 1px solid #fde68a;
         }
-        .string-item {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-            align-items: flex-start;
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
         }
-        .string-item input {
-            flex: 1;
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
-        .string-item .btn {
-            padding: 8px 12px;
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
         }
-        .add-string-btn {
-            margin-top: 8px;
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .collapsible-section {
+            cursor: pointer;
+            user-select: none;
+        }
+        .collapsible-section:hover h2 {
+            color: #3b82f6;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .collapsible-content.expanded {
+            max-height: 5000px;
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
         }
     </style>
 </head>
@@ -253,58 +289,386 @@
             <i class="fas fa-plus-circle"></i>
             Add Task Template
         </h1>
-        <p class="subtitle">Plan and validate resources for a new assessment task</p>
+        <p class="subtitle">Complete checklist for introducing a new task (or variant) to Levante core-tasks</p>
+
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <strong>Overview:</strong> This form guides you through the 10-step process of adding a new assessment task to the Levante framework.
+            Based on <code>README_TASKS.md</code> and the current launcher implementation.
+        </div>
 
         <form id="taskTemplateForm">
-            <!-- Basic Information -->
+            <!-- Section 1: Basic Information -->
             <div class="form-section">
-                <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                <h2>
+                    <span class="section-number">1</span>
+                    <i class="fas fa-info-circle"></i> Basic Information
+                </h2>
                 
                 <div class="form-group">
-                    <label for="taskName">Task Name *</label>
-                    <input type="text" id="taskName" name="taskName" required placeholder="e.g., matrix-reasoning">
-                    <div class="help-text">Use kebab-case (lowercase with hyphens)</div>
+                    <label for="taskName">Task Name (kebab-case) *</label>
+                    <input type="text" id="taskName" name="taskName" required placeholder="e.g., egma-math, matrix-reasoning, swr">
+                    <div class="help-text">Use lowercase with hyphens. This will be used in camelCase for the registry (e.g., egmaMath).</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="taskDescription">Description</label>
+                    <label for="taskDescription">Task Description</label>
                     <textarea id="taskDescription" name="taskDescription" placeholder="Brief description of what this task assesses..."></textarea>
                 </div>
+
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="trialType">Trial Type</label>
+                        <input type="text" id="trialType" name="trialType" placeholder="e.g., audio, visual, audio-visual">
+                    </div>
+                    <div class="form-group">
+                        <label for="assessmentStage">Assessment Stage</label>
+                        <select id="assessmentStage" name="assessmentStage">
+                            <option value="">Select stage...</option>
+                            <option value="practice">Practice</option>
+                            <option value="test">Test</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- Required Strings -->
-            <div class="form-section">
-                <h2><i class="fas fa-list"></i> Required Strings</h2>
-                
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    Enter the item IDs that this task requires. One per line, or comma-separated.
-                </div>
+            <!-- Section 2: Registry Configuration -->
+            <div class="form-section collapsible-section" data-section="registry">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">2</span>
+                    <i class="fas fa-cog"></i> Registry Configuration (taskConfig.ts)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>File:</strong> <code>core-tasks/task-launcher/src/tasks/taskConfig.ts</code><br>
+                        Add your task with the required entries: setConfig, getCorpus, getTranslations, buildTaskTimeline, variants (optional).
+                    </div>
 
-                <div class="form-group">
-                    <label for="requiredStrings">Item IDs *</label>
-                    <textarea id="requiredStrings" name="requiredStrings" required placeholder="matrix-reasoning-intro&#10;matrix-reasoning-item-1&#10;matrix-reasoning-item-2&#10;matrix-reasoning-exit"></textarea>
-                    <div class="help-text">Enter one item ID per line</div>
+                    <div class="form-group">
+                        <label for="registryKey">Registry Key (camelCase)</label>
+                        <input type="text" id="registryKey" name="registryKey" readonly placeholder="Auto-generated from task name">
+                        <div class="help-text">This is automatically generated from your task name (e.g., egma-math → egmaMath)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Required Exports</label>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check_setConfig" disabled checked>
+                                <label for="check_setConfig">✓ <span class="code">setConfig</span> - Configure task parameters</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check_getCorpus" disabled checked>
+                                <label for="check_getCorpus">✓ <span class="code">getCorpus</span> - Load stimulus data</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check_getTranslations" disabled checked>
+                                <label for="check_getTranslations">✓ <span class="code">getTranslations</span> - Load language strings</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check_buildTaskTimeline" disabled checked>
+                                <label for="check_buildTaskTimeline">✓ <span class="code">buildTaskTimeline</span> - Construct jsPsych timeline</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Language Support -->
+            <!-- Section 3: Timeline Implementation -->
+            <div class="form-section collapsible-section" data-section="timeline">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">3</span>
+                    <i class="fas fa-project-diagram"></i> Timeline Implementation
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>File:</strong> <code>core-tasks/task-launcher/src/tasks/&lt;task-name&gt;/timeline.ts</code><br>
+                        Export a default function that builds and returns the jsPsych timeline using task config and media assets.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timelineNotes">Timeline Notes</label>
+                        <textarea id="timelineNotes" name="timelineNotes" placeholder="Special considerations for your timeline implementation..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Corpus CSV Data -->
+            <div class="form-section collapsible-section" data-section="corpus">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">4</span>
+                    <i class="fas fa-database"></i> Corpus CSV (Stimulus Data)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>Upload to:</strong><br>
+                        • Dev: <code>gs://levante-assets-dev/corpus/&lt;task-name&gt;/&lt;corpus&gt;.csv</code><br>
+                        • Prod: <code>gs://levante-assets-prod/corpus/&lt;task-name&gt;/&lt;corpus&gt;.csv</code>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="corpusFile">Corpus Filename</label>
+                        <input type="text" id="corpusFile" name="corpusFile" placeholder="e.g., corpus.csv, stimuli-en.csv">
+                        <div class="help-text">The CSV file containing your task's stimulus items</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Required CSV Headers (check all that apply)</label>
+                        <div class="checklist">
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_task">
+                                <label for="csv_task"><span class="code">task</span> - Task identifier</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_trial_type">
+                                <label for="csv_trial_type"><span class="code">trial_type</span> - Type of trial</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_item">
+                                <label for="csv_item"><span class="code">item</span> - Item content/prompt</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_item_id">
+                                <label for="csv_item_id"><span class="code">item_id</span> - Unique item identifier</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_item_uid">
+                                <label for="csv_item_uid"><span class="code">item_uid</span> - Universal unique ID</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_audio_file">
+                                <label for="csv_audio_file"><span class="code">audio_file</span> - Audio filename</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_response_alternatives">
+                                <label for="csv_response_alternatives"><span class="code">response_alternatives</span> - Answer choices</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_assessment_stage">
+                                <label for="csv_assessment_stage"><span class="code">assessment_stage</span> - Practice/test</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_time_limit">
+                                <label for="csv_time_limit"><span class="code">time_limit</span> - Max response time</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="csv_difficulty">
+                                <label for="csv_difficulty"><span class="code">d / difficulty</span> - Item difficulty</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Media Assets -->
+            <div class="form-section collapsible-section" data-section="media">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">5</span>
+                    <i class="fas fa-photo-video"></i> Media Assets (Audio/Visual)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>Buckets:</strong> Automatically switch by environment (dev/prod)<br>
+                        <strong>Conventions:</strong><br>
+                        • Visual: <code>visual/&lt;task-name&gt;/...</code><br>
+                        • Audio: <code>audio/&lt;language&gt;/...</code> and <code>audio/shared/...</code>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="hasVisualAssets" name="hasVisualAssets">
+                            This task uses visual assets (images, videos)
+                        </label>
+                    </div>
+
+                    <div id="visualAssetsDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="visualAssetsList">Visual Asset Filenames</label>
+                            <textarea id="visualAssetsList" name="visualAssetsList" placeholder="image1.png&#10;image2.jpg&#10;diagram.svg"></textarea>
+                            <div class="help-text">List the visual files needed, one per line</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="hasAudioAssets" name="hasAudioAssets" checked>
+                            This task uses audio assets
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Required Assets Declaration -->
+            <div class="form-section collapsible-section" data-section="assets-declaration">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">6</span>
+                    <i class="fas fa-list-check"></i> Required Assets Declaration (assets-per-task.json)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>Hosted at:</strong> <code>gs://levante-assets-{dev|prod}/audio/assets-per-task.json</code><br>
+                        List all audio item IDs your task requires (excluding corpus-specific audio).
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requiredAudioIds">Required Audio Item IDs</label>
+                        <textarea id="requiredAudioIds" name="requiredAudioIds" placeholder="task-intro&#10;task-instructions&#10;correct-feedback&#10;incorrect-feedback&#10;task-exit"></textarea>
+                        <div class="help-text">Enter one item ID per line. These will be added to assets-per-task.json</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sharedAudioIds">Shared Audio Item IDs (optional)</label>
+                        <textarea id="sharedAudioIds" name="sharedAudioIds" placeholder="correct&#10;incorrect&#10;timeout"></textarea>
+                        <div class="help-text">Shared audio used across multiple tasks (already in shared section)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Translations & Item IDs -->
+            <div class="form-section collapsible-section" data-section="translations">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">7</span>
+                    <i class="fas fa-language"></i> Translations (item-bank-translations.csv)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        <strong>Source:</strong> <code>gs://levante-assets-{dev|prod}/translations/item-bank-translations.csv</code><br>
+                        All strings referenced by your timeline must be present. Keys are typically camelCased.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="translationKeys">Required Translation Keys</label>
+                        <textarea id="translationKeys" name="translationKeys" required placeholder="matrixReasoningIntro&#10;matrixReasoningInstructions&#10;matrixReasoningItem1&#10;matrixReasoningItem2&#10;matrixReasoningExit"></textarea>
+                        <div class="help-text">Enter translation keys (camelCase), one per line</div>
+                    </div>
+
+                    <h3>Language Support</h3>
+                    <div class="form-group">
+                        <label>Select languages this task will support:</label>
+                        <div class="language-grid" id="languageGrid">
+                            <!-- Languages will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 8: Variants -->
+            <div class="form-section collapsible-section" data-section="variants">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">8</span>
+                    <i class="fas fa-clone"></i> Variants (Optional)
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-info">
+                        Define task variants with only fields that differ (e.g., <code>corpus</code>, <code>numOfPracticeTrials</code>, 
+                        <code>sequentialStimulus</code>, <code>buttonLayout</code>, <code>cat</code>, <code>language</code>).
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="hasVariants" name="hasVariants">
+                            This task has variants
+                        </label>
+                    </div>
+
+                    <div id="variantsDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="variantsList">Variant Names & Differences</label>
+                            <textarea id="variantsList" name="variantsList" placeholder="short: numOfPracticeTrials=5, corpus=corpus-short.csv&#10;long: numOfPracticeTrials=10, corpus=corpus-long.csv&#10;spanish: language=es"></textarea>
+                            <div class="help-text">List variant name followed by key differences</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 9: Environment Switching -->
+            <div class="form-section collapsible-section" data-section="environment">
+                <h2>
+                    <i class="fas fa-chevron-right toggle-icon"></i>
+                    <span class="section-number">9</span>
+                    <i class="fas fa-server"></i> Environment Switching
+                </h2>
+                <div class="collapsible-content">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>No action required!</strong> Environment is automatically determined by Firebase project ID. 
+                        Buckets change automatically—no code changes needed.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 10: Implementation Checklist -->
             <div class="form-section">
-                <h2><i class="fas fa-globe"></i> Initial Language Support</h2>
+                <h2>
+                    <span class="section-number">10</span>
+                    <i class="fas fa-clipboard-check"></i> Implementation Checklist
+                </h2>
                 
-                <div class="form-group">
-                    <label>Select languages this task will support initially:</label>
-                    <div class="language-grid" id="languageGrid">
-                        <!-- Languages will be populated dynamically -->
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_timeline">
+                        <label for="todo_timeline">Create <span class="code">core-tasks/task-launcher/src/tasks/&lt;task-name&gt;/timeline.ts</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_registry">
+                        <label for="todo_registry">Register in <span class="code">core-tasks/task-launcher/src/tasks/taskConfig.ts</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_config">
+                        <label for="todo_config">(Optional) Add default corpus mapping in <span class="code">shared/helpers/config.ts</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_corpus_dev">
+                        <label for="todo_corpus_dev">Upload corpus CSV to <span class="code">levante-assets-dev/corpus/&lt;task-name&gt;/</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_corpus_prod">
+                        <label for="todo_corpus_prod">Upload corpus CSV to <span class="code">levante-assets-prod/corpus/&lt;task-name&gt;/</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_media_dev">
+                        <label for="todo_media_dev">Upload visual/audio assets to <span class="code">levante-assets-dev</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_media_prod">
+                        <label for="todo_media_prod">Upload visual/audio assets to <span class="code">levante-assets-prod</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_assets_per_task">
+                        <label for="todo_assets_per_task">Update <span class="code">assets-per-task.json</span> with required audio keys</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_translations">
+                        <label for="todo_translations">Ensure all translations exist in <span class="code">item-bank-translations.csv</span></label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_variants">
+                        <label for="todo_variants">(Optional) Add variants to taskConfig</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_test">
+                        <label for="todo_test">Test task in dev environment</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="todo_deploy">
+                        <label for="todo_deploy">Deploy to production</label>
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="button-group">
-                <button type="button" class="btn btn-primary" id="checkStatusBtn">
-                    <i class="fas fa-search"></i>
-                    Check Resource Status
+                <button type="button" class="btn btn-success" id="generateSummaryBtn">
+                    <i class="fas fa-file-export"></i>
+                    Generate Implementation Summary
                 </button>
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">
                     <i class="fas fa-times"></i>
@@ -313,28 +677,16 @@
             </div>
         </form>
 
-        <!-- Status Results -->
-        <div id="statusResults" style="display: none; margin-top: 32px;">
+        <!-- Summary Output -->
+        <div id="summaryOutput" style="display: none; margin-top: 32px;">
             <div class="form-section">
-                <h2><i class="fas fa-clipboard-check"></i> Resource Status</h2>
-                
-                <table class="status-table">
-                    <thead>
-                        <tr>
-                            <th>Item ID</th>
-                            <th>Crowdin Key</th>
-                            <th>Crowdin Status</th>
-                            <th>English Audio</th>
-                            <th>Translated Audio</th>
-                        </tr>
-                    </thead>
-                    <tbody id="statusTableBody">
-                        <!-- Results will be populated here -->
-                    </tbody>
-                </table>
-
-                <div id="statusSummary" style="margin-top: 20px;">
-                    <!-- Summary will be populated here -->
+                <h2><i class="fas fa-file-alt"></i> Implementation Summary</h2>
+                <textarea id="summaryText" readonly style="width: 100%; min-height: 400px; font-family: monospace; font-size: 12px;"></textarea>
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" id="copySummaryBtn">
+                        <i class="fas fa-copy"></i>
+                        Copy to Clipboard
+                    </button>
                 </div>
             </div>
         </div>
@@ -357,6 +709,11 @@
             { code: 'zh', name: 'Chinese' },
         ];
 
+        // Convert kebab-case to camelCase
+        function kebabToCamel(str) {
+            return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+        }
+
         // Populate language checkboxes
         function populateLanguages() {
             const grid = document.getElementById('languageGrid');
@@ -373,190 +730,175 @@
             });
         }
 
-        // Parse item IDs from textarea
-        function parseItemIds() {
-            const textarea = document.getElementById('requiredStrings');
-            const text = textarea.value.trim();
-            if (!text) return [];
+        // Update registry key when task name changes
+        document.getElementById('taskName').addEventListener('input', function(e) {
+            const taskName = e.target.value.trim();
+            const registryKey = kebabToCamel(taskName);
+            document.getElementById('registryKey').value = registryKey;
+        });
 
-            // Split by newlines or commas, filter empty strings
-            return text.split(/[\n,]+/)
-                .map(id => id.trim())
-                .filter(id => id.length > 0);
-        }
+        // Toggle visual assets details
+        document.getElementById('hasVisualAssets').addEventListener('change', function(e) {
+            document.getElementById('visualAssetsDetails').style.display = e.target.checked ? 'block' : 'none';
+        });
 
-        // Get selected languages
-        function getSelectedLanguages() {
-            const checkboxes = document.querySelectorAll('input[name="languages"]:checked');
-            return Array.from(checkboxes).map(cb => cb.value);
-        }
+        // Toggle variants details
+        document.getElementById('hasVariants').addEventListener('change', function(e) {
+            document.getElementById('variantsDetails').style.display = e.target.checked ? 'block' : 'none';
+        });
 
-        // Check Crowdin status for an item
-        async function checkCrowdinStatus(itemId, languages) {
-            try {
-                // This would call your Crowdin API endpoint
-                // For now, return mock data
-                const statuses = {};
-                for (const lang of languages) {
-                    const random = Math.random();
-                    if (random > 0.7) {
-                        statuses[lang] = 'available';
-                    } else if (random > 0.4) {
-                        statuses[lang] = 'partial';
-                    } else {
-                        statuses[lang] = 'missing';
-                    }
+        // Collapsible sections
+        document.querySelectorAll('.collapsible-section').forEach(section => {
+            section.addEventListener('click', function(e) {
+                // Don't collapse if clicking on inputs
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.tagName === 'LABEL') {
+                    return;
                 }
-                return {
-                    key: itemId,
-                    exists: Math.random() > 0.3,
-                    statuses
-                };
-            } catch (error) {
-                console.error('Error checking Crowdin:', error);
-                return { key: itemId, exists: false, statuses: {} };
-            }
-        }
-
-        // Check audio file existence
-        async function checkAudioExists(itemId, language, bucket = 'levante-assets-dev') {
-            try {
-                const url = `https://storage.googleapis.com/${bucket}/audio/${language}/${itemId}.mp3`;
-                const response = await fetch(url, { method: 'HEAD' });
-                return response.ok;
-            } catch (error) {
-                return false;
-            }
-        }
-
-        // Check all resources for an item
-        async function checkItemResources(itemId, languages) {
-            const crowdinStatus = await checkCrowdinStatus(itemId, languages);
-            
-            // Check English audio
-            const englishAudio = await checkAudioExists(itemId, 'en');
-            
-            // Check translated audio for each language
-            const translatedAudio = {};
-            for (const lang of languages) {
-                if (lang !== 'en') {
-                    translatedAudio[lang] = await checkAudioExists(itemId, lang);
-                }
-            }
-
-            return {
-                itemId,
-                crowdinKey: crowdinStatus.key,
-                crowdinExists: crowdinStatus.exists,
-                crowdinStatuses: crowdinStatus.statuses,
-                englishAudio,
-                translatedAudio
-            };
-        }
-
-        // Display status results
-        function displayResults(results, languages) {
-            const tbody = document.getElementById('statusTableBody');
-            tbody.innerHTML = '';
-
-            results.forEach(result => {
-                const tr = document.createElement('tr');
                 
-                // Crowdin status badge
-                const crowdinStatus = result.crowdinExists 
-                    ? '<span class="status-badge status-available">Found</span>'
-                    : '<span class="status-badge status-missing">Not Found</span>';
-
-                // English audio badge
-                const enAudioStatus = result.englishAudio
-                    ? '<span class="status-badge status-available">✓ Available</span>'
-                    : '<span class="status-badge status-missing">✗ Missing</span>';
-
-                // Translated audio status
-                const translatedLangs = languages.filter(l => l !== 'en');
-                const translatedCount = translatedLangs.filter(l => result.translatedAudio[l]).length;
-                let translatedStatus;
-                if (translatedCount === 0) {
-                    translatedStatus = '<span class="status-badge status-missing">None</span>';
-                } else if (translatedCount === translatedLangs.length) {
-                    translatedStatus = `<span class="status-badge status-available">All (${translatedCount}/${translatedLangs.length})</span>`;
+                const content = this.querySelector('.collapsible-content');
+                const icon = this.querySelector('.toggle-icon');
+                
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    icon.classList.remove('rotated');
                 } else {
-                    translatedStatus = `<span class="status-badge status-partial">Partial (${translatedCount}/${translatedLangs.length})</span>`;
+                    content.classList.add('expanded');
+                    icon.classList.add('rotated');
                 }
-
-                tr.innerHTML = `
-                    <td><span class="code">${result.itemId}</span></td>
-                    <td><span class="code">${result.crowdinKey}</span></td>
-                    <td>${crowdinStatus}</td>
-                    <td>${enAudioStatus}</td>
-                    <td>${translatedStatus}</td>
-                `;
-                tbody.appendChild(tr);
             });
+        });
 
-            // Calculate summary
-            const total = results.length;
-            const crowdinFound = results.filter(r => r.crowdinExists).length;
-            const englishAudioCount = results.filter(r => r.englishAudio).length;
-            
-            const summary = document.getElementById('statusSummary');
-            summary.innerHTML = `
-                <div class="alert ${total === crowdinFound && total === englishAudioCount ? 'alert-info' : 'alert-warning'}">
-                    <strong>Summary:</strong><br>
-                    • Crowdin: ${crowdinFound}/${total} items found<br>
-                    • English Audio: ${englishAudioCount}/${total} available<br>
-                    • Ready to go: ${total === crowdinFound && total === englishAudioCount ? 'Yes ✓' : 'No - missing resources'}
-                </div>
-            `;
-
-            document.getElementById('statusResults').style.display = 'block';
-        }
-
-        // Check status button handler
-        document.getElementById('checkStatusBtn').addEventListener('click', async function() {
+        // Generate summary
+        document.getElementById('generateSummaryBtn').addEventListener('click', function() {
             const taskName = document.getElementById('taskName').value.trim();
-            const itemIds = parseItemIds();
-            const languages = getSelectedLanguages();
+            const registryKey = document.getElementById('registryKey').value.trim();
+            const description = document.getElementById('taskDescription').value.trim();
+            const corpusFile = document.getElementById('corpusFile').value.trim();
+            const audioIds = document.getElementById('requiredAudioIds').value.trim().split('\n').filter(s => s.trim());
+            const translationKeys = document.getElementById('translationKeys').value.trim().split('\n').filter(s => s.trim());
+            const selectedLangs = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(cb => cb.value);
+            const hasVariants = document.getElementById('hasVariants').checked;
+            const hasVisualAssets = document.getElementById('hasVisualAssets').checked;
 
             if (!taskName) {
                 alert('Please enter a task name');
                 return;
             }
 
-            if (itemIds.length === 0) {
-                alert('Please enter at least one item ID');
-                return;
+            let summary = `# Implementation Summary: ${taskName}\n\n`;
+            summary += `Generated: ${new Date().toLocaleDateString()}\n\n`;
+            
+            if (description) {
+                summary += `## Description\n${description}\n\n`;
             }
 
-            if (languages.length === 0) {
-                alert('Please select at least one language');
-                return;
+            summary += `## Registry Configuration\n`;
+            summary += `- Registry Key: \`${registryKey}\`\n`;
+            summary += `- File: \`core-tasks/task-launcher/src/tasks/taskConfig.ts\`\n\n`;
+
+            summary += `## Implementation Checklist\n\n`;
+            summary += `### 1. Registry (taskConfig.ts)\n`;
+            summary += `- [ ] Add entry for \`${registryKey}\` in taskConfig.ts\n`;
+            summary += `- [ ] Provide: setConfig, getCorpus, getTranslations, buildTaskTimeline\n`;
+            if (hasVariants) summary += `- [ ] Define variants\n`;
+            summary += `\n`;
+
+            summary += `### 2. Timeline Implementation\n`;
+            summary += `- [ ] Create \`core-tasks/task-launcher/src/tasks/${taskName}/timeline.ts\`\n`;
+            summary += `- [ ] Export default function that builds jsPsych timeline\n\n`;
+
+            summary += `### 3. Corpus CSV\n`;
+            if (corpusFile) {
+                summary += `- [ ] Upload \`${corpusFile}\` to:\n`;
+                summary += `      - Dev: \`gs://levante-assets-dev/corpus/${taskName}/${corpusFile}\`\n`;
+                summary += `      - Prod: \`gs://levante-assets-prod/corpus/${taskName}/${corpusFile}\`\n`;
+            } else {
+                summary += `- [ ] Upload corpus CSV to \`gs://levante-assets-{dev|prod}/corpus/${taskName}/\`\n`;
+            }
+            summary += `\n`;
+
+            summary += `### 4. Media Assets\n`;
+            if (hasVisualAssets) {
+                summary += `- [ ] Upload visual assets to \`gs://levante-assets-{dev|prod}/visual/${taskName}/\`\n`;
+            }
+            summary += `- [ ] Upload audio assets to \`gs://levante-assets-{dev|prod}/audio/<language>/\`\n\n`;
+
+            if (audioIds.length > 0) {
+                summary += `### 5. Required Audio (assets-per-task.json)\n`;
+                summary += `Add to \`gs://levante-assets-{dev|prod}/audio/assets-per-task.json\`:\n\n`;
+                summary += `\`\`\`json\n`;
+                summary += `"${taskName}": {\n`;
+                summary += `  "audio": [\n`;
+                audioIds.forEach((id, i) => {
+                    summary += `    "${id}"${i < audioIds.length - 1 ? ',' : ''}\n`;
+                });
+                summary += `  ]\n`;
+                summary += `}\n`;
+                summary += `\`\`\`\n\n`;
             }
 
-            // Disable button and show loading
-            this.disabled = true;
-            this.innerHTML = '<span class="loading-spinner"></span> Checking...';
-
-            try {
-                const results = [];
-                for (const itemId of itemIds) {
-                    const result = await checkItemResources(itemId, languages);
-                    results.push(result);
-                }
-
-                displayResults(results, languages);
-            } catch (error) {
-                console.error('Error checking status:', error);
-                alert('Error checking status. See console for details.');
-            } finally {
-                this.disabled = false;
-                this.innerHTML = '<i class="fas fa-search"></i> Check Resource Status';
+            if (translationKeys.length > 0) {
+                summary += `### 6. Translations (item-bank-translations.csv)\n`;
+                summary += `Required translation keys:\n\n`;
+                translationKeys.forEach(key => {
+                    summary += `- \`${key}\`\n`;
+                });
+                summary += `\n`;
+                summary += `Languages to support: ${selectedLangs.join(', ')}\n\n`;
             }
+
+            summary += `### 7. Testing\n`;
+            summary += `- [ ] Test in dev environment (Firebase project ID determines bucket)\n`;
+            summary += `- [ ] Verify all assets load correctly\n`;
+            summary += `- [ ] Test all variants (if applicable)\n`;
+            summary += `- [ ] Test all language versions\n\n`;
+
+            summary += `### 8. Deployment\n`;
+            summary += `- [ ] Deploy to production\n`;
+            summary += `- [ ] Verify prod assets are in place\n\n`;
+
+            summary += `## End-to-End Flow\n`;
+            summary += `1. Resolve buckets and fetch media listings\n`;
+            summary += `2. setSharedConfig → compute final task config\n`;
+            summary += `3. Fetch corpus (as applicable)\n`;
+            summary += `4. Fetch translations and assets-per-task.json\n`;
+            summary += `5. Combine/filter media assets\n`;
+            summary += `6. Build and run jsPsych timeline\n\n`;
+
+            summary += `## Reference Files\n`;
+            summary += `- \`core-tasks/task-launcher/src/tasks/shared/helpers/getCorpus.ts\`\n`;
+            summary += `- \`core-tasks/task-launcher/src/tasks/shared/helpers/getMediaAssets.ts\`\n`;
+            summary += `- \`core-tasks/task-launcher/src/tasks/shared/helpers/getTranslations.ts\`\n`;
+            summary += `- \`README_TASKS.md\`\n`;
+
+            document.getElementById('summaryText').value = summary;
+            document.getElementById('summaryOutput').style.display = 'block';
+            document.getElementById('summaryOutput').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Copy summary to clipboard
+        document.getElementById('copySummaryBtn').addEventListener('click', function() {
+            const summaryText = document.getElementById('summaryText');
+            summaryText.select();
+            document.execCommand('copy');
+            
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                this.innerHTML = originalText;
+            }, 2000);
         });
 
         // Initialize
         populateLanguages();
+
+        // Expand first section by default
+        const firstSection = document.querySelector('.collapsible-content');
+        const firstIcon = document.querySelector('.toggle-icon');
+        if (firstSection && firstIcon) {
+            firstSection.classList.add('expanded');
+            firstIcon.classList.add('rotated');
+        }
     </script>
 </body>
 </html>
-
