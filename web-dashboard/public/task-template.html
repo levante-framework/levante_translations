@@ -80,8 +80,14 @@
         }
         .form-group textarea {
             min-height: 100px;
+            max-height: 400px;
             resize: vertical;
             font-family: 'Courier New', monospace;
+            overflow-y: auto;
+        }
+        .form-group textarea.large-list {
+            min-height: 300px;
+            max-height: 600px;
         }
         .form-group input:focus,
         .form-group select:focus,
@@ -281,15 +287,95 @@
         .toggle-icon.rotated {
             transform: rotate(90deg);
         }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 20px;
+        }
+        .header-left {
+            flex: 1;
+        }
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        .existing-task-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .existing-task-selector label {
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .existing-task-selector select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 200px;
+            background: white;
+        }
+        .existing-task-selector select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .mode-indicator {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .mode-new {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .mode-viewing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        @media (max-width: 768px) {
+            .header-row {
+                flex-direction: column;
+            }
+            .header-right {
+                align-items: flex-start;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>
-            <i class="fas fa-plus-circle"></i>
-            Add Task Template
-        </h1>
-        <p class="subtitle">Complete checklist for introducing a new task (or variant) to Levante core-tasks</p>
+        <div class="header-row">
+            <div class="header-left">
+                <h1>
+                    <i class="fas fa-plus-circle"></i>
+                    Add Task Template
+                </h1>
+                <p class="subtitle">Complete checklist for introducing a new task (or variant) to Levante core-tasks</p>
+            </div>
+            <div class="header-right">
+                <div class="existing-task-selector">
+                    <label for="existingTaskSelect"><i class="fas fa-eye"></i> View Existing:</label>
+                    <select id="existingTaskSelect">
+                        <option value="">-- Select a task --</option>
+                        <!-- Tasks will be loaded dynamically -->
+                    </select>
+                </div>
+                <span class="mode-indicator mode-new" id="modeIndicator">
+                    <i class="fas fa-plus"></i> New Task Mode
+                </span>
+            </div>
+        </div>
 
         <div class="alert alert-info">
             <i class="fas fa-info-circle"></i>
@@ -330,6 +416,12 @@
                             <option value="both">Both</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskNotes">Implementation Notes (optional)</label>
+                    <textarea id="taskNotes" name="taskNotes" placeholder="Special considerations, dependencies, or important details..."></textarea>
+                    <div class="help-text">Additional context about the task implementation</div>
                 </div>
             </div>
 
@@ -487,10 +579,22 @@
                     </div>
 
                     <div id="visualAssetsDetails" style="display: none;">
+                        <div class="two-column">
+                            <div class="form-group">
+                                <label for="visualAssetCount">Visual Asset Count</label>
+                                <input type="number" id="visualAssetCount" name="visualAssetCount" placeholder="e.g., 150" readonly>
+                                <div class="help-text">Total number of visual files</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="visualAssetTypes">Asset Types</label>
+                                <input type="text" id="visualAssetTypes" name="visualAssetTypes" placeholder="e.g., icons, images, diagrams">
+                                <div class="help-text">Categories of visual assets</div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="visualAssetsList">Visual Asset Filenames</label>
+                            <label for="visualAssetsList">Visual Asset Filenames (optional)</label>
                             <textarea id="visualAssetsList" name="visualAssetsList" placeholder="image1.png&#10;image2.jpg&#10;diagram.svg"></textarea>
-                            <div class="help-text">List the visual files needed, one per line</div>
+                            <div class="help-text">List specific visual files needed, one per line</div>
                         </div>
                     </div>
 
@@ -499,6 +603,14 @@
                             <input type="checkbox" id="hasAudioAssets" name="hasAudioAssets" checked>
                             This task uses audio assets
                         </label>
+                    </div>
+
+                    <div id="audioAssetsDetails" style="display: block;">
+                        <div class="form-group">
+                            <label for="audioAssetCount">Audio Asset Count</label>
+                            <input type="number" id="audioAssetCount" name="audioAssetCount" placeholder="e.g., 25" readonly>
+                            <div class="help-text">Total number of audio files (from assets-per-task.json)</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -518,7 +630,7 @@
 
                     <div class="form-group">
                         <label for="requiredAudioIds">Required Audio Item IDs</label>
-                        <textarea id="requiredAudioIds" name="requiredAudioIds" placeholder="task-intro&#10;task-instructions&#10;correct-feedback&#10;incorrect-feedback&#10;task-exit"></textarea>
+                        <textarea id="requiredAudioIds" name="requiredAudioIds" class="large-list" placeholder="task-intro&#10;task-instructions&#10;correct-feedback&#10;incorrect-feedback&#10;task-exit"></textarea>
                         <div class="help-text">Enter one item ID per line. These will be added to assets-per-task.json</div>
                     </div>
 
@@ -545,7 +657,7 @@
 
                     <div class="form-group">
                         <label for="translationKeys">Required Translation Keys</label>
-                        <textarea id="translationKeys" name="translationKeys" required placeholder="matrixReasoningIntro&#10;matrixReasoningInstructions&#10;matrixReasoningItem1&#10;matrixReasoningItem2&#10;matrixReasoningExit"></textarea>
+                        <textarea id="translationKeys" name="translationKeys" class="large-list" required placeholder="matrixReasoningIntro&#10;matrixReasoningInstructions&#10;matrixReasoningItem1&#10;matrixReasoningItem2&#10;matrixReasoningExit"></textarea>
                         <div class="help-text">Enter translation keys (camelCase), one per line</div>
                     </div>
 
@@ -693,20 +805,13 @@
     </div>
 
     <script type="module">
-        // Common languages in the Levante framework
+        // Languages currently available in Levante framework
         const COMMON_LANGUAGES = [
             { code: 'en', name: 'English' },
-            { code: 'es', name: 'Spanish' },
-            { code: 'es-MX', name: 'Spanish (Mexico)' },
+            { code: 'es-AR', name: 'Spanish (Argentina)' },
             { code: 'es-CO', name: 'Spanish (Colombia)' },
             { code: 'de', name: 'German' },
             { code: 'de-CH', name: 'German (Switzerland)' },
-            { code: 'fr', name: 'French' },
-            { code: 'fr-CA', name: 'French (Canada)' },
-            { code: 'pt-BR', name: 'Portuguese (Brazil)' },
-            { code: 'nl', name: 'Dutch' },
-            { code: 'it', name: 'Italian' },
-            { code: 'zh', name: 'Chinese' },
         ];
 
         // Convert kebab-case to camelCase
@@ -723,12 +828,174 @@
                 const div = document.createElement('div');
                 div.className = 'language-checkbox';
                 div.innerHTML = `
-                    <input type="checkbox" id="lang_${lang.code}" name="languages" value="${lang.code}" ${lang.code === 'en' ? 'checked' : ''}>
-                    <label for="lang_${lang.code}">${lang.name} <span class="code">${lang.code}</span></label>
+                    <input type="checkbox" id="lang_${lang.code.replace('-', '_')}" name="languages" value="${lang.code}" ${lang.code === 'en' ? 'checked' : ''}>
+                    <label for="lang_${lang.code.replace('-', '_')}">${lang.name} <span class="code">${lang.code}</span></label>
                 `;
                 grid.appendChild(div);
             });
         }
+
+        // Load existing tasks data
+        let existingTasksData = null;
+
+        async function loadExistingTasks() {
+            try {
+                const response = await fetch('./data/existing-tasks.json');
+                if (!response.ok) {
+                    console.warn('Could not load existing tasks');
+                    return;
+                }
+                const data = await response.json();
+                existingTasksData = data;
+
+                // Populate dropdown
+                const select = document.getElementById('existingTaskSelect');
+                data.tasks.forEach(task => {
+                    const option = document.createElement('option');
+                    option.value = task.taskName;
+                    option.textContent = `${task.taskName} - ${task.description.substring(0, 50)}...`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading existing tasks:', error);
+            }
+        }
+
+        // Populate form with task data
+        function loadTaskIntoForm(taskData) {
+            if (!taskData) return;
+
+            // Update mode indicator
+            const modeIndicator = document.getElementById('modeIndicator');
+            modeIndicator.className = 'mode-indicator mode-viewing';
+            modeIndicator.innerHTML = '<i class="fas fa-eye"></i> Viewing: ' + taskData.taskName;
+
+            // Basic Information
+            document.getElementById('taskName').value = taskData.taskName || '';
+            document.getElementById('registryKey').value = taskData.registryKey || '';
+            document.getElementById('taskDescription').value = taskData.description || '';
+            document.getElementById('trialType').value = taskData.trialType || '';
+            document.getElementById('assessmentStage').value = taskData.assessmentStage || '';
+            document.getElementById('taskNotes').value = taskData.notes || '';
+
+            // Corpus
+            document.getElementById('corpusFile').value = taskData.corpusFile || '';
+
+            // CSV Headers - check the ones that apply
+            const csvHeaderCheckboxes = {
+                'csv_task': 'task',
+                'csv_trial_type': 'trial_type',
+                'csv_item': 'item',
+                'csv_item_id': 'item_id',
+                'csv_item_uid': 'item_uid',
+                'csv_audio_file': 'audio_file',
+                'csv_response_alternatives': 'response_alternatives',
+                'csv_assessment_stage': 'assessment_stage',
+                'csv_time_limit': 'time_limit',
+                'csv_difficulty': 'difficulty'
+            };
+
+            // Uncheck all first
+            Object.keys(csvHeaderCheckboxes).forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (checkbox) checkbox.checked = false;
+            });
+
+            // Check applicable ones
+            if (taskData.csvHeaders && taskData.csvHeaders.length > 0) {
+                Object.entries(csvHeaderCheckboxes).forEach(([id, header]) => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox && taskData.csvHeaders.includes(header)) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+
+            // Media Assets
+            document.getElementById('hasVisualAssets').checked = taskData.hasVisualAssets || false;
+            document.getElementById('hasAudioAssets').checked = taskData.hasAudioAssets || false;
+            document.getElementById('visualAssetsDetails').style.display = taskData.hasVisualAssets ? 'block' : 'none';
+            document.getElementById('audioAssetsDetails').style.display = taskData.hasAudioAssets ? 'block' : 'none';
+
+            // Visual Asset Details
+            if (taskData.hasVisualAssets) {
+                document.getElementById('visualAssetCount').value = taskData.visualAssetCount || '';
+                document.getElementById('visualAssetTypes').value = (taskData.visualAssetTypes || []).join(', ');
+            }
+
+            // Audio Asset Details
+            if (taskData.hasAudioAssets) {
+                document.getElementById('audioAssetCount').value = taskData.audioAssetCount || taskData.requiredAudioIds?.length || '';
+            }
+
+            // Required Audio IDs
+            document.getElementById('requiredAudioIds').value = (taskData.requiredAudioIds || []).join('\n');
+
+            // Translation Keys
+            document.getElementById('translationKeys').value = (taskData.translationKeys || []).join('\n');
+
+            // Languages - uncheck all first
+            document.querySelectorAll('input[name="languages"]').forEach(cb => cb.checked = false);
+            
+            // Check applicable languages
+            if (taskData.languages && taskData.languages.length > 0) {
+                taskData.languages.forEach(lang => {
+                    const checkbox = document.getElementById(`lang_${lang.replace('-', '_')}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+
+            // Variants
+            document.getElementById('hasVariants').checked = taskData.hasVariants || false;
+            document.getElementById('variantsDetails').style.display = taskData.hasVariants ? 'block' : 'none';
+            if (taskData.variants && taskData.variants.length > 0) {
+                document.getElementById('variantsList').value = taskData.variants.join('\n');
+            }
+
+            // Trigger registry key update
+            document.getElementById('taskName').dispatchEvent(new Event('input'));
+        }
+
+        // Clear form and reset to new mode
+        function resetForm() {
+            document.getElementById('taskTemplateForm').reset();
+            document.getElementById('existingTaskSelect').value = '';
+            
+            const modeIndicator = document.getElementById('modeIndicator');
+            modeIndicator.className = 'mode-indicator mode-new';
+            modeIndicator.innerHTML = '<i class="fas fa-plus"></i> New Task Mode';
+
+            // Reset checkboxes to default state
+            document.querySelectorAll('input[name="languages"]').forEach(cb => {
+                cb.checked = cb.value === 'en';
+            });
+
+            document.getElementById('registryKey').value = '';
+            document.getElementById('visualAssetsDetails').style.display = 'none';
+            document.getElementById('variantsDetails').style.display = 'none';
+        }
+
+        // Handle task selection from dropdown
+        document.getElementById('existingTaskSelect').addEventListener('change', function(e) {
+            const taskName = e.target.value;
+            
+            if (!taskName) {
+                resetForm();
+                return;
+            }
+
+            if (!existingTasksData) {
+                alert('Existing tasks data not loaded');
+                return;
+            }
+
+            const task = existingTasksData.tasks.find(t => t.taskName === taskName);
+            if (task) {
+                loadTaskIntoForm(task);
+            } else {
+                alert('Task data not found');
+            }
+        });
 
         // Update registry key when task name changes
         document.getElementById('taskName').addEventListener('input', function(e) {
@@ -740,6 +1007,11 @@
         // Toggle visual assets details
         document.getElementById('hasVisualAssets').addEventListener('change', function(e) {
             document.getElementById('visualAssetsDetails').style.display = e.target.checked ? 'block' : 'none';
+        });
+
+        // Toggle audio assets details
+        document.getElementById('hasAudioAssets').addEventListener('change', function(e) {
+            document.getElementById('audioAssetsDetails').style.display = e.target.checked ? 'block' : 'none';
         });
 
         // Toggle variants details
@@ -889,8 +1161,28 @@
             }, 2000);
         });
 
+        // Add "Clear Form" button functionality
+        function addClearFormButton() {
+            const buttonGroup = document.querySelector('.button-group');
+            if (buttonGroup) {
+                const clearBtn = document.createElement('button');
+                clearBtn.type = 'button';
+                clearBtn.className = 'btn btn-secondary';
+                clearBtn.innerHTML = '<i class="fas fa-eraser"></i> Clear Form';
+                clearBtn.onclick = resetForm;
+                
+                // Insert before the cancel button
+                const cancelBtn = buttonGroup.querySelector('button[onclick*="index.html"]');
+                if (cancelBtn) {
+                    buttonGroup.insertBefore(clearBtn, cancelBtn);
+                }
+            }
+        }
+
         // Initialize
         populateLanguages();
+        loadExistingTasks(); // Load existing tasks into dropdown
+        addClearFormButton(); // Add clear form button
 
         // Expand first section by default
         const firstSection = document.querySelector('.collapsible-content');
