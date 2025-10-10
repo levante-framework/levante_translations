@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Task Template - Levante Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        body { 
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+            margin: 20px; 
+            color: #222; 
+            background: #f8fafc;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e293b;
+            margin: 0 0 8px 0;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin: 0 0 24px 0;
+            font-size: 14px;
+        }
+        .form-section {
+            margin-bottom: 32px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .form-section h2 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #475569;
+            font-size: 14px;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .help-text {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .language-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .language-checkbox:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .language-checkbox input[type="checkbox"] {
+            cursor: pointer;
+        }
+        .language-checkbox label {
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .status-table th,
+        .status-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .status-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #475569;
+        }
+        .status-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-loading {
+            background: #e0e7ff;
+            color: #4f46e5;
+        }
+        .status-available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-missing {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .status-partial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #cbd5e1;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .string-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+        .string-item input {
+            flex: 1;
+        }
+        .string-item .btn {
+            padding: 8px 12px;
+        }
+        .add-string-btn {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-plus-circle"></i>
+            Add Task Template
+        </h1>
+        <p class="subtitle">Plan and validate resources for a new assessment task</p>
+
+        <form id="taskTemplateForm">
+            <!-- Basic Information -->
+            <div class="form-section">
+                <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="taskName">Task Name *</label>
+                    <input type="text" id="taskName" name="taskName" required placeholder="e.g., matrix-reasoning">
+                    <div class="help-text">Use kebab-case (lowercase with hyphens)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" name="taskDescription" placeholder="Brief description of what this task assesses..."></textarea>
+                </div>
+            </div>
+
+            <!-- Required Strings -->
+            <div class="form-section">
+                <h2><i class="fas fa-list"></i> Required Strings</h2>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Enter the item IDs that this task requires. One per line, or comma-separated.
+                </div>
+
+                <div class="form-group">
+                    <label for="requiredStrings">Item IDs *</label>
+                    <textarea id="requiredStrings" name="requiredStrings" required placeholder="matrix-reasoning-intro&#10;matrix-reasoning-item-1&#10;matrix-reasoning-item-2&#10;matrix-reasoning-exit"></textarea>
+                    <div class="help-text">Enter one item ID per line</div>
+                </div>
+            </div>
+
+            <!-- Language Support -->
+            <div class="form-section">
+                <h2><i class="fas fa-globe"></i> Initial Language Support</h2>
+                
+                <div class="form-group">
+                    <label>Select languages this task will support initially:</label>
+                    <div class="language-grid" id="languageGrid">
+                        <!-- Languages will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" id="checkStatusBtn">
+                    <i class="fas fa-search"></i>
+                    Check Resource Status
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+        <!-- Status Results -->
+        <div id="statusResults" style="display: none; margin-top: 32px;">
+            <div class="form-section">
+                <h2><i class="fas fa-clipboard-check"></i> Resource Status</h2>
+                
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Crowdin Key</th>
+                            <th>Crowdin Status</th>
+                            <th>English Audio</th>
+                            <th>Translated Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statusTableBody">
+                        <!-- Results will be populated here -->
+                    </tbody>
+                </table>
+
+                <div id="statusSummary" style="margin-top: 20px;">
+                    <!-- Summary will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Common languages in the Levante framework
+        const COMMON_LANGUAGES = [
+            { code: 'en', name: 'English' },
+            { code: 'es', name: 'Spanish' },
+            { code: 'es-MX', name: 'Spanish (Mexico)' },
+            { code: 'es-CO', name: 'Spanish (Colombia)' },
+            { code: 'de', name: 'German' },
+            { code: 'de-CH', name: 'German (Switzerland)' },
+            { code: 'fr', name: 'French' },
+            { code: 'fr-CA', name: 'French (Canada)' },
+            { code: 'pt-BR', name: 'Portuguese (Brazil)' },
+            { code: 'nl', name: 'Dutch' },
+            { code: 'it', name: 'Italian' },
+            { code: 'zh', name: 'Chinese' },
+        ];
+
+        // Populate language checkboxes
+        function populateLanguages() {
+            const grid = document.getElementById('languageGrid');
+            grid.innerHTML = '';
+
+            COMMON_LANGUAGES.forEach(lang => {
+                const div = document.createElement('div');
+                div.className = 'language-checkbox';
+                div.innerHTML = `
+                    <input type="checkbox" id="lang_${lang.code}" name="languages" value="${lang.code}" ${lang.code === 'en' ? 'checked' : ''}>
+                    <label for="lang_${lang.code}">${lang.name} <span class="code">${lang.code}</span></label>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        // Parse item IDs from textarea
+        function parseItemIds() {
+            const textarea = document.getElementById('requiredStrings');
+            const text = textarea.value.trim();
+            if (!text) return [];
+
+            // Split by newlines or commas, filter empty strings
+            return text.split(/[\n,]+/)
+                .map(id => id.trim())
+                .filter(id => id.length > 0);
+        }
+
+        // Get selected languages
+        function getSelectedLanguages() {
+            const checkboxes = document.querySelectorAll('input[name="languages"]:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        // Check Crowdin status for an item
+        async function checkCrowdinStatus(itemId, languages) {
+            try {
+                // This would call your Crowdin API endpoint
+                // For now, return mock data
+                const statuses = {};
+                for (const lang of languages) {
+                    const random = Math.random();
+                    if (random > 0.7) {
+                        statuses[lang] = 'available';
+                    } else if (random > 0.4) {
+                        statuses[lang] = 'partial';
+                    } else {
+                        statuses[lang] = 'missing';
+                    }
+                }
+                return {
+                    key: itemId,
+                    exists: Math.random() > 0.3,
+                    statuses
+                };
+            } catch (error) {
+                console.error('Error checking Crowdin:', error);
+                return { key: itemId, exists: false, statuses: {} };
+            }
+        }
+
+        // Check audio file existence
+        async function checkAudioExists(itemId, language, bucket = 'levante-assets-dev') {
+            try {
+                const url = `https://storage.googleapis.com/${bucket}/audio/${language}/${itemId}.mp3`;
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Check all resources for an item
+        async function checkItemResources(itemId, languages) {
+            const crowdinStatus = await checkCrowdinStatus(itemId, languages);
+            
+            // Check English audio
+            const englishAudio = await checkAudioExists(itemId, 'en');
+            
+            // Check translated audio for each language
+            const translatedAudio = {};
+            for (const lang of languages) {
+                if (lang !== 'en') {
+                    translatedAudio[lang] = await checkAudioExists(itemId, lang);
+                }
+            }
+
+            return {
+                itemId,
+                crowdinKey: crowdinStatus.key,
+                crowdinExists: crowdinStatus.exists,
+                crowdinStatuses: crowdinStatus.statuses,
+                englishAudio,
+                translatedAudio
+            };
+        }
+
+        // Display status results
+        function displayResults(results, languages) {
+            const tbody = document.getElementById('statusTableBody');
+            tbody.innerHTML = '';
+
+            results.forEach(result => {
+                const tr = document.createElement('tr');
+                
+                // Crowdin status badge
+                const crowdinStatus = result.crowdinExists 
+                    ? '<span class="status-badge status-available">Found</span>'
+                    : '<span class="status-badge status-missing">Not Found</span>';
+
+                // English audio badge
+                const enAudioStatus = result.englishAudio
+                    ? '<span class="status-badge status-available">✓ Available</span>'
+                    : '<span class="status-badge status-missing">✗ Missing</span>';
+
+                // Translated audio status
+                const translatedLangs = languages.filter(l => l !== 'en');
+                const translatedCount = translatedLangs.filter(l => result.translatedAudio[l]).length;
+                let translatedStatus;
+                if (translatedCount === 0) {
+                    translatedStatus = '<span class="status-badge status-missing">None</span>';
+                } else if (translatedCount === translatedLangs.length) {
+                    translatedStatus = `<span class="status-badge status-available">All (${translatedCount}/${translatedLangs.length})</span>`;
+                } else {
+                    translatedStatus = `<span class="status-badge status-partial">Partial (${translatedCount}/${translatedLangs.length})</span>`;
+                }
+
+                tr.innerHTML = `
+                    <td><span class="code">${result.itemId}</span></td>
+                    <td><span class="code">${result.crowdinKey}</span></td>
+                    <td>${crowdinStatus}</td>
+                    <td>${enAudioStatus}</td>
+                    <td>${translatedStatus}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Calculate summary
+            const total = results.length;
+            const crowdinFound = results.filter(r => r.crowdinExists).length;
+            const englishAudioCount = results.filter(r => r.englishAudio).length;
+            
+            const summary = document.getElementById('statusSummary');
+            summary.innerHTML = `
+                <div class="alert ${total === crowdinFound && total === englishAudioCount ? 'alert-info' : 'alert-warning'}">
+                    <strong>Summary:</strong><br>
+                    • Crowdin: ${crowdinFound}/${total} items found<br>
+                    • English Audio: ${englishAudioCount}/${total} available<br>
+                    • Ready to go: ${total === crowdinFound && total === englishAudioCount ? 'Yes ✓' : 'No - missing resources'}
+                </div>
+            `;
+
+            document.getElementById('statusResults').style.display = 'block';
+        }
+
+        // Check status button handler
+        document.getElementById('checkStatusBtn').addEventListener('click', async function() {
+            const taskName = document.getElementById('taskName').value.trim();
+            const itemIds = parseItemIds();
+            const languages = getSelectedLanguages();
+
+            if (!taskName) {
+                alert('Please enter a task name');
+                return;
+            }
+
+            if (itemIds.length === 0) {
+                alert('Please enter at least one item ID');
+                return;
+            }
+
+            if (languages.length === 0) {
+                alert('Please select at least one language');
+                return;
+            }
+
+            // Disable button and show loading
+            this.disabled = true;
+            this.innerHTML = '<span class="loading-spinner"></span> Checking...';
+
+            try {
+                const results = [];
+                for (const itemId of itemIds) {
+                    const result = await checkItemResources(itemId, languages);
+                    results.push(result);
+                }
+
+                displayResults(results, languages);
+            } catch (error) {
+                console.error('Error checking status:', error);
+                alert('Error checking status. See console for details.');
+            } finally {
+                this.disabled = false;
+                this.innerHTML = '<i class="fas fa-search"></i> Check Resource Status';
+            }
+        });
+
+        // Initialize
+        populateLanguages();
+    </script>
+</body>
+</html>
+
