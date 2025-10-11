@@ -548,10 +548,13 @@ class Task {
                 const toCamel = key
                     .replace(/[-_]+([a-zA-Z0-9])/g, (m, p1) => String(p1).toUpperCase())
                     .replace(/^[A-Z]/, s => s.toLowerCase());
-                const toKebab = key
+                // Preserve 'ToM-' as an atomic prefix; avoid inserting a hyphen within it
+                const withAcronymGuard = key.replace(/^ToM-/, 'TOM_ACRO-');
+                let toKebab = withAcronymGuard
                     .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
                     .replace(/_/g, '-')
                     .toLowerCase();
+                toKebab = toKebab.replace(/^tom_acro-/, 'tom-');
                 return { from: key, kebab: toKebab, camel: toCamel };
             });
             results.warnings.push(`Invalid translation key format (use kebab-case; 'ToM-' prefix allowed; camelCase also accepted): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
