@@ -304,6 +304,21 @@ class Task {
                 };
             }
 
+            // Merge translations (authoritative CSV list)
+            if (data.translations && Array.isArray(data.translations.keys) && data.translations.keys.length > 0) {
+                const csvKeys = new Set(data.translations.keys);
+                // union current translationKeys with authoritative CSV keys that match our task context
+                // Keep existing explicit entries; CSV keys are used for validation lookup
+                this._hydrationMeta.translations = {
+                    source: 'gcs-csv',
+                    bucket: `levante-assets-${env}`,
+                    path: 'translations/item-bank-translations.csv',
+                    total: data.translations.count
+                };
+                // Store for lookup during validation
+                this.__csvTranslationKeys = csvKeys;
+            }
+
             this._hydrated = true;
         } catch (e) {
             // Hydration is best-effort; keep going if it fails
@@ -545,11 +560,14 @@ class Task {
 
         // Check for audio ID / translation key consistency
         const exempt = new Set(this.audioIdsWithoutText || []);
+        const csvKeySet = this.__csvTranslationKeys || new Set();
         const audioIdsWithoutTranslations = this.requiredAudioIds.filter(audioId => {
             if (exempt.has(audioId)) return false;
             const expectedCamel = audioId.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
             const expectedKebab = audioId; // kebab is canonical in CSV
-            return !(this.translationKeys.includes(expectedCamel) || this.translationKeys.includes(expectedKebab));
+            const existsInForm = this.translationKeys.includes(expectedCamel) || this.translationKeys.includes(expectedKebab);
+            const existsInCsv = csvKeySet.has(expectedKebab) || csvKeySet.has(expectedCamel);
+            return !(existsInForm || existsInCsv);
         });
 
         if (audioIdsWithoutTranslations.length > 0) {
@@ -565,7 +583,7 @@ class Task {
             results.warnings.push(
                 `${audioIdsWithoutTranslations.length} audio IDs may not have corresponding translation keys. ` +
                 `Examples: ${examplePairs.map(p => `${p.audioId} → ${p.expectedKey}`).join(', ')}. ` +
-                `Add the missing camelCase keys to "Required Translation Keys" and ensure they exist in item-bank-translations.csv.`
+                `Add the missing keys (kebab-case recommended) to "Required Translation Keys" and ensure they exist in item-bank-translations.csv.`
             );
             results._warningContext.audioMissingTranslations = {
                 total: audioIdsWithoutTranslations.length,
