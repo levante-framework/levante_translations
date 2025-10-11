@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Task Template - Levante Dashboard</title>
+    <title>Task Dashboard - Levante Dashboard</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./styles.css">
@@ -486,10 +486,10 @@
         <div class="header-row">
             <div class="header-left">
                 <h1>
-                    <i class="fas fa-plus-circle"></i>
-                    Add Task Template
+                    <i class="fas fa-clipboard-list"></i>
+                    Task Dashboard
                 </h1>
-                <p class="subtitle">Complete checklist for introducing a new task (or variant) to Levante core-tasks</p>
+                <p class="subtitle">Manage and validate task assets, translations, and configuration</p>
             </div>
             <div class="header-right">
                 <div class="existing-task-selector">
@@ -810,6 +810,19 @@
                         <label for="translationKeys">Required Translation Keys</label>
                         <textarea id="translationKeys" name="translationKeys" class="large-list" required placeholder="matrixReasoningIntro&#10;matrixReasoningInstructions&#10;matrixReasoningItem1&#10;matrixReasoningItem2&#10;matrixReasoningExit"></textarea>
                         <div class="help-text">Enter translation keys (camelCase), one per line</div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 8px;">
+                        <button type="button" class="btn btn-secondary" id="whereUsedBtn">
+                            <i class="fas fa-question-circle"></i>
+                            Where used?
+                        </button>
+                    </div>
+
+                    <div id="whereUsedInfo" style="display: none; margin-top: 12px;">
+                        <div class="alert alert-info" id="whereUsedContent">
+                            <!-- populated dynamically -->
+                        </div>
                     </div>
 
                     <h3>Language Support</h3>
@@ -1295,7 +1308,7 @@
         document.querySelectorAll('.collapsible-section').forEach(section => {
             section.addEventListener('click', function(e) {
                 // Don't collapse if clicking on inputs
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.tagName === 'LABEL') {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.tagName === 'LABEL' || e.target.closest('#whereUsedBtn')) {
                     return;
                 }
                 
@@ -1451,6 +1464,42 @@
             }
         }
 
+        // Render the "Where used?" info box based on current form values
+        function renderWhereUsedInfo() {
+            const keysText = document.getElementById('translationKeys').value.trim();
+            const audioText = document.getElementById('requiredAudioIds').value.trim();
+
+            const keys = keysText ? keysText.split('\n').map(s => s.trim()).filter(Boolean) : [];
+            const audios = audioText ? audioText.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+            // pick examples
+            const exampleKeys = keys.slice(0, 3);
+            const exampleAudio = audios[0] || 'task-intro';
+            const expectedFromAudio = exampleAudio.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
+
+            // code samples
+            const codeTs = `import { getTranslations } from 'shared/helpers/getTranslations';\n\nconst t = await getTranslations(languageCode);\n// Access by camelCase key\nconst prompt = t.${exampleKeys[0] || 'matrixReasoningPrompt1'};\n\n// Typical usage in a timeline trial\njsPsychHtmlAudioButton({\n  prompt: t.${exampleKeys[0] || 'matrixReasoningPrompt1'},\n  // media mapping example\n  audio: media['${exampleAudio}']\n});`;
+
+            const codeMap = `// Audio ID → expected translation key mapping\n'${exampleAudio}' → '${expectedFromAudio}'`;
+
+            const html = [
+                `<p><strong>Where these keys are consumed:</strong></p>`,
+                `<ul>`,
+                `<li><code>core-tasks/task-launcher/src/tasks/taskConfig.ts</code> via <code>getTranslations</code></li>`,
+                `<li><code>core-tasks/task-launcher/src/tasks/&lt;task-name&gt;/timeline.ts</code> when building trials</li>`,
+                `<li><code>item-bank-translations.csv</code> provides the localized strings for each key</li>`,
+                `</ul>`,
+                `<p><strong>Example TypeScript usage:</strong></p>`,
+                `<pre>${codeTs.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`,
+                `<p><strong>Audio → key convention:</strong></p>`,
+                `<pre>${codeMap.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`,
+                (exampleKeys.length ? `<p><strong>Sample keys in this form:</strong> ${exampleKeys.map(k => `<code>${k}</code>`).join(', ')}</p>` : '')
+            ].join('');
+
+            const container = document.getElementById('whereUsedContent');
+            if (container) container.innerHTML = html;
+        }
+
         // Attach clickable warning details into the rendered report
         function attachWarningDetailLinks(container, taskInstance) {
             const warningListItems = container.querySelectorAll('.validation-warnings li');
@@ -1493,9 +1542,48 @@
                 }
                 html += '<p><strong>Examples:</strong></p><pre>' + details.examples.map(e => `${e.audioId}  =>  ${e.expectedKey}`).join('\n') + '</pre>';
                 html += '<p><strong>How to fix:</strong></p><ul>' + details.howToFix.map(s => `<li>${s}</li>`).join('') + '</ul>';
+                if (details.missingKeys && details.missingKeys.length) {
+                    html += '<p><strong>Add these keys to item-bank-translations.csv:</strong></p>';
+                    html += '<pre>' + details.csvSnippet + '</pre>';
+                    html += '<div class="button-group"><button type="button" class="btn btn-primary" id="copyCsvSnippetBtn"><i class="fas fa-copy"></i> Copy CSV Snippet</button></div>';
+                    html += `<p><strong>CSV path (dev):</strong> ${details.csvPath?.dev || ''}<br>`;
+                    html += `<strong>CSV path (prod):</strong> ${details.csvPath?.prod || ''}</p>`;
+                }
+                if (details.bucketPaths) {
+                    html += `<p><strong>Audio buckets:</strong><br>Dev: ${details.bucketPaths.dev}<br>Prod: ${details.bucketPaths.prod}</p>`;
+                }
+                if (details.source) {
+                    const src = details.source;
+                    html += '<p><strong>Where these audio IDs come from:</strong></p><ul>';
+                    if (src.source === 'gcs-assets-per-task') {
+                        html += `<li>Source: GCS assets-per-task.json</li>`;
+                        html += `<li>Bucket: ${src.bucket}</li>`;
+                        html += `<li>Path: ${src.path}</li>`;
+                    } else {
+                        html += `<li>Source: Entered in form or existing-tasks.json</li>`;
+                    }
+                    html += '</ul>';
+                }
+                if (details.conventions) {
+                    html += '<p><strong>Conventions:</strong></p><ul>';
+                    html += `<li>${details.conventions.idDefinition}</li>`;
+                    html += `<li>Example: ${details.conventions.filenameExample}</li>`;
+                    html += '</ul>';
+                }
             }
             body.innerHTML = html;
             modal.style.display = 'flex';
+
+            const copyBtn = document.getElementById('copyCsvSnippetBtn');
+            if (copyBtn && details && details.csvSnippet) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(details.csvSnippet).then(() => {
+                        const original = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied';
+                        setTimeout(() => copyBtn.innerHTML = original, 1500);
+                    });
+                });
+            }
         }
 
         function closeWarningModal() {
@@ -1519,6 +1607,28 @@
         if (firstSection && firstIcon) {
             firstSection.classList.add('expanded');
             firstIcon.classList.add('rotated');
+        }
+
+        // Hook up Where used? interactions
+        const whereUsedBtn = document.getElementById('whereUsedBtn');
+        const whereUsedInfo = document.getElementById('whereUsedInfo');
+        if (whereUsedBtn && whereUsedInfo) {
+            whereUsedBtn.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                if (whereUsedInfo.style.display === 'none' || !whereUsedInfo.style.display) {
+                    renderWhereUsedInfo();
+                    whereUsedInfo.style.display = 'block';
+                } else {
+                    whereUsedInfo.style.display = 'none';
+                }
+            });
+
+            // Re-render on input changes for live examples
+            const reRender = () => {
+                if (whereUsedInfo.style.display === 'block') renderWhereUsedInfo();
+            };
+            document.getElementById('translationKeys')?.addEventListener('input', reRender);
+            document.getElementById('requiredAudioIds')?.addEventListener('input', reRender);
         }
     </script>
 </body>

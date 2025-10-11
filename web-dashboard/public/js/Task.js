@@ -52,6 +52,7 @@ class Task {
         // Validation state
         this._validationResults = null;
         this._hydrated = false;
+        this._hydrationMeta = { audio: null, visual: null };
     }
 
     /**
@@ -282,12 +283,22 @@ class Task {
                 this.requiredAudioIds = data.audio.requiredIds.slice();
                 this.audioAssetCount = data.audio.count || this.requiredAudioIds.length;
                 this.hasAudioAssets = true;
+                this._hydrationMeta.audio = {
+                    source: 'gcs-assets-per-task',
+                    bucket: `levante-assets-${env}`,
+                    path: 'audio/assets-per-task.json'
+                };
             }
 
             // Merge visual
             if (data.visual && typeof data.visual.count === 'number') {
                 this.visualAssetCount = data.visual.count;
                 this.hasVisualAssets = this.hasVisualAssets || data.visual.count > 0;
+                this._hydrationMeta.visual = {
+                    source: 'gcs-list',
+                    bucket: `levante-assets-${env}`,
+                    prefix: `visual/${this.taskName}/`
+                };
             }
 
             this._hydrated = true;
@@ -535,6 +546,10 @@ class Task {
                 const expectedKey = id.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
                 return { audioId: id, expectedKey };
             });
+            const missingKeys = audioIdsWithoutTranslations.map(id => id.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase()));
+            const csvHeader = 'key,en,es-AR,es-CO,de,de-CH';
+            const csvRows = missingKeys.slice(0, 10).map(k => `${k},"EN text here","ES-AR text","ES-CO text","DE text","DE-CH text"`).join('\n');
+
             results.warnings.push(
                 `${audioIdsWithoutTranslations.length} audio IDs may not have corresponding translation keys. ` +
                 `Examples: ${examplePairs.map(p => `${p.audioId} → ${p.expectedKey}`).join(', ')}. ` +
@@ -552,7 +567,23 @@ class Task {
                     'Add the missing camelCase keys to the Required Translation Keys list.',
                     'Confirm those keys exist in item-bank-translations.csv for each language.',
                     'If an audio should not have a translation key, remove it from Required Audio Item IDs.'
-                ]
+                ],
+                note: 'This check is heuristic. If your audio has no textual counterpart shown to the user, you can ignore or remove it from Required Audio.',
+                bucketPaths: {
+                    dev: `gs://levante-assets-dev/audio/<language>/...`,
+                    prod: `gs://levante-assets-prod/audio/<language>/...`
+                },
+                csvPath: {
+                    dev: `gs://levante-assets-dev/translations/item-bank-translations.csv`,
+                    prod: `gs://levante-assets-prod/translations/item-bank-translations.csv`
+                },
+                missingKeys,
+                csvSnippet: `${csvHeader}\n${csvRows}${missingKeys.length > 10 ? '\n...' : ''}`,
+                source: this._hydrationMeta.audio || { source: 'form-or-existing-data' },
+                conventions: {
+                    idDefinition: 'Audio ID is the logical name used across code/CSV; file names typically follow audio/<language>/<audio-id>.mp3',
+                    filenameExample: `audio/en/${(examplePairs[0]?.audioId) || 'task-intro'}.mp3 → translation key ${(examplePairs[0]?.expectedKey) || 'taskIntro'}`
+                }
             };
             results.info.push('Rule: expected translation key is derived from the audio ID by converting kebab-case to camelCase (e.g., number-identification-1 → numberIdentification1).');
             check.issues.push('Potential audio/translation mismatch');
