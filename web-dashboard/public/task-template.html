@@ -536,12 +536,26 @@
 
         <form id="taskTemplateForm">
             <div class="form-section" style="display:flex; gap:12px; align-items:center;">
+                <div style="position: relative; display:flex; align-items:center; gap:8px;">
+                    <button type="button" id="optionsDropdownBtn" class="btn btn-secondary" style="padding:6px 10px;">
+                        <i class="fas fa-bars"></i> Options ▾
+                    </button>
+                    <div id="optionsDropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #e2e8f0; border-radius:6px; box-shadow:0 8px 20px rgba(0,0,0,0.1); min-width:240px; z-index:50;">
+                        <div class="dropdown-item" data-action="create" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                            <span><i class="fas fa-plus"></i> Create New</span>
+                            <button type="button" class="btn btn-secondary" data-help="create" style="padding:4px 8px;"><i class="fas fa-question"></i></button>
+                        </div>
+                        <div class="dropdown-item" data-action="save-draft" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; border-top:1px solid #f1f5f9;">
+                            <span><i class="fas fa-save"></i> Save as Draft</span>
+                            <button type="button" class="btn btn-secondary" data-help="draft" style="padding:4px 8px;"><i class="fas fa-question"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <label style="font-weight:600; color:#475569">Mode</label>
                 <select id="modeSelect" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;">
                     <option value="create">Create</option>
                     <option value="validate">Validate</option>
                 </select>
-                <button type="button" class="btn btn-secondary" id="helpBtn"><i class="fas fa-question-circle"></i> Help</button>
             </div>
             <!-- Section 1: Basic Information -->
             <div class="form-section">
@@ -1691,11 +1705,50 @@
         }
 
         // Help modal
-        const helpBtn = document.getElementById('helpBtn');
         const helpModal = document.getElementById('helpModal');
         const helpClose = document.getElementById('helpModalClose');
-        if (helpBtn && helpModal) {
-            helpBtn.addEventListener('click', (e) => { e.stopPropagation(); helpModal.style.display = 'flex'; });
+        // Options dropdown + inline help icons
+        const optionsBtn = document.getElementById('optionsDropdownBtn');
+        const optionsMenu = document.getElementById('optionsDropdown');
+        if (optionsBtn && optionsMenu) {
+            optionsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                optionsMenu.style.display = (optionsMenu.style.display === 'block') ? 'none' : 'block';
+            });
+            document.addEventListener('click', (e) => {
+                if (!optionsMenu.contains(e.target) && e.target !== optionsBtn) {
+                    optionsMenu.style.display = 'none';
+                }
+            });
+            optionsMenu.querySelectorAll('[data-help]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const kind = btn.getAttribute('data-help');
+                    const body = document.querySelector('#helpModal .modal-body');
+                    if (body) {
+                        if (kind === 'create') {
+                            body.innerHTML = '<p><strong>Create New</strong> starts a fresh task plan. Fill in assets, translations, and review the checklist. Use when adding a brand new task.</p>';
+                        } else if (kind === 'draft') {
+                            body.innerHTML = '<p><strong>Save as Draft</strong> saves your current form locally (browser storage) without deploying. You can come back later and continue editing.</p>';
+                        }
+                    }
+                    helpModal.style.display = 'flex';
+                });
+            });
+            optionsMenu.querySelector('[data-action="create"]').addEventListener('click', () => {
+                modeSelect.value = 'create';
+                applyMode('create');
+                resetForm();
+                optionsMenu.style.display = 'none';
+            });
+            optionsMenu.querySelector('[data-action="save-draft"]').addEventListener('click', () => {
+                // simple draft save in localStorage
+                const form = document.getElementById('taskTemplateForm');
+                const taskDraft = Task.createNew(form);
+                try { localStorage.setItem('taskDashboardDraft', JSON.stringify(taskDraft.toJSON())); } catch (_) {}
+                alert('Draft saved locally in your browser.');
+                optionsMenu.style.display = 'none';
+            });
         }
         if (helpClose) helpClose.addEventListener('click', () => helpModal.style.display = 'none');
         document.addEventListener('click', (e) => { if (e.target && e.target.id === 'helpModal') helpModal.style.display = 'none'; });
