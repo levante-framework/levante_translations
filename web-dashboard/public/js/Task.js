@@ -510,29 +510,34 @@ class Task {
             return;
         }
 
-        // Validate translation key format (should be camelCase)
+        // Validate translation key format (kebab-case canonical; allow camelCase fallback)
+        const kebabCase = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+        const camelCase = /^[a-z][a-zA-Z0-9]*$/;
         const invalidKeys = this.translationKeys.filter(key => {
-            return !/^[a-z][a-zA-Z0-9]*$/.test(key);
+            return !(kebabCase.test(key) || camelCase.test(key));
         });
 
         if (invalidKeys.length > 0) {
             const exampleMappings = invalidKeys.slice(0, 5).map(key => {
-                // Suggest camelCase conversion from kebab-case/snake-case
-                const suggested = key
+                const toCamel = key
                     .replace(/[-_]+([a-zA-Z0-9])/g, (m, p1) => String(p1).toUpperCase())
                     .replace(/^[A-Z]/, s => s.toLowerCase());
-                return { from: key, to: suggested };
+                const toKebab = key
+                    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+                    .replace(/_/g, '-')
+                    .toLowerCase();
+                return { from: key, kebab: toKebab, camel: toCamel };
             });
-            results.warnings.push(`Invalid translation key format (should be camelCase): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
+            results.warnings.push(`Invalid translation key format (use kebab-case, camelCase allowed): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
             results._warningContext.invalidTranslation = {
                 total: invalidKeys.length,
-                examples: exampleMappings,
-                rule: 'Keys must be camelCase: start with a lowercase letter; only letters and digits thereafter. Hyphens/underscores are not allowed.',
-                why: 'Translation keys are used as TypeScript object properties and must be consistent across code and CSV to resolve text at runtime.',
+                examples: exampleMappings.map(e => ({ from: e.from, to: `${e.kebab} (kebab) / ${e.camel} (camel)` })),
+                rule: 'Keys should be kebab-case in CSV (camelCase also accepted by validator).',
+                why: 'CSV currently stores keys in kebab-case; some code paths may reference camelCase. Both are recognized here for validation.',
                 howToFix: [
-                    'Convert each key to camelCase (e.g., vocab-instruct-1 → vocabInstruct1).',
-                    'Update the Required Translation Keys list to use the corrected names.',
-                    'Ensure the corrected keys exist in item-bank-translations.csv for each target language.'
+                    'Prefer kebab-case in CSV (e.g., vocab-instruct-1).',
+                    'If code expects camelCase, keep or note the mapping (vocabInstruct1).',
+                    'Ensure the keys exist in item-bank-translations.csv for each target language.'
                 ]
             };
             check.issues.push(`${invalidKeys.length} invalid translation keys`);
@@ -542,16 +547,18 @@ class Task {
         const exempt = new Set(this.audioIdsWithoutText || []);
         const audioIdsWithoutTranslations = this.requiredAudioIds.filter(audioId => {
             if (exempt.has(audioId)) return false;
-            const expectedKey = audioId.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-            return !this.translationKeys.includes(expectedKey);
+            const expectedCamel = audioId.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
+            const expectedKebab = audioId; // kebab is canonical in CSV
+            return !(this.translationKeys.includes(expectedCamel) || this.translationKeys.includes(expectedKebab));
         });
 
         if (audioIdsWithoutTranslations.length > 0) {
             const examplePairs = audioIdsWithoutTranslations.slice(0, 5).map(id => {
-                const expectedKey = id.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
-                return { audioId: id, expectedKey };
+                const expectedCamel = id.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase());
+                const expectedKebab = id;
+                return { audioId: id, expectedKey: `${expectedKebab} (kebab) / ${expectedCamel} (camel)` };
             });
-            const missingKeys = audioIdsWithoutTranslations.map(id => id.replace(/-([a-z0-9])/g, (g) => g[1].toUpperCase()));
+            const missingKeys = audioIdsWithoutTranslations.map(id => id); // kebab entries for CSV
             const csvHeader = 'key,en,es-AR,es-CO,de,de-CH';
             const csvRows = missingKeys.slice(0, 10).map(k => `${k},"EN text here","ES-AR text","ES-CO text","DE text","DE-CH text"`).join('\n');
 
@@ -563,13 +570,13 @@ class Task {
             results._warningContext.audioMissingTranslations = {
                 total: audioIdsWithoutTranslations.length,
                 examples: examplePairs,
-                rule: 'For task-level audios, the default expected translation key is the kebab-case audio ID converted to camelCase (e.g., number-identification-1 → numberIdentification1).',
+                rule: 'For task-level audios, translation key should be the kebab-case audio ID in CSV; camelCase mapping may be used in code.',
                 caveats: [
                     'Not all audio requires a separate translation key (e.g., purely nonverbal sounds).',
                     'Corpus row-specific audio typically should not be listed as task-level required audio.'
                 ],
                 howToFix: [
-                    'Add the missing camelCase keys to the Required Translation Keys list.',
+                    'Add the missing kebab-case keys to the Required Translation Keys list.',
                     'Confirm those keys exist in item-bank-translations.csv for each language.',
                     'If an audio should not have a translation key, list it under "Audio IDs Without Text" to exempt it from this check.'
                 ],

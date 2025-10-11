@@ -809,13 +809,13 @@
                 <div class="collapsible-content">
                     <div class="alert alert-info">
                         <strong>Source:</strong> <code>gs://levante-assets-{dev|prod}/translations/item-bank-translations.csv</code><br>
-                        All strings referenced by your timeline must be present. Keys are typically camelCased.
+                        All strings referenced by your timeline must be present. Keys use kebab-case.
                     </div>
 
                     <div class="form-group">
                         <label for="translationKeys">Required Translation Keys</label>
-                        <textarea id="translationKeys" name="translationKeys" class="large-list" required placeholder="matrixReasoningIntro&#10;matrixReasoningInstructions&#10;matrixReasoningItem1&#10;matrixReasoningItem2&#10;matrixReasoningExit"></textarea>
-                        <div class="help-text">Enter translation keys (camelCase), one per line</div>
+                        <textarea id="translationKeys" name="translationKeys" class="large-list" required placeholder="matrix-reasoning-intro&#10;matrix-reasoning-instructions&#10;matrix-reasoning-item1&#10;matrix-reasoning-item2&#10;matrix-reasoning-exit"></textarea>
+                        <div class="help-text">Enter translation keys (kebab-case), one per line</div>
                     </div>
 
                     <div class="form-group" style="margin-top: 8px;">
