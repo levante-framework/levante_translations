@@ -780,15 +780,21 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="requiredAudioIds">Required Audio Item IDs</label>
+                        <label for="requiredAudioIds">Task-level Audio IDs</label>
                         <textarea id="requiredAudioIds" name="requiredAudioIds" class="large-list" placeholder="task-intro&#10;task-instructions&#10;correct-feedback&#10;incorrect-feedback&#10;task-exit"></textarea>
-                        <div class="help-text">Enter one item ID per line. These will be added to assets-per-task.json</div>
+                        <div class="help-text">Enter one ID per line (kebab-case). Logical audio IDs defined for this task; each typically requires a matching camelCase translation key.</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="sharedAudioIds">Shared Audio Item IDs (optional)</label>
+                        <label for="audioIdsWithoutText">Audio IDs Without Text (optional)</label>
+                        <textarea id="audioIdsWithoutText" name="audioIdsWithoutText" placeholder="beep&#10;chime&#10;silent-gap"></textarea>
+                        <div class="help-text">IDs for audio cues that do not display any on-screen text and therefore do not require translation keys.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sharedAudioIds">Shared Audio IDs (optional)</label>
                         <textarea id="sharedAudioIds" name="sharedAudioIds" placeholder="correct&#10;incorrect&#10;timeout"></textarea>
-                        <div class="help-text">Shared audio used across multiple tasks (already in shared section)</div>
+                        <div class="help-text">Shared audio used across multiple tasks (already in the shared section)</div>
                     </div>
                 </div>
             </div>

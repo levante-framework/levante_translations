@@ -36,6 +36,7 @@ class Task {
         this.audioAssetCount = data.audioAssetCount || 0;
         this.requiredAudioIds = data.requiredAudioIds || [];
         this.sharedAudioIds = data.sharedAudioIds || [];
+        this.audioIdsWithoutText = data.audioIdsWithoutText || [];
 
         // Translations
         this.translationKeys = data.translationKeys || [];
@@ -128,6 +129,7 @@ class Task {
             hasAudioAssets: formElement.querySelector('#hasAudioAssets')?.checked || false,
             audioAssetCount: parseInt(formData.get('audioAssetCount')) || 0,
             requiredAudioIds: parseLines(formData.get('requiredAudioIds') || ''),
+            audioIdsWithoutText: parseLines(formData.get('audioIdsWithoutText') || ''),
             sharedAudioIds: parseLines(formData.get('sharedAudioIds') || ''),
 
             translationKeys: parseLines(formData.get('translationKeys') || ''),
@@ -187,6 +189,7 @@ class Task {
 
         // Required Audio IDs
         this._setFieldValue(formElement, 'requiredAudioIds', this.requiredAudioIds.join('\n'));
+        this._setFieldValue(formElement, 'audioIdsWithoutText', this.audioIdsWithoutText.join('\n'));
         this._setFieldValue(formElement, 'sharedAudioIds', this.sharedAudioIds.join('\n'));
 
         // Translation Keys
@@ -536,7 +539,9 @@ class Task {
         }
 
         // Check for audio ID / translation key consistency
+        const exempt = new Set(this.audioIdsWithoutText || []);
         const audioIdsWithoutTranslations = this.requiredAudioIds.filter(audioId => {
+            if (exempt.has(audioId)) return false;
             const expectedKey = audioId.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
             return !this.translationKeys.includes(expectedKey);
         });
@@ -566,7 +571,7 @@ class Task {
                 howToFix: [
                     'Add the missing camelCase keys to the Required Translation Keys list.',
                     'Confirm those keys exist in item-bank-translations.csv for each language.',
-                    'If an audio should not have a translation key, remove it from Required Audio Item IDs.'
+                    'If an audio should not have a translation key, list it under "Audio IDs Without Text" to exempt it from this check.'
                 ],
                 note: 'This check is heuristic. If your audio has no textual counterpart shown to the user, you can ignore or remove it from Required Audio.',
                 bucketPaths: {
