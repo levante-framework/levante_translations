@@ -15,7 +15,8 @@
     "api/save-audio.js": { "maxDuration": 60 },
     "api/crowdin-stats.js": { "maxDuration": 30 },
     "api/crowdin-untranslated.js": { "maxDuration": 60 },
-    "api/deploy-bucket-docs.js": { "maxDuration": 60 }
+    "api/deploy-bucket-docs.js": { "maxDuration": 60 },
+    "api/task-assets.js": { "maxDuration": 60 }
   },
   "rewrites": [
     { "source": "/proxy/elevenlabs/voices", "destination": "/api/elevenlabs-proxy" },

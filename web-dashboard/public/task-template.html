@@ -7,6 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./styles.css">
+    <script src="./js/Task.js"></script>
     <style>
         body { 
             font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
@@ -351,6 +352,133 @@
                 width: 100%;
             }
         }
+        /* Validation Report Styles */
+        .validation-report {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .validation-summary {
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .status-success {
+            color: #065f46;
+            background: #d1fae5;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-error {
+            color: #991b1b;
+            background: #fee2e2;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .validation-section {
+            margin: 20px 0;
+            padding: 16px;
+            border-radius: 6px;
+        }
+        .validation-errors {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+        }
+        .validation-warnings {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+        .validation-info {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+        }
+        .validation-section h4 {
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        .validation-section ul {
+            margin: 0;
+            padding-left: 24px;
+        }
+        .validation-section li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: #fff; width: min(800px, 92vw); max-height: 85vh; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+        .modal-header { padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+        .modal-title { font-size: 16px; font-weight: 600; color: #111827; }
+        .modal-close { background: transparent; border: none; font-size: 18px; cursor: pointer; color: #6b7280; }
+        .modal-body { padding: 16px 20px; overflow: auto; }
+        .modal-body pre { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; word-break: break-word; }
+        .validation-checks {
+            margin-top: 24px;
+        }
+        .checks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .check-item {
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px solid;
+        }
+        .check-item.check-passed {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+        .check-item.check-failed {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+        .check-header {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .check-issues {
+            margin: 8px 0 0 0;
+            padding-left: 20px;
+            font-size: 13px;
+        }
+        .check-issues li {
+            margin: 4px 0;
+        }
+        .btn-validate {
+            background: #8b5cf6;
+            color: white;
+        }
+        .btn-validate:hover {
+            background: #7c3aed;
+        }
+        @media (max-width: 768px) {
+            .header-row {
+                flex-direction: column;
+            }
+            .header-right {
+                align-items: flex-start;
+                width: 100%;
+            }
+            .checks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -381,6 +509,29 @@
             <i class="fas fa-info-circle"></i>
             <strong>Overview:</strong> This form guides you through the 10-step process of adding a new assessment task to the Levante framework.
             Based on <code>README_TASKS.md</code> and the current launcher implementation.
+        </div>
+
+        <!-- Quick Validation Button -->
+        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1;">
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
+                        <i class="fas fa-shield-alt"></i> Validate Selected Task
+                    </h3>
+                    <p style="margin: 0; font-size: 14px; color: #64748b;">
+                        Check assets, translations, audio files, and code for the task selected above
+                    </p>
+                </div>
+                <button type="button" class="btn btn-validate" id="validateTaskTopBtn" style="padding: 12px 24px; font-size: 15px; white-space: nowrap;">
+                    <i class="fas fa-check-double"></i>
+                    Validate Task
+                </button>
+                <button type="button" class="btn btn-secondary" id="refreshTaskTopBtn" style="padding: 12px 16px; font-size: 15px; white-space: nowrap;">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Task
+                </button>
+            </div>
+            <div id="quickValidationStatus" style="margin-top: 12px; display: none; padding: 12px; border-radius: 6px; font-size: 14px;"></div>
         </div>
 
         <form id="taskTemplateForm">
@@ -778,6 +929,10 @@
 
             <!-- Action Buttons -->
             <div class="button-group">
+                <button type="button" class="btn btn-validate" id="validateTaskBtn">
+                    <i class="fas fa-check-double"></i>
+                    Validate Task
+                </button>
                 <button type="button" class="btn btn-success" id="generateSummaryBtn">
                     <i class="fas fa-file-export"></i>
                     Generate Implementation Summary
@@ -788,6 +943,25 @@
                 </button>
             </div>
         </form>
+
+        <!-- Validation Results -->
+        <div id="validationResults" style="display: none; margin-top: 32px;">
+            <div class="form-section">
+                <h2><i class="fas fa-clipboard-check"></i> Validation Results</h2>
+                <div id="validationReportContainer"></div>
+            </div>
+        </div>
+
+        <!-- Warning Details Modal -->
+        <div class="modal-overlay" id="warningModal">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="warningModalTitle">
+                <div class="modal-header">
+                    <div class="modal-title" id="warningModalTitle">Warning Details</div>
+                    <button class="modal-close" id="warningModalClose" aria-label="Close">×</button>
+                </div>
+                <div class="modal-body" id="warningModalBody"></div>
+            </div>
+        </div>
 
         <!-- Summary Output -->
         <div id="summaryOutput" style="display: none; margin-top: 32px;">
@@ -861,105 +1035,24 @@
             }
         }
 
+        // Current task instance
+        let currentTask = null;
+
         // Populate form with task data
         function loadTaskIntoForm(taskData) {
             if (!taskData) return;
 
-            // Update mode indicator
-            const modeIndicator = document.getElementById('modeIndicator');
-            modeIndicator.className = 'mode-indicator mode-viewing';
-            modeIndicator.innerHTML = '<i class="fas fa-eye"></i> Viewing: ' + taskData.taskName;
-
-            // Basic Information
-            document.getElementById('taskName').value = taskData.taskName || '';
-            document.getElementById('registryKey').value = taskData.registryKey || '';
-            document.getElementById('taskDescription').value = taskData.description || '';
-            document.getElementById('trialType').value = taskData.trialType || '';
-            document.getElementById('assessmentStage').value = taskData.assessmentStage || '';
-            document.getElementById('taskNotes').value = taskData.notes || '';
-
-            // Corpus
-            document.getElementById('corpusFile').value = taskData.corpusFile || '';
-
-            // CSV Headers - check the ones that apply
-            const csvHeaderCheckboxes = {
-                'csv_task': 'task',
-                'csv_trial_type': 'trial_type',
-                'csv_item': 'item',
-                'csv_item_id': 'item_id',
-                'csv_item_uid': 'item_uid',
-                'csv_audio_file': 'audio_file',
-                'csv_response_alternatives': 'response_alternatives',
-                'csv_assessment_stage': 'assessment_stage',
-                'csv_time_limit': 'time_limit',
-                'csv_difficulty': 'difficulty'
-            };
-
-            // Uncheck all first
-            Object.keys(csvHeaderCheckboxes).forEach(id => {
-                const checkbox = document.getElementById(id);
-                if (checkbox) checkbox.checked = false;
-            });
-
-            // Check applicable ones
-            if (taskData.csvHeaders && taskData.csvHeaders.length > 0) {
-                Object.entries(csvHeaderCheckboxes).forEach(([id, header]) => {
-                    const checkbox = document.getElementById(id);
-                    if (checkbox && taskData.csvHeaders.includes(header)) {
-                        checkbox.checked = true;
-                    }
-                });
-            }
-
-            // Media Assets
-            document.getElementById('hasVisualAssets').checked = taskData.hasVisualAssets || false;
-            document.getElementById('hasAudioAssets').checked = taskData.hasAudioAssets || false;
-            document.getElementById('visualAssetsDetails').style.display = taskData.hasVisualAssets ? 'block' : 'none';
-            document.getElementById('audioAssetsDetails').style.display = taskData.hasAudioAssets ? 'block' : 'none';
-
-            // Visual Asset Details
-            if (taskData.hasVisualAssets) {
-                document.getElementById('visualAssetCount').value = taskData.visualAssetCount || '';
-                document.getElementById('visualAssetTypes').value = (taskData.visualAssetTypes || []).join(', ');
-            }
-
-            // Audio Asset Details
-            if (taskData.hasAudioAssets) {
-                document.getElementById('audioAssetCount').value = taskData.audioAssetCount || taskData.requiredAudioIds?.length || '';
-            }
-
-            // Required Audio IDs
-            document.getElementById('requiredAudioIds').value = (taskData.requiredAudioIds || []).join('\n');
-
-            // Translation Keys
-            document.getElementById('translationKeys').value = (taskData.translationKeys || []).join('\n');
-
-            // Languages - uncheck all first
-            document.querySelectorAll('input[name="languages"]').forEach(cb => cb.checked = false);
-            
-            // Check applicable languages
-            if (taskData.languages && taskData.languages.length > 0) {
-                taskData.languages.forEach(lang => {
-                    const checkbox = document.getElementById(`lang_${lang.replace('-', '_')}`);
-                    if (checkbox) checkbox.checked = true;
-                });
-            }
-
-            // Variants
-            document.getElementById('hasVariants').checked = taskData.hasVariants || false;
-            document.getElementById('variantsDetails').style.display = taskData.hasVariants ? 'block' : 'none';
-            if (taskData.variants && taskData.variants.length > 0) {
-                document.getElementById('variantsList').value = taskData.variants.join('\n');
-            }
-
-            // Trigger registry key update
-            document.getElementById('taskName').dispatchEvent(new Event('input'));
+            // Create Task instance and use its display method
+            currentTask = new Task(taskData);
+            const form = document.getElementById('taskTemplateForm');
+            currentTask.display(form);
         }
 
         // Clear form and reset to new mode
         function resetForm() {
             document.getElementById('taskTemplateForm').reset();
             document.getElementById('existingTaskSelect').value = '';
+            currentTask = null;
             
             const modeIndicator = document.getElementById('modeIndicator');
             modeIndicator.className = 'mode-indicator mode-new';
@@ -973,7 +1066,186 @@
             document.getElementById('registryKey').value = '';
             document.getElementById('visualAssetsDetails').style.display = 'none';
             document.getElementById('variantsDetails').style.display = 'none';
+            document.getElementById('audioAssetsDetails').style.display = 'block';
+            
+            // Hide validation results
+            document.getElementById('validationResults').style.display = 'none';
         }
+
+        // Validate task button handler
+        document.getElementById('validateTaskBtn').addEventListener('click', async function() {
+            const form = document.getElementById('taskTemplateForm');
+            
+            // Create or update current task from form
+            if (!currentTask) {
+                currentTask = Task.createNew(form);
+            } else {
+                // Update existing task with current form data
+                currentTask = Task.createNew(form);
+            }
+
+            // Disable button and show loading
+            this.disabled = true;
+            const originalText = this.innerHTML;
+            this.innerHTML = '<span class="loading-spinner"></span> Validating...';
+
+            try {
+                const results = await currentTask.validate();
+                
+                // Display validation report
+                const container = document.getElementById('validationReportContainer');
+                container.innerHTML = currentTask.getValidationReport();
+                attachWarningDetailLinks(container, currentTask);
+                
+                document.getElementById('validationResults').style.display = 'block';
+                document.getElementById('validationResults').scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error during validation:', error);
+                alert('Error during validation. See console for details.');
+            } finally {
+                this.disabled = false;
+                this.innerHTML = originalText;
+            }
+        });
+
+        // Top quick-validate button handler (validates selected task or current form)
+        document.getElementById('validateTaskTopBtn').addEventListener('click', async function() {
+            const topBtn = this;
+            const statusEl = document.getElementById('quickValidationStatus');
+            const form = document.getElementById('taskTemplateForm');
+
+            // Determine task: prefer selected from dropdown, else use current form
+            let taskInstance = null;
+            const select = document.getElementById('existingTaskSelect');
+            const selectedTaskName = select ? select.value : '';
+            if (selectedTaskName && existingTasksData && Array.isArray(existingTasksData.tasks)) {
+                const taskData = existingTasksData.tasks.find(t => t.taskName === selectedTaskName);
+                if (taskData) {
+                    taskInstance = new Task(taskData);
+                }
+            }
+            if (!taskInstance) {
+                taskInstance = Task.createNew(form);
+            }
+            currentTask = taskInstance;
+
+            // Disable button and show loading
+            topBtn.disabled = true;
+            const originalTopText = topBtn.innerHTML;
+            topBtn.innerHTML = '<span class="loading-spinner"></span> Validating...';
+
+            // Show status area
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.style.background = '#eff6ff';
+                statusEl.style.color = '#1e40af';
+                statusEl.style.border = '1px solid #93c5fd';
+                statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running validation...';
+            }
+
+            try {
+                const results = await currentTask.validate();
+
+                // Display validation report
+                const container = document.getElementById('validationReportContainer');
+                container.innerHTML = currentTask.getValidationReport();
+                attachWarningDetailLinks(container, currentTask);
+                document.getElementById('validationResults').style.display = 'block';
+
+                // Update quick status with summary
+                const numErrors = (results && Array.isArray(results.errors)) ? results.errors.length : 0;
+                const numWarnings = (results && Array.isArray(results.warnings)) ? results.warnings.length : 0;
+                if (statusEl) {
+                    if (numErrors === 0) {
+                        statusEl.style.background = '#d1fae5';
+                        statusEl.style.color = '#065f46';
+                        statusEl.style.border = '1px solid #6ee7b7';
+                        statusEl.innerHTML = `<i class="fas fa-check-circle"></i> Validation passed with ${numWarnings} warning${numWarnings !== 1 ? 's' : ''}.`;
+                    } else {
+                        statusEl.style.background = '#fee2e2';
+                        statusEl.style.color = '#991b1b';
+                        statusEl.style.border = '1px solid #fecaca';
+                        statusEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${numErrors} error${numErrors !== 1 ? 's' : ''} and ${numWarnings} warning${numWarnings !== 1 ? 's' : ''} detected. See details below.`;
+                    }
+                }
+
+                document.getElementById('validationResults').scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error during quick validation:', error);
+                if (statusEl) {
+                    statusEl.style.display = 'block';
+                    statusEl.style.background = '#fee2e2';
+                    statusEl.style.color = '#991b1b';
+                    statusEl.style.border = '1px solid #fecaca';
+                    statusEl.innerHTML = `<i class="fas fa-times-circle"></i> Validation failed: ${error.message}`;
+                }
+                alert('Error during validation. See console for details.');
+            } finally {
+                topBtn.disabled = false;
+                topBtn.innerHTML = originalTopText;
+            }
+        });
+
+        // Top refresh button handler (rehydrates task from authoritative sources and updates form)
+        document.getElementById('refreshTaskTopBtn').addEventListener('click', async function() {
+            const btn = this;
+            const statusEl = document.getElementById('quickValidationStatus');
+            const form = document.getElementById('taskTemplateForm');
+
+            // Choose task: selected existing or current form
+            let taskInstance = null;
+            const select = document.getElementById('existingTaskSelect');
+            const selectedTaskName = select ? select.value : '';
+            if (selectedTaskName && existingTasksData && Array.isArray(existingTasksData.tasks)) {
+                const taskData = existingTasksData.tasks.find(t => t.taskName === selectedTaskName);
+                if (taskData) {
+                    taskInstance = new Task(taskData);
+                }
+            }
+            if (!taskInstance) {
+                taskInstance = Task.createNew(form);
+            }
+            currentTask = taskInstance;
+
+            // Disable button and show spinner
+            btn.disabled = true;
+            const original = btn.innerHTML;
+            btn.innerHTML = '<span class="loading-spinner"></span> Refreshing...';
+
+            // Show status area
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.style.background = '#eff6ff';
+                statusEl.style.color = '#1e40af';
+                statusEl.style.border = '1px solid #93c5fd';
+                statusEl.innerHTML = '<i class="fas fa-sync fa-spin"></i> Refreshing task from source (GCS)...';
+            }
+
+            try {
+                // Hydrate from backend and update the form view
+                await currentTask.hydrate('dev');
+                currentTask.display(form);
+
+                if (statusEl) {
+                    statusEl.style.background = '#d1fae5';
+                    statusEl.style.color = '#065f46';
+                    statusEl.style.border = '1px solid #6ee7b7';
+                    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Task refreshed from authoritative assets.';
+                }
+            } catch (e) {
+                console.error('Error refreshing task:', e);
+                if (statusEl) {
+                    statusEl.style.background = '#fee2e2';
+                    statusEl.style.color = '#991b1b';
+                    statusEl.style.border = '1px solid #fecaca';
+                    statusEl.innerHTML = `<i class="fas fa-times-circle"></i> Refresh failed: ${e.message}`;
+                }
+                alert('Error refreshing task. See console for details.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = original;
+            }
+        });
 
         // Handle task selection from dropdown
         document.getElementById('existingTaskSelect').addEventListener('change', function(e) {
@@ -1178,6 +1450,63 @@
                 }
             }
         }
+
+        // Attach clickable warning details into the rendered report
+        function attachWarningDetailLinks(container, taskInstance) {
+            const warningListItems = container.querySelectorAll('.validation-warnings li');
+            warningListItems.forEach(li => {
+                const text = li.textContent || '';
+                let key = null;
+                if (text.startsWith('Invalid translation key format')) key = 'invalidTranslation';
+                if (text.includes('may not have corresponding translation keys')) key = 'audioMissingTranslations';
+                if (!key) return;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn btn-secondary';
+                btn.style.marginLeft = '8px';
+                btn.innerHTML = '<i class="fas fa-info-circle"></i> Details';
+                btn.addEventListener('click', () => openWarningModal(taskInstance, key));
+                li.appendChild(btn);
+            });
+        }
+
+        function openWarningModal(taskInstance, key) {
+            const modal = document.getElementById('warningModal');
+            const body = document.getElementById('warningModalBody');
+            const ctx = (taskInstance && taskInstance._validationResults && taskInstance._validationResults._warningContext) || {};
+            const details = ctx[key];
+            if (!details) return;
+
+            let html = '';
+            if (key === 'invalidTranslation') {
+                html += `<p><strong>Total invalid keys:</strong> ${details.total}</p>`;
+                html += `<p><strong>Rule:</strong> ${details.rule}</p>`;
+                html += `<p><strong>Why it matters:</strong> ${details.why}</p>`;
+                html += '<p><strong>Examples:</strong></p><pre>' + details.examples.map(e => `${e.from}  =>  ${e.to}`).join('\n') + '</pre>';
+                html += '<p><strong>How to fix:</strong></p><ul>' + details.howToFix.map(s => `<li>${s}</li>`).join('') + '</ul>';
+            } else if (key === 'audioMissingTranslations') {
+                html += `<p><strong>Total affected audio IDs:</strong> ${details.total}</p>`;
+                html += `<p><strong>Rule:</strong> ${details.rule}</p>`;
+                if (details.caveats && details.caveats.length) {
+                    html += '<p><strong>Caveats:</strong></p><ul>' + details.caveats.map(s => `<li>${s}</li>`).join('') + '</ul>';
+                }
+                html += '<p><strong>Examples:</strong></p><pre>' + details.examples.map(e => `${e.audioId}  =>  ${e.expectedKey}`).join('\n') + '</pre>';
+                html += '<p><strong>How to fix:</strong></p><ul>' + details.howToFix.map(s => `<li>${s}</li>`).join('') + '</ul>';
+            }
+            body.innerHTML = html;
+            modal.style.display = 'flex';
+        }
+
+        function closeWarningModal() {
+            const modal = document.getElementById('warningModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'warningModalClose') closeWarningModal();
+            if (e.target && e.target.id === 'warningModal') closeWarningModal();
+        });
 
         // Initialize
         populateLanguages();
