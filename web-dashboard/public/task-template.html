@@ -1043,7 +1043,8 @@
 
                 // Populate dropdown
                 const select = document.getElementById('existingTaskSelect');
-                data.tasks.forEach(task => {
+                const sorted = [...data.tasks].sort((a, b) => (a.taskName || '').localeCompare(b.taskName || ''));
+                sorted.forEach(task => {
                     const option = document.createElement('option');
                     option.value = task.taskName;
                     option.textContent = `${task.taskName} - ${task.description.substring(0, 50)}...`;
@@ -1540,6 +1541,9 @@
                 html += `<p><strong>Why it matters:</strong> ${details.why}</p>`;
                 html += '<p><strong>Examples:</strong></p><pre>' + details.examples.map(e => `${e.from}  =>  ${e.to}`).join('\n') + '</pre>';
                 html += '<p><strong>How to fix:</strong></p><ul>' + details.howToFix.map(s => `<li>${s}</li>`).join('') + '</ul>';
+                if (details.invalidKeys && details.invalidKeys.length) {
+                    html += '<p><strong>Exact keys flagged (first 50):</strong></p><pre>' + details.invalidKeys.join('\n') + '</pre>';
+                }
             } else if (key === 'audioMissingTranslations') {
                 html += `<p><strong>Total affected audio IDs:</strong> ${details.total}</p>`;
                 html += `<p><strong>Rule:</strong> ${details.rule}</p>`;
