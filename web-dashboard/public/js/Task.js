@@ -525,11 +525,22 @@ class Task {
             return;
         }
 
-        // Validate translation key format (kebab-case canonical; allow camelCase fallback)
-        const kebabCase = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+        // Validate translation key format
+        // - kebab-case is canonical (segments of [a-z0-9]+ separated by '-')
+        // - allow special-case prefix 'ToM-' (mixed-case acronym), with kebab-case rules for the remainder
+        // - allow camelCase as a fallback (some code paths may reference it)
+        const kebabCaseCore = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+        const isKebabOrToM = (key) => {
+            if (typeof key !== 'string' || key.length === 0) return false;
+            if (key.startsWith('ToM-')) {
+                const rest = key.slice(4);
+                return kebabCaseCore.test(rest);
+            }
+            return kebabCaseCore.test(key);
+        };
         const camelCase = /^[a-z][a-zA-Z0-9]*$/;
         const invalidKeys = this.translationKeys.filter(key => {
-            return !(kebabCase.test(key) || camelCase.test(key));
+            return !(isKebabOrToM(key) || camelCase.test(key));
         });
 
         if (invalidKeys.length > 0) {
@@ -543,11 +554,11 @@ class Task {
                     .toLowerCase();
                 return { from: key, kebab: toKebab, camel: toCamel };
             });
-            results.warnings.push(`Invalid translation key format (use kebab-case, camelCase allowed): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
+            results.warnings.push(`Invalid translation key format (use kebab-case; 'ToM-' prefix allowed; camelCase also accepted): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
             results._warningContext.invalidTranslation = {
                 total: invalidKeys.length,
                 examples: exampleMappings.map(e => ({ from: e.from, to: `${e.kebab} (kebab) / ${e.camel} (camel)` })),
-                rule: 'Keys should be kebab-case in CSV (camelCase also accepted by validator).',
+                rule: "Keys should be kebab-case in CSV (segments may start with numbers). 'ToM-' is allowed as a mixed-case prefix; camelCase is also accepted by the validator.",
                 why: 'CSV currently stores keys in kebab-case; some code paths may reference camelCase. Both are recognized here for validation.',
                 howToFix: [
                     'Prefer kebab-case in CSV (e.g., vocab-instruct-1).',
