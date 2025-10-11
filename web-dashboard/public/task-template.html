@@ -505,7 +505,7 @@
             </div>
         </div>
 
-        <div class="alert alert-info">
+        <div class="alert alert-info" id="inlineOverview" style="display:none">
             <i class="fas fa-info-circle"></i>
             <strong>Overview:</strong> This form guides you through the 10-step process of adding a new assessment task to the Levante framework.
             Based on <code>README_TASKS.md</code> and the current launcher implementation.
@@ -535,6 +535,14 @@
         </div>
 
         <form id="taskTemplateForm">
+            <div class="form-section" style="display:flex; gap:12px; align-items:center;">
+                <label style="font-weight:600; color:#475569">Mode</label>
+                <select id="modeSelect" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;">
+                    <option value="create">Create</option>
+                    <option value="validate">Validate</option>
+                </select>
+                <button type="button" class="btn btn-secondary" id="helpBtn"><i class="fas fa-question-circle"></i> Help</button>
+            </div>
             <!-- Section 1: Basic Information -->
             <div class="form-section">
                 <h2>
@@ -888,7 +896,7 @@
             </div>
 
             <!-- Section 10: Implementation Checklist -->
-            <div class="form-section">
+            <div class="form-section" id="implementationChecklistSection">
                 <h2>
                     <span class="section-number">10</span>
                     <i class="fas fa-clipboard-check"></i> Implementation Checklist
@@ -993,6 +1001,24 @@
                         Copy to Clipboard
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+            <div class="modal-header">
+                <div class="modal-title" id="helpModalTitle">Task Dashboard Help</div>
+                <button class="modal-close" id="helpModalClose" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <p>This dashboard has two modes:</p>
+                <ul>
+                    <li><strong>Create</strong>: Plan a new task, fill out assets/translations, and review the implementation checklist.</li>
+                    <li><strong>Validate</strong>: Validate an existing task against GCS assets and CSV translations. The implementation checklist is hidden.</li>
+                </ul>
+                <p>Languages in Validate mode come from item-bank-translations.csv headers.</p>
             </div>
         </div>
     </div>
@@ -1640,6 +1666,39 @@
             document.getElementById('translationKeys')?.addEventListener('input', reRender);
             document.getElementById('requiredAudioIds')?.addEventListener('input', reRender);
         }
+
+        // Mode toggle behavior
+        const modeSelect = document.getElementById('modeSelect');
+        const checklist = document.getElementById('implementationChecklistSection');
+        function applyMode(mode) {
+            if (mode === 'validate') {
+                if (checklist) checklist.style.display = 'none';
+                // If hydrated languages from CSV are present, auto-select them
+                if (currentTask && Array.isArray(currentTask.__csvLanguages) && currentTask.__csvLanguages.length) {
+                    document.querySelectorAll('input[name="languages"]').forEach(cb => cb.checked = false);
+                    currentTask.__csvLanguages.forEach(code => {
+                        const id = `lang_${code.replace('-', '_')}`;
+                        const cb = document.getElementById(id);
+                        if (cb) cb.checked = true;
+                    });
+                }
+            } else {
+                if (checklist) checklist.style.display = 'block';
+            }
+        }
+        if (modeSelect) {
+            modeSelect.addEventListener('change', (e) => applyMode(e.target.value));
+        }
+
+        // Help modal
+        const helpBtn = document.getElementById('helpBtn');
+        const helpModal = document.getElementById('helpModal');
+        const helpClose = document.getElementById('helpModalClose');
+        if (helpBtn && helpModal) {
+            helpBtn.addEventListener('click', (e) => { e.stopPropagation(); helpModal.style.display = 'flex'; });
+        }
+        if (helpClose) helpClose.addEventListener('click', () => helpModal.style.display = 'none');
+        document.addEventListener('click', (e) => { if (e.target && e.target.id === 'helpModal') helpModal.style.display = 'none'; });
     </script>
 </body>
 </html>

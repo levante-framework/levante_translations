@@ -313,10 +313,12 @@ class Task {
                     source: 'gcs-csv',
                     bucket: `levante-assets-${env}`,
                     path: 'translations/item-bank-translations.csv',
-                    total: data.translations.count
+                    total: data.translations.count,
+                    languages: Array.isArray(data.translations.languages) ? data.translations.languages : []
                 };
                 // Store for lookup during validation
                 this.__csvTranslationKeys = csvKeys;
+                this.__csvLanguages = this._hydrationMeta.translations.languages;
             }
 
             this._hydrated = true;
@@ -545,29 +547,35 @@ class Task {
 
         if (invalidKeys.length > 0) {
             const exampleMappings = invalidKeys.slice(0, 5).map(key => {
-                const toCamel = key
-                    .replace(/[-_]+([a-zA-Z0-9])/g, (m, p1) => String(p1).toUpperCase())
-                    .replace(/^[A-Z]/, s => s.toLowerCase());
-                // Preserve 'ToM-' as an atomic prefix; avoid inserting a hyphen within it
-                const withAcronymGuard = key.replace(/^ToM-/, 'TOM_ACRO-');
+                // camel: convert delimiters to camelCase, but preserve 'ToM' acronym if present at start
+                const hasToMPrefix = /^ToM/.test(key);
+                let toCamel = key.replace(/[-_]+([a-zA-Z0-9])/g, (m, p1) => String(p1).toUpperCase());
+                if (!hasToMPrefix) {
+                    toCamel = toCamel.replace(/^[A-Z]/, s => s.toLowerCase());
+                }
+
+                // kebab: split camel, preserve 'ToM' acronym at start whether or not a hyphen follows
+                const withAcronymGuard = key.replace(/^ToM(?=[A-Z0-9-])/, 'TOM_ACRO');
                 let toKebab = withAcronymGuard
                     .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
                     .replace(/_/g, '-')
                     .toLowerCase();
-                toKebab = toKebab.replace(/^tom_acro-/, 'tom-');
+                toKebab = toKebab.replace(/^tom[_-]?acro/, 'tom');
+
                 return { from: key, kebab: toKebab, camel: toCamel };
             });
-            results.warnings.push(`Invalid translation key format (use kebab-case; 'ToM-' prefix allowed; camelCase also accepted): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
+            results.warnings.push(`Invalid translation key format (use kebab-case; 'ToM' acronym allowed; camelCase also accepted): ${invalidKeys.slice(0, 3).join(', ')}${invalidKeys.length > 3 ? '...' : ''}`);
             results._warningContext.invalidTranslation = {
                 total: invalidKeys.length,
                 examples: exampleMappings.map(e => ({ from: e.from, to: `${e.kebab} (kebab) / ${e.camel} (camel)` })),
-                rule: "Keys should be kebab-case in CSV (segments may start with numbers). 'ToM-' is allowed as a mixed-case prefix; camelCase is also accepted by the validator.",
+                rule: "Keys should be kebab-case in CSV (segments may start with numbers). The 'ToM' acronym is treated as a single word (no splitting); camelCase is also accepted by the validator.",
                 why: 'CSV currently stores keys in kebab-case; some code paths may reference camelCase. Both are recognized here for validation.',
                 howToFix: [
                     'Prefer kebab-case in CSV (e.g., vocab-instruct-1).',
                     'If code expects camelCase, keep or note the mapping (vocabInstruct1).',
                     'Ensure the keys exist in item-bank-translations.csv for each target language.'
-                ]
+                ],
+                invalidKeys: invalidKeys.slice(0, 50)
             };
             check.issues.push(`${invalidKeys.length} invalid translation keys`);
         }

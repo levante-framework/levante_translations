@@ -41,11 +41,11 @@ async function readTextFromGcs(bucketName, filePath) {
     return contents.toString('utf8');
 }
 
-function parseCsvKeys(csvText) {
-    if (!csvText) return [];
+function parseCsv(csvText) {
+    if (!csvText) return { keys: [], languages: [] };
     // simple CSV parser for header + rows (handles quotes)
     const lines = csvText.split(/\r?\n/).filter(Boolean);
-    if (lines.length === 0) return [];
+    if (lines.length === 0) return { keys: [], languages: [] };
     const parseLine = (line) => {
         const result = [];
         let cur = '';
@@ -66,7 +66,8 @@ function parseCsvKeys(csvText) {
         return result.map(s => s.trim());
     };
 
-    const header = parseLine(lines[0]).map(h => h.toLowerCase());
+    const rawHeader = parseLine(lines[0]);
+    const header = rawHeader.map(h => h.toLowerCase());
     let keyIdx = header.indexOf('key');
     if (keyIdx === -1) {
         // fallback: some variants may use 'item_id'
@@ -84,7 +85,10 @@ function parseCsvKeys(csvText) {
         const k = (cols[keyIdx] || '').trim();
         if (k) keys.add(k);
     }
-    return Array.from(keys);
+    // detect language columns (e.g., en, es-AR)
+    const langPattern = /^[a-z]{2}(?:-[A-Z]{2})?$/;
+    const languages = rawHeader.filter(h => langPattern.test(h));
+    return { keys: Array.from(keys), languages };
 }
 
 export default async function handler(req, res) {
@@ -142,8 +146,8 @@ export default async function handler(req, res) {
         try {
             const csvPath = 'translations/item-bank-translations.csv';
             const csvText = await readTextFromGcs(assetsBucket, csvPath);
-            const keys = parseCsvKeys(csvText);
-            result.translations = { count: keys.length, keys }; 
+            const parsed = parseCsv(csvText);
+            result.translations = { count: parsed.keys.length, keys: parsed.keys, languages: parsed.languages }; 
         } catch (e) {
             result.translations = { count: 0, keys: [], warning: 'Could not read item-bank-translations.csv' };
         }
