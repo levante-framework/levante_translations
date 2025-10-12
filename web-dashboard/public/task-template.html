@@ -492,13 +492,6 @@
                 <p class="subtitle">Manage and validate task assets, translations, and configuration</p>
             </div>
             <div class="header-right">
-                <div class="existing-task-selector">
-                    <label for="existingTaskSelect"><i class="fas fa-eye"></i> View Existing:</label>
-                    <select id="existingTaskSelect">
-                        <option value="">-- Select a task --</option>
-                        <!-- Tasks will be loaded dynamically -->
-                    </select>
-                </div>
                 <span class="mode-indicator mode-new" id="modeIndicator">
                     <i class="fas fa-plus"></i> New Task Mode
                 </span>
@@ -514,6 +507,15 @@
         <!-- Quick Validation Button -->
         <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1;">
             <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label for="existingTaskSelect" style="font-weight: 600; color: #475569;">
+                        <i class="fas fa-eye"></i> View Existing:
+                    </label>
+                    <select id="existingTaskSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                        <option value="">-- Select a task --</option>
+                        <!-- Tasks will be loaded dynamically -->
+                    </select>
+                </div>
                 <div style="flex: 1; min-width: 250px;">
                     <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
                         <i class="fas fa-shield-alt"></i> Validate Selected Task
