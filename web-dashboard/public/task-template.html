@@ -445,6 +445,10 @@
             background: #fef2f2;
             border-color: #fca5a5;
         }
+        .check-item.check-warning {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
         .check-header {
             font-weight: 600;
             margin-bottom: 8px;
@@ -491,11 +495,7 @@
                 </h1>
                 <p class="subtitle">Manage and validate task assets, translations, and configuration</p>
             </div>
-            <div class="header-right">
-                <span class="mode-indicator mode-new" id="modeIndicator">
-                    <i class="fas fa-plus"></i> New Task Mode
-                </span>
-            </div>
+            <div class="header-right"></div>
         </div>
 
         <div class="alert alert-info" id="inlineOverview" style="display:none">
@@ -507,16 +507,25 @@
         <!-- Quick Validation Button -->
         <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1;">
             <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <label for="existingTaskSelect" style="font-weight: 600; color: #475569;">
-                        <i class="fas fa-eye"></i> View Existing:
-                    </label>
-                    <select id="existingTaskSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <select id="taskActionSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                        <option value="validate">Validate Existing Task</option>
+                        <option value="create">Create New Task</option>
+                        <option value="draft">Save Task as Draft</option>
+                    </select>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; min-width: 320px; flex: 1;">
+                    <select id="existingTaskSelect" style="width:100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
                         <option value="">-- Select a task --</option>
                         <!-- Tasks will be loaded dynamically -->
                     </select>
                 </div>
-                <div style="flex: 1; min-width: 250px;">
+                <div style="display:flex; align-items:center; gap:8px; min-width: 220px;">
+                    <label for="coreTasksBranchSelect" style="font-size: 13px; color:#475569; white-space:nowrap;">Use Branch:</label>
+                    <select id="coreTasksBranchSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 200px;"></select>
+                    <small id="branchStatus" style="color:#64748b;"></small>
+                </div>
+                <div id="actionHelpPanel" style="flex: 1; min-width: 250px;">
                     <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
                         <i class="fas fa-shield-alt"></i> Validate Selected Task
                     </h3>
@@ -537,28 +546,7 @@
         </div>
 
         <form id="taskTemplateForm">
-            <div class="form-section" style="display:flex; gap:12px; align-items:center;">
-                <div style="position: relative; display:flex; align-items:center; gap:8px;">
-                    <button type="button" id="optionsDropdownBtn" class="btn btn-secondary" style="padding:6px 10px;">
-                        <i class="fas fa-bars"></i> Options ▾
-                    </button>
-                    <div id="optionsDropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #e2e8f0; border-radius:6px; box-shadow:0 8px 20px rgba(0,0,0,0.1); min-width:240px; z-index:50;">
-                        <div class="dropdown-item" data-action="create" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
-                            <span><i class="fas fa-plus"></i> Create New</span>
-                            <button type="button" class="btn btn-secondary" data-help="create" style="padding:4px 8px;"><i class="fas fa-question"></i></button>
-                        </div>
-                        <div class="dropdown-item" data-action="save-draft" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; border-top:1px solid #f1f5f9;">
-                            <span><i class="fas fa-save"></i> Save as Draft</span>
-                            <button type="button" class="btn btn-secondary" data-help="draft" style="padding:4px 8px;"><i class="fas fa-question"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <label style="font-weight:600; color:#475569">Mode</label>
-                <select id="modeSelect" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;">
-                    <option value="create">Create</option>
-                    <option value="validate">Validate</option>
-                </select>
-            </div>
+            <!-- Top-row controls moved above; legacy Options/Mode bar removed -->
             <!-- Section 1: Basic Information -->
             <div class="form-section">
                 <h2>
@@ -608,7 +596,7 @@
                     <i class="fas fa-cog"></i> Registry Configuration (taskConfig.ts)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>File:</strong> <code>core-tasks/task-launcher/src/tasks/taskConfig.ts</code><br>
                         Add your task with the required entries: setConfig, getCorpus, getTranslations, buildTaskTimeline, variants (optional).
                     </div>
@@ -651,7 +639,7 @@
                     <i class="fas fa-project-diagram"></i> Timeline Implementation
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>File:</strong> <code>core-tasks/task-launcher/src/tasks/&lt;task-name&gt;/timeline.ts</code><br>
                         Export a default function that builds and returns the jsPsych timeline using task config and media assets.
                     </div>
@@ -671,7 +659,7 @@
                     <i class="fas fa-database"></i> Corpus CSV (Stimulus Data)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>Upload to:</strong><br>
                         • Dev: <code>gs://levante-assets-dev/corpus/&lt;task-name&gt;/&lt;corpus&gt;.csv</code><br>
                         • Prod: <code>gs://levante-assets-prod/corpus/&lt;task-name&gt;/&lt;corpus&gt;.csv</code>
@@ -739,7 +727,7 @@
                     <i class="fas fa-photo-video"></i> Media Assets (Audio/Visual)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>Buckets:</strong> Automatically switch by environment (dev/prod)<br>
                         <strong>Conventions:</strong><br>
                         • Visual: <code>visual/&lt;task-name&gt;/...</code><br>
@@ -798,7 +786,7 @@
                     <i class="fas fa-list-check"></i> Required Assets Declaration (assets-per-task.json)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>Hosted at:</strong> <code>gs://levante-assets-{dev|prod}/audio/assets-per-task.json</code><br>
                         List all audio item IDs your task requires (excluding corpus-specific audio).
                     </div>
@@ -831,7 +819,7 @@
                     <i class="fas fa-language"></i> Translations (item-bank-translations.csv)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         <strong>Source:</strong> <code>gs://levante-assets-{dev|prod}/translations/item-bank-translations.csv</code><br>
                         All strings referenced by your timeline must be present. Keys use kebab-case.
                     </div>
@@ -873,7 +861,7 @@
                     <i class="fas fa-clone"></i> Variants (Optional)
                 </h2>
                 <div class="collapsible-content">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info create-only" data-create-only="true">
                         Define task variants with only fields that differ (e.g., <code>corpus</code>, <code>numOfPracticeTrials</code>, 
                         <code>sequentialStimulus</code>, <code>buttonLayout</code>, <code>cat</code>, <code>language</code>).
                     </div>
@@ -1312,6 +1300,16 @@
         // Handle task selection from dropdown
         document.getElementById('existingTaskSelect').addEventListener('change', function(e) {
             const taskName = e.target.value;
+            // Clear any existing validation status/results when switching tasks
+            const statusEl = document.getElementById('quickValidationStatus');
+            if (statusEl) {
+                statusEl.style.display = 'none';
+                statusEl.innerHTML = '';
+            }
+            const resultsWrap = document.getElementById('validationResults');
+            const report = document.getElementById('validationReportContainer');
+            if (report) report.innerHTML = '';
+            if (resultsWrap) resultsWrap.style.display = 'none';
             
             if (!taskName) {
                 resetForm();
@@ -1650,6 +1648,7 @@
 
         // Initialize
         populateLanguages();
+        populateBranches();
         loadExistingTasks(); // Load existing tasks into dropdown
         addClearFormButton(); // Add clear form button
 
@@ -1709,47 +1708,132 @@
         // Help modal
         const helpModal = document.getElementById('helpModal');
         const helpClose = document.getElementById('helpModalClose');
-        // Options dropdown + inline help icons
-        const optionsBtn = document.getElementById('optionsDropdownBtn');
-        const optionsMenu = document.getElementById('optionsDropdown');
-        if (optionsBtn && optionsMenu) {
-            optionsBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                optionsMenu.style.display = (optionsMenu.style.display === 'block') ? 'none' : 'block';
-            });
-            document.addEventListener('click', (e) => {
-                if (!optionsMenu.contains(e.target) && e.target !== optionsBtn) {
-                    optionsMenu.style.display = 'none';
+        // Top-row action dropdown
+        const taskActionSelect = document.getElementById('taskActionSelect');
+        async function populateBranches() {
+            const branchSelect = document.getElementById('coreTasksBranchSelect');
+            const branchStatus = document.getElementById('branchStatus');
+            if (!branchSelect) return;
+            try {
+                branchSelect.innerHTML = '<option value="">Loading branches...</option>';
+                const resp = await fetch('/api/core-tasks?op=branches');
+                if (!resp.ok) {
+                    branchSelect.innerHTML = '<option value="main" selected>Main</option>';
+                    if (branchStatus) branchStatus.textContent = '';
+                    return;
+                }
+                const data = await resp.json();
+                const branches = Array.isArray(data.branches) ? data.branches : [];
+                branchSelect.innerHTML = '';
+                // Put main first if present
+                const main = branches.find(b => b.name === 'main');
+                if (main) {
+                    const opt = document.createElement('option');
+                    opt.value = main.name;
+                    opt.textContent = `${main.name}`;
+                    branchSelect.appendChild(opt);
+                }
+                branches.filter(b => b.name !== 'main').forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.name;
+                    const label = b.date ? `${b.name} (${new Date(b.date).toLocaleDateString()})` : b.name;
+                    opt.textContent = label;
+                    branchSelect.appendChild(opt);
+                });
+                if (!main && branches.length) branchSelect.selectedIndex = 0; else branchSelect.value = 'main';
+                if (branchStatus) { branchStatus.textContent = ''; }
+            } catch (e) {
+                branchSelect.innerHTML = '<option value="main">main</option>';
+                if (branchStatus) branchStatus.textContent = '';
+            }
+        }
+
+        // Right-panel help content
+        function renderActionHelp(action) {
+            const panel = document.getElementById('actionHelpPanel');
+            if (!panel) return;
+            // base panel styling
+            panel.style.padding = '10px 12px';
+            panel.style.borderRadius = '6px';
+            panel.style.border = '1px solid #e2e8f0';
+            if (action === 'create') {
+                panel.style.background = '#ecfdf5';
+                panel.style.borderColor = '#6ee7b7';
+                panel.style.color = '#065f46';
+                panel.innerHTML = `
+                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
+                        <i class="fas fa-plus"></i> Create New Task
+                    </h3>
+                    <p style="margin: 0; font-size: 14px; color: #64748b;">
+                        Start a new task configuration. Fill out the sections below and use the Implementation Checklist.
+                    </p>
+                `;
+            } else if (action === 'draft') {
+                panel.style.background = '#fffbeb';
+                panel.style.borderColor = '#f59e0b';
+                panel.style.color = '#92400e';
+                panel.innerHTML = `
+                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
+                        <i class="fas fa-save"></i> Save Task as Draft
+                    </h3>
+                    <p style="margin: 0; font-size: 14px; color: #64748b;">
+                        This will save the current form locally in your browser (feature TBD).
+                    </p>
+                `;
+            } else {
+                panel.style.background = '#eff6ff';
+                panel.style.borderColor = '#93c5fd';
+                panel.style.color = '#1e40af';
+                panel.innerHTML = `
+                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
+                        <i class="fas fa-shield-alt"></i> Validate Selected Task
+                    </h3>
+                    <p style="margin: 0; font-size: 14px; color: #64748b;">
+                        Check assets, translations, audio files, and code for the task selected above
+                    </p>
+                `;
+            }
+        }
+
+        function updateActionButton(action) {
+            const btn = document.getElementById('validateTaskTopBtn');
+            if (!btn) return;
+            if (action === 'create') {
+                btn.innerHTML = '<i class="fas fa-plus"></i>\n                    Create';
+            } else if (action === 'draft') {
+                btn.innerHTML = '<i class="fas fa-save"></i>\n                    (Save TBD)';
+            } else {
+                btn.innerHTML = '<i class="fas fa-check-double"></i>\n                    Validate Task';
+            }
+        }
+
+        if (taskActionSelect) {
+            taskActionSelect.addEventListener('change', (e) => {
+                const action = e.target.value;
+                const taskSelect = document.getElementById('existingTaskSelect');
+                renderActionHelp(action);
+                updateActionButton(action);
+                // Show instructional alerts only in create mode
+                document.querySelectorAll('.create-only').forEach(el => {
+                    el.style.display = action === 'create' ? 'block' : 'none';
+                });
+                if (action === 'validate') {
+                    if (taskSelect) taskSelect.disabled = false;
+                    applyMode('validate');
+                } else if (action === 'create') {
+                    if (taskSelect) taskSelect.disabled = true; // not needed when creating
+                    resetForm();
+                    applyMode('create');
+                } else if (action === 'draft') {
+                    if (taskSelect) taskSelect.disabled = true;
+                    applyMode('create'); // show checklist like Create
                 }
             });
-            optionsMenu.querySelectorAll('[data-help]').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const kind = btn.getAttribute('data-help');
-                    const body = document.querySelector('#helpModal .modal-body');
-                    if (body) {
-                        if (kind === 'create') {
-                            body.innerHTML = '<p><strong>Create New</strong> starts a fresh task plan. Fill in assets, translations, and review the checklist. Use when adding a brand new task.</p>';
-                        } else if (kind === 'draft') {
-                            body.innerHTML = '<p><strong>Save as Draft</strong> saves your current form locally (browser storage) without deploying. You can come back later and continue editing.</p>';
-                        }
-                    }
-                    helpModal.style.display = 'flex';
-                });
-            });
-            optionsMenu.querySelector('[data-action="create"]').addEventListener('click', () => {
-                modeSelect.value = 'create';
-                applyMode('create');
-                resetForm();
-                optionsMenu.style.display = 'none';
-            });
-            optionsMenu.querySelector('[data-action="save-draft"]').addEventListener('click', () => {
-                // simple draft save in localStorage
-                const form = document.getElementById('taskTemplateForm');
-                const taskDraft = Task.createNew(form);
-                try { localStorage.setItem('taskDashboardDraft', JSON.stringify(taskDraft.toJSON())); } catch (_) {}
-                alert('Draft saved locally in your browser.');
-                optionsMenu.style.display = 'none';
+            // initialize panel/button to current selection
+            renderActionHelp(taskActionSelect.value);
+            updateActionButton(taskActionSelect.value);
+            document.querySelectorAll('.create-only').forEach(el => {
+                el.style.display = taskActionSelect.value === 'create' ? 'block' : 'none';
             });
         }
         if (helpClose) helpClose.addEventListener('click', () => helpModal.style.display = 'none');

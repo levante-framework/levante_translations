@@ -223,14 +223,14 @@ class Task {
             warnings: [],    // Issues that may cause problems
             info: [],        // Informational notices
             checks: {
-                registry: { passed: false, issues: [] },
-                timeline: { passed: false, issues: [] },
-                corpus: { passed: false, issues: [] },
-                visualAssets: { passed: false, issues: [] },
-                audioAssets: { passed: false, issues: [] },
-                translations: { passed: false, issues: [] },
-                languages: { passed: false, issues: [] },
-                variants: { passed: false, issues: [] }
+                registry: { passed: false, issues: [], severity: 'ok' },
+                timeline: { passed: false, issues: [], severity: 'ok' },
+                corpus: { passed: false, issues: [], severity: 'ok' },
+                visualAssets: { passed: false, issues: [], severity: 'ok' },
+                audioAssets: { passed: false, issues: [], severity: 'ok' },
+                translations: { passed: false, issues: [], severity: 'ok' },
+                languages: { passed: false, issues: [], severity: 'ok' },
+                variants: { passed: false, issues: [], severity: 'ok' }
             },
             _warningContext: {}
         };
@@ -261,6 +261,19 @@ class Task {
 
         // Set overall validity
         results.isValid = results.errors.length === 0;
+
+        // Derive per-check severity
+        Object.keys(results.checks).forEach((key) => {
+            const c = results.checks[key];
+            if (c.issues.length === 0) {
+                c.severity = 'ok';
+            } else {
+                // If any global errors mention this check, mark error; otherwise warning
+                const nameMatches = (msg) => msg.toLowerCase().includes(key.toLowerCase());
+                const hasErrorRelated = results.errors.some(nameMatches);
+                c.severity = hasErrorRelated ? 'error' : 'warning';
+            }
+        });
 
         this._validationResults = results;
         return results;
@@ -384,12 +397,62 @@ class Task {
             return;
         }
 
-        // Check if timeline file would exist at expected location
-        const expectedPath = `core-tasks/task-launcher/src/tasks/${this.taskName}/timeline.ts`;
-        results.info.push(`Timeline should exist at: ${expectedPath}`);
+        // Determine selected branch from UI (fallback to main)
+        let branch = 'main';
+        try {
+            const sel = document.getElementById('coreTasksBranchSelect');
+            const v = sel && sel.value ? sel.value : 'main';
+            branch = v || 'main';
+        } catch (_) {}
 
-        // Placeholder for actual file check (would require API endpoint)
-        check.passed = true; // Assume passed for now
+        // Check via backend API if timeline exists in core-tasks on the selected branch
+        try {
+            const params = new URLSearchParams();
+            params.set('op', 'timeline');
+            params.set('task', this.taskName);
+            params.set('branch', branch);
+            const resp = await fetch(`/api/core-tasks?${params.toString()}`);
+            if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+            const data = await resp.json();
+            const expectedPath = `core-tasks/${data.path}`;
+            if (data.exists) {
+                // Static checks from API
+                const hasDefaultExport = !!(data.checks && data.checks.defaultExport);
+                if (!hasDefaultExport) {
+                    results.errors.push(`Timeline found but missing default export on branch "${branch}": ${expectedPath}`);
+                    check.issues.push('Timeline missing default export');
+                }
+                if (data.checks && data.checks.imports && !data.checks.imports.getTranslations) {
+                    results.warnings.push(
+                        `Timeline does not import getTranslations — translations may be undefined at runtime. ` +
+                        `File: ${expectedPath}. Fix: import and use getTranslations at the start of the timeline ` +
+                        `(e.g., "import { getTranslations } from '<shared>/getTranslations'" then "const t = await getTranslations(langCode)") ` +
+                        `and reference t.<key> for any user-facing strings.`
+                    );
+                    check.issues.push('Missing getTranslations import');
+                }
+                results.info.push(`Timeline found on branch "${branch}": ${expectedPath}`);
+                check.passed = check.issues.length === 0;
+            } else {
+                // If backend couldn't verify due to missing GitHub config or similar, downgrade to warning
+                if (data && (data.warning || (data.resolvedFrom && data.resolvedFrom.startsWith('unconfigured')))) {
+                    const msg = `Could not verify timeline in core-tasks (branch ${branch}). Assuming present. Expected path: ${expectedPath}`;
+                    results.warnings.push(msg);
+                    check.issues.push('Could not verify timeline via API');
+                    check.passed = true;
+                } else {
+                    results.errors.push(`Timeline missing on branch "${branch}": ${expectedPath}`);
+                    check.issues.push('Missing timeline.ts');
+                    check.passed = false;
+                }
+            }
+        } catch (e) {
+            const expectedPath = `core-tasks/task-launcher/src/tasks/${this.taskName}/timeline.ts`;
+            results.warnings.push(`Could not verify timeline in core-tasks (branch ${branch}). Assuming present. Expected path: ${expectedPath}`);
+            // Record an issue so the check appears as a warning (yellow) in the gallery
+            check.issues.push('Could not verify timeline via API');
+            check.passed = true;
+        }
     }
 
     /**
@@ -764,8 +827,10 @@ class Task {
         html += '<div class="checks-grid">';
 
         Object.entries(results.checks).forEach(([checkName, checkResult]) => {
-            const statusClass = checkResult.passed ? 'check-passed' : 'check-failed';
-            const statusIcon = checkResult.passed ? 'fa-check' : 'fa-times';
+            const severity = checkResult.severity || (checkResult.passed ? 'ok' : 'error');
+            // Show yellow for warning-only checks even if the check overall "passed"
+            const statusClass = (severity === 'warning') ? 'check-warning' : (checkResult.passed ? 'check-passed' : 'check-failed');
+            const statusIcon = checkResult.passed ? 'fa-check' : (severity === 'warning' ? 'fa-exclamation-triangle' : 'fa-times');
             
             html += `<div class="check-item ${statusClass}">`;
             html += `<div class="check-header">`;
