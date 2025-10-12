@@ -9,20 +9,8 @@
     <link rel="stylesheet" href="./styles.css">
     <script src="./js/Task.js"></script>
     <style>
-        body { 
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
-            margin: 20px; 
-            color: #222; 
-            background: #f8fafc;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
+        body {}
+        .container {}
         h1 {
             color: #1e293b;
             margin: 0 0 8px 0;
@@ -486,46 +474,54 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-row">
-            <div class="header-left">
-                <h1>
-                    <i class="fas fa-clipboard-list"></i>
-                    Task Dashboard
-                </h1>
-                <p class="subtitle">Manage and validate task assets, translations, and configuration</p>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1><i class="fas fa-clipboard-list"></i> Task Dashboard</h1>
+            <p>Manage and validate task assets, translations, and configuration</p>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-secondary btn-compact"><i class="fas fa-arrow-left"></i> Back</a>
             </div>
-            <div class="header-right"></div>
         </div>
+        <div class="main-content">
+            <div class="alert alert-info" id="inlineOverview" style="display:none">
+                <i class="fas fa-info-circle"></i>
+                <strong>Overview:</strong> This form guides you through the 10-step process of adding a new assessment task to the Levante framework.
+                Based on <code>README_TASKS.md</code> and the current launcher implementation.
+            </div>
 
-        <div class="alert alert-info" id="inlineOverview" style="display:none">
-            <i class="fas fa-info-circle"></i>
-            <strong>Overview:</strong> This form guides you through the 10-step process of adding a new assessment task to the Levante framework.
-            Based on <code>README_TASKS.md</code> and the current launcher implementation.
-        </div>
+        <!-- Top Controls (using dashboard styling) -->
+        <div class="controls-section">
+            <div style="display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap;">
+                <!-- Left column: action/task + buttons, then branch row -->
+                <div style="flex:1; min-width:520px;">
+                    <div class="control-group" style="gap:10px; align-items:center; flex-wrap:nowrap;">
+                        <select id="taskActionSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; min-width:220px; width:260px;">
+                            <option value="validate">Validate Existing Task</option>
+                            <option value="create">Create New Task</option>
+                            <option value="draft">Save Task as Draft</option>
+                        </select>
+                        <select id="existingTaskSelect" style="flex:1; min-width:320px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            <option value="">-- Select a task --</option>
+                        </select>
+                    </div>
+                    <div class="control-group" style="gap:10px; align-items:center; flex-wrap:nowrap;">
+                        <button type="button" class="btn btn-validate" id="validateTaskTopBtn">
+                            <i class="fas fa-check-double"></i>
+                            Validate Task
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="refreshTaskTopBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh Task
+                        </button>
+                        <label for="coreTasksBranchSelect" style="margin-left: 12px;"><i class="fas fa-code-branch"></i> Use Branch:</label>
+                        <select id="coreTasksBranchSelect" style="min-width:200px; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px;"></select>
+                        <small id="branchStatus" style="color:#64748b;"></small>
+                    </div>
+                    <div id="quickValidationStatus" style="display:none; padding: 10px 12px; border-radius: 6px; font-size: 14px;"></div>
+                </div>
 
-        <!-- Quick Validation Button -->
-        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1;">
-            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <select id="taskActionSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                        <option value="validate">Validate Existing Task</option>
-                        <option value="create">Create New Task</option>
-                        <option value="draft">Save Task as Draft</option>
-                    </select>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px; min-width: 320px; flex: 1;">
-                    <select id="existingTaskSelect" style="width:100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                        <option value="">-- Select a task --</option>
-                        <!-- Tasks will be loaded dynamically -->
-                    </select>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px; min-width: 220px;">
-                    <label for="coreTasksBranchSelect" style="font-size: 13px; color:#475569; white-space:nowrap;">Use Branch:</label>
-                    <select id="coreTasksBranchSelect" style="padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 200px;"></select>
-                    <small id="branchStatus" style="color:#64748b;"></small>
-                </div>
-                <div id="actionHelpPanel" style="flex: 1; min-width: 250px;">
+                <!-- Right column: action help panel -->
+                <div id="actionHelpPanel" style="flex:0 0 360px;">
                     <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #1e293b;">
                         <i class="fas fa-shield-alt"></i> Validate Selected Task
                     </h3>
@@ -533,16 +529,7 @@
                         Check assets, translations, audio files, and code for the task selected above
                     </p>
                 </div>
-                <button type="button" class="btn btn-validate" id="validateTaskTopBtn" style="padding: 12px 24px; font-size: 15px; white-space: nowrap;">
-                    <i class="fas fa-check-double"></i>
-                    Validate Task
-                </button>
-                <button type="button" class="btn btn-secondary" id="refreshTaskTopBtn" style="padding: 12px 16px; font-size: 15px; white-space: nowrap;">
-                    <i class="fas fa-sync-alt"></i>
-                    Refresh Task
-                </button>
             </div>
-            <div id="quickValidationStatus" style="margin-top: 12px; display: none; padding: 12px; border-radius: 6px; font-size: 14px;"></div>
         </div>
 
         <form id="taskTemplateForm">
