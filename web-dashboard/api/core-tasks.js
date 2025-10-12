@@ -296,15 +296,42 @@ export default async function handler(req, res) {
             }
 
             // Fetch file contents to run lightweight static checks
-            let checks = { defaultExport: null, imports: { getTranslations: false, getMediaAssets: false }, mentions: { audio: false, translations: false } };
+            let checks = { 
+                defaultExport: null, 
+                imports: { getTranslations: false, getMediaAssets: false }, 
+                providers: { staticGetTranslationsImport: false, dynamicGetTranslationsImport: false, useTranslationsHook: false, ctxProvidesT: false, paramProvidesT: false, any: false },
+                uses: { tAccess: false, getTranslationsCall: false, useTranslationsHook: false, any: false },
+                mentions: { audio: false, translations: false } 
+            };
             if (result.exists) {
                 try {
                     const ts = await fetchRaw(result.path, branch);
                     checks.defaultExport = /export\s+default\s+function|export\s+default\s*\w+|export\s+default\s*\(/.test(ts);
-                    checks.imports.getTranslations = /getTranslations\s*from/.test(ts) || /from\s+['"][^'"]*getTranslations['"]/i.test(ts);
-                    checks.imports.getMediaAssets = /getMediaAssets\s*from/.test(ts) || /from\s+['"][^'"]*getMediaAssets['"]/i.test(ts);
+
+                    // Static imports
+                    const staticGetTranslationsImport = /import\s+(?:\{[^}]*\bgetTranslations\b[^}]*\}|getTranslations)\s+from\s+['"][^'"]+['"]/m.test(ts);
+                    const staticGetMediaAssetsImport = /import\s+(?:\{[^}]*\bgetMediaAssets\b[^}]*\}|getMediaAssets)\s+from\s+['"][^'"]+['"]/m.test(ts);
+
+                    // Dynamic imports / calls
+                    const dynamicGetTranslationsImport = /const\s*\{\s*getTranslations\s*\}\s*=\s*await\s*import\(/m.test(ts) || /import\([^)]*getTranslations[^)]*\)/m.test(ts);
+                    const callsGetTranslations = /\bgetTranslations\s*\(/m.test(ts);
+                    const useTranslationsHook = /\buseTranslations\s*\(/m.test(ts);
+
+                    // Alternate providers
+                    const ctxProvidesT = /\bctx\s*\.\s*t\b/.test(ts) || /\bcontext\s*\.\s*t\b/.test(ts);
+                    const paramProvidesT = /export\s+default[\s\S]{0,120}\(\s*\{[^}]*\bt\b[\s\S]*\)/m.test(ts) || /function[\s\S]{0,80}\(\s*\{[^}]*\bt\b[\s\S]*\)/m.test(ts);
+                    const tAccess = /\bt\s*\[|\bt\s*\./m.test(ts);
+
+                    const providerAny = staticGetTranslationsImport || dynamicGetTranslationsImport || callsGetTranslations || useTranslationsHook || ctxProvidesT || paramProvidesT;
+                    const usesAny = tAccess || callsGetTranslations || useTranslationsHook;
+
+                    checks.imports.getTranslations = staticGetTranslationsImport || dynamicGetTranslationsImport || callsGetTranslations;
+                    checks.imports.getMediaAssets = staticGetMediaAssetsImport;
+                    checks.providers = { staticGetTranslationsImport, dynamicGetTranslationsImport, useTranslationsHook, ctxProvidesT, paramProvidesT, any: providerAny };
+                    checks.uses = { tAccess, getTranslationsCall: callsGetTranslations, useTranslationsHook, any: usesAny };
+
                     checks.mentions.audio = /audio/i.test(ts);
-                    checks.mentions.translations = /translation/i.test(ts) || /getTranslations/.test(ts);
+                    checks.mentions.translations = /translation/i.test(ts) || /getTranslations/.test(ts) || tAccess;
                 } catch (_) { /* ignore static check failure */ }
             }
 

@@ -422,14 +422,26 @@ class Task {
                     results.errors.push(`Timeline found but missing default export on branch "${branch}": ${expectedPath}`);
                     check.issues.push('Timeline missing default export');
                 }
-                if (data.checks && data.checks.imports && !data.checks.imports.getTranslations) {
-                    results.warnings.push(
-                        `Timeline does not import getTranslations — translations may be undefined at runtime. ` +
-                        `File: ${expectedPath}. Fix: import and use getTranslations at the start of the timeline ` +
-                        `(e.g., "import { getTranslations } from '<shared>/getTranslations'" then "const t = await getTranslations(langCode)") ` +
-                        `and reference t.<key> for any user-facing strings.`
-                    );
-                    check.issues.push('Missing getTranslations import');
+                if (data.checks) {
+                    const providers = (data.checks.providers) || {};
+                    const uses = (data.checks.uses) || {};
+                    const imports = (data.checks.imports) || {};
+
+                    // Warn only if timeline appears to use translations (t access or hook or call)
+                    // but we couldn't detect any provider/import for them
+                    if (uses.any && !providers.any && !imports.getTranslations) {
+                        results.warnings.push(
+                            `Timeline uses translations but no recognized provider/import was detected. ` +
+                            `File: ${expectedPath}. Fix: import and use a translation provider (e.g., getTranslations) or ensure 't' is passed in.`
+                        );
+                        check.issues.push('Translations used without provider');
+                    } else if (!imports.getTranslations && !providers.any) {
+                        // Soft advice if no usage detected, no provider
+                        results.info.push(
+                            `No translation provider detected in timeline. If user-facing strings are present, ` +
+                            `import getTranslations (or provide 't') to avoid undefined text.`
+                        );
+                    }
                 }
                 results.info.push(`Timeline found on branch "${branch}": ${expectedPath}`);
                 check.passed = check.issues.length === 0;
