@@ -6326,38 +6326,6 @@ page19.q.selfparentmics.q.selfparentmics12.labelfalse
 q.selfparentmics</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="146692" resname="startsurveytext" approved="yes">
-        <source>Start Survey</source>
-        <target state="final">Weiter</target>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-startsurveytext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="146694" resname="pageprevtext" approved="yes">
-        <source>Previous</source>
-        <target state="final">Previous</target>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-pageprevtext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="146696" resname="pagenexttext" approved="yes">
-        <source>Next</source>
-        <target state="final">Weiter</target>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-pagenexttext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="146698" resname="completetext" approved="yes">
-        <source>Finish</source>
-        <target state="final">Finish</target>
-        <context-group purpose="information">
-          <context context-type="source">parent_survey_child.json
-completetext</context>
-        </context-group>
-      </trans-unit>
     </body>
   </file>
   <file id="698" original="/main/surveys/parent_survey_family-source.xliff" source-language="en" target-language="de" datatype="plaintext" project-id="756721" tool-id="crowdin">
@@ -11813,39 +11781,6 @@ completetext</context>
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body>
-      <trans-unit id="150544" resname="startsurveytext" approved="yes">
-        <source>Start Survey</source>
-        <target state="final">Weiter</target>
-        <context-group purpose="information">
-          <context context-type="source">surveyjs.json
-startsurveytext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="150546" resname="pageprevtext" approved="yes">
-        <source>Previous</source>
-        <target state="final">Previous</target>
-        <context-group purpose="information">
-          <context context-type="source">surveyjs.json
-pageprevtext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="150548" resname="pagenexttext" approved="yes">
-        <source>Next</source>
-        <target state="final">Weiter</target>
-        <context-group purpose="information">
-          <context context-type="source">surveyjs.json
-pagenexttext</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="150550" resname="completetext" approved="yes">
-        <source>Finish</source>
-        <target state="final">Finish</target>
-        <context-group purpose="information">
-          <context context-type="source">surveyjs.json
-completetext</context>
-        </context-group>
-      </trans-unit>
-    </body>
+    <body/>
   </file>
 </xliff>
