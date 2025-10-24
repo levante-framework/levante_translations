@@ -299,20 +299,86 @@
 		</div>
 	</div>
 
+	<div class="section" id="githubIssuesSection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">GitHub Issues Status</h2>
+			<button id="githubIssuesStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="githubIssuesPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+			<div id="githubIssuesAudit" style="flex:1; min-width:280px;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Project Board</h3>
+				<p class="small">Source: <span id="githubIssuesSource" class="code">levante-framework/projects/1</span></p>
+				<p id="githubIssuesSummary" class="small">Loading…</p>
+				<p class="small"><span id="githubIssuesDetails" class="link" style="display:none; margin-right:12px;">Show issue details</span><button id="githubIssuesRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
+			</div>
+		</div>
+		
+		<div id="githubIssuesLists" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-top:16px;">
+			<div id="p0IssuesPanel" style="flex:1; min-width:400px; display:none;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">🔥 P0 Open Issues (Highest Priority)</h3>
+				<div id="p0IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
+					<!-- P0 issues will be populated here -->
+				</div>
+			</div>
+			<div id="p1IssuesPanel" style="flex:1; min-width:400px; display:none;">
+				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">⚡ P1 Open Issues (High Priority)</h3>
+				<div id="p1IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
+					<!-- P1 issues will be populated here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="section" id="crowdinAuditSection">
 		<h2 style="font-size:16px; margin:0 0 8px 0;">Crowdin</h2>
+		<table class="table" id="crowdinTable" aria-label="Crowdin Translation Status table">
+			<thead>
+				<tr>
+					<th>Language</th>
+					<th>Code</th>
+					<th>From Crowdin</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 	</div>
-	
-	<table class="table" id="crowdinTable" aria-label="Crowdin Translation Status table">
-		<thead>
-			<tr>
-				<th>Language</th>
-				<th>Code</th>
-				<th>From Crowdin</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
+
+	<div class="section" id="bucketInfoSection">
+		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+			<h2 style="font-size:16px; margin:0;">Bucket Info</h2>
+			<button id="bucketInfoStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+		</div>
+		<div id="bucketInfoContent" style="display:none;">
+			<div style="margin-bottom: 16px;">
+				<p class="small">Source: <span class="code">GCS Buckets</span></p>
+				<p id="bucketInfoSummary" class="small">Loading…</p>
+				<div id="bucketInfoProgress" style="display:none; margin: 8px 0;">
+					<div style="background: #e5e7eb; border-radius: 4px; height: 8px; overflow: hidden;">
+						<div id="bucketInfoProgressBar" style="background: #0d6efd; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+					</div>
+					<p id="bucketInfoProgressText" class="small" style="margin: 4px 0 0 0; color: #6b7280;">Scanning GCS buckets...</p>
+				</div>
+				<p class="small"><button id="bucketInfoRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
+			</div>
+			<div id="bucketInfoTable" style="overflow-x: auto;">
+				<table class="table" style="width: 100%; border-collapse: collapse;">
+					<thead>
+						<tr>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Bucket Name</th>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Stat Name</th>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Language</th>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Number</th>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Unit</th>
+							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Files</th>
+						</tr>
+					</thead>
+					<tbody id="bucketInfoTableBody">
+						<!-- Bucket info rows will be populated here -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
 	<div class="footer" style="margin: 16px 0;">
 		<div class="small" style="margin-top:6px;">
@@ -369,6 +435,8 @@
 			document.getElementById('coreTasksSummaryProd').textContent = 'Loading…';
 			document.getElementById('corpusSummary').textContent = 'Loading…';
 			document.getElementById('corpusSummaryProd').textContent = 'Loading…';
+			document.getElementById('githubIssuesSummary').textContent = 'Loading…';
+			document.getElementById('bucketInfoSummary').textContent = 'Loading…';
 			
 			// Reset stoplight buttons
 			resetStoplights();
@@ -379,7 +447,7 @@
 		
 		// Reset all stoplight buttons to loading state
 		function resetStoplights() {
-			const stoplights = ['visualStoplight', 'audioStoplight', 'coreTasksStoplight', 'corpusStoplight'];
+			const stoplights = ['visualStoplight', 'audioStoplight', 'coreTasksStoplight', 'corpusStoplight', 'githubIssuesStoplight', 'bucketInfoStoplight'];
 			stoplights.forEach(id => {
 				const btn = document.getElementById(id);
 				if (btn) {
@@ -2757,6 +2825,354 @@
 			}
 		}
 
+		// GitHub issues audit
+		async function refreshGitHubIssuesAudit() {
+			try {
+				// Fetch GitHub project issues using our API endpoint
+				const res = await fetch('/api/github-issues', { 
+					cache: 'no-cache'
+				});
+				
+				if (!res.ok) { 
+					document.getElementById('githubIssuesSummary').textContent = 'GitHub issues unavailable (API error)'; 
+					return; 
+				}
+				
+				const data = await res.json();
+				const { total, open, closed, issues, p0OpenIssues, p1OpenIssues, message } = data;
+				
+				const summary = document.getElementById('githubIssuesSummary');
+				
+				if (message) {
+					// Project not found or not accessible
+					summary.innerHTML = `<span class="badge err">N/A</span> <span class="small">(${message})</span>`;
+					document.getElementById('githubIssuesDetails').style.display = 'none';
+					document.getElementById('githubIssuesRefreshBtn').style.display = 'none';
+					document.getElementById('p0IssuesPanel').style.display = 'none';
+				} else {
+					// Show simple summary with P0 and P1 counts
+					const p0Count = p0OpenIssues ? p0OpenIssues.length : 0;
+					const p1Count = p1OpenIssues ? p1OpenIssues.length : 0;
+					
+					summary.innerHTML = `P0: <span class="code">${p0Count}</span> · P1: <span class="code">${p1Count}</span>`;
+					
+					const detailsLink = document.getElementById('githubIssuesDetails');
+					const refreshBtn = document.getElementById('githubIssuesRefreshBtn');
+					
+					if (total > 0) {
+						detailsLink.style.display = '';
+						refreshBtn.style.display = '';
+						detailsLink.onclick = () => { showGitHubIssuesModal(issues); };
+						refreshBtn.onclick = () => { refreshGitHubIssuesAudit(); };
+					} else {
+						detailsLink.style.display = 'none';
+						refreshBtn.style.display = 'none';
+					}
+					
+					// Display P1 open issues
+					if (p1OpenIssues && p1OpenIssues.length > 0) {
+						document.getElementById('p1IssuesPanel').style.display = 'block';
+						displayP1Issues(p1OpenIssues);
+					} else {
+						document.getElementById('p1IssuesPanel').style.display = 'none';
+					}
+					
+					// Display P0 open issues
+					if (p0OpenIssues && p0OpenIssues.length > 0) {
+						document.getElementById('p0IssuesPanel').style.display = 'block';
+						displayP0Issues(p0OpenIssues);
+					} else {
+						document.getElementById('p0IssuesPanel').style.display = 'none';
+					}
+				}
+				
+				// Store issue counts for stoplight comparison
+				window.githubIssuesOpen = open;
+				window.githubIssuesP0 = p0OpenIssues ? p0OpenIssues.length : 0;
+				window.githubIssuesP1 = p1OpenIssues ? p1OpenIssues.length : 0;
+			} catch (e) {
+				document.getElementById('githubIssuesSummary').textContent = 'GitHub issues unavailable';
+				window.githubIssuesOpen = null;
+			}
+		}
+
+		function displayP1Issues(p1Issues) {
+			const p1IssuesList = document.getElementById('p1IssuesList');
+			
+			if (p1Issues.length === 0) {
+				p1IssuesList.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">🎉 No P1 open issues!</div>';
+				return;
+			}
+			
+			p1IssuesList.innerHTML = p1Issues.map(issue => `
+				<div class="p1-issue-item" style="border: 1px solid #3b82f6; border-radius: 6px; padding: 12px; margin: 8px 0; background: #dbeafe; cursor: pointer; transition: background-color 0.2s;" 
+					 onclick="showP1IssueModal(${JSON.stringify(issue).replace(/"/g, '&quot;')})">
+					<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+						<div style="flex: 1;">
+							<a href="${issue.url}" target="_blank" style="color: #1e40af; text-decoration: none; font-weight: bold;">
+								#${issue.number}
+							</a> - ${issue.title}
+						</div>
+						<div style="display: flex; gap: 8px; align-items: center;">
+							<span class="badge warn" style="background: #3b82f6; color: white;">P1</span>
+							<span style="font-size: 12px; color: #6b7280;">${issue.status}</span>
+						</div>
+					</div>
+					${issue.assignee ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">👤 Assigned to: <strong>${issue.assignee}</strong></div>` : '<div style="font-size: 12px; color: #ef4444; margin-bottom: 4px;">⚠️ Unassigned</div>'}
+					${issue.labels && issue.labels.length > 0 ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">🏷️ Labels: ${issue.labels.join(', ')}</div>` : ''}
+					<div style="font-size: 12px; color: #6b7280; display: flex; justify-content: space-between; align-items: center;">
+						<span>📅 Updated: ${new Date(issue.updated_at).toLocaleDateString()}</span>
+						<a href="${issue.url}" target="_blank" style="color: #0d6efd; text-decoration: none; font-size: 12px; font-weight: 600;">View on GitHub →</a>
+					</div>
+				</div>
+			`).join('');
+		}
+
+		function displayP0Issues(p0Issues) {
+			const p0IssuesList = document.getElementById('p0IssuesList');
+			
+			if (p0Issues.length === 0) {
+				p0IssuesList.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">🎉 No P0 open issues!</div>';
+				return;
+			}
+			
+			p0IssuesList.innerHTML = p0Issues.map(issue => `
+				<div class="p0-issue-item" style="border: 1px solid #fbbf24; border-radius: 6px; padding: 12px; margin: 8px 0; background: #fef3c7; cursor: pointer; transition: background-color 0.2s;" 
+					 onclick="showP0IssueModal(${JSON.stringify(issue).replace(/"/g, '&quot;')})">
+					<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+						<div style="flex: 1;">
+							<a href="${issue.url}" target="_blank" style="color: #92400e; text-decoration: none; font-weight: bold;">
+								#${issue.number}
+							</a> - ${issue.title}
+						</div>
+						<div style="display: flex; gap: 8px; align-items: center;">
+							<span class="badge warn" style="background: #fbbf24; color: #92400e;">P0</span>
+							<span style="font-size: 12px; color: #6b7280;">${issue.status}</span>
+						</div>
+					</div>
+					${issue.assignee ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">👤 Assigned to: <strong>${issue.assignee}</strong></div>` : '<div style="font-size: 12px; color: #ef4444; margin-bottom: 4px;">⚠️ Unassigned</div>'}
+					${issue.labels && issue.labels.length > 0 ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">🏷️ Labels: ${issue.labels.join(', ')}</div>` : ''}
+					<div style="font-size: 12px; color: #6b7280; display: flex; justify-content: space-between; align-items: center;">
+						<span>📅 Updated: ${new Date(issue.updated_at).toLocaleDateString()}</span>
+						<a href="${issue.url}" target="_blank" style="color: #0d6efd; text-decoration: none; font-size: 12px; font-weight: 600;">View on GitHub →</a>
+					</div>
+				</div>
+			`).join('');
+		}
+
+		function showP1IssueModal(issue) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = `⚡ P1 Issue #${issue.number}`;
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>${issue.title}</h4>
+					<div style="border: 1px solid #3b82f6; border-radius: 6px; padding: 16px; background: #dbeafe; margin: 16px 0;">
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div>
+								<strong style="color: #1e40af;">Priority:</strong> <span class="badge warn" style="background: #3b82f6; color: white;">P1 (High)</span>
+							</div>
+							<div>
+								<strong style="color: #1e40af;">Status:</strong> ${issue.status}
+							</div>
+							<div>
+								<strong style="color: #1e40af;">State:</strong> <span class="badge warn">${issue.state}</span>
+							</div>
+							<div>
+								<strong style="color: #1e40af;">Assigned to:</strong> ${issue.assignee ? `<strong>${issue.assignee}</strong>` : '<span style="color: #ef4444;">⚠️ Unassigned</span>'}
+							</div>
+						</div>
+						${issue.labels && issue.labels.length > 0 ? `
+							<div style="margin-bottom: 16px;">
+								<strong style="color: #1e40af;">Labels:</strong> ${issue.labels.map(label => `<span style="background: #d1d5db; color: #374151; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 4px;">${label}</span>`).join('')}
+							</div>
+						` : ''}
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; font-size: 14px; color: #6b7280;">
+							<div>📅 Created: ${new Date(issue.created_at).toLocaleDateString()}</div>
+							<div>🔄 Updated: ${new Date(issue.updated_at).toLocaleDateString()}</div>
+						</div>
+						<div style="text-align: center; margin-top: 16px;">
+							<a href="${issue.url}" target="_blank" style="background: #0d6efd; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600;">View on GitHub →</a>
+						</div>
+					</div>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		function showP0IssueModal(issue) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = `🔥 P0 Issue #${issue.number}`;
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>${issue.title}</h4>
+					<div style="border: 1px solid #fbbf24; border-radius: 6px; padding: 16px; background: #fef3c7; margin: 16px 0;">
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div>
+								<strong style="color: #92400e;">Priority:</strong> <span class="badge warn" style="background: #fbbf24; color: #92400e;">P0 (Highest)</span>
+							</div>
+							<div>
+								<strong style="color: #92400e;">Status:</strong> ${issue.status}
+							</div>
+							<div>
+								<strong style="color: #92400e;">State:</strong> <span class="badge warn">${issue.state}</span>
+							</div>
+							<div>
+								<strong style="color: #92400e;">Assigned to:</strong> ${issue.assignee ? `<strong>${issue.assignee}</strong>` : '<span style="color: #ef4444;">⚠️ Unassigned</span>'}
+							</div>
+						</div>
+						${issue.labels && issue.labels.length > 0 ? `
+							<div style="margin-bottom: 16px;">
+								<strong style="color: #92400e;">Labels:</strong> ${issue.labels.map(label => `<span style="background: #d1d5db; color: #374151; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 4px;">${label}</span>`).join('')}
+							</div>
+						` : ''}
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; font-size: 14px; color: #6b7280;">
+							<div>📅 Created: ${new Date(issue.created_at).toLocaleDateString()}</div>
+							<div>🔄 Updated: ${new Date(issue.updated_at).toLocaleDateString()}</div>
+						</div>
+						<div style="text-align: center; margin-top: 16px;">
+							<a href="${issue.url}" target="_blank" style="background: #0d6efd; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600;">View on GitHub →</a>
+						</div>
+					</div>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		function showGitHubIssuesModal(issueDetails) {
+			const modal = document.getElementById('diffModal');
+			const title = document.getElementById('diffModalTitle');
+			const body = document.getElementById('diffModalBody');
+			
+			title.textContent = 'GitHub Issues Details';
+			body.innerHTML = `
+				<div class="diff-section">
+					<h4>Project Issues</h4>
+					<div style="max-height: 400px; overflow-y: auto;">
+						${issueDetails.map(issue => `
+							<div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px; margin: 8px 0; background: #f9fafb;">
+								<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+									<div style="flex: 1;">
+										<strong>#${issue.number}</strong> - ${issue.title}
+									</div>
+									<div style="display: flex; gap: 8px; align-items: center;">
+										<span class="badge ${issue.state === 'open' ? 'warn' : 'ok'}">${issue.state}</span>
+										<span style="font-size: 12px; color: #6b7280;">${issue.column}</span>
+									</div>
+								</div>
+								${issue.assignee ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">👤 Assigned to: ${issue.assignee}</div>` : ''}
+								${issue.labels && issue.labels.length > 0 ? `<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">🏷️ Labels: ${issue.labels.join(', ')}</div>` : ''}
+								<div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">
+									📅 Created: ${new Date(issue.created_at).toLocaleDateString()} | 
+									🔄 Updated: ${new Date(issue.updated_at).toLocaleDateString()}
+								</div>
+								<div style="font-size: 12px;">
+									<a href="${issue.url}" target="_blank" style="color: #0d6efd; text-decoration: none;">View on GitHub →</a>
+								</div>
+							</div>
+						`).join('')}
+					</div>
+				</div>
+			`;
+			
+			modal.style.display = 'block';
+		}
+
+		// Bucket Info functions
+		async function refreshBucketInfo() {
+			try {
+				// Show progress indicator
+				document.getElementById('bucketInfoProgress').style.display = 'block';
+				document.getElementById('bucketInfoProgressBar').style.width = '20%';
+				document.getElementById('bucketInfoProgressText').textContent = 'Connecting to GCS...';
+				
+				// Add timeout to prevent hanging
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+				
+				const res = await fetch('/api/bucket-info', { 
+					cache: 'no-cache',
+					signal: controller.signal
+				});
+				
+				clearTimeout(timeoutId);
+				
+				// Update progress
+				document.getElementById('bucketInfoProgressBar').style.width = '60%';
+				document.getElementById('bucketInfoProgressText').textContent = 'Processing MP3 files...';
+				
+				if (!res.ok) { 
+					document.getElementById('bucketInfoSummary').textContent = 'Bucket info unavailable (API error)'; 
+					document.getElementById('bucketInfoProgress').style.display = 'none';
+					return; 
+				}
+				
+				const data = await res.json();
+				
+				// Complete progress
+				document.getElementById('bucketInfoProgressBar').style.width = '100%';
+				document.getElementById('bucketInfoProgressText').textContent = 'Complete!';
+				
+				if (data.success && data.data && data.data.length > 0) {
+					// Show summary
+					const totalDuration = Math.round(data.totalDuration);
+					const totalFiles = data.totalFiles;
+					const totalLanguages = data.totalLanguages;
+					
+					document.getElementById('bucketInfoSummary').innerHTML = 
+						`Total: <span class="code">${totalLanguages}</span> languages · <span class="code">${totalFiles}</span> files · <span class="code">${totalDuration}</span> seconds`;
+					
+					// Show refresh button
+					document.getElementById('bucketInfoRefreshBtn').style.display = '';
+					document.getElementById('bucketInfoRefreshBtn').onclick = () => { refreshBucketInfo(); };
+					
+					// Populate table
+					const tbody = document.getElementById('bucketInfoTableBody');
+					tbody.innerHTML = data.data.map(item => `
+						<tr>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px;">${item.bucketName}</td>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px;">${item.statName}</td>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px;">${item.language}</td>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">${item.number.toLocaleString()}</td>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px;">${item.unit}</td>
+							<td style="padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">${item.fileCount}</td>
+						</tr>
+					`).join('');
+					
+					// Show content
+					document.getElementById('bucketInfoContent').style.display = 'block';
+					
+					// Hide progress after a delay
+					setTimeout(() => {
+						document.getElementById('bucketInfoProgress').style.display = 'none';
+					}, 1000);
+					
+					// Update stoplight
+					updateStoplight('bucketInfoStoplight', 'ok', null);
+				} else {
+					document.getElementById('bucketInfoSummary').textContent = 'No bucket data available';
+					document.getElementById('bucketInfoContent').style.display = 'block';
+					document.getElementById('bucketInfoProgress').style.display = 'none';
+					updateStoplight('bucketInfoStoplight', 'warn', null);
+				}
+			} catch (e) {
+				if (e.name === 'AbortError') {
+					document.getElementById('bucketInfoSummary').textContent = 'Bucket info timeout (took too long)';
+				} else {
+					document.getElementById('bucketInfoSummary').textContent = 'Bucket info unavailable';
+				}
+				document.getElementById('bucketInfoProgress').style.display = 'none';
+				updateStoplight('bucketInfoStoplight', 'fail', null);
+			}
+		}
+
 		function showConfigValidationDetails(checks) {
 			const modal = document.getElementById('diffModal');
 			const title = document.getElementById('diffModalTitle');
@@ -2943,6 +3359,8 @@
 			await refreshAssetIntegrityAuditProd();
 			await refreshConfigValidationAudit();
 			await refreshConfigValidationAuditProd();
+			await refreshGitHubIssuesAudit();
+			await refreshBucketInfo();
 			
 		// Update stoplight buttons after all audits complete
 		updateStoplight('visualStoplight', window.visualDevMissing, window.visualProdMissing);
@@ -2952,6 +3370,18 @@
 		updateStoplight('translationCompletenessStoplight', window.translationCompletenessDevMissing, window.translationCompletenessProdMissing);
 		updateStoplight('assetIntegrityStoplight', window.assetIntegrityDevIssues, window.assetIntegrityProdIssues);
 		updateStoplight('configValidationStoplight', window.configValidationDevIssues, window.configValidationProdIssues);
+		// GitHub issues stoplight logic: P0 issues = fail, P1 only = warn, none = ok
+		let githubStatus = null;
+		if (window.githubIssuesP0 !== undefined && window.githubIssuesP1 !== undefined) {
+			if (window.githubIssuesP0 > 0) {
+				githubStatus = 'fail'; // Any P0 issues = fail
+			} else if (window.githubIssuesP1 > 0) {
+				githubStatus = 'warn'; // P1 only = warn (launchable)
+			} else {
+				githubStatus = 'ok'; // No P0 or P1 = ok (squeaky clean)
+			}
+		}
+		updateStoplight('githubIssuesStoplight', githubStatus, null);
 
 		const fixBtn = document.getElementById('visualFixBtn');
 		if (fixBtn) {
