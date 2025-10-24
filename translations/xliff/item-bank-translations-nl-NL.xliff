@@ -4,17 +4,6 @@
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body>
-      <trans-unit id="51311" resname="general-intro1" approved="yes">
-        <source>Hi! We are excited to have you play some games with us today!</source>
-        <target state="final">Hoi! We zijn blij dat je vandaag een paar spelletjes met ons wilt spelen!</target>
-        <context-group purpose="information">
-          <context context-type="source">general-intro1
-</context>
-          <context context-type="x-crowdin-label">general</context>
-        </context-group>
-        <note from="Carolina Gattei - UTDT (Carogattei)" priority="4">Suggestion: &quot;muy contentos&quot; instead of &quot;encantados&quot; (&quot;encantados&quot; is formal and less frequent)</note>
-      </trans-unit>
-    </body>
+    <body/>
   </file>
 </xliff>
