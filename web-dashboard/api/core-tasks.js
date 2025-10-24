@@ -227,6 +227,52 @@ async function findTimelineByDerivedGroups(task, branch) {
     return { exists: false, path: `task-launcher/src/tasks/${task}/timeline.ts`, resolvedFrom: 'derived-group', candidates };
 }
 
+// Extract variant names and languages for a given task from taskConfig.ts
+async function getVariantLanguages(task, branch) {
+    const registryKey = kebabToCamel(task);
+    const configPath = 'task-launcher/src/tasks/taskConfig.ts';
+    const variants = [];
+    const languages = new Set();
+    try {
+        const ts = await fetchRaw(configPath, branch);
+        const registryBlockRe = new RegExp(`${registryKey}[^\n]*?[:=][\n\r\s\S]*?(?:(?:},?)\s*\n|\n\})`, 'm');
+        const block = ts.match(registryBlockRe)?.[0] || '';
+        if (!block) return { variants: [], languages: [] };
+
+        // Find a variants object literal inside the task block
+        // e.g., variants: { short: { ... }, spanish: { language: 'es-CO' } }
+        const variantsSectionMatch = block.match(/variants\s*:\s*\{([\s\S]*?)\}/m);
+        if (variantsSectionMatch) {
+            const inner = variantsSectionMatch[1];
+            // Capture variant keys
+            const nameMatches = Array.from(inner.matchAll(/([A-Za-z0-9_$-]+)\s*:\s*\{/g));
+            nameMatches.forEach(m => {
+                const name = (m[1] || '').trim();
+                if (name) variants.push(name);
+            });
+            // Capture language codes in variant bodies
+            const langMatches = Array.from(inner.matchAll(/language\s*:\s*['\"]([A-Za-z]{2}(?:-[A-Za-z]{2})?)['\"]/g));
+            langMatches.forEach(m => languages.add(m[1]));
+        }
+
+        // Also look for an array of variants with language fields
+        // e.g., variants: [ { name: 'spanish', language: 'es-CO' }, ... ]
+        const variantsArrayMatch = block.match(/variants\s*:\s*\[([\s\S]*?)\]/m);
+        if (variantsArrayMatch) {
+            const arr = variantsArrayMatch[1];
+            const nameMatches2 = Array.from(arr.matchAll(/name\s*:\s*['\"]([^'\"]+)['\"]/g));
+            nameMatches2.forEach(m => variants.push(m[1]));
+            const langMatches2 = Array.from(arr.matchAll(/language\s*:\s*['\"]([A-Za-z]{2}(?:-[A-Za-z]{2})?)['\"]/g));
+            langMatches2.forEach(m => languages.add(m[1]));
+        }
+    } catch (_) {}
+
+    // Unique and stable order
+    const uniqueVariants = Array.from(new Set(variants));
+    const uniqueLangs = Array.from(languages);
+    return { variants: uniqueVariants, languages: uniqueLangs };
+}
+
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
         res.status(405).json({ error: 'Method not allowed' });
@@ -337,6 +383,21 @@ export default async function handler(req, res) {
 
             const payload = hadGithubIssue ? { task, branch, ...result, checks, warning: 'github_unavailable' } : { task, branch, ...result, checks };
             res.status(200).json(payload);
+            return;
+        }
+        if (op === 'variants') {
+            const task = (req.query.task || '').toString();
+            const branch = (req.query.branch || 'main').toString();
+            if (!task) {
+                res.status(400).json({ error: 'Missing task parameter' });
+                return;
+            }
+            try {
+                const { variants, languages } = await getVariantLanguages(task, branch);
+                res.status(200).json({ task, branch, variants, languages });
+            } catch (error) {
+                res.status(200).json({ task, branch, variants: [], languages: [], warning: 'github_unavailable' });
+            }
             return;
         }
         res.status(400).json({ error: 'Unknown op. Use op=branches or op=timeline' });

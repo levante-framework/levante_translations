@@ -259,6 +259,9 @@ class Task {
         // 8. Variants Validation
         await this._validateVariants(results);
 
+        // 9. Variant language coverage vs CSV
+        await this._validateVariantLanguageCoverage(results);
+
         // Set overall validity
         results.isValid = results.errors.length === 0;
 
@@ -777,6 +780,65 @@ class Task {
         results.info.push('Variants should only override fields that differ from the base configuration');
 
         check.passed = check.issues.length === 0;
+    }
+
+    async _validateVariantLanguageCoverage(results) {
+        const csvLangs = Array.isArray(this.__csvLanguages) ? new Set(this.__csvLanguages) : new Set();
+        const taskName = this.taskName;
+        if (!taskName) return;
+        try {
+            let branch = 'main';
+            try {
+                const sel = document.getElementById('coreTasksBranchSelect');
+                const v = sel && sel.value ? sel.value : 'main';
+                branch = v || 'main';
+            } catch (_) {}
+
+            const params = new URLSearchParams();
+            params.set('op', 'variants');
+            params.set('task', taskName);
+            params.set('branch', branch);
+            const resp = await fetch(`/api/core-tasks?${params.toString()}`);
+            if (!resp.ok) return; // non-fatal
+            const data = await resp.json();
+            let variantLangs = Array.isArray(data.languages) ? data.languages : [];
+
+            // Merge languages from levante-dashboard Firestore (client-side)
+            try {
+                if (window.firebase && window.FIREBASE_CONFIG) {
+                    if (!window.firebase.apps || window.firebase.apps.length === 0) {
+                        window.firebase.initializeApp(window.FIREBASE_CONFIG);
+                    }
+                    const db = window.firebase.firestore();
+                    const taskDoc = await db.collection('tasks').doc(taskName).get();
+                    if (taskDoc.exists) {
+                        const t = taskDoc.data();
+                        const dbLangs = [];
+                        if (Array.isArray(t?.variants)) {
+                            t.variants.forEach(v => { if (v && v.language) dbLangs.push(v.language); });
+                        }
+                        if (Array.isArray(t?.languages)) {
+                            t.languages.forEach(code => dbLangs.push(code));
+                        }
+                        if (dbLangs.length) {
+                            variantLangs = Array.from(new Set(variantLangs.concat(dbLangs)));
+                        }
+                    }
+                }
+            } catch (_) {}
+
+            if (variantLangs.length === 0) return;
+
+            const missing = variantLangs.filter(code => !csvLangs.has(code));
+            if (missing.length > 0) {
+                results.warnings.push(
+                    `Variant languages referenced in taskConfig/assignments but missing in translations CSV: ${missing.join(', ')}`
+                );
+                results.checks.languages.issues.push(`Missing CSV columns for: ${missing.join(', ')}`);
+            }
+        } catch (_) {
+            // ignore
+        }
     }
 
     /**
