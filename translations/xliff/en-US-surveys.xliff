@@ -11861,4 +11861,1083 @@ completetext</context>
       </trans-unit>
     </body>
   </file>
+  <file id="718" original="/main/surveys/surveyJS-ui-source.xliff" source-language="en" target-language="en" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="150576" resname="pagePrevText">
+        <source>Previous</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+pagePrevText
+element-name: pagePrevText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150578" resname="pageNextText">
+        <source>Next</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+pageNextText
+element-name: pageNextText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150580" resname="completeText">
+        <source>Complete</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+completeText
+element-name: completeText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150582" resname="previewText">
+        <source>Preview</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+previewText
+element-name: previewText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150584" resname="editText">
+        <source>Edit</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+editText
+element-name: editText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150586" resname="startSurveyText">
+        <source>Start</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+startSurveyText
+element-name: startSurveyText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150588" resname="commentText">
+        <source>Please leave a comment</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+commentText
+element-name: commentText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150590" resname="otherItemText">
+        <source>Other (describe)</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+otherItemText
+element-name: otherItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150592" resname="noneItemText">
+        <source>None</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noneItemText
+element-name: noneItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150594" resname="refuseItemText">
+        <source>Refuse to answer</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+refuseItemText
+element-name: refuseItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150596" resname="dontKnowItemText">
+        <source>Don't know</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+dontKnowItemText
+element-name: dontKnowItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150598" resname="selectAllItemText">
+        <source>Select All</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+selectAllItemText
+element-name: selectAllItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150600" resname="deselectAllItemText">
+        <source>Deselect all</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+deselectAllItemText
+element-name: deselectAllItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150602" resname="progressText">
+        <source>Page {0} of {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+progressText
+element-name: progressText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150604" resname="indexText">
+        <source>{0} of {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+indexText
+element-name: indexText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150606" resname="panelDynamicProgressText">
+        <source>{0} of {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+panelDynamicProgressText
+element-name: panelDynamicProgressText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150608" resname="panelDynamicTabTextFormat">
+        <source>Panel {panelIndex}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+panelDynamicTabTextFormat
+element-name: panelDynamicTabTextFormat</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150610" resname="questionsProgressText">
+        <source>Answered {0}/{1} questions</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+questionsProgressText
+element-name: questionsProgressText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150612" resname="emptySurvey">
+        <source>The survey doesn't contain any visible elements.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+emptySurvey
+element-name: emptySurvey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150614" resname="completingSurvey">
+        <source>Thank you for completing the survey</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+completingSurvey
+element-name: completingSurvey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150616" resname="completingSurveyBefore">
+        <source>You have already completed this survey.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+completingSurveyBefore
+element-name: completingSurveyBefore</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150618" resname="loadingSurvey">
+        <source>Loading Survey...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingSurvey
+element-name: loadingSurvey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150620" resname="placeholder">
+        <source>Select...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+placeholder
+element-name: placeholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150622" resname="ratingOptionsCaption">
+        <source>Select...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+ratingOptionsCaption
+element-name: ratingOptionsCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150624" resname="buttongroupOptionsCaption">
+        <source>Select...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+buttongroupOptionsCaption
+element-name: buttongroupOptionsCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150626" resname="value">
+        <source>value</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+value
+element-name: value</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150628" resname="requiredError">
+        <source>Response required.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+requiredError
+element-name: requiredError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150630" resname="requiredErrorInPanel">
+        <source>Response required: answer at least one question.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+requiredErrorInPanel
+element-name: requiredErrorInPanel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150632" resname="requiredInAllRowsError">
+        <source>Response required: answer questions in all rows.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+requiredInAllRowsError
+element-name: requiredInAllRowsError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150634" resname="eachRowUniqueError">
+        <source>Each row must have a unique value.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+eachRowUniqueError
+element-name: eachRowUniqueError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150636" resname="numericError">
+        <source>The value should be numeric.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+numericError
+element-name: numericError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150638" resname="minError">
+        <source>The value should not be less than {0}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+minError
+element-name: minError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150640" resname="stepError">
+        <source>Please enter a value that matches the step size of {0}.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+stepError
+element-name: stepError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150642" resname="maxError">
+        <source>The value should not be greater than {0}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+maxError
+element-name: maxError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150644" resname="textNoDigitsAllow">
+        <source>Numbers are not allowed.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+textNoDigitsAllow
+element-name: textNoDigitsAllow</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150646" resname="textMinLength">
+        <source>Please enter at least {0} character(s).</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+textMinLength
+element-name: textMinLength</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150648" resname="textMaxLength">
+        <source>Please enter no more than {0} character(s).</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+textMaxLength
+element-name: textMaxLength</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150650" resname="textMinMaxLength">
+        <source>Please enter at least {0} and no more than {1} characters.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+textMinMaxLength
+element-name: textMinMaxLength</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150652" resname="minRowCountError">
+        <source>Please fill in at least {0} row(s).</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+minRowCountError
+element-name: minRowCountError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150654" resname="minSelectError">
+        <source>Please select at least {0} option(s).</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+minSelectError
+element-name: minSelectError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150656" resname="maxSelectError">
+        <source>Please select no more than {0} option(s).</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+maxSelectError
+element-name: maxSelectError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150658" resname="numericMinMax">
+        <source>The '{0}' should be at least {1} and at most {2}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+numericMinMax
+element-name: numericMinMax</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150660" resname="numericMin">
+        <source>The '{0}' should be at least {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+numericMin
+element-name: numericMin</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150662" resname="numericMax">
+        <source>The '{0}' should be at most {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+numericMax
+element-name: numericMax</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150664" resname="invalidEmail">
+        <source>Please enter a valid e-mail address.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+invalidEmail
+element-name: invalidEmail</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150666" resname="invalidExpression">
+        <source>The expression: {0} should return 'true'.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+invalidExpression
+element-name: invalidExpression</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150668" resname="urlRequestError">
+        <source>The request returned error '{0}'. {1}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+urlRequestError
+element-name: urlRequestError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150670" resname="urlGetChoicesError">
+        <source>The request returned empty data or the 'path' property is incorrect</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+urlGetChoicesError
+element-name: urlGetChoicesError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150672" resname="exceedMaxSize">
+        <source>The file size should not exceed {0}.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+exceedMaxSize
+element-name: exceedMaxSize</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150674" resname="noUploadFilesHandler">
+        <source>Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noUploadFilesHandler
+element-name: noUploadFilesHandler</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150676" resname="otherRequiredError">
+        <source>Response required: enter another value.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+otherRequiredError
+element-name: otherRequiredError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150678" resname="uploadingFile">
+        <source>Your file is uploading. Please wait several seconds and try again.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+uploadingFile
+element-name: uploadingFile</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150680" resname="loadingFile">
+        <source>Loading...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingFile
+element-name: loadingFile</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150682" resname="chooseFile">
+        <source>Choose file(s)...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+chooseFile
+element-name: chooseFile</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150684" resname="noFileChosen">
+        <source>No file selected</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noFileChosen
+element-name: noFileChosen</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150686" resname="filePlaceholder">
+        <source>Drag and drop a file here or click the button below to select a file to upload.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+filePlaceholder
+element-name: filePlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150688" resname="confirmDelete">
+        <source>Are you sure you want to delete this record?</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+confirmDelete
+element-name: confirmDelete</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150690" resname="keyDuplicationError">
+        <source>This value should be unique.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+keyDuplicationError
+element-name: keyDuplicationError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150692" resname="addColumn">
+        <source>Add Column</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+addColumn
+element-name: addColumn</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150694" resname="addRow">
+        <source>Add Row</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+addRow
+element-name: addRow</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150696" resname="removeRow">
+        <source>Remove</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+removeRow
+element-name: removeRow</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150698" resname="noRowsText">
+        <source>There are no rows.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noRowsText
+element-name: noRowsText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150700" resname="rowIndexTemplateTitle">
+        <source>Row {rowIndex}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+rowIndexTemplateTitle
+element-name: rowIndexTemplateTitle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150702" resname="rowNameTemplateTitle">
+        <source>{rowTitle}</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+rowNameTemplateTitle
+element-name: rowNameTemplateTitle</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150704" resname="addPanel">
+        <source>Add new</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+addPanel
+element-name: addPanel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150706" resname="removePanel">
+        <source>Remove</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+removePanel
+element-name: removePanel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150708" resname="showDetails">
+        <source>Show Details</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+showDetails
+element-name: showDetails</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150710" resname="hideDetails">
+        <source>Hide Details</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+hideDetails
+element-name: hideDetails</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150712" resname="choices_Item">
+        <source>item</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+choices_Item
+element-name: choices_Item</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150714" resname="choices_Choice">
+        <source>Choice option</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+choices_Choice
+element-name: choices_Choice</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150716" resname="matrix_column">
+        <source>Column</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+matrix_column
+element-name: matrix_column</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150718" resname="matrix_row">
+        <source>Row</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+matrix_row
+element-name: matrix_row</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150720" resname="multipletext_itemname">
+        <source>text</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+multipletext_itemname
+element-name: multipletext_itemname</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150722" resname="savingData">
+        <source>The results are being saved on the server...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+savingData
+element-name: savingData</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150724" resname="savingDataError">
+        <source>An error occurred and we could not save the results.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+savingDataError
+element-name: savingDataError</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150726" resname="savingDataSuccess">
+        <source>The results were saved successfully!</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+savingDataSuccess
+element-name: savingDataSuccess</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150728" resname="savingExceedSize">
+        <source>Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact the survey owner.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+savingExceedSize
+element-name: savingExceedSize</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150730" resname="saveAgainButton">
+        <source>Try again</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+saveAgainButton
+element-name: saveAgainButton</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150732" resname="timerMin">
+        <source>min</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerMin
+element-name: timerMin</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150734" resname="timerSec">
+        <source>sec</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerSec
+element-name: timerSec</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150736" resname="timerSpentAll">
+        <source>You have spent {0} on this page and {1} in total.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerSpentAll
+element-name: timerSpentAll</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150738" resname="timerSpentPage">
+        <source>You have spent {0} on this page.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerSpentPage
+element-name: timerSpentPage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150740" resname="timerSpentSurvey">
+        <source>You have spent {0} in total.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerSpentSurvey
+element-name: timerSpentSurvey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150742" resname="timerLimitAll">
+        <source>You have spent {0} of {1} on this page and {2} of {3} in total.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerLimitAll
+element-name: timerLimitAll</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150744" resname="timerLimitPage">
+        <source>You have spent {0} of {1} on this page.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerLimitPage
+element-name: timerLimitPage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150746" resname="timerLimitSurvey">
+        <source>You have spent {0} of {1} in total.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+timerLimitSurvey
+element-name: timerLimitSurvey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150748" resname="clearCaption">
+        <source>Clear</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+clearCaption
+element-name: clearCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150750" resname="selectCaption">
+        <source>Select</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+selectCaption
+element-name: selectCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150752" resname="signaturePlaceHolder">
+        <source>Sign here</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+signaturePlaceHolder
+element-name: signaturePlaceHolder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150754" resname="signaturePlaceHolderReadOnly">
+        <source>No signature</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+signaturePlaceHolderReadOnly
+element-name: signaturePlaceHolderReadOnly</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150756" resname="chooseFileCaption">
+        <source>Select File</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+chooseFileCaption
+element-name: chooseFileCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150758" resname="takePhotoCaption">
+        <source>Take Photo</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+takePhotoCaption
+element-name: takePhotoCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150760" resname="photoPlaceholder">
+        <source>Click the button below to take a photo using the camera.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+photoPlaceholder
+element-name: photoPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150762" resname="fileOrPhotoPlaceholder">
+        <source>Drag and drop or select a file to upload or take a photo using the camera.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+fileOrPhotoPlaceholder
+element-name: fileOrPhotoPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150764" resname="replaceFileCaption">
+        <source>Replace file</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+replaceFileCaption
+element-name: replaceFileCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150766" resname="removeFileCaption">
+        <source>Remove this file</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+removeFileCaption
+element-name: removeFileCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150768" resname="booleanCheckedLabel">
+        <source>Yes</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+booleanCheckedLabel
+element-name: booleanCheckedLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150770" resname="booleanUncheckedLabel">
+        <source>No</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+booleanUncheckedLabel
+element-name: booleanUncheckedLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150772" resname="confirmRemoveFile">
+        <source>Are you sure that you want to remove this file: {0}?</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+confirmRemoveFile
+element-name: confirmRemoveFile</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150774" resname="confirmRemoveAllFiles">
+        <source>Are you sure that you want to remove all files?</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+confirmRemoveAllFiles
+element-name: confirmRemoveAllFiles</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150776" resname="questionTitlePatternText">
+        <source>Question Title</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+questionTitlePatternText
+element-name: questionTitlePatternText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150778" resname="modalCancelButtonText">
+        <source>Cancel</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+modalCancelButtonText
+element-name: modalCancelButtonText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150780" resname="modalApplyButtonText">
+        <source>Apply</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+modalApplyButtonText
+element-name: modalApplyButtonText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150782" resname="filterStringPlaceholder">
+        <source>Type to search...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+filterStringPlaceholder
+element-name: filterStringPlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150784" resname="emptyMessage">
+        <source>No data to display</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+emptyMessage
+element-name: emptyMessage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150786" resname="loadingPage">
+        <source>Loading...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingPage
+element-name: loadingPage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150788" resname="loadingData">
+        <source>Loading...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingData
+element-name: loadingData</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150790" resname="noEntriesText">
+        <source>No entries yet.
+Click the button below to add a new entry.</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noEntriesText
+element-name: noEntriesText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150792" resname="noEntriesReadonlyText">
+        <source>No entries</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noEntriesReadonlyText
+element-name: noEntriesReadonlyText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150794" resname="tabTitlePlaceholder">
+        <source>New Panel</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+tabTitlePlaceholder
+element-name: tabTitlePlaceholder</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150796" resname="more">
+        <source>More</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+more
+element-name: more</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150798" resname="tagboxDoneButtonCaption">
+        <source>OK</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+tagboxDoneButtonCaption
+element-name: tagboxDoneButtonCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150800" resname="selectToRankEmptyRankedAreaText">
+        <source>All choices are selected for ranking</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+selectToRankEmptyRankedAreaText
+element-name: selectToRankEmptyRankedAreaText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150802" resname="selectToRankEmptyUnrankedAreaText">
+        <source>Drag choices here to rank them</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+selectToRankEmptyUnrankedAreaText
+element-name: selectToRankEmptyUnrankedAreaText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150804" resname="ok">
+        <source>OK</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+ok
+element-name: ok</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150806" resname="cancel">
+        <source>Cancel</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+cancel
+element-name: cancel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150808" resname="createCustomItem">
+        <source>Create &quot;{0}&quot; item...</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+createCustomItem
+element-name: createCustomItem</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150810" resname="toc">
+        <source>Table of contents</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+toc
+element-name: toc</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150812" resname="progressbar">
+        <source>Progress bar</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+progressbar
+element-name: progressbar</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
