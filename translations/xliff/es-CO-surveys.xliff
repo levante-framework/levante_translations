@@ -11855,4 +11855,146 @@ completetext</context>
       </trans-unit>
     </body>
   </file>
+  <file id="718" original="/main/surveys/surveyJS-ui-source.xliff" source-language="en" target-language="es-CO" datatype="plaintext" project-id="756721" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="150576" resname="pagePrevText" approved="yes">
+        <source>Previous</source>
+        <target state="final">Previous</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+pagePrevText
+element-name: pagePrevText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150578" resname="pageNextText" approved="yes">
+        <source>Next</source>
+        <target state="final">Siguiente</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+pageNextText
+element-name: pageNextText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150590" resname="otherItemText" approved="yes">
+        <source>Other (describe)</source>
+        <target state="final">Otro (describir)</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+otherItemText
+element-name: otherItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150592" resname="noneItemText" approved="yes">
+        <source>None</source>
+        <target state="final">Ninguna</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+noneItemText
+element-name: noneItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150596" resname="dontKnowItemText" approved="yes">
+        <source>Don't know</source>
+        <target state="final">No sé</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+dontKnowItemText
+element-name: dontKnowItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150602" resname="progressText" approved="yes">
+        <source>Page {0} of {1}</source>
+        <target state="final">Página {0} de {1}</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+progressText
+element-name: progressText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150680" resname="loadingFile" approved="yes">
+        <source>Loading...</source>
+        <target state="final">Cargando...</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingFile
+element-name: loadingFile</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150768" resname="booleanCheckedLabel" approved="yes">
+        <source>Yes</source>
+        <target state="final">Sí</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+booleanCheckedLabel
+element-name: booleanCheckedLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150770" resname="booleanUncheckedLabel" approved="yes">
+        <source>No</source>
+        <target state="final">No</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+booleanUncheckedLabel
+element-name: booleanUncheckedLabel</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150778" resname="modalCancelButtonText" approved="yes">
+        <source>Cancel</source>
+        <target state="final">Cancelar</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+modalCancelButtonText
+element-name: modalCancelButtonText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150786" resname="loadingPage" approved="yes">
+        <source>Loading...</source>
+        <target state="final">Cargando...</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingPage
+element-name: loadingPage</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150788" resname="loadingData" approved="yes">
+        <source>Loading...</source>
+        <target state="final">Cargando...</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+loadingData
+element-name: loadingData</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150798" resname="tagboxDoneButtonCaption" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+tagboxDoneButtonCaption
+element-name: tagboxDoneButtonCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150804" resname="ok" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+ok
+element-name: ok</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150806" resname="cancel" approved="yes">
+        <source>Cancel</source>
+        <target state="final">Cancelar</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+cancel
+element-name: cancel</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
