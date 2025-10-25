@@ -12594,6 +12594,7 @@ element-name: timerSec</context>
 timerSpentAll
 element-name: timerSpentAll</context>
         </context-group>
+        <note from="David Groothedde (DavidGroot)" priority="4">Here the translation completely depends on the context. If &quot;spent&quot; is meant as credit, then &quot;gebruikt&quot; is correct. If it's meant as time, it should be &quot;doorgebracht&quot;. If it's meant as money, it should be &quot;uitgegeven&quot;.</note>
       </trans-unit>
       <trans-unit id="150738" resname="timerSpentPage">
         <source>You have spent {0} on this page.</source>
