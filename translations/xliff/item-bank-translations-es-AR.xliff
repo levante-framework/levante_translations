@@ -4,18 +4,6 @@
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body>
-      <trans-unit id="51373" resname="mental-rotation-prompt2" approved="yes">
-        <source>Choose the picture that matches this one.</source>
-        <target state="final">Elegí la imagen que coincida con esta.</target>
-        <context-group purpose="information">
-          <context context-type="source">mental-rotation-prompt2
-</context>
-          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r453c525o445b5i4t433j655b5n4a5e6i6h6t2l433r4g435u4p4?t=51373</context>
-          <context context-type="x-crowdin-label-1">mental-rotation</context>
-          <context context-type="x-crowdin-label-2">Shape Rotation</context>
-        </context-group>
-      </trans-unit>
-    </body>
+    <body/>
   </file>
 </xliff>
