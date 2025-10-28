@@ -6326,6 +6326,14 @@ page19.q.selfparentmics.q.selfparentmics12.labelfalse
 q.selfparentmics</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="146696" resname="pagenexttext" approved="yes">
+        <source>Next</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">parent_survey_child.json
+pagenexttext</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
   <file id="698" original="/main/surveys/parent_survey_family-source.xliff" source-language="en" target-language="de" datatype="plaintext" project-id="756721" tool-id="crowdin">
@@ -11785,13 +11793,70 @@ completetext</context>
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body/>
+    <body>
+      <trans-unit id="150544" resname="startsurveytext" approved="yes">
+        <source>Start Survey</source>
+        <target state="final">Umfrage starten</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+startsurveytext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150546" resname="pageprevtext" approved="yes">
+        <source>Previous</source>
+        <target state="final">Zurück</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pageprevtext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150548" resname="pagenexttext" approved="yes">
+        <source>Next</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+pagenexttext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150550" resname="completetext" approved="yes">
+        <source>Finish</source>
+        <target state="final">Beenden</target>
+        <context-group purpose="information">
+          <context context-type="source">surveyjs.json
+completetext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150560" resname="progressText" approved="yes">
+        <source>Page {0} of {1}</source>
+        <target state="final">Seite {0} von {1}</target>
+        <context-group purpose="information">
+          <context context-type="source">progressText</context>
+          <context context-type="x-crowdin-label">parent_survey_family</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150562" resname="requiredError" approved="yes">
+        <source>Response required</source>
+        <target state="final">Antwort erforderlich</target>
+        <context-group purpose="information">
+          <context context-type="source">requiredError</context>
+        </context-group>
+      </trans-unit>
+    </body>
   </file>
   <file id="718" original="/main/surveys/surveyJS-ui-source.xliff" source-language="en" target-language="de" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
+      <trans-unit id="150578" resname="pageNextText" approved="yes">
+        <source>Next</source>
+        <target state="final">Weiter</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+pageNextText
+element-name: pageNextText</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="150590" resname="otherItemText" approved="yes">
         <source>Other (describe)</source>
         <target state="final">Anderes (bitte beschreiben)</target>
@@ -11817,6 +11882,15 @@ element-name: noneItemText</context>
           <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
 dontKnowItemText
 element-name: dontKnowItemText</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150602" resname="progressText" approved="yes">
+        <source>Page {0} of {1}</source>
+        <target state="final">Seite {0} von {1}</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+progressText
+element-name: progressText</context>
         </context-group>
       </trans-unit>
       <trans-unit id="150680" resname="loadingFile" approved="yes">
