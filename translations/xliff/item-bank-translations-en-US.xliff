@@ -9003,18 +9003,18 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
 </context>
         </context-group>
       </trans-unit>
-      <trans-unit id="150572" resname="sds-prompt3-demo-heavy-part1">
+      <trans-unit id="150572" resname="sds-prompt3-demo-heavy-part1" translate="no">
         <source>Here is a new picture. I have to choose which of these pictures</source>
-        <target state="needs-translation"/>
+        <target/>
         <context-group purpose="information">
           <context context-type="source">sds-prompt3-demo-heavy-part1
 </context>
           <context context-type="x-crowdin-label">same-different-selection</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="150574" resname="sds-prompt3-demo-heavy-part2">
+      <trans-unit id="150574" resname="sds-prompt3-demo-heavy-part2" translate="no">
         <source>is the same as this new picture.</source>
-        <target state="needs-translation"/>
+        <target/>
         <context-group purpose="information">
           <context context-type="source">sds-prompt3-demo-heavy-part2
 </context>
