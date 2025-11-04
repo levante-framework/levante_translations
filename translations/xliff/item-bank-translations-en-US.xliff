@@ -9021,6 +9021,205 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label">same-different-selection</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="150814" resname="matrix-reasoning-instruct1-part1-downex" translate="no">
+        <source>Look at this!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct1-part1-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150816" resname="matrix-reasoning-instruct1-part2-downex" translate="no">
+        <source>Which one of these fits?</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct1-part2-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150818" resname="matrix-reasoning-instruct1-part3-downex" translate="no">
+        <source>Let’s look carefully at all of them. I am going to pick this one because it fits.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct1-part3-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150820" resname="matrix-reasoning-instruct1-part4-downex" translate="no">
+        <source>Yay! Everything fits!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct1-part4-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150822" resname="matrix-reasoning-prompt1-part1-downex " translate="no">
+        <source>Look carefully at this.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-prompt1-part1-downex 
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150824" resname="matrix-reasoning-prompt1-part2-downex" translate="no">
+        <source>Which one of these fits?</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-prompt1-part2-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150826" resname="feedback-right-one" translate="no">
+        <source>Good job! You chose the right one!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">feedback-right-one
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150828" resname="matrix-reasoning-feedback-incorrect-downex" translate="no">
+        <source>This one is right because it fits.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-feedback-incorrect-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150830" resname="matrix-reasoning-instruct2-part1-downex" translate="no">
+        <source>Here’s a new kind of puzzle.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2-part1-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150832" resname="matrix-reasoning-instruct2-part2-downex" translate="no">
+        <source>See these three pieces? They make a pattern: they are all big and black.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2-part2-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150834" resname="matrix-reasoning-instruct2-part3-downex" translate="no">
+        <source>See these three pieces? They also make a pattern: they are all medium size and yellow.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2-part3-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150836" resname="matrix-reasoning-instruct2-part4-downex" translate="no">
+        <source>These pieces make a pattern, too, but one is missing!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2-part4-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150838" resname="matrix-reasoning-instruct2-part5-downex" translate="no">
+        <source>Look carefully at each of the pieces. Then, choose the piece that completes the puzzle.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2-part5-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150840" resname=" matrix-reasoning-feedback-sm-blue-downex" translate="no">
+        <source>This piece is right because it is the only piece that is small and blue.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source"> matrix-reasoning-feedback-sm-blue-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150842" resname="matrix-reasoning-instruct3-downex" translate="no">
+        <source>OK, now you're going to play the rest of the game on your own. Look carefully at each of the pieces. Then, choose the piece that completes the puzzle!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct3-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150844" resname="same-different-selection-highlight-1" translate="no">
+        <source>Is it this one?</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">same-different-selection-highlight-1
+</context>
+          <context context-type="x-crowdin-label-1">same-different-selection</context>
+          <context context-type="x-crowdin-label-2">Same &amp; Different</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150846" resname="same-different-selection-highlight-2 " translate="no">
+        <source>Or this one?</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">same-different-selection-highlight-2 
+</context>
+          <context context-type="x-crowdin-label-1">same-different-selection</context>
+          <context context-type="x-crowdin-label-2">Same &amp; Different</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150848" resname="sdsFeedbackBothBlue" translate="no">
+        <source>Right, this picture is the same as the new picture because they are both blue. </source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">sdsFeedbackBothBlue
+</context>
+          <context context-type="x-crowdin-label-1">same-different-selection</context>
+          <context context-type="x-crowdin-label-2">Same &amp; Different</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150850" resname="sdsFeedbackBothLarge" translate="no">
+        <source>Right, this picture is the same as the new picture because they are both large. </source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">sdsFeedbackBothLarge
+</context>
+          <context context-type="x-crowdin-label-1">same-different-selection</context>
+          <context context-type="x-crowdin-label-2">Same &amp; Different</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150852" resname="child-survey-intro-no-responses" translate="no">
+        <source>These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">child-survey-intro-no-responses
+</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
