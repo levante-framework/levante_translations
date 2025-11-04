@@ -20,6 +20,7 @@ stats_file_path = 'stats.csv'
 # define language codes as a constant here``
 LANGUAGE_CODES = {
   'English': 'en', 
+  'English (UK)': 'en-GB', 
   'Spanish': 'es-CO', 
   'German': 'de', 
   'French': 'fr-CA', 
@@ -33,6 +34,7 @@ def get_languages():
     # Local fallback
     local_languages = {
         'English': {'lang_code': 'en', 'service': 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
+        'English (UK)': {'lang_code': 'en-GB', 'service': 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
         'Spanish': {'lang_code': 'es-CO', 'service': 'ElevenLabs', 'voice': 'Malena Tango'},
         'German': {'lang_code': 'de', 'service': 'ElevenLabs', 'voice': 'Julia'},
         'French': {'lang_code': 'fr-CA', 'service': 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
