@@ -9002,6 +9002,15 @@ Einige Fragen könnten einfach für dich sein und andere schwer. Das ist in Ordn
         <note from="Amy Lightbody (alkuhns)" priority="4">Could you tell who suggested it? I don't think it should have an accent mark.</note>
         <note from="David Cardinal (david_cardinal)" priority="4">Amusingly, I was mostly just looking for something to comment on in crowdin to see if I can get Slack integration working:)</note>
       </trans-unit>
+      <trans-unit id="150852" resname="child-survey-intro-no-responses" approved="yes">
+        <source>These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think.</source>
+        <target state="final">In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst.</target>
+        <context-group purpose="information">
+          <context context-type="source">child-survey-intro-no-responses
+</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
