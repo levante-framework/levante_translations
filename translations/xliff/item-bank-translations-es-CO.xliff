@@ -9015,6 +9015,15 @@ Algunas preguntas pueden ser fáciles para ti y algunas pueden ser difíciles. �
 </context>
         </context-group>
       </trans-unit>
+      <trans-unit id="150852" resname="child-survey-intro-no-responses" approved="yes">
+        <source>These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think.</source>
+        <target state="final">Estas preguntas se refieren a cómo te sientes en el colegio, y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas.</target>
+        <context-group purpose="information">
+          <context context-type="source">child-survey-intro-no-responses
+</context>
+          <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
