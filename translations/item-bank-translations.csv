@@ -814,3 +814,23 @@ number-identification-45,math,Choose the 3.,"Escoge, el, 3. ",Wähle die 3.,,,,,
 vocab-item-171,,the colander,el colador,,,,,,,
 sds-prompt3-demo-heavy-part1,same-different-selection,Here is a new picture. I have to choose which of these pictures,,,,,,,,1
 sds-prompt3-demo-heavy-part2,same-different-selection,is the same as this new picture.,,,,,,,,1
+matrix-reasoning-instruct1-part1-downex,"matrix-reasoning, Pattern Matching",Look at this!,,,,,,,,1
+matrix-reasoning-instruct1-part2-downex,"matrix-reasoning, Pattern Matching",Which one of these fits?,,,,,,,,1
+matrix-reasoning-instruct1-part3-downex,"matrix-reasoning, Pattern Matching",Let’s look carefully at all of them. I am going to pick this one because it fits.,,,,,,,,1
+matrix-reasoning-instruct1-part4-downex,"matrix-reasoning, Pattern Matching",Yay! Everything fits!,,,,,,,,1
+matrix-reasoning-prompt1-part1-downex ,"matrix-reasoning, Pattern Matching",Look carefully at this.,,,,,,,,1
+matrix-reasoning-prompt1-part2-downex,"matrix-reasoning, Pattern Matching",Which one of these fits?,,,,,,,,1
+feedback-right-one,"matrix-reasoning, Pattern Matching",Good job! You chose the right one!,,,,,,,,1
+matrix-reasoning-feedback-incorrect-downex,"matrix-reasoning, Pattern Matching",This one is right because it fits.,,,,,,,,1
+matrix-reasoning-instruct2-part1-downex,"matrix-reasoning, Pattern Matching",Here’s a new kind of puzzle.,,,,,,,,1
+matrix-reasoning-instruct2-part2-downex,"matrix-reasoning, Pattern Matching",See these three pieces? They make a pattern: they are all big and black.,,,,,,,,1
+matrix-reasoning-instruct2-part3-downex,"matrix-reasoning, Pattern Matching",See these three pieces? They also make a pattern: they are all medium size and yellow.,,,,,,,,1
+matrix-reasoning-instruct2-part4-downex,"matrix-reasoning, Pattern Matching","These pieces make a pattern, too, but one is missing!",,,,,,,,1
+matrix-reasoning-instruct2-part5-downex,"matrix-reasoning, Pattern Matching","Look carefully at each of the pieces. Then, choose the piece that completes the puzzle.",,,,,,,,1
+ matrix-reasoning-feedback-sm-blue-downex,"matrix-reasoning, Pattern Matching",This piece is right because it is the only piece that is small and blue.,,,,,,,,1
+matrix-reasoning-instruct3-downex,"matrix-reasoning, Pattern Matching","OK, now you're going to play the rest of the game on your own. Look carefully at each of the pieces. Then, choose the piece that completes the puzzle!",,,,,,,,1
+same-different-selection-highlight-1,"same-different-selection, Same & Different",Is it this one?,,,,,,,,1
+same-different-selection-highlight-2 ,"same-different-selection, Same & Different",Or this one?,,,,,,,,1
+sdsFeedbackBothBlue,"same-different-selection, Same & Different","Right, this picture is the same as the new picture because they are both blue. ",,,,,,,,1
+sdsFeedbackBothLarge,"same-different-selection, Same & Different","Right, this picture is the same as the new picture because they are both large. ",,,,,,,,1
+child-survey-intro-no-responses,child_survey,These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think.,,,,,,,,1
