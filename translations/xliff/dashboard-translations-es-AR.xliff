@@ -53,6 +53,14 @@ header</context>
 rejectButton</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70846" resname="auth/consent.title" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">auth/consent.title
+title</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70848" resname="auth/consent.toastHeader">
         <source>Confirmed</source>
         <target state="translated">Confirmado</target>
@@ -157,6 +165,14 @@ invalidEmailPlaceholder</context>
 minimumCharacters</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70770" resname="auth/signin.pageTitle" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">auth/signin.pageTitle
+pageTitle</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70874" resname="auth/signin.passwordId">
         <source>password</source>
         <target state="translated">contraseña</target>
@@ -229,6 +245,14 @@ signInWithPasswordInstead</context>
 suggestions</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="70790" resname="pages/home-participant.consentUpdatedStatus" translate="no">
+        <source></source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.consentUpdatedStatus
+consentUpdatedStatus</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="70892" resname="pages/home-participant.contactAdministrator">
         <source>Please contact your administrator to get added to an assignment.</source>
         <target state="translated">Por favor, contacta a tu administrador para que te agreguen a una asignación.</target>
@@ -267,6 +291,62 @@ selectAssignment</context>
         <context-group purpose="information">
           <context context-type="source">pages/home-participant.showOptionalAssignments
 showOptionalAssignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92840" resname="pages/home-participant.assignments">
+        <source>Assignments</source>
+        <target state="translated">Asignaciones</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.assignments
+assignments</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92842" resname="pages/home-participant.current">
+        <source>Current</source>
+        <target state="translated">Actual</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.current
+current</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92844" resname="pages/home-participant.past">
+        <source>Past</source>
+        <target state="translated">Pasadas</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.past
+past</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92846" resname="pages/home-participant.upcoming">
+        <source>Upcoming</source>
+        <target state="translated">Próximas</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.upcoming
+upcoming</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92848" resname="pages/home-participant.noCurrentAssignmentsFound">
+        <source>No current assignments were found</source>
+        <target state="translated">No se encontraron asignaciones actuales</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noCurrentAssignmentsFound
+noCurrentAssignmentsFound</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92850" resname="pages/home-participant.noPastAssignmentsFound">
+        <source>No past assignments were found</source>
+        <target state="translated">No se encontraron asignaciones pasadas</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noPastAssignmentsFound
+noPastAssignmentsFound</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92852" resname="pages/home-participant.noUpcomingAssignmentsFound">
+        <source>No upcoming assignments were found</source>
+        <target state="translated">No se encontraron asignaciones próximas</target>
+        <context-group purpose="information">
+          <context context-type="source">pages/home-participant.noUpcomingAssignmentsFound
+noUpcomingAssignmentsFound</context>
         </context-group>
       </trans-unit>
       <trans-unit id="70934" resname="pages/home-selector.inactivityLogout">
