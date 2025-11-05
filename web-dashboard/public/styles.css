@@ -422,3 +422,126 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         transform: rotate(90deg);
     }
 }
+
+/* Asset history page */
+.history-env-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.history-card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-env-label {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    color: #495057;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pill.deployed {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-pill.pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.status-pill.unknown {
+    background: #e2e3e5;
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+
+.history-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #495057;
+}
+
+.history-row span:first-child {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.history-row code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    background: #f1f3f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.history-subtext {
+    font-size: 0.75em;
+    color: #848c94;
+}
+
+.history-message {
+    font-weight: 500;
+    color: #343a40;
+}
+
+.history-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.history-link:hover {
+    text-decoration: underline;
+}
+
+.history-link i {
+    font-size: 0.8em;
+}
+
+.history-summary {
+    color: #495057;
+    margin-top: 4px;
+}

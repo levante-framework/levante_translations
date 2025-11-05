@@ -78,6 +78,9 @@
                         <a href="#" onclick="openTaskTemplate(); return false;">
                             <i class="fas fa-plus-circle"></i> Add Task Template
                         </a>
+                        <a href="#" onclick="openAssetHistory(); return false;">
+                            <i class="fas fa-history"></i> Asset History
+                        </a>
                         <!-- Bucket Info temporarily hidden until authorization is sorted out
                         <a href="#" onclick="openBucketInfo(); return false;">
                             <i class="fas fa-database"></i> Bucket Info
@@ -320,6 +323,9 @@
         }
         function openPreflightReport() {
             window.open('./preflight-report.html', '_blank');
+        }
+        function openAssetHistory() {
+            window.open('./asset-history.html', '_blank');
         }
         function openTaskTemplate() {
             window.open('./task-template.html', '_blank');
