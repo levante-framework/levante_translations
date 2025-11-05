@@ -7,6 +7,7 @@ const DEFAULT_PATH = process.env.TRANSLATIONS_HISTORY_PATH || 'translations,tran
 const DEV_BUCKET = process.env.ASSETS_DEV_BUCKET || 'levante-assets-dev';
 const PROD_BUCKET = process.env.ASSETS_PROD_BUCKET || 'levante-assets-prod';
 const TRANSLATION_OBJECT_PATH = process.env.TRANSLATION_OBJECT_PATH || 'translations/item-bank-translations.csv';
+const SURVEY_OBJECT_PATH = process.env.SURVEY_OBJECT_PATH || 'surveys/latest-surveys-export.zip';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GITHUB_PAT || null;
 const GITHUB_USER_AGENT = 'levante-dashboard-asset-history';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || null;
@@ -202,6 +203,85 @@ async function summarizeTranslationCommit(detail) {
     if (!detail?.files) return null;
     for (const file of detail.files) {
         if (!file?.filename) continue;
+        if (/\.xliff$/i.test(file.filename)) {
+            const lines = (file.patch || '').split(/\r?\n/);
+            const targetSegments = [];
+            const sourceSegments = [];
+            let capturing = null; // 'target' | 'source'
+            let currentLang = null;
+            let buffer = [];
+            const commitLocaleMatch = file.filename.match(/([a-z]{2}-[A-Za-z]{2})/i);
+            const defaultLocale = commitLocaleMatch ? commitLocaleMatch[1].toLowerCase() : null;
+
+            const flush = () => {
+                if (!capturing) return;
+                const text = buffer.join(' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+                if (text) {
+                    if (capturing === 'target') {
+                        const localeLabel = currentLang
+                            ? (LOCALE_LABELS[currentLang] || LOCALE_LABELS[currentLang.split('-')[0]] || currentLang.toUpperCase())
+                            : (defaultLocale ? (LOCALE_LABELS[defaultLocale] || LOCALE_LABELS[defaultLocale.split('-')[0]] || defaultLocale.toUpperCase()) : 'Translations');
+                        targetSegments.push(`${localeLabel}: “${truncateValue(text, 140)}”`);
+                    } else if (capturing === 'source') {
+                        sourceSegments.push(`Source: “${truncateValue(text, 140)}”`);
+                    }
+                }
+                capturing = null;
+                currentLang = null;
+                buffer = [];
+            };
+
+            for (const rawLine of lines) {
+                if (rawLine.startsWith('+++') || rawLine.startsWith('---')) continue;
+                const isAdd = rawLine.startsWith('+');
+                const isDel = rawLine.startsWith('-');
+                if (!isAdd && !isDel) {
+                    if (capturing && /<\/target>/i.test(rawLine) || /<\/source>/i.test(rawLine)) {
+                        flush();
+                    }
+                    continue;
+                }
+
+                const line = rawLine.slice(1);
+
+                const targetMatch = line.match(/<target[^>]*xml:lang\s*=\s*"?([a-zA-Z-]+)"?[^>]*>/i);
+                if (targetMatch && isAdd) {
+                    flush();
+                    capturing = 'target';
+                    currentLang = targetMatch[1].toLowerCase();
+                } else if (/^\s*<target/i.test(line) && isAdd) {
+                    flush();
+                    capturing = 'target';
+                    currentLang = defaultLocale;
+                }
+
+                const sourceMatch = line.match(/<source[^>]*>/i);
+                if (sourceMatch && isAdd) {
+                    flush();
+                    capturing = 'source';
+                    currentLang = null;
+                }
+
+                if (capturing === 'target' || capturing === 'source') {
+                    const closingTarget = /<\/target>/i.test(line);
+                    const closingSource = /<\/source>/i.test(line);
+                    const content = line.replace(/<[^>]+>/g, '').trim();
+                    if (content) buffer.push(content);
+                    if ((capturing === 'target' && closingTarget) || (capturing === 'source' && closingSource)) {
+                        flush();
+                    }
+                }
+            }
+
+            flush();
+
+            if (targetSegments.length) {
+                summaries.push(targetSegments.slice(0, 3).join(' • ') + (targetSegments.length > 3 ? ' • …' : ''));
+            } else if (sourceSegments.length) {
+                summaries.push(sourceSegments.slice(0, 3).join(' • ') + (sourceSegments.length > 3 ? ' • …' : ''));
+            }
+            continue;
+        }
         if (!/item-bank-translations/.test(file.filename)) continue;
         const header = await fetchCsvHeader(file);
         if (!header) continue;
@@ -357,14 +437,16 @@ function shortenCommitHeadline(rawHeadline, primaryFilename) {
     return result.trim();
 }
 
-function inferLanguagesFromFiles(files = []) {
+function inferLanguagesFromFiles(files = [], header) {
     const languages = new Map();
+    const headerLower = Array.isArray(header) ? header.map((h) => (h || '').toLowerCase()) : [];
+    const idIndex = headerLower.indexOf('item_id');
     files.forEach((file) => {
         const filename = file?.filename || '';
-        const match = filename.match(/(?:translations|xliff)[/\\].*?(?:-|\.)((?:[a-z]{2})(?:-[A-Za-z]{2})?)/i)
+        const match = filename.match(/(?:translations|xliff|surveys)[/\\].*?(?:-|\.)((?:[a-z]{2})(?:-[A-Za-z]{2})?)/i)
             || filename.match(/\b([a-z]{2}-[A-Za-z]{2})\b/);
+        let code = match ? match[1].toLowerCase() : null;
         if (!match) return;
-        const code = match[1].toLowerCase();
         if (!languages.has(code)) {
             const label = LOCALE_LABELS[code] || LOCALE_LABELS[code.split('-')[0]] || code.toUpperCase();
             languages.set(code, {
@@ -738,14 +820,22 @@ export default async function handler(req, res) {
 
         const commits = commitsResponse.commits || [];
 
-        const [devMeta, prodMeta] = await Promise.all([
+        const [devMeta, prodMeta, devSurveyMeta, prodSurveyMeta] = await Promise.all([
             getBucketMetadata(DEV_BUCKET, TRANSLATION_OBJECT_PATH),
             getBucketMetadata(PROD_BUCKET, TRANSLATION_OBJECT_PATH),
+            getBucketMetadata(DEV_BUCKET, SURVEY_OBJECT_PATH),
+            getBucketMetadata(PROD_BUCKET, SURVEY_OBJECT_PATH),
         ]);
 
         const environments = {
-            dev: { ...devMeta, correlation: correlateEnvironment(commits, devMeta) },
-            prod: { ...prodMeta, correlation: correlateEnvironment(commits, prodMeta) },
+            dev: {
+                itemBank: { ...devMeta, correlation: correlateEnvironment(commits, devMeta) },
+                surveys: { ...devSurveyMeta, correlation: correlateEnvironment(commits, devSurveyMeta) },
+            },
+            prod: {
+                itemBank: { ...prodMeta, correlation: correlateEnvironment(commits, prodMeta) },
+                surveys: { ...prodSurveyMeta, correlation: correlateEnvironment(commits, prodSurveyMeta) },
+            },
         };
 
         res.status(200).json({

@@ -39,7 +39,8 @@ function run(command) {
 
     const aliases = [
       'audio-dashboard-levante.vercel.app',
-      'levante-audio-dashboard.vercel.app'
+      'levante-audio-dashboard.vercel.app',
+      'levante-pitwall.vercel.app'
     ];
 
     for (const alias of aliases) {

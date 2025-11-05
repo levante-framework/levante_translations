@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Levante Translation & Audio Dashboard</title>
+    <title>Levante Pitwall Dashboard</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -180,7 +180,7 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1><i class="fas fa-microphone"></i> Levante Translation & Audio Dashboard</h1>
+            <h1><i class="fas fa-microphone"></i> Levante Pitwall Dashboard</h1>
             <p>Multi-language Translation Validation and TTS audio generation</p>
         </div>
         <div class="main-content">
@@ -1109,7 +1109,7 @@
                     const exportData = {
                         validation_results: this.validation_results,
                         metadata: {
-                            saved_by: 'Levante Translation Dashboard',
+                            saved_by: 'Levante Pitwall Dashboard',
                             version: '1.0',
                             total_items: Object.keys(this.validation_results).length,
                             languages: Object.keys(this.languages),
@@ -1994,7 +1994,7 @@
             const exportData = {
                 metadata: {
                     exported_at: new Date().toISOString(),
-                    exported_by: 'Levante Translation Dashboard',
+                    exported_by: 'Levante Pitwall Dashboard',
                     version: '1.0',
                     total_items: Object.keys(window.dashboard.validation_results).length,
                     total_validations: totalValidations,

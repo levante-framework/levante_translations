@@ -1,4 +1,4 @@
-# Levante Translation & Audio Generation Dashboard (Web Version)
+# Levante Pitwall Dashboard (Web Version)
 
 A modern web-based dashboard for comparing and generating TTS audio across multiple languages using PlayHT and ElevenLabs services.
 
