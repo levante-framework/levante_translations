@@ -1771,7 +1771,7 @@ q.childsexbirth</context>
       </trans-unit>
       <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text" approved="yes">
         <source>Male</source>
-        <target state="final">Weiblich</target>
+        <target state="final">Männlich</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childsexbirth.choice.male.text
@@ -1816,7 +1816,7 @@ q.childgendercurrent</context>
       </trans-unit>
       <trans-unit id="148308" resname="page5.q.childgendercurrent.choice.male.text" approved="yes">
         <source>What is your child's current gender identification?</source>
-        <target state="final">Welche ist die derzeitige Geschlechtsidentität Ihres Kindes?</target>
+        <target state="final">Männlich</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childgendercurrent.choice.male.text
@@ -1825,7 +1825,7 @@ q.childgendercurrent</context>
       </trans-unit>
       <trans-unit id="148310" resname="page5.q.childgendercurrent.choice.nonbinary.text" approved="yes">
         <source>What is your child's current gender identification?</source>
-        <target state="final">Welche ist die derzeitige Geschlechtsidentität Ihres Kindes?</target>
+        <target state="final">Nicht-binär</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childgendercurrent.choice.nonbinary.text
