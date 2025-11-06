@@ -309,12 +309,8 @@
                     return null;
                 }
 
-                const devItemBank = commitAppliesToEnv(commit.date, state.environments.dev?.itemBank);
-                const devSurveys = commitAppliesToEnv(commit.date, state.environments.dev?.surveys);
-                const prodItemBank = commitAppliesToEnv(commit.date, state.environments.prod?.itemBank);
-                const prodSurveys = commitAppliesToEnv(commit.date, state.environments.prod?.surveys);
-                const devStatus = { itemBank: devItemBank, surveys: devSurveys };
-                const prodStatus = { itemBank: prodItemBank, surveys: prodSurveys };
+                const devStatus = commitAppliesToEnv(commit.date, state.environments.dev);
+                const prodStatus = commitAppliesToEnv(commit.date, state.environments.prod);
 
                 return `
                     <tr>
@@ -330,8 +326,8 @@
                             <div class="history-message">${escapeHtml(headline)}</div>
                             ${summaryLine ? `<div class="history-subtext history-summary">${escapeHtml(summaryLine)}</div>` : ''}
                         </td>
-                        <td>${renderEnvironmentPill(devStatus)}</td>
-                        <td>${renderEnvironmentPill(prodStatus)}</td>
+                        <td>${renderStatusPill(devStatus)}</td>
+                        <td>${renderStatusPill(prodStatus)}</td>
                         <td>
                             <a class="history-link" href="${commit.url}" target="_blank" rel="noopener noreferrer">${shortSha(commit.sha)} <i class="fas fa-arrow-up-right-from-square"></i></a>
                         </td>
@@ -354,36 +350,6 @@
                 return '<span class="status-pill pending"><i class="fas fa-hourglass-half"></i> Pending</span>';
             }
             return '<span class="status-pill unknown"><i class="fas fa-question"></i> Unknown</span>';
-        }
-
-        function renderEnvironmentPill(statusObj) {
-            if (!statusObj || typeof statusObj !== 'object') {
-                return renderStatusPill('unknown');
-            }
-            const parts = [];
-            if (statusObj.itemBank) {
-                parts.push(`<div>${renderStatusPill(statusObj.itemBank)}<span class="history-tag">Item Bank</span></div>`);
-            }
-            if (statusObj.surveys) {
-                parts.push(`<div>${renderStatusPill(statusObj.surveys)}<span class="history-tag">Surveys</span></div>`);
-            }
-            if (!parts.length) {
-                return renderStatusPill('unknown');
-            }
-            return `<div class="status-multi">${parts.join('')}</div>`;
-        }
-
-        function renderEnvironmentPill(envStatus) {
-            const itemBankStatus = envStatus?.itemBank === 'deployed' ? 'Deployed' : envStatus?.itemBank === 'pending' ? `${envStatus.itemBank} Pending` : 'Unknown';
-            const surveysStatus = envStatus?.surveys === 'deployed' ? 'Deployed' : envStatus?.surveys === 'pending' ? `${envStatus.surveys} Pending` : 'Unknown';
-            return `
-                <span class="status-pill item-bank-status">
-                    <i class="fas fa-file-code"></i> Item Bank: ${itemBankStatus}
-                </span>
-                <span class="status-pill surveys-status">
-                    <i class="fas fa-poll"></i> Surveys: ${surveysStatus}
-                </span>
-            `;
         }
 
         function updateSummary(range, meta) {
