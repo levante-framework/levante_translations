@@ -4202,7 +4202,12 @@ q.childsocialmedia</context>
         </context-group>
       </trans-unit>
       <trans-unit id="148838" resname="page14.q.childefq.q.childefqintro.html">
-        <source>&lt;b&gt;We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Always on their own (No support needed)&lt;br&gt;&lt;br&gt;</source>
+        <source>We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. 
+&lt;br&gt;&lt;br&gt;
+4 = Always on their own (No support needed)&lt;br&gt;
+3 = Mostly on their own (Brief reminders or support)&lt;br&gt;
+2 = Sometimes on their own (Regular reminders or moderate support needed)&lt;br&gt;
+1 = Not able on their own (Requires a lot of support)</source>
         <target state="needs-translation"/>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
@@ -6355,6 +6360,13 @@ pagenexttext</context>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 completetext</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150854" resname="HomeChildCareOthers">
+        <source>How often is your child expected to care for younger family members when you and other adults are not available?</source>
+        <target state="needs-translation"/>
+        <context-group purpose="information">
+          <context context-type="source">HomeChildCareOthers</context>
         </context-group>
       </trans-unit>
     </body>
