@@ -1769,6 +1769,15 @@ page5.q.childsexbirth.choice.female.text
 q.childsexbirth</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="148298" resname="page5.q.childsexbirth.choice.male.text" approved="yes">
+        <source>Male</source>
+        <target state="final">Hombre</target>
+        <context-group purpose="information">
+          <context context-type="source">parent_survey_child.json
+page5.q.childsexbirth.choice.male.text
+q.childsexbirth</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="148300" resname="page5.q.childsexbirth.othertext" approved="yes">
         <source>Other (describe)</source>
         <target state="final">Otro (describir)</target>
@@ -1798,7 +1807,7 @@ q.childgendercurrent</context>
       </trans-unit>
       <trans-unit id="148306" resname="page5.q.childgendercurrent.choice.female.text" approved="yes">
         <source>What is your child's current gender identification?</source>
-        <target state="final">¿Cuál es el género con el que se identifica su niño(a)?</target>
+        <target state="final">Mujer</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childgendercurrent.choice.female.text
@@ -1807,7 +1816,7 @@ q.childgendercurrent</context>
       </trans-unit>
       <trans-unit id="148308" resname="page5.q.childgendercurrent.choice.male.text" approved="yes">
         <source>What is your child's current gender identification?</source>
-        <target state="final">¿Cuál es el género con el que se identifica su niño(a)?</target>
+        <target state="final">Hombre</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childgendercurrent.choice.male.text
@@ -1816,7 +1825,7 @@ q.childgendercurrent</context>
       </trans-unit>
       <trans-unit id="148310" resname="page5.q.childgendercurrent.choice.nonbinary.text" approved="yes">
         <source>What is your child's current gender identification?</source>
-        <target state="final">¿Cuál es el género con el que se identifica su niño(a)?</target>
+        <target state="final">No binario</target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
 page5.q.childgendercurrent.choice.nonbinary.text
