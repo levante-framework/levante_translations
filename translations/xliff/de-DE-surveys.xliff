@@ -4202,8 +4202,18 @@ q.childsocialmedia</context>
         </context-group>
       </trans-unit>
       <trans-unit id="148838" resname="page14.q.childefq.q.childefqintro.html" approved="yes">
-        <source>&lt;b&gt;We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Always on their own (No support needed)&lt;br&gt;&lt;br&gt;</source>
-        <target state="final">&lt;b&gt;Uns interessiert, wie oft etwas eigenständig geschieht, während die meisten Kinder zwischen 3 und 2 liegen werden. Diejenigen, die sich noch entwickeln und viel Unterstützung brauchen, sollten eine Bewertung von 1 erhalten. &lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;4&lt;/b&gt; = Immer selbstständig (Keine Unterstützung nötig)&lt;br&gt;&lt;br&gt;
+        <source>We are interested how often, independently, and easily your child shows each behavior when occasions call for it. Children who excel at a specific behavior should receive 4 (the highest rating), whereas most children will be between 3 and 2. Those who are still developing and need a lot of support should receive a rating of 1. 
+&lt;br&gt;&lt;br&gt;
+4 = Always on their own (No support needed)&lt;br&gt;
+3 = Mostly on their own (Brief reminders or support)&lt;br&gt;
+2 = Sometimes on their own (Regular reminders or moderate support needed)&lt;br&gt;
+1 = Not able on their own (Requires a lot of support)</source>
+        <target state="final">Uns interessiert, wie oft, unabhängig und leicht Ihr Kind jedes Verhalten zeigt, wenn es erforderlich ist. Kinder, die ein bestimmtes Verhalten besonders gut beherrschen, sollten eine 4 (die höchste Bewertung) erhalten. Die meisten Kinder werden allerdings zwischen 3 und 2 liegen. Diejenigen, die sich noch in der Entwicklung befinden und viel Unterstützung brauchen, sollten die 1 erhalten.
+&lt;br&gt;&lt;br&gt;
+4 = Immer allein (keine Unterstützung erforderlich)&lt;br&gt;
+3 = Meistens selbständig (kurze Erinnerung oder Unterstützung)&lt;br&gt;
+2 = Manchmal selbständig (regelmäßige Erinnerungen oder manchmal Unterstützung erforderlich)&lt;br&gt;
+1 = Nicht in der Lage, selbstständig zu sein (benötigt viel Unterstützung)
 </target>
         <context-group purpose="information">
           <context context-type="source">parent_survey_child.json
