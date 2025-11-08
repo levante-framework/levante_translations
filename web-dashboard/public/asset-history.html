@@ -57,10 +57,7 @@
                 <h2 style="font-size: 1.4em; margin-bottom: 12px; color: #495057; display:flex; align-items:center; gap:10px;">
                     <i class="fas fa-server"></i> Deployment Snapshot
                 </h2>
-                <div class="history-env-grid">
-                    <div id="devCard" class="history-card"></div>
-                    <div id="prodCard" class="history-card"></div>
-                </div>
+                <div id="fileStatusContainer" class="history-env-grid"></div>
             </section>
 
             <section>
@@ -181,7 +178,7 @@
 
         const state = {
             commits: [],
-            environments: {},
+            fileStatuses: [],
             paths: [],
             usingMock: false,
             filters: {
@@ -203,8 +200,7 @@
             tableBody: document.getElementById('commitTableBody'),
             search: document.getElementById('commitSearch'),
             lastUpdated: document.getElementById('lastUpdated'),
-            devCard: document.getElementById('devCard'),
-            prodCard: document.getElementById('prodCard'),
+            fileStatusContainer: document.getElementById('fileStatusContainer'),
         };
 
         function escapeHtml(str) {
@@ -244,41 +240,44 @@
             return sha ? sha.substring(0, 7) : '—';
         }
 
-        function commitAppliesToEnv(commitDateIso, envMeta) {
-            const commitDate = new Date(commitDateIso);
-            const updatedDateIso = envMeta?.correlation?.updatedDate || envMeta?.updated;
-            if (!commitDateIso || Number.isNaN(commitDate.getTime())) return 'unknown';
-            if (!updatedDateIso) return 'unknown';
-            const updatedDate = new Date(updatedDateIso);
-            if (Number.isNaN(updatedDate.getTime())) return 'unknown';
-            return commitDate <= updatedDate ? 'deployed' : 'pending';
-        }
+        function renderFileStatuses() {
+            const container = elements.fileStatusContainer;
+            if (!container) return;
 
-        function renderEnvCard(element, label, data) {
-            if (!element) return;
+            if (!state.fileStatuses.length) {
+                container.innerHTML = '<div class="history-card"><div class="history-card-body">No tracked assets for this range.</div></div>';
+                return;
+            }
 
-            const correlation = data?.correlation || {};
-            const updated = data?.updated || correlation?.updatedDate;
-            const relative = formatRelative(updated);
-            const status = correlation?.status || data?.status || 'unknown';
-            const pending = correlation?.pendingCommits;
-            const badgeClass = status === 'in-sync' ? 'status-pill deployed' : status === 'behind' ? 'status-pill pending' : 'status-pill unknown';
-            const badgeLabel = status === 'in-sync' ? 'In Sync' : status === 'behind' ? `${pending ?? '?'} Pending` : 'Unknown';
+            const cards = state.fileStatuses.map((entry) => {
+                const dev = entry.dev?.deployment || { state: 'unknown' };
+                const prod = entry.prod?.deployment || { state: 'unknown' };
+                return `
+                    <div class="history-card">
+                        <div class="history-card-heading">
+                            <span class="history-env-label"><i class="${entry.type === 'surveyXliff' ? 'fas fa-file-alt' : 'fas fa-table'}"></i> ${escapeHtml(entry.displayName || entry.filenames?.[0] || entry.key)}</span>
+                        </div>
+                        <div class="history-card-body">
+                            <div class="history-row">
+                                <span>Dev</span>
+                                <div>
+                                    ${renderStatusPill(dev.state)}
+                                    <div class="history-subtext">${dev.updated ? formatRelative(dev.updated) : 'No deployment timestamp'}</div>
+                                </div>
+                            </div>
+                            <div class="history-row">
+                                <span>Prod</span>
+                                <div>
+                                    ${renderStatusPill(prod.state)}
+                                    <div class="history-subtext">${prod.updated ? formatRelative(prod.updated) : 'No deployment timestamp'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-            element.innerHTML = `
-                <div class="history-card-heading">
-                    <span class="history-env-label"><i class="fas ${label === 'Dev' ? 'fa-code-branch' : 'fa-rocket'}"></i> ${label}</span>
-                    <span class="${badgeClass}"><i class="fas ${status === 'in-sync' ? 'fa-check' : status === 'behind' ? 'fa-clock' : 'fa-question'}"></i> ${badgeLabel}</span>
-                </div>
-                <div class="history-card-body">
-                    <div class="history-row"><span>Bucket</span><code>${data?.bucket || '—'}</code></div>
-                    <div class="history-row"><span>Object</span><code>${data?.path || DEFAULT_OBJECT_PATH}</code></div>
-                    <div class="history-row"><span>Last Updated</span><strong>${updated ? formatDateTime(updated) : '—'}</strong></div>
-                    <div class="history-row"><span>Relative</span><span>${updated ? relative : 'unknown'}</span></div>
-                    <div class="history-row"><span>MD5</span><code>${data?.md5Hash || '—'}</code></div>
-                    <div class="history-row"><span>Size</span><span>${data?.size ? Number(data.size).toLocaleString() + ' bytes' : '—'}</span></div>
-                </div>
-            `;
+            container.innerHTML = cards;
         }
 
         function normalizeCommit(commit) {
@@ -309,9 +308,6 @@
                     return null;
                 }
 
-                const devStatus = commitAppliesToEnv(commit.date, state.environments.dev);
-                const prodStatus = commitAppliesToEnv(commit.date, state.environments.prod);
-
                 return `
                     <tr>
                         <td>
@@ -326,8 +322,12 @@
                             <div class="history-message">${escapeHtml(headline)}</div>
                             ${summaryLine ? `<div class="history-subtext history-summary">${escapeHtml(summaryLine)}</div>` : ''}
                         </td>
-                        <td>${renderStatusPill(devStatus)}</td>
-                        <td>${renderStatusPill(prodStatus)}</td>
+                        <td>
+                            ${renderStatusCell(commit.deployment_targets, 'dev')}
+                        </td>
+                        <td>
+                            ${renderStatusCell(commit.deployment_targets, 'prod')}
+                        </td>
                         <td>
                             <a class="history-link" href="${commit.url}" target="_blank" rel="noopener noreferrer">${shortSha(commit.sha)} <i class="fas fa-arrow-up-right-from-square"></i></a>
                         </td>
@@ -349,7 +349,23 @@
             if (stateValue === 'pending') {
                 return '<span class="status-pill pending"><i class="fas fa-hourglass-half"></i> Pending</span>';
             }
+            if (stateValue === 'missing') {
+                return '<span class="status-pill missing"><i class="fas fa-exclamation-triangle"></i> Missing</span>';
+            }
             return '<span class="status-pill unknown"><i class="fas fa-question"></i> Unknown</span>';
+        }
+
+        function renderStatusCell(targetKeys = [], env) {
+            if (!Array.isArray(targetKeys) || !targetKeys.length) {
+                return '<span class="history-subtext">—</span>';
+            }
+            const pieces = targetKeys.map((key) => {
+                const entry = state.fileStatuses.find((fs) => fs.key === key);
+                if (!entry) return '<span class="history-subtext">—</span>';
+                const deployment = env === 'dev' ? entry.dev?.deployment : entry.prod?.deployment;
+                return `<div>${renderStatusPill(deployment?.state)}<div class="history-subtext">${deployment?.updated ? formatRelative(deployment.updated) : 'No timestamp'}</div></div>`;
+            });
+            return `<div class="status-multi">${pieces.join('')}</div>`;
         }
 
         function updateSummary(range, meta) {
@@ -375,7 +391,7 @@
             state.commits = Array.isArray(payload.commits)
                 ? payload.commits.map(normalizeCommit)
                 : [];
-            state.environments = payload.environments || {};
+            state.fileStatuses = Array.isArray(payload.file_statuses) ? payload.file_statuses : [];
             state.paths = Array.isArray(payload.paths)
                 ? payload.paths
                 : payload.path
@@ -383,8 +399,7 @@
                 : [];
             state.usingMock = isMock;
 
-            renderEnvCard(elements.devCard, 'Dev', state.environments.dev || {});
-            renderEnvCard(elements.prodCard, 'Prod', state.environments.prod || {});
+            renderFileStatuses();
             updateSummary(payload.range || {}, payload.meta || {});
             renderCommitTable();
         }

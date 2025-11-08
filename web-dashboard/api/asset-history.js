@@ -7,6 +7,7 @@ const DEFAULT_PATH = process.env.TRANSLATIONS_HISTORY_PATH || 'translations,tran
 const DEV_BUCKET = process.env.ASSETS_DEV_BUCKET || 'levante-assets-dev';
 const PROD_BUCKET = process.env.ASSETS_PROD_BUCKET || 'levante-assets-prod';
 const TRANSLATION_OBJECT_PATH = process.env.TRANSLATION_OBJECT_PATH || 'translations/item-bank-translations.csv';
+const SURVEY_PATH_PREFIX = process.env.SURVEY_PATH_PREFIX || 'translations/xliff/';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GITHUB_PAT || null;
 const GITHUB_USER_AGENT = 'levante-dashboard-asset-history';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || null;
@@ -65,6 +66,17 @@ function truncateValue(value, length = 80) {
     const text = stripHtml(value);
     if (text.length <= length) return text;
     return text.slice(0, length - 1).trimEnd() + '…';
+}
+
+function decodeHtmlEntities(value) {
+    if (!value) return '';
+    return value
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, ' ');
 }
 
 async function fetchCsvHeader(file) {
@@ -202,19 +214,228 @@ async function summarizeTranslationCommit(detail) {
     if (!detail?.files) return null;
     for (const file of detail.files) {
         if (!file?.filename) continue;
-        if (!/item-bank-translations/.test(file.filename)) continue;
-        const header = await fetchCsvHeader(file);
-        if (!header) continue;
-        const changes = collectRowChangesFromPatch(file.patch);
-        if (!changes.length) continue;
-        const fileSummaries = buildTranslationSummaryForChanges(changes, header);
-        summaries.push(...fileSummaries);
+        if (/item-bank-translations/.test(file.filename)) {
+            const header = await fetchCsvHeader(file);
+            if (!header) continue;
+            const changes = collectRowChangesFromPatch(file.patch);
+            if (!changes.length) continue;
+            const fileSummaries = buildTranslationSummaryForChanges(changes, header);
+            summaries.push(...fileSummaries);
+            continue;
+        }
+        if (/\.xliff$/i.test(file.filename)) {
+            const fileSummaries = buildXliffSummary(file);
+            summaries.push(...fileSummaries);
+            continue;
+        }
     }
     if (!summaries.length) return null;
     const unique = Array.from(new Set(summaries));
     const limited = unique.slice(0, 3);
     const more = unique.length > limited.length ? ' • …' : '';
     return `${limited.join(' • ')}${more}`;
+}
+
+function buildXliffSummary(file) {
+    const summaries = [];
+    const patch = file?.patch || '';
+    if (!patch) return summaries;
+
+    const localeMatch = file.filename.match(/([a-z]{2}-[A-Za-z]{2})/i);
+    const localeCode = localeMatch ? localeMatch[1].toLowerCase() : '';
+    const localeLabel = localeCode
+        ? (LOCALE_LABELS[localeCode] || LOCALE_LABELS[localeCode.split('-')[0]] || localeCode.toUpperCase())
+        : 'Translations';
+
+    const lines = patch.split(/\r?\n/);
+    const targetSegments = [];
+    const sourceSegments = [];
+    let capturing = false;
+    let captureType = null;
+    let buffer = [];
+
+    const flush = () => {
+        if (!capturing || !buffer.length) {
+            capturing = false;
+            captureType = null;
+            buffer = [];
+            return;
+        }
+        const combined = buffer.join('\n');
+        const regex = captureType === 'source'
+            ? /<source[^>]*>([\s\S]*?)<\/source>/i
+            : /<target[^>]*>([\s\S]*?)<\/target>/i;
+        const match = combined.match(regex);
+        if (match) {
+            const decoded = decodeHtmlEntities(match[1]).replace(/\s+/g, ' ').trim();
+            if (decoded) {
+                if (captureType === 'source') {
+                    sourceSegments.push(truncateValue(decoded, 140));
+                } else {
+                    targetSegments.push(truncateValue(decoded, 140));
+                }
+            }
+        }
+        capturing = false;
+        captureType = null;
+        buffer = [];
+    };
+
+    for (const rawLine of lines) {
+        if (rawLine.startsWith('+++') || rawLine.startsWith('---')) continue;
+        const isAddition = rawLine.startsWith('+');
+        if (!isAddition) {
+            if (capturing && ((captureType === 'target' && /<\/target>/i.test(rawLine)) || (captureType === 'source' && /<\/source>/i.test(rawLine)))) {
+                flush();
+            }
+            continue;
+        }
+        const line = rawLine.slice(1);
+
+        if (/^\s*<target/i.test(line)) {
+            flush();
+            capturing = true;
+            captureType = 'target';
+            buffer.push(line);
+            if (/<\/target>/i.test(line)) flush();
+            continue;
+        }
+        if (/^\s*<source/i.test(line)) {
+            flush();
+            capturing = true;
+            captureType = 'source';
+            buffer.push(line);
+            if (/<\/source>/i.test(line)) flush();
+            continue;
+        }
+
+        if (capturing) {
+            buffer.push(line);
+            if ((captureType === 'target' && /<\/target>/i.test(line)) || (captureType === 'source' && /<\/source>/i.test(line))) {
+                flush();
+            }
+        }
+    }
+    flush();
+
+    if (targetSegments.length) {
+        summaries.push(`${localeLabel}: “${targetSegments.slice(0, 2).join('” • “')}${targetSegments.length > 2 ? '” • …' : '”'}`);
+    }
+    if (sourceSegments.length) {
+        summaries.push(`Source text: “${sourceSegments.slice(0, 2).join('” • “')}${sourceSegments.length > 2 ? '” • …' : '”'}`);
+    }
+    return summaries;
+}
+
+function mapFileToTarget(filename) {
+    if (!filename) return null;
+    const lower = filename.toLowerCase();
+    if (lower.endsWith('item-bank-translations.csv')) {
+        return {
+            key: 'item-bank-translations.csv',
+            type: 'itemBankCsv',
+            displayName: 'Item Bank Translations CSV',
+            devBucket: DEV_BUCKET,
+            prodBucket: PROD_BUCKET,
+            devPath: TRANSLATION_OBJECT_PATH,
+            prodPath: TRANSLATION_OBJECT_PATH,
+        };
+    }
+    if (lower.includes('translations/xliff/')) {
+        const base = filename.split('/').pop();
+        const path = `${SURVEY_PATH_PREFIX}${base}`;
+        return {
+            key: `survey-${base}`,
+            type: 'surveyXliff',
+            displayName: `Survey XLIFF (${base})`,
+            devBucket: DEV_BUCKET,
+            prodBucket: PROD_BUCKET,
+            devPath: path,
+            prodPath: path,
+        };
+    }
+    return null;
+}
+
+function evaluateDeployment(meta, latestCommitDate) {
+    if (!meta || meta.status === 'error') {
+        return { state: 'unknown', updated: null };
+    }
+    if (meta.status === 'missing') {
+        return { state: 'missing', updated: null };
+    }
+    const updatedDate = normalizeDate(meta.updated);
+    const commitDate = normalizeDate(latestCommitDate);
+    if (!updatedDate) return { state: 'unknown', updated: null };
+    if (!commitDate) return { state: 'unknown', updated: updatedDate.toISOString() };
+    if (updatedDate >= commitDate) {
+        return { state: 'deployed', updated: updatedDate.toISOString() };
+    }
+    return { state: 'pending', updated: updatedDate.toISOString() };
+}
+
+async function safeGetMetadata(bucket, path) {
+    try {
+        return await getBucketMetadata(bucket, path);
+    } catch (error) {
+        return { bucket, path, status: 'error', error: error.message };
+    }
+}
+
+async function computeFileStatuses(commits) {
+    const targets = new Map();
+
+    for (const commit of commits) {
+        const files = commit.detailFiles || [];
+        const commitDate = normalizeDate(commit.date);
+        const deploymentKeys = new Set(commit.deployment_targets || []);
+
+        files.forEach((file) => {
+            const target = mapFileToTarget(file.filename);
+            if (!target) return;
+            deploymentKeys.add(target.key);
+            if (!targets.has(target.key)) {
+                targets.set(target.key, {
+                    ...target,
+                    filenames: new Set(),
+                    latestCommitDate: commitDate,
+                });
+            }
+            const entry = targets.get(target.key);
+            entry.filenames.add(file.filename);
+            if (commitDate && (!entry.latestCommitDate || commitDate > entry.latestCommitDate)) {
+                entry.latestCommitDate = commitDate;
+            }
+        });
+
+        commit.deployment_targets = Array.from(deploymentKeys);
+    }
+
+    const results = [];
+    for (const entry of targets.values()) {
+        const latestCommitDate = entry.latestCommitDate;
+        const [devMeta, prodMeta] = await Promise.all([
+            safeGetMetadata(entry.devBucket, entry.devPath),
+            safeGetMetadata(entry.prodBucket, entry.prodPath),
+        ]);
+        results.push({
+            key: entry.key,
+            type: entry.type,
+            displayName: entry.displayName,
+            filenames: Array.from(entry.filenames),
+            latestCommitDate: latestCommitDate ? latestCommitDate.toISOString() : null,
+            dev: {
+                ...devMeta,
+                deployment: evaluateDeployment(devMeta, latestCommitDate),
+            },
+            prod: {
+                ...prodMeta,
+                deployment: evaluateDeployment(prodMeta, latestCommitDate),
+            },
+        });
+    }
+
+    return results;
 }
 
 function normalizeDate(value, fallback = null) {
@@ -466,10 +687,13 @@ async function enrichCommitsWithDetails(commits, { owner, repo, signal }) {
     for (const commit of commits) {
         let headline = shortenCommitHeadline(commit.message || '', null);
         let summary = null;
+        let detailFiles = [];
+        const deploymentKeys = new Set();
         try {
             const detail = await fetchCommitDetail({ owner, repo, sha: commit.sha, signal });
             const primaryFilename = detail?.files?.[0]?.filename || null;
             headline = shortenCommitHeadline(commit.message || headline, primaryFilename || null) || headline;
+            detailFiles = detail?.files || [];
             const translationSummary = await summarizeTranslationCommit(detail);
             if (translationSummary) {
                 summary = translationSummary;
@@ -481,10 +705,17 @@ async function enrichCommitsWithDetails(commits, { owner, repo, signal }) {
             console.warn(`asset-history: commit detail fetch failed for ${commit.sha}:`, error.message);
         }
 
+        detailFiles.forEach((file) => {
+            const target = mapFileToTarget(file?.filename);
+            if (target) deploymentKeys.add(target.key);
+        });
+
         enriched.push({
             ...commit,
             headline: headline || commit.message || '',
             summary: summary || null,
+            detailFiles,
+            deployment_targets: Array.from(deploymentKeys),
         });
     }
     return enriched;
@@ -737,16 +968,8 @@ export default async function handler(req, res) {
         }
 
         const commits = commitsResponse.commits || [];
-
-        const [devMeta, prodMeta] = await Promise.all([
-            getBucketMetadata(DEV_BUCKET, TRANSLATION_OBJECT_PATH),
-            getBucketMetadata(PROD_BUCKET, TRANSLATION_OBJECT_PATH),
-        ]);
-
-        const environments = {
-            dev: { ...devMeta, correlation: correlateEnvironment(commits, devMeta) },
-            prod: { ...prodMeta, correlation: correlateEnvironment(commits, prodMeta) },
-        };
+        const fileStatuses = await computeFileStatuses(commits);
+        const responseCommits = commits.map(({ detailFiles, ...rest }) => rest);
 
         res.status(200).json({
             repository: `${owner}/${repo}`,
@@ -756,10 +979,10 @@ export default async function handler(req, res) {
                 start: start ? new Date(start).toISOString() : null,
                 end: end ? new Date(end).toISOString() : null,
             },
-            commits,
-            environments,
+            commits: responseCommits,
+            file_statuses: fileStatuses,
             meta: {
-                total: commits.length,
+                total: responseCommits.length,
                 limit: Number(limit) || 50,
                 rateLimited: commitsResponse.rateLimited,
                 fetchedAt: new Date().toISOString(),
