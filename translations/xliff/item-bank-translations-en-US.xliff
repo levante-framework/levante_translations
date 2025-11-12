@@ -8882,60 +8882,6 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label">math</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="52898" resname="memory-game-instruct1-heavy">
-        <source>This is the memory game. </source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct1-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52900" resname="memory-game-instruct2-heavy">
-        <source>In this game, we are going to see squares light up. Your job is to touch the squares that light up. </source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct2-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52902" resname="memory-game-instruct3-heavy">
-        <source>Now we will see two squares light up. Your job is to touch the squares in the same order as they light up!</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct3-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52904" resname="memory-game-instruct4-heavy">
-        <source>Watch the squares light up. I will touch the squares in the same order.</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct4-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52906" resname="memory-game-instruct5-heavy">
-        <source>OK, now you're going to play the rest of the memory game on your own. More squares will light up each time the longer you play, so watch carefully!</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct5-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="52908" resname="memory-game-instruct6-heavy">
-        <source>If you make a mistake, just keep going!</source>
-        <target state="needs-translation"/>
-        <context-group purpose="information">
-          <context context-type="source">memory-game-instruct6-heavy
-</context>
-          <context context-type="x-crowdin-label">memory-game</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="52912" resname="ns-number-identification-1">
         <source>Choose the card that shows 1 apple.</source>
         <target state="needs-translation"/>
@@ -9260,6 +9206,116 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="source">child-survey-intro-no-responses
 </context>
           <context context-type="x-crowdin-label">child_survey</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150856" resname="memory-game-instruct1-downex" translate="no">
+        <source>This is a new game.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct1-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150858" resname="memory-game-instruct2-downex" translate="no">
+        <source>Look! Here’s a blue block.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct2-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150860" resname="memory-game-instruct3-downex" translate="no">
+        <source>Let’s make it blue again.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct3-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150862" resname="memory-game-instruct4-downex" translate="no">
+        <source>Let’s watch. Here’s another block.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct4-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150864" resname="memory-game-instruct5-downex" translate="no">
+        <source>Your turn! Can you make it blue again?</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct5-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150866" resname="memory-game-feedback-incorrect-downex" translate="no">
+        <source>Not Quite! Make the blocks blue in the same order.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-feedback-incorrect-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150868" resname="memory-game-instruct6-downex" translate="no">
+        <source>Now we will see two blue blocks. When it’s your turn, make the blocks blue in the same order!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct6-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150870" resname="memory-game-instruct7-downex" translate="no">
+        <source>Let’s watch!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct7-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150872" resname="memory-game-instruct8-downex" translate="no">
+        <source>Touch the blocks in the same order.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct8-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150874" resname="memory-game-instruct9-downex" translate="no">
+        <source>Your turn! Touch the blocks in the same order.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct9-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150876" resname="memory-game-instruct10-downex" translate="no">
+        <source>OK, now you're going to play the rest of the game on your own. There will be more blue blocks the longer you play, so watch carefully!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">memory-game-instruct10-downex
+</context>
+          <context context-type="x-crowdin-label-1">memory-game</context>
+          <context context-type="x-crowdin-label-2">Memory </context>
         </context-group>
       </trans-unit>
     </body>
