@@ -120,64 +120,62 @@
                 <div class="control-group">
                     <label><i class="fas fa-volume-up"></i> Voice Comparison Tools:</label>
                     <div class="voice-controls">
-                        <div class="voice-control">
+                        <div class="voice-row">
                             <label for="playhtVoice">PlayHT Voice</label>
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div class="voice-input">
                                 <select id="playhtVoice" class="voice-select">
                                     <option value="">Select PlayHT Voice...</option>
                                 </select>
-                                <button id="copyPlayhtVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                <button id="copyPlayhtVoice" class="btn btn-secondary btn-copy" title="Copy selected voice name to clipboard">
                                     <i class="fas fa-copy"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="voice-control">
+                        <div class="voice-row">
                             <label for="elevenlabsVoice">ElevenLabs Voice</label>
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div class="voice-input">
                                 <select id="elevenlabsVoice" class="voice-select">
                                     <option value="">Select ElevenLabs Voice...</option>
                                 </select>
-                                <button id="copyElevenlabsVoice" class="btn btn-secondary" style="padding: 8px 12px; min-width: auto;" title="Copy selected voice name to clipboard">
+                                <button id="copyElevenlabsVoice" class="btn btn-secondary btn-copy" title="Copy selected voice name to clipboard">
                                     <i class="fas fa-copy"></i>
                                 </button>
                             </div>
                         </div>
-                        <button id="refreshVoices" class="btn btn-info">
-                            <i class="fas fa-sync-alt"></i> Refresh Voices
-                        </button>
-                        <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
-                            <i class="fas fa-key"></i> Credentials
-                        </button>
-                        <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration" data-version="v2.1">
-                            <i class="fas fa-language"></i> Languages
-                        </button>
+                        <div class="voice-actions">
+                            <button id="refreshVoices" class="btn btn-info">
+                                <i class="fas fa-sync-alt"></i> Refresh Voices
+                            </button>
+                            <button id="manageCredentials" class="btn btn-secondary" onclick="openCredentialsModal()" title="Manage API credentials for TTS services">
+                                <i class="fas fa-key"></i> Credentials
+                            </button>
+                            <button id="editLanguageConfig" class="btn btn-warning btn-compact" onclick="openLanguageConfigModal()" title="Edit shared language configuration" data-version="v2.1">
+                                <i class="fas fa-language"></i> Languages
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Text Generation Section -->
                 <div class="control-group tts-control-group">
-                    <div class="tts-header-row">
-                        <label class="tts-label"><i class="fas fa-edit"></i> Text to Speech Generation:</label>
-                        <div class="tts-button-columns">
-                            <div class="tts-button-column">
-                                <button id="generateAudio" class="btn btn-success">
-                                    <i class="fas fa-play"></i> Generate Audio
-                                </button>
-                                <button id="populateSelected" class="btn btn-primary">
-                                    <i class="fas fa-arrow-down"></i> Use Selected Item
-                                </button>
-                            </div>
-                            <div class="tts-button-column">
-                                <button id="viewDraftAudio" class="btn btn-secondary">
-                                    <i class="fas fa-folder-open"></i> Draft Audio
-                                </button>
-                                <button id="clearText" class="btn btn-secondary">
-                                    <i class="fas fa-times"></i> Clear Text
-                                </button>
-                            </div>
+                    <label class="tts-label"><i class="fas fa-edit"></i> Text to Speech:</label>
+                    <div class="tts-layout">
+                        <textarea id="textInput" class="tts-textarea" placeholder="Enter text to convert to speech, or select an item from the table below..."></textarea>
+                        <div class="tts-button-grid">
+                            <button id="generateAudio" class="btn btn-success">
+                                <i class="fas fa-play"></i> Generate Audio
+                            </button>
+                            <button id="populateSelected" class="btn btn-primary">
+                                <i class="fas fa-arrow-down"></i> Use Selected Item
+                            </button>
+                            <button id="viewDraftAudio" class="btn btn-secondary">
+                                <i class="fas fa-folder-open"></i> Draft Audio
+                            </button>
+                            <button id="clearText" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Clear Text
+                            </button>
                         </div>
                     </div>
-                    <textarea id="textInput" class="tts-textarea" placeholder="Enter text to convert to speech, or select an item from the table below..."></textarea>
                 </div>
             </div>
             
