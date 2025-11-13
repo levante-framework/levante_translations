@@ -60,6 +60,11 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .play-btn { background: #28a745; color: white; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
 .play-btn:hover { background: #218838; }
 .play-btn:disabled { background: #6c757d; cursor: not-allowed; }
+.regen-btn { background: #ffc107; color: #212529; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: background 0.2s ease, transform 0.2s ease; }
+.regen-btn:hover { background: #e0a800; transform: translateY(-1px); }
+.save-btn { background: #0d6efd; color: white; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: background 0.2s ease, transform 0.2s ease; }
+.save-btn:disabled { background: #6c757d; cursor: not-allowed; }
+.save-btn:hover { background: #0b5ed7; transform: translateY(-1px); }
 
 .status-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #343a40; color: white; padding: 12px 20px; font-size: 14px; z-index: 1000; display: flex; align-items: center; gap: 10px; }
 .status-icon { font-size: 16px; }

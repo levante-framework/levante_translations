@@ -1,3 +1,5 @@
+const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project and is released under a Creative Commons BY-NC-SA 4.0 license';
+
         class Dashboard {
             constructor() {
                 // Load languages from external config if available; fallback to defaults
@@ -18,6 +20,9 @@
                 // Persistent validation results dictionary
                 // Structure: { item_id: { lang_code: { score: number, notes: string } } }
                 this.validation_results = {};
+                this.latestGeneratedAudio = null;
+                this.audioCopyright = DEFAULT_AUDIO_COPYRIGHT;
+                this.audioMetadataCache = new Map();
                 
                 this.init();
             }
@@ -985,6 +990,12 @@
                             <button class="play-btn" onclick="playAudio('${escapedItemId}', '${langCode}')" title="Play existing audio">
                                 <i class="fas fa-play"></i>
                             </button>
+                            <button class="regen-btn" onclick="regenerateItemAudio('${escapedItemId}', '${langCode}')" title="Re-generate audio with selected voice">
+                                <i class="fas fa-arrows-rotate"></i>
+                            </button>
+                            <button class="save-btn" onclick="saveItemAudio('${escapedItemId}', '${langCode}')" title="Save latest generated audio to draft bucket">
+                                <i class="fas fa-floppy-disk"></i>
+                            </button>
                         </div>
                     `;
                     
@@ -1216,9 +1227,295 @@
                  }
 
                  if (searchTerm) {
-                     this.setStatus(`Showing ${visibleCount} items matching "${searchTerm}" in ${this.getDisplayName(language)}`, 'success');
-                 }
-             }
+                    this.setStatus(`Showing ${visibleCount} items matching "${searchTerm}" in ${this.getDisplayName(language)}`, 'success');
+                }
+            }
+
+            getLanguageConfigByCode(langCode) {
+                const exactMatch = Object.values(this.languages).find(cfg => cfg.lang_code === langCode);
+                if (exactMatch) return exactMatch;
+                const base = langCode.includes('-') ? langCode.split('-')[0] : langCode;
+                return Object.values(this.languages).find(cfg => {
+                    const cfgLang = cfg.lang_code || '';
+                    const cfgBase = cfgLang.includes('-') ? cfgLang.split('-')[0] : cfgLang;
+                    return cfgBase === base;
+                }) || this.languages[this.currentLanguage];
+            }
+
+            async fetchExistingAudioMetadata(itemId, langCode) {
+                if (!itemId || !langCode) return null;
+                try {
+                    const cacheKey = `${langCode}::${itemId}`;
+                    if (!this.audioMetadataCache) {
+                        this.audioMetadataCache = new Map();
+                    }
+                    if (this.audioMetadataCache.has(cacheKey)) {
+                        return this.audioMetadataCache.get(cacheKey);
+                    }
+
+                    const response = await fetch(`/api/read-tags?itemId=${encodeURIComponent(itemId)}&langCode=${encodeURIComponent(langCode)}`);
+                    if (!response.ok) {
+                        throw new Error(`Metadata request failed (${response.status})`);
+                    }
+                    const data = await response.json();
+                    if (data && !data.error) {
+                        this.audioMetadataCache.set(cacheKey, data);
+                        return data;
+                    }
+                    return null;
+                } catch (error) {
+                    console.warn('⚠️ Failed to fetch existing audio metadata:', error);
+                    return null;
+                }
+            }
+
+            findVoiceCandidate(service, voiceDescriptor, langCode) {
+                if (!voiceDescriptor) return null;
+                const descriptor = String(voiceDescriptor).trim();
+                if (!descriptor) return null;
+                const baseLang = langCode && langCode.includes('-') ? langCode.split('-')[0] : langCode;
+                const serviceKey = (service || '').toString().toLowerCase();
+                let candidates = [];
+                if (serviceKey === 'playht') {
+                    candidates = this.voices.playht || [];
+                } else if (serviceKey === 'elevenlabs') {
+                    candidates = this.voices.elevenlabs || [];
+                } else {
+                    candidates = (this.voices.playht || []).concat(this.voices.elevenlabs || []);
+                }
+
+                const normalize = (value) => (value || '').toString().trim();
+
+                const byExactId = candidates.find(v => normalize(v.voice_id) === descriptor);
+                if (byExactId) return byExactId;
+
+                const byExactName = candidates.find(v => normalize(v.name) === descriptor);
+                if (byExactName) return byExactName;
+
+                if (langCode) {
+                    const byLang = candidates.find(v => normalize(v.lang_code) === langCode && normalize(v.name) === descriptor);
+                    if (byLang) return byLang;
+                    const byBaseLang = candidates.find(v => normalize(v.lang_code) === baseLang && normalize(v.name) === descriptor);
+                    if (byBaseLang) return byBaseLang;
+                }
+
+                return null;
+            }
+
+            async resolveVoiceSelection(langCode, itemId = null, { allowMetadataFallback = false } = {}) {
+                const playhtSelect = document.getElementById('playhtVoice');
+                const elevenlabsSelect = document.getElementById('elevenlabsVoice');
+                const playhtVoiceId = (playhtSelect && playhtSelect.selectedIndex > 0) ? playhtSelect.value : '';
+                const playhtVoiceName = (playhtSelect && playhtSelect.selectedIndex > 0) ? playhtSelect.options[playhtSelect.selectedIndex].text : '';
+                const elevenlabsVoiceId = (elevenlabsSelect && elevenlabsSelect.selectedIndex > 0) ? elevenlabsSelect.value : '';
+                const elevenlabsVoiceName = (elevenlabsSelect && elevenlabsSelect.selectedIndex > 0) ? elevenlabsSelect.options[elevenlabsSelect.selectedIndex].text : '';
+                const config = this.getLanguageConfigByCode(langCode);
+                let service = null;
+                let voiceId = null;
+                let voiceName = null;
+                let source = 'selection';
+
+                if (playhtVoiceId && elevenlabsVoiceId) {
+                    if (config && config.service === 'PlayHT') {
+                        service = 'PlayHT';
+                        voiceId = playhtVoiceId;
+                        voiceName = playhtVoiceName;
+                    } else {
+                        service = 'ElevenLabs';
+                        voiceId = elevenlabsVoiceId;
+                        voiceName = elevenlabsVoiceName;
+                    }
+                } else if (playhtVoiceId) {
+                    service = 'PlayHT';
+                    voiceId = playhtVoiceId;
+                    voiceName = playhtVoiceName;
+                } else if (elevenlabsVoiceId) {
+                    service = 'ElevenLabs';
+                    voiceId = elevenlabsVoiceId;
+                    voiceName = elevenlabsVoiceName;
+                }
+
+                if (!service && allowMetadataFallback && itemId) {
+                    const metadata = await this.fetchExistingAudioMetadata(itemId, langCode);
+                    const tags = metadata?.id3Tags || {};
+                    const tagService = (tags.service || metadata?.service || '').toString();
+                    const tagVoice = tags.voice || metadata?.voice || '';
+
+                    if (tagService || tagVoice) {
+                        const normalizedService = tagService.trim() || (config?.service || '');
+                        const voiceCandidate = this.findVoiceCandidate(normalizedService, tagVoice, langCode);
+
+                        if (voiceCandidate) {
+                            service = normalizedService || (this.voices.playht.includes(voiceCandidate) ? 'PlayHT' : 'ElevenLabs');
+                            voiceId = voiceCandidate.voice_id;
+                            voiceName = voiceCandidate.name;
+                            source = 'metadata';
+                        } else if (normalizedService && tagVoice) {
+                            service = normalizedService;
+                            voiceId = tagVoice;
+                            voiceName = tagVoice;
+                            source = 'metadata';
+                        }
+
+                        if (service && voiceId) {
+                            this.setStatus(`Using existing audio voice ${voiceName || voiceId} (${service})`, 'info');
+                        }
+                    }
+                }
+
+                return { service, voiceId, voiceName, source };
+            }
+
+            extractTextForItem(item, langCode) {
+                if (!item) return '';
+                let text = item[langCode];
+                if (!text && langCode.includes('-')) {
+                    const base = langCode.split('-')[0];
+                    text = item[base];
+                }
+                if (!text) {
+                    const keys = Object.keys(item);
+                    const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
+                    text = match ? item[match] : null;
+                }
+                return text || item.en || '';
+            }
+
+            async regenerateAudioForItem(itemId, langCode) {
+                const item = this.data.find(entry => entry.item_id === itemId);
+                if (!item) {
+                    const message = `Item ${itemId} not found in current dataset`;
+                    this.setStatus(`❌ ${message}`, 'error');
+                    alert(message);
+                    return;
+                }
+
+                const text = this.extractTextForItem(item, langCode);
+                if (!text) {
+                    const message = `No translation text available for ${itemId} (${langCode})`;
+                    this.setStatus(`❌ ${message}`, 'error');
+                    alert(message);
+                    return;
+                }
+
+                const { service, voiceId, voiceName, source } = await this.resolveVoiceSelection(langCode, itemId, { allowMetadataFallback: true });
+                if (!service || !voiceId) {
+                    const message = 'Please select a voice before regenerating audio.';
+                    this.setStatus(`⚠️ ${message}`, 'warning');
+                    alert(message);
+                    return;
+                }
+
+                try {
+                    const originLabel = source === 'metadata' ? 'existing audio' : 'selection';
+                    this.setStatus(`Generating ${itemId} with ${service} (${originLabel})...`, 'loading');
+                    const options = {
+                        itemId,
+                        langCode,
+                        voiceName,
+                        text,
+                        itemLabel: item.labels || item.task || '',
+                        source: 'regenerate'
+                    };
+                    if (service === 'PlayHT') {
+                        await this.generatePlayHTAudio(text, voiceId, options);
+                    } else {
+                        await this.generateElevenLabsAudio(text, voiceId, options);
+                    }
+                } catch (error) {
+                    console.error('Error regenerating audio', error);
+                    this.setStatus(`❌ Error regenerating ${itemId}: ${error.message}`, 'error');
+                    alert(`Failed to regenerate audio for ${itemId}: ${error.message}`);
+                }
+            }
+
+            async saveGeneratedAudioDraft(itemId, langCode) {
+                if (!this.latestGeneratedAudio) {
+                    const message = 'No generated audio found. Please re-generate audio before saving.';
+                    this.setStatus(`⚠️ ${message}`, 'warning');
+                    alert(message);
+                    return;
+                }
+
+                if (this.latestGeneratedAudio.itemId !== itemId || this.latestGeneratedAudio.langCode !== langCode) {
+                    const message = 'The most recent generated audio does not match this item/language. Please re-generate before saving.';
+                    this.setStatus(`⚠️ ${message}`, 'warning');
+                    alert(message);
+                    return;
+                }
+
+                const payload = {
+                    audioBase64: this.latestGeneratedAudio.audioBase64,
+                    langCode,
+                    itemId,
+                    bucket: 'levante-assets-draft',
+                    tags: {
+                        title: itemId,
+                        artist: `Levante Framework - ${this.latestGeneratedAudio.service}`,
+                        album: this.latestGeneratedAudio.itemLabel || langCode,
+                        genre: 'Speech Synthesis',
+                        comment: `Levante Project - ${this.latestGeneratedAudio.service} - ${this.latestGeneratedAudio.voiceName || this.latestGeneratedAudio.voiceId} - ${langCode}`,
+                        service: this.latestGeneratedAudio.service,
+                        voice: this.latestGeneratedAudio.voiceName || this.latestGeneratedAudio.voiceId,
+                        lang_code: langCode,
+                        text: this.latestGeneratedAudio.text || '',
+                        created: this.latestGeneratedAudio.generatedAt,
+                        copyright: this.audioCopyright
+                    }
+                };
+
+                try {
+                    this.setStatus(`Uploading ${itemId} to draft bucket...`, 'loading');
+                    const response = await fetch('/api/save-audio', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    if (!response.ok || !result.success) {
+                        const message = result?.message || 'Unknown upload error';
+                        throw new Error(message);
+                    }
+                    this.setStatus(`Saved ${itemId} to ${result.bucket}/${result.path}`, 'success');
+                    alert(`Audio saved to ${result.bucket}/${result.path}`);
+                } catch (error) {
+                    console.error('Error saving generated audio', error);
+                    this.setStatus(`❌ Error saving audio: ${error.message}`, 'error');
+                    alert(`Failed to save audio: ${error.message}`);
+                }
+            }
+
+            async recordGeneratedAudio(audioBlob, metadata) {
+                if (!audioBlob) return;
+                try {
+                    const audioBase64 = await this.convertBlobToBase64(audioBlob);
+                    this.latestGeneratedAudio = {
+                        audioBlob,
+                        audioBase64,
+                        service: metadata.service,
+                        voiceId: metadata.voiceId,
+                        voiceName: metadata.voiceName || metadata.voiceId,
+                        langCode: metadata.langCode || (this.languages[this.currentLanguage]?.lang_code || ''),
+                        itemId: metadata.itemId || null,
+                        itemLabel: metadata.itemLabel || '',
+                        text: metadata.text || '',
+                        source: metadata.source || 'unknown',
+                        generatedAt: new Date().toISOString()
+                    };
+                } catch (error) {
+                    console.error('Failed to cache generated audio', error);
+                    this.latestGeneratedAudio = null;
+                }
+            }
+
+            convertBlobToBase64(blob) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error('Failed to convert audio to base64'));
+                    reader.readAsDataURL(blob);
+                });
+            }
 
             async generateAudioFromText() {
                 const textInput = document.getElementById('textInput');
@@ -1229,40 +1526,28 @@
                     return;
                 }
                 
-                const playhtVoice = document.getElementById('playhtVoice').value;
-                const elevenlabsVoice = document.getElementById('elevenlabsVoice').value;
-                const currentLangConfig = this.languages[this.currentLanguage];
+                const langCode = this.languages[this.currentLanguage].lang_code;
+                const { service: selectedService, voiceId: selectedVoice, voiceName } = await this.resolveVoiceSelection(langCode, null, { allowMetadataFallback: false });
                 
-                let selectedService, selectedVoice;
-                
-                // Determine which service to use based on selection
-                if (playhtVoice && elevenlabsVoice) {
-                    // Both selected, use the current language's default service
-                    if (currentLangConfig.service === 'PlayHT') {
-                        selectedService = 'PlayHT';
-                        selectedVoice = playhtVoice;
-                    } else {
-                        selectedService = 'ElevenLabs';
-                        selectedVoice = elevenlabsVoice;
-                    }
-                } else if (playhtVoice) {
-                    selectedService = 'PlayHT';
-                    selectedVoice = playhtVoice;
-                } else if (elevenlabsVoice) {
-                    selectedService = 'ElevenLabs';
-                    selectedVoice = elevenlabsVoice;
-                } else {
+                if (!selectedService || !selectedVoice) {
                     alert('Please select a voice from either PlayHT or ElevenLabs to generate audio.');
+                    this.setStatus('⚠️ Select a voice before generating audio', 'warning');
                     return;
                 }
                 
                 this.setStatus(`Generating audio with ${selectedService}...`, 'loading');
                 
                 try {
+                    const options = {
+                        langCode,
+                        voiceName,
+                        text,
+                        source: 'text-input'
+                    };
                     if (selectedService === 'PlayHT') {
-                        await this.generatePlayHTAudio(text, selectedVoice);
+                        await this.generatePlayHTAudio(text, selectedVoice, options);
                     } else if (selectedService === 'ElevenLabs') {
-                        await this.generateElevenLabsAudio(text, selectedVoice);
+                        await this.generateElevenLabsAudio(text, selectedVoice, options);
                     }
                 } catch (error) {
                     console.error('Audio generation error:', error);
@@ -1271,7 +1556,7 @@
                 }
             }
             
-            async generatePlayHTAudio(text, voiceId) {
+            async generatePlayHTAudio(text, voiceId, options = {}) {
                 const credentials = getCredentials();
                 const playhtKey = credentials.playht_api_key || credentials.playhtApiKey;
                 const playhtUser = credentials.playht_user_id || credentials.playhtUserId;
@@ -1307,6 +1592,16 @@
                 
                 // Get the audio blob
                 const audioBlob = await response.blob();
+                await this.recordGeneratedAudio(audioBlob, {
+                    service: 'PlayHT',
+                    voiceId,
+                    voiceName: options.voiceName,
+                    langCode: options.langCode,
+                    itemId: options.itemId,
+                    itemLabel: options.itemLabel,
+                    text,
+                    source: options.source
+                });
                 const audioUrl = URL.createObjectURL(audioBlob);
                 
                 this.setStatus('Audio generated successfully! Playing now...', 'success');
@@ -1329,7 +1624,7 @@
                 });
             }
             
-            async generateElevenLabsAudio(text, voiceId) {
+            async generateElevenLabsAudio(text, voiceId, options = {}) {
                 const credentials = getCredentials();
                 const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
                 if (!elevenKey) {
@@ -1360,6 +1655,16 @@
                 
                 // Get the audio blob
                 const audioBlob = await response.blob();
+                await this.recordGeneratedAudio(audioBlob, {
+                    service: 'ElevenLabs',
+                    voiceId,
+                    voiceName: options.voiceName,
+                    langCode: options.langCode,
+                    itemId: options.itemId,
+                    itemLabel: options.itemLabel,
+                    text,
+                    source: options.source
+                });
                 const audioUrl = URL.createObjectURL(audioBlob);
                 
                 this.setStatus('Audio generated successfully! Playing now...', 'success');

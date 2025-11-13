@@ -37,20 +37,39 @@ export default async function handler(req, res) {
 		try { audioBuffer = Buffer.from(b64, 'base64'); }
 		catch(e) { return res.status(400).json({ success:false, error:'bad_audio', message:'Could not decode audio base64' }); }
 
+		const userDefinedText = [];
+		const pushCustomTag = (description, value) => {
+			if (value === undefined || value === null) return;
+			const trimmed = `${value}`.trim();
+			if (!trimmed) return;
+			userDefinedText.push({ description, value: trimmed });
+		};
+
+		const serviceValue = tags?.service || 'ElevenLabs';
+		const commentValue = tags?.comment || `Generated audio for ${itemId}`;
+
+		pushCustomTag('service', serviceValue);
+		pushCustomTag('voice', tags?.voice);
+		pushCustomTag('lang_code', tags?.lang_code || langCode);
+		pushCustomTag('text', tags?.text);
+		pushCustomTag('created', tags?.created || new Date().toISOString());
+
 		const id3 = {
 			title: tags?.title || itemId,
 			artist: tags?.artist || 'Levante Project',
 			album: tags?.album || langCode,
-			comment: { language: 'eng', text: (tags?.comment || `Generated audio for ${itemId}`) },
-			genre: tags?.genre || 'Speech Synthesis',
-			userDefinedText: [
-				{ description: 'service', value: tags?.service || 'ElevenLabs' },
-				{ description: 'voice', value: tags?.voice || '' },
-				{ description: 'lang_code', value: langCode },
-				{ description: 'text', value: tags?.text || '' },
-				{ description: 'created', value: tags?.created || new Date().toISOString() }
-			]
+			genre: tags?.genre || 'Speech Synthesis'
 		};
+		if (commentValue) {
+			id3.comment = { language: 'eng', text: commentValue };
+		}
+		if (tags?.copyright) {
+			id3.copyright = tags.copyright;
+		}
+		if (userDefinedText.length) {
+			id3.userDefinedText = userDefinedText;
+		}
+
 		try { audioBuffer = NodeID3.write(id3, audioBuffer); }
 		catch (e) { console.warn('ID3 write failed', e.message); }
 

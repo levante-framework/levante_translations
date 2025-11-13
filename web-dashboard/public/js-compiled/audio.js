@@ -113,6 +113,36 @@ function playAudio(itemId, langCode) {
     const bucketLangCode = BUCKET_LANG_CODE_MAP[langCode] || langCode;
     tryPlayAudio(bucketLangCode);
 }
+async function regenerateItemAudio(itemId, langCode) {
+    const dashboardInstance = window.dashboard;
+    if (!dashboardInstance || typeof dashboardInstance.regenerateAudioForItem !== 'function') {
+        console.warn('Dashboard regenerate handler unavailable');
+        return;
+    }
+    try {
+        await dashboardInstance.regenerateAudioForItem(itemId, langCode);
+    }
+    catch (error) {
+        console.error('❌ Error regenerating audio:', error);
+        const message = error instanceof Error ? error.message : String(error);
+        window.dashboard?.setStatus(`❌ Error regenerating ${itemId}: ${message}`, 'error');
+    }
+}
+async function saveItemAudio(itemId, langCode) {
+    const dashboardInstance = window.dashboard;
+    if (!dashboardInstance || typeof dashboardInstance.saveGeneratedAudioDraft !== 'function') {
+        console.warn('Dashboard save handler unavailable');
+        return;
+    }
+    try {
+        await dashboardInstance.saveGeneratedAudioDraft(itemId, langCode);
+    }
+    catch (error) {
+        console.error('❌ Error saving generated audio:', error);
+        const message = error instanceof Error ? error.message : String(error);
+        window.dashboard?.setStatus(`❌ Error saving ${itemId}: ${message}`, 'error');
+    }
+}
 /**
  * Shows the audio info modal and fetches metadata
  * @param itemId - The item identifier

@@ -55,6 +55,8 @@ declare function setElementDisplay(id: string, display: string): void;
  * @param langCode - The language code
  */
 declare function playAudio(itemId: string, langCode: string): void;
+declare function regenerateItemAudio(itemId: string, langCode: string): Promise<void>;
+declare function saveItemAudio(itemId: string, langCode: string): Promise<void>;
 /**
  * Shows the audio info modal and fetches metadata
  * @param itemId - The item identifier

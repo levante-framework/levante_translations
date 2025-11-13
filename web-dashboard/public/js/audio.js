@@ -62,6 +62,32 @@ function playAudio(itemId, langCode) {
     tryPlayAudio(bucketLangCode);
 }
 
+async function regenerateItemAudio(itemId, langCode) {
+    if (!window.dashboard || typeof window.dashboard.regenerateAudioForItem !== 'function') {
+        console.warn('Dashboard regenerate handler unavailable');
+        return;
+    }
+    try {
+        await window.dashboard.regenerateAudioForItem(itemId, langCode);
+    } catch (error) {
+        console.error('❌ Error regenerating audio:', error);
+        window.dashboard.setStatus(`❌ Error regenerating ${itemId}: ${error.message}`, 'error');
+    }
+}
+
+async function saveItemAudio(itemId, langCode) {
+    if (!window.dashboard || typeof window.dashboard.saveGeneratedAudioDraft !== 'function') {
+        console.warn('Dashboard save handler unavailable');
+        return;
+    }
+    try {
+        await window.dashboard.saveGeneratedAudioDraft(itemId, langCode);
+    } catch (error) {
+        console.error('❌ Error saving generated audio:', error);
+        window.dashboard.setStatus(`❌ Error saving ${itemId}: ${error.message}`, 'error');
+    }
+}
+
 function showAudioInfo(itemId, langCode) {
     console.log(`🔍 Showing audio info for: ${itemId} in ${langCode}`);
     document.getElementById('audioInfoModal').style.display = 'block';
