@@ -1446,6 +1446,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 const rows = sorted.map(item => {
                     const language = item.language || (item.name && item.name.split('/')[1]) || '—';
                     const itemId = item.itemId || (item.name ? item.name.replace(/^audio\//, '').replace(/\.mp3$/i, '').split('/').pop() : '—');
+                    const versionLabel = item.version ? `v${String(item.version).padStart(3, '0')}` : '—';
+                    const safePath = item.path ? item.path.replace(/'/g, "&#39;") : '';
                     const sizeValue = Number(item.size || item.bytes || 0);
                     const formatSize = (typeof formatFileSize === 'function') ? formatFileSize(sizeValue) : `${sizeValue} bytes`;
                     const updatedRaw = item.updated || item.timeCreated || item.generation;
@@ -1459,8 +1461,14 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         <tr>
                             <td>${language}</td>
                             <td><code>${itemId}</code></td>
+                            <td>${versionLabel}</td>
                             <td>${formatSize}</td>
                             <td>${updatedText || '—'}</td>
+                            <td>
+                                <button class="btn btn-secondary btn-compact" onclick="window.dashboard.playDraftAudioSample('${safePath}', '${bucketName}')">
+                                    <i class="fas fa-play"></i> Play
+                                </button>
+                            </td>
                         </tr>
                     `;
                 }).join('');
@@ -1473,8 +1481,10 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                                 <tr>
                                     <th>Language</th>
                                     <th>Item ID</th>
+                                    <th>Version</th>
                                     <th>Size</th>
                                     <th>Updated</th>
+                                    <th>Preview</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1483,6 +1493,35 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         </table>
                     </div>
                 `;
+            }
+
+            async playDraftAudioSample(path, bucketName = 'levante-assets-draft') {
+                if (!path) {
+                    this.setStatus('No audio path provided for preview', 'warning');
+                    return;
+                }
+                try {
+                    const params = new URLSearchParams({
+                        bucket: bucketName,
+                        path
+                    });
+                    this.setStatus(`Loading draft audio preview...`, 'loading');
+                    const response = await fetch(`/api/get-draft-audio?${params.toString()}`);
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    }
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const audio = new Audio(url);
+                    audio.addEventListener('ended', () => URL.revokeObjectURL(url));
+                    audio.addEventListener('error', () => URL.revokeObjectURL(url));
+                    await audio.play();
+                    this.setStatus(`Playing draft audio preview (${path})`, 'success');
+                } catch (error) {
+                    console.error('Error playing draft audio preview', error);
+                    this.setStatus(`❌ Could not preview draft audio: ${error.message}`, 'error');
+                }
             }
 
             extractTextForItem(item, langCode) {
@@ -1568,6 +1607,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     langCode,
                     itemId,
                     bucket: 'levante-assets-draft',
+                    versioning: true,
                     tags: {
                         title: itemId,
                         artist: `Levante Framework - ${this.latestGeneratedAudio.service}`,
@@ -1595,7 +1635,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         const message = result?.message || 'Unknown upload error';
                         throw new Error(message);
                     }
-                    this.setStatus(`Saved ${itemId} to ${result.bucket}/${result.path}`, 'success');
+                    const versionSuffix = result.version ? ` (v${String(result.version).padStart(3, '0')})` : '';
+                    this.setStatus(`Saved ${itemId}${versionSuffix} to ${result.bucket}/${result.path}`, 'success');
                     alert(`Audio saved to ${result.bucket}/${result.path}`);
                 } catch (error) {
                     console.error('Error saving generated audio', error);

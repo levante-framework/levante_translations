@@ -37,26 +37,31 @@ export default async function handler(req, res) {
         const bucket = storage.bucket(bucketName);
         const [files] = await bucket.getFiles({ prefix, maxResults });
 
-        const items = files
-            .filter(file => file.name && file.name.toLowerCase().endsWith('.mp3'))
-            .map(file => {
-            const metadata = file.metadata || {};
-            const name = file.name;
-            const parts = name ? name.split('/') : [];
-            const language = parts.length >= 2 ? parts[1] : '';
-            const filename = parts.length ? parts[parts.length - 1] : name;
-            const itemId = filename ? filename.replace(/\.mp3$/i, '') : '';
+        		const items = files
+			.filter(file => file.name && file.name.toLowerCase().endsWith('.mp3'))
+			.map(file => {
+			const metadata = file.metadata || {};
+			const name = file.name;
+			const parts = name ? name.split('/') : [];
+			const language = parts.length >= 2 ? parts[1] : '';
+			const filename = parts.length ? parts[parts.length - 1] : name;
+			const itemIdRaw = filename ? filename.replace(/\.mp3$/i, '') : '';
+			const versionMatch = itemIdRaw.match(/_v(\d{3})$/);
+			const version = versionMatch ? parseInt(versionMatch[1], 10) : null;
+			const baseItemId = versionMatch ? itemIdRaw.replace(/_v\d{3}$/, '') : itemIdRaw;
 
-            return {
-                name,
-                language,
-                itemId,
-                size: Number(metadata.size || 0),
-                updated: metadata.updated || metadata.timeCreated || null,
-                generation: metadata.generation || null,
-                contentType: metadata.contentType || null
-            };
-        });
+			return {
+				name,
+				language,
+				itemId: baseItemId,
+				version,
+				path: name,
+				size: Number(metadata.size || 0),
+				updated: metadata.updated || metadata.timeCreated || null,
+				generation: metadata.generation || null,
+				contentType: metadata.contentType || null
+			};
+		});
 
         return res.status(200).json({
             success: true,

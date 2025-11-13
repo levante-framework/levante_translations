@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 	if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
 	try {
-		const { audioBase64, langCode, itemId, bucket, tags } = req.body || {};
+		const { audioBase64, langCode, itemId, bucket, tags, versioning } = req.body || {};
 		if (!audioBase64 || typeof audioBase64 !== 'string') {
 			return res.status(400).json({ success: false, error: 'bad_request', message: 'audioBase64 missing or invalid' });
 		}
@@ -78,13 +78,37 @@ export default async function handler(req, res) {
 			return res.status(500).json({ success: false, error: 'gcs_unavailable', message: 'Could not initialize GCS. Check GOOGLE_APPLICATION_CREDENTIALS_JSON.' });
 		}
 		const bucketName = bucket || process.env.ASSETS_DEV_BUCKET || 'levante-assets-dev';
+		let objectPath = `audio/${langCode}/${itemId}.mp3`;
+		let version = null;
+		const enableVersioning = versioning === true || versioning === 'true';
+
 		try {
 			const gcsBucket = storage.bucket(bucketName);
-			const file = gcsBucket.file(`audio/${langCode}/${itemId}.mp3`);
+
+			if (enableVersioning) {
+				const prefix = `audio/${langCode}/${itemId}`;
+				const [existingFiles] = await gcsBucket.getFiles({ prefix });
+				let maxVersion = 0;
+				existingFiles.forEach(file => {
+					const match = file.name.match(/_v(\d{3})\.mp3$/);
+					if (match) {
+						const parsed = parseInt(match[1], 10);
+						if (!Number.isNaN(parsed)) {
+							maxVersion = Math.max(maxVersion, parsed);
+						}
+					} else if (file.name === `${prefix}.mp3`) {
+						maxVersion = Math.max(maxVersion, 0);
+					}
+				});
+				version = maxVersion + 1;
+				objectPath = `${prefix}_v${String(version).padStart(3, '0')}.mp3`;
+			}
+
+			const file = gcsBucket.file(objectPath);
 			await file.save(audioBuffer, { contentType: 'audio/mpeg', resumable: false, public: false });
-			return res.status(200).json({ success: true, bucket: bucketName, path: `audio/${langCode}/${itemId}.mp3` });
+			return res.status(200).json({ success: true, bucket: bucketName, path: objectPath, version });
 		} catch (e) {
-			return res.status(500).json({ success:false, error:'upload_failed', message:e.message, bucket: bucketName, path:`audio/${langCode}/${itemId}.mp3` });
+			return res.status(500).json({ success:false, error:'upload_failed', message:e.message, bucket: bucketName, path: objectPath || `audio/${langCode}/${itemId}.mp3` });
 		}
 	} catch (error) {
 		return res.status(500).json({ success: false, error: 'internal_error', message: error.message });
