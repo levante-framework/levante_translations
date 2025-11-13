@@ -142,7 +142,7 @@ const CONFIG = {
     // Audio settings
     audio: {
         defaultFormat: 'mp3',
-        defaultSampleRate: 24000,
+        defaultSampleRate: 48000,
         playbackTimeout: 30000 // 30 seconds
     },
     
