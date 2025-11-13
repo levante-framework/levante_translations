@@ -64,6 +64,10 @@ declare function saveItemAudio(itemId: string, langCode: string): Promise<void>;
  */
 declare function showAudioInfo(itemId: string, langCode: string): void;
 /**
+ * Closes the draft audio modal
+ */
+declare function closeDraftAudioModal(): void;
+/**
  * Fetches audio metadata from the API
  * @param itemId - The item identifier
  * @param langCode - The language code

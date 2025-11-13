@@ -163,6 +163,15 @@ function closeAudioInfoModal() {
     setElementDisplay('audioInfoModal', 'none');
 }
 /**
+ * Closes the draft audio modal
+ */
+function closeDraftAudioModal() {
+    const modal = getElementByIdSafe('draftAudioModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+/**
  * Fetches audio metadata from the API
  * @param itemId - The item identifier
  * @param langCode - The language code

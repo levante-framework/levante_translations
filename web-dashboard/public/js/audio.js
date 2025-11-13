@@ -147,3 +147,10 @@ function showAudioInfoError(error, details) {
     document.getElementById('audioInfoError').style.display = 'block';
     document.getElementById('errorMessage').textContent = `${error}: ${details}`;
 }
+
+function closeDraftAudioModal() {
+    const modal = document.getElementById('draftAudioModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}

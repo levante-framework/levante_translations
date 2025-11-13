@@ -1165,10 +1165,17 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                      this.populateSelectedText();
                  });
 
-                 document.getElementById('clearText').addEventListener('click', () => {
-                     document.getElementById('textInput').value = '';
-                     this.setStatus('Text cleared', 'success');
-                 });
+                                 document.getElementById('clearText').addEventListener('click', () => {
+                    document.getElementById('textInput').value = '';
+                    this.setStatus('Text cleared', 'success');
+                });
+
+                const viewDraftAudioBtn = document.getElementById('viewDraftAudio');
+                if (viewDraftAudioBtn) {
+                    viewDraftAudioBtn.addEventListener('click', () => {
+                        this.openDraftAudioModal();
+                    });
+                }
 
                  // Setup search functionality for all language tabs
                  this.setupSearchListeners();
@@ -1366,6 +1373,118 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 return { service, voiceId, voiceName, source };
             }
 
+            async openDraftAudioModal() {
+                const modal = document.getElementById('draftAudioModal');
+                if (!modal) {
+                    window.open('./bucket-info.html', '_blank');
+                    return;
+                }
+                modal.style.display = 'block';
+                await this.loadDraftAudioData();
+            }
+
+            async loadDraftAudioData() {
+                const loadingEl = document.getElementById('draftAudioLoading');
+                const bodyEl = document.getElementById('draftAudioBody');
+                if (loadingEl) loadingEl.style.display = 'block';
+                if (bodyEl) bodyEl.innerHTML = '';
+                try {
+                    this.setStatus('Loading draft audio files...', 'loading');
+                    const response = await fetch('/api/list-draft-audio');
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || `Request failed (${response.status})`);
+                    }
+                    const data = await response.json();
+                    const items = Array.isArray(data.items) ? data.items : [];
+                    if (bodyEl) {
+                        bodyEl.innerHTML = this.buildDraftAudioTable(items, data);
+                        const refreshBtn = document.getElementById('refreshDraftAudio');
+                        if (refreshBtn) {
+                            refreshBtn.addEventListener('click', () => this.loadDraftAudioData());
+                        }
+                    }
+                    this.setStatus(`Loaded ${items.length} draft audio files`, 'success');
+                } catch (error) {
+                    console.error('Error loading draft audio files', error);
+                    if (bodyEl) {
+                        bodyEl.innerHTML = `<div class="draft-audio-empty">Failed to load draft audio files: ${error.message}</div>`;
+                    }
+                    this.setStatus(`❌ Error loading draft audio: ${error.message}`, 'error');
+                } finally {
+                    if (loadingEl) loadingEl.style.display = 'none';
+                }
+            }
+
+            buildDraftAudioTable(items = [], meta = {}) {
+                if (!items.length) {
+                    const bucketName = meta.bucket || 'levante-assets-draft';
+                    return `<div class="draft-audio-empty">No audio files found in <code>${bucketName}/audio</code>.</div>`;
+                }
+
+                const bucketName = meta.bucket || 'levante-assets-draft';
+                const prefix = meta.prefix || 'audio/';
+                const sorted = [...items].sort((a, b) => {
+                    const dateA = new Date(a.updated || a.timeCreated || 0).getTime();
+                    const dateB = new Date(b.updated || b.timeCreated || 0).getTime();
+                    return dateB - dateA;
+                });
+
+                const summary = `
+                    <div class="draft-audio-summary">
+                        <div>
+                            <strong>${sorted.length}</strong> files in <code>${bucketName}/${prefix}</code>
+                        </div>
+                        <div>
+                            <button id="refreshDraftAudio" class="btn btn-secondary btn-compact">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                const rows = sorted.map(item => {
+                    const language = item.language || (item.name && item.name.split('/')[1]) || '—';
+                    const itemId = item.itemId || (item.name ? item.name.replace(/^audio\//, '').replace(/\.mp3$/i, '').split('/').pop() : '—');
+                    const sizeValue = Number(item.size || item.bytes || 0);
+                    const formatSize = (typeof formatFileSize === 'function') ? formatFileSize(sizeValue) : `${sizeValue} bytes`;
+                    const updatedRaw = item.updated || item.timeCreated || item.generation;
+                    let updatedText = updatedRaw ? updatedRaw : '';
+                    if (updatedRaw && typeof formatDate === 'function') {
+                        updatedText = formatDate(updatedRaw);
+                    } else if (updatedRaw) {
+                        updatedText = new Date(updatedRaw).toLocaleString();
+                    }
+                    return `
+                        <tr>
+                            <td>${language}</td>
+                            <td><code>${itemId}</code></td>
+                            <td>${formatSize}</td>
+                            <td>${updatedText || '—'}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                return `
+                    ${summary}
+                    <div class="draft-audio-table-wrapper">
+                        <table class="draft-audio-table">
+                            <thead>
+                                <tr>
+                                    <th>Language</th>
+                                    <th>Item ID</th>
+                                    <th>Size</th>
+                                    <th>Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
             extractTextForItem(item, langCode) {
                 if (!item) return '';
                 let text = item[langCode];
@@ -1502,6 +1621,21 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         source: metadata.source || 'unknown',
                         generatedAt: new Date().toISOString()
                     };
+
+                    if (this.latestGeneratedAudio.itemId && this.latestGeneratedAudio.langCode) {
+                        const cacheKey = `${this.latestGeneratedAudio.langCode}::${this.latestGeneratedAudio.itemId}`;
+                        if (!this.audioMetadataCache) {
+                            this.audioMetadataCache = new Map();
+                        }
+                        this.audioMetadataCache.set(cacheKey, {
+                            id3Tags: {
+                                service: this.latestGeneratedAudio.service,
+                                voice: this.latestGeneratedAudio.voiceName,
+                                text: this.latestGeneratedAudio.text,
+                                created: this.latestGeneratedAudio.generatedAt
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Failed to cache generated audio', error);
                     this.latestGeneratedAudio = null;

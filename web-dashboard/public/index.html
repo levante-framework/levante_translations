@@ -155,23 +155,29 @@
                 </div>
                 
                 <!-- Text Generation Section -->
-                <div class="control-group">
-                    <label><i class="fas fa-edit"></i> Text to Speech Generation:</label>
-                    <div style="display: flex; gap: 15px; width: 100%; align-items: flex-start;">
-                        <textarea id="textInput" placeholder="Enter text to convert to speech, or select an item from the table below..." 
-                                  style="flex: 1; min-height: 100px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
-                        <div style="display: flex; flex-direction: column; gap: 10px; min-width: 180px;">
-                            <button id="generateAudio" class="btn btn-success">
-                                <i class="fas fa-play"></i> Generate Audio
-                            </button>
-                            <button id="populateSelected" class="btn btn-primary">
-                                <i class="fas fa-arrow-down"></i> Use Selected Item
-                            </button>
-                            <button id="clearText" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Clear Text
-                            </button>
+                <div class="control-group tts-control-group">
+                    <div class="tts-header-row">
+                        <label class="tts-label"><i class="fas fa-edit"></i> Text to Speech Generation:</label>
+                        <div class="tts-button-columns">
+                            <div class="tts-button-column">
+                                <button id="generateAudio" class="btn btn-success">
+                                    <i class="fas fa-play"></i> Generate Audio
+                                </button>
+                                <button id="populateSelected" class="btn btn-primary">
+                                    <i class="fas fa-arrow-down"></i> Use Selected Item
+                                </button>
+                            </div>
+                            <div class="tts-button-column">
+                                <button id="viewDraftAudio" class="btn btn-secondary">
+                                    <i class="fas fa-folder-open"></i> Draft Audio
+                                </button>
+                                <button id="clearText" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Clear Text
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <textarea id="textInput" class="tts-textarea" placeholder="Enter text to convert to speech, or select an item from the table below..."></textarea>
                 </div>
             </div>
             

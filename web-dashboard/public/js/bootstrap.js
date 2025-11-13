@@ -42,6 +42,7 @@ window.onclick = function(event) {
     const credentialsModal = document.getElementById('credentialsModal');
     const audioInfoModal = document.getElementById('audioInfoModal');
     const audioValidationModal = document.getElementById('audioValidationModal');
+    const draftAudioModal = document.getElementById('draftAudioModal');
     if (event.target === credentialsModal) {
         closeCredentialsModal();
     }
@@ -50,5 +51,8 @@ window.onclick = function(event) {
     }
     if (event.target === audioValidationModal) {
         closeAudioValidationModal();
+    }
+    if (event.target === draftAudioModal) {
+        closeDraftAudioModal();
     }
 };
