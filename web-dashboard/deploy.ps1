@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
-# Levante Audio Dashboard Deployment Script
+# Levante Pitwall Deployment Script
 
-Write-Host "🚀 Deploying Levante Audio Dashboard to Vercel..." -ForegroundColor Cyan
+Write-Host "🚀 Deploying Levante Pitwall to Vercel..." -ForegroundColor Cyan
 Write-Host ""
 
 # Deploy to production
@@ -53,7 +53,7 @@ Write-Host "🎉 Deployment complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "🌐 Your dashboard is now available at:" -ForegroundColor Cyan
 Write-Host "  • https://audio-dashboard-levante.vercel.app" -ForegroundColor White
-Write-Host "  • https://levante-audio-dashboard.vercel.app" -ForegroundColor White
+Write-Host "  • https://levante-pitwall.vercel.app" -ForegroundColor White
 Write-Host "  • $deploymentUrl" -ForegroundColor Gray
 Write-Host ""
 Read-Host "Press Enter to exit" 

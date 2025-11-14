@@ -1,6 +1,6 @@
 # Dashboard Patch & Deploy Workflow
 
-This guide explains how to use the Levante Audio Dashboard to create small "patch" audio fixes and move them into the deploy queue without touching the Git repo manually.
+This guide explains how to use the Levante Pitwall to create small "patch" audio fixes and move them into the deploy queue without touching the Git repo manually.
 
 ## Prerequisites
 - Access to the dashboard (Firebase superadmin role).

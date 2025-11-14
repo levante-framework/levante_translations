@@ -1,4 +1,4 @@
-# Levante Audio Dashboard - Deployment Guide
+# Levante Pitwall - Deployment Guide
 
 ## Automatic Aliasing Setup
 
