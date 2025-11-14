@@ -24,6 +24,11 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 this.audioCopyright = DEFAULT_AUDIO_COPYRIGHT;
                 this.audioMetadataCache = new Map();
                 this.draftPublicBaseUrl = (window.CONFIG && window.CONFIG.draftBucketPublicBase) || 'https://storage.googleapis.com/levante-assets-draft/';
+                const origin = (typeof window !== 'undefined' && window.location && window.location.origin)
+                    ? window.location.origin.replace(/\/+$/, '')
+                    : '';
+                const defaultShareBase = origin ? `${origin}/draft-share.html` : '';
+                this.draftSharePageBase = (window.CONFIG && window.CONFIG.draftSharePageBase) || defaultShareBase;
                 this.selectedDraftAudio = null;
                 
                 this.setupGlobalActions();
@@ -80,12 +85,38 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
             }
 
             buildDraftFolderLink(folder = '', bucketName = '') {
+                const normalizedFolder = folder ? folder.replace(/^\/+/, '').replace(/\/+$/, '') : '';
+                const bucket = bucketName || this.currentDraftBucketName || 'levante-assets-draft';
+
+                if (this.draftSharePageBase) {
+                    try {
+                        const shareUrl = this.draftSharePageBase.startsWith('http')
+                            ? new URL(this.draftSharePageBase)
+                            : new URL(this.draftSharePageBase, window.location.origin);
+                        if (bucket) {
+                            shareUrl.searchParams.set('bucket', bucket);
+                        }
+                        if (normalizedFolder) {
+                            const folderParam = normalizedFolder.endsWith('/') ? normalizedFolder : `${normalizedFolder}/`;
+                            shareUrl.searchParams.set('folder', folderParam);
+                        }
+                        return shareUrl.toString();
+                    } catch (error) {
+                        console.warn('Failed to build draft share link, falling back to bucket URL', error);
+                    }
+                }
+
                 if (!this.draftPublicBaseUrl) return null;
                 const base = this.draftPublicBaseUrl.replace(/\/+$/, '');
-                const bucketSegment = bucketName ? bucketName.replace(/\/+$/, '') : '';
-                const normalizedFolder = folder ? folder.replace(/^\/+/, '').replace(/\/+$/, '') : '';
+                const bucketSegment = bucket ? bucket.replace(/\/+$/, '') : '';
                 const parts = [base];
-                if (bucketSegment) parts.push(bucketSegment);
+                if (bucketSegment) {
+                    const normalizedBase = base.replace(/\/+$/, '');
+                    const baseHasBucket = normalizedBase.endsWith(`/${bucketSegment}`) || normalizedBase === bucketSegment;
+                    if (!baseHasBucket) {
+                        parts.push(bucketSegment);
+                    }
+                }
                 if (normalizedFolder) parts.push(normalizedFolder);
                 return `${parts.join('/')}/`;
             }

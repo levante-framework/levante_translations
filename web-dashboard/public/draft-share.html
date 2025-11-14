@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Levante Draft Audio Share</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f4f6fb;
+            color: #1f2933;
+            margin: 0;
+            padding: 0;
+        }
+
+        .share-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 16px 48px;
+        }
+
+        header {
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0 0 12px;
+        }
+
+        .folder-info {
+            font-size: 15px;
+            color: #52606d;
+        }
+
+        .status {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            background: #e0edff;
+            color: #0b5394;
+        }
+
+        .status.error {
+            background: #fde7e9;
+            color: #a61b2b;
+        }
+
+        .status.success {
+            background: #e3fcec;
+            color: #237804;
+        }
+
+        .status.loading {
+            background: #fff6d9;
+            color: #7d4e00;
+        }
+
+        .share-content {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+            padding: 20px 24px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e4e7eb;
+        }
+
+        th {
+            background: #f9fafc;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover {
+            background: #f5f8ff;
+        }
+
+        code {
+            background: #f4f6fb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .empty-state {
+            padding: 32px 0;
+            text-align: center;
+            color: #52606d;
+        }
+
+        .download-link {
+            color: #0b5394;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        audio {
+            width: 220px;
+            max-width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .share-container {
+                padding: 20px 12px 32px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            audio {
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="share-container">
+        <header>
+            <h1>Levante Draft Audio</h1>
+            <div id="folderInfo" class="folder-info">Preparing share view…</div>
+        </header>
+
+        <div id="status" class="status loading">Loading draft audio…</div>
+
+        <div id="content" class="share-content">
+            <div class="empty-state">Fetching draft audio files…</div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const statusEl = document.getElementById('status');
+            const contentEl = document.getElementById('content');
+            const folderInfoEl = document.getElementById('folderInfo');
+
+            const params = new URLSearchParams(window.location.search);
+            const bucketParam = params.get('bucket') || 'levante-assets-draft';
+            const folderParam = params.get('folder') || 'audio/';
+
+            const bucket = bucketParam.replace(/[^a-z0-9\-_.]/gi, '').toLowerCase() || 'levante-assets-draft';
+            const sanitizedFolder = folderParam
+                .replace(/\.\.+/g, '')
+                .replace(/^\/+/, '')
+                .replace(/\/+$/, '');
+            const prefix = sanitizedFolder ? `${sanitizedFolder}/` : 'audio/';
+
+            document.title = sanitizedFolder
+                ? `Draft Audio • ${sanitizedFolder}`
+                : 'Draft Audio • All';
+
+            folderInfoEl.textContent = `Bucket: ${bucket} • Folder: ${prefix}`;
+
+            function setStatus(message, type) {
+                statusEl.textContent = message;
+                statusEl.className = `status ${type || ''}`.trim();
+            }
+
+            function formatBytes(bytes) {
+                const value = Number(bytes);
+                if (!Number.isFinite(value) || value <= 0) return '0 bytes';
+                const units = ['bytes', 'KB', 'MB', 'GB', 'TB'];
+                let index = 0;
+                let display = value;
+                while (display >= 1024 && index < units.length - 1) {
+                    display /= 1024;
+                    index += 1;
+                }
+                const precision = display >= 10 || index === 0 ? 0 : 1;
+                return `${display.toFixed(precision)} ${units[index]}`;
+            }
+
+            function formatDate(value) {
+                if (!value) return '—';
+                const date = new Date(value);
+                if (Number.isNaN(date.getTime())) return value;
+                return date.toLocaleString();
+            }
+
+            function buildPublicUrl(path) {
+                const safeSegments = path.split('/').map(segment => encodeURIComponent(segment));
+                return `https://storage.googleapis.com/${bucket}/${safeSegments.join('/')}`;
+            }
+
+            function renderFiles(items) {
+                if (!items.length) {
+                    contentEl.innerHTML = '<div class="empty-state">No audio files found for this folder.</div>';
+                    setStatus('No draft audio files were found for the selected folder.', 'error');
+                    return;
+                }
+
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                ['Item ID', 'Version', 'Size', 'Updated', 'Preview', 'Download'].forEach(label => {
+                    const th = document.createElement('th');
+                    th.textContent = label;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                items.forEach(item => {
+                    const row = document.createElement('tr');
+                    const itemId = item.itemId || (item.path || '').split('/').pop()?.replace(/\.mp3$/i, '') || '—';
+                    const versionLabel = item.version ? `v${String(item.version).padStart(3, '0')}` : '—';
+                    const sizeLabel = formatBytes(item.size || 0);
+                    const updatedLabel = formatDate(item.updated || item.timeCreated || item.generation);
+                    const publicUrl = item.path ? buildPublicUrl(item.path) : null;
+
+                    const itemCell = document.createElement('td');
+                    const codeEl = document.createElement('code');
+                    codeEl.textContent = itemId;
+                    itemCell.appendChild(codeEl);
+                    row.appendChild(itemCell);
+
+                    const versionCell = document.createElement('td');
+                    versionCell.textContent = versionLabel;
+                    row.appendChild(versionCell);
+
+                    const sizeCell = document.createElement('td');
+                    sizeCell.textContent = sizeLabel;
+                    row.appendChild(sizeCell);
+
+                    const updatedCell = document.createElement('td');
+                    updatedCell.textContent = updatedLabel;
+                    row.appendChild(updatedCell);
+
+                    const previewCell = document.createElement('td');
+                    if (publicUrl) {
+                        const audio = document.createElement('audio');
+                        audio.controls = true;
+                        audio.preload = 'none';
+                        audio.src = publicUrl;
+                        previewCell.appendChild(audio);
+                    } else {
+                        previewCell.textContent = '—';
+                    }
+                    row.appendChild(previewCell);
+
+                    const downloadCell = document.createElement('td');
+                    if (publicUrl) {
+                        const link = document.createElement('a');
+                        link.href = publicUrl;
+                        link.textContent = 'Download';
+                        link.className = 'download-link';
+                        link.setAttribute('target', '_blank');
+                        link.setAttribute('rel', 'noopener noreferrer');
+                        downloadCell.appendChild(link);
+                    } else {
+                        downloadCell.textContent = '—';
+                    }
+                    row.appendChild(downloadCell);
+
+                    tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+                contentEl.innerHTML = '';
+                contentEl.appendChild(table);
+                setStatus(`Loaded ${items.length} draft audio file${items.length === 1 ? '' : 's'}.`, 'success');
+            }
+
+            async function loadFiles() {
+                try {
+                    const url = `/api/list-draft-audio?bucket=${encodeURIComponent(bucket)}&prefix=${encodeURIComponent(prefix)}`;
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    }
+                    const data = await response.json();
+                    const items = Array.isArray(data.items) ? data.items.slice() : [];
+                    items.sort((a, b) => {
+                        const dateA = new Date(a.updated || a.timeCreated || 0).getTime();
+                        const dateB = new Date(b.updated || b.timeCreated || 0).getTime();
+                        return dateB - dateA;
+                    });
+                    renderFiles(items);
+                } catch (error) {
+                    console.error('Failed to load draft audio list', error);
+                    setStatus(`Unable to load draft audio files: ${error.message}`, 'error');
+                    contentEl.innerHTML = '<div class="empty-state">We could not load the draft audio files. Please try again later.</div>';
+                }
+            }
+
+            loadFiles();
+        })();
+    </script>
+</body>
+</html>
