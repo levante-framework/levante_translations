@@ -60,11 +60,13 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
             }
 
             copyDraftBucketLink() {
+                const button = document.getElementById('copyDraftBucketLink');
                 const bucketName = this.selectedDraftAudio?.bucketName || this.currentDraftBucketName;
                 const folder = this.selectedDraftAudio?.folder;
                 const link = this.buildDraftFolderLink(folder, bucketName);
                 if (!link) {
                     this.setStatus('Draft bucket link is not configured', 'warning');
+                    this.showButtonFeedback(button, 'Link unavailable', 'error', 'fa-times');
                     return;
                 }
                 if (!folder) {
@@ -74,15 +76,19 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     navigator.clipboard.writeText(link)
                         .then(() => {
                             this.setStatus(`Copied draft link${folder ? '' : ' (base only)'}`, 'success');
+                            const label = folder ? 'Copied!' : 'Copied base link';
+                            this.showButtonFeedback(button, label, 'success', 'fa-check');
                         })
                         .catch((error) => {
                             console.warn('Clipboard copy failed', error);
                             this.setStatus('Unable to copy link automatically. Please copy manually.', 'warning');
                             window.prompt('Copy draft bucket link:', link);
+                            this.showButtonFeedback(button, 'Copy failed', 'error', 'fa-times');
                         });
                 } else {
                     this.setStatus('Clipboard API unavailable. Showing link to copy manually.', 'warning');
                     window.prompt('Copy draft bucket link:', link);
+                    this.showButtonFeedback(button, 'Copy manually', 'warning', 'fa-exclamation-triangle');
                 }
             }
 
@@ -1241,20 +1247,21 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     }
                 });
 
-
-                 // Text generation controls
-                 document.getElementById('generateAudio').addEventListener('click', () => {
-                     this.generateAudioFromText();
-                 });
-
-                 document.getElementById('populateSelected').addEventListener('click', () => {
-                     this.populateSelectedText();
-                 });
-
-                                 document.getElementById('clearText').addEventListener('click', () => {
-                    document.getElementById('textInput').value = '';
-                    this.setStatus('Text cleared', 'success');
+                // Text generation controls
+                document.getElementById('generateAudio').addEventListener('click', () => {
+                    this.generateAudioFromText();
                 });
+
+                document.getElementById('populateSelected').addEventListener('click', () => {
+                    this.populateSelectedText();
+                });
+
+                const viewDeployFolderBtn = document.getElementById('viewDeployFolder');
+                if (viewDeployFolderBtn) {
+                    viewDeployFolderBtn.addEventListener('click', () => {
+                        this.openDeployFolderLink();
+                    });
+                }
 
                 const viewDraftAudioBtn = document.getElementById('viewDraftAudio');
                 if (viewDraftAudioBtn) {
@@ -1457,6 +1464,17 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 }
 
                 return { service, voiceId, voiceName, source };
+            }
+
+            openDeployFolderLink() {
+                const bucketName = this.currentDraftBucketName || 'levante-assets-draft';
+                const link = this.buildDraftFolderLink('deploy/', bucketName);
+                if (link) {
+                    window.open(link, '_blank', 'noopener');
+                    this.setStatus('Opened deploy folder listing in new tab.', 'success');
+                } else {
+                    this.setStatus('Unable to open deploy folder link.', 'error');
+                }
             }
 
             async openDraftAudioModal() {
@@ -1734,8 +1752,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     this.setStatus(`Deploying ${selections.length} draft audio file(s)...`, 'loading');
                     const payload = {
                         files: selections,
-                        bucket: this.currentDraftBucketName || 'levante-assets-draft',
-                        commitMessage: this.buildDraftDeployCommitMessage(selections)
+                        bucket: this.currentDraftBucketName || 'levante-assets-draft'
                     };
 
                     const response = await fetch('/api/deploy-draft-audio', {
@@ -1750,14 +1767,39 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         throw new Error(message);
                     }
 
-                    const commitUrl = result.commitUrl || result.htmlUrl || '';
-                    const branch = result.branch || 'main';
-                    this.setStatus(`Deployed ${selections.length} draft audio file(s) to ${branch}`, 'success');
-                    if (commitUrl) {
-                        alert(`Deployment complete!\n\nCommit: ${commitUrl}`);
-                    } else {
-                        alert('Deployment complete!');
+                    const movedCountRaw = Number(result.moved);
+                    const movedCount = Number.isFinite(movedCountRaw) ? movedCountRaw : selections.length;
+                    const deletedCountRaw = Number(result.deleted);
+                    const deletedCount = Number.isFinite(deletedCountRaw) ? deletedCountRaw : 0;
+                    const bucketList = Array.isArray(result.buckets) && result.buckets.length ? result.buckets : [this.currentDraftBucketName || 'levante-assets-draft'];
+
+                    const summaryParts = [];
+                    summaryParts.push(`Moved ${movedCount} file${movedCount === 1 ? '' : 's'} to deploy folder`);
+                    if (deletedCount > 0) {
+                        summaryParts.push(`removed ${deletedCount} old version${deletedCount === 1 ? '' : 's'}`);
                     }
+                    const summaryMessage = summaryParts.join(', ') || 'Deployment complete';
+                    this.setStatus(`${summaryMessage}.`, 'success');
+
+                    const lines = [];
+                    lines.push(summaryMessage + '.');
+                    lines.push(`Bucket: ${bucketList.join(', ')}`);
+
+                    if (Array.isArray(result.results) && result.results.length) {
+                        const preview = result.results
+                            .slice(0, Math.min(result.results.length, 3))
+                            .map(item => {
+                                const lang = item.language || 'lang';
+                                const dest = item.destination || item.source || '';
+                                return `${lang}: ${dest}`;
+                            });
+                        if (preview.length) {
+                            lines.push('\nExamples:');
+                            lines.push(preview.join('\n'));
+                        }
+                    }
+
+                    alert(lines.join('\n'));
                     selections.forEach(sel => this.approvedDrafts.delete(sel.path));
                     await this.loadDraftAudioData();
                 } catch (error) {
@@ -2174,6 +2216,37 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 if (statusContent) {
                     statusContent.textContent = message;
                 }
+            }
+
+            showButtonFeedback(button, text, variant = 'success', iconClass = 'fa-check', duration = 2000) {
+                if (!button) return;
+                const originalHtml = button.dataset.originalHtml || button.innerHTML;
+                if (!button.dataset.originalHtml) {
+                    button.dataset.originalHtml = originalHtml;
+                }
+
+                const timeoutIdRaw = (button.dataset.feedbackTimeout && button.dataset.feedbackTimeout !== '')
+                    ? Number(button.dataset.feedbackTimeout)
+                    : null;
+                if (timeoutIdRaw !== null && !Number.isNaN(timeoutIdRaw)) {
+                    clearTimeout(timeoutIdRaw);
+                }
+
+                button.classList.remove('btn-feedback-success', 'btn-feedback-error', 'btn-feedback-warning');
+                if (variant) {
+                    button.classList.add(`btn-feedback-${variant}`);
+                }
+
+                const iconHtml = iconClass ? `<i class="fas ${iconClass}"></i> ` : '';
+                button.innerHTML = `${iconHtml}${text}`;
+
+                const timeoutId = window.setTimeout(() => {
+                    button.innerHTML = button.dataset.originalHtml || originalHtml;
+                    button.classList.remove('btn-feedback-success', 'btn-feedback-error', 'btn-feedback-warning');
+                    delete button.dataset.feedbackTimeout;
+                }, duration);
+
+                button.dataset.feedbackTimeout = String(timeoutId);
             }
         }
 

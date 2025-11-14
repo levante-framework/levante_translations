@@ -18,7 +18,14 @@ const FIREBASE_CONFIG = {
 const SUPERADMIN_EMAILS = [
     "admin@levante.com",
     "superadmin@levante.com",
-    "david81@stanford.edu"  // Your email for direct access
+    "david81@stanford.edu",  // Your email for direct access
+    "cuskley@stanford.edu",
+    "aal@stanford.edu",
+    "zdwatson@stanford.edu",
+    "serlee@stanford.edu",
+    "sachino@stanford.edu",
+    "mcfrank@stanford.edu",
+    "acardinal42@gmail.com"
     // Add more superadmin emails here if needed
 ];
 

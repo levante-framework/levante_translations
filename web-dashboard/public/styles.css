@@ -37,6 +37,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .btn-success { background: #28a745; color: white; }
 .btn-info { background: #17a2b8; color: white; }
 .btn-secondary { background: #6c757d; color: white; }
+.btn-feedback-success { background: #198754 !important; color: #fff !important; }
+.btn-feedback-error { background: #dc3545 !important; color: #fff !important; }
+.btn-feedback-warning { background: #ffc107 !important; color: #212529 !important; }
 .btn-warning { background: #ffc107; color: #212529; }
 .voice-select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-width: 250px; background: white; transition: border-color 0.3s ease; }
 .voice-select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
