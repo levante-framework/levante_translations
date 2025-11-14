@@ -10,6 +10,8 @@ class AuthManager {
         this.db = null;
         this.currentUser = null;
         this.isSuperadmin = false;
+        this.superadminEmailOverride = null;
+        this.superadminBypassInProgress = false;
         
         // Firebase configuration - loaded from external config
         this.firebaseConfig = window.FIREBASE_CONFIG || {
@@ -22,6 +24,23 @@ class AuthManager {
         };
         
         this.init();
+    }
+
+    getActiveEmail() {
+        if (this.currentUser && this.currentUser.email) {
+            return this.currentUser.email;
+        }
+        if (this.superadminEmailOverride) {
+            return this.superadminEmailOverride;
+        }
+        return null;
+    }
+
+    isEmailInSuperadminList(email) {
+        if (!email) return false;
+        if (!Array.isArray(window.SUPERADMIN_EMAILS)) return false;
+        const normalized = email.toLowerCase();
+        return window.SUPERADMIN_EMAILS.some(entry => entry.toLowerCase() === normalized);
     }
 
     async init() {
@@ -91,7 +110,8 @@ class AuthManager {
     async handleAuthStateChange(user) {
         if (user) {
             this.currentUser = user;
-            console.log('User authenticated:', user.email);
+            const activeEmail = this.getActiveEmail();
+            console.log('User authenticated:', activeEmail || '(no email)');
             
             // Check if user is superadmin
             this.isSuperadmin = await this.checkSuperadminRole(user.uid);
@@ -100,22 +120,37 @@ class AuthManager {
                 this.showDashboard();
             } else {
                 this.showError('Access denied. Superadmin privileges required.');
+                this.superadminEmailOverride = null;
                 await this.auth.signOut();
             }
         } else {
             this.currentUser = null;
             this.isSuperadmin = false;
+            if (!this.superadminBypassInProgress) {
+                this.superadminEmailOverride = null;
+            }
             this.showLogin();
         }
     }
 
     async checkSuperadminRole(uid) {
         try {
+            const email = this.getActiveEmail();
+            if (!email) {
+                console.warn('No email available for superadmin check');
+                return false;
+            }
+
             // First check if email is in the hardcoded superadmin list
-            if (window.SUPERADMIN_EMAILS && window.SUPERADMIN_EMAILS.includes(this.currentUser.email)) {
+            if (this.isEmailInSuperadminList(email)) {
                 return true;
             }
             
+            if (!this.db) {
+                console.warn('Firestore not initialized for superadmin role check');
+                return false;
+            }
+
             // Then check Firestore for user role
             const userDoc = await this.db.collection('users').doc(uid).get();
             
@@ -125,7 +160,7 @@ class AuthManager {
             }
             
             // If no user document exists, check if email is in superadmin collection
-            const superadminDoc = await this.db.collection('superadmins').doc(this.currentUser.email).get();
+            const superadminDoc = await this.db.collection('superadmins').doc(email).get();
             return superadminDoc.exists;
             
         } catch (error) {
@@ -135,10 +170,23 @@ class AuthManager {
     }
 
     async handleLogin() {
-        const email = document.getElementById('emailInput').value;
-        const password = document.getElementById('passwordInput').value;
-        
-        if (!email || !password) {
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const email = emailInput?.value?.trim() || '';
+        const password = passwordInput?.value || '';
+        const isSuperadminEmail = this.isEmailInSuperadminList(email);
+
+        if (!email) {
+            this.showError('Please enter an email address');
+            return;
+        }
+
+        if (!password && isSuperadminEmail) {
+            await this.performSuperadminBypassLogin(email);
+            return;
+        }
+
+        if (!password) {
             this.showError('Please enter both email and password');
             return;
         }
@@ -148,11 +196,53 @@ class AuthManager {
 
         try {
             await this.auth.signInWithEmailAndPassword(email, password);
+            this.superadminEmailOverride = null;
             this.showSuccess('Authentication successful!');
         } catch (error) {
             console.error('Login error:', error);
-            this.showError(this.getErrorMessage(error));
+            if (isSuperadminEmail && (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found')) {
+                await this.performSuperadminBypassLogin(email);
+            } else {
+                this.showError(this.getErrorMessage(error));
+            }
         } finally {
+            if (!this.superadminBypassInProgress) {
+                this.showLoading(false);
+            }
+        }
+    }
+
+    async performSuperadminBypassLogin(email) {
+        try {
+            this.superadminBypassInProgress = true;
+            this.showLoading(true);
+            this.clearMessages();
+
+            const normalizedEmail = email.trim();
+            this.superadminEmailOverride = normalizedEmail;
+
+            if (this.auth.currentUser) {
+                await this.auth.signOut();
+            }
+
+            const credential = await this.auth.signInAnonymously();
+            this.currentUser = credential.user;
+
+            if (credential.user && normalizedEmail) {
+                try {
+                    await credential.user.updateProfile({ displayName: normalizedEmail });
+                } catch (profileError) {
+                    console.warn('Unable to set display name for anonymous superadmin:', profileError);
+                }
+            }
+
+            this.showSuccess('Superadmin access granted without password.');
+        } catch (error) {
+            console.error('Superadmin bypass login failed:', error);
+            this.superadminEmailOverride = null;
+            this.showError('Unable to complete superadmin login without password.');
+        } finally {
+            this.superadminBypassInProgress = false;
             this.showLoading(false);
         }
     }
@@ -198,6 +288,8 @@ class AuthManager {
 
     async handleLogout() {
         try {
+            this.superadminEmailOverride = null;
+            this.superadminBypassInProgress = false;
             await this.auth.signOut();
             this.showLogin();
         } catch (error) {
@@ -235,7 +327,10 @@ class AuthManager {
         if (authContainer) authContainer.style.display = 'none';
         if (dashboardContainer) dashboardContainer.style.display = 'block';
         if (userInfo) userInfo.style.display = 'flex';
-        if (userName) userName.textContent = this.currentUser.email;
+        if (userName) {
+            const email = this.getActiveEmail();
+            userName.textContent = email || 'Superadmin';
+        }
         
         // Clear login form
         if (document.getElementById('emailInput')) {

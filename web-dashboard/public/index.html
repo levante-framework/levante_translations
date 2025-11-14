@@ -75,6 +75,9 @@
                         <a href="#" onclick="openPreflightReport(); return false;">
                             <i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report
                         </a>
+                        <a href="#" onclick="openImageGallery(); return false;">
+                            <i class="fas fa-images"></i> Image Gallery
+                        </a>
                         <a href="#" onclick="openTaskTemplate(); return false;">
                             <i class="fas fa-plus-circle"></i> Add Task Template
                         </a>
@@ -323,6 +326,9 @@
         }
         function openPreflightReport() {
             window.open('./preflight-report.html', '_blank');
+        }
+        function openImageGallery() {
+            window.open('https://image-gallery-digitalpros-projects.vercel.app/', '_blank');
         }
         function openAssetHistory() {
             window.open('./asset-history.html', '_blank');
