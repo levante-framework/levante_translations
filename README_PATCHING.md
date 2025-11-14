@@ -26,7 +26,7 @@ This guide explains how to use the Levante Pitwall to create small "patch" audio
 
 ### 2. Save to drafts
 - Once the preview sounds correct, use the **Save** button in the item row.
-- Each save creates / updates `audio/<lang>/<itemId>_v###.mp3` in the `levante-assets-draft` bucket and tags it with `patch=dashboard`.
+- Each save creates / updates `audio/<lang>/<itemId>_v###.mp3` in the `levante-assets-draft` bucket and tags it with `source=patch`.
 
 ### 3. Review drafts
 - Click **Draft Audio** to open the draft modal.

@@ -1949,7 +1949,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         text: this.latestGeneratedAudio.text || '',
                         created: this.latestGeneratedAudio.generatedAt,
                         copyright: this.audioCopyright,
-                        patch: 'dashboard'
+                        source: 'patch'
                     }
                 };
 

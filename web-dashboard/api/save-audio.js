@@ -53,6 +53,7 @@ export default async function handler(req, res) {
 		pushCustomTag('lang_code', tags?.lang_code || langCode);
 		pushCustomTag('text', tags?.text);
 		pushCustomTag('created', tags?.created || new Date().toISOString());
+		pushCustomTag('source', tags?.source);
 
 		const id3 = {
 			title: tags?.title || itemId,
