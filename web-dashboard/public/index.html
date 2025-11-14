@@ -119,23 +119,19 @@
             <div class="controls-section">
                 <div class="control-group">
                     <label><i class="fas fa-volume-up"></i> Voice Tools:</label>
-                    <div class="voice-controls single-row">
-                        <div class="voice-row">
-                            <label for="playhtVoice">PlayHT Voice</label>
+                    <div class="voice-controls single-row" id="voiceControls">
+                        <div class="voice-select-row">
                             <div class="voice-input compact">
-                                <select id="playhtVoice" class="voice-select narrow">
-                                    <option value="">Select PlayHT Voice...</option>
+                                <select id="playhtVoice" class="voice-select split">
+                                    <option value="">Select PlayHT...</option>
                                 </select>
                                 <button id="copyPlayhtVoice" class="btn btn-secondary btn-copy" title="Copy selected voice name to clipboard">
                                     <i class="fas fa-copy"></i>
                                 </button>
                             </div>
-                        </div>
-                        <div class="voice-row">
-                            <label for="elevenlabsVoice">ElevenLabs Voice</label>
                             <div class="voice-input compact">
-                                <select id="elevenlabsVoice" class="voice-select narrow">
-                                    <option value="">Select ElevenLabs Voice...</option>
+                                <select id="elevenlabsVoice" class="voice-select split">
+                                    <option value="">Select ElevenLabs...</option>
                                 </select>
                                 <button id="copyElevenlabsVoice" class="btn btn-secondary btn-copy" title="Copy selected voice name to clipboard">
                                     <i class="fas fa-copy"></i>

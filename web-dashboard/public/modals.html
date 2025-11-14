@@ -279,7 +279,12 @@
     <div class="modal-content modal-wide">
         <div class="modal-header">
             <h2><i class="fas fa-music"></i> Draft Audio Files</h2>
-            <span class="close" onclick="closeDraftAudioModal()">&times;</span>
+            <div class="modal-actions">
+                <button id="copyDraftBucketLink" class="btn btn-secondary btn-compact" title="Copy draft bucket link">
+                    <i class="fas fa-link"></i> Copy Draft Link
+                </button>
+                <span class="close" onclick="closeDraftAudioModal()">&times;</span>
+            </div>
         </div>
         <div class="draft-audio-content">
             <div id="draftAudioLoading" class="loading-spinner" style="display: none;">

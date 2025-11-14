@@ -18,17 +18,17 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .controls-section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #4facfe; }
 .control-group { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
 .control-group label { font-weight: 600; color: #495057; }
-.voice-controls { display: flex; align-items: center; gap: 16px; flex-wrap: nowrap; width: 100%; }
+.voice-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; width: 100%; }
 .voice-controls.single-row { flex: 1; min-width: 0; }
-.voice-row { display: flex; align-items: center; gap: 10px; }
-.voice-row label { font-size: 14px; font-weight: 500; color: #6c757d; min-width: 110px; }
-.voice-input { display: flex; align-items: center; gap: 8px; }
+.voice-select-row { display: flex; gap: 10px; align-items: center; width: 100%; }
+.voice-input { display: flex; align-items: center; gap: 8px; flex: 1 1 0; }
 .voice-input.compact { flex-direction: row; }
-.voice-select { width: 200px; min-width: 0; }
-.voice-select.narrow { width: 180px; }
+.voice-select { width: 100%; min-width: 0; }
+.voice-select.split { width: 100%; }
 .btn-copy { padding: 6px 10px; min-width: auto; }
-.voice-actions { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
-.voice-actions.inline { flex: 1; justify-content: flex-start; }
+.btn-copy { padding: 6px 10px; min-width: auto; }
+.voice-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1 1 auto; }
+.voice-actions.inline { justify-content: flex-start; }
 .voice-actions .btn { width: auto; min-width: 120px; justify-content: center; }
 .btn { padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -207,11 +207,13 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .draft-audio-table th, .draft-audio-table td { padding: 10px; border-bottom: 1px solid #e9ecef; text-align: left; font-size: 0.9em; }
 .draft-audio-table th { background: #f8f9fa; font-weight: 600; color: #495057; }
 .draft-audio-table tr:hover { background: #f1f3f5; }
+.draft-audio-table tr.selected { background: #e3f2fd; border-left: 4px solid #2196f3; }
 .draft-audio-empty { padding: 20px; text-align: center; color: #6c757d; }
 @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-.modal-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; position: relative; }
+.modal-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .modal-header h2 { margin: 0; font-size: 1.5em; }
-.close { color: white; float: right; font-size: 28px; font-weight: bold; position: absolute; right: 20px; top: 15px; cursor: pointer; transition: opacity 0.3s; }
+.modal-actions { display: flex; align-items: center; gap: 10px; }
+.close { color: white; font-size: 28px; font-weight: bold; cursor: pointer; transition: opacity 0.3s; line-height: 1; }
 .close:hover { opacity: 0.7; }
 .credentials-form { padding: 25px; }
 .credential-group { margin-bottom: 20px; }

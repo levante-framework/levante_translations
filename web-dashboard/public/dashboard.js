@@ -23,7 +23,10 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 this.latestGeneratedAudio = null;
                 this.audioCopyright = DEFAULT_AUDIO_COPYRIGHT;
                 this.audioMetadataCache = new Map();
+                this.draftPublicBaseUrl = (window.CONFIG && window.CONFIG.draftBucketPublicBase) || 'https://storage.googleapis.com/levante-assets-draft/';
+                this.selectedDraftAudio = null;
                 
+                this.setupGlobalActions();
                 this.init();
             }
 
@@ -35,6 +38,56 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 } catch (e) {
                     // ignore
                 }
+            }
+
+            setupGlobalActions() {
+                setTimeout(() => this.bindCopyDraftLinkButton(), 0);
+            }
+
+            bindCopyDraftLinkButton(root = document) {
+                const copyBtn = root.querySelector('#copyDraftBucketLink');
+                if (copyBtn && !copyBtn.dataset.bound) {
+                    copyBtn.addEventListener('click', () => this.copyDraftBucketLink());
+                    copyBtn.dataset.bound = 'true';
+                }
+            }
+
+            copyDraftBucketLink() {
+                const bucketName = this.selectedDraftAudio?.bucketName || this.currentDraftBucketName;
+                const folder = this.selectedDraftAudio?.folder;
+                const link = this.buildDraftFolderLink(folder, bucketName);
+                if (!link) {
+                    this.setStatus('Draft bucket link is not configured', 'warning');
+                    return;
+                }
+                if (!folder) {
+                    this.setStatus('No draft selected — copied base bucket link.', 'warning');
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(link)
+                        .then(() => {
+                            this.setStatus(`Copied draft link${folder ? '' : ' (base only)'}`, 'success');
+                        })
+                        .catch((error) => {
+                            console.warn('Clipboard copy failed', error);
+                            this.setStatus('Unable to copy link automatically. Please copy manually.', 'warning');
+                            window.prompt('Copy draft bucket link:', link);
+                        });
+                } else {
+                    this.setStatus('Clipboard API unavailable. Showing link to copy manually.', 'warning');
+                    window.prompt('Copy draft bucket link:', link);
+                }
+            }
+
+            buildDraftFolderLink(folder = '', bucketName = '') {
+                if (!this.draftPublicBaseUrl) return null;
+                const base = this.draftPublicBaseUrl.replace(/\/+$/, '');
+                const bucketSegment = bucketName ? bucketName.replace(/\/+$/, '') : '';
+                const normalizedFolder = folder ? folder.replace(/^\/+/, '').replace(/\/+$/, '') : '';
+                const parts = [base];
+                if (bucketSegment) parts.push(bucketSegment);
+                if (normalizedFolder) parts.push(normalizedFolder);
+                return `${parts.join('/')}/`;
             }
 
             getDisplayName(languageKey) {
@@ -1379,6 +1432,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     window.open('./bucket-info.html', '_blank');
                     return;
                 }
+                this.bindCopyDraftLinkButton(modal);
                 modal.style.display = 'block';
                 await this.loadDraftAudioData();
             }
@@ -1397,12 +1451,20 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     }
                     const data = await response.json();
                     const items = Array.isArray(data.items) ? data.items : [];
+                    const bucketName = data.bucket || 'levante-assets-draft';
+                    const prefix = data.prefix || 'audio/';
+                    this.currentDraftBucketName = bucketName;
+                    this.selectedDraftAudio = null;
+
                     if (bodyEl) {
-                        bodyEl.innerHTML = this.buildDraftAudioTable(items, data);
+                        bodyEl.innerHTML = this.buildDraftAudioTable(items, { bucket: bucketName, prefix });
+                        const modalEl = document.getElementById('draftAudioModal');
+                        this.attachDraftRowHandlers(modalEl, bucketName);
                         const refreshBtn = document.getElementById('refreshDraftAudio');
                         if (refreshBtn) {
                             refreshBtn.addEventListener('click', () => this.loadDraftAudioData());
                         }
+                        this.bindCopyDraftLinkButton(modalEl);
                     }
                     this.setStatus(`Loaded ${items.length} draft audio files`, 'success');
                 } catch (error) {
@@ -1422,6 +1484,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     return `<div class="draft-audio-empty">No audio files found in <code>${bucketName}/audio</code>.</div>`;
                 }
 
+                this.selectedDraftAudio = null;
                 const bucketName = meta.bucket || 'levante-assets-draft';
                 const prefix = meta.prefix || 'audio/';
                 const sorted = [...items].sort((a, b) => {
@@ -1447,7 +1510,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     const language = item.language || (item.name && item.name.split('/')[1]) || '—';
                     const itemId = item.itemId || (item.name ? item.name.replace(/^audio\//, '').replace(/\.mp3$/i, '').split('/').pop() : '—');
                     const versionLabel = item.version ? `v${String(item.version).padStart(3, '0')}` : '—';
-                    const safePath = item.path ? item.path.replace(/'/g, "&#39;") : '';
+                    const rawPath = item.path || item.name;
+                    const encodedPath = rawPath ? encodeURIComponent(rawPath) : '';
                     const sizeValue = Number(item.size || item.bytes || 0);
                     const formatSize = (typeof formatFileSize === 'function') ? formatFileSize(sizeValue) : `${sizeValue} bytes`;
                     const updatedRaw = item.updated || item.timeCreated || item.generation;
@@ -1458,14 +1522,14 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         updatedText = new Date(updatedRaw).toLocaleString();
                     }
                     return `
-                        <tr>
+                        <tr data-path="${encodedPath}" data-item-id="${itemId}" data-version="${item.version || ''}" data-language="${language}">
                             <td>${language}</td>
                             <td><code>${itemId}</code></td>
                             <td>${versionLabel}</td>
                             <td>${formatSize}</td>
                             <td>${updatedText || '—'}</td>
                             <td>
-                                <button class="btn btn-secondary btn-compact" onclick="window.dashboard.playDraftAudioSample('${safePath}', '${bucketName}')">
+                                <button class="btn btn-secondary btn-compact draft-play" data-path="${encodedPath}">
                                     <i class="fas fa-play"></i> Play
                                 </button>
                             </td>
@@ -1493,6 +1557,45 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         </table>
                     </div>
                 `;
+            }
+
+            attachDraftRowHandlers(modal, bucketName = 'levante-assets-draft') {
+                if (!modal) return;
+                const rows = modal.querySelectorAll('.draft-audio-table tbody tr');
+                rows.forEach(row => {
+                    row.addEventListener('click', (event) => {
+                        // Avoid row selection when clicking the play button
+                        if (event.target.closest('.draft-play')) return;
+                        rows.forEach(r => r.classList.remove('selected'));
+                        row.classList.add('selected');
+                        const decodedPath = row.dataset.path ? decodeURIComponent(row.dataset.path) : '';
+                        const folderPath = decodedPath ? (decodedPath.includes('/') ? decodedPath.substring(0, decodedPath.lastIndexOf('/')) : decodedPath) : '';
+                        this.selectedDraftAudio = {
+                            path: decodedPath,
+                            folder: folderPath ? folderPath + '/' : '',
+                            itemId: row.dataset.itemId,
+                            version: row.dataset.version,
+                            language: row.dataset.language,
+                            bucketName
+                        };
+                        const versionLabel = row.dataset.version ? ` (v${String(row.dataset.version).padStart(3, '0')})` : '';
+                        this.setStatus(`Selected draft ${row.dataset.itemId}${versionLabel} [${row.dataset.language}]`, 'info');
+                    });
+                });
+
+                const playButtons = modal.querySelectorAll('.draft-play');
+                playButtons.forEach(btn => {
+                    btn.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const encoded = btn.dataset.path;
+                        const path = encoded ? decodeURIComponent(encoded) : '';
+                        if (path) {
+                            this.playDraftAudioSample(path, bucketName);
+                        } else {
+                            this.setStatus('Unable to determine draft audio path for preview', 'warning');
+                        }
+                    });
+                });
             }
 
             async playDraftAudioSample(path, bucketName = 'levante-assets-draft') {
@@ -1619,7 +1722,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         lang_code: langCode,
                         text: this.latestGeneratedAudio.text || '',
                         created: this.latestGeneratedAudio.generatedAt,
-                        copyright: this.audioCopyright
+                        copyright: this.audioCopyright,
+                        patch: 'dashboard'
                     }
                 };
 
