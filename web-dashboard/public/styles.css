@@ -10,9 +10,12 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .header .header-actions .dropdown-menu { right: 0; left: auto; }
 .header .header-actions .dropdown { position: relative; }
 .header .account-dropdown { position: relative; display: none; }
-.header .account-dropdown .account-toggle { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); display: inline-flex; align-items: center; gap: 10px; min-width: 220px; justify-content: space-between; }
-.header .account-dropdown .account-toggle i { font-size: 1.2rem; color: #ff9d2d; }
-.header .account-dropdown .account-label { font-weight: 600; color: #fefcf7; letter-spacing: 0.01em; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.header .account-dropdown .dropdown-menu { margin-top: 8px; }
+.header .account-dropdown .account-toggle { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); display: inline-flex; align-items: center; gap: 12px; min-width: 220px; justify-content: space-between; padding-right: 14px; }
+.header .account-dropdown .account-toggle .account-labels { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; overflow: hidden; }
+.header .account-dropdown .account-toggle .account-labels .account-label { font-weight: 600; color: #fefcf7; letter-spacing: 0.01em; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.header .account-dropdown .account-toggle .account-labels .account-meta { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(148, 198, 255, 0.75); font-weight: 600; }
+.header .account-dropdown .account-toggle i { font-size: 0.85rem; color: rgba(255, 157, 45, 0.8); }
 .header .account-dropdown .account-menu { min-width: 260px; background: rgba(4, 13, 26, 0.97); border: 1px solid rgba(0, 160, 222, 0.3); box-shadow: 0 24px 40px rgba(2, 6, 23, 0.55); padding: 12px; border-radius: 14px; }
 .header .account-dropdown .account-details { display: flex; flex-direction: column; gap: 4px; padding: 4px 6px 10px; color: #f8fafc; }
 .header .account-dropdown .account-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(148, 198, 255, 0.72); }

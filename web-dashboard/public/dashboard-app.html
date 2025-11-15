@@ -92,8 +92,11 @@
             <div class="header-actions">
                 <div class="dropdown account-dropdown" id="userInfo" style="display: none;" tabindex="0">
                     <button class="btn btn-secondary dropdown-toggle account-toggle" title="Account menu">
-                        <i class="fas fa-user-circle"></i>
-                        <span class="account-label" id="userName"></span>
+                        <div class="account-labels">
+                            <span class="account-label" id="userName"></span>
+                            <span class="account-meta">Account</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu account-menu">
                         <div class="account-details">
@@ -104,28 +107,6 @@
                         <button class="dropdown-item logout-btn" id="logoutBtn">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
-                    </div>
-                </div>
-                <div class="dropdown resources-dropdown" tabindex="0">
-                    <button class="btn btn-secondary dropdown-toggle" title="Resources and documentation">
-                        <i class="fas fa-book-open"></i> Resources
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="#" onclick="openHelp('docs/README_WebDashboard.md'); return false;">
-                            <i class="fas fa-book"></i> Web Dashboard README
-                        </a>
-                        <a href="#" onclick="openHelp('docs/README_ADD_LANGUAGE.md'); return false;">
-                            <i class="fas fa-language"></i> Add Language Guide
-                        </a>
-                        <a href="#" onclick="openHelp('docs/README_VALIDATION.md'); return false;">
-                            <i class="fas fa-clipboard-check"></i> Validation Guide
-                        </a>
-                        <a href="#" onclick="openSlides(); return false;">
-                            <i class="fas fa-sitemap"></i> Translation Pipeline Architecture
-                        </a>
-                        <a href="#" onclick="openMermaidSlides(); return false;">
-                            <i class="fas fa-project-diagram"></i> Pipeline Architecture (Interactive)
-                        </a>
                     </div>
                 </div>
             </div>
