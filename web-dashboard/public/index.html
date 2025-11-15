@@ -58,7 +58,6 @@
 </i>
      Levante Pitwall
     </h1><p>Our starting point for translation QA, audio patching, and supporting tools. Jump to a dashboard or a Stats card to get started.</p></div></div>
-
 <div class="pitwall-actions">
 <a href="./dashboard-app.html"><i class="fas fa-gauge"></i> Open Dashboard</a>
 <a href="./audio-coverage.html"><i class="fas fa-music"></i> Audio Coverage</a>
@@ -67,6 +66,45 @@
 </div>
 </header>
 <section>
+<div class="section-title">
+<h2>
+<i class="fas fa-heartbeat">
+</i>
+      System Snapshot
+     </h2>
+<span style="font-size: 0.9rem; color: rgba(148, 198, 255, 0.75);">
+      Live metrics pulled from draft buckets, coverage scans, and GitHub
+     </span>
+</div>
+<div class="status-strip">
+<a class="status-link" href="./draft-share.html?bucket=levante-assets-draft&folder=deploy"><div class="status-pill">
+<span class="label"><span>Audio Patches</span><span class="label-sub">Awaiting Deployment</span></span>
+<strong id="stat-drafts">--</strong>
+<em id="stat-drafts-detail">Loading latest draft counts…</em>
+</div></a>
+<a class="status-link" href="./audio-coverage.html"><div class="status-pill">
+<span class="label">
+       Audio coverage
+      </span>
+<strong id="stat-coverage">--</strong>
+<em id="stat-coverage-detail">Comparing repo vs. dev bucket…</em>
+</div></a>
+<a class="status-link" href="./preflight-report.html#visualAuditsSection"><div class="status-pill">
+<span class="label">
+       Visual assets
+      </span>
+<strong id="stat-visual">--</strong>
+<em id="stat-visual-detail">Checking WEBP conversions…</em>
+</div></a>
+<a class="status-link" href="./preflight-report.html#githubIssuesSection"><div class="status-pill">
+<span class="label">
+       Open issues
+      </span>
+<strong id="stat-issues">--</strong>
+<em id="stat-issues-detail">Fetching P0 / P1 counts…</em>
+</div></a>
+</div>
+</section><section>
 <div class="section-title">
 <h2><i class="fas fa-gauge-high"></i> Operations Hub</h2>
 <span style="font-size: 0.9rem; color: rgba(148, 198, 255, 0.82);">Spin up dashboards and tooling for day-to-day work</span>
@@ -143,64 +181,6 @@
 <section>
 <div class="section-title">
 <h2>
-<i class="fas fa-heartbeat">
-</i>
-      System Snapshot
-     </h2>
-<span style="font-size: 0.9rem; color: rgba(148, 198, 255, 0.75);">
-      Placeholder metrics — wire up to live data later
-     </span>
-</div>
-<div class="status-strip">
-<div class="status-pill">
-<span class="label">
-       Drafts awaiting approval
-      </span>
-<strong>
-       8
-      </strong>
-<em>
-       Latest saves within the past 24 hours
-      </em>
-</div>
-<div class="status-pill">
-<span class="label">
-       Audio coverage
-      </span>
-<strong>
-       99.1%
-      </strong>
-<em>
-       German and Spanish patches cleared
-      </em>
-</div>
-<div class="status-pill">
-<span class="label">
-       Visual assets
-      </span>
-<strong>
-       15 pending
-      </strong>
-<em>
-       Missing WEBP conversions
-      </em>
-</div>
-<div class="status-pill">
-<span class="label">
-       Open issues
-      </span>
-<strong>
-       3
-      </strong>
-<em>
-       1 critical, 2 standard
-      </em>
-</div>
-</div>
-</section>
-<section>
-<div class="section-title">
-<h2>
 <i class="fas fa-book">
 </i>
       Documentation &amp; References
@@ -267,5 +247,72 @@
 </div>
 </section>
 </div>
+<script>
+  (async () => {
+    const draftsEl = document.getElementById('stat-drafts');
+    const draftsDetailEl = document.getElementById('stat-drafts-detail');
+    const coverageEl = document.getElementById('stat-coverage');
+    const coverageDetailEl = document.getElementById('stat-coverage-detail');
+    const visualEl = document.getElementById('stat-visual');
+    const visualDetailEl = document.getElementById('stat-visual-detail');
+    const issuesEl = document.getElementById('stat-issues');
+    const issuesDetailEl = document.getElementById('stat-issues-detail');
+
+    const setError = (el, detailEl, message) => {
+      if (el) el.textContent = '—';
+      if (detailEl) detailEl.textContent = message || 'Data unavailable';
+    };
+
+    try {
+      const response = await fetch('/api/pitwall-stats', { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`status ${response.status}`);
+      const data = await response.json();
+
+      const drafts = data?.draftsAwaitingApproval || {};
+      if (draftsEl) draftsEl.textContent = typeof drafts.uniqueItems === 'number' ? drafts.uniqueItems : '0';
+      if (draftsDetailEl) {
+        const files = typeof drafts.totalFiles === 'number' ? drafts.totalFiles : 0;
+        draftsDetailEl.textContent = `${files} version${files === 1 ? '' : 's'} saved in levante-assets-draft/audio`;
+      }
+
+      const coverage = data?.audioCoverage || {};
+      const percent = typeof coverage.percent === 'number' && !Number.isNaN(coverage.percent)
+        ? `${coverage.percent.toFixed(1)}%`
+        : 'N/A';
+      if (coverageEl) {
+        const missing = coverage.missingCount ?? Math.max((coverage.repoTotal ?? 0) - (coverage.bucketTotal ?? 0), 0);
+        coverageEl.innerHTML = `<span class="warning-text">Missing Audio: ${missing}</span>`;
+      }
+      if (coverageDetailEl) {
+        const noTags = coverage.noTagCount ?? 0;
+        coverageDetailEl.textContent = `No tags: ${noTags}`;
+      }
+
+      const visual = data?.visualAssets || {};
+      if (visualEl) visualEl.textContent = typeof visual.pending === 'number' ? visual.pending : '0';
+      if (visualDetailEl) {
+        visualDetailEl.textContent = 'PNG assets missing WEBP conversions in dev bucket';
+      }
+
+      const issues = data?.githubIssues || {};
+      const p0 = issues.p0 ?? 0;
+      const p1 = issues.p1 ?? 0;
+      if (issuesEl) issuesEl.textContent = `P0 ${p0} • P1 ${p1}`;
+      if (issuesDetailEl) {
+        if (issues.message) {
+          issuesDetailEl.textContent = issues.message;
+        } else {
+          issuesDetailEl.textContent = 'Priority issues pulled from levante-framework/project #1';
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load pitwall stats:', error);
+      setError(draftsEl, draftsDetailEl, 'Unable to read levante-assets-draft');
+      setError(coverageEl, coverageDetailEl, 'Audio coverage summary unavailable');
+      setError(visualEl, visualDetailEl, 'Visual audit unavailable');
+      setError(issuesEl, issuesDetailEl, 'GitHub summary unavailable');
+    }
+  })();
+</script>
 </body>
 </html>
