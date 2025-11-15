@@ -8,31 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-C4+8J1mCiSkDGpiKFFitvolG/GpNZgbf+5Q5e0siJmq9hw3rroWAtxEvsC0BpvyEuk+qS0bkkCm1cWtiYpg+1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./styles.css" />
     <style>
-        body { background: #f5f7fb; color: #1f2933; font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        body { background: radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.92)), linear-gradient(180deg, #0f172a 0%, #020617 100%); color: #e2e8f0; font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
         .pitwall-container { max-width: 1280px; margin: 0 auto; padding: 32px 16px 64px; display: flex; flex-direction: column; gap: 32px; }
-        .pitwall-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 18px; padding: 36px; color: white; box-shadow: 0 24px 60px rgba(79, 172, 254, 0.18); position: relative; overflow: hidden; }
-        .pitwall-header::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.35), transparent 55%); opacity: 0.85; pointer-events: none; }
-        .pitwall-header h1 { font-size: 2.75rem; margin: 0 0 12px; font-weight: 600; letter-spacing: -0.02em; }
-        .pitwall-header p { font-size: 1.05rem; margin: 0; max-width: 640px; line-height: 1.6; opacity: 0.95; }
-        .pitwall-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; position: relative; z-index: 1; }
-        .pitwall-actions a { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255,255,255,0.45); color: white; padding: 10px 18px; border-radius: 999px; font-weight: 600; text-decoration: none; display: inline-flex; gap: 10px; align-items: center; transition: background 0.2s ease, transform 0.2s ease; }
-        .pitwall-actions a:hover { background: rgba(0,0,0,0.35); transform: translateY(-1px); }
+        .pitwall-header { background: linear-gradient(130deg, #ff6b00 0%, #ffb347 45%, #09111f 100%); border-radius: 20px; padding: 40px; color: #0b1220; box-shadow: 0 30px 70px rgba(255, 138, 18, 0.28); position: relative; overflow: hidden; isolation: isolate; }
+        .pitwall-header::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(0, 160, 222, 0.72), transparent 55%), linear-gradient(160deg, rgba(255, 255, 255, 0.18), transparent 70%); opacity: 0.9; pointer-events: none; mix-blend-mode: screen; }
+        .pitwall-header h1 { font-size: 2.75rem; margin: 0 0 12px; font-weight: 600; letter-spacing: -0.02em; color: #030c1c; text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+        .pitwall-header p { font-size: 1.05rem; margin: 0; max-width: 640px; line-height: 1.6; color: rgba(3, 13, 28, 0.78); }
+        .pitwall-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; position: relative; z-index: 1; }
+        .pitwall-actions a { background: rgba(3, 12, 28, 0.78); border: 1px solid rgba(255, 123, 0, 0.65); color: #fefcf7; padding: 12px 22px; border-radius: 999px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; display: inline-flex; gap: 10px; align-items: center; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; box-shadow: 0 12px 30px rgba(2, 6, 23, 0.45); }
+        .pitwall-actions a:hover { background: rgba(255, 123, 0, 0.92); color: #06141f; transform: translateY(-2px); box-shadow: 0 18px 36px rgba(255, 123, 0, 0.35); }
         .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-        .section-title h2 { margin: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; font-weight: 600; color: #374151; }
+        .section-title h2 { margin: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; font-weight: 600; color: #f8fafc; text-transform: uppercase; letter-spacing: 0.08em; }
         .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-        .card { background: white; border-radius: 16px; padding: 22px; box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; gap: 16px; transition: transform 0.18s ease, box-shadow 0.18s ease; border: 1px solid rgba(148, 163, 184, 0.12); }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px rgba(15, 23, 42, 0.16); }
-        .card i { font-size: 1.6rem; color: #2563eb; }
-        .card h3 { margin: 0; font-size: 1.18rem; font-weight: 600; color: #1f2937; }
-        .card p { margin: 0; font-size: 0.95rem; color: #4b5563; line-height: 1.55; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: #3b82f6; font-weight: 600; }
-        .card-footer i { font-size: 1rem; }
+        .card { background: rgba(9, 17, 31, 0.92); border-radius: 18px; padding: 24px; box-shadow: 0 22px 48px rgba(2, 6, 23, 0.45); display: flex; flex-direction: column; gap: 18px; transition: transform 0.22s ease, box-shadow 0.22s ease, border 0.22s ease; border: 1px solid rgba(0, 160, 222, 0.22); backdrop-filter: blur(4px); }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(255, 120, 0, 0.32); border-color: rgba(255, 123, 0, 0.58); }
+        .card i { font-size: 1.7rem; color: #00a0de; text-shadow: 0 10px 22px rgba(0, 160, 222, 0.35); }
+        .card h3 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #f8fafc; letter-spacing: 0.01em; }
+        .card p { margin: 0; font-size: 0.95rem; color: rgba(203, 213, 225, 0.86); line-height: 1.6; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: #ff8b1f; font-weight: 600; }
+        .card-footer i { font-size: 1rem; color: rgba(255, 255, 255, 0.65); }
         .card a { text-decoration: none; color: inherit; }
         .status-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        .status-pill { background: #ffffff; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px; border: 1px solid rgba(148, 163, 184, 0.2); box-shadow: 0 12px 30px rgba(79, 70, 229, 0.08); }
-        .status-pill span.label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6366f1; font-weight: 700; }
-        .status-pill strong { font-size: 1.3rem; color: #1f2937; }
-        .status-pill em { font-size: 0.85rem; color: #6b7280; font-style: normal; }
+        .status-pill { background: rgba(7, 13, 24, 0.9); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(0, 160, 222, 0.28); box-shadow: 0 20px 44px rgba(2, 6, 23, 0.55); }
+        .status-pill span.label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: #00c8ff; font-weight: 700; }
+        .status-pill strong { font-size: 1.4rem; color: #ffb347; text-shadow: 0 10px 20px rgba(255, 123, 0, 0.35); }
+        .status-pill em { font-size: 0.84rem; color: rgba(203, 213, 225, 0.72); font-style: normal; }
         @media (max-width: 720px) {
             .pitwall-header { padding: 28px; }
             .pitwall-header h1 { font-size: 2.2rem; }
@@ -57,7 +57,7 @@
         <section>
             <div class="section-title">
                 <h2><i class="fas fa-sitemap"></i> Quick Links</h2>
-                <span style="font-size: 0.9rem; color: #64748b;">Direct access to the most-used tools</span>
+                <span style="font-size: 0.9rem; color: rgba(148, 198, 255, 0.82);">Direct access to the most-used tools</span>
             </div>
             <div class="grid">
                 <article class="card">
@@ -132,7 +132,7 @@
         <section>
             <div class="section-title">
                 <h2><i class="fas fa-heartbeat"></i> System Snapshot</h2>
-                <span style="font-size: 0.9rem; color: #64748b;">Placeholder metrics &mdash; wire up to live data later</span>
+                <span style="font-size: 0.9rem; color: rgba(148, 198, 255, 0.75);">Placeholder metrics &mdash; wire up to live data later</span>
             </div>
             <div class="status-strip">
                 <div class="status-pill">
@@ -163,34 +163,34 @@
                 <h2><i class="fas fa-book"></i> Documentation &amp; References</h2>
             </div>
             <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-                <article class="card" style="background: #111827; color: #f9fafb;">
+                <article class="card" style="background: rgba(8, 13, 24, 0.95); color: #f8fafc; border: 1px solid rgba(0, 160, 222, 0.28);">
                     <a href="./docs/README_WebDashboard.md" style="color: inherit;">
-                        <i class="fas fa-file-lines" style="color:#60a5fa;"></i>
+                        <i class="fas fa-file-lines" style="color:#00a0de;"></i>
                         <h3>Web Dashboard Guide</h3>
                         <p>A quick walkthrough of authentication, voice selection, and the workflow for generating patches.</p>
-                        <div class="card-footer" style="color:#93c5fd;">
+                        <div class="card-footer" style="color:#3dd5ff;">
                             <span>Open doc</span>
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </a>
                 </article>
-                <article class="card" style="background: #0f172a; color: #f8fafc;">
+                <article class="card" style="background: linear-gradient(135deg, rgba(26, 36, 52, 0.96) 0%, rgba(8, 13, 24, 0.96) 100%); color: #f8fafc; border: 1px solid rgba(255, 111, 0, 0.38);">
                     <a href="./README_PATCHING.md" style="color: inherit;">
-                        <i class="fas fa-screwdriver-wrench" style="color:#a855f7;"></i>
+                        <i class="fas fa-screwdriver-wrench" style="color:#ff6f00;"></i>
                         <h3>Patch &amp; Deploy Workflow</h3>
                         <p>Step-by-step playbook for turning dashboard saves into deploy-ready assets, including approvals.</p>
-                        <div class="card-footer" style="color:#c084fc;">
+                        <div class="card-footer" style="color:#ff9d2d;">
                             <span>Review workflow</span>
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </a>
                 </article>
-                <article class="card" style="background: #1e293b; color:#f1f5f9;">
+                <article class="card" style="background: rgba(10, 19, 33, 0.95); color:#f1f5f9; border: 1px solid rgba(0, 160, 222, 0.3);">
                     <a href="./docs/README_VALIDATION.md" style="color: inherit;">
-                        <i class="fas fa-headphones" style="color:#f97316;"></i>
+                        <i class="fas fa-headphones" style="color:#00b5ff;"></i>
                         <h3>Audio Validation Guide</h3>
                         <p>Reference for scoring, triaging, and resolving validation findings before deploying audio.</p>
-                        <div class="card-footer" style="color:#fb923c;">
+                        <div class="card-footer" style="color:#3dd5ff;">
                             <span>View guide</span>
                             <i class="fas fa-arrow-right"></i>
                         </div>
