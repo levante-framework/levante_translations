@@ -28,6 +28,7 @@
 
     { "source": "/favicon.ico", "destination": "/public/favicon-32x32.png" },
     { "source": "/", "destination": "/public/index.html" },
+    { "source": "/dashboard", "destination": "/public/dashboard-app.html" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ],
   "headers": [

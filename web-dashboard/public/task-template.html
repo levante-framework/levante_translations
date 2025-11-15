@@ -483,7 +483,7 @@
             <h1><i class="fas fa-clipboard-list"></i> Task Dashboard</h1>
             <p>Manage and validate task assets, translations, and configuration</p>
             <div class="header-actions">
-                <a href="index.html" class="btn btn-secondary btn-compact"><i class="fas fa-arrow-left"></i> Back</a>
+                <a href="dashboard-app.html" class="btn btn-secondary btn-compact"><i class="fas fa-arrow-left"></i> Back</a>
             </div>
         </div>
         <div class="main-content">
@@ -959,7 +959,7 @@
                     <i class="fas fa-file-export"></i>
                     Generate Implementation Summary
                 </button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard-app.html'">
                     <i class="fas fa-times"></i>
                     Cancel
                 </button>
@@ -1495,7 +1495,7 @@
                 clearBtn.onclick = resetForm;
                 
                 // Insert before the cancel button
-                const cancelBtn = buttonGroup.querySelector('button[onclick*="index.html"]');
+                const cancelBtn = buttonGroup.querySelector('button[onclick*="dashboard-app.html"]');
                 if (cancelBtn) {
                     buttonGroup.insertBefore(clearBtn, cancelBtn);
                 }
