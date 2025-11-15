@@ -323,13 +323,17 @@ class AuthManager {
         const dashboardContainer = document.querySelector('.dashboard-container');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
+        const accountEmailDisplay = document.getElementById('accountEmailDisplay');
         
         if (authContainer) authContainer.style.display = 'none';
         if (dashboardContainer) dashboardContainer.style.display = 'block';
-        if (userInfo) userInfo.style.display = 'flex';
+        if (userInfo) userInfo.style.display = 'inline-block';
+        const email = this.getActiveEmail();
         if (userName) {
-            const email = this.getActiveEmail();
             userName.textContent = email || 'Superadmin';
+        }
+        if (accountEmailDisplay) {
+            accountEmailDisplay.textContent = email || 'Superadmin';
         }
         
         // Clear login form

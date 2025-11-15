@@ -9,10 +9,17 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .header .header-actions .btn { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); }
 .header .header-actions .dropdown-menu { right: 0; left: auto; }
 .header .header-actions .dropdown { position: relative; }
-.header .user-info { display: flex; align-items: center; gap: 10px; background: rgba(3, 12, 28, 0.7); padding: 8px 16px; border-radius: 999px; box-shadow: 0 16px 32px rgba(2, 6, 23, 0.45); border: 1px solid rgba(0, 160, 222, 0.32); }
-.header .user-info .user-name { font-weight: 600; color: #fff; }
-.header .user-info .logout-btn { background: rgba(255, 123, 0, 0.85); color: #03101f; border: 1px solid rgba(255, 255, 255, 0.4); padding: 6px 12px; border-radius: 999px; cursor: pointer; transition: background 0.25s ease, transform 0.25s ease; font-size: 0.85em; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 12px 24px rgba(255, 123, 0, 0.45); }
-.header .user-info .logout-btn:hover { background: rgba(255, 180, 0, 0.95); transform: translateY(-2px); }
+.header .account-dropdown { position: relative; display: none; }
+.header .account-dropdown .account-toggle { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); display: inline-flex; align-items: center; gap: 10px; min-width: 220px; justify-content: space-between; }
+.header .account-dropdown .account-toggle i { font-size: 1.2rem; color: #ff9d2d; }
+.header .account-dropdown .account-label { font-weight: 600; color: #fefcf7; letter-spacing: 0.01em; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.header .account-dropdown .account-menu { min-width: 260px; background: rgba(4, 13, 26, 0.97); border: 1px solid rgba(0, 160, 222, 0.3); box-shadow: 0 24px 40px rgba(2, 6, 23, 0.55); padding: 12px; border-radius: 14px; }
+.header .account-dropdown .account-details { display: flex; flex-direction: column; gap: 4px; padding: 4px 6px 10px; color: #f8fafc; }
+.header .account-dropdown .account-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(148, 198, 255, 0.72); }
+.header .account-dropdown .account-email { font-weight: 600; letter-spacing: 0.01em; color: #ffffff; }
+.header .account-dropdown .dropdown-divider { height: 1px; background: rgba(0, 160, 222, 0.25); margin: 8px 0; }
+.header .account-dropdown .dropdown-item.logout-btn { width: 100%; justify-content: flex-start; background: rgba(255, 111, 0, 0.18); color: #ff9d2d; border: 1px solid rgba(255, 111, 0, 0.35); border-radius: 10px; box-shadow: none; font-weight: 600; }
+.header .account-dropdown .dropdown-item.logout-btn:hover { background: rgba(255, 137, 43, 0.28); color: #ffd6ad; }
 .header .header-actions-left { position: absolute; left: 20px; top: 20px; z-index: 1001; }
 .header .header-actions-left .btn { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); }
 .header .header-actions-left .dropdown-menu { left: 0; right: auto; }
@@ -250,28 +257,36 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 /* Help Dropdown */
 .dropdown { position: relative; }
 .dropdown-toggle::after { content: ' \25BE'; font-size: 10px; }
-.dropdown-menu { 
-  position: absolute; 
-  right: 0; 
-  top: 110%; 
-  background: #fff; 
-  border: 1px solid #e0e0e0; 
-  border-radius: 8px; 
-  min-width: 260px; 
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-  display: none; 
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: rgba(4, 13, 26, 0.97);
+  border: 1px solid rgba(0, 160, 222, 0.28);
+  border-radius: 14px;
+  min-width: 240px;
+  box-shadow: 0 18px 36px rgba(2, 6, 23, 0.45);
+  display: none;
   z-index: 1000;
+  padding: 8px;
 }
-.dropdown-menu a { 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  padding: 10px 12px; 
-  color: #333; 
-  text-decoration: none; 
+.dropdown-menu a,
+.dropdown-menu .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #e2e8f0;
+  text-decoration: none;
   font-weight: 500;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
 }
-.dropdown-menu a:hover { background: #f8f9fa; }
+.dropdown-menu a:hover,
+.dropdown-menu .dropdown-item:hover { background: rgba(0, 160, 222, 0.18); color: #ffffff; }
 .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
 
 /* Ensure Help dropdown aligns nicely within the voice-controls row */
