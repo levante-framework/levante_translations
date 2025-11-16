@@ -10,21 +10,20 @@ const AUDIO_PREFIX = 'audio/';
 let storageClient = null;
 
 function getStorageClient() {
-  if (storageClient) return storageClient;
-  const json = process.env.GCP_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
-  if (!json) {
-    storageClient = new Storage();
-    return storageClient;
-  }
+  if (storageClient !== null) return storageClient;
+  const raw = process.env.GCP_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
   try {
-    const creds = JSON.parse(json);
-    storageClient = new Storage({ credentials: creds, projectId: creds.project_id });
-    return storageClient;
+    if (raw) {
+      const creds = JSON.parse(raw);
+      storageClient = new Storage({ credentials: creds, projectId: creds.project_id });
+    } else {
+      storageClient = new Storage();
+    }
   } catch (error) {
-    console.warn('Failed to parse GCS credentials JSON, falling back to default auth');
-    storageClient = new Storage();
-    return storageClient;
+    console.warn('GCS client init failed:', error.message);
+    storageClient = null;
   }
+  return storageClient;
 }
 
 function removeVersionSuffix(fileName) {
@@ -37,22 +36,27 @@ function removeVersionSuffix(fileName) {
 async function countDraftAudio() {
   try {
     const storage = getStorageClient();
+    if (!storage) {
+      return { totalFiles: 0, uniqueItems: 0, message: 'Draft bucket credentials not configured.' };
+    }
+
     const bucket = storage.bucket(DRAFT_BUCKET);
     const [files] = await bucket.getFiles({ prefix: AUDIO_PREFIX, autoPaginate: true });
-    const mp3Files = files.filter(f => f.name.toLowerCase().endsWith('.mp3'));
+    const mp3Files = files.filter(f => f.name && f.name.toLowerCase().endsWith('.mp3'));
     const uniqueRoots = new Set();
-    mp3Files.forEach(file => {
+    for (const file of mp3Files) {
       const parts = file.name.split('/');
       const fileName = parts[parts.length - 1];
       uniqueRoots.add(`${parts[1] || ''}/${removeVersionSuffix(fileName)}`);
-    });
+    }
+
     return {
       totalFiles: mp3Files.length,
       uniqueItems: uniqueRoots.size
     };
   } catch (error) {
     console.warn('countDraftAudio error:', error.message);
-    return { totalFiles: 0, uniqueItems: 0, error: error.message };
+    return { totalFiles: 0, uniqueItems: 0, message: error.message };
   }
 }
 
@@ -73,51 +77,81 @@ function countRepoAudio() {
   }
 }
 
-async function countBucketAudio() {
+async function countBucketAudioStats() {
   try {
     const storage = getStorageClient();
+    if (!storage) {
+      return { total: 0, noTag: 0, errors: 0, message: 'Audio bucket credentials not configured.' };
+    }
+
     const bucket = storage.bucket(DEV_BUCKET);
     const [files] = await bucket.getFiles({ prefix: AUDIO_PREFIX, autoPaginate: true });
-    return files.filter(f => f.name.toLowerCase().endsWith('.mp3')).length;
+    let total = 0;
+    let noTag = 0;
+
+    for (const file of files) {
+      if (!file.name || !file.name.toLowerCase().endsWith('.mp3')) continue;
+      total += 1;
+      const metadata = file.metadata || {};
+      const custom = metadata.metadata || metadata.customMetadata || {};
+      const voiceMeta = custom.voice || custom.Voice || custom.speaker;
+      const voice = typeof voiceMeta === 'string' ? voiceMeta.trim() : '';
+      const normalized = voice.toLowerCase();
+      if (!voice || normalized === 'not available' || normalized === 'n/a' || normalized === 'unknown') {
+        noTag += 1;
+      }
+    }
+
+    return { total, noTag, errors: 0 };
   } catch (error) {
-    console.warn('countBucketAudio error:', error.message);
-    return 0;
+    console.warn('countBucketAudioStats error:', error.message);
+    return { total: 0, noTag: 0, errors: 1, message: error.message };
   }
 }
 
 async function computeAudioCoverage() {
   const repoTotal = countRepoAudio();
-  const bucketTotal = await countBucketAudio();
+  const bucketStats = await countBucketAudioStats();
+  const bucketTotal = bucketStats.total;
+  const noTagCount = bucketStats.noTag;
   const percent = repoTotal > 0 ? Math.min(100, Math.round((bucketTotal / repoTotal) * 1000) / 10) : 0;
-  const missingCount = repoTotal > bucketTotal ? repoTotal - bucketTotal : 0;
+  const missingCount = Math.max(repoTotal - bucketTotal, 0);
+
   return {
     repoTotal,
     bucketTotal,
     percent,
     missingCount,
-    noTagCount: 0
+    noTagCount,
+    message: bucketStats.message
   };
 }
 
 async function countVisualPending() {
   try {
     const storage = getStorageClient();
+    if (!storage) {
+      return { pending: 0, message: 'Visual bucket credentials not configured.' };
+    }
+
     const bucket = storage.bucket(DEV_BUCKET);
     const [files] = await bucket.getFiles({ prefix: VISUAL_PREFIX, autoPaginate: true });
     const names = files.map(f => f.name);
     const nameSet = new Set(names.map(n => n.toLowerCase()));
     const pngs = names.filter(n => n.toLowerCase().endsWith('.png'));
     const missing = [];
+
     for (const png of pngs) {
       const expectedWebp = png.replace(/\.png$/i, '.webp').toLowerCase();
       if (!nameSet.has(expectedWebp)) {
         missing.push(png);
       }
     }
+
     return { pending: missing.length };
   } catch (error) {
     console.warn('countVisualPending error:', error.message);
-    return { pending: 0, error: error.message };
+    return { pending: 0, message: error.message };
   }
 }
 

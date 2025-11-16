@@ -1,421 +1,325 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Assets Preflight Readiness Report</title>
-	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-	<link rel="stylesheet" href="./styles.css">
-	<style>
-		body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; color: #222; }
-		h1 { font-size: 20px; margin-bottom: 16px; }
-		.table { width: 100%; border-collapse: collapse; }
-		.table th, .table td { border: 1px solid #e5e7eb; padding: 8px 10px; font-size: 13px; text-align: left; }
-		.table thead th { background: #f8fafc; position: sticky; top: 0; }
-		.badge { display: inline-block; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; }
-		.ok { background: #e7f7ec; color: #1f7a37; }
-		.warn { background: #fff7e6; color: #8a6d1f; }
-		.err { background: #fde7ea; color: #842029; }
-		
-		/* Stoplight button styles */
-		.stoplight.go { background: #059669; color: white; border-color: #059669; }
-		.stoplight.diff { background: #f59e0b; color: white; border-color: #f59e0b; cursor: pointer; }
-		.stoplight.diff:hover { background: #d97706; }
-		.stoplight.fail { background: #dc2626; color: white; border-color: #dc2626; }
-		.stoplight.loading { background: #6b7280; color: white; border-color: #6b7280; }
-		.warning-icon { 
-			color: #ff8c00; 
-			cursor: pointer; 
-			margin-left: 5px; 
-			font-size: 14px;
-			display: inline-block;
-		}
-		.warning-icon:hover { 
-			color: #ff6b00; 
-			transform: scale(1.1);
-		}
-		.info-icon {
-			color: #0d6efd;
-			cursor: pointer;
-			margin-left: 5px;
-			font-size: 12px;
-			display: inline-block;
-		}
-		.info-icon:hover {
-			color: #0a58ca;
-			transform: scale(1.1);
-		}
-		
-		/* Untranslated items modal styles */
-		.untranslated-items { margin: 16px 0; }
-		.items-list { max-height: 400px; overflow-y: auto; }
-		.item-card { 
-			border: 1px solid #e5e7eb; 
-			border-radius: 8px; 
-			padding: 12px; 
-			margin: 8px 0; 
-			background: #f9fafb;
-		}
-		.item-header { 
-			display: flex; 
-			justify-content: space-between; 
-			align-items: center; 
-			margin-bottom: 8px; 
-		}
-		.source-file { 
-			font-size: 12px; 
-			color: #6b7280; 
-			background: #e5e7eb; 
-			padding: 2px 6px; 
-			border-radius: 4px;
-		}
-		.source-text { 
-			background: #ffffff; 
-			border: 1px solid #d1d5db; 
-			border-radius: 4px; 
-			padding: 8px; 
-			font-family: monospace; 
-			font-size: 14px; 
-			white-space: pre-wrap;
-			max-height: 100px;
-			overflow-y: auto;
-		}
-		.no-items, .error { 
-			text-align: center; 
-			padding: 20px; 
-			color: #6b7280; 
-		}
-		.error { color: #dc2626; }
-		
-		/* Modal styles */
-		.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-		.modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; border-radius: 8px; width: 80%; max-width: 800px; max-height: 80vh; overflow-y: auto; }
-		.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
-		.modal-title { font-size: 18px; font-weight: 600; color: #111827; }
-		.close { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-		.close:hover { color: #000; }
-		.modal-body { font-size: 14px; line-height: 1.5; }
-		.diff-section { margin-bottom: 16px; padding: 12px; background: #f9fafb; border-radius: 6px; }
-		.diff-section h4 { margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #374151; }
-		.diff-value { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
-		.diff-comparison { display: flex; gap: 16px; align-items: center; }
-		.diff-item { flex: 1; text-align: center; }
-		.diff-arrow { font-size: 18px; color: #6b7280; }
-		.small { color: #374151; font-size: 12px; font-weight: 500; }
-		.code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
-		.footer { margin-top: 16px; font-size: 12px; color: #6b7280; }
-		.section { margin-top: 20px; padding-top: 8px; border-top: 1px solid #e5e7eb; }
-		.link { color: #0a58ca; cursor: pointer; text-decoration: underline; font-weight: 700; }
-	</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assets Preflight Readiness Report</title>
+<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<link href="./styles.css" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; color: #03101f; background: linear-gradient(180deg, #fefcf8 0%, #f3f6ff 100%); }
+    h1 { font-size: 24px; margin-bottom: 18px; letter-spacing: 0.01em; color: #03101f; display: flex; align-items: center; gap: 12px; }
+    .table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; box-shadow: 0 22px 48px rgba(3, 12, 28, 0.12); }
+    .table th, .table td { border: 1px solid rgba(2, 6, 23, 0.08); padding: 10px 14px; font-size: 13px; text-align: left; background: rgba(255, 255, 255, 0.96); color: #061225; }
+    .table thead th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%); color: #03101f; position: sticky; top: 0; z-index: 2; text-transform: uppercase; letter-spacing: 0.08em; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    .ok { background: rgba(14, 169, 96, 0.18); color: #0ea960; }
+    .warn { background: rgba(255, 123, 0, 0.2); color: #ff6f00; }
+    .err { background: rgba(220, 38, 38, 0.2); color: #dc2626; }
+    /* Stoplight button styles */
+    .stoplight { border-radius: 999px; padding: 6px 16px; border: 1px solid transparent; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; box-shadow: 0 14px 30px rgba(3, 12, 28, 0.12); }
+    .stoplight.go { background: #0ea960; color: #fefdfb; border-color: rgba(14, 169, 96, 0.35); }
+    .stoplight.diff { background: #ff6f00; color: #03101f; border-color: rgba(255, 123, 0, 0.45); cursor: pointer; }
+    .stoplight.diff:hover { background: #ff892b; }
+    .stoplight.fail { background: #dc2626; color: #fff; border-color: rgba(220, 38, 38, 0.35); }
+    .stoplight.loading { background: #1f2937; color: #fff; border-color: rgba(31, 41, 55, 0.35); }
+    .warning-icon { color: #ff6f00; cursor: pointer; margin-left: 5px; font-size: 14px; display: inline-block; }
+    .warning-icon:hover { color: #ff892b; transform: scale(1.1); }
+    .info-icon { color: #00a0de; cursor: pointer; margin-left: 5px; font-size: 12px; display: inline-block; }
+    .info-icon:hover { color: #0085b6; transform: scale(1.1); }
+</style>
 </head>
 <body>
-	<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-		<h1 style="margin: 0;"><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
-		<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
-	</div>
-	
-	<div class="section" id="translationsAuditSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Translations Audit</h2>
-	</div>
-	
-	<table class="table" id="reportTable" aria-label="Languages Preflight Readiness table">
-		<thead>
-			<tr>
-				<th rowspan="2">Language</th>
-				<th rowspan="2">Code</th>
-				<th colspan="4" style="text-align: center; background: #f8f9fa;">Dev Environment</th>
-				<th colspan="4" style="text-align: center; background: #f8f9fa;">Prod Environment</th>
-			</tr>
-			<tr>
-				<th>Item Bank</th>
-				<th>Surveys</th>
-				<th>Dashboard</th>
-				<th>Audio</th>
-				<th>Item Bank</th>
-				<th>Surveys</th>
-				<th>Dashboard</th>
-				<th>Audio</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-
-	<div class="footer" style="margin: 16px 0;">
+<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+<h1 style="margin: 0;"><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
+<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
+</div>
+<div class="section" id="translationsAuditSection">
+<h2 style="font-size:16px; margin:0 0 8px 0;">Translations Audit</h2>
+</div>
+<table aria-label="Languages Preflight Readiness table" class="table" id="reportTable">
+<thead>
+<tr>
+<th rowspan="2">Language</th>
+<th rowspan="2">Code</th>
+<th colspan="4" style="text-align: center; background: #f8f9fa;">Dev Environment</th>
+<th colspan="4" style="text-align: center; background: #f8f9fa;">Prod Environment</th>
+</tr>
+<tr>
+<th>Item Bank</th>
+<th>Surveys</th>
+<th>Dashboard</th>
+<th>Audio</th>
+<th>Item Bank</th>
+<th>Surveys</th>
+<th>Dashboard</th>
+<th>Audio</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<div class="footer" style="margin: 16px 0;">
 		Color legend: <span class="badge ok">100%</span> <span class="badge warn">&gt; 0%</span> <span class="badge err">0%</span>
-		<div class="small" style="margin-top:6px;">
+<div class="small" style="margin-top:6px;">
 			- <span class="badge ok">yes</span>: exact locale file exists in levante-dashboard (e.g., de-CH)
 			- <span class="badge warn">base</span>: only base language file exists (e.g., de)
 			- <span class="badge err">missing</span>: neither exact nor base locale file exists
 			- Surveys %: percentage of survey JSONs that include the locale (or base for fallback; English counts implicit defaults)
 			- Item Bank: coverage of translations in item-bank-translations.csv from GCS buckets (NT = Not Translated)
 		</div>
-	</div>
-
-	<div class="section" id="visualAuditsSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Visual Assets Audit</h2>
-			<button id="visualStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="visualPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="visualAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Bucket: <span id="visualBucket" class="code"></span> · Prefix: <span id="visualPrefix" class="code">visual/</span></p>
-				<p id="visualSummary" class="small">Loading…</p>
-				<p class="small"><span id="visualDetails" class="link" style="display:none; margin-right:12px;">Show missing PNG → WEBP list</span><button id="visualFixBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Fix It</button></p>
-			</div>
-			<div id="visualAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Bucket: <span id="visualBucketProd" class="code"></span> · Prefix: <span id="visualPrefixProd" class="code">visual/</span></p>
-				<p id="visualSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="visualDetailsProd" class="link" style="display:none; margin-right:12px;">Show missing PNG → WEBP list</span><button id="visualFixBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Fix It</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="audioAuditsSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Audio Assets Audit</h2>
-			<button id="audioStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="audioPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="audioAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Bucket: <span id="audioBucket" class="code"></span> · Prefix: <span id="audioPrefix" class="code">audio/</span></p>
-				<p id="audioSummary" class="small">Loading…</p>
-				<p class="small"><span id="audioDetails" class="link" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
-			</div>
-			<div id="audioAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Bucket: <span id="audioBucketProd" class="code"></span> · Prefix: <span id="audioPrefixProd" class="code">audio/</span></p>
-				<p id="audioSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="audioDetailsProd" class="link" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="coreTasksAuditsSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Core Tasks Audit</h2>
-			<button id="coreTasksStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="coreTasksPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="coreTasksAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Bucket: <span id="coreTasksBucket" class="code"></span> · Prefix: <span id="coreTasksPrefix" class="code">corpus/</span></p>
-				<p id="coreTasksSummary" class="small">Loading…</p>
-				<p class="small"><span id="coreTasksDetails" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-			<div id="coreTasksAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Bucket: <span id="coreTasksBucketProd" class="code"></span> · Prefix: <span id="coreTasksPrefixProd" class="code">corpus/</span></p>
-				<p id="coreTasksSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="coreTasksDetailsProd" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="corpusAuditsSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Corpus Audit</h2>
-			<button id="corpusStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="corpusPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="corpusAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Bucket: <span id="corpusBucket" class="code"></span> · Prefix: <span id="corpusPrefix" class="code">corpus/</span></p>
-				<p id="corpusSummary" class="small">Loading…</p>
-				<p class="small"><span id="corpusDetails" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-			<div id="corpusAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Bucket: <span id="corpusBucketProd" class="code"></span> · Prefix: <span id="corpusPrefixProd" class="code">corpus/</span></p>
-				<p id="corpusSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="corpusDetailsProd" class="link" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="translationCompletenessSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Translation Completeness Audit</h2>
-			<button id="translationCompletenessStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="translationCompletenessPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="translationCompletenessAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Source: <span id="translationCompletenessSource" class="code">item_bank_translations.csv</span></p>
-				<p id="translationCompletenessSummary" class="small">Loading…</p>
-				<p class="small"><span id="translationCompletenessDetails" class="link" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-			<div id="translationCompletenessAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Source: <span id="translationCompletenessSourceProd" class="code">item_bank_translations.csv</span></p>
-				<p id="translationCompletenessSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="translationCompletenessDetailsProd" class="link" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="assetIntegritySection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Asset Integrity Audit</h2>
-			<button id="assetIntegrityStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="assetIntegrityPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="assetIntegrityAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Scope: <span id="assetIntegrityScope" class="code">All assets</span></p>
-				<p id="assetIntegritySummary" class="small">Loading…</p>
-				<p class="small"><span id="assetIntegrityDetails" class="link" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-			<div id="assetIntegrityAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Scope: <span id="assetIntegrityScopeProd" class="code">All assets</span></p>
-				<p id="assetIntegritySummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="assetIntegrityDetailsProd" class="link" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="configValidationSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Configuration Validation</h2>
-			<button id="configValidationStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="configValidationPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="configValidationAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
-				<p class="small">Scope: <span id="configValidationScope" class="code">Environment & API configs</span></p>
-				<p id="configValidationSummary" class="small">Loading…</p>
-				<p class="small"><span id="configValidationDetails" class="link" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-			<div id="configValidationAuditProd" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
-				<p class="small">Scope: <span id="configValidationScopeProd" class="code">Environment & API configs</span></p>
-				<p id="configValidationSummaryProd" class="small">Loading…</p>
-				<p class="small"><span id="configValidationDetailsProd" class="link" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="githubIssuesSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">GitHub Issues Status</h2>
-			<button id="githubIssuesStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="githubIssuesPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-			<div id="githubIssuesAudit" style="flex:1; min-width:280px;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Project Board</h3>
-				<p class="small">Source: <span id="githubIssuesSource" class="code">levante-framework/projects/1</span></p>
-				<p id="githubIssuesSummary" class="small">Loading…</p>
-				<p class="small"><span id="githubIssuesDetails" class="link" style="display:none; margin-right:12px;">Show issue details</span><button id="githubIssuesRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
-			</div>
-		</div>
-		
-		<div id="githubIssuesLists" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-top:16px;">
-			<div id="p0IssuesPanel" style="flex:1; min-width:400px; display:none;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">🔥 P0 Open Issues (Highest Priority)</h3>
-				<div id="p0IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
-					<!-- P0 issues will be populated here -->
-				</div>
-			</div>
-			<div id="p1IssuesPanel" style="flex:1; min-width:400px; display:none;">
-				<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">⚡ P1 Open Issues (High Priority)</h3>
-				<div id="p1IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
-					<!-- P1 issues will be populated here -->
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="section" id="crowdinAuditSection">
-		<h2 style="font-size:16px; margin:0 0 8px 0;">Crowdin</h2>
-		<table class="table" id="crowdinTable" aria-label="Crowdin Translation Status table">
-			<thead>
-				<tr>
-					<th>Language</th>
-					<th>Code</th>
-					<th>From Crowdin</th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
-
-	<div class="section" id="bucketInfoSection">
-		<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-			<h2 style="font-size:16px; margin:0;">Bucket Info</h2>
-			<button id="bucketInfoStoplight" class="stoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
-		</div>
-		<div id="bucketInfoContent" style="display:none;">
-			<div style="margin-bottom: 16px;">
-				<p class="small">Source: <span class="code">GCS Buckets</span></p>
-				<p id="bucketInfoSummary" class="small">Loading…</p>
-				<div id="bucketInfoProgress" style="display:none; margin: 8px 0;">
-					<div style="background: #e5e7eb; border-radius: 4px; height: 8px; overflow: hidden;">
-						<div id="bucketInfoProgressBar" style="background: #0d6efd; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
-					</div>
-					<p id="bucketInfoProgressText" class="small" style="margin: 4px 0 0 0; color: #6b7280;">Scanning GCS buckets...</p>
-				</div>
-				<p class="small"><button id="bucketInfoRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
-			</div>
-			<div id="bucketInfoTable" style="overflow-x: auto;">
-				<table class="table" style="width: 100%; border-collapse: collapse;">
-					<thead>
-						<tr>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Bucket Name</th>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Stat Name</th>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Language</th>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Number</th>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Unit</th>
-							<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Files</th>
-						</tr>
-					</thead>
-					<tbody id="bucketInfoTableBody">
-						<!-- Bucket info rows will be populated here -->
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-	<div class="footer" style="margin: 16px 0;">
-		<div class="small" style="margin-top:6px;">
+</div>
+<div class="section" id="visualAuditsSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Visual Assets Audit</h2>
+<button class="stoplight" id="visualStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="visualPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="visualAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Bucket: <span class="code" id="visualBucket"></span> · Prefix: <span class="code" id="visualPrefix">visual/</span></p>
+<p class="small" id="visualSummary">Loading…</p>
+<p class="small"><span class="link" id="visualDetails" style="display:none; margin-right:12px;">Show missing PNG → WEBP list</span><button id="visualFixBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Fix It</button></p>
+</div>
+<div id="visualAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Bucket: <span class="code" id="visualBucketProd"></span> · Prefix: <span class="code" id="visualPrefixProd">visual/</span></p>
+<p class="small" id="visualSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="visualDetailsProd" style="display:none; margin-right:12px;">Show missing PNG → WEBP list</span><button id="visualFixBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Fix It</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="audioAuditsSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Audio Assets Audit</h2>
+<button class="stoplight" id="audioStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="audioPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="audioAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Bucket: <span class="code" id="audioBucket"></span> · Prefix: <span class="code" id="audioPrefix">audio/</span></p>
+<p class="small" id="audioSummary">Loading…</p>
+<p class="small"><span class="link" id="audioDetails" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
+</div>
+<div id="audioAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Bucket: <span class="code" id="audioBucketProd"></span> · Prefix: <span class="code" id="audioPrefixProd">audio/</span></p>
+<p class="small" id="audioSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="audioDetailsProd" style="display:none; margin-right:12px;">Show audio coverage details</span><button id="audioCoverageBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">View Coverage</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="coreTasksAuditsSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Core Tasks Audit</h2>
+<button class="stoplight" id="coreTasksStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="coreTasksPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="coreTasksAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Bucket: <span class="code" id="coreTasksBucket"></span> · Prefix: <span class="code" id="coreTasksPrefix">corpus/</span></p>
+<p class="small" id="coreTasksSummary">Loading…</p>
+<p class="small"><span class="link" id="coreTasksDetails" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+<div id="coreTasksAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Bucket: <span class="code" id="coreTasksBucketProd"></span> · Prefix: <span class="code" id="coreTasksPrefixProd">corpus/</span></p>
+<p class="small" id="coreTasksSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="coreTasksDetailsProd" style="display:none; margin-right:12px;">Show corpus details</span><button id="coreTasksValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="corpusAuditsSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Corpus Audit</h2>
+<button class="stoplight" id="corpusStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="corpusPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="corpusAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Bucket: <span class="code" id="corpusBucket"></span> · Prefix: <span class="code" id="corpusPrefix">corpus/</span></p>
+<p class="small" id="corpusSummary">Loading…</p>
+<p class="small"><span class="link" id="corpusDetails" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+<div id="corpusAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Bucket: <span class="code" id="corpusBucketProd"></span> · Prefix: <span class="code" id="corpusPrefixProd">corpus/</span></p>
+<p class="small" id="corpusSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="corpusDetailsProd" style="display:none; margin-right:12px;">Show corpus details</span><button id="corpusValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="translationCompletenessSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Translation Completeness Audit</h2>
+<button class="stoplight" id="translationCompletenessStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="translationCompletenessPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="translationCompletenessAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Source: <span class="code" id="translationCompletenessSource">item_bank_translations.csv</span></p>
+<p class="small" id="translationCompletenessSummary">Loading…</p>
+<p class="small"><span class="link" id="translationCompletenessDetails" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+<div id="translationCompletenessAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Source: <span class="code" id="translationCompletenessSourceProd">item_bank_translations.csv</span></p>
+<p class="small" id="translationCompletenessSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="translationCompletenessDetailsProd" style="display:none; margin-right:12px;">Show missing translations</span><button id="translationCompletenessValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="assetIntegritySection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Asset Integrity Audit</h2>
+<button class="stoplight" id="assetIntegrityStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="assetIntegrityPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="assetIntegrityAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Scope: <span class="code" id="assetIntegrityScope">All assets</span></p>
+<p class="small" id="assetIntegritySummary">Loading…</p>
+<p class="small"><span class="link" id="assetIntegrityDetails" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+<div id="assetIntegrityAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Scope: <span class="code" id="assetIntegrityScopeProd">All assets</span></p>
+<p class="small" id="assetIntegritySummaryProd">Loading…</p>
+<p class="small"><span class="link" id="assetIntegrityDetailsProd" style="display:none; margin-right:12px;">Show integrity issues</span><button id="assetIntegrityValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="configValidationSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Configuration Validation</h2>
+<button class="stoplight" id="configValidationStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="configValidationPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="configValidationAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Dev</h3>
+<p class="small">Scope: <span class="code" id="configValidationScope">Environment &amp; API configs</span></p>
+<p class="small" id="configValidationSummary">Loading…</p>
+<p class="small"><span class="link" id="configValidationDetails" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+<div id="configValidationAuditProd" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Prod</h3>
+<p class="small">Scope: <span class="code" id="configValidationScopeProd">Environment &amp; API configs</span></p>
+<p class="small" id="configValidationSummaryProd">Loading…</p>
+<p class="small"><span class="link" id="configValidationDetailsProd" style="display:none; margin-right:12px;">Show config issues</span><button id="configValidationValidateBtnProd" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Validate</button></p>
+</div>
+</div>
+</div>
+<div class="section" id="githubIssuesSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">GitHub Issues Status</h2>
+<button class="stoplight" id="githubIssuesStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="githubIssuesPanels" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+<div id="githubIssuesAudit" style="flex:1; min-width:280px;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">Project Board</h3>
+<p class="small">Source: <span class="code" id="githubIssuesSource">levante-framework/projects/1</span></p>
+<p class="small" id="githubIssuesSummary">Loading…</p>
+<p class="small"><span class="link" id="githubIssuesDetails" style="display:none; margin-right:12px;">Show issue details</span><button id="githubIssuesRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
+</div>
+</div>
+<div id="githubIssuesLists" style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-top:16px;">
+<div id="p0IssuesPanel" style="flex:1; min-width:400px; display:none;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">🔥 P0 Open Issues (Highest Priority)</h3>
+<div id="p0IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
+<!-- P0 issues will be populated here -->
+</div>
+</div>
+<div id="p1IssuesPanel" style="flex:1; min-width:400px; display:none;">
+<h3 style="font-size:14px; margin:0 0 6px 0; color:#374151;">⚡ P1 Open Issues (High Priority)</h3>
+<div id="p1IssuesList" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; background: #f9fafb;">
+<!-- P1 issues will be populated here -->
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="crowdinAuditSection">
+<h2 style="font-size:16px; margin:0 0 8px 0;">Crowdin</h2>
+<table aria-label="Crowdin Translation Status table" class="table" id="crowdinTable">
+<thead>
+<tr>
+<th>Language</th>
+<th>Code</th>
+<th>From Crowdin</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<div class="section" id="bucketInfoSection">
+<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+<h2 style="font-size:16px; margin:0;">Bucket Info</h2>
+<button class="stoplight" id="bucketInfoStoplight" style="display:none; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:12px; font-weight:600; cursor:default;">Loading...</button>
+</div>
+<div id="bucketInfoContent" style="display:none;">
+<div style="margin-bottom: 16px;">
+<p class="small">Source: <span class="code">GCS Buckets</span></p>
+<p class="small" id="bucketInfoSummary">Loading…</p>
+<div id="bucketInfoProgress" style="display:none; margin: 8px 0;">
+<div style="background: #e5e7eb; border-radius: 4px; height: 8px; overflow: hidden;">
+<div id="bucketInfoProgressBar" style="background: #0d6efd; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+</div>
+<p class="small" id="bucketInfoProgressText" style="margin: 4px 0 0 0; color: #6b7280;">Scanning GCS buckets...</p>
+</div>
+<p class="small"><button id="bucketInfoRefreshBtn" style="display:none; padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; background:#0d6efd; color:white; cursor:pointer;">Refresh</button></p>
+</div>
+<div id="bucketInfoTable" style="overflow-x: auto;">
+<table class="table" style="width: 100%; border-collapse: collapse;">
+<thead>
+<tr>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Bucket Name</th>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Stat Name</th>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Language</th>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Number</th>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: left;">Unit</th>
+<th style="background: #f8fafc; padding: 8px 10px; border: 1px solid #e5e7eb; font-size: 13px; text-align: right;">Files</th>
+</tr>
+</thead>
+<tbody id="bucketInfoTableBody">
+<!-- Bucket info rows will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="footer" style="margin: 16px 0;">
+<div class="small" style="margin-top:6px;">
 			- From Crowdin: coverage of Item Bank CSV translations from Crowdin API
 			- A: Approved translations
 			- UA: Unapproved (translated but not approved)
 			- NT: Not Translated
 		</div>
-	</div>
-
-	<!-- Diff Modal -->
-	<div id="diffModal" class="modal">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h2 class="modal-title" id="diffModalTitle">Environment Differences</h2>
-				<span class="close" id="diffModalClose">&times;</span>
-			</div>
-			<div class="modal-body" id="diffModalBody">
-				<!-- Content will be populated by JavaScript -->
-			</div>
-		</div>
-	</div>
-
-	<!-- Untranslated Items Modal -->
-	<div id="untranslatedModal" class="modal">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h2 class="modal-title" id="untranslatedModalTitle">Untranslated Items</h2>
-				<span class="close" id="untranslatedModalClose">&times;</span>
-			</div>
-			<div class="modal-body" id="untranslatedModalBody">
-				<!-- Content will be populated by JavaScript -->
-			</div>
-		</div>
-	</div>
-
-	<script>
+</div>
+<!-- Diff Modal -->
+<div class="modal" id="diffModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 class="modal-title" id="diffModalTitle">Environment Differences</h2>
+<span class="close" id="diffModalClose">×</span>
+</div>
+<div class="modal-body" id="diffModalBody">
+<!-- Content will be populated by JavaScript -->
+</div>
+</div>
+</div>
+<!-- Untranslated Items Modal -->
+<div class="modal" id="untranslatedModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 class="modal-title" id="untranslatedModalTitle">Untranslated Items</h2>
+<span class="close" id="untranslatedModalClose">×</span>
+</div>
+<div class="modal-body" id="untranslatedModalBody">
+<!-- Content will be populated by JavaScript -->
+</div>
+</div>
+</div>
+<script>
 	(async function() {
 		// Refresh button handler
 		const refreshBtn = document.getElementById('refreshBtn');

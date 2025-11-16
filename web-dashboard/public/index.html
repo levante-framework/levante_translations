@@ -269,45 +269,60 @@
       const data = await response.json();
 
       const drafts = data?.draftsAwaitingApproval || {};
-      if (draftsEl) draftsEl.textContent = typeof drafts.uniqueItems === 'number' ? drafts.uniqueItems : '0';
-      if (draftsDetailEl) {
-        const files = typeof drafts.totalFiles === 'number' ? drafts.totalFiles : 0;
-        draftsDetailEl.textContent = `${files} version${files === 1 ? '' : 's'} saved in levante-assets-draft/audio`;
+      if (drafts.message) {
+        if (draftsEl) draftsEl.textContent = '--';
+        if (draftsDetailEl) draftsDetailEl.textContent = drafts.message;
+      } else {
+        if (draftsEl) draftsEl.textContent = typeof drafts.uniqueItems === 'number' ? drafts.uniqueItems : '0';
+        if (draftsDetailEl) {
+          const files = typeof drafts.totalFiles === 'number' ? drafts.totalFiles : 0;
+          draftsDetailEl.textContent = `${files} version${files === 1 ? '' : 's'} saved in levante-assets-draft/audio`;
+        }
       }
 
       const coverage = data?.audioCoverage || {};
-      const percent = typeof coverage.percent === 'number' && !Number.isNaN(coverage.percent)
-        ? `${coverage.percent.toFixed(1)}%`
-        : 'N/A';
+      const missing = coverage.missingCount ?? Math.max((coverage.repoTotal ?? 0) - (coverage.bucketTotal ?? 0), 0);
       if (coverageEl) {
-        const missing = coverage.missingCount ?? Math.max((coverage.repoTotal ?? 0) - (coverage.bucketTotal ?? 0), 0);
-        coverageEl.innerHTML = `<span class="warning-text">Missing Audio: ${missing}</span>`;
+        if (coverage.message) {
+          coverageEl.innerHTML = `<span class="warning-text">Missing: --</span>`;
+        } else {
+          const label = missing > 0 ? 'Yes' : 'No';
+          coverageEl.innerHTML = `<span class="warning-text">Missing: ${label}</span>`;
+        }
       }
       if (coverageDetailEl) {
-        const noTags = coverage.noTagCount ?? 0;
-        coverageDetailEl.textContent = `No tags: ${noTags}`;
+        if (coverage.message) {
+          coverageDetailEl.textContent = coverage.message;
+        } else {
+          const noTags = typeof coverage.noTagCount === 'number' ? coverage.noTagCount : 0;
+          coverageDetailEl.textContent = `No tags: ${noTags}`;
+        }
       }
 
       const visual = data?.visualAssets || {};
-      if (visualEl) visualEl.textContent = typeof visual.pending === 'number' ? visual.pending : '0';
-      if (visualDetailEl) {
-        visualDetailEl.textContent = 'PNG assets missing WEBP conversions in dev bucket';
+      if (visual.message) {
+        if (visualEl) visualEl.textContent = '--';
+        if (visualDetailEl) visualDetailEl.textContent = visual.message;
+      } else {
+        if (visualEl) visualEl.textContent = typeof visual.pending === 'number' ? visual.pending : '0';
+        if (visualDetailEl) {
+          visualDetailEl.textContent = 'PNG assets missing WEBP conversions in dev bucket';
+        }
       }
 
       const issues = data?.githubIssues || {};
       const p0 = issues.p0 ?? 0;
       const p1 = issues.p1 ?? 0;
-      if (issuesEl) issuesEl.textContent = `P0 ${p0} • P1 ${p1}`;
-      if (issuesDetailEl) {
-        if (issues.message) {
-          issuesDetailEl.textContent = issues.message;
-        } else {
-          issuesDetailEl.textContent = 'Priority issues pulled from levante-framework/project #1';
-        }
+      if (issues.message) {
+        if (issuesEl) issuesEl.textContent = 'P0 -- • P1 --';
+        if (issuesDetailEl) issuesDetailEl.textContent = issues.message;
+      } else {
+        if (issuesEl) issuesEl.textContent = `P0 ${p0} • P1 ${p1}`;
+        if (issuesDetailEl) issuesDetailEl.textContent = 'Priority issues pulled from levante-framework/project #1';
       }
     } catch (error) {
       console.warn('Failed to load pitwall stats:', error);
-      setError(draftsEl, draftsDetailEl, 'Unable to read levante-assets-draft');
+      setError(draftsEl, draftsDetailEl, 'Draft summary unavailable');
       setError(coverageEl, coverageDetailEl, 'Audio coverage summary unavailable');
       setError(visualEl, visualDetailEl, 'Visual audit unavailable');
       setError(issuesEl, issuesDetailEl, 'GitHub summary unavailable');

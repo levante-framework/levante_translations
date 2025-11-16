@@ -1,40 +1,70 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Audio Coverage Report</title>
-  <link rel="stylesheet" href="./styles.css" />
-    <link rel="icon" type="image/svg+xml" href="./audio-favicon.svg" />
-  <script src="./config.js"></script>
-  <style>
-    .coverage-container{padding:20px}
-    .grid-table{width:100%; border-collapse:collapse}
-    .grid-table th,.grid-table td{border:1px solid #e0e0e0; padding:8px; text-align:left}
-    .chip{display:inline-block; padding:4px 8px; border-radius:12px; font-size:12px; margin-right:6px}
-    .chip.ok{background:#e6f4ea; color:#1e7e34}
-    .chip.missing{background:#fdecea; color:#842029}
-  </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audio Coverage Report</title>
+<link href="./styles.css" rel="stylesheet"/>
+<link href="./audio-favicon.svg" rel="icon" type="image/svg+xml"/>
+<script src="./config.js"></script>
+<style>
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.96)), linear-gradient(190deg, #020617 0%, #0b1220 100%); color: #e2e8f0; min-height: 100vh; }
+    .coverage-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 24px; }
+    h2 { font-size: 2rem; font-weight: 600; display: flex; align-items: center; gap: 12px; color: #ffb347; letter-spacing: 0.02em; }
+    p { margin: 0; color: rgba(226, 232, 240, 0.75); font-size: 0.95rem; }
+    .source-row { display: flex; flex-wrap: wrap; gap: 16px; }
+    .source-card { flex: 1; min-width: 280px; background: rgba(9, 17, 31, 0.92); border: 1px solid rgba(0, 160, 222, 0.24); border-radius: 16px; padding: 20px 24px; box-shadow: 0 24px 60px rgba(2, 6, 23, 0.45); }
+    .source-title { font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #f8fafc; margin-bottom: 12px; }
+    .source-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .pill { border-radius: 999px; border: 1px solid rgba(148, 198, 255, 0.3); padding: 6px 14px; background: rgba(3, 12, 28, 0.85); color: #dbeafe; cursor: pointer; font-weight: 600; letter-spacing: 0.05em; transition: all 0.2s ease; }
+    .pill:hover { background: rgba(255, 123, 0, 0.85); color: #0b1220; box-shadow: 0 10px 24px rgba(255, 123, 0, 0.28); border-color: rgba(255, 123, 0, 0.55); }
+    .pill.active { background: #ff6f00; color: #0b1220; border-color: rgba(255, 123, 0, 0.65); box-shadow: 0 12px 28px rgba(255, 123, 0, 0.35); }
+    .rescan-btn { background: #00a0de !important; color: #031422 !important; border-color: rgba(0, 160, 222, 0.45) !important; box-shadow: 0 12px 28px rgba(0, 160, 222, 0.35); }
+    .rescan-btn:hover { background: #00bafc !important; }
+    .source-detail { display: flex; align-items: center; gap: 10px; color: rgba(203, 213, 225, 0.75); font-size: 0.9rem; }
+    .source-detail label { font-weight: 600; color: #f8fafc; }
+    #bucketInput { width: 280px; padding: 8px 12px; border: 1px solid rgba(0, 160, 222, 0.3); border-radius: 10px; background: rgba(3, 12, 28, 0.85); color: #e2e8f0; }
+    #bucketInput:disabled { background: rgba(9, 17, 31, 0.6); color: rgba(148, 163, 184, 0.6); cursor: not-allowed; }
+    .hint { color: rgba(148, 198, 255, 0.7); font-size: 0.75rem; }
+    .grid-table { width: 100%; border-collapse: collapse; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 70px rgba(2, 6, 23, 0.55); margin-top: 12px; }
+    .grid-table th, .grid-table td { padding: 14px 16px; font-size: 0.95rem; text-align: left; }
+    .grid-table th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%); color: #0b1220; text-transform: uppercase; letter-spacing: 0.08em; }
+    .grid-table td { background: rgba(9, 17, 31, 0.92); border-bottom: 1px solid rgba(0, 160, 222, 0.2); }
+    .grid-table tr:hover td { background: rgba(255, 123, 0, 0.12); }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .chip.ok { background: rgba(14, 169, 96, 0.15); color: #0ea960; }
+    .chip.missing { background: rgba(220, 38, 38, 0.15); color: #ffb347; }
+    #summary { font-size: 0.95rem; color: rgba(226, 232, 240, 0.75); }
+    #coverageTable tbody tr td:nth-child(4) { font-weight: 600; color: #ffb347; }
+    code { background: rgba(2, 10, 22, 0.74); padding: 4px 8px; border-radius: 6px; color: #93c5fd; }
+    @media (max-width: 720px) {
+      .coverage-container { padding: 32px 16px 60px; }
+      .grid-table th, .grid-table td { padding: 12px; font-size: 0.85rem; }
+      .source-detail { flex-direction: column; align-items: flex-start; }
+      #bucketInput { width: 100%; }
+    }
+</style>
 </head>
 <body>
-  <div class="coverage-container">
-    <h2><i class="fas fa-table"></i> Audio Coverage by Language and Voice</h2>
-    <p>This report counts generated audio files per language and per embedded voice (ID3 tag).</p>
-    <div class="source-row">
-      <div class="source-card">
-        <div class="source-title">Source</div>
-        <div class="source-controls">
-          <button class="pill" id="useRepo">Repo</button>
-          <button class="pill" id="useDev">Dev</button>
-          <button class="pill" id="useProd">Prod</button>
-          <button class="pill rescan-btn" id="rescanBtn">🔄 Rescan</button>
-        </div>
-        <div class="source-detail">
-          <label for="bucketInput">Bucket</label>
-          <input id="bucketInput" type="text" value="levante-assets-dev" placeholder="levante-assets-dev" />
-          <span class="hint">audio URLs: <code>gs://&lt;bucket&gt;/audio/&lt;lang&gt;/&lt;id&gt;.mp3</code></span>
-        </div>
-        <!-- COMMENTED OUT: child-survey files are duplicates of main audio files
+<div class="coverage-container">
+<h2><i class="fas fa-table"></i> Audio Coverage by Language and Voice</h2>
+<p>This report counts generated audio files per language and per embedded voice (ID3 tag).</p>
+<div class="source-row">
+<div class="source-card">
+<div class="source-title">Source</div>
+<div class="source-controls">
+<button class="pill" id="useRepo">Repo</button>
+<button class="pill" id="useDev">Dev</button>
+<button class="pill" id="useProd">Prod</button>
+<button class="pill rescan-btn" id="rescanBtn">🔄 Rescan</button>
+</div>
+<div class="source-detail">
+<label for="bucketInput">Bucket</label>
+<input id="bucketInput" placeholder="levante-assets-dev" type="text" value="levante-assets-dev"/>
+<span class="hint">audio URLs: <code>gs://&lt;bucket&gt;/audio/&lt;lang&gt;/&lt;id&gt;.mp3</code></span>
+</div>
+<!-- COMMENTED OUT: child-survey files are duplicates of main audio files
         <div class="source-detail" style="margin-top: 8px;">
           <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
             <input type="checkbox" id="includeChildSurvey" checked style="cursor: pointer;" />
@@ -42,24 +72,23 @@
           </label>
         </div>
         -->
-      </div>
-    </div>
-    <div id="summary"></div>
-    <table class="grid-table" id="coverageTable">
-      <thead>
-        <tr>
-          <th>Language</th>
-          <th>Voice</th>
-          <th>Count</th>
-          <th>Missing</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-  <script>
+</div>
+</div>
+<div id="summary"></div>
+<table class="grid-table" id="coverageTable">
+<thead>
+<tr>
+<th>Language</th>
+<th>Voice</th>
+<th>Count</th>
+<th>Missing</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script>
     // Styles for nicer source row
     const style = document.createElement('style');
     style.textContent = `
@@ -768,4 +797,3 @@
   </script>
 </body>
 </html>
-
