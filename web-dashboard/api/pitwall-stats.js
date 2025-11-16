@@ -7,6 +7,9 @@ const DRAFT_BUCKET = process.env.ASSETS_DRAFT_BUCKET || 'levante-assets-draft';
 const VISUAL_PREFIX = 'visual/';
 const AUDIO_PREFIX = 'audio/';
 
+const DATA_BUCKET = process.env.DASHBOARD_DATA_BUCKET || 'levante-dashboard-dev';
+const COVERAGE_SUMMARY_PREFIX = process.env.AUDIO_COVERAGE_SUMMARY_PREFIX || 'pitwall/audio-coverage-summary';
+
 let storageClient = null;
 
 function getStorageClient() {
@@ -24,6 +27,31 @@ function getStorageClient() {
     storageClient = null;
   }
   return storageClient;
+}
+
+function sanitizeBucketName(name) {
+  return (name || '').toString().trim().replace(/[^a-zA-Z0-9._-]+/g, '_') || 'default';
+}
+
+function getCoverageSummaryPath(bucketName) {
+  const prefix = COVERAGE_SUMMARY_PREFIX.endsWith('/') ? COVERAGE_SUMMARY_PREFIX : `${COVERAGE_SUMMARY_PREFIX}/`;
+  return `${prefix}${sanitizeBucketName(bucketName)}.json`;
+}
+
+async function readCachedCoverageSummary(bucketName) {
+  try {
+    const storage = getStorageClient();
+    if (!storage) return null;
+    const bucket = storage.bucket(DATA_BUCKET);
+    const file = bucket.file(getCoverageSummaryPath(bucketName));
+    const [exists] = await file.exists();
+    if (!exists) return null;
+    const [contents] = await file.download();
+    return JSON.parse(contents.toString('utf8')) || null;
+  } catch (error) {
+    console.warn('readCachedCoverageSummary error:', error.message);
+    return null;
+  }
 }
 
 function removeVersionSuffix(fileName) {
@@ -77,53 +105,41 @@ function countRepoAudio() {
   }
 }
 
-async function countBucketAudioStats() {
-  try {
-    const storage = getStorageClient();
-    if (!storage) {
-      return { total: 0, noTag: 0, errors: 0, message: 'Audio bucket credentials not configured.' };
-    }
-
-    const bucket = storage.bucket(DEV_BUCKET);
-    const [files] = await bucket.getFiles({ prefix: AUDIO_PREFIX, autoPaginate: true });
-    let total = 0;
-    let noTag = 0;
-
-    for (const file of files) {
-      if (!file.name || !file.name.toLowerCase().endsWith('.mp3')) continue;
-      total += 1;
-      const metadata = file.metadata || {};
-      const custom = metadata.metadata || metadata.customMetadata || {};
-      const voiceMeta = custom.voice || custom.Voice || custom.speaker;
-      const voice = typeof voiceMeta === 'string' ? voiceMeta.trim() : '';
-      const normalized = voice.toLowerCase();
-      if (!voice || normalized === 'not available' || normalized === 'n/a' || normalized === 'unknown') {
-        noTag += 1;
-      }
-    }
-
-    return { total, noTag, errors: 0 };
-  } catch (error) {
-    console.warn('countBucketAudioStats error:', error.message);
-    return { total: 0, noTag: 0, errors: 1, message: error.message };
-  }
-}
 
 async function computeAudioCoverage() {
-  const repoTotal = countRepoAudio();
-  const bucketStats = await countBucketAudioStats();
-  const bucketTotal = bucketStats.total;
-  const noTagCount = bucketStats.noTag;
-  const percent = repoTotal > 0 ? Math.min(100, Math.round((bucketTotal / repoTotal) * 1000) / 10) : 0;
-  const missingCount = Math.max(repoTotal - bucketTotal, 0);
+  const cached = await readCachedCoverageSummary(DEV_BUCKET);
+
+  if (cached && typeof cached.availableCount === 'number') {
+    const expected = Number.isFinite(cached.expectedCount) ? cached.expectedCount : countRepoAudio();
+    const available = cached.availableCount;
+    const noTagCount = Number.isFinite(cached.noTagCount) ? cached.noTagCount : 0;
+    const missingCount = Number.isFinite(cached.missingCount) ? cached.missingCount : Math.max(expected - available, 0);
+    const percent = Number.isFinite(cached.coveragePercent)
+      ? Math.min(100, cached.coveragePercent)
+      : (expected > 0 ? Math.min(100, Math.round((available / expected) * 1000) / 10) : 0);
+
+    return {
+      repoTotal: expected,
+      bucketTotal: available,
+      percent,
+      missingCount,
+      noTagCount,
+      message: cached.generatedAt ? `Cached ${cached.generatedAt}` : 'Using cached coverage summary (refresh from Audio Coverage to update)',
+      cached: true,
+      sourceBucket: cached.bucket || DEV_BUCKET
+    };
+  }
 
   return {
-    repoTotal,
-    bucketTotal,
-    percent,
-    missingCount,
-    noTagCount,
-    message: bucketStats.message
+    repoTotal: null,
+    bucketTotal: null,
+    percent: null,
+    missingCount: null,
+    noTagCount: null,
+    message: 'Awaiting audio coverage summary. Open Audio Coverage to generate the latest snapshot.',
+    cached: false,
+    pending: true,
+    sourceBucket: DEV_BUCKET
   };
 }
 

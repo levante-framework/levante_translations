@@ -59,10 +59,10 @@
      Levante Pitwall
     </h1><p>Our starting point for translation QA, audio patching, and supporting tools. Jump to a dashboard or a Stats card to get started.</p></div></div>
 <div class="pitwall-actions">
-<a href="./dashboard-app.html"><i class="fas fa-gauge"></i> Open Dashboard</a>
+<a href="./dashboard-app.html"><i class="fas fa-gauge"></i> Audio Dashboard</a>
 <a href="./audio-coverage.html"><i class="fas fa-music"></i> Audio Coverage</a>
 <a href="./preflight-report.html"><i class="fas fa-clipboard-check"></i> Preflight Report</a>
-<a href="./draft-share.html"><i class="fas fa-share-nodes"></i> Audio needing Deployment</a>
+<a href="./draft-share.html"><i class="fas fa-share-nodes"></i> Ready to Deploy</a>
 </div>
 </header>
 <section>
@@ -87,7 +87,10 @@
        Audio coverage
       </span>
 <strong id="stat-coverage">--</strong>
-<em id="stat-coverage-detail">Comparing repo vs. dev bucket…</em>
+<div class="status-detail-row">
+  <em id="stat-coverage-detail">Waiting for audio coverage summary...</em>
+  <button id="stat-coverage-refresh" class="status-pill-refresh" type="button">Refresh</button>
+</div>
 </div></a>
 <a class="status-link" href="./preflight-report.html#visualAuditsSection"><div class="status-pill">
 <span class="label">
@@ -253,6 +256,22 @@
     const draftsDetailEl = document.getElementById('stat-drafts-detail');
     const coverageEl = document.getElementById('stat-coverage');
     const coverageDetailEl = document.getElementById('stat-coverage-detail');
+    const coverageRefreshBtn = document.getElementById('stat-coverage-refresh');
+    if (coverageRefreshBtn && !coverageRefreshBtn.dataset.bound) {
+      coverageRefreshBtn.dataset.bound = '1';
+      coverageRefreshBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const original = coverageRefreshBtn.textContent;
+        coverageRefreshBtn.disabled = true;
+        coverageRefreshBtn.textContent = 'Opening...';
+        window.open('./audio-coverage.html', '_blank');
+        setTimeout(() => {
+          coverageRefreshBtn.disabled = false;
+          coverageRefreshBtn.textContent = original;
+        }, 2000);
+      });
+    }
     const visualEl = document.getElementById('stat-visual');
     const visualDetailEl = document.getElementById('stat-visual-detail');
     const issuesEl = document.getElementById('stat-issues');
@@ -281,22 +300,21 @@
       }
 
       const coverage = data?.audioCoverage || {};
-      const missing = coverage.missingCount ?? Math.max((coverage.repoTotal ?? 0) - (coverage.bucketTotal ?? 0), 0);
-      if (coverageEl) {
-        if (coverage.message) {
-          coverageEl.innerHTML = `<span class="warning-text">Missing: --</span>`;
-        } else {
-          const label = missing > 0 ? 'Yes' : 'No';
-          coverageEl.innerHTML = `<span class="warning-text">Missing: ${label}</span>`;
+      const hasCoverageStats = Boolean(coverage.cached) && typeof coverage.noTagCount === 'number';
+      const missingTagsValue = hasCoverageStats ? coverage.noTagCount : '--';
+      if (coverageEl) coverageEl.innerHTML = `<span class="warning-text">Missing Tags: ${missingTagsValue}</span>`;
+
+      if (hasCoverageStats) {
+        if (coverageDetailEl) {
+          const missingAudio = typeof coverage.missingCount === 'number' && coverage.missingCount > 0 ? 'Missing audio: Yes' : 'Missing audio: No';
+          coverageDetailEl.textContent = missingAudio;
         }
+      } else if (coverageDetailEl) {
+        coverageDetailEl.textContent = coverage.message || 'Waiting for audio coverage summary...';
       }
-      if (coverageDetailEl) {
-        if (coverage.message) {
-          coverageDetailEl.textContent = coverage.message;
-        } else {
-          const noTags = typeof coverage.noTagCount === 'number' ? coverage.noTagCount : 0;
-          coverageDetailEl.textContent = `No tags: ${noTags}`;
-        }
+      if (coverageRefreshBtn) {
+        coverageRefreshBtn.disabled = false;
+        coverageRefreshBtn.textContent = 'Refresh';
       }
 
       const visual = data?.visualAssets || {};
@@ -323,7 +341,12 @@
     } catch (error) {
       console.warn('Failed to load pitwall stats:', error);
       setError(draftsEl, draftsDetailEl, 'Draft summary unavailable');
-      setError(coverageEl, coverageDetailEl, 'Audio coverage summary unavailable');
+      if (coverageEl) coverageEl.innerHTML = `<span class="warning-text">Missing Tags: --</span>`;
+      if (coverageDetailEl) coverageDetailEl.textContent = 'Audio coverage summary unavailable';
+      if (coverageRefreshBtn) {
+        coverageRefreshBtn.disabled = false;
+        coverageRefreshBtn.textContent = 'Refresh';
+      }
       setError(visualEl, visualDetailEl, 'Visual audit unavailable');
       setError(issuesEl, issuesDetailEl, 'GitHub summary unavailable');
     }

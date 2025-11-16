@@ -565,6 +565,25 @@
         });
       }
 
+      const okCountFinal = results.filter(r => r && r.ok).length;
+      const errCountFinal = results.filter(r => !r || !r.ok).length;
+
+      if (currentSource !== 'repo') {
+        const summaryPayload = {
+          bucket: getSelectedBucket(),
+          expectedCount: total,
+          availableCount: okCountFinal,
+          missingCount: errCountFinal,
+          noTagCount,
+          coveragePercent: total > 0 ? Math.round((okCountFinal / total) * 1000) / 10 : 0,
+          languages: langCodes,
+          generatedAt: new Date().toISOString(),
+          source: currentSource
+        };
+
+        await postCoverageSummary(summaryPayload);
+      }
+
       // Add child-survey section (only if checkbox is checked) - COMMENTED OUT: survey items are duplicates
       // if (includeChildSurvey) {
       //   const childSurveyLangs = Object.keys(childSurveyCounts).sort();
@@ -642,6 +661,22 @@
         return { total: 0, byLanguage: {} };
       }
     }
+    async function postCoverageSummary(payload) {
+      try {
+        const response = await fetch('/api/audio-coverage-summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+          const text = await response.text();
+          console.warn('Failed to cache audio coverage summary:', response.status, text);
+        }
+      } catch (error) {
+        console.warn('Failed to cache audio coverage summary:', error.message);
+      }
+    }
+
 
     // Function to show details of files with no voice tag
     function showNoTagDetails(rowIndex) {

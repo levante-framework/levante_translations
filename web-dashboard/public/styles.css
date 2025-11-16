@@ -619,9 +619,16 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 }
 
 .warning-text { color: #ffb347; font-weight: 700; letter-spacing: 0.04em; }
+.info-text { color: #00c8ff; font-weight: 700; letter-spacing: 0.04em; }
 
 .status-strip .status-link { text-decoration: none; color: inherit; display: block; border-radius: 18px; }
 .status-strip .status-link .status-pill { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+.status-strip .status-link .status-pill .status-detail-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+.status-strip .status-link .status-pill .status-detail-row em { flex: 1; font-style: normal; color: rgba(203, 213, 225, 0.8); }
+.status-pill-refresh { background: rgba(0, 200, 255, 0.12); color: #00c8ff; border: 1px solid rgba(0, 200, 255, 0.35); border-radius: 999px; padding: 4px 12px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+.status-pill-refresh:hover { background: rgba(0, 200, 255, 0.3); color: #031a2d; border-color: rgba(0, 200, 255, 0.55); box-shadow: 0 10px 24px rgba(0, 200, 255, 0.25); }
+.status-pill-refresh:active { transform: translateY(1px); }
+.status-pill-refresh:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 .status-strip .status-link:hover .status-pill { transform: translateY(-4px); box-shadow: 0 28px 56px rgba(255, 123, 0, 0.35); border-color: rgba(255, 123, 0, 0.45); }
 .status-strip .status-link .label { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #00c8ff; }
 .status-strip .status-link .label-sub { font-size: 0.68rem; color: rgba(203, 213, 225, 0.78); letter-spacing: 0.16em; }
