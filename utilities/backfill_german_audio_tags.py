@@ -21,6 +21,7 @@ except ImportError:  # pragma: no cover - optional dependency
     GCS_AVAILABLE = False
 
 VOICE_NAME = "Julia"
+SOURCE_TAG_VALUE = "patch"
 LICENSE_TEXT = audio_tags["copyright"]
 DEFAULT_BUCKET = "levante-assets-dev"
 DEFAULT_PREFIX = "audio/de"
@@ -66,6 +67,7 @@ def _merge_tags(existing: dict[str, str | None], title: str) -> dict[str, str | 
         merged["album"] = "German Audio"
 
     merged["voice"] = VOICE_NAME
+    merged["source"] = SOURCE_TAG_VALUE
     merged["copyright"] = LICENSE_TEXT
     return merged
 

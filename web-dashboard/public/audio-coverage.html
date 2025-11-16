@@ -44,6 +44,49 @@
       .source-detail { flex-direction: column; align-items: flex-start; }
       #bucketInput { width: 100%; }
     }
+
+    /* Modal styling */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center;
+      background: rgba(2, 6, 23, 0.82); backdrop-filter: blur(6px);
+    }
+    .modal-card {
+      width: min(560px, 92%); max-height: 86vh; display: flex; flex-direction: column;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.98));
+      border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 18px; color: #e2e8f0;
+      box-shadow: 0 32px 70px rgba(2, 6, 23, 0.55); overflow: hidden;
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+      padding: 24px 28px 18px; border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.08) 0%, rgba(15, 23, 42, 0) 100%);
+    }
+    .modal-title { margin: 0; font-size: 1.55rem; font-weight: 600; color: #f8fafc; letter-spacing: 0.03em; }
+    .modal-subtitle { margin: 6px 0 0; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(148, 163, 184, 0.78); }
+    .modal-subtitle span { color: #38bdf8; font-weight: 700; }
+    .modal-close {
+      background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.3); color: #cbd5f5;
+      width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; transition: all 0.2s ease;
+    }
+    .modal-close:hover { background: rgba(56, 189, 248, 0.25); color: #0f172a; border-color: rgba(56, 189, 248, 0.5); }
+    .modal-body { padding: 20px 28px 24px; display: flex; flex-direction: column; gap: 18px; }
+    .modal-stat { margin: 0; font-size: 0.95rem; font-weight: 600; color: #fef3c7; }
+    .modal-stat span { color: rgba(148, 163, 184, 0.85); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 6px; }
+    .modal-section h4 { margin: 0 0 10px; font-size: 1rem; font-weight: 600; color: #f8fafc; letter-spacing: 0.04em; }
+    .modal-scroll { max-height: 320px; overflow-y: auto; border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 14px; padding: 12px; background: rgba(15, 23, 42, 0.65); }
+    .modal-placeholder, .modal-error, .modal-success { margin: 0; font-size: 0.95rem; }
+    .modal-placeholder { color: rgba(148, 163, 184, 0.85); }
+    .modal-error { color: #fca5a5; }
+    .modal-success { color: #bbf7d0; }
+    .missing-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .missing-list li {
+      padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.25); background: rgba(8, 47, 73, 0.45);
+      font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace; font-size: 0.9rem; color: #e0f2fe; letter-spacing: 0.02em;
+    }
+    .missing-list li .missing-created { display: block; margin-top: 4px; font-size: 0.72rem; color: rgba(148, 163, 184, 0.75); letter-spacing: 0.04em; }
+    .modal-note { margin: 4px 0 0; font-size: 0.78rem; color: rgba(148, 163, 184, 0.75); }
+    .modal-note strong { color: #f8fafc; }
+
 </style>
 </head>
 <body>
@@ -685,16 +728,15 @@
         alert('No file details available');
         return;
       }
-      
-      const modal = document.createElement('div');
-      modal.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
-        align-items: center; justify-content: center;
-      `;
-      
+
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+
+      const card = document.createElement('div');
+      card.className = 'modal-card';
+      const fileLabel = row.voice && row.voice !== 'Not available' ? row.voice : 'Unspecified';
       const formatDate = (dateStr) => {
-        if (!dateStr) return 'Not available';
+        if (!dateStr) return null;
         try {
           const date = new Date(dateStr);
           return date.toLocaleString();
@@ -702,123 +744,110 @@
           return dateStr;
         }
       };
-      
-      const filesHtml = row.files.map(file => `
-        <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 8px; background: #f9fafb;">
-          <div style="font-weight: 600; margin-bottom: 4px;">
-            <strong>Item ID:</strong> ${file.id}
+      const itemsMarkup = row.files.map(file => {
+        const label = file.shortname || file.id || 'Unknown file';
+        const created = formatDate(file.created);
+        return `<li>${label}${created ? `<span class="missing-created">Created: ${created}</span>` : ''}</li>`;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title">Files Without Voice Tag</h2>
+            <p class="modal-subtitle"><span>Language:</span> ${row.lang} • <span>Voice:</span> ${fileLabel}</p>
           </div>
-          <div style="font-size: 13px; color: #6b7280; margin-bottom: 4px;">
-            <strong>File:</strong> <code style="background: #e5e7eb; padding: 2px 6px; border-radius: 3px;">${file.shortname}</code>
-          </div>
-          <div style="font-size: 13px; color: #6b7280;">
-            <strong>Created:</strong> ${formatDate(file.created)}
-          </div>
+          <button class="modal-close" aria-label="Close files without voice tag">&times;</button>
         </div>
-      `).join('');
-      
-      modal.innerHTML = `
-        <div style="background: white; border-radius: 12px; padding: 24px; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e5e7eb;">
-            <h2 style="margin: 0; font-size: 18px; color: #111827;">Files Without Voice Tag</h2>
-            <button onclick="this.closest('[style*=\\'position: fixed\\']').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #6b7280; padding: 0; line-height: 1;">&times;</button>
-          </div>
-          <div style="margin-bottom: 16px;">
-            <p style="margin: 0 0 12px 0; color: #374151;">
-              <strong>Language:</strong> ${row.lang} | 
-              <strong>Total files:</strong> ${row.files.length}
-            </p>
-          </div>
-          <div style="max-height: 400px; overflow-y: auto;">
-            ${filesHtml}
-          </div>
-          <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #e5e7eb; text-align: right;">
-            <button onclick="this.closest('[style*=\\'position: fixed\\']').remove()" style="padding: 8px 16px; background: #0d6efd; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Close</button>
+        <div class="modal-body">
+          <p class="modal-stat"><span>Total Files:</span> ${row.files.length}</p>
+          <div class="modal-section">
+            <h4>File List</h4>
+            <div class="modal-scroll">
+              ${row.files.length ? `<ul class="missing-list">${itemsMarkup}</ul>` : '<p class="modal-placeholder">No file metadata available.</p>'}
+            </div>
           </div>
         </div>
       `;
-      
-      document.body.appendChild(modal);
-      
-      // Close on background click
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.remove();
-        }
-      });
+
+      overlay.appendChild(card);
+      document.body.appendChild(overlay);
+
+      const closeButton = card.querySelector('.modal-close');
+      if (closeButton) closeButton.addEventListener('click', () => overlay.remove());
+      overlay.addEventListener('click', (event) => { if (event.target === overlay) overlay.remove(); });
     }
+
+
 
     // Enhanced missing audio details function
     function showMissingAudioDetails(lang, voice, missingCount) {
-      const modal = document.createElement('div');
-      modal.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
-        align-items: center; justify-content: center;
-      `;
-      
-      const content = document.createElement('div');
-      content.style.cssText = `
-        background: white; border-radius: 8px; padding: 20px; max-width: 80%; 
-        max-height: 80%; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      `;
-      
-      content.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-          <h3 style="margin: 0;">Missing Audio Details</h3>
-          <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+
+      const card = document.createElement('div');
+      card.className = 'modal-card';
+      card.innerHTML = `
+        <div class="modal-header">
+          <div>
+            <h3 class="modal-title">Missing Audio Details</h3>
+            <p class="modal-subtitle"><span>Language:</span> ${lang} • <span>Voice:</span> ${voice}</p>
+          </div>
+          <button class="modal-close" aria-label="Close missing audio details">&times;</button>
         </div>
-        <p><strong>Language:</strong> ${lang}</p>
-        <p><strong>Voice:</strong> ${voice}</p>
-        <p><strong>Missing Count:</strong> ${missingCount}</p>
-        <div id="missingDetails" style="margin-top: 15px;">
-          <p>Loading missing audio details...</p>
+        <div class="modal-body">
+          <p class="modal-stat"><span>Missing Count:</span> ${missingCount}</p>
+          <div class="modal-section">
+            <h4>Missing Audio Files</h4>
+            <div class="modal-scroll" id="missing-details-content">
+              <p class="modal-placeholder">Loading missing audio details...</p>
+            </div>
+          </div>
+          <p class="modal-note">Note: These items exist in other languages but are missing audio files for <strong>${lang}</strong>.</p>
         </div>
       `;
-      
-      modal.className = 'modal';
-      modal.appendChild(content);
-      document.body.appendChild(modal);
-      
-      // Load missing audio details
-      loadMissingAudioDetails(lang, voice, document.getElementById('missingDetails'));
+
+      overlay.appendChild(card);
+      document.body.appendChild(overlay);
+
+      const closeButton = card.querySelector('.modal-close');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => overlay.remove());
+      }
+      overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) overlay.remove();
+      });
+
+      const container = card.querySelector('#missing-details-content');
+      loadMissingAudioDetails(lang, voice, container);
     }
 
     // Function to load and display missing audio details
     async function loadMissingAudioDetails(lang, voice, container) {
+      if (!container) return;
       try {
-        // Use pre-computed missing audio data from the scan
         if (!window.missingAudioData || !window.missingAudioData.missingIdsPerLang) {
-          container.innerHTML = '<p style="color: orange;">⚠️ Please run a scan first to see missing audio details.</p>';
+          container.innerHTML = '<p class="modal-error">⚠️ Please run a scan first to see missing audio details.</p>';
           return;
         }
-        
+
         const { missingIdsPerLang } = window.missingAudioData;
         const missingIds = missingIdsPerLang.get(lang) || [];
-        
-        // Display missing items
+
         if (missingIds.length === 0) {
-          container.innerHTML = '<p style="color: green;">✅ No missing audio files found for this language!</p>';
-        } else {
-          const itemsList = missingIds.slice(0, 100).map(id => 
-            `<div style="padding: 5px; border-bottom: 1px solid #eee; font-family: monospace;">
-              ${id}
-            </div>`
-          ).join('');
-          
-          container.innerHTML = `
-            <h4>Missing Audio Files (${Math.min(100, missingIds.length)} of ${missingIds.length} shown):</h4>
-            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9fafb;">
-              ${itemsList}
-            </div>
-            ${missingIds.length > 100 ? '<p style="color: #666; font-style: italic; margin-top: 8px;">... and ' + (missingIds.length - 100) + ' more</p>' : ''}
-            <p style="margin-top: 12px; font-size: 13px; color: #6b7280;">
-              <strong>Note:</strong> These items exist in other languages but are missing audio files for <strong>${lang}</strong>.
-            </p>
-          `;
+          container.innerHTML = '<p class="modal-success">✅ No missing audio files found for this language!</p>';
+          return;
         }
+
+        const displayIds = missingIds.slice(0, 100);
+        const items = displayIds.map(id => `<li>${id}</li>`).join('');
+        const extraCount = missingIds.length - displayIds.length;
+
+        container.innerHTML = `
+          <ul class="missing-list">${items}</ul>
+          ${extraCount > 0 ? '<p class="modal-placeholder">... and ' + extraCount + ' more</p>' : ''}
+        `;
       } catch (error) {
-        container.innerHTML = `<p style="color: red;">❌ Error loading missing audio details: ${error.message}</p>`;
+        container.innerHTML = `<p class="modal-error">❌ Error loading missing audio details: ${error.message}</p>`;
       }
     }
 
