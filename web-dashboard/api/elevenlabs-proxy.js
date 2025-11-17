@@ -11,7 +11,8 @@ export default async function handler(req, res) {
     }
 
     try {
-        const apiKey = req.headers['x-api-key'];
+        // Allow API key from header (for authenticated users) or environment variable (for public partner dashboard)
+        const apiKey = req.headers['x-api-key'] || process.env.ELEVENLABS_API_KEY;
         
         if (!apiKey) {
             return res.status(400).json({ error: 'Missing ElevenLabs API key' });
