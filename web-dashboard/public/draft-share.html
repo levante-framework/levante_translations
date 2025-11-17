@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Approved Patched Audio to Deploy</title>
+    <title>Review Alternative Audio Clips</title>
     <style>
         :root {
             color-scheme: light dark;
@@ -35,6 +35,65 @@
             font-weight: 600;
             letter-spacing: 0.03em;
             color: #f8fafc;
+        }
+
+        .actions-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .action-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .approve-button {
+            background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%);
+            color: #0b1220;
+            box-shadow: 0 15px 35px rgba(255, 123, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .approve-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 45px rgba(255, 123, 0, 0.45);
+        }
+
+        .delete-button {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.92) 0%, rgba(127, 29, 29, 0.95) 100%);
+            color: #fef2f2;
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.32);
+            border: 1px solid rgba(248, 113, 113, 0.4);
+        }
+
+        .delete-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 45px rgba(239, 68, 68, 0.45);
         }
 
         .folder-info {
@@ -94,6 +153,17 @@
             border-bottom: 1px solid rgba(56, 189, 248, 0.12);
         }
 
+        th:first-child,
+        td:first-child {
+            text-align: center;
+        }
+
+        .file-select-checkbox,
+        thead input[type="checkbox"] {
+            transform: scale(1.15);
+            cursor: pointer;
+        }
+
         th {
             background: rgba(56, 189, 248, 0.12);
             font-weight: 600;
@@ -131,15 +201,50 @@
             text-decoration: underline;
         }
 
+        .site-approval-cell { text-align: center; }
+        .site-approval-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: rgba(148, 163, 184, 0.18);
+            color: rgba(203, 213, 225, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+        .site-approval-pill.is-approved {
+            background: rgba(34, 197, 94, 0.18);
+            color: #bbf7d0;
+            border-color: rgba(34, 197, 94, 0.35);
+            box-shadow: 0 8px 18px rgba(34, 197, 94, 0.25);
+        }
+
         audio {
             width: 240px;
             max-width: 100%;
             filter: saturate(1.2);
         }
 
+        .approval-note {
+            margin-top: 26px;
+            font-size: 0.9rem;
+            color: rgba(148, 163, 184, 0.85);
+            letter-spacing: 0.04em;
+            text-transform: none;
+        }
+
         @media (max-width: 640px) {
             .share-container {
                 padding: 28px 16px 36px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
 
             h1 {
@@ -159,8 +264,14 @@
 <body>
     <div class="share-container">
         <header>
-            <h1>Approved Patched Audio to Deploy</h1>
-            <div id="folderInfo" class="folder-info">Preparing share view…</div>
+            <h1>Review Alternative Audio Clips</h1>
+            <div class="actions-bar">
+                <div id="folderInfo" class="folder-info">Preparing share view…</div>
+                <div class="action-buttons">
+                    <button id="deleteSelected" class="action-button delete-button" disabled>Delete Selected</button>
+                    <button id="approveSelected" class="action-button approve-button" disabled>Approve Selected</button>
+                </div>
+            </div>
         </header>
 
         <div id="status" class="status loading">Loading draft audio…</div>
@@ -168,6 +279,7 @@
         <div id="content" class="share-content">
             <div class="empty-state">Fetching draft audio files…</div>
         </div>
+        <p class="approval-note">By approving these updated translations you&apos;re agreeing that they are acceptable for your Levante Project site.</p>
     </div>
 
     <script>
@@ -177,19 +289,239 @@
             const folderInfoEl = document.getElementById('folderInfo');
 
             const params = new URLSearchParams(window.location.search);
+            const modeParam = (params.get('mode') || '').toLowerCase();
+            const isSiteMode = modeParam === 'site';
+            const isAdminMode = !isSiteMode;
+
+            const headingEl = document.querySelector('header h1');
+            const noteEl = document.querySelector('.approval-note');
+            if (headingEl) {
+                headingEl.textContent = isSiteMode ? 'Review Alternative Audio Clips' : 'Promote Site-Approved Audio Clips';
+            }
+            if (noteEl) {
+                noteEl.textContent = isSiteMode
+                    ? 'By approving these updated translations you\'re agreeing that they are acceptable for your Levante Project site.'
+                    : 'Promote the site-approved clips below into the repo and levante-assets-dev staging bucket.';
+            }
+
+            const approveButton = document.getElementById('approveSelected');
+            const deleteButton = document.getElementById('deleteSelected');
+            if (approveButton) {
+                approveButton.textContent = isSiteMode ? 'Approve Selected' : 'Okay to Push';
+            }
+            if (deleteButton) {
+                deleteButton.textContent = isSiteMode ? 'Delete Selected' : 'Remove Selected';
+            }
+
+            const selectedPaths = new Set();
+            let deployQueue = {};
+
+            async function refreshQueue() {
+                if (!isAdminMode) {
+                    deployQueue = {};
+                    return;
+                }
+                try {
+                    const response = await fetch('/api/flag-deploy-audio');
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const data = await response.json();
+                    deployQueue = data && data.entries ? data.entries : {};
+                } catch (error) {
+                    console.warn('Failed to load deploy queue', error);
+                    deployQueue = {};
+                }
+            }
+
+            function updateActionButtons() {
+                const count = selectedPaths.size;
+                const disabled = count === 0;
+                if (approveButton) {
+                    const label = isSiteMode ? 'Approve' : 'Okay to Push';
+                    approveButton.disabled = disabled;
+                    approveButton.textContent = disabled ? `${label} Selected` : `${label} ${count} Selected`;
+                }
+                if (deleteButton) {
+                    const label = isSiteMode ? 'Delete' : 'Remove';
+                    deleteButton.disabled = disabled;
+                    deleteButton.textContent = disabled ? `${label} Selected` : `${label} ${count} Selected`;
+                }
+            }
+
+            function toggleSelection(path, checked) {
+                if (!path) return;
+                if (checked) {
+                    selectedPaths.add(path);
+                } else {
+                    selectedPaths.delete(path);
+                }
+                const checkboxes = Array.from(document.querySelectorAll('.file-select-checkbox')).filter(cb => !cb.disabled);
+                const master = document.querySelector('.master-select-checkbox');
+                if (master && checkboxes.length) {
+                    const checkedCount = checkboxes.filter(cb => cb.checked).length;
+                    master.checked = checkedCount === checkboxes.length;
+                }
+                updateActionButtons();
+            }
+
+            async function approveSelectedFiles() {
+                if (selectedPaths.size === 0) return;
+
+                if (isSiteMode) {
+                    const confirmMessage = 'Let the Levante Partner group know that you approve this new version of the selected audio clips.';
+                    if (!confirm(confirmMessage)) {
+                        return;
+                    }
+                }
+
+                const selectionCount = selectedPaths.size;
+
+                try {
+                    setStatus(isSiteMode ? 'Approving selected files…' : 'Flagging selected files…', 'loading');
+                    if (approveButton) {
+                        approveButton.disabled = true;
+                        approveButton.textContent = isSiteMode ? 'Approving…' : 'Flagging…';
+                    }
+                    if (deleteButton) {
+                        deleteButton.disabled = true;
+                    }
+
+                    const files = Array.from(selectedPaths).map(path => ({ bucket, path }));
+
+                    if (isSiteMode) {
+                        const response = await fetch('/api/site-approve-audio', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ files })
+                        });
+
+                        if (!response.ok) {
+                            const text = await response.text();
+                            throw new Error(text || `HTTP ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const resultsArray = Array.isArray(result.results) ? result.results : [];
+                        const deployedEntries = resultsArray.filter(entry => entry.status === 'deployed');
+                        const errorEntries = resultsArray.filter(entry => entry.status === 'error');
+                        const skippedEntries = resultsArray.filter(entry => entry.status === 'skipped');
+
+                        let approvedCount = deployedEntries.length;
+                        if (approvedCount === 0) {
+                            const fallbackCount = Number(result.deployed);
+                            approvedCount = Number.isFinite(fallbackCount) && fallbackCount > 0 ? fallbackCount : selectionCount;
+                        }
+
+                        if (approvedCount > 0) {
+                            setStatus(`Let the Levante Partner group know you approve ${approvedCount} file${approvedCount === 1 ? '' : 's'}.`, 'success');
+                        } else {
+                            setStatus('No files were approved — please verify the selection or retry.', 'warning');
+                        }
+
+                        if (errorEntries.length || skippedEntries.length) {
+                            console.warn('Some files could not be moved to deploy', { errorEntries, skippedEntries });
+                        }
+                    } else {
+                        const response = await fetch('/api/flag-deploy-audio', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ files })
+                        });
+
+                        if (!response.ok) {
+                            const text = await response.text();
+                            throw new Error(text || `HTTP ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const processed = Number(result.flagged || selectionCount);
+                        setStatus(`Marked ${processed} file${processed === 1 ? '' : 's'} as ready to push.`, 'success');
+                    }
+
+                    selectedPaths.clear();
+                    document.querySelectorAll('.file-select-checkbox').forEach(cb => { cb.checked = false; });
+                    const master = document.querySelector('.master-select-checkbox');
+                    if (master) master.checked = false;
+                    await loadFiles();
+                } catch (error) {
+                    console.error('Approve/Flag failed', error);
+                    setStatus(`Failed to process files: ${error.message}`, 'error');
+                } finally {
+                    updateActionButtons();
+                }
+            }
+
+            async function deleteSelectedFiles() {
+                if (selectedPaths.size === 0) return;
+                const confirmMessage = isSiteMode
+                    ? `Delete ${selectedPaths.size} selected file${selectedPaths.size === 1 ? '' : 's'} from ${bucket}? This cannot be undone.`
+                    : `Remove ${selectedPaths.size} selected file${selectedPaths.size === 1 ? '' : 's'} from deploy?`;
+                if (!confirm(confirmMessage)) {
+                    return;
+                }
+
+                try {
+                    setStatus(isSiteMode ? 'Deleting selected files…' : 'Removing selected files…', 'loading');
+                    if (deleteButton) {
+                        deleteButton.disabled = true;
+                        deleteButton.textContent = isSiteMode ? 'Deleting…' : 'Removing…';
+                    }
+                    if (approveButton) {
+                        approveButton.disabled = true;
+                    }
+
+                    const files = Array.from(selectedPaths).map(path => ({ bucket, path }));
+                    const response = await fetch('/api/delete-draft-audio', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ files })
+                    });
+
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text || `HTTP ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const count = Number(result.deleted || 0);
+                    const label = isSiteMode ? 'Deleted' : 'Removed';
+                    setStatus(`${label} ${count} file${count === 1 ? '' : 's'}.`, 'success');
+                    selectedPaths.clear();
+                    document.querySelectorAll('.file-select-checkbox').forEach(cb => { cb.checked = false; });
+                    const master = document.querySelector('.master-select-checkbox');
+                    if (master) master.checked = false;
+                    await loadFiles();
+                } catch (error) {
+                    console.error('Delete failed', error);
+                    const label = isSiteMode ? 'delete' : 'remove';
+                    setStatus(`Failed to ${label} files: ${error.message}`, 'error');
+                } finally {
+                    updateActionButtons();
+                }
+            }
+
+            if (approveButton) {
+                approveButton.addEventListener('click', approveSelectedFiles);
+            }
+            if (deleteButton) {
+                deleteButton.addEventListener('click', deleteSelectedFiles);
+            }
+
+            updateActionButtons();
+
             const bucketParam = params.get('bucket') || 'levante-assets-draft';
-            const folderParam = params.get('folder') || 'audio/';
+            const folderParam = params.get('folder');
 
             const bucket = bucketParam.replace(/[^a-z0-9\-_.]/gi, '').toLowerCase() || 'levante-assets-draft';
-            const sanitizedFolder = folderParam
-                .replace(/\.\.+/g, '')
-                .replace(/^\/+/, '')
-                .replace(/\/+$/, '');
-            const prefix = sanitizedFolder ? `${sanitizedFolder}/` : 'audio/';
+            const fallbackFolder = isSiteMode ? 'audio/' : 'deploy/';
+            const sanitizedFolder = (folderParam || fallbackFolder)
+                .replace(/\.+/g, '')
+                .replace(/^\/+/g, '')
+                .replace(/\/+$/g, '');
+            const prefix = sanitizedFolder ? `${sanitizedFolder}/` : fallbackFolder;
 
             document.title = sanitizedFolder
-                ? `Draft Audio • ${sanitizedFolder}`
-                : 'Draft Audio • All';
+                ? `${isAdminMode ? 'Promote Site-Approved Audio' : 'Review Alternative Audio Clips'} • ${sanitizedFolder}`
+                : `${isAdminMode ? 'Promote Site-Approved Audio' : 'Review Alternative Audio Clips'} • ${isSiteMode ? 'audio' : 'deploy'}`;
 
             folderInfoEl.textContent = `Bucket: ${bucket} • Folder: ${prefix}`;
 
@@ -227,16 +559,43 @@
             function renderFiles(items) {
                 if (!items.length) {
                     contentEl.innerHTML = '<div class="empty-state">No audio files found for this folder.</div>';
-                    setStatus('No draft audio files were found for the selected folder.', 'error');
+                    setStatus(isSiteMode ? 'No draft audio files were found for the selected folder.' : 'No site-approved audio found in deploy/.', 'error');
                     return;
                 }
+
+                const visiblePaths = new Set(items.map(item => item.path || ''));
+                Array.from(selectedPaths).forEach(path => {
+                    if (!visiblePaths.has(path)) {
+                        selectedPaths.delete(path);
+                    }
+                });
 
                 const table = document.createElement('table');
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
-                ['Item ID', 'Language', 'Version', 'Size', 'Updated', 'Preview', 'Download'].forEach(label => {
+                const headerLabels = isSiteMode
+                    ? ['Select', 'Item ID', 'Language', 'Version', 'Approved by Site', 'Size', 'Updated', 'Preview', 'Download']
+                    : ['Select', 'Item ID', 'Language', 'Version', 'Status', 'Size', 'Updated', 'Preview', 'Download'];
+                headerLabels.forEach((label, idx) => {
                     const th = document.createElement('th');
                     th.textContent = label;
+                    if (idx === 0) {
+                        th.style.width = '56px';
+                        const masterCheckbox = document.createElement('input');
+                        masterCheckbox.type = 'checkbox';
+                        masterCheckbox.className = 'master-select-checkbox';
+                        masterCheckbox.title = 'Select all files';
+                        masterCheckbox.addEventListener('change', (event) => {
+                            const checked = event.target.checked;
+                            document.querySelectorAll('.file-select-checkbox').forEach(cb => {
+                                if (cb.disabled) return;
+                                cb.checked = checked;
+                                toggleSelection(cb.dataset.path, checked);
+                            });
+                        });
+                        th.innerHTML = '';
+                        th.appendChild(masterCheckbox);
+                    }
                     headerRow.appendChild(th);
                 });
                 thead.appendChild(headerRow);
@@ -245,14 +604,11 @@
                 const tbody = document.createElement('tbody');
                 items.forEach(item => {
                     const row = document.createElement('tr');
-                    const itemId = item.itemId || (item.path || '').split('/').pop()?.replace(/\.mp3$/i, '') || '—';
+                    const objectPath = item.path || '';
+                    const fileName = objectPath.split('/').pop() || '';
+                    const itemId = item.itemId || (fileName ? fileName.replace(/\.mp3$/i, '') : '—');
                     const languageCode = (() => {
-                        const path = item.path || '';
-                        const parts = path.split('/').filter(Boolean);
-                        const audioIndex = parts.indexOf('audio');
-                        if (audioIndex >= 0 && parts.length > audioIndex + 1) {
-                            return parts[audioIndex + 1];
-                        }
+                        const parts = objectPath.split('/').filter(Boolean);
                         if (parts.length >= 2) {
                             return parts[parts.length - 2];
                         }
@@ -261,7 +617,23 @@
                     const versionLabel = item.version ? `v${String(item.version).padStart(3, '0')}` : '—';
                     const sizeLabel = formatBytes(item.size || 0);
                     const updatedLabel = formatDate(item.updated || item.timeCreated || item.generation);
-                    const publicUrl = item.path ? buildPublicUrl(item.path) : null;
+                    const publicUrl = objectPath ? buildPublicUrl(objectPath) : null;
+
+                    const selectCell = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'file-select-checkbox';
+                    checkbox.dataset.path = objectPath;
+                    checkbox.checked = selectedPaths.has(objectPath);
+                    if (!objectPath) {
+                        checkbox.disabled = true;
+                    } else {
+                        checkbox.addEventListener('change', (event) => {
+                            toggleSelection(objectPath, event.target.checked);
+                        });
+                    }
+                    selectCell.appendChild(checkbox);
+                    row.appendChild(selectCell);
 
                     const itemCell = document.createElement('td');
                     const codeEl = document.createElement('code');
@@ -276,6 +648,16 @@
                     const versionCell = document.createElement('td');
                     versionCell.textContent = versionLabel;
                     row.appendChild(versionCell);
+
+                    const approvalCell = document.createElement('td');
+                    approvalCell.className = 'site-approval-cell';
+                    const approvedBySite = isAdminMode || Boolean(item.approvedBySite);
+                    if (approvedBySite) {
+                        approvalCell.innerHTML = '<span class="site-approval-pill is-approved">YES</span>';
+                    } else {
+                        approvalCell.innerHTML = '<span class="site-approval-pill">NO</span>';
+                    }
+                    row.appendChild(approvalCell);
 
                     const sizeCell = document.createElement('td');
                     sizeCell.textContent = sizeLabel;
@@ -317,7 +699,16 @@
                 table.appendChild(tbody);
                 contentEl.innerHTML = '';
                 contentEl.appendChild(table);
-                setStatus(`Loaded ${items.length} draft audio file${items.length === 1 ? '' : 's'}.`, 'success');
+
+                const masterCheckbox = table.querySelector('.master-select-checkbox');
+                if (masterCheckbox) {
+                    const totalSelectable = items.filter(item => item.path).length;
+                    const selectedCount = items.filter(item => selectedPaths.has(item.path || '')).length;
+                    masterCheckbox.checked = totalSelectable > 0 && selectedCount === totalSelectable;
+                }
+
+                setStatus(`${isSiteMode ? 'Loaded' : 'Ready to promote'} ${items.length} ${items.length === 1 ? 'draft audio file' : 'draft audio files'}.`, 'success');
+                updateActionButtons();
             }
 
             async function loadFiles() {
@@ -335,11 +726,12 @@
                         const dateB = new Date(b.updated || b.timeCreated || 0).getTime();
                         return dateB - dateA;
                     });
+                    await refreshQueue();
                     renderFiles(items);
                 } catch (error) {
                     console.error('Failed to load draft audio list', error);
-                    setStatus(`Unable to load draft audio files: ${error.message}`, 'error');
-                    contentEl.innerHTML = '<div class="empty-state">We could not load the draft audio files. Please try again later.</div>';
+                    setStatus(`Unable to load audio files: ${error.message}`, 'error');
+                    contentEl.innerHTML = '<div class="empty-state">We could not load the audio files. Please try again later.</div>';
                 }
             }
 

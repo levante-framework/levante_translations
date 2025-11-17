@@ -15,6 +15,19 @@ function getStorage() {
     }
 }
 
+function stripExtension(fileName = '') {
+    return fileName.replace(/\.[^/.]+$/u, '');
+}
+
+function removeVersionSuffix(base = '') {
+    return base.replace(/([_-]v?\d{3,})$/iu, '');
+}
+
+function buildApprovalKey(language = '', baseId = '') {
+    if (!language || !baseId) return '';
+    return `${language}/${baseId}`.toLowerCase();
+}
+
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -37,31 +50,45 @@ export default async function handler(req, res) {
         const bucket = storage.bucket(bucketName);
         const [files] = await bucket.getFiles({ prefix, maxResults });
 
-        		const items = files
-			.filter(file => file.name && file.name.toLowerCase().endsWith('.mp3'))
-			.map(file => {
-			const metadata = file.metadata || {};
-			const name = file.name;
-			const parts = name ? name.split('/') : [];
-			const language = parts.length >= 2 ? parts[1] : '';
-			const filename = parts.length ? parts[parts.length - 1] : name;
-			const itemIdRaw = filename ? filename.replace(/\.mp3$/i, '') : '';
-			const versionMatch = itemIdRaw.match(/_v(\d{3})$/);
-			const version = versionMatch ? parseInt(versionMatch[1], 10) : null;
-			const baseItemId = versionMatch ? itemIdRaw.replace(/_v\d{3}$/, '') : itemIdRaw;
+        const [deployFiles] = await bucket.getFiles({ prefix: 'deploy/', maxResults: 2000 });
+        const approvedSet = new Set();
+        deployFiles.forEach((file) => {
+            const name = file.name || '';
+            const segments = name.split('/');
+            if (segments.length < 3) return;
+            const language = segments[1] || '';
+            const fileBase = removeVersionSuffix(stripExtension(segments[segments.length - 1] || ''));
+            const key = buildApprovalKey(language, fileBase);
+            if (key) approvedSet.add(key);
+        });
 
-			return {
-				name,
-				language,
-				itemId: baseItemId,
-				version,
-				path: name,
-				size: Number(metadata.size || 0),
-				updated: metadata.updated || metadata.timeCreated || null,
-				generation: metadata.generation || null,
-				contentType: metadata.contentType || null
-			};
-		});
+        const items = files
+            .filter(file => file.name && file.name.toLowerCase().endsWith('.mp3'))
+            .map(file => {
+                const metadata = file.metadata || {};
+                const name = file.name;
+                const parts = name ? name.split('/') : [];
+                const language = parts.length >= 2 ? parts[1] : '';
+                const filename = parts.length ? parts[parts.length - 1] : name;
+                const itemIdRaw = filename ? filename.replace(/\.mp3$/i, '') : '';
+                const versionMatch = itemIdRaw.match(/_v(\d{3})$/);
+                const version = versionMatch ? parseInt(versionMatch[1], 10) : null;
+                const baseItemId = versionMatch ? itemIdRaw.replace(/_v\d{3}$/, '') : itemIdRaw;
+                const approvalKey = buildApprovalKey(language, baseItemId);
+
+                return {
+                    name,
+                    language,
+                    itemId: baseItemId,
+                    version,
+                    path: name,
+                    size: Number(metadata.size || 0),
+                    updated: metadata.updated || metadata.timeCreated || null,
+                    generation: metadata.generation || null,
+                    contentType: metadata.contentType || null,
+                    approvedBySite: approvedSet.has(approvalKey)
+                };
+            });
 
         return res.status(200).json({
             success: true,

@@ -108,6 +108,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                             const folderParam = normalizedFolder.endsWith('/') ? normalizedFolder : `${normalizedFolder}/`;
                             shareUrl.searchParams.set('folder', folderParam);
                         }
+                        shareUrl.searchParams.set('mode', 'site');
                         return shareUrl.toString();
                     } catch (error) {
                         console.warn('Failed to build draft share link, falling back to bucket URL', error);
@@ -1512,6 +1513,12 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     } else if (availablePaths.size) {
                         this.approvedDrafts = new Set([...this.approvedDrafts].filter(path => availablePaths.has(path)));
                     }
+                    items.forEach((item) => {
+                        const path = item.path || item.name;
+                        if (item.approvedBySite && path) {
+                            this.approvedDrafts.add(path);
+                        }
+                    });
 
                     if (bodyEl) {
                         bodyEl.innerHTML = this.buildDraftAudioTable(items, { bucket: bucketName, prefix });
@@ -1586,17 +1593,26 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     } else if (updatedRaw) {
                         updatedText = new Date(updatedRaw).toLocaleString();
                     }
+                    const siteApproved = Boolean(item.approvedBySite);
                     const isApproved = rawPath ? this.approvedDrafts?.has(rawPath) : false;
                     const checkedAttr = isApproved ? 'checked' : '';
+                    const statusLabel = isApproved ? (siteApproved ? 'Approved' : 'Selected') : 'Pending';
+                    const approvalCellClasses = ['draft-approve-cell'];
+                    if (isApproved) approvalCellClasses.push('is-active');
+                    if (siteApproved) approvalCellClasses.push('is-site-approved');
+                    const approvalCellClass = approvalCellClasses.join(' ');
                     return `
-                        <tr data-path="${encodedPath}" data-item-id="${itemId}" data-version="${item.version || ''}" data-language="${language}">
+                        <tr data-path="${encodedPath}" data-item-id="${itemId}" data-version="${item.version || ''}" data-language="${language}" data-site-approved="${siteApproved ? 'true' : 'false'}">
                             <td>${language}</td>
                             <td><code>${itemId}</code></td>
                             <td>${versionLabel}</td>
                             <td>${formatSize}</td>
                             <td>${updatedText || '—'}</td>
-                            <td class="draft-approve-cell">
-                                <input type="checkbox" class="draft-approve" data-path="${encodedPath}" ${checkedAttr}>
+                            <td class="${approvalCellClass}" data-original-site-approved="${siteApproved ? 'true' : 'false'}">
+                                <label class="draft-approve-toggle">
+                                    <input type="checkbox" class="draft-approve" data-path="${encodedPath}" ${checkedAttr}>
+                                    <span class="draft-approve-status${isApproved ? ' is-checked' : ''}">${statusLabel}</span>
+                                </label>
                             </td>
                             <td>
                                 <button class="btn btn-secondary btn-compact draft-play" data-path="${encodedPath}">
@@ -1618,7 +1634,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                                     <th>Version</th>
                                     <th>Size</th>
                                     <th>Updated</th>
-                                    <th>Approve</th>
+                                    <th>Approved by Site</th>
                                     <th>Preview</th>
                                 </tr>
                             </thead>
@@ -1683,19 +1699,36 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                         if (!this.approvedDrafts) {
                             this.approvedDrafts = new Set();
                         }
+
                         const row = checkbox.closest('tr');
                         const dataset = row && row.dataset ? row.dataset : {};
+                        const cell = checkbox.closest('.draft-approve-cell');
+                        const statusEl = cell ? cell.querySelector('.draft-approve-status') : null;
+                        const originallyApproved = cell?.dataset.originalSiteApproved === 'true';
                         const itemId = dataset.itemId || decodedPath;
                         const language = dataset.language || '';
                         const versionRaw = dataset.version || '';
+
                         if (checkbox.checked) {
                             this.approvedDrafts.add(decodedPath);
                         } else {
                             this.approvedDrafts.delete(decodedPath);
                         }
+
                         const versionLabel = versionRaw ? ` (v${String(versionRaw).padStart(3, '0')})` : '';
                         const langLabel = language ? ` [${language}]` : '';
-                        const state = checkbox.checked ? 'Approved' : 'Removed approval for';
+                        const state = checkbox.checked
+                            ? (originallyApproved ? 'Confirmed site approval for' : 'Marked site approval for')
+                            : 'Cleared site approval for';
+
+                        if (cell) {
+                            cell.classList.toggle('is-active', checkbox.checked);
+                        }
+                        if (statusEl) {
+                            statusEl.textContent = checkbox.checked ? (originallyApproved ? 'Approved' : 'Selected') : 'Pending';
+                            statusEl.classList.toggle('is-checked', checkbox.checked);
+                        }
+
                         this.setStatus(`${state} ${itemId}${versionLabel}${langLabel}`, checkbox.checked ? 'success' : 'info');
                     });
                 });
@@ -1732,8 +1765,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 });
 
                 if (!selections.length) {
-                    this.setStatus('Select at least one approved draft before deploying.', 'warning');
-                    alert('Please tick the Approve checkbox next to each draft you want to deploy.');
+                    this.setStatus('Select at least one site-approved draft before deploying.', 'warning');
+                    alert('Please tick the Approved by Site checkbox next to each draft you want to deploy.');
                     return;
                 }
 

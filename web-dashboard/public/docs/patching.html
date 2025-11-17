@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patch &amp; Deploy Workflow</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background:
+                radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.96)),
+                linear-gradient(190deg, #020617 0%, #0b1220 100%);
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .page-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: rgba(4, 11, 24, 0.88);
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 32px 80px rgba(2, 6, 23, 0.55);
+            padding: 36px 42px;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            margin: 0 0 18px;
+            letter-spacing: 0.03em;
+            color: #f8fafc;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 18px;
+            font-size: 1.55rem;
+            letter-spacing: 0.02em;
+            color: #ffb347;
+        }
+
+        h3 {
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            letter-spacing: 0.02em;
+            color: #3dd5ff;
+        }
+
+        p {
+            line-height: 1.6;
+            color: rgba(226, 232, 240, 0.88);
+        }
+
+        ul, ol {
+            line-height: 1.6;
+            color: rgba(226, 232, 240, 0.85);
+            padding-left: 22px;
+        }
+
+        li + li {
+            margin-top: 6px;
+        }
+
+        .note {
+            margin-top: 32px;
+            padding: 18px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            background: rgba(15, 23, 42, 0.7);
+            font-size: 0.95rem;
+            color: rgba(203, 213, 225, 0.85);
+        }
+
+        @media (max-width: 720px) {
+            .page-container {
+                padding: 36px 16px 60px;
+            }
+
+            .card {
+                padding: 28px 24px;
+            }
+
+            h1 {
+                font-size: 2.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <a href="../index.html" class="back-link">
+            <span>&larr;</span>
+            <span>Back to Pitwall</span>
+        </a>
+
+        <div class="card">
+            <h1>Patch &amp; Deploy Workflow</h1>
+            <p>
+                Levante Pitwall now streamlines patch audio fixes—from auditioning draft takes to queuing approved versions for deployment.
+                Use this guide as the single reference for generating, reviewing, and promoting patched clips.
+            </p>
+
+            <h2>Summary</h2>
+            <ul>
+                <li>Browse or filter every audio clip per language, play samples, and regenerate text-to-speech as needed.</li>
+                <li>Save preferred takes into the draft bucket; each save creates a versioned `audio/&lt;lang&gt;/item_v###.mp3` tagged with <code>source=patch</code>.</li>
+                <li>Review drafts via the Draft Audio modal or the standalone <strong>Approved Patched Audio to Deploy</strong> page.</li>
+                <li>Select the winning versions and click <strong>Send to -dev</strong> to copy them into both the repo (`audio_files/&lt;lang&gt;/…`) and `levante-assets-dev`.</li>
+                <li>Approve the final set, deploy them to `deploy/&lt;lang&gt;/`, and finish promotion via the standard release pipeline.</li>
+            </ul>
+
+            <h2>Workflow</h2>
+
+            <h3>1. Prepare the Audio</h3>
+            <ul>
+                <li>Select the correct language tab and item row in the dashboard.</li>
+                <li>Reuse existing voice metadata with <strong>Re-generate Audio</strong> or edit the transcript manually.</li>
+                <li>Generate new audio and listen to the inline preview before saving.</li>
+            </ul>
+
+            <h3>2. Save to Drafts</h3>
+            <ul>
+                <li>Click <strong>Save</strong> to write the clip to `levante-assets-draft` with proper ID3 tags.</li>
+                <li>Multiple saves of the same item produce numbered versions so you can compare alternates.</li>
+            </ul>
+
+            <h3>3. Review &amp; Share Drafts</h3>
+            <ul>
+                <li>Open the <strong>Draft Audio</strong> view or visit <code>/draft-share.html</code> to see every saved version.</li>
+                <li>Preview clips, filter by language, and tick the checkboxes next to the takes you want to keep.</li>
+                <li>Click <strong>Send to -dev</strong> to copy the selected files into the repo (`audio_files/&lt;lang&gt;/…`) and into `levante-assets-dev`.</li>
+                <li>A status banner confirms how many files moved successfully.</li>
+            </ul>
+
+            <h3>4. Approve for Deployment</h3>
+            <ul>
+                <li>Back in the dashboard list, mark approved versions. You can still share draft links for review.</li>
+            </ul>
+
+            <h3>5. Deploy</h3>
+            <ul>
+                <li>Click <strong>Deploy</strong> to promote the approved set into `deploy/&lt;lang&gt;/item.mp3` (version suffix removed).</li>
+                <li>Older versions of the same root are automatically cleaned from both `audio/&lt;lang&gt;/` and `deploy/&lt;lang&gt;/` in the draft bucket.</li>
+            </ul>
+
+            <h3>6. Verify &amp; Handoff</h3>
+            <ul>
+                <li>Use <strong>To be Deployed</strong> to open the deploy staging folder.</li>
+                <li>Once the contents look correct, hand the folder off to the release pipeline to publish.</li>
+            </ul>
+
+            <h2>Notes &amp; Troubleshooting</h2>
+            <ul>
+                <li>The “Select all” checkbox ignores rows without a valid path; manual toggles keep it in sync.</li>
+                <li>The selection counter only reflects files from the current view; switching folders clears items that disappear.</li>
+                <li>If copying fails, confirm the service account has read/write permissions on both draft and dev buckets.</li>
+                <li>Clipboard access for share links can be blocked by the browser—fallback prompts appear if needed.</li>
+            </ul>
+
+            <div class="note">
+                Downstream promotion (committing `audio_files/` changes or syncing to production buckets) remains a manual/CI step. Always verify <code>deploy/&lt;lang&gt;/</code> before running those jobs.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
