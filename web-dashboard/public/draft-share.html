@@ -202,7 +202,8 @@
         }
 
         .site-approval-cell { text-align: center; }
-        .site-approval-pill {
+.site-approval-pill,
+.status-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -215,10 +216,30 @@
             color: rgba(203, 213, 225, 0.8);
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
-        .site-approval-pill.is-approved {
-            background: rgba(34, 197, 94, 0.18);
+        .site-approval-pill.is-approved,
+.status-pill.status-approved {
+            background: rgba(250, 204, 21, 0.22);
+            color: #fef08a;
+            border-color: rgba(250, 204, 21, 0.4);
+            box-shadow: 0 8px 18px rgba(250, 204, 21, 0.25);
+        }
+        .site-approval-pill.is-stale,
+        .status-pill.status-stale {
+            background: rgba(251, 191, 36, 0.22);
+            color: #fde68a;
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 8px 18px rgba(251, 191, 36, 0.25);
+        }
+        .status-pill.status-not-approved {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+            border-color: rgba(239, 68, 68, 0.35);
+            box-shadow: 0 8px 18px rgba(239, 68, 68, 0.25);
+        }
+        .status-pill.status-ready {
+            background: rgba(34, 197, 94, 0.22);
             color: #bbf7d0;
-            border-color: rgba(34, 197, 94, 0.35);
+            border-color: rgba(34, 197, 94, 0.38);
             box-shadow: 0 8px 18px rgba(34, 197, 94, 0.25);
         }
 
@@ -301,7 +322,7 @@
             if (noteEl) {
                 noteEl.textContent = isSiteMode
                     ? 'By approving these updated translations you\'re agreeing that they are acceptable for your Levante Project site.'
-                    : 'Promote the site-approved clips below into the repo and levante-assets-dev staging bucket.';
+                    : 'Mark site-approved clips that are ready for promotion; downstream scripts will copy flagged audio into the repo and levante-assets-dev.';
             }
 
             const approveButton = document.getElementById('approveSelected');
@@ -316,13 +337,21 @@
             const selectedPaths = new Set();
             let deployQueue = {};
 
+            function normalizePath(value) {
+                return (value || '')
+                    .replace(/\\/g, '/')
+                    .split('/')
+                    .filter(Boolean)
+                    .join('/');
+            }
+
             async function refreshQueue() {
                 if (!isAdminMode) {
                     deployQueue = {};
                     return;
                 }
                 try {
-                    const response = await fetch('/api/flag-deploy-audio');
+                    const response = await fetch(`/api/flag-deploy-audio?bucket=${encodeURIComponent(bucket)}`);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const data = await response.json();
                     deployQueue = data && data.entries ? data.entries : {};
@@ -386,6 +415,8 @@
                     }
 
                     const files = Array.from(selectedPaths).map(path => ({ bucket, path }));
+                    let finalMessage = '';
+                    let finalType = 'success';
 
                     if (isSiteMode) {
                         const response = await fetch('/api/site-approve-audio', {
@@ -412,9 +443,11 @@
                         }
 
                         if (approvedCount > 0) {
-                            setStatus(`Let the Levante Partner group know you approve ${approvedCount} file${approvedCount === 1 ? '' : 's'}.`, 'success');
+                            finalMessage = `Let the Levante Partner group know you approve ${approvedCount} file${approvedCount === 1 ? '' : 's'}.`;
+                            finalType = 'success';
                         } else {
-                            setStatus('No files were approved — please verify the selection or retry.', 'warning');
+                            finalMessage = 'No files were approved — please verify the selection or retry.';
+                            finalType = 'warning';
                         }
 
                         if (errorEntries.length || skippedEntries.length) {
@@ -433,8 +466,14 @@
                         }
 
                         const result = await response.json();
-                        const processed = Number(result.flagged || selectionCount);
-                        setStatus(`Marked ${processed} file${processed === 1 ? '' : 's'} as ready to push.`, 'success');
+                        const processed = Number(result.flagged || 0);
+                        if (processed > 0) {
+                            finalMessage = `Marked ${processed} file${processed === 1 ? '' : 's'} as ready to push.`;
+                            finalType = 'success';
+                        } else {
+                            finalMessage = 'No files were marked as ready — please verify the selection.';
+                            finalType = 'warning';
+                        }
                     }
 
                     selectedPaths.clear();
@@ -442,9 +481,15 @@
                     const master = document.querySelector('.master-select-checkbox');
                     if (master) master.checked = false;
                     await loadFiles();
+                    if (finalMessage) {
+                        setStatus(finalMessage, finalType);
+                    }
                 } catch (error) {
                     console.error('Approve/Flag failed', error);
-                    setStatus(`Failed to process files: ${error.message}`, 'error');
+                    const failureText = isSiteMode
+                        ? `Failed to approve files: ${error.message}`
+                        : `Failed to mark files as ready: ${error.message}`;
+                    setStatus(failureText, 'error');
                 } finally {
                     updateActionButtons();
                 }
@@ -482,14 +527,62 @@
                     }
 
                     const result = await response.json();
-                    const count = Number(result.deleted || 0);
-                    const label = isSiteMode ? 'Deleted' : 'Removed';
-                    setStatus(`${label} ${count} file${count === 1 ? '' : 's'}.`, 'success');
+                    const resultsArray = Array.isArray(result.results) ? result.results : [];
+                    const deletedEntries = resultsArray.filter(entry => entry.status === 'deleted');
+                    const missingEntries = resultsArray.filter(entry => entry.status === 'missing');
+                    const errorEntries = resultsArray.filter(entry => entry.status === 'error');
+                    const deletedCount = deletedEntries.length || Number(result.deleted || 0);
+                    const plural = (count) => (count === 1 ? '' : 's');
+
+                    if (!isSiteMode && files.length) {
+                        try {
+                            await fetch('/api/flag-deploy-audio', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ files, action: 'clear' })
+                            });
+                        } catch (flagError) {
+                            console.warn('Failed to clear deploy queue entries', flagError);
+                        }
+                    }
+
+                    if (missingEntries.length) {
+                        console.info('Remove Selected: some files were already missing', { missingEntries });
+                    }
+                    if (errorEntries.length) {
+                        console.warn('Remove Selected: failed to remove some files', { errorEntries });
+                    }
+
+                    const labelPast = isSiteMode ? 'Deleted' : 'Removed';
+                    const labelVerb = isSiteMode ? 'delete' : 'remove';
+                    let finalMessage = '';
+                    let finalType = 'success';
+
+                    if (errorEntries.length) {
+                        finalType = 'error';
+                        finalMessage = `${labelPast} ${deletedCount} file${plural(deletedCount)}, but failed to ${labelVerb} ${errorEntries.length} file${plural(errorEntries.length)}. Check the console for details.`;
+                    } else if (deletedCount > 0) {
+                        finalType = 'success';
+                        finalMessage = `${labelPast} ${deletedCount} file${plural(deletedCount)}.`;
+                        if (missingEntries.length) {
+                            finalMessage += ` ${missingEntries.length} file${plural(missingEntries.length)} were already missing.`;
+                        }
+                    } else if (missingEntries.length) {
+                        finalType = 'warning';
+                        finalMessage = 'No files were removed — they may already be missing from deploy.';
+                    } else {
+                        finalType = 'warning';
+                        finalMessage = `No files were ${labelVerb}d — please verify the selection.`;
+                    }
+
                     selectedPaths.clear();
                     document.querySelectorAll('.file-select-checkbox').forEach(cb => { cb.checked = false; });
                     const master = document.querySelector('.master-select-checkbox');
                     if (master) master.checked = false;
                     await loadFiles();
+                    if (finalMessage) {
+                        setStatus(finalMessage, finalType);
+                    }
                 } catch (error) {
                     console.error('Delete failed', error);
                     const label = isSiteMode ? 'delete' : 'remove';
@@ -573,9 +666,35 @@
                 const table = document.createElement('table');
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
+
+                const getStatusInfo = (itemEntry, objectPath) => {
+                    const normalized = normalizePath(objectPath);
+                    const approvalState = itemEntry?.siteApproval?.status
+                        || (itemEntry && itemEntry.approvedBySite ? 'approved' : 'not_approved');
+
+                    if (!normalized) {
+                        return { label: 'Not approved', className: 'status-not-approved' };
+                    }
+
+                    const isFlagged = deployQueue && Object.prototype.hasOwnProperty.call(deployQueue, normalized);
+                    if (isFlagged) {
+                        if (approvalState === 'approved') {
+                            return { label: 'Ready to push', className: 'status-ready' };
+                        }
+                        return { label: 'Needs re-approval', className: 'status-stale' };
+                    }
+
+                    if (approvalState === 'approved') {
+                        return { label: 'Approved by Site', className: 'status-approved' };
+                    }
+                    if (approvalState === 'stale') {
+                        return { label: 'Needs re-approval', className: 'status-stale' };
+                    }
+                    return { label: 'Not approved', className: 'status-not-approved' };
+                };
                 const headerLabels = isSiteMode
                     ? ['Select', 'Item ID', 'Language', 'Version', 'Approved by Site', 'Size', 'Updated', 'Preview', 'Download']
-                    : ['Select', 'Item ID', 'Language', 'Version', 'Status', 'Size', 'Updated', 'Preview', 'Download'];
+                    : ['Select', 'Item ID', 'Language', 'Version', 'Push Status', 'Size', 'Updated', 'Preview', 'Download'];
                 headerLabels.forEach((label, idx) => {
                     const th = document.createElement('th');
                     th.textContent = label;
@@ -651,11 +770,26 @@
 
                     const approvalCell = document.createElement('td');
                     approvalCell.className = 'site-approval-cell';
-                    const approvedBySite = isAdminMode || Boolean(item.approvedBySite);
-                    if (approvedBySite) {
-                        approvalCell.innerHTML = '<span class="site-approval-pill is-approved">YES</span>';
+                    const siteApproval = item.siteApproval || null;
+                    const approvalState = siteApproval?.status || (item.approvedBySite ? 'approved' : 'not_approved');
+                    if (siteApproval && (siteApproval.deployUpdated || siteApproval.draftUpdated)) {
+                        const deployDate = siteApproval.deployUpdated ? new Date(siteApproval.deployUpdated) : null;
+                        const draftDate = siteApproval.draftUpdated ? new Date(siteApproval.draftUpdated) : null;
+                        const deployLabel = deployDate && !Number.isNaN(deployDate.getTime()) ? deployDate.toLocaleString() : '—';
+                        const draftLabel = draftDate && !Number.isNaN(draftDate.getTime()) ? draftDate.toLocaleString() : '—';
+                        approvalCell.title = `Site approval: ${deployLabel}\nLatest draft: ${draftLabel}`;
+                    }
+                    if (isAdminMode) {
+                        const statusInfo = getStatusInfo(item, objectPath);
+                        approvalCell.innerHTML = `<span class="status-pill ${statusInfo.className}">${statusInfo.label}</span>`;
                     } else {
-                        approvalCell.innerHTML = '<span class="site-approval-pill">NO</span>';
+                        if (approvalState === 'approved') {
+                            approvalCell.innerHTML = '<span class="site-approval-pill is-approved">YES</span>';
+                        } else if (approvalState === 'stale') {
+                            approvalCell.innerHTML = '<span class="site-approval-pill is-stale">Needs re-approval</span>';
+                        } else {
+                            approvalCell.innerHTML = '<span class="site-approval-pill">NO</span>';
+                        }
                     }
                     row.appendChild(approvalCell);
 
@@ -707,7 +841,11 @@
                     masterCheckbox.checked = totalSelectable > 0 && selectedCount === totalSelectable;
                 }
 
-                setStatus(`${isSiteMode ? 'Loaded' : 'Ready to promote'} ${items.length} ${items.length === 1 ? 'draft audio file' : 'draft audio files'}.`, 'success');
+                if (isSiteMode) {
+                    setStatus(`Loaded ${items.length} ${items.length === 1 ? 'draft audio file' : 'draft audio files'}.`, 'success');
+                } else {
+                    setStatus(`Loaded ${items.length} site-approved clip${items.length === 1 ? '' : 's'}. Use the stoplight column to review status.`, 'success');
+                }
                 updateActionButtons();
             }
 

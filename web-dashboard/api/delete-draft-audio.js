@@ -4,8 +4,18 @@ const DEFAULT_SOURCE_BUCKET = process.env.ASSETS_DRAFT_BUCKET || 'levante-assets
 
 let storageClient = null;
 function getStorage() {
-  if (!storageClient) {
-    storageClient = new Storage();
+  if (storageClient) return storageClient;
+  try {
+    const json = process.env.GCP_SERVICE_ACCOUNT_JSON || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+    if (json) {
+      const credentials = JSON.parse(json);
+      storageClient = new Storage({ credentials, projectId: credentials.project_id });
+    } else {
+      storageClient = new Storage();
+    }
+  } catch (error) {
+    console.error('delete-draft-audio: failed to init storage client', error);
+    storageClient = null;
   }
   return storageClient;
 }
@@ -15,6 +25,15 @@ function normalizePath(path) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -28,6 +47,11 @@ export default async function handler(req, res) {
     }
 
     const storage = getStorage();
+    if (!storage) {
+      res.status(500).json({ error: 'gcs_unavailable', message: 'Unable to initialize Google Cloud Storage client.' });
+      return;
+    }
+
     const results = [];
 
     for (const entry of files) {
@@ -60,7 +84,7 @@ export default async function handler(req, res) {
     const deleted = results.filter((item) => item.status === 'deleted').length;
     res.status(200).json({ deleted, results });
   } catch (error) {
-    console.error('delete-draft-audio handler error:', error);
+    console.error('delete-draft-audio handler error', error);
     res.status(500).json({ error: 'internal_error', message: error.message });
   }
 }

@@ -28,6 +28,12 @@ function buildApprovalKey(language = '', baseId = '') {
     return `${language}/${baseId}`.toLowerCase();
 }
 
+function parseTimestamp(value) {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -51,7 +57,7 @@ export default async function handler(req, res) {
         const [files] = await bucket.getFiles({ prefix, maxResults });
 
         const [deployFiles] = await bucket.getFiles({ prefix: 'deploy/', maxResults: 2000 });
-        const approvedSet = new Set();
+        const deployInfo = new Map();
         deployFiles.forEach((file) => {
             const name = file.name || '';
             const segments = name.split('/');
@@ -59,7 +65,23 @@ export default async function handler(req, res) {
             const language = segments[1] || '';
             const fileBase = removeVersionSuffix(stripExtension(segments[segments.length - 1] || ''));
             const key = buildApprovalKey(language, fileBase);
-            if (key) approvedSet.add(key);
+            if (!key) return;
+
+            const metadata = file.metadata || {};
+            const updatedRaw = metadata.updated || metadata.timeCreated || null;
+            const updatedDate = parseTimestamp(updatedRaw);
+            const current = deployInfo.get(key);
+
+            if (!current || (updatedDate && (!current.updatedDate || updatedDate > current.updatedDate))) {
+                deployInfo.set(key, {
+                    path: name,
+                    bucket: bucketName,
+                    updated: updatedRaw,
+                    updatedDate,
+                    generation: metadata.generation || null,
+                    size: Number(metadata.size || 0)
+                });
+            }
         });
 
         const items = files
@@ -76,6 +98,27 @@ export default async function handler(req, res) {
                 const baseItemId = versionMatch ? itemIdRaw.replace(/_v\d{3}$/, '') : itemIdRaw;
                 const approvalKey = buildApprovalKey(language, baseItemId);
 
+                const draftUpdated = metadata.updated || metadata.timeCreated || null;
+                const draftUpdatedDate = parseTimestamp(draftUpdated);
+                const deployEntry = approvalKey ? deployInfo.get(approvalKey) : null;
+
+                let approvedBySite = false;
+                let approvalStatus = 'not_approved';
+
+                if (deployEntry) {
+                    const deployUpdatedDate = deployEntry.updatedDate;
+                    if (!draftUpdatedDate || !deployUpdatedDate) {
+                        approvedBySite = true;
+                        approvalStatus = 'approved';
+                    } else if (deployUpdatedDate >= draftUpdatedDate) {
+                        approvedBySite = true;
+                        approvalStatus = 'approved';
+                    } else {
+                        approvedBySite = false;
+                        approvalStatus = 'stale';
+                    }
+                }
+
                 return {
                     name,
                     language,
@@ -86,7 +129,14 @@ export default async function handler(req, res) {
                     updated: metadata.updated || metadata.timeCreated || null,
                     generation: metadata.generation || null,
                     contentType: metadata.contentType || null,
-                    approvedBySite: approvedSet.has(approvalKey)
+                    approvedBySite,
+                    siteApproval: {
+                        status: approvalStatus,
+                        deployPath: deployEntry ? deployEntry.path : null,
+                        deployUpdated: deployEntry ? deployEntry.updated : null,
+                        deployGeneration: deployEntry ? deployEntry.generation : null,
+                        draftUpdated
+                    }
                 };
             });
 
