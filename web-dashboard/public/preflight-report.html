@@ -4,42 +4,83 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Assets Preflight Readiness Report</title>
+<title>Pre-Race Readiness Report</title>
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-C4+8J1mCiSkDGpiKFFitvolG/GpNZgbf+5Q5e0siJmq9hw3rroWAtxEvsC0BpvyEuk+qS0bkkCm1cWtiYpg+1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="./styles.css" rel="stylesheet"/>
 <style>
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; color: #03101f; background: linear-gradient(180deg, #fefcf8 0%, #f3f6ff 100%); }
-    h1 { font-size: 24px; margin-bottom: 18px; letter-spacing: 0.01em; color: #03101f; display: flex; align-items: center; gap: 12px; }
-    .table { width: 100%; border-collapse: collapse; border-radius: 14px; overflow: hidden; box-shadow: 0 22px 48px rgba(3, 12, 28, 0.12); }
-    .table th, .table td { border: 1px solid rgba(2, 6, 23, 0.08); padding: 10px 14px; font-size: 13px; text-align: left; background: rgba(255, 255, 255, 0.96); color: #061225; }
-    .table thead th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%); color: #03101f; position: sticky; top: 0; z-index: 2; text-transform: uppercase; letter-spacing: 0.08em; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-    .ok { background: rgba(14, 169, 96, 0.18); color: #0ea960; }
-    .warn { background: rgba(255, 123, 0, 0.2); color: #ff6f00; }
-    .err { background: rgba(220, 38, 38, 0.2); color: #dc2626; }
-    /* Stoplight button styles */
-    .stoplight { border-radius: 999px; padding: 6px 16px; border: 1px solid transparent; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; box-shadow: 0 14px 30px rgba(3, 12, 28, 0.12); }
-    .stoplight.go { background: #0ea960; color: #fefdfb; border-color: rgba(14, 169, 96, 0.35); }
-    .stoplight.diff { background: #ff6f00; color: #03101f; border-color: rgba(255, 123, 0, 0.45); cursor: pointer; }
-    .stoplight.diff:hover { background: #ff892b; }
-    .stoplight.fail { background: #dc2626; color: #fff; border-color: rgba(220, 38, 38, 0.35); }
-    .stoplight.loading { background: #1f2937; color: #fff; border-color: rgba(31, 41, 55, 0.35); }
-    .warning-icon { color: #ff6f00; cursor: pointer; margin-left: 5px; font-size: 14px; display: inline-block; }
-    .warning-icon:hover { color: #ff892b; transform: scale(1.1); }
-    .info-icon { color: #00a0de; cursor: pointer; margin-left: 5px; font-size: 12px; display: inline-block; }
-    .info-icon:hover { color: #0085b6; transform: scale(1.1); }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.96)), linear-gradient(190deg, #020617 0%, #0b1220 100%); color: #e2e8f0; min-height: 100vh; }
+    .preflight-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 28px; }
+    .preflight-header { background: linear-gradient(135deg, rgba(255, 111, 0, 0.92) 0%, rgba(255, 166, 77, 0.85) 55%, rgba(9, 17, 31, 0.92) 100%); border-radius: 22px; padding: 36px; position: relative; overflow: hidden; box-shadow: 0 32px 80px rgba(255, 123, 0, 0.28); }
+    .preflight-header::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 12%, rgba(0, 160, 222, 0.75), transparent 55%), linear-gradient(160deg, rgba(255, 255, 255, 0.18), transparent 72%); opacity: 0.9; pointer-events: none; mix-blend-mode: screen; }
+    .preflight-header-content { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 18px; }
+    .header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .preflight-header h1 { margin: 0; font-size: 2.4rem; font-weight: 600; letter-spacing: 0.01em; color: #030c1c; text-shadow: 0 14px 36px rgba(0, 0, 0, 0.32); display: flex; align-items: center; gap: 14px; }
+    .preflight-header p { margin: 0; max-width: 720px; font-size: 1rem; color: rgba(3, 13, 28, 0.78); line-height: 1.6; }
+    .refresh-btn { border: none; border-radius: 999px; padding: 10px 20px; background: rgba(3, 12, 28, 0.86); color: #fcebd6; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 16px 38px rgba(3, 12, 28, 0.45); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    .refresh-btn:hover { transform: translateY(-2px); background: rgba(255, 123, 0, 0.92); color: #03101f; box-shadow: 0 22px 50px rgba(255, 123, 0, 0.42); }
+    .report-card { background: rgba(9, 17, 31, 0.92); border-radius: 20px; border: 1px solid rgba(0, 160, 222, 0.28); box-shadow: 0 30px 72px rgba(2, 6, 23, 0.5); padding: 28px; display: flex; flex-direction: column; gap: 24px; }
+    .report-card .section { background: rgba(3, 12, 28, 0.82); border: 1px solid rgba(56, 189, 248, 0.22); border-radius: 18px; padding: 20px 24px; box-shadow: 0 24px 52px rgba(2, 6, 23, 0.45); }
+    h1, h2, h3 { color: #f8fafc !important; letter-spacing: 0.03em; }
+    h2 { font-size: 1.25rem !important; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #ffb347 !important; }
+    h3 { font-size: 0.95rem !important; color: #e2e8f0 !important; }
+    p, .small, .code { color: rgba(226, 232, 240, 0.8) !important; }
+    .code { background: rgba(3, 12, 28, 0.8); padding: 4px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+    .table { width: 100%; border-collapse: collapse; border-radius: 16px; overflow: hidden; box-shadow: 0 26px 60px rgba(2, 6, 23, 0.5); }
+    .table th, .table td { border: 1px solid rgba(56, 189, 248, 0.18) !important; padding: 12px 16px !important; font-size: 0.9rem !important; text-align: left; }
+    .table thead th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%) !important; color: #03101f !important; text-transform: uppercase; letter-spacing: 0.08em; position: sticky; top: 0; z-index: 2; }
+    .table td { background: rgba(7, 13, 24, 0.9) !important; color: #f1f5f9 !important; }
+    .table tr:hover td { background: rgba(255, 123, 0, 0.12) !important; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .badge.ok { background: rgba(34, 197, 94, 0.18); color: #bbf7d0; }
+    .badge.warn { background: rgba(255, 159, 64, 0.22); color: #ffedd5; }
+    .badge.err { background: rgba(248, 113, 113, 0.22); color: #fecaca; }
+    .stoplight { border-radius: 999px; padding: 6px 16px !important; border: 1px solid rgba(56, 189, 248, 0.32) !important; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 16px 38px rgba(2, 6, 23, 0.45); background: rgba(7, 13, 24, 0.9); color: #f8fafc; }
+    .stoplight.go { background: rgba(34, 197, 94, 0.24) !important; color: #bbf7d0 !important; border-color: rgba(34, 197, 94, 0.42) !important; }
+    .stoplight.diff { background: rgba(255, 159, 64, 0.28) !important; color: #ffedd5 !important; border-color: rgba(255, 159, 64, 0.5) !important; cursor: pointer; }
+    .stoplight.diff:hover { background: rgba(255, 159, 64, 0.42) !important; }
+    .stoplight.fail { background: rgba(248, 113, 113, 0.32) !important; color: #fecaca !important; border-color: rgba(248, 113, 113, 0.5) !important; }
+    .stoplight.loading { background: rgba(15, 23, 42, 0.85) !important; color: #f8fafc !important; border-color: rgba(148, 163, 184, 0.4) !important; }
+    .warning-icon { color: #ffb347; cursor: pointer; margin-left: 6px; font-size: 0.9rem; }
+    .info-icon { color: #38bdf8; cursor: pointer; margin-left: 6px; font-size: 0.8rem; }
+    .report-card button { padding: 6px 12px !important; border-radius: 10px !important; border: 1px solid rgba(56, 189, 248, 0.35) !important; background: rgba(3, 12, 28, 0.78) !important; color: #f8fafc !important; font-weight: 600 !important; letter-spacing: 0.05em !important; cursor: pointer !important; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    .report-card button:hover { transform: translateY(-1px); background: rgba(56, 189, 248, 0.92) !important; color: #03101f !important; box-shadow: 0 16px 36px rgba(56, 189, 248, 0.35); }
+    .report-card .link { color: #38bdf8 !important; cursor: pointer; }
+    .report-card .link:hover { text-decoration: underline; }
+    .report-card .footer { color: rgba(226, 232, 240, 0.75); font-size: 0.85rem; }
+    .report-card .footer .badge { margin-left: 6px; }
+    .modal .modal-content { background: rgba(9, 17, 31, 0.95); color: #f8fafc; border-radius: 18px; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .modal .modal-header { border-bottom: 1px solid rgba(56, 189, 248, 0.25); }
+    .modal .modal-title { color: #ffb347; }
+    .modal .close { color: #f8fafc; }
+    #p0IssuesList, #p1IssuesList { background: rgba(7, 13, 24, 0.92) !important; border: 1px solid rgba(56, 189, 248, 0.22) !important; color: #f8fafc !important; }
+    #bucketInfoTable table { background: transparent !important; }
+    #bucketInfoTable table thead th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%) !important; color: #03101f !important; }
+    #bucketInfoTable table td { background: rgba(7, 13, 24, 0.9) !important; color: #f1f5f9 !important; border: 1px solid rgba(56, 189, 248, 0.18) !important; }
+    @media (max-width: 768px) {
+        .preflight-header { padding: 28px; }
+        .preflight-header h1 { font-size: 2rem; }
+        .report-card { padding: 22px; }
+    }
 </style>
 </head>
 <body>
-<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-<h1 style="margin: 0;"><i class="fas fa-clipboard-list"></i> Assets Preflight Readiness Report</h1>
-<button id="refreshBtn" style="padding: 4px 12px; border: 1px solid #d1d5db; border-radius: 4px; background: #0d6efd; color: white; cursor: pointer; font-size: 13px;">🔄 Refresh</button>
-</div>
+<div class="preflight-container">
+  <div class="preflight-header">
+    <div class="preflight-header-content">
+      <div class="header-actions">
+        <a class="back-to-pitwall" href="./index.html"><i class="fas fa-arrow-left"></i> Back to Pitwall</a>
+        <button id="refreshBtn" class="refresh-btn"><i class="fas fa-rotate"></i> Refresh</button>
+      </div>
+      <h1><i class="fas fa-clipboard-list"></i> Pre-Race Readiness Report</h1>
+      <p>Monitor translation coverage, asset health, and configuration parity before every deployment lap.</p>
+    </div>
+  </div>
+  <div class="report-card">
 <div class="section" id="translationsAuditSection">
 <h2 style="font-size:16px; margin:0 0 8px 0;">Translations Audit</h2>
 </div>
-<table aria-label="Languages Preflight Readiness table" class="table" id="reportTable">
+<table aria-label="Pre-Race Readiness table" class="table" id="reportTable">
 <thead>
 <tr>
 <th rowspan="2">Language</th>
@@ -294,6 +335,8 @@
 			- UA: Unapproved (translated but not approved)
 			- NT: Not Translated
 		</div>
+</div>
+  </div>
 </div>
 <!-- Diff Modal -->
 <div class="modal" id="diffModal">

@@ -7,10 +7,13 @@
 <title>Audio Coverage Report</title>
 <link href="./styles.css" rel="stylesheet"/>
 <link href="./audio-favicon.svg" rel="icon" type="image/svg+xml"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-C4+8J1mCiSkDGpiKFFitvolG/GpNZgbf+5Q5e0siJmq9hw3rroWAtxEvsC0BpvyEuk+qS0bkkCm1cWtiYpg+1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="./config.js"></script>
 <style>
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.96)), linear-gradient(190deg, #020617 0%, #0b1220 100%); color: #e2e8f0; min-height: 100vh; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at top, rgba(255, 150, 34, 0.18), rgba(15, 23, 42, 0.96)), linear-gradient(190deg, #020617 0%, #0b1220 100%); color: #e2e8f0; min-height: 100vh; }
     .coverage-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 24px; }
+    .coverage-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .coverage-topbar h2 { margin: 0; }
     h2 { font-size: 2rem; font-weight: 600; display: flex; align-items: center; gap: 12px; color: #ffb347; letter-spacing: 0.02em; }
     p { margin: 0; color: rgba(226, 232, 240, 0.75); font-size: 0.95rem; }
     .source-row { display: flex; flex-wrap: wrap; gap: 16px; }
@@ -91,7 +94,10 @@
 </head>
 <body>
 <div class="coverage-container">
-<h2><i class="fas fa-table"></i> Audio Coverage by Language and Voice</h2>
+<div class="coverage-topbar">
+  <a class="back-to-pitwall" href="./index.html"><i class="fas fa-arrow-left"></i> Back to Pitwall</a>
+  <h2><i class="fas fa-table"></i> Audio Coverage by Language and Voice</h2>
+</div>
 <p>This report counts generated audio files per language and per embedded voice (ID3 tag).</p>
 <div class="source-row">
 <div class="source-card">

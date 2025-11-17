@@ -37,6 +37,7 @@ This guide explains how Levante Pitwall supports patching audio fixes --staring 
 ### 4. Site approval (research partner)
 - Share the review link; researchers can preview, delete, or select the winning versions.
 - When they click **Approve Selected**, Pitwall copies the chosen clip(s) into `deploy/<lang>/<itemId>.mp3` (stripping the version suffix) and the dashboard flags them as **Approved by Site**.
+- Each deployed clip stores custom metadata (`siteApprovedSource`, `siteApprovedVersion`, and timestamp) so Pitwall can track which `_v###` file was approved and automatically detect when newer drafts need re-approval.
 - No repo or `levante-assets-dev` writes occur during this step—research partners only control what appears in the deploy queue.
 
 ### 5. Flag site-approved audio for promotion (by DCC admin)
@@ -44,10 +45,10 @@ This guide explains how Levante Pitwall supports patching audio fixes --staring 
   - **Not approved** (red) — no site-approved version exists yet.
   - **Approved by Site** (yellow) — the clip lives in `deploy/<lang>/` but has not been flagged for promotion.
   - **Ready to push** (green) — the clip has been marked with **Okay to Push** and is queued for promotion.
-- Select one or more green/yellow rows and click **Okay to Push**. Pitwall writes the selection to `gs://levante-dashboard-dev/pitwall/deploy-queue/<bucket>/queue.json` (or the bucket configured via `DASHBOARD_DATA_BUCKET`), which downstream tooling consumes. No copies to the repo or `levante-assets-dev` are performed here.
+- Select one or more green/yellow rows and click **Okay to Push**. Pitwall writes the selection to `gs://<draft-bucket>/deploy-queue/queue.json` (the bucket defaults to `levante-assets-draft`, configurable via `ASSETS_DRAFT_BUCKET`). No copies to the repo or `levante-assets-dev` are performed here.
 
 ### 6. Promote flagged audio (automation / engineering)
-- Run the deployment script (e.g., `python utilities/promote_flagged_audio.py`) to download and process the queue JSON from `gs://levante-dashboard-dev/pitwall/deploy-queue/<bucket>/queue.json` (respecting the `DASHBOARD_DATA_BUCKET` override if set).
+- Run the deployment script (e.g., `python utilities/promote_flagged_audio.py`) to download and process the queue JSON from `gs://<draft-bucket>/deploy-queue/queue.json` (respecting the `ASSETS_DRAFT_BUCKET` or `AUDIO_DEPLOY_QUEUE_PREFIX` overrides if set).
   - The script copies each flagged file into the repo (`audio_files/<lang>/…`) and uploads the same file to `levante-assets-dev/audio/<lang>/…`.
   - After a successful promotion it should clear the corresponding entries from the queue file so the stoplight view returns to yellow.
 - Follow existing release processes (CI/CD or manual rsyncs) to push assets beyond the dev bucket.
@@ -56,6 +57,7 @@ This guide explains how Levante Pitwall supports patching audio fixes --staring 
 - **Selections reset when the table changes:** the send button reflects only the files currently visible in the Draft Audio list. If a file disappears (different folder/language), it’s automatically removed from the selection.
 - **Master checkbox quirks:** the “Select all” control ignores rows without a valid path, and it will reflect the current selection if you manually toggle rows.
 - **Accidental approvals:** in the research view, simply uncheck the row before clicking Approve. In the DCC view, click **Remove Selected** (which also clears the “Okay to Push” flag) if a clip should drop out of the queue.
+- **“Needs re-approval” badge:** regenerating audio after a site approval automatically marks the older approval as stale until the new `_v###` file is approved again.
 - **Clipboard/share issues:** the Draft Audio share link button shows inline feedback; if the browser blocks clipboard access the dashboard falls back to a manual prompt.
 - **Credential errors:** reopen the Credentials modal and verify PlayHT / ElevenLabs tokens for the active session.
 - **Deploy failures:** ensure the dashboard service account has `storage.objects.get`, `copy`, and `delete` permissions on `levante-assets-draft`

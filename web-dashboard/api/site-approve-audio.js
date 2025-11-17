@@ -53,6 +53,13 @@ function removeVersionSuffix(base) {
   return base.replace(versionRegex, '') || base;
 }
 
+function extractVersionFromPath(path) {
+  const match = (path || '').match(/_v(\d{3})/i);
+  if (!match) return null;
+  const asNumber = parseInt(match[1], 10);
+  return Number.isFinite(asNumber) ? asNumber : null;
+}
+
 function buildDeployDestination(language, fileName) {
   const { base, extension } = stripExtension(fileName);
   const cleanBase = removeVersionSuffix(base);
@@ -118,8 +125,36 @@ export default async function handler(req, res) {
           continue;
         }
 
+        const approvedVersion = extractVersionFromPath(rawPath);
+        const approvedAt = new Date().toISOString();
+
         await sourceFile.copy(destinationFile);
-        results.push({ path: rawPath, status: 'deployed', destination: destinationPath });
+        try {
+          const metadataPayload = {
+            siteApprovedSource: rawPath,
+            siteApprovedAt: approvedAt
+          };
+          if (approvedVersion !== null) {
+            metadataPayload.siteApprovedVersion = String(approvedVersion).padStart(3, '0');
+          }
+
+          await destinationFile.setMetadata({
+            metadata: metadataPayload
+          });
+        } catch (metaError) {
+          console.warn('site-approve-audio: failed to set metadata on deploy file', {
+            path: destinationPath,
+            error: metaError?.message
+          });
+        }
+
+        results.push({
+          path: rawPath,
+          status: 'deployed',
+          destination: destinationPath,
+          approvedVersion,
+          approvedAt
+        });
       } catch (error) {
         console.error('site-approve-audio copy failed', rawPath, error);
         results.push({ path: rawPath, status: 'error', reason: error?.message || 'copy_failed' });

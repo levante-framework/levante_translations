@@ -1,7 +1,8 @@
 import { Storage } from '@google-cloud/storage';
 
-const DATA_BUCKET = process.env.DASHBOARD_DATA_BUCKET || 'levante-dashboard-dev';
-const QUEUE_PREFIX = process.env.AUDIO_DEPLOY_QUEUE_PREFIX || 'pitwall/deploy-queue';
+const DEFAULT_SOURCE_BUCKET = process.env.ASSETS_DRAFT_BUCKET || 'levante-assets-draft';
+const QUEUE_PREFIX = process.env.AUDIO_DEPLOY_QUEUE_PREFIX || 'deploy-queue';
+const QUEUE_OBJECT = process.env.AUDIO_DEPLOY_QUEUE_OBJECT || 'queue.json';
 
 let storageClient = null;
 function getStorage() {
@@ -30,19 +31,24 @@ function sanitizeSegment(value) {
 }
 
 function sanitizeBucketName(value) {
-  return (value || '')
+  const cleaned = (value || '')
     .toLowerCase()
     .replace(/[^a-z0-9-.]/g, '');
+  return cleaned || DEFAULT_SOURCE_BUCKET;
 }
 
-function getQueueObjectPath(bucketName) {
-  const safeBucket = sanitizeBucketName(bucketName || 'levante-assets-draft') || 'levante-assets-draft';
-  return `${QUEUE_PREFIX}/${safeBucket}/queue.json`;
+function getQueueObjectPath() {
+  const prefix = QUEUE_PREFIX.replace(/\/+$/u, '');
+  const object = QUEUE_OBJECT.replace(/^\/+/, '');
+  if (prefix) {
+    return `${prefix}/${object}`;
+  }
+  return object || 'deploy-queue/queue.json';
 }
 
 async function loadQueue(storage, bucketName) {
-  const bucket = storage.bucket(DATA_BUCKET);
-  const objectPath = getQueueObjectPath(bucketName);
+  const bucket = storage.bucket(bucketName);
+  const objectPath = getQueueObjectPath();
   const file = bucket.file(objectPath);
   try {
     const [exists] = await file.exists();
@@ -62,11 +68,11 @@ async function loadQueue(storage, bucketName) {
 }
 
 async function saveQueue(storage, bucketName, entries) {
-  const bucket = storage.bucket(DATA_BUCKET);
-  const objectPath = getQueueObjectPath(bucketName);
+  const bucket = storage.bucket(bucketName);
+  const objectPath = getQueueObjectPath();
   const file = bucket.file(objectPath);
   const payload = {
-    bucket: sanitizeBucketName(bucketName),
+    bucket: bucketName,
     updatedAt: new Date().toISOString(),
     entries
   };
@@ -97,7 +103,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const bucketName = sanitizeBucketName(req.query.bucket) || 'levante-assets-draft';
+      const bucketName = sanitizeBucketName(req.query.bucket);
       const queue = await loadQueue(storage, bucketName);
       res.status(200).json({ bucket: bucketName, ...queue });
       return;
@@ -114,7 +120,7 @@ export default async function handler(req, res) {
       return;
     }
 
-    const primaryBucket = sanitizeBucketName((files[0] && files[0].bucket) || req.body?.bucket || 'levante-assets-draft');
+    const primaryBucket = sanitizeBucketName((files[0] && files[0].bucket) || req.body?.bucket || DEFAULT_SOURCE_BUCKET);
     const queue = await loadQueue(storage, primaryBucket);
     const entries = queue.entries || {};
 
@@ -125,6 +131,11 @@ export default async function handler(req, res) {
       const bucketName = sanitizeBucketName((entry && entry.bucket) || primaryBucket);
       const objectPath = sanitizeSegment(entry && entry.path);
       if (!bucketName || !objectPath) {
+        return;
+      }
+
+      if (bucketName !== primaryBucket) {
+        console.warn('flag-deploy-audio: skipping entry with mismatched bucket', { primaryBucket, bucketName, objectPath });
         return;
       }
 

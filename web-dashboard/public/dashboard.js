@@ -32,6 +32,7 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 this.selectedDraftAudio = null;
                 this.approvedDrafts = new Set();
                 this.deployingDrafts = false;
+                this.pendingSaveKey = null;
                 
                 this.setupGlobalActions();
                 this.init();
@@ -1063,6 +1064,8 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     const itemId = item.item_id || `fallback_${index}`;
                     const taskName = item.labels || item.task || 'general';
                     const originalEnglish = item.en || 'No English source';
+                    row.dataset.itemId = itemId;
+                    row.dataset.langCode = langCode;
                     const escapedItemId = itemId.replace(/'/g, "\\'");
                     const escapedOriginal = originalEnglish.replace(/'/g, "\\'").replace(/"/g, '\\"');
                     const escapedTranslation = text.replace(/'/g, "\\'").replace(/"/g, '\\"');
@@ -1086,11 +1089,28 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                             <button class="regen-btn" onclick="regenerateItemAudio('${escapedItemId}', '${langCode}')" title="Re-generate audio with selected voice">
                                 <i class="fas fa-arrows-rotate"></i>
                             </button>
-                            <button class="save-btn" onclick="saveItemAudio('${escapedItemId}', '${langCode}')" title="Save latest generated audio to draft bucket">
-                                <i class="fas fa-floppy-disk"></i>
-                            </button>
+                            <button class="save-btn" data-item-id="${escapedItemId}" data-lang-code="${langCode}" onclick="saveItemAudio('${escapedItemId}', '${langCode}')" title="Generate audio before saving" disabled>
+                                 <i class="fas fa-floppy-disk"></i>
+                             </button>
                         </div>
                     `;
+                    
+                    const saveButton = row.querySelector('.save-btn');
+                    if (saveButton) {
+                        saveButton.dataset.itemId = itemId;
+                        saveButton.dataset.langCode = langCode;
+                        const pendingKey = this.pendingSaveKey;
+                        const key = `${langCode}::${itemId}`;
+                        const isPending = Boolean(
+                            pendingKey &&
+                            pendingKey === key &&
+                            this.latestGeneratedAudio &&
+                            this.latestGeneratedAudio.itemId === itemId &&
+                            this.latestGeneratedAudio.langCode === langCode
+                        );
+                        saveButton.disabled = !isPending;
+                        saveButton.title = isPending ? 'Save latest generated audio to draft bucket' : 'Generate audio before saving';
+                    }
                     
                     row.addEventListener('click', () => this.selectRow(row, item));
                     tableContent.appendChild(row);
@@ -2001,6 +2021,9 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                     const versionSuffix = result.version ? ` (v${String(result.version).padStart(3, '0')})` : '';
                     this.setStatus(`Saved ${itemId}${versionSuffix} to ${result.bucket}/${result.path}`, 'success');
                     alert(`Audio saved to ${result.bucket}/${result.path}`);
+                    this.pendingSaveKey = null;
+                    this.latestGeneratedAudio = null;
+                    this.updateSaveButtonState(itemId, langCode);
                 } catch (error) {
                     console.error('Error saving generated audio', error);
                     this.setStatus(`❌ Error saving audio: ${error.message}`, 'error');
@@ -2039,10 +2062,13 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                                 created: this.latestGeneratedAudio.generatedAt
                             }
                         });
+                        this.pendingSaveKey = cacheKey;
+                        this.updateSaveButtonState(this.latestGeneratedAudio.itemId, this.latestGeneratedAudio.langCode);
                     }
                 } catch (error) {
                     console.error('Failed to cache generated audio', error);
                     this.latestGeneratedAudio = null;
+                    this.pendingSaveKey = null;
                 }
             }
 
@@ -2280,6 +2306,29 @@ const DEFAULT_AUDIO_COPYRIGHT = 'This file was created for the LEVANTE project a
                 }, duration);
 
                 button.dataset.feedbackTimeout = String(timeoutId);
+            }
+
+            updateSaveButtonState(itemId, langCode) {
+                if (!itemId || !langCode) return;
+                const pendingKey = this.pendingSaveKey;
+                const targetKey = `${langCode}::${itemId}`;
+                const shouldEnable = Boolean(
+                    pendingKey &&
+                    pendingKey === targetKey &&
+                    this.latestGeneratedAudio &&
+                    this.latestGeneratedAudio.itemId === itemId &&
+                    this.latestGeneratedAudio.langCode === langCode
+                );
+
+                const buttons = Array.from(document.querySelectorAll('.save-btn[data-item-id][data-lang-code]'));
+                buttons.forEach((btn) => {
+                    if (btn.dataset.itemId === itemId && btn.dataset.langCode === langCode) {
+                        btn.disabled = !shouldEnable;
+                        btn.title = shouldEnable
+                            ? 'Save latest generated audio to draft bucket'
+                            : 'Generate audio before saving';
+                    }
+                });
             }
         }
 

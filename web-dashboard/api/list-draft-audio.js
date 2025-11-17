@@ -34,6 +34,34 @@ function parseTimestamp(value) {
     return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function normalizePath(value = '') {
+    return value
+        .replace(/\\/g, '/')
+        .split('/')
+        .filter((segment) => segment && segment !== '.' && segment !== '..')
+        .join('/');
+}
+
+function parseVersionFromPath(path = '') {
+    const match = path.match(/_v(\d{3})/i);
+    if (!match) return null;
+    const version = parseInt(match[1], 10);
+    return Number.isFinite(version) ? version : null;
+}
+
+function coerceVersion(value) {
+    if (value === null || value === undefined) return null;
+    if (typeof value === 'number') {
+        return Number.isFinite(value) ? value : null;
+    }
+    const cleaned = String(value).trim();
+    if (!cleaned) return null;
+    const digits = cleaned.replace(/[^0-9]/g, '');
+    if (!digits) return null;
+    const parsed = parseInt(digits, 10);
+    return Number.isFinite(parsed) ? parsed : null;
+}
+
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -68,6 +96,29 @@ export default async function handler(req, res) {
             if (!key) return;
 
             const metadata = file.metadata || {};
+            const customMetadata = metadata.metadata || {};
+            const approvedSourceRaw = customMetadata.siteApprovedSource
+                || customMetadata['site-approved-source']
+                || null;
+            const approvedSource = approvedSourceRaw ? normalizePath(approvedSourceRaw) : null;
+            const approvedVersionRaw = customMetadata.siteApprovedVersion
+                || customMetadata['site-approved-version']
+                || null;
+            const approvedVersion = (() => {
+                const coerced = coerceVersion(approvedVersionRaw);
+                if (coerced !== null) return coerced;
+                if (approvedSourceRaw) {
+                    const parsed = parseVersionFromPath(approvedSourceRaw);
+                    if (parsed !== null) return parsed;
+                }
+                return null;
+            })();
+            const approvedAt = customMetadata.siteApprovedAt
+                || customMetadata['site-approved-at']
+                || metadata.updated
+                || metadata.timeCreated
+                || null;
+
             const updatedRaw = metadata.updated || metadata.timeCreated || null;
             const updatedDate = parseTimestamp(updatedRaw);
             const current = deployInfo.get(key);
@@ -79,7 +130,11 @@ export default async function handler(req, res) {
                     updated: updatedRaw,
                     updatedDate,
                     generation: metadata.generation || null,
-                    size: Number(metadata.size || 0)
+                    size: Number(metadata.size || 0),
+                    approvedSource,
+                    approvedSourceRaw,
+                    approvedVersion,
+                    approvedAt
                 });
             }
         });
@@ -101,29 +156,52 @@ export default async function handler(req, res) {
                 const draftUpdated = metadata.updated || metadata.timeCreated || null;
                 const draftUpdatedDate = parseTimestamp(draftUpdated);
                 const deployEntry = approvalKey ? deployInfo.get(approvalKey) : null;
+                const normalizedPath = normalizePath(name);
+                const isDeployObject = normalizedPath.startsWith('deploy/');
 
                 let approvedBySite = false;
                 let approvalStatus = 'not_approved';
 
                 if (deployEntry) {
-                    const deployUpdatedDate = deployEntry.updatedDate;
-                    if (!draftUpdatedDate || !deployUpdatedDate) {
+                    const matchesApprovedSource = deployEntry.approvedSource
+                        ? (!isDeployObject && deployEntry.approvedSource === normalizedPath)
+                        : false;
+
+                    if (isDeployObject) {
                         approvedBySite = true;
                         approvalStatus = 'approved';
-                    } else if (deployUpdatedDate >= draftUpdatedDate) {
-                        approvedBySite = true;
-                        approvalStatus = 'approved';
+                    } else if (deployEntry.approvedSource) {
+                        if (matchesApprovedSource) {
+                            approvedBySite = true;
+                            approvalStatus = 'approved';
+                        } else {
+                            approvedBySite = false;
+                            approvalStatus = 'stale';
+                        }
                     } else {
-                        approvedBySite = false;
-                        approvalStatus = 'stale';
+                        const deployUpdatedDate = deployEntry.updatedDate;
+                        if (!draftUpdatedDate || !deployUpdatedDate) {
+                            approvedBySite = true;
+                            approvalStatus = 'approved';
+                        } else if (deployUpdatedDate >= draftUpdatedDate) {
+                            approvedBySite = true;
+                            approvalStatus = 'approved';
+                        } else {
+                            approvedBySite = false;
+                            approvalStatus = 'stale';
+                        }
                     }
                 }
+
+                const derivedVersion = version !== null
+                    ? version
+                    : (deployEntry && deployEntry.approvedVersion !== null ? deployEntry.approvedVersion : null);
 
                 return {
                     name,
                     language,
                     itemId: baseItemId,
-                    version,
+                    version: derivedVersion,
                     path: name,
                     size: Number(metadata.size || 0),
                     updated: metadata.updated || metadata.timeCreated || null,
@@ -135,7 +213,10 @@ export default async function handler(req, res) {
                         deployPath: deployEntry ? deployEntry.path : null,
                         deployUpdated: deployEntry ? deployEntry.updated : null,
                         deployGeneration: deployEntry ? deployEntry.generation : null,
-                        draftUpdated
+                        draftUpdated,
+                        approvedSource: deployEntry ? deployEntry.approvedSourceRaw || deployEntry.approvedSource : null,
+                        approvedVersion: deployEntry && deployEntry.approvedVersion !== null ? deployEntry.approvedVersion : null,
+                        approvedAt: deployEntry ? deployEntry.approvedAt : null
                     }
                 };
             });

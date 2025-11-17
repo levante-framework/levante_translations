@@ -7,7 +7,7 @@
 <title>
    Levante Pitwall Home
   </title>
-<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="./images/checkered-flags.svg" rel="icon" type="image/svg+xml"/>
 <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-C4+8J1mCiSkDGpiKFFitvolG/GpNZgbf+5Q5e0siJmq9hw3rroWAtxEvsC0BpvyEuk+qS0bkkCm1cWtiYpg+1w==" referrerpolicy="no-referrer" rel="stylesheet"/>
 <link href="./styles.css" rel="stylesheet"/>
 <style>
@@ -15,14 +15,18 @@
         .pitwall-container { max-width: 1280px; margin: 0 auto; padding: 32px 16px 64px; display: flex; flex-direction: column; gap: 32px; }
         .pitwall-header { background: linear-gradient(130deg, #ff6b00 0%, #ffb347 45%, #09111f 100%); border-radius: 20px; padding: 40px; color: #0b1220; box-shadow: 0 30px 70px rgba(255, 138, 18, 0.28); position: relative; overflow: hidden; isolation: isolate; }
         .pitwall-header::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(0, 160, 222, 0.72), transparent 55%), linear-gradient(160deg, rgba(255, 255, 255, 0.18), transparent 70%); opacity: 0.9; pointer-events: none; mix-blend-mode: screen; }
-        .pitwall-header-main { position: relative; z-index: 1; display: flex; align-items: center; gap: 28px; }
+        .pitwall-header-main { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+        .pitwall-header-left { display: flex; align-items: center; gap: 28px; flex: 1 1 auto; min-width: 0; }
         .pitwall-hero-image { width: 220px; max-width: 32%; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35); object-fit: cover; }
         .pitwall-title-block { display: flex; flex-direction: column; gap: 8px; }
+        .pitwall-flag-image { width: 180px; max-width: 22%; min-width: 120px; filter: drop-shadow(0 18px 40px rgba(3, 12, 28, 0.55)); }
         .pitwall-header h1 { font-size: 2.75rem; margin: 0 0 12px; font-weight: 600; letter-spacing: -0.02em; color: #030c1c; text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
         .pitwall-header p { font-size: 1.05rem; margin: 0; max-width: 640px; line-height: 1.6; color: rgba(3, 13, 28, 0.78); }
         @media (max-width: 960px) {
-            .pitwall-header-main { flex-direction: column; align-items: flex-start; }
+            .pitwall-header-main { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .pitwall-header-left { flex-direction: column; align-items: flex-start; gap: 18px; width: 100%; }
             .pitwall-hero-image { width: 100%; max-width: none; border-radius: 16px; }
+            .pitwall-flag-image { align-self: flex-end; width: 140px; max-width: 40%; }
         }
         .pitwall-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; position: relative; z-index: 1; }
         .pitwall-actions a { background: rgba(3, 12, 28, 0.78); border: 1px solid rgba(255, 123, 0, 0.65); color: #fefcf7; padding: 12px 22px; border-radius: 999px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; display: inline-flex; gap: 10px; align-items: center; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; box-shadow: 0 12px 30px rgba(2, 6, 23, 0.45); }
@@ -53,15 +57,16 @@
 </head>
 <body>
 <div class="pitwall-container">
-<header class="pitwall-header"><div class="pitwall-header-main"><img alt="McLaren Pitwall" class="pitwall-hero-image" src="./images/f1-pitwall.webp"/><div class="pitwall-title-block"><h1>
+<header class="pitwall-header"><div class="pitwall-header-main"><div class="pitwall-header-left"><img alt="McLaren Pitwall" class="pitwall-hero-image" src="./images/f1-pitwall.webp"/><div class="pitwall-title-block"><h1>
 <i class="fas fa-flag-checkered">
 </i>
      Levante Pitwall
-    </h1><p>Our starting point for translation QA, audio patching, and supporting tools. Jump to a dashboard or a Stats card to get started.</p></div></div>
+    </h1><p>Our starting point for translation QA, audio patching, and supporting tools. Jump to a dashboard or a Stats card to get started.</p></div></div><img src="./images/checkered-flags.svg" alt="Checkered flags" class="pitwall-flag-image"/></div>
 <div class="pitwall-actions">
 <a href="./dashboard-app.html"><i class="fas fa-gauge"></i> Audio Dashboard</a>
 <a href="./audio-coverage.html"><i class="fas fa-music"></i> Audio Coverage</a>
-<a href="./preflight-report.html"><i class="fas fa-clipboard-check"></i> Preflight Report</a>
+<a href="./task-template.html"><i class="fas fa-clipboard-check"></i> Validate Task</a>
+<a href="./preflight-report.html"><i class="fas fa-clipboard-check"></i> Pre-Race Readiness Report</a>
 <a href="./draft-share.html"><i class="fas fa-share-nodes"></i> Ready to Deploy</a>
 </div>
 </header>
@@ -138,7 +143,7 @@
 <article class="card">
 <a href="./preflight-report.html">
 <i class="fas fa-clipboard-list"></i>
-<h3>Assets Preflight Readiness</h3>
+<h3>Pre-Race Readiness Report</h3>
 <p>Audit translations, audio, and visual assets across dev &amp; prod buckets with stoplight summaries.</p>
 <div class="card-footer">
 <span>Open report</span>
@@ -148,11 +153,11 @@
 </article>
 <article class="card">
 <a href="./task-template.html">
-<i class="fas fa-plus-circle"></i>
-<h3>Add Task Template</h3>
-<p>Bootstrap new activity specs, capture asset requirements, and export structured intake docs for survey teams.</p>
+<i class="fas fa-clipboard-check"></i>
+<h3>Task Dashboard &amp; Validation</h3>
+<p>Review implementation checklists, validate assets, and spin up new task templates with one toolkit.</p>
 <div class="card-footer">
-<span>Create task</span>
+<span>Open dashboard</span>
 <i class="fas fa-arrow-right"></i>
 </div>
 </a>

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Review Alternative Audio Clips</title>
+    <link rel="icon" type="image/svg+xml" href="./audio-favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./styles.css">
     <style>
         :root {
             color-scheme: light dark;
@@ -27,6 +30,14 @@
 
         header {
             margin-bottom: 28px;
+        }
+
+        .back-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
         }
 
         h1 {
@@ -84,6 +95,18 @@
             box-shadow: 0 22px 45px rgba(255, 123, 0, 0.45);
         }
 
+        .log-button {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.9) 0%, rgba(14, 165, 233, 0.98) 100%);
+            color: #03101f;
+            box-shadow: 0 15px 36px rgba(56, 189, 248, 0.32);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+        }
+
+        .log-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 46px rgba(56, 189, 248, 0.48);
+        }
+
         .delete-button {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.92) 0%, rgba(127, 29, 29, 0.95) 100%);
             color: #fef2f2;
@@ -130,6 +153,106 @@
             background: rgba(120, 53, 15, 0.35);
             color: #fdba74;
             border-color: rgba(251, 191, 36, 0.35);
+        }
+
+        .activity-log-panel {
+            display: none;
+            margin-bottom: 22px;
+            padding: 18px 22px;
+            border-radius: 18px;
+            background: rgba(4, 11, 24, 0.82);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 22px 58px rgba(2, 6, 23, 0.5);
+        }
+
+        .activity-log-panel.is-open {
+            display: block;
+        }
+
+        .activity-log-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .activity-log-header h2 {
+            margin: 0;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #f8fafc;
+        }
+
+        .activity-log-close {
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(15, 23, 42, 0.6);
+            color: #e2e8f0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .activity-log-close:hover {
+            background: rgba(56, 189, 248, 0.25);
+            color: #03101f;
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+
+        .activity-log-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-height: 260px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .activity-log-item {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            background: rgba(8, 24, 46, 0.75);
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+
+        .activity-log-item .log-time {
+            font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+            font-size: 0.8rem;
+            color: rgba(148, 163, 184, 0.75);
+            letter-spacing: 0.05em;
+        }
+
+        .activity-log-item.success {
+            border-color: rgba(34, 197, 94, 0.3);
+            background: rgba(6, 78, 59, 0.4);
+        }
+
+        .activity-log-item.error {
+            border-color: rgba(248, 113, 113, 0.4);
+            background: rgba(76, 29, 36, 0.45);
+        }
+
+        .activity-log-item.warning {
+            border-color: rgba(251, 191, 36, 0.4);
+            background: rgba(120, 53, 15, 0.45);
+        }
+
+        .activity-log-empty {
+            font-size: 0.9rem;
+            color: rgba(148, 163, 184, 0.7);
+            padding: 12px 0;
+            text-align: center;
         }
 
         .share-content {
@@ -205,17 +328,28 @@
 .site-approval-pill,
 .status-pill {
             display: inline-flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 4px 10px;
+            padding: 6px 12px;
+            gap: 2px;
             border-radius: 999px;
             font-size: 0.78rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
             background: rgba(148, 163, 184, 0.18);
-            color: rgba(203, 213, 225, 0.8);
+            color: rgba(203, 213, 225, 0.85);
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
+
+        .pill-subtext {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(203, 213, 225, 0.7);
+        }
+
         .site-approval-pill.is-approved,
 .status-pill.status-approved {
             background: rgba(250, 204, 21, 0.22);
@@ -223,6 +357,12 @@
             border-color: rgba(250, 204, 21, 0.4);
             box-shadow: 0 8px 18px rgba(250, 204, 21, 0.25);
         }
+
+        .site-approval-pill.is-approved .pill-subtext,
+.status-pill.status-approved .pill-subtext {
+            color: rgba(254, 240, 138, 0.85);
+        }
+
         .site-approval-pill.is-stale,
         .status-pill.status-stale {
             background: rgba(251, 191, 36, 0.22);
@@ -230,12 +370,23 @@
             border-color: rgba(251, 191, 36, 0.4);
             box-shadow: 0 8px 18px rgba(251, 191, 36, 0.25);
         }
+
+        .site-approval-pill.is-stale .pill-subtext,
+        .status-pill.status-stale .pill-subtext {
+            color: rgba(253, 230, 138, 0.8);
+        }
+
         .status-pill.status-not-approved {
             background: rgba(239, 68, 68, 0.2);
             color: #fecaca;
             border-color: rgba(239, 68, 68, 0.35);
             box-shadow: 0 8px 18px rgba(239, 68, 68, 0.25);
         }
+
+        .status-pill.status-not-approved .pill-subtext {
+            color: rgba(254, 202, 202, 0.8);
+        }
+
         .status-pill.status-ready {
             background: rgba(34, 197, 94, 0.22);
             color: #bbf7d0;
@@ -285,17 +436,35 @@
 <body>
     <div class="share-container">
         <header>
+            <div class="back-bar">
+                <a class="back-to-pitwall" href="./index.html">
+                    <i class="fas fa-arrow-left"></i> Back to Pitwall
+                </a>
+            </div>
             <h1>Review Alternative Audio Clips</h1>
             <div class="actions-bar">
                 <div id="folderInfo" class="folder-info">Preparing share view…</div>
                 <div class="action-buttons">
                     <button id="deleteSelected" class="action-button delete-button" disabled>Delete Selected</button>
                     <button id="approveSelected" class="action-button approve-button" disabled>Approve Selected</button>
+                    <button id="viewLogButton" class="action-button log-button" type="button">Activity Log</button>
                 </div>
             </div>
         </header>
 
         <div id="status" class="status loading">Loading draft audio…</div>
+
+        <div id="activityLogPanel" class="activity-log-panel" aria-live="polite" aria-expanded="false">
+            <div class="activity-log-header">
+                <h2>Activity Log</h2>
+                <button id="activityLogClose" class="activity-log-close" type="button" title="Close activity log">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul id="activityLogList" class="activity-log-list">
+                <li class="activity-log-empty">No activity yet.</li>
+            </ul>
+        </div>
 
         <div id="content" class="share-content">
             <div class="empty-state">Fetching draft audio files…</div>
@@ -308,6 +477,12 @@
             const statusEl = document.getElementById('status');
             const contentEl = document.getElementById('content');
             const folderInfoEl = document.getElementById('folderInfo');
+            const logButton = document.getElementById('viewLogButton');
+            const logPanel = document.getElementById('activityLogPanel');
+            const logListEl = document.getElementById('activityLogList');
+            const logCloseButton = document.getElementById('activityLogClose');
+
+            const activityLog = [];
 
             const params = new URLSearchParams(window.location.search);
             const modeParam = (params.get('mode') || '').toLowerCase();
@@ -317,11 +492,11 @@
             const headingEl = document.querySelector('header h1');
             const noteEl = document.querySelector('.approval-note');
             if (headingEl) {
-                headingEl.textContent = isSiteMode ? 'Review Alternative Audio Clips' : 'Promote Site-Approved Audio Clips';
+                headingEl.textContent = isSiteMode ? 'Ready to Deploy Audio Clips' : 'Promote Approved Audio Translations';
             }
             if (noteEl) {
                 noteEl.textContent = isSiteMode
-                    ? 'By approving these updated translations you\'re agreeing that they are acceptable for your Levante Project site.'
+                    ? 'Confirm the preferred versions that should ship on your Levante Project site.'
                     : 'Mark site-approved clips that are ready for promotion; downstream scripts will copy flagged audio into the repo and levante-assets-dev.';
             }
 
@@ -468,10 +643,10 @@
                         const result = await response.json();
                         const processed = Number(result.flagged || 0);
                         if (processed > 0) {
-                            finalMessage = `Marked ${processed} file${processed === 1 ? '' : 's'} as ready to push.`;
+                            finalMessage = `Queued ${processed} audio clip${processed === 1 ? '' : 's'} for DCC promotion.`;
                             finalType = 'success';
                         } else {
-                            finalMessage = 'No files were marked as ready — please verify the selection.';
+                            finalMessage = 'No clips were queued — please verify the selection.';
                             finalType = 'warning';
                         }
                     }
@@ -598,8 +773,15 @@
             if (deleteButton) {
                 deleteButton.addEventListener('click', deleteSelectedFiles);
             }
+            if (logButton) {
+                logButton.addEventListener('click', () => toggleLogPanel());
+            }
+            if (logCloseButton) {
+                logCloseButton.addEventListener('click', () => toggleLogPanel(false));
+            }
 
             updateActionButtons();
+            updateLogButton();
 
             const bucketParam = params.get('bucket') || 'levante-assets-draft';
             const folderParam = params.get('folder');
@@ -613,14 +795,88 @@
             const prefix = sanitizedFolder ? `${sanitizedFolder}/` : fallbackFolder;
 
             document.title = sanitizedFolder
-                ? `${isAdminMode ? 'Promote Site-Approved Audio' : 'Review Alternative Audio Clips'} • ${sanitizedFolder}`
-                : `${isAdminMode ? 'Promote Site-Approved Audio' : 'Review Alternative Audio Clips'} • ${isSiteMode ? 'audio' : 'deploy'}`;
+                ? `${isAdminMode ? 'Promote Approved Audio Translations' : 'Ready to Deploy Audio Clips'} • ${sanitizedFolder}`
+                : `${isAdminMode ? 'Promote Approved Audio Translations' : 'Ready to Deploy Audio Clips'} • ${isSiteMode ? 'audio' : 'deploy'}`;
 
             folderInfoEl.textContent = `Bucket: ${bucket} • Folder: ${prefix}`;
+
+            function updateLogButton() {
+                if (!logButton) return;
+                const count = activityLog.length;
+                const isOpen = logPanel && logPanel.classList.contains('is-open');
+                const label = count ? `Activity Log (${count})` : 'Activity Log';
+                logButton.textContent = label;
+                logButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            function renderActivityLog() {
+                if (!logListEl) return;
+                if (!activityLog.length) {
+                    logListEl.innerHTML = '<li class="activity-log-empty">No activity yet.</li>';
+                    return;
+                }
+                logListEl.innerHTML = '';
+                activityLog.forEach((entry) => {
+                    const item = document.createElement('li');
+                    item.className = `activity-log-item ${entry.type || 'info'}`;
+                    const timeEl = document.createElement('span');
+                    timeEl.className = 'log-time';
+                    timeEl.textContent = entry.timestamp.toLocaleTimeString();
+                    const messageEl = document.createElement('span');
+                    messageEl.className = 'log-message';
+                    messageEl.textContent = entry.message;
+                    item.appendChild(timeEl);
+                    item.appendChild(messageEl);
+                    logListEl.appendChild(item);
+                });
+            }
+
+            function recordLog(message, type) {
+                if (!message) return;
+                const entry = {
+                    message: String(message),
+                    type: type || 'info',
+                    timestamp: new Date()
+                };
+                const lastEntry = activityLog[0];
+                if (lastEntry && lastEntry.message === entry.message && lastEntry.type === entry.type) {
+                    lastEntry.timestamp = entry.timestamp;
+                    if (logPanel && logPanel.classList.contains('is-open')) {
+                        renderActivityLog();
+                    }
+                    updateLogButton();
+                    return;
+                }
+                activityLog.unshift(entry);
+                if (activityLog.length > 200) {
+                    activityLog.splice(200);
+                }
+                if (logPanel && logPanel.classList.contains('is-open')) {
+                    renderActivityLog();
+                }
+                updateLogButton();
+            }
+
+            function toggleLogPanel(forceState) {
+                if (!logPanel) return;
+                const shouldOpen = typeof forceState === 'boolean'
+                    ? forceState
+                    : !logPanel.classList.contains('is-open');
+                if (shouldOpen) {
+                    logPanel.classList.add('is-open');
+                    logPanel.setAttribute('aria-expanded', 'true');
+                    renderActivityLog();
+                } else {
+                    logPanel.classList.remove('is-open');
+                    logPanel.setAttribute('aria-expanded', 'false');
+                }
+                updateLogButton();
+            }
 
             function setStatus(message, type) {
                 statusEl.textContent = message;
                 statusEl.className = `status ${type || ''}`.trim();
+                recordLog(message, type || 'info');
             }
 
             function formatBytes(bytes) {
@@ -642,6 +898,12 @@
                 const date = new Date(value);
                 if (Number.isNaN(date.getTime())) return value;
                 return date.toLocaleString();
+            }
+
+            function formatVersion(value) {
+                const num = Number(value);
+                if (!Number.isFinite(num)) return null;
+                return `v${String(num).padStart(3, '0')}`;
             }
 
             function buildPublicUrl(path) {
@@ -733,10 +995,26 @@
                         }
                         return '—';
                     })();
-                    const versionLabel = item.version ? `v${String(item.version).padStart(3, '0')}` : '—';
+                    const siteApproval = item.siteApproval || null;
+                    const numericVersion = Number.isFinite(item.version) ? item.version : null;
+                    const approvedVersionNumber = siteApproval && Number.isFinite(siteApproval.approvedVersion)
+                        ? siteApproval.approvedVersion
+                        : null;
+                    const derivedVersionNumber = numericVersion !== null ? numericVersion : approvedVersionNumber;
+                    const versionLabel = derivedVersionNumber !== null ? formatVersion(derivedVersionNumber) : '—';
                     const sizeLabel = formatBytes(item.size || 0);
                     const updatedLabel = formatDate(item.updated || item.timeCreated || item.generation);
                     const publicUrl = objectPath ? buildPublicUrl(objectPath) : null;
+
+                    if (derivedVersionNumber !== null) {
+                        row.dataset.version = String(derivedVersionNumber);
+                    }
+                    if (siteApproval?.approvedSource) {
+                        row.dataset.approvedSource = siteApproval.approvedSource;
+                    }
+                    if (siteApproval?.approvedAt) {
+                        row.dataset.approvedAt = siteApproval.approvedAt;
+                    }
 
                     const selectCell = document.createElement('td');
                     const checkbox = document.createElement('input');
@@ -765,31 +1043,59 @@
                     row.appendChild(languageCell);
 
                     const versionCell = document.createElement('td');
-                    versionCell.textContent = versionLabel;
+                    versionCell.textContent = versionLabel || '—';
                     row.appendChild(versionCell);
 
                     const approvalCell = document.createElement('td');
                     approvalCell.className = 'site-approval-cell';
-                    const siteApproval = item.siteApproval || null;
                     const approvalState = siteApproval?.status || (item.approvedBySite ? 'approved' : 'not_approved');
+                    const approvedVersionLabel = approvedVersionNumber !== null ? formatVersion(approvedVersionNumber) : null;
+
                     if (siteApproval && (siteApproval.deployUpdated || siteApproval.draftUpdated)) {
                         const deployDate = siteApproval.deployUpdated ? new Date(siteApproval.deployUpdated) : null;
                         const draftDate = siteApproval.draftUpdated ? new Date(siteApproval.draftUpdated) : null;
                         const deployLabel = deployDate && !Number.isNaN(deployDate.getTime()) ? deployDate.toLocaleString() : '—';
                         const draftLabel = draftDate && !Number.isNaN(draftDate.getTime()) ? draftDate.toLocaleString() : '—';
-                        approvalCell.title = `Site approval: ${deployLabel}\nLatest draft: ${draftLabel}`;
+                        const titleLines = [`Site approval: ${deployLabel}`, `Latest draft: ${draftLabel}`];
+                        if (approvedVersionLabel) {
+                            titleLines.push(`Approved version: ${approvedVersionLabel}`);
+                        }
+                        approvalCell.title = titleLines.join('\n');
+                    } else if (approvedVersionLabel) {
+                        approvalCell.title = `Approved version: ${approvedVersionLabel}`;
                     }
+
                     if (isAdminMode) {
                         const statusInfo = getStatusInfo(item, objectPath);
-                        approvalCell.innerHTML = `<span class="status-pill ${statusInfo.className}">${statusInfo.label}</span>`;
-                    } else {
-                        if (approvalState === 'approved') {
-                            approvalCell.innerHTML = '<span class="site-approval-pill is-approved">YES</span>';
-                        } else if (approvalState === 'stale') {
-                            approvalCell.innerHTML = '<span class="site-approval-pill is-stale">Needs re-approval</span>';
-                        } else {
-                            approvalCell.innerHTML = '<span class="site-approval-pill">NO</span>';
+                        const pill = document.createElement('span');
+                        pill.className = `status-pill ${statusInfo.className}`;
+                        pill.textContent = statusInfo.label;
+                        if (approvedVersionLabel) {
+                            const sub = document.createElement('span');
+                            sub.className = 'pill-subtext';
+                            sub.textContent = approvedVersionLabel;
+                            pill.appendChild(sub);
                         }
+                        approvalCell.appendChild(pill);
+                    } else {
+                        const pill = document.createElement('span');
+                        pill.className = 'site-approval-pill';
+                        if (approvalState === 'approved') {
+                            pill.classList.add('is-approved');
+                            pill.textContent = 'YES';
+                            if (approvedVersionLabel) {
+                                const sub = document.createElement('span');
+                                sub.className = 'pill-subtext';
+                                sub.textContent = approvedVersionLabel;
+                                pill.appendChild(sub);
+                            }
+                        } else if (approvalState === 'stale') {
+                            pill.classList.add('is-stale');
+                            pill.textContent = 'Needs re-approval';
+                        } else {
+                            pill.textContent = 'NO';
+                        }
+                        approvalCell.appendChild(pill);
                     }
                     row.appendChild(approvalCell);
 

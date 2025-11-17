@@ -3,7 +3,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: radial-gradient(circle at top, rgba(255, 107, 0, 0.12), rgba(2, 6, 23, 0.96)), linear-gradient(190deg, #020617 0%, #0b1220 100%); min-height: 100vh; padding: 24px; color: #e2e8f0; }
 .dashboard-container { max-width: 1400px; margin: 0 auto; background: rgba(9, 17, 31, 0.92); border-radius: 24px; box-shadow: 0 32px 70px rgba(2, 6, 23, 0.55); overflow: hidden; border: 1px solid rgba(0, 160, 222, 0.18); backdrop-filter: blur(6px); }
-.header { background: linear-gradient(130deg, #ff6b00 0%, #ffb347 40%, #021225 100%); color: #03101f; padding: 26px 20px; text-align: center; position: relative; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.header { background: linear-gradient(130deg, #ff6b00 0%, #ffb347 40%, #021225 100%); color: #03101f; padding: 26px 20px; text-align: center; position: relative; overflow: visible; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
 .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 500; color: #030c1c; text-shadow: 0 12px 28px rgba(0, 0, 0, 0.28); letter-spacing: 0.02em; }
 .header .header-actions { position: absolute; right: 20px; top: 20px; z-index: 1001; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
 .header .header-actions .btn { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); }
@@ -25,6 +25,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .header .account-dropdown .dropdown-item.logout-btn:hover { background: rgba(255, 137, 43, 0.28); color: #ffd6ad; }
 .header .header-actions-left { position: absolute; left: 20px; top: 20px; z-index: 1001; }
 .header .header-actions-left .btn { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); }
+.header .header-actions-left .back-to-pitwall { background: rgba(3, 12, 28, 0.72); border: 1px solid rgba(255, 123, 0, 0.55); color: #fefcf7; box-shadow: 0 10px 22px rgba(3, 12, 28, 0.45); }
+.header .header-actions-left .back-to-pitwall:hover { background: rgba(255, 123, 0, 0.92); color: #06141f; }
 .header .header-actions-left .dropdown-menu { left: 0; right: auto; }
 .header .header-actions-left .dropdown { position: relative; }
 .header p { font-size: 1.2em; opacity: 0.9; }
@@ -91,7 +93,33 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .regen-btn:hover { background: #00bafc; transform: translateY(-1px); box-shadow: 0 12px 20px rgba(0, 186, 252, 0.35); }
 .save-btn { background: #ff6f00; color: #03101f; border: none; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 8px 16px rgba(255, 111, 0, 0.35); }
 .save-btn:disabled { background: rgba(99, 102, 241, 0.35); cursor: not-allowed; box-shadow: none; color: rgba(226, 232, 240, 0.55); }
-.save-btn:hover { background: #ff892b; transform: translateY(-1px); box-shadow: 0 12px 22px rgba(255, 137, 43, 0.35); }
+.save-btn:hover:not(:disabled) { background: #ff892b; transform: translateY(-1px); box-shadow: 0 12px 22px rgba(255, 137, 43, 0.35); }
+
+.back-to-pitwall {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    background: rgba(3, 12, 28, 0.78);
+    color: #38bdf8;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 18px 40px rgba(2, 6, 23, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.back-to-pitwall:hover {
+    background: rgba(56, 189, 248, 0.85);
+    color: #03101f;
+    transform: translateY(-2px);
+    box-shadow: 0 24px 48px rgba(56, 189, 248, 0.45);
+}
+.back-to-pitwall i {
+    font-size: 0.95rem;
+}
 
 /* Text-to-Speech layout */
 .tts-control-group { display: flex; align-items: flex-start; gap: 12px; margin-top: 12px; }

@@ -156,6 +156,7 @@
             <ul>
                 <li>Share the review link; researchers can preview, delete, or select the winning versions.</li>
                 <li>When they click <strong>Approve Selected</strong>, Pitwall copies the chosen clip(s) into <code>deploy/&lt;lang&gt;/&lt;itemId&gt;.mp3</code> (stripping the version suffix) and the dashboard flags them as <em>Approved by Site</em>.</li>
+                <li>The deploy copy records <code>siteApprovedSource</code>, <code>siteApprovedVersion</code>, and a timestamp so Pitwall can highlight which `_v###` draft was approved and mark newer drafts as needing re-approval.</li>
                 <li>No repo or <code>levante-assets-dev</code> writes occur during this step—research partners only control what appears in the deploy queue.</li>
             </ul>
 
@@ -169,12 +170,12 @@
                         <li><strong>Ready to push</strong> (green) — the clip has been marked with <strong>Okay to Push</strong> and is queued for promotion.</li>
                     </ul>
                 </li>
-                <li>Select one or more green/yellow rows and click <strong>Okay to Push</strong>. Pitwall writes the selection to <code>gs://levante-dashboard-dev/pitwall/deploy-queue/&lt;bucket&gt;/queue.json</code> (or the bucket configured via <code>DASHBOARD_DATA_BUCKET</code>), which downstream tooling consumes. No copies to the repo or <code>levante-assets-dev</code> are performed here.</li>
+                <li>Select one or more green/yellow rows and click <strong>Okay to Push</strong>. Pitwall writes the selection to <code>gs://&lt;draft-bucket&gt;/deploy-queue/queue.json</code> (the bucket defaults to <code>levante-assets-draft</code> and can be overridden via <code>ASSETS_DRAFT_BUCKET</code> / <code>AUDIO_DEPLOY_QUEUE_PREFIX</code>). No copies to the repo or <code>levante-assets-dev</code> are performed here.</li>
             </ul>
 
             <h3>6. Promote flagged audio (automation / engineering)</h3>
             <ul>
-                <li>Run the deployment script (e.g., <code>python utilities/promote_flagged_audio.py</code>) to download and process the queue JSON from <code>gs://levante-dashboard-dev/pitwall/deploy-queue/&lt;bucket&gt;/queue.json</code> (respecting the <code>DASHBOARD_DATA_BUCKET</code> override if set).</li>
+                <li>Run the deployment script (e.g., <code>python utilities/promote_flagged_audio.py</code>) to download and process the queue JSON from <code>gs://&lt;draft-bucket&gt;/deploy-queue/queue.json</code> (respecting the <code>ASSETS_DRAFT_BUCKET</code> / <code>AUDIO_DEPLOY_QUEUE_PREFIX</code> overrides if set).</li>
                 <li>The script copies each flagged file into the repo (<code>audio_files/&lt;lang&gt;/…</code>) and uploads the same file to <code>levante-assets-dev/audio/&lt;lang&gt;/…</code>.</li>
                 <li>After a successful promotion it should clear the corresponding entries from the queue file so the stoplight view returns to yellow.</li>
                 <li>Follow existing release processes (CI/CD or manual rsyncs) to push assets beyond the dev bucket.</li>
@@ -185,6 +186,7 @@
                 <li>The “Select all” checkbox ignores rows without a valid path, and it will reflect the current selection if you manually toggle rows.</li>
                 <li>The selection counter only reflects files from the current view; switching folders clears items that disappear.</li>
                 <li><strong>Accidental approvals:</strong> in the research view, simply uncheck the row before clicking Approve. In the DCC view, click <strong>Remove Selected</strong> (which also clears the “Okay to Push” flag) if a clip should drop out of the queue.</li>
+                <li><strong>“Needs re-approval” badge:</strong> when a draft is regenerated after site approval, the dashboard keeps the older deploy copy but marks it as stale until the new version is approved again.</li>
                 <li><strong>Clipboard/share issues:</strong> the Draft Audio share link button shows inline feedback; if the browser blocks clipboard access the dashboard falls back to a manual prompt.</li>
                 <li><strong>Credential errors:</strong> reopen the Credentials modal and verify PlayHT / ElevenLabs tokens for the active session.</li>
                 <li><strong>Deploy failures:</strong> ensure the dashboard service account has <code>storage.objects.get</code>, <code>copy</code>, and <code>delete</code> permissions on <code>levante-assets-draft</code>.</li>
