@@ -4,6 +4,842 @@
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body/>
+    <body>
+      <trans-unit id="52686" resname="general-rotate-device" approved="yes">
+        <source>Please rotate your device for the best view of the activities.</source>
+        <target state="final">Por favor, gire seu dispositivo para ter a melhor visualização das atividades.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-rotate-device
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52688" resname="general-device-type" approved="yes">
+        <source>Please use a tablet in landscape mode, a desktop computer, or a laptop to complete the activities.</source>
+        <target state="final">Por favor, use um tablet em modo paisagem, um computador de mesa ou um laptop para completar as atividades.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-device-type
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+        <note from="iliana.karipidis" priority="4">The currently approved translation is not directed to children. Please review my suggestion:
+&quot;Benutze bitte ein Tablet im Querformat, einen Desktop-Computer oder einen Laptop, um die Aufgaben zu lösen.&quot;</note>
+      </trans-unit>
+      <trans-unit id="51311" resname="general-intro1" approved="yes">
+        <source>Hi! We are excited to have you play some games with us today!</source>
+        <target state="final">Oi! Estamos entusiasmados por ter você jogando alguns jogos conosco hoje!</target>
+        <context-group purpose="information">
+          <context context-type="source">general-intro1
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+        <note from="Carolina Gattei - UTDT (Carogattei)" priority="4">Suggestion: &quot;muy contentos&quot; instead of &quot;encantados&quot; (&quot;encantados&quot; is formal and less frequent)</note>
+      </trans-unit>
+      <trans-unit id="51313" resname="general-intro2" approved="yes">
+        <source>First, you get to choose a buddy to play along with you. As you complete the different games, you will get to pick an accessory like a hat or glasses to decorate your buddy.</source>
+        <target state="final">Primeiro, você pode escolher um companheiro para jogar com você. Conforme você completa os diferentes jogos, poderá escolher um acessório como um chapéu ou óculos para decorar seu amigo.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-intro2
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52690" resname="pick-buddy" approved="yes">
+        <source>Pick a buddy to play with!</source>
+        <target state="final">Escolha um amigo para jogar!</target>
+        <context-group purpose="information">
+          <context context-type="source">pick-buddy
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+        <note from="Sachin Allums (sachinallums)" priority="4">Says, &quot;Translation is outdated. Added 05 August 2025 16:08 before last source update 12 Aug 2025, 10:59&quot;</note>
+      </trans-unit>
+      <trans-unit id="51317" resname="general-intro3" approved="yes">
+        <source>Now that you have your buddy, we want to explain how the games work.</source>
+        <target state="final">Agora que você tem seu companheiro, queremos explicar como os jogos funcionam.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-intro3
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51319" resname="general-intro4" approved="yes">
+        <source>During the games you will need to listen to instructions so make sure your speakers are on and the volume is the way you like it. If you need to hear the instructions again, you can click the speaker button up in the corner of your screen.</source>
+        <target state="final">Durante os jogos, você precisará ouvir as instruções, então certifique-se de que os alto-falantes estão ligados e o volume está do seu agrado. Se precisar ouvir as instruções novamente, clique no botão do alto-falante no canto da tela.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-intro4
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51321" resname="general-intro5" approved="yes">
+        <source>You can choose your answers in different ways depending on the type of tablet or computer you are using. You can use a mouse or touchpad to click your choice, you can use the arrow keys on your keyboard, or you can touch your screen if you are using a tablet. You can pick the way that works best for you.
+
+If you have any questions or need help getting started, please ask the adult who is nearby to help you. </source>
+        <target state="final">Você pode escolher suas respostas de diferentes maneiras, dependendo do tipo de tablet ou computador que você está usando. Você pode usar um mouse ou touchpad para clicar na sua escolha, pode usar as teclas de seta no seu teclado ou pode tocar na tela se estiver usando um tablet. Escolha a maneira que funciona melhor para você.
+
+Se tiver dúvidas ou precisar de ajuda para começar, peça ao adulto que estiver por perto para te ajudar.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-intro5
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51323" resname="task-finished" approved="yes">
+        <source>You've completed the game. Thank you!</source>
+        <target state="final">Você completou o jogo. Obrigado!</target>
+        <context-group purpose="information">
+          <context context-type="source">task-finished
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p473c5q4q435o4u2u4n4l6u4437383o4h4j6u4c6?t=51323</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b383q453c525o4356535a53386n445r433l4q4m4u2l615d6?t=51323</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o453c525o445b5i4t433j655b5n4a5e6i6h6t2l4c3m4g435u4p4?t=51323</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o473c585k435s4u2l4v476s4s485r4j6n6g403l443k4i615n4?t=51323</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6c383t473c5b525p4o4j4u273o4a3536545c6?t=51323</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51325" resname="continue-button-text" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+        <context-group purpose="information">
+          <context context-type="source">continue-button-text
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3a3t473c5q4q435o4u2u4n4l6u44373a3p4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3o413c5q4q435o4u2u4n4l6u4436373q4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3o473c5q4q435o4u2u4n4l6u4436373t4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3r433c5q4q435o4u2u4n4l6u4436393m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3r453c5q4q435o4u2u4n4l6u4436393n4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3s413c5q4q435o4u2u4n4l6u4436393q4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3t473c5q4q435o4u2u4n4l6u44363a3o4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3k473c5q4q435o4u2u4n4l6u44363a3t4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3l433c5q4q435o4u2u4n4l6u44363b3m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3n453c5q4q435o4u2u4n4l6u44363c3n4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3o433c5q4q435o4u2u4n4l6u44363c3r4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3o453c5q4q435o4u2u4n4l6u44363c3s4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3p413c5q4q435o4u2u4n4l6u44363d3l4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3m493c5q4q435o4u2u4n4l6u4437363u4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-15">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3o413c5q4q435o4u2u4n4l6u4437373q4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-16">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p433c5q4q435o4u2u4n4l6u4437383m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-17">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p453c5q4q435o4u2u4n4l6u4437383n4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-18">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3r433c5q4q435o4u2u4n4l6u4437393m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-19">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t413c5q4q435o4u2u4n4l6u44373a3l4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-20">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t433c5q4q435o4u2u4n4l6u44373a3m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-21">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t493c595r4r46535a533g6s44335v4j676g403l443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-22">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3k413c595r4r46535a533g6s44335v4j676g403l453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-23">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3k433c595r4r46535a533g6s44335v4j676g403l463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-24">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3k453c595r4r46535a533g6s44335v4j676g403l473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-25">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3l413c595r4r46535a533g6s44335v4j676g403l4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-26">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3l433c595r4r46535a533g6s44335v4j676g403l4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-27">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3n453c595r4r46535a533g6s44335v4j676g403m4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-28">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3n493c595r4r46535a533g6s44335v4j676g403n443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-29">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3o413c595r4r46535a533g6s44335v4j676g403n453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-30">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3p433c595r4r46535a533g6s44335v4j676g403n4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-31">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3p453c595r4r46535a533g6s44335v4j676g403n4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-32">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3q413c595r4r46535a533g6s44335v4j676g403o453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-33">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3q433c595r4r46535a533g6s44335v4j676g403o463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-34">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3r413c595r4r46535a533g6s44335v4j676g403o4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-35">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3r493c595r4r46535a533g6s44335v4j676g403p443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-36">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3s413c595r4r46535a533g6s44335v4j676g403p453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-37">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3s453c595r4r46535a533g6s44335v4j676g403p473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-38">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3t453c595r4r46535a533g6s44335v4j676g403p4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-39">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3t473c595r4r46535a533g6s44335v4j676g403q433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-40">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3t493c595r4r46535a533g6s44335v4j676g403q443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-41">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3k433c595r4r46535a533g6s44335v4j676g403q463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-42">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3k493c595r4r46535a533g6s44335v4j676g403q493k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-43">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3l433c595r4r46535a533g6s44335v4j676g403q4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-44">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3l493c595r4r46535a533g6s44335v4j676g403r443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-45">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3m413c595r4r46535a533g6s44335v4j676g403r453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-46">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3m433c595r4r46535a533g6s44335v4j676g403r463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-47">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3m453c595r4r46535a533g6s44335v4j676g403r473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-48">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3n413c595r4r46535a533g6s44335v4j676g403r4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-49">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3n433c595r4r46535a533g6s44335v4j676g403r4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-50">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3n453c595r4r46535a533g6s44335v4j676g403r4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-51">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3o413c595r4r46535a533g6s44335v4j676g403s453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-52">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3o433c595r4r46535a533g6s44335v4j676g403s463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-53">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3o453c595r4r46535a533g6s44335v4j676g403s473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-54">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3o473c595r4r46535a533g6s44335v4j676g403s483k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-55">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3p433c5t4o4n4955545332645r433s4h6i6q6l4n665j4i43313035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-56">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3p453c5t4o4n4955545332645r433s4h6i6q6l4n665j4i43323035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-57">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3q413c5t4o4n4955545332645r433s4h6i6q6l4n665j4i43353035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-58">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3q493c5t4o4n4955545332645r433s4h6i6q6l4n665j4i43393035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-59">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3r413c5t4o4n4955545332645r433s4h6i6q6l4n665j4i44303035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-60">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3r433c5t4o4n4955545332645r433s4h6i6q6l4n665j4i44313035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-61">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3r473c5t4o4n4955545332645r433s4h6i6q6l4n665j4i44333035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-62">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3s433c5t4o4n4955545332645r433s4h6i6q6l4n665j4i44363035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-63">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3t413c5t4o4n4955545332645r433s4h6i6q6l4n665j4i45303035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-64">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3t453c5t4o4n4955545332645r433s4h6i6q6l4n665j4i45323035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-65">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3t493c5t4o4n4955545332645r433s4h6i6q6l4n665j4i45343035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-66">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3k453c5t4o4n4955545332645r433s4h6i6q6l4n665j4i45373035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-67">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3l473c5t4o4n4955545332645r433s4h6i6q6l4n665j4i46333035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-68">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3l493c5t4o4n4955545332645r433s4h6i6q6l4n665j4i46343035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-69">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3m413c5t4o4n4955545332645r433s4h6i6q6l4n665j4i46353035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-70">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3m453c5t4o4n4955545332645r433s4h6i6q6l4n665j4i46373035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-71">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3m493c525k4a595q49533j6r4o49555j6c6h6n4i433m4j4130505s4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-72">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n453c525k4a595q49533j6r4o49555j6c6h6n4i433m4m4130505s4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-73">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3m413c525o4356535a53386n445r433l4j4k4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-74">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3m433c525o4356535a53386n445r433l4j4l4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-75">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3m453c525o4356535a53386n445r433l4j4m4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-76">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3m473c525o4356535a53386n445r433l4j4n4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-77">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n473c525o4356535a53386n445r433l4j4s4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-78">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o473c525o4356535a53386n445r433l4k4n4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-79">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p473c525o4356535a53386n445r433l4k4s4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-80">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r473c525o4356535a53386n445r433l4l4s4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-81">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3s473c525o4356535a53386n445r433l4m4n4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-82">https://crowdin.com/s/wrap/d3e373e3j483v6b383k493c525o4356535a53386n445r433l4n4o4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-83">https://crowdin.com/s/wrap/d3e373e3j483v6b383l413c525o4356535a53386n445r433l4n4p4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-84">https://crowdin.com/s/wrap/d3e373e3j483v6b383m413c525o4356535a53386n445r433l4o4k4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-85">https://crowdin.com/s/wrap/d3e373e3j483v6b383o413c525o4356535a53386n445r433l4p4k4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-86">https://crowdin.com/s/wrap/d3e373e3j483v6b383o433c525o4356535a53386n445r433l4p4l4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-87">https://crowdin.com/s/wrap/d3e373e3j483v6b383r493c525o445b5i4t433j655b5n4a5e6i6h6t2l433t4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-88">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3q413c585k435s4u2l4v476s4s485r4j6n6g403l4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-89">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3q453c585k435s4u2l4v476s4s485r4j6n6g403m433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-90">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3q493c585k435s4u2l4v476s4s485r4j6n6g403m453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-91">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3r433c585k435s4u2l4v476s4s485r4j6n6g403m473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-92">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3r473c585k435s4u2l4v476s4s485r4j6n6g403m493k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-93">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3s413c585k435s4u2l4v476s4s485r4j6n6g403m4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-94">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3s453c585k435s4u2l4v476s4s485r4j6n6g403n433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-95">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3s493c585k435s4u2l4v476s4s485r4j6n6g403n453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-96">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3t433c585k435s4u2l4v476s4s485r4j6n6g403n473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-97">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3t473c585k435s4u2l4v476s4s485r4j6n6g403n493k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-98">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m433c585k435s4u2l4v476s4s485r4j6n6g403o4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-99">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m453c595r4r46535a533g6s44335v4j676g403l443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-100">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m473c595r4r46535a533g6s44335v4j676g403l453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-101">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3m493c595r4r46535a533g6s44335v4j676g403l463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-102">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3n413c595r4r46535a533g6s44335v4j676g403l473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-103">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3n473c595r4r46535a533g6s44335v4j676g403l4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-104">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3n493c595r4r46535a533g6s44335v4j676g403l4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-105">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3q413c595r4r46535a533g6s44335v4j676g403m4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-106">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3q453c595r4r46535a533g6s44335v4j676g403n443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-107">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3q473c595r4r46535a533g6s44335v4j676g403n453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-108">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3r493c595r4r46535a533g6s44335v4j676g403n4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-109">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3s413c595r4r46535a533g6s44335v4j676g403n4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-110">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3s473c595r4r46535a533g6s44335v4j676g403o453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-111">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3s493c595r4r46535a533g6s44335v4j676g403o463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-112">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3t473c595r4r46535a533g6s44335v4j676g403o4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-113">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3k453c595r4r46535a533g6s44335v4j676g403p443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-114">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3k473c595r4r46535a533g6s44335v4j676g403p453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-115">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3l413c595r4r46535a533g6s44335v4j676g403p473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-116">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3m413c595r4r46535a533g6s44335v4j676g403p4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-117">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3n493c595r4r46535a533g6s44335v4j676g403q4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-118">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3o453c595r4r46535a533g6s44335v4j676g403r443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-119">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3o473c595r4r46535a533g6s44335v4j676g403r453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-120">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3o493c595r4r46535a533g6s44335v4j676g403r463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-121">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3p413c595r4r46535a533g6s44335v4j676g403r473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-122">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3p473c595r4r46535a533g6s44335v4j676g403r4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-123">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3p493c595r4r46535a533g6s44335v4j676g403r4b3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-124">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3q473c595r4r46535a533g6s44335v4j676g403s453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-125">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3q493c595r4r46535a533g6s44335v4j676g403s463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-126">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3r413c595r4r46535a533g6s44335v4j676g403s473k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-127">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3r433c595r4r46535a533g6s44335v4j676g403s483k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-128">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3r493c5955555u4u21363i4437545t4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-129">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3s433c5955555u4u21363k4437545t4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-130">https://crowdin.com/s/wrap/d3e373e3j483v6b3f3p413c5b525p4o4j4u263h473536545c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-131">https://crowdin.com/s/wrap/d3e373e3j483v6b3f3p433c5b525p4o4j4u263h483536545c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-132">https://crowdin.com/s/wrap/d3e373e3j483v6b3f3p453c5b525p4o4j4u263h493536545c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-133">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3q413c595r4r46535a533g6s44335v4j676g403r4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-134">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t453c5q4q435o4u2u4n4l6u44373a3n4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-135">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3s473c5q4q435o4u2u4n4l6u4437393t4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-136">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3l433c5q4q435o4u2u4n4l6u4436363m4h4j6u4c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-137">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3n453c595r4r46535a533g6s44335v4j676g403q493k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-138">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3m493c595r4r46535a533g6s44335v4j676g403q463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-139">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3m453c595r4r46535a533g6s44335v4j676g403q443k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-140">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3m433c595r4r46535a533g6s44335v4j676g403q433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-141">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3k493c595r4r46535a533g6s44335v4j676g403p463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-142">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3q493c595r4r46535a533g6s44335v4j676g403n463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-143">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3q433c595r4r46535a533g6s44335v4j676g403n433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-144">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3o473c595r4r46535a533g6s44335v4j676g403m453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-145">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3o433c595r4r46535a533g6s44335v4j676g403m433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-146">https://crowdin.com/s/wrap/d3e373e3j483v6b3b3o413c595r4r46535a533g6s44335v4j676g403l4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-147">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3t493c585k435s4u2l4v476s4s485r4j6n6g403n4a3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-148">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3p473c585k435s4u2l4v476s4s485r4j6n6g403l493k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-149">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3l453c595r4r46535a533g6s44335v4j676g403l4c3k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-150">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3l473c595r4r46535a533g6s44335v4j676g403m433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-151">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3m413c595r4r46535a533g6s44335v4j676g403m453k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-152">https://crowdin.com/s/wrap/d3e373e3j483v6a3f3t433c5t4o4n4955545332645r433s4h6i6q6l4n665j4i45313035525c6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-153">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3n473c595r4r46535a533g6s44335v4j676g403n433k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-154">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3o433c595r4r46535a533g6s44335v4j676g403n463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-155">https://crowdin.com/s/wrap/d3e373e3j483v6a3e3s433c595r4r46535a533g6s44335v4j676g403p463k4i615n4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-156">https://crowdin.com/s/wrap/d3e373e3j483v6b393r453c525o445b5i4t433j655b5n4a5e6i6h6t2l483r4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-157">https://crowdin.com/s/wrap/d3e373e3j483v6b383r433c525o445b5i4t433j655b5n4a5e6i6h6t2l433q4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-158">https://crowdin.com/s/wrap/d3e373e3j483v6b383q493c525o445b5i4t433j655b5n4a5e6i6h6t2l433o4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-159">https://crowdin.com/s/wrap/d3e373e3j483v6b383q473c525o445b5i4t433j655b5n4a5e6i6h6t2l433n4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-160">https://crowdin.com/s/wrap/d3e373e3j483v6b383r413c525o445b5i4t433j655b5n4a5e6i6h6t2l433p4g435u4p4?t=51325</context>
+          <context context-type="x-crowdin-screenshot-161">https://crowdin.com/s/wrap/d3e373e3j483v6b383n413c525o4356535a53386n445r433l4o4p4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-screenshot-162">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3q473c525o4356535a53386n445r433l4l4n4u2l615d6?t=51325</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51327" resname="close-button-text" approved="yes">
+        <source>Close</source>
+        <target state="final">Fechar</target>
+        <context-group purpose="information">
+          <context context-type="source">close-button-text
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51329" resname="general-footer" approved="yes">
+        <source>Click the button below or press &lt;b&gt;ANY KEY&lt;/b&gt; to continue</source>
+        <target state="final">Clique no botão abaixo ou pressione &lt;b&gt;QUALQUER TECLA&lt;/b&gt; para continuar</target>
+        <context-group purpose="information">
+          <context context-type="source">general-footer
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p473c5q4q435o4u2u4n4l6u4437383o4h4j6u4c6?t=51329</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b383q453c525o4356535a53386n445r433l4q4m4u2l615d6?t=51329</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o453c525o445b5i4t433j655b5n4a5e6i6h6t2l4c3m4g435u4p4?t=51329</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o473c585k435s4u2l4v476s4s485r4j6n6g403l443k4i615n4?t=51329</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6c383t473c5b525p4o4j4u273o4a3536545c6?t=51329</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51331" resname="instructions" approved="yes">
+        <source>instructions</source>
+        <target state="final">instruções</target>
+        <context-group purpose="information">
+          <context context-type="source">instructions
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51333" resname="general-encourage" approved="yes">
+        <source>Keep Going!</source>
+        <target state="final">Continue!</target>
+        <context-group purpose="information">
+          <context context-type="source">general-encourage
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51335" resname="feedbackCorrect" approved="yes">
+        <source>Great! That's right.</source>
+        <target state="final">Ótimo! Isso mesmo.</target>
+        <context-group purpose="information">
+          <context context-type="source">feedbackCorrect
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383o413c525o4356535a53386n445r433l4p4k4u2l615d6?t=51335</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52692" resname="feedback-not-quite-right" approved="yes">
+        <source>That's not quite right. Please try again.</source>
+        <target state="final">Isso não está correto. Por favor, tente novamente.</target>
+        <context-group purpose="information">
+          <context context-type="source">feedback-not-quite-right
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p433c5q4q435o4u2u4n4l6u4437383m4h4j6u4c6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p453c5q4q435o4u2u4n4l6u4437383n4h4j6u4c6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t413c5q4q435o4u2u4n4l6u44373a3l4h4j6u4c6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3n473c525o4356535a53386n445r433l4j4s4u2l615d6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3o473c525o4356535a53386n445r433l4k4n4u2l615d6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3p473c525o4356535a53386n445r433l4k4s4u2l615d6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3r473c525o4356535a53386n445r433l4l4s4u2l615d6?t=52692</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6b383m413c525o4356535a53386n445r433l4o4k4u2l615d6?t=52692</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51337" resname="feedback-try-again" approved="yes">
+        <source>Please try again!</source>
+        <target state="final">Por favor, tente novamente!</target>
+        <context-group purpose="information">
+          <context context-type="source">feedback-try-again
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51339" resname="feedback-good-job" approved="yes">
+        <source>Good job!</source>
+        <target state="final">Bom trabalho!</target>
+        <context-group purpose="information">
+          <context context-type="source">feedback-good-job
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51341" resname="feedback-nice-work" approved="yes">
+        <source>Nice work!</source>
+        <target state="final">Bom trabalho!</target>
+        <context-group purpose="information">
+          <context context-type="source">feedback-nice-work
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51343" resname="replay-button" approved="yes">
+        <source>Press the speaker button if you want the question repeated.</source>
+        <target state="final">Pressione o botão do alto-falante se quiser que a pergunta seja repetida.</target>
+        <context-group purpose="information">
+          <context context-type="source">replay-button
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51345" resname="general-fullscreen" approved="yes">
+        <source>Switch to full screen mode</source>
+        <target state="final">Mudar para o modo de tela cheia</target>
+        <context-group purpose="information">
+          <context context-type="source">general-fullscreen
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51347" resname="general-repeat-instructions" approved="yes">
+        <source>Looks like this is a little tricky! Let’s review the instructions.</source>
+        <target state="final">Parece que isso é um pouco complicado! Vamos rever as instruções.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-repeat-instructions
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51349" resname="general-keyboard-instructions" approved="yes">
+        <source>If you want to use your keyboard to answer a question, press the arrow key shown next to your choice.</source>
+        <target state="final">Se você quiser usar o teclado para responder a uma pergunta, pressione a tecla de seta mostrada ao lado da sua escolha.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-keyboard-instructions
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51351" resname="intro-finished" approved="yes">
+        <source>You've finished the instructions. Thank you!</source>
+        <target state="final">Você terminou as instruções. Obrigado!</target>
+        <context-group purpose="information">
+          <context context-type="source">intro-finished
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51353" resname="general-exit" approved="yes">
+        <source>Exit</source>
+        <target state="final">Sair</target>
+        <context-group purpose="information">
+          <context context-type="source">general-exit
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3p473c5q4q435o4u2u4n4l6u4437383o4h4j6u4c6?t=51353</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b383q453c525o4356535a53386n445r433l4q4m4u2l615d6?t=51353</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o453c525o445b5i4t433j655b5n4a5e6i6h6t2l4c3m4g435u4p4?t=51353</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o473c585k435s4u2l4v476s4s485r4j6n6g403l443k4i615n4?t=51353</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6c383t473c5b525p4o4j4u273o4a3536545c6?t=51353</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52694" resname="task-completion" approved="yes">
+        <source>You've completed this game. Thank you!</source>
+        <target state="final">Você completou este jogo. Obrigado!</target>
+        <context-group purpose="information">
+          <context context-type="source">task-completion
+</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52696" resname="general-your-turn" approved="yes">
+        <source>Nice job with the practice! Let's try some more on your own.</source>
+        <target state="final">Bom trabalho com a prática! Vamos tentar um pouco mais sozinho.</target>
+        <context-group purpose="information">
+          <context context-type="source">general-your-turn
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3a3t473c5q4q435o4u2u4n4l6u44373a3p4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3o473c5q4q435o4u2u4n4l6u4436373t4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3r453c5q4q435o4u2u4n4l6u4436393n4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3k473c5q4q435o4u2u4n4l6u44363a3t4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3l433c5q4q435o4u2u4n4l6u44363b3m4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3o433c5q4q435o4u2u4n4l6u44363c3r4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3p413c5q4q435o4u2u4n4l6u44363d3l4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3m493c5q4q435o4u2u4n4l6u4437363u4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3r433c5q4q435o4u2u4n4l6u4437393m4h4j6u4c6?t=52696</context>
+          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n453c525k4a595q49533j6r4o49555j6c6h6n4i433m4m4130505s4?t=52696</context>
+          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6b383r493c525o445b5i4t433j655b5n4a5e6i6h6t2l433t4g435u4p4?t=52696</context>
+          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6b3c3s433c5955555u4u21363k4437545t4?t=52696</context>
+          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6c393k433c5955555u4u21363k4437545t4?t=52696</context>
+          <context context-type="x-crowdin-label">general</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51357" resname="matrix-reasoning-instruct1" approved="yes">
+        <source>We’re going to show you a puzzle, and your job is to pick the best piece to complete the puzzle. Let's get started!</source>
+        <target state="final">Vamos mostrar um quebra-cabeça e seu trabalho é escolher a melhor peça para completá-lo. Vamos começar!</target>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3m493c525k4a595q49533j6r4o49555j6c6h6n4i433m4j4130505s4?t=51357</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51359" resname="matrix-reasoning-instruct2" approved="yes">
+        <source>See this big puzzle? It's missing a piece! Which piece goes in the puzzle?</source>
+        <target state="final">Vê este grande quebra-cabeça? Está faltando uma peça! Qual peça vai no quebra-cabeça?</target>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct2
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n413c525k4a595q49533j6r4o49555j6c6h6n4i433m4k4130505s4?t=51359</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51361" resname="matrix-reasoning-prompt1" approved="yes">
+        <source>Choose the best pattern to fill in the blank.</source>
+        <target state="final">Escolha o melhor padrão para preencher o espaço em branco.</target>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-prompt1
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n433c525k4a595q49533j6r4o49555j6c6h6n4i433m4l4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n473c525k4a595q49533j6r4o49555j6c6h6n4i433m4n4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3n493c525k4a595q49533j6r4o49555j6c6h6n4i433m4o4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3o413c525k4a595q49533j6r4o49555j6c6h6n4i433m4p4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3o433c525k4a595q49533j6r4o49555j6c6h6n4i433m4q4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3o453c525k4a595q49533j6r4o49555j6c6h6n4i433m4r4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3o473c525k4a595q49533j6r4o49555j6c6h6n4i433n4i4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3o493c525k4a595q49533j6r4o49555j6c6h6n4i433n4j4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3p413c525k4a595q49533j6r4o49555j6c6h6n4i433n4k4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3p433c525k4a595q49533j6r4o49555j6c6h6n4i433n4l4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3p453c525k4a595q49533j6r4o49555j6c6h6n4i433n4m4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3p473c525k4a595q49533j6r4o49555j6c6h6n4i433n4n4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3p493c525k4a595q49533j6r4o49555j6c6h6n4i433n4o4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3q413c525k4a595q49533j6r4o49555j6c6h6n4i433n4p4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-15">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3q433c525k4a595q49533j6r4o49555j6c6h6n4i433n4q4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-16">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3q453c525k4a595q49533j6r4o49555j6c6h6n4i433n4r4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-17">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3q473c525k4a595q49533j6r4o49555j6c6h6n4i433o4i4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-18">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3q493c525k4a595q49533j6r4o49555j6c6h6n4i433o4j4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-19">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3r413c525k4a595q49533j6r4o49555j6c6h6n4i433o4k4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-20">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3r433c525k4a595q49533j6r4o49555j6c6h6n4i433o4l4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-21">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3r453c525k4a595q49533j6r4o49555j6c6h6n4i433o4m4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-22">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3r473c525k4a595q49533j6r4o49555j6c6h6n4i433o4n4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-23">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3r493c525k4a595q49533j6r4o49555j6c6h6n4i433o4o4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-24">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3s413c525k4a595q49533j6r4o49555j6c6h6n4i433o4p4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-25">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3s433c525k4a595q49533j6r4o49555j6c6h6n4i433o4q4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-26">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3s453c525k4a595q49533j6r4o49555j6c6h6n4i433o4r4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-27">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3s473c525k4a595q49533j6r4o49555j6c6h6n4i433p4i4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-28">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3s493c525k4a595q49533j6r4o49555j6c6h6n4i433p4j4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-29">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3t413c525k4a595q49533j6r4o49555j6c6h6n4i433p4k4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-30">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3t433c525k4a595q49533j6r4o49555j6c6h6n4i433p4l4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-31">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3t453c525k4a595q49533j6r4o49555j6c6h6n4i433p4m4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-32">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3t473c525k4a595q49533j6r4o49555j6c6h6n4i433p4n4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-33">https://crowdin.com/s/wrap/d3e373e3j483v6a3g3t493c525k4a595q49533j6r4o49555j6c6h6n4i433p4o4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-34">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k413c525k4a595q49533j6r4o49555j6c6h6n4i433p4p4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-35">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k433c525k4a595q49533j6r4o49555j6c6h6n4i433p4q4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-36">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k453c525k4a595q49533j6r4o49555j6c6h6n4i433p4r4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-37">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k473c525k4a595q49533j6r4o49555j6c6h6n4i433q4i4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-38">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l413c525k4a595q49533j6r4o49555j6c6h6n4i433q4k4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-39">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l433c525k4a595q49533j6r4o49555j6c6h6n4i433q4l4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-40">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l453c525k4a595q49533j6r4o49555j6c6h6n4i433q4m4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-41">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l473c525k4a595q49533j6r4o49555j6c6h6n4i433q4n4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-42">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3l493c525k4a595q49533j6r4o49555j6c6h6n4i433q4o4130505s4?t=51361</context>
+          <context context-type="x-crowdin-screenshot-43">https://crowdin.com/s/wrap/d3e373e3j483v6a3h3k493c525k4a595q49533j6r4o49555j6c6h6n4i433q4j4130505s4?t=51361</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51363" resname="mental-rotation-instruct1" approved="yes">
+        <source>Do you see these two outlines? One goes with this shape. Let’s see which one goes with the shape.</source>
+        <target state="final">Você vê esses dois contornos? Um vai com essa forma. Vamos ver qual vai com a forma.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r433c525o445b5i4t433j655b5n4a5e6i6h6t2l433q4g435u4p4?t=51363</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51365" resname="mental-rotation-training-instruct2" approved="yes">
+        <source>Let's see if this shape goes with the outline. This shape doesn’t go with the outline.</source>
+        <target state="final">Vamos ver se essa forma vai com o contorno. Essa forma não vai com o contorno.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-training-instruct2
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383q493c525o445b5i4t433j655b5n4a5e6i6h6t2l433o4g435u4p4?t=51365</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51367" resname="mental-rotation-training-instruct3" approved="yes">
+        <source>Let's see if this shape goes with the outline. This shape does go with the outline.</source>
+        <target state="final">Vamos ver se essa forma vai com o contorno. Essa forma vai com o contorno.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-training-instruct3
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383q473c525o445b5i4t433j655b5n4a5e6i6h6t2l433n4g435u4p4?t=51367</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51369" resname="mental-rotation-test-instruct4" approved="yes">
+        <source>Now you try! Can you find the shape that goes with the outline?</source>
+        <target state="final">Agora é sua vez! Você pode encontrar a forma que vai com o contorno?</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-test-instruct4
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r413c525o445b5i4t433j655b5n4a5e6i6h6t2l433p4g435u4p4?t=51369</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51371" resname="mental-rotation-instruct-3D" approved="yes">
+        <source>Now you will see pictures that show blocks with three sides. Your task is to choose the matching picture.</source>
+        <target state="final">Agora você verá imagens que mostram blocos com três lados. Sua tarefa é escolher a imagem correspondente.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-instruct-3D
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b393r453c525o445b5i4t433j655b5n4a5e6i6h6t2l483r4g435u4p4?t=51371</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51373" resname="mental-rotation-prompt2" approved="yes">
+        <source>Choose the picture that matches this one.</source>
+        <target state="final">Escolha a imagem que corresponde a esta.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-prompt2
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6b383r453c525o445b5i4t433j655b5n4a5e6i6h6t2l433r4g435u4p4?t=51373</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51375" resname="mental-rotation-prompt1" approved="yes">
+        <source>Choose the matching picture.</source>
+        <target state="final">Escolha a imagem correspondente.</target>
+        <context-group purpose="information">
+          <context context-type="source">mental-rotation-prompt1
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6b383r473c525o445b5i4t433j655b5n4a5e6i6h6t2l433s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6b383s413c525o445b5i4t433j655b5n4a5e6i6h6t2l433u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6b383s433c525o445b5i4t433j655b5n4a5e6i6h6t2l433v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6b383s453c525o445b5i4t433j655b5n4a5e6i6h6t2l443m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6b383s473c525o445b5i4t433j655b5n4a5e6i6h6t2l443n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6b383s493c525o445b5i4t433j655b5n4a5e6i6h6t2l443o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6b383t413c525o445b5i4t433j655b5n4a5e6i6h6t2l443p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-8">https://crowdin.com/s/wrap/d3e373e3j483v6b383t433c525o445b5i4t433j655b5n4a5e6i6h6t2l443q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-9">https://crowdin.com/s/wrap/d3e373e3j483v6b383t453c525o445b5i4t433j655b5n4a5e6i6h6t2l443r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-10">https://crowdin.com/s/wrap/d3e373e3j483v6b383t473c525o445b5i4t433j655b5n4a5e6i6h6t2l443s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-11">https://crowdin.com/s/wrap/d3e373e3j483v6b383t493c525o445b5i4t433j655b5n4a5e6i6h6t2l443t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-12">https://crowdin.com/s/wrap/d3e373e3j483v6b393k413c525o445b5i4t433j655b5n4a5e6i6h6t2l443u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-13">https://crowdin.com/s/wrap/d3e373e3j483v6b393k433c525o445b5i4t433j655b5n4a5e6i6h6t2l443v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-14">https://crowdin.com/s/wrap/d3e373e3j483v6b393k453c525o445b5i4t433j655b5n4a5e6i6h6t2l453m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-15">https://crowdin.com/s/wrap/d3e373e3j483v6b393k473c525o445b5i4t433j655b5n4a5e6i6h6t2l453n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-16">https://crowdin.com/s/wrap/d3e373e3j483v6b393k493c525o445b5i4t433j655b5n4a5e6i6h6t2l453o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-17">https://crowdin.com/s/wrap/d3e373e3j483v6b393l413c525o445b5i4t433j655b5n4a5e6i6h6t2l453p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-18">https://crowdin.com/s/wrap/d3e373e3j483v6b393l433c525o445b5i4t433j655b5n4a5e6i6h6t2l453q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-19">https://crowdin.com/s/wrap/d3e373e3j483v6b393l453c525o445b5i4t433j655b5n4a5e6i6h6t2l453r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-20">https://crowdin.com/s/wrap/d3e373e3j483v6b393l473c525o445b5i4t433j655b5n4a5e6i6h6t2l453s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-21">https://crowdin.com/s/wrap/d3e373e3j483v6b393l493c525o445b5i4t433j655b5n4a5e6i6h6t2l453t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-22">https://crowdin.com/s/wrap/d3e373e3j483v6b393m413c525o445b5i4t433j655b5n4a5e6i6h6t2l453u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-23">https://crowdin.com/s/wrap/d3e373e3j483v6b393m433c525o445b5i4t433j655b5n4a5e6i6h6t2l453v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-24">https://crowdin.com/s/wrap/d3e373e3j483v6b393m453c525o445b5i4t433j655b5n4a5e6i6h6t2l463m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-25">https://crowdin.com/s/wrap/d3e373e3j483v6b393m473c525o445b5i4t433j655b5n4a5e6i6h6t2l463n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-26">https://crowdin.com/s/wrap/d3e373e3j483v6b393m493c525o445b5i4t433j655b5n4a5e6i6h6t2l463o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-27">https://crowdin.com/s/wrap/d3e373e3j483v6b393n413c525o445b5i4t433j655b5n4a5e6i6h6t2l463p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-28">https://crowdin.com/s/wrap/d3e373e3j483v6b393n433c525o445b5i4t433j655b5n4a5e6i6h6t2l463q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-29">https://crowdin.com/s/wrap/d3e373e3j483v6b393n453c525o445b5i4t433j655b5n4a5e6i6h6t2l463r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-30">https://crowdin.com/s/wrap/d3e373e3j483v6b393n473c525o445b5i4t433j655b5n4a5e6i6h6t2l463s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-31">https://crowdin.com/s/wrap/d3e373e3j483v6b393n493c525o445b5i4t433j655b5n4a5e6i6h6t2l463t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-32">https://crowdin.com/s/wrap/d3e373e3j483v6b393o413c525o445b5i4t433j655b5n4a5e6i6h6t2l463u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-33">https://crowdin.com/s/wrap/d3e373e3j483v6b393o433c525o445b5i4t433j655b5n4a5e6i6h6t2l463v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-34">https://crowdin.com/s/wrap/d3e373e3j483v6b393o453c525o445b5i4t433j655b5n4a5e6i6h6t2l473m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-35">https://crowdin.com/s/wrap/d3e373e3j483v6b393o473c525o445b5i4t433j655b5n4a5e6i6h6t2l473n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-36">https://crowdin.com/s/wrap/d3e373e3j483v6b393o493c525o445b5i4t433j655b5n4a5e6i6h6t2l473o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-37">https://crowdin.com/s/wrap/d3e373e3j483v6b393p413c525o445b5i4t433j655b5n4a5e6i6h6t2l473p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-38">https://crowdin.com/s/wrap/d3e373e3j483v6b393p433c525o445b5i4t433j655b5n4a5e6i6h6t2l473q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-39">https://crowdin.com/s/wrap/d3e373e3j483v6b393p453c525o445b5i4t433j655b5n4a5e6i6h6t2l473r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-40">https://crowdin.com/s/wrap/d3e373e3j483v6b393p473c525o445b5i4t433j655b5n4a5e6i6h6t2l473s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-41">https://crowdin.com/s/wrap/d3e373e3j483v6b393p493c525o445b5i4t433j655b5n4a5e6i6h6t2l473t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-42">https://crowdin.com/s/wrap/d3e373e3j483v6b393q413c525o445b5i4t433j655b5n4a5e6i6h6t2l473u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-43">https://crowdin.com/s/wrap/d3e373e3j483v6b393q433c525o445b5i4t433j655b5n4a5e6i6h6t2l473v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-44">https://crowdin.com/s/wrap/d3e373e3j483v6b393q453c525o445b5i4t433j655b5n4a5e6i6h6t2l483m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-45">https://crowdin.com/s/wrap/d3e373e3j483v6b393q473c525o445b5i4t433j655b5n4a5e6i6h6t2l483n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-46">https://crowdin.com/s/wrap/d3e373e3j483v6b393q493c525o445b5i4t433j655b5n4a5e6i6h6t2l483o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-47">https://crowdin.com/s/wrap/d3e373e3j483v6b393r433c525o445b5i4t433j655b5n4a5e6i6h6t2l483q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-48">https://crowdin.com/s/wrap/d3e373e3j483v6b393r473c525o445b5i4t433j655b5n4a5e6i6h6t2l483s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-49">https://crowdin.com/s/wrap/d3e373e3j483v6b393r493c525o445b5i4t433j655b5n4a5e6i6h6t2l483t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-50">https://crowdin.com/s/wrap/d3e373e3j483v6b393s413c525o445b5i4t433j655b5n4a5e6i6h6t2l483u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-51">https://crowdin.com/s/wrap/d3e373e3j483v6b393s433c525o445b5i4t433j655b5n4a5e6i6h6t2l483v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-52">https://crowdin.com/s/wrap/d3e373e3j483v6b393s453c525o445b5i4t433j655b5n4a5e6i6h6t2l493m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-53">https://crowdin.com/s/wrap/d3e373e3j483v6b393s473c525o445b5i4t433j655b5n4a5e6i6h6t2l493n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-54">https://crowdin.com/s/wrap/d3e373e3j483v6b393s493c525o445b5i4t433j655b5n4a5e6i6h6t2l493o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-55">https://crowdin.com/s/wrap/d3e373e3j483v6b393t413c525o445b5i4t433j655b5n4a5e6i6h6t2l493p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-56">https://crowdin.com/s/wrap/d3e373e3j483v6b393t433c525o445b5i4t433j655b5n4a5e6i6h6t2l493q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-57">https://crowdin.com/s/wrap/d3e373e3j483v6b393t453c525o445b5i4t433j655b5n4a5e6i6h6t2l493r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-58">https://crowdin.com/s/wrap/d3e373e3j483v6b393t473c525o445b5i4t433j655b5n4a5e6i6h6t2l493s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-59">https://crowdin.com/s/wrap/d3e373e3j483v6b393t493c525o445b5i4t433j655b5n4a5e6i6h6t2l493t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-60">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3k413c525o445b5i4t433j655b5n4a5e6i6h6t2l493u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-61">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3k433c525o445b5i4t433j655b5n4a5e6i6h6t2l493v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-62">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3k453c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-63">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3k473c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-64">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3k493c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-65">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3l413c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-66">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3l433c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-67">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3l453c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-68">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3l473c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-69">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3l493c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-70">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m413c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-71">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m433c525o445b5i4t433j655b5n4a5e6i6h6t2l4a3v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-72">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m453c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3m4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-73">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3n413c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-74">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3n433c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3q4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-75">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3n453c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3r4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-76">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3n473c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3s4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-77">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3n493c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3t4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-78">https://crowdin.com/s/wrap/d3e373e3j483v6b393r413c525o445b5i4t433j655b5n4a5e6i6h6t2l483p4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-79">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m493c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3o4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-80">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3m473c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3n4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-81">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o413c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3u4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-screenshot-82">https://crowdin.com/s/wrap/d3e373e3j483v6b3a3o433c525o445b5i4t433j655b5n4a5e6i6h6t2l4b3v4g435u4p4?t=51375</context>
+          <context context-type="x-crowdin-label-1">mental-rotation</context>
+          <context context-type="x-crowdin-label-2">Shape Rotation</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52698" resname="math-instructions1" approved="yes">
+        <source>In this game, you will do some math problems. Some will be like the ones you do in school and some will be a little different than what you do in school. 
+
+Some questions might be easy for you and some might be hard. That is okay! Please try your best and take your time. Most of the questions will have four choices. You choose the one you think is right. Let’s get started!</source>
+        <target state="final">Neste jogo, você fará alguns problemas de matemática. Alguns serão como os que você faz na escola e alguns serão um pouco diferentes do que você faz na escola. 
+
+Algumas perguntas podem ser fáceis para você e algumas podem ser difíceis. Está tudo bem! Por favor, faça o seu melhor e vá com calma. A maioria das perguntas terá quatro opções. Escolha a que você acha que está correta. Vamos começar!</target>
+        <context-group purpose="information">
+          <context context-type="source">math-instructions1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3l433c5q4q435o4u2u4n4l6u4436363m4h4j6u4c6?t=52698</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52684" resname="math-intro1" approved="yes">
+        <source>Here is the first section. Let's start with some practice!</source>
+        <target state="final">Aqui está a primeira seção. Vamos começar com um pouco de prática!</target>
+        <context-group purpose="information">
+          <context context-type="source">math-intro1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3o413c5q4q435o4u2u4n4l6u4436373q4h4j6u4c6?t=52684</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52700" resname="math-intro2" approved="yes">
+        <source>Here is another section. The first few are for practice.</source>
+        <target state="final">Aqui está outra seção. As primeiras são para prática.</target>
+        <context-group purpose="information">
+          <context context-type="source">math-intro2
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3r433c5q4q435o4u2u4n4l6u4436393m4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3s413c5q4q435o4u2u4n4l6u4436393q4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3t473c5q4q435o4u2u4n4l6u44363a3o4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3n453c5q4q435o4u2u4n4l6u44363c3n4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-5">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3o453c5q4q435o4u2u4n4l6u44363c3s4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-6">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3o413c5q4q435o4u2u4n4l6u4437373q4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-screenshot-7">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3t433c5q4q435o4u2u4n4l6u44373a3m4h4j6u4c6?t=52700</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52702" resname="math-intro-fractions" approved="yes">
+        <source>In this section sometimes you will add and sometimes you will subtract. Be sure to look carefully for the plus or minus sign. The first few are for practice.</source>
+        <target state="final">Nesta seção, às vezes você vai somar e às vezes vai subtrair. Certifique-se de olhar cuidadosamente os sinais de mais ou menos. As primeiras são para prática.</target>
+        <context-group purpose="information">
+          <context context-type="source">math-intro-fractions
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3s473c5q4q435o4u2u4n4l6u4437393t4h4j6u4c6?t=52702</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51379" resname="number-comparison-prompt1" approved="yes">
+        <source>Which number is larger?</source>
+        <target state="final">Qual número é maior?</target>
+        <context-group purpose="information">
+          <context context-type="source">number-comparison-prompt1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3m413c5q4q435o4u2u4n4l6u44363b3q4h4j6u4c6?t=51379</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51381" resname="number-comparison-prompt2" approved="yes">
+        <source>Which is larger?</source>
+        <target state="final">Qual é maior?</target>
+        <context-group purpose="information">
+          <context context-type="source">number-comparison-prompt2
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3p493c5q4q435o4u2u4n4l6u4436383p4h4j6u4c6?t=51381</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3p473c5q4q435o4u2u4n4l6u4436383o4h4j6u4c6?t=51381</context>
+          <context context-type="x-crowdin-screenshot-3">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3q473c5q4q435o4u2u4n4l6u4436383t4h4j6u4c6?t=51381</context>
+          <context context-type="x-crowdin-screenshot-4">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3q453c5q4q435o4u2u4n4l6u4436383s4h4j6u4c6?t=51381</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51383" resname="number-identification-prompt1" approved="yes">
+        <source>Choose the number you hear.</source>
+        <target state="final">Escolha o número que você ouvir.</target>
+        <context-group purpose="information">
+          <context context-type="source">number-identification-prompt1
+</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51385" resname="missing-number-prompt1" approved="yes">
+        <source>What number goes in the blank?</source>
+        <target state="final">Qual número vai no espaço em branco?</target>
+        <context-group purpose="information">
+          <context context-type="source">missing-number-prompt1
+</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51387" resname="missing-number-prompt2" approved="yes">
+        <source>What number goes here?</source>
+        <target state="final">Qual número vai aqui?</target>
+        <context-group purpose="information">
+          <context context-type="source">missing-number-prompt2
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3p433c5q4q435o4u2u4n4l6u4436383m4h4j6u4c6?t=51387</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3q413c5q4q435o4u2u4n4l6u4436383q4h4j6u4c6?t=51387</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52704" resname="missing-number-prompt3" approved="yes">
+        <source>What numbers go in the blanks?</source>
+        <target state="final">Quais números vão nos espaços em branco?</target>
+        <context-group purpose="information">
+          <context context-type="source">missing-number-prompt3
+</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51389" resname="addition-prompt1" approved="yes">
+        <source>Add the numbers and choose the correct answer.</source>
+        <target state="final">Adicione os números e escolha a resposta correta.</target>
+        <context-group purpose="information">
+          <context context-type="source">addition-prompt1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3s493c5q4q435o4u2u4n4l6u4437393u4h4j6u4c6?t=51389</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51391" resname="addition-prompt2" approved="yes">
+        <source>Add the numbers.</source>
+        <target state="final">Adicione os números.</target>
+        <context-group purpose="information">
+          <context context-type="source">addition-prompt2
+</context>
+          <context context-type="x-crowdin-screenshot-1">https://crowdin.com/s/wrap/d3e373e3j483v6a3b3p453c5q4q435o4u2u4n4l6u4436383n4h4j6u4c6?t=51391</context>
+          <context context-type="x-crowdin-screenshot-2">https://crowdin.com/s/wrap/d3e373e3j483v6a3d3s433c5q4q435o4u2u4n4l6u4437393r4h4j6u4c6?t=51391</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="51393" resname="subtraction-prompt1" approved="yes">
+        <source>Subtract the numbers and choose the correct answer.</source>
+        <target state="final">Subtraia os números e escolha a resposta correta.</target>
+        <context-group purpose="information">
+          <context context-type="source">subtraction-prompt1
+</context>
+          <context context-type="x-crowdin-screenshot">https://crowdin.com/s/wrap/d3e373e3j483v6a3c3s413c5q4q435o4u2u4n4l6u44363e3q4h4j6u4c6?t=51393</context>
+          <context context-type="x-crowdin-label">math</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52758" resname="hearts-and-flowers-try-again" approved="yes">
+        <source>That's not quite right. Please try again.</source>
+        <target state="final">Isso não está correto. Por favor, tente novamente.</target>
+        <context-group purpose="information">
+          <context context-type="source">hearts-and-flowers-try-again
+</context>
+          <context context-type="x-crowdin-label-1">hearts-and-flowers</context>
+          <context context-type="x-crowdin-label-2">Hearts &amp; Flowers</context>
+        </context-group>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
