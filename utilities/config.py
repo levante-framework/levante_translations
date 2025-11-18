@@ -27,6 +27,7 @@ LANGUAGE_CODES = {
   'Dutch': 'nl',
   'German (Switzerland)': 'de-CH',  # NEW
   'Spanish (Argentina)': 'es-AR',  # NEW
+  'Portuguese': 'pt-PT',  # NEW
 }
 
 def get_languages():
@@ -42,6 +43,7 @@ def get_languages():
         'German (Switzerland)': {'lang_code': 'de-CH', 'service': 'ElevenLabs', 'voice': 'Heidi factual (Standard German - with Swiss Accent)'},
         # Use an ElevenLabs Spanish voice available in the account (e.g., 'Sophia')
         'Spanish (Argentina)': {'lang_code': 'es-AR', 'service': 'ElevenLabs', 'voice': 'Sophia'},
+        'Portuguese': {'lang_code': 'pt-PT', 'service': 'ElevenLabs', 'voice': 'Antonio - Natural Portuguese'},
     }
 
     try:
