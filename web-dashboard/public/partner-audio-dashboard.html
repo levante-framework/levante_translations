@@ -690,19 +690,34 @@
                 }
 
                 try {
+                    // Use default Firebase app (initialized with admin config)
                     const auth = firebase.auth();
                     
                     // Listen for auth state changes
                     auth.onAuthStateChanged(async (user) => {
+                        console.log('Auth state changed, user:', user ? user.email : 'null');
+                        
                         if (!user) {
                             this.showAuthModal();
                             return;
+                        }
+
+                        // Hide auth modal and show dashboard
+                        const authContainerEl = document.getElementById('authContainer');
+                        const containerEl = document.querySelector('.container');
+                        if (authContainerEl) {
+                            authContainerEl.style.display = 'none';
+                        }
+                        if (containerEl) {
+                            containerEl.style.display = 'block';
                         }
 
                         // Get user claims to determine allowed language
                         const token = await user.getIdTokenResult();
                         const claims = token.claims || {};
                         const email = user.email || '';
+                        console.log('User claims:', claims);
+                        console.log('User email:', email);
                         
                         // Check if user is superadmin or has override email
                         // Superadmins and override emails get access to all languages
@@ -726,7 +741,8 @@
                                     'de': 'German',
                                     'fr-CA': 'French',
                                     'nl': 'Dutch',
-                                    'de-CH': 'German (Switzerland)'
+                                    'de-CH': 'German (Switzerland)',
+                                    'pt-PT': 'Portuguese'
                                 };
                                 this.allowedLanguage = langMap[claims.site_language] || null;
                             } else if (email.includes('@colombia') || email.includes('.co.') || email.includes('colombia')) {
@@ -734,17 +750,6 @@
                             } else if (email.includes('@argentina') || email.includes('.ar.') || email.includes('argentina')) {
                                 this.allowedLanguage = 'Spanish (Argentina)';
                             }
-                        }
-                        
-                        // Hide auth modal if authenticated
-                        const authContainer = document.getElementById('authContainer');
-                        if (authContainer) {
-                            authContainer.style.display = 'none';
-                        }
-                        
-                        const container = document.querySelector('.container');
-                        if (container) {
-                            container.style.display = 'block';
                         }
                     });
                     
@@ -759,13 +764,16 @@
                 }
             }
 
-            showAuthModal(errorMessage) {
+            showAuthModal(errorMessage = '') {
                 const authContainer = document.getElementById('authContainer');
+                const container = document.querySelector('.container');
+                
                 if (!authContainer) {
                     // Create auth modal if it doesn't exist
                     const modal = document.createElement('div');
                     modal.id = 'authContainer';
                     modal.className = 'auth-container';
+                    modal.style.display = 'flex';
                     modal.innerHTML = `
                         <div class="auth-modal">
                             <div class="auth-header">
@@ -791,6 +799,24 @@
                     });
                 } else {
                     authContainer.style.display = 'flex';
+                    if (container) {
+                        container.style.display = 'none';
+                    }
+                    
+                    // Ensure form handler is attached (in case it wasn't before)
+                    const authForm = document.getElementById('authForm');
+                    if (authForm) {
+                        // Remove existing handler by cloning form
+                        const newForm = authForm.cloneNode(true);
+                        authForm.parentNode.replaceChild(newForm, authForm);
+                        
+                        // Attach handler to new form
+                        document.getElementById('authForm').addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            await this.handleLogin();
+                        });
+                    }
+                    
                     if (errorMessage) {
                         const errorEl = document.getElementById('authError');
                         if (errorEl) {
@@ -805,6 +831,7 @@
                 const email = document.getElementById('emailInput').value;
                 const password = document.getElementById('passwordInput').value;
                 const errorEl = document.getElementById('authError');
+                const loginBtn = document.getElementById('loginBtn');
                 
                 if (!email || !password) {
                     if (errorEl) {
@@ -814,18 +841,47 @@
                     return;
                 }
                 
+                // Show loading state
+                if (loginBtn) {
+                    loginBtn.disabled = true;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+                }
+                if (errorEl) {
+                    errorEl.style.display = 'none';
+                }
+                
                 try {
                     if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
                         throw new Error('Firebase not initialized. Please configure Firebase authentication.');
                     }
                     
+                    // Use default Firebase app (initialized with admin config)
                     const auth = firebase.auth();
-                    await auth.signInWithEmailAndPassword(email, password);
-                    // Auth state change listener will handle the rest
+                    console.log('Attempting login with email:', email);
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    console.log('Login successful:', userCredential.user.email);
+                    // Auth state change listener will handle the rest (hiding modal, showing dashboard)
                 } catch (error) {
+                    console.error('Login error:', error);
                     if (errorEl) {
-                        errorEl.textContent = error.message || 'Login failed. Please try again.';
+                        let errorMessage = 'Login failed. Please try again.';
+                        if (error.code === 'auth/user-not-found') {
+                            errorMessage = 'No account found with this email.';
+                        } else if (error.code === 'auth/wrong-password') {
+                            errorMessage = 'Incorrect password.';
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorMessage = 'Invalid email address.';
+                        } else if (error.message) {
+                            errorMessage = error.message;
+                        }
+                        errorEl.textContent = errorMessage;
                         errorEl.style.display = 'block';
+                    }
+                } finally {
+                    // Restore button state
+                    if (loginBtn) {
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
                     }
                 }
             }
@@ -1737,26 +1793,51 @@
             }
         }
 
-        // Initialize Firebase (you'll need to configure this)
+        // Initialize Firebase with production admin config (hs-levante-admin-prod)
         let firebaseInitialized = false;
         function initFirebase() {
             if (firebaseInitialized || typeof firebase === 'undefined') return;
             
-            // Firebase config should be set via environment or config
-            // For now, we'll check if it's already initialized
             try {
-                if (!firebase.apps || firebase.apps.length === 0) {
-                    // Firebase not initialized - this is OK for development
-                    // Suppress console warning in production
-                    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-                        // Only log in development
+                // Production Firebase Admin config (hs-levante-admin-prod)
+                // From levante-dashboard/src/config/firebaseLevante.js
+                const firebaseConfig = {
+                    apiKey: "AIzaSyCcnmBCojjK0_Ia87f0SqclSOihhKVD3f8",
+                    authDomain: "hs-levante-admin-prod.firebaseapp.com",
+                    projectId: "hs-levante-admin-prod",
+                    storageBucket: "hs-levante-admin-prod.appspot.com",
+                    messagingSenderId: "348449903279",
+                    appId: "1:348449903279:web:a1b9dad734e2237c7ffa5a"
+                };
+                
+                // Check if Firebase is already initialized
+                if (firebase.apps && firebase.apps.length > 0) {
+                    // Check if default app is already the admin app
+                    const defaultApp = firebase.apps[0];
+                    if (defaultApp && defaultApp.options && defaultApp.options.projectId === 'hs-levante-admin-prod') {
+                        firebaseInitialized = true;
+                        console.log('Firebase already initialized with production admin config');
+                        return;
                     }
                 }
+                
+                // Initialize Firebase with production admin config (default app)
+                firebase.initializeApp(firebaseConfig);
                 firebaseInitialized = true;
+                
+                console.log('Firebase initialized with production admin config (hs-levante-admin-prod)');
             } catch (error) {
-                // Suppress Firebase initialization errors if not configured
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                    console.warn('Firebase not configured (development mode)');
+                // Handle duplicate app error gracefully
+                if (error.code === 'app/duplicate-app') {
+                    firebaseInitialized = true;
+                    console.log('Firebase already initialized');
+                } else {
+                    // Suppress Firebase initialization errors in development
+                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                        console.warn('Firebase initialization error (development mode):', error);
+                    } else {
+                        console.error('Firebase initialization failed:', error);
+                    }
                 }
             }
         }
@@ -1767,6 +1848,22 @@
             try {
                 initFirebase();
                 dashboard = new PartnerAudioDashboard();
+                
+                // Ensure static auth form has event handler attached
+                const staticAuthForm = document.getElementById('authForm');
+                if (staticAuthForm) {
+                    // Remove any existing handlers
+                    const newForm = staticAuthForm.cloneNode(true);
+                    staticAuthForm.parentNode.replaceChild(newForm, staticAuthForm);
+                    
+                    // Attach handler to static form
+                    document.getElementById('authForm').addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        if (dashboard && dashboard.handleLogin) {
+                            await dashboard.handleLogin();
+                        }
+                    });
+                }
             } catch (error) {
                 console.error('Failed to initialize dashboard:', error);
             }
