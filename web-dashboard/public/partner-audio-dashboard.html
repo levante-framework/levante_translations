@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Levante - Partner Audio Approval Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,7 +18,7 @@
 
         body {
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #fafafa;
+            background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
             min-height: 100vh;
             padding: 24px;
             color: #3f3f46;
@@ -26,42 +30,75 @@
             max-width: 1200px;
             margin: 0 auto;
             background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
             overflow: hidden;
             border: 1px solid #e4e4e7;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
         }
 
         .header {
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
             color: #3f3f46;
-            padding: 32px;
-            border-bottom: 1px solid #e4e4e7;
+            padding: 40px 32px;
+            border-bottom: 2px solid #e4e4e7;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-logo {
+            height: 48px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #da3d16 0%, #a22d10 100%);
+        }
+
+        .header-content {
+            flex: 1;
         }
 
         .header h1 {
             font-size: 1.75rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
             color: #27272a;
             display: flex;
             align-items: center;
             gap: 12px;
+            letter-spacing: -0.02em;
         }
 
         .header h1 i {
             color: #da3d16;
+            font-size: 1.5rem;
         }
 
         .header p {
             font-size: 0.95rem;
             color: #71717a;
             margin: 0;
+            font-weight: 500;
         }
 
         .controls {
             padding: 24px 32px;
-            background: #fafafa;
+            background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
             border-bottom: 1px solid #e4e4e7;
             display: flex;
             gap: 16px;
@@ -133,6 +170,124 @@
             border-color: #93c5fd;
         }
 
+        .approval-stats {
+            padding: 20px 32px;
+            background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
+            border-bottom: 1px solid #e4e4e7;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #71717a;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #27272a;
+        }
+
+        .stat-value.stat-approved {
+            color: #166534;
+        }
+
+        .stat-value.stat-pending {
+            color: #da3d16;
+        }
+
+        .item-card.approved {
+            opacity: 0.6;
+            background: #fafafa;
+        }
+
+        .item-card.approved:hover {
+            opacity: 0.8;
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .auth-modal {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .auth-header h2 {
+            margin: 0 0 8px 0;
+            color: #27272a;
+            font-size: 1.5rem;
+        }
+
+        .auth-header p {
+            margin: 0 0 24px 0;
+            color: #71717a;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d4d4d8;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #da3d16;
+            box-shadow: 0 0 0 3px rgba(218, 61, 22, 0.1);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #da3d16 0%, #a22d10 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .auth-error {
+            color: #991b1b;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
         .items-list {
             padding: 24px 32px;
         }
@@ -140,15 +295,34 @@
         .item-card {
             background: #ffffff;
             border: 1px solid #e4e4e7;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 16px;
-            transition: box-shadow 0.2s, border-color 0.2s;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #da3d16 0%, #a22d10 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .item-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: #d4d4d8;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.05);
+            border-color: #da3d16;
+            transform: translateY(-2px);
+        }
+
+        .item-card:hover::before {
+            opacity: 1;
         }
 
         .item-header {
@@ -160,10 +334,15 @@
         }
 
         .item-id {
-            font-weight: 600;
+            font-weight: 700;
             color: #da3d16;
             font-size: 14px;
             font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #da3d16 0%, #a22d10 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
         }
 
         .item-texts {
@@ -190,20 +369,26 @@
         .text-content {
             font-size: 15px;
             color: #27272a;
-            line-height: 1.6;
-            padding: 16px;
+            line-height: 1.7;
+            padding: 18px;
             background: #fafafa;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid #e4e4e7;
+            transition: all 0.2s ease;
+        }
+
+        .text-content:hover {
+            border-color: #d4d4d8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .text-content.source {
-            background: #eff6ff;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-color: #bfdbfe;
         }
 
         .text-content.translated {
-            background: #f0fdf4;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
             border-color: #bbf7d0;
         }
 
@@ -214,34 +399,38 @@
         }
 
         .btn {
-            padding: 10px 18px;
-            border: 1px solid #d4d4d8;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             text-decoration: none;
             font-family: inherit;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .btn-primary {
-            background: #da3d16;
+            background: linear-gradient(135deg, #da3d16 0%, #a22d10 100%);
             color: #ffffff;
             border-color: #da3d16;
         }
 
         .btn-primary:hover:not(:disabled) {
-            background: #a22d10;
+            background: linear-gradient(135deg, #a22d10 0%, #7a220c 100%);
             border-color: #a22d10;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(218, 61, 22, 0.3);
         }
 
         .btn-secondary {
@@ -253,17 +442,34 @@
         .btn-secondary:hover:not(:disabled) {
             background: #fafafa;
             border-color: #a1a1aa;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #166534 0%, #14532d 100%);
+            color: #ffffff;
+            border-color: #166534;
+        }
+
+        .btn-approve:hover:not(:disabled) {
+            background: linear-gradient(135deg, #14532d 0%, #0f3d1f 100%);
+            border-color: #14532d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(22, 101, 52, 0.3);
         }
 
         .btn-success {
-            background: #166534;
+            background: linear-gradient(135deg, #166534 0%, #14532d 100%);
             color: #ffffff;
             border-color: #166534;
         }
 
         .btn-success:hover:not(:disabled) {
-            background: #14532d;
+            background: linear-gradient(135deg, #14532d 0%, #0f3d1f 100%);
             border-color: #14532d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(22, 101, 52, 0.3);
         }
 
         .btn i {
@@ -334,10 +540,31 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Authentication Modal -->
+    <div class="auth-container" id="authContainer" style="display: none;">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2><i class="fas fa-shield-alt"></i> Partner Access Required</h2>
+                <p>Please sign in with your Levante partner account</p>
+            </div>
+            <form class="auth-form" id="authForm">
+                <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
+                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                <button type="submit" class="auth-button" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                <div id="authError" class="auth-error" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" style="display: none;">
         <div class="header">
-            <h1><i class="fas fa-microphone-alt"></i> Levante - Partner Audio Approval Tool</h1>
-            <p>Review and approve audio translations for your language</p>
+            <img src="./images/levante_icon.svg" alt="Levante" class="header-logo" onerror="this.src='https://levante-dashboard.web.app/levante_icon.svg'; this.onerror=function(){this.style.display='none';};">
+            <div class="header-content">
+                <h1><i class="fas fa-microphone-alt"></i> Levante - Partner Audio Approval Tool</h1>
+                <p>Review and approve audio translations for your language</p>
+            </div>
         </div>
 
         <div class="controls">
@@ -349,6 +576,20 @@
             </div>
         </div>
 
+        <div class="approval-stats" id="approvalStats" style="display: none;">
+            <div class="stat-item">
+                <span class="stat-label">Total Items</span>
+                <span class="stat-value" id="statTotal">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Approved</span>
+                <span class="stat-value stat-approved" id="statApproved">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Pending</span>
+                <span class="stat-value stat-pending" id="statPending">0</span>
+            </div>
+        </div>
         <div class="status" id="status">
             Select a language to begin
         </div>
@@ -367,12 +608,17 @@
             constructor() {
                 this.languages = {
                     'English': { lang_code: 'en', service: 'ElevenLabs', voice: 'Clara - Children\'s Storyteller' },
-                    'Spanish': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Malena Tango' },
+                    'Spanish (Colombia)': { lang_code: 'es-CO', service: 'ElevenLabs', voice: 'Malena Tango' },
+                    'Spanish (Argentina)': { lang_code: 'es-AR', service: 'ElevenLabs', voice: 'Malena Tango' },
                     'German': { lang_code: 'de', service: 'ElevenLabs', voice: 'Julia' },
                     'French': { lang_code: 'fr-CA', service: 'ElevenLabs', voice: 'Caroline - Top France - Narrative, warm, sweet' },
                     'Dutch': { lang_code: 'nl', service: 'ElevenLabs', voice: 'Emma - Natural conversations in Dutch' },
                     'German (Switzerland)': { lang_code: 'de-CH', service: 'ElevenLabs', voice: 'Julia' }
                 };
+                
+                this.allowedLanguage = null; // Will be set based on user's site
+                this.approvedItems = new Set(); // Track approved item IDs
+                this.approvalStats = { total: 0, approved: 0, pending: 0 };
                 
                 this.data = [];
                 this.currentLanguage = null;
@@ -384,6 +630,9 @@
             }
 
             async init() {
+                // Check authentication first
+                await this.checkAuth();
+                
                 // Ensure DOM is ready before populating
                 if (document.readyState === 'loading') {
                     await new Promise(resolve => {
@@ -398,13 +647,21 @@
                 // Small delay to ensure select element is rendered
                 await new Promise(resolve => setTimeout(resolve, 50));
                 
-                // Populate languages immediately (don't wait for data)
+                // If user has a restricted language, set it automatically
+                // (Superadmins/override emails will have allowedLanguage = null, so they can choose)
+                if (this.allowedLanguage) {
+                    this.currentLanguage = this.allowedLanguage;
+                    this.currentLangCode = this.languages[this.allowedLanguage].lang_code;
+                }
+                
+                // Populate languages (filtered if restricted)
                 this.populateLanguageSelect();
                 
                 this.setStatus('Loading translation data...', 'loading');
                 
                 try {
                     await this.loadData();
+                    await this.loadApprovalStatus();
                     this.setStatus('Ready - Select a language to begin', 'success');
                 } catch (error) {
                     console.error('Dashboard initialization error:', error);
@@ -412,18 +669,257 @@
                 }
             }
 
-            async loadData() {
+            async checkAuth() {
+                // Check if Firebase is available
+                if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
+                    // For development, allow access without auth
+                    // Suppress console warning in production
+                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                        console.warn('Firebase not initialized - allowing access for development');
+                    }
+                    const authContainer = document.getElementById('authContainer');
+                    if (authContainer) {
+                        authContainer.style.display = 'none';
+                    }
+                    const container = document.querySelector('.container');
+                    if (container) {
+                        container.style.display = 'block';
+                    }
+                    return;
+                }
+
                 try {
-                    const primaryUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+                    const auth = firebase.auth();
                     
-                    const response = await fetch(primaryUrl);
-                    if (!response.ok) {
-                        throw new Error(`Failed to load CSV: ${response.status}`);
+                    // Listen for auth state changes
+                    auth.onAuthStateChanged(async (user) => {
+                        if (!user) {
+                            this.showAuthModal();
+                            return;
+                        }
+
+                        // Get user claims to determine allowed language
+                        const token = await user.getIdTokenResult();
+                        const claims = token.claims || {};
+                        const email = user.email || '';
+                        
+                        // Check if user is superadmin or has override email
+                        // Superadmins and override emails get access to all languages
+                        const isSuperAdmin = claims.super_admin === true;
+                        const overrideEmails = ['david@example.com']; // Add override emails here
+                        const isOverrideEmail = overrideEmails.some(overrideEmail => 
+                            email.toLowerCase() === overrideEmail.toLowerCase()
+                        );
+                        
+                        if (isSuperAdmin || isOverrideEmail) {
+                            // Superadmins and override emails can access all languages
+                            this.allowedLanguage = null; // null means no restriction
+                        } else {
+                            // Regular partners: restrict to their language
+                            // Check custom claim first
+                            if (claims.site_language) {
+                                const langMap = {
+                                    'es-CO': 'Spanish (Colombia)',
+                                    'es-AR': 'Spanish (Argentina)',
+                                    'en': 'English',
+                                    'de': 'German',
+                                    'fr-CA': 'French',
+                                    'nl': 'Dutch',
+                                    'de-CH': 'German (Switzerland)'
+                                };
+                                this.allowedLanguage = langMap[claims.site_language] || null;
+                            } else if (email.includes('@colombia') || email.includes('.co.') || email.includes('colombia')) {
+                                this.allowedLanguage = 'Spanish (Colombia)';
+                            } else if (email.includes('@argentina') || email.includes('.ar.') || email.includes('argentina')) {
+                                this.allowedLanguage = 'Spanish (Argentina)';
+                            }
+                        }
+                        
+                        // Hide auth modal if authenticated
+                        const authContainer = document.getElementById('authContainer');
+                        if (authContainer) {
+                            authContainer.style.display = 'none';
+                        }
+                        
+                        const container = document.querySelector('.container');
+                        if (container) {
+                            container.style.display = 'block';
+                        }
+                    });
+                    
+                    // Check current user
+                    const user = auth.currentUser;
+                    if (!user) {
+                        this.showAuthModal();
+                    }
+                } catch (error) {
+                    console.error('Auth check error:', error);
+                    this.showAuthModal('Authentication error: ' + error.message);
+                }
+            }
+
+            showAuthModal(errorMessage) {
+                const authContainer = document.getElementById('authContainer');
+                if (!authContainer) {
+                    // Create auth modal if it doesn't exist
+                    const modal = document.createElement('div');
+                    modal.id = 'authContainer';
+                    modal.className = 'auth-container';
+                    modal.innerHTML = `
+                        <div class="auth-modal">
+                            <div class="auth-header">
+                                <h2><i class="fas fa-shield-alt"></i> Partner Access Required</h2>
+                                <p>Please sign in with your Levante partner account</p>
+                            </div>
+                            <form class="auth-form" id="authForm">
+                                <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
+                                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                                <button type="submit" class="auth-button" id="loginBtn">
+                                    <i class="fas fa-sign-in-alt"></i> Sign In
+                                </button>
+                                <div id="authError" class="auth-error" style="display: ${errorMessage ? 'block' : 'none'};">${errorMessage || ''}</div>
+                            </form>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                    
+                    // Setup form handler
+                    document.getElementById('authForm').addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        await this.handleLogin();
+                    });
+                } else {
+                    authContainer.style.display = 'flex';
+                    if (errorMessage) {
+                        const errorEl = document.getElementById('authError');
+                        if (errorEl) {
+                            errorEl.textContent = errorMessage;
+                            errorEl.style.display = 'block';
+                        }
+                    }
+                }
+            }
+
+            async handleLogin() {
+                const email = document.getElementById('emailInput').value;
+                const password = document.getElementById('passwordInput').value;
+                const errorEl = document.getElementById('authError');
+                
+                if (!email || !password) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Please enter email and password';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                try {
+                    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
+                        throw new Error('Firebase not initialized. Please configure Firebase authentication.');
                     }
                     
-                    const csvText = await response.text();
-                    this.data = this.parseCSV(csvText);
-                    console.log(`Loaded ${this.data.length} translation items`);
+                    const auth = firebase.auth();
+                    await auth.signInWithEmailAndPassword(email, password);
+                    // Auth state change listener will handle the rest
+                } catch (error) {
+                    if (errorEl) {
+                        errorEl.textContent = error.message || 'Login failed. Please try again.';
+                        errorEl.style.display = 'block';
+                    }
+                }
+            }
+
+            async loadApprovalStatus() {
+                try {
+                    const response = await fetch(`/api/list-draft-audio?prefix=deploy/${this.currentLangCode}/`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.items) {
+                            data.items.forEach(item => {
+                                if (item.approvedBySite) {
+                                    const baseId = item.itemId.replace(/_v\d{3}$/, '');
+                                    this.approvedItems.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Could not load approval status:', error);
+                }
+            }
+
+            updateApprovalStats(items) {
+                this.approvalStats.total = items.length;
+                this.approvalStats.approved = 0;
+                this.approvalStats.pending = 0;
+                
+                items.forEach(item => {
+                    const baseId = item.item_id.replace(/_v\d{3}$/, '');
+                    if (this.approvedItems.has(baseId)) {
+                        this.approvalStats.approved++;
+                    } else {
+                        this.approvalStats.pending++;
+                    }
+                });
+                
+                const statsEl = document.getElementById('approvalStats');
+                if (statsEl) {
+                    statsEl.style.display = 'flex';
+                    document.getElementById('statTotal').textContent = this.approvalStats.total;
+                    document.getElementById('statApproved').textContent = this.approvalStats.approved;
+                    document.getElementById('statPending').textContent = this.approvalStats.pending;
+                }
+            }
+
+            async loadData() {
+                try {
+                    // First, load all translation data from CSV
+                    const primaryUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+                    
+                    const csvResponse = await fetch(primaryUrl);
+                    if (!csvResponse.ok) {
+                        throw new Error(`Failed to load CSV: ${csvResponse.status}`);
+                    }
+                    
+                    const csvText = await csvResponse.text();
+                    const allItems = this.parseCSV(csvText);
+                    
+                    // Then, get list of items that have audio in levante-assets-draft bucket
+                    // This seeds the dashboard with items that have draft audio
+                    const params = new URLSearchParams({
+                        bucket: 'levante-assets-draft',
+                        prefix: 'audio/'
+                    });
+                    
+                    const audioResponse = await fetch(`/api/list-draft-audio?${params.toString()}`);
+                    if (!audioResponse.ok) {
+                        throw new Error(`Failed to load audio files: ${audioResponse.status}`);
+                    }
+                    
+                    const audioData = await audioResponse.json();
+                    const itemsWithAudio = new Set();
+                    
+                    // Extract item IDs from audio file paths
+                    if (audioData.items && Array.isArray(audioData.items)) {
+                        audioData.items.forEach(item => {
+                            const path = item.name || '';
+                            // Path format: audio/{langCode}/{itemId}.mp3 or audio/{langCode}/{itemId}_v###.mp3
+                            const match = path.match(/^audio\/([^\/]+)\/([^\/]+)\.mp3$/i);
+                            if (match) {
+                                const fileName = match[2];
+                                const baseId = fileName.replace(/_v\d{3}$/i, '');
+                                itemsWithAudio.add(baseId);
+                            }
+                        });
+                    }
+                    
+                    // Filter CSV items to only those that have audio in draft bucket
+                    this.data = allItems.filter(item => {
+                        const itemId = item.item_id || item.identifier || item.id || item.ID || item.Item_ID || '';
+                        return itemsWithAudio.has(itemId);
+                    });
+                    
+                    console.log(`Loaded ${this.data.length} items with audio from levante-assets-draft bucket (out of ${allItems.length} total items)`);
                 } catch (error) {
                     console.error('Failed to load translation data:', error);
                     throw error;
@@ -505,11 +1001,21 @@
                 // Add default option
                 const defaultOption = document.createElement('option');
                 defaultOption.value = '';
-                defaultOption.textContent = 'Select a language...';
+                defaultOption.textContent = this.allowedLanguage ? `Language: ${this.allowedLanguage}` : 'Select a language...';
                 select.appendChild(defaultOption);
                 
-                // Populate languages
-                const languageKeys = Object.keys(this.languages);
+                // Populate languages (filtered if restricted)
+                let languageKeys = Object.keys(this.languages);
+                if (this.allowedLanguage) {
+                    // User is restricted to one language
+                    languageKeys = [this.allowedLanguage];
+                    select.value = this.allowedLanguage;
+                    select.disabled = true;
+                } else {
+                    // Superadmin or override email - show all languages, dropdown enabled
+                    select.disabled = false;
+                }
+                
                 console.log('Populating languages:', languageKeys);
                 
                 if (languageKeys.length === 0) {
@@ -531,10 +1037,15 @@
                     this.selectLanguage(e.target.value);
                 });
                 
+                // Auto-select if restricted (but not for superadmins/override emails)
+                if (this.allowedLanguage && select.disabled) {
+                    this.selectLanguage(this.allowedLanguage);
+                }
+                
                 console.log(`Successfully populated ${languageKeys.length} languages in dropdown`);
             }
 
-            selectLanguage(language) {
+            async selectLanguage(language) {
                 if (!language || !this.languages[language]) {
                     this.currentLanguage = null;
                     this.currentLangCode = null;
@@ -546,13 +1057,83 @@
                 this.currentLangCode = this.languages[language].lang_code;
                 this.setStatus(`Loading items for ${language}...`, 'loading');
                 
-                const filtered = this.data.filter(item => {
+                // First filter by translation availability
+                const withTranslations = this.data.filter(item => {
                     const text = this.getTextForItem(item, this.currentLangCode);
                     return text && text.trim();
                 });
                 
-                this.renderItems(filtered);
-                this.setStatus(`Showing ${filtered.length} items for ${language}`, 'success');
+                // Then check which items have audio files
+                this.setStatus(`Checking audio availability for ${withTranslations.length} items...`, 'loading');
+                const itemsWithAudio = await this.filterItemsWithAudio(withTranslations);
+                
+                this.renderItems(itemsWithAudio);
+                this.setStatus(`Showing ${itemsWithAudio.length} items with audio for ${language}`, 'success');
+            }
+
+            async filterItemsWithAudio(items) {
+                // Filter items to:
+                // 1. Only show items that have audio in levante-assets-draft (pending approval)
+                // 2. Exclude items that are already in levante-assets-dev (approved and moved)
+                try {
+                    // Get approved items from levante-assets-dev (should be hidden)
+                    const devParams = new URLSearchParams({
+                        bucket: 'levante-assets-dev',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const devResponse = await fetch(`/api/list-draft-audio?${devParams.toString()}`);
+                    const approvedItems = new Set();
+                    
+                    if (devResponse.ok) {
+                        const devData = await devResponse.json();
+                        if (devData.items && Array.isArray(devData.items)) {
+                            devData.items.forEach(item => {
+                                const fileName = item.name.split('/').pop() || '';
+                                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                                if (baseId) {
+                                    approvedItems.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Get draft items from levante-assets-draft (should be shown)
+                    const draftParams = new URLSearchParams({
+                        bucket: 'levante-assets-draft',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const draftResponse = await fetch(`/api/list-draft-audio?${draftParams.toString()}`);
+                    const draftItems = new Set();
+                    
+                    if (draftResponse.ok) {
+                        const draftData = await draftResponse.json();
+                        if (draftData.items && Array.isArray(draftData.items)) {
+                            draftData.items.forEach(item => {
+                                const fileName = item.name.split('/').pop() || '';
+                                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                                if (baseId) {
+                                    draftItems.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Filter: show items that are in draft but NOT in dev (pending approval)
+                    const itemsWithAudio = items.filter(item => {
+                        const itemId = item.item_id || '';
+                        const baseId = itemId.replace(/_v\d{3}$/i, '');
+                        // Show if it's in draft bucket and not yet approved (not in dev bucket)
+                        return draftItems.has(baseId) && !approvedItems.has(baseId);
+                    });
+                    
+                    return itemsWithAudio;
+                } catch (error) {
+                    console.error('Error filtering items with audio:', error);
+                    // On error, return all items rather than none
+                    return items;
+                }
             }
 
             getTextForItem(item, langCode) {
@@ -583,8 +1164,12 @@
                     return;
                 }
                 
+                // Update approval stats
+                this.updateApprovalStats(items);
+                
                 container.innerHTML = items.map(item => {
                     const itemId = item.item_id || 'unknown';
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
                     const sourceText = item.en || item.english || '';
                     const translatedText = this.getTextForItem(item, this.currentLangCode);
                     const escapedItemId = this.escapeHtml(itemId);
@@ -601,8 +1186,10 @@
                         this.latestGeneratedAudio.langCode === this.currentLangCode
                     );
                     
+                    const isApproved = this.approvedItems.has(baseId);
+                    
                     return `
-                        <div class="item-card" data-item-id="${escapedItemId}">
+                        <div class="item-card ${isApproved ? 'approved' : ''}" data-item-id="${escapedItemId}">
                             <div class="item-header">
                                 <div class="item-id">${escapedItemId}</div>
                             </div>
@@ -620,11 +1207,14 @@
                                 <button class="btn btn-secondary" onclick="dashboard.playAudio('${escapedItemId}')" title="Play existing audio">
                                     <i class="fas fa-play"></i> Play
                                 </button>
+                                <button class="btn btn-approve" onclick="dashboard.approveAudio('${escapedItemId}')" title="Approve this audio for deployment">
+                                    <i class="fas fa-check-circle"></i> Approve
+                                </button>
                                 <button class="btn btn-primary" onclick="dashboard.regenerateAudio('${escapedItemId}')" title="Generate new audio">
                                     <i class="fas fa-arrows-rotate"></i> Regenerate
                                 </button>
-                                <button class="btn btn-success save-btn" data-item-id="${escapedItemId}" onclick="dashboard.saveAudio('${escapedItemId}')" ${isPending ? '' : 'disabled'} title="${isPending ? 'Save generated audio' : 'Generate audio before saving'}">
-                                    <i class="fas fa-floppy-disk"></i> Save
+                                <button class="btn btn-success save-btn" data-item-id="${escapedItemId}" onclick="dashboard.saveAudio('${escapedItemId}')" ${isPending ? '' : 'disabled'} title="${isPending ? 'Approve & save generated audio' : 'Generate audio before saving'}">
+                                    <i class="fas fa-check-circle"></i> Approve & Save
                                 </button>
                             </div>
                         </div>
@@ -649,7 +1239,7 @@
                         this.latestGeneratedAudio.langCode === this.currentLangCode
                     );
                     btn.disabled = !isPending;
-                    btn.title = isPending ? 'Save generated audio' : 'Generate audio before saving';
+                    btn.title = isPending ? 'Approve & save generated audio' : 'Generate audio before saving';
                 });
             }
 
@@ -657,17 +1247,56 @@
                 try {
                     this.setStatus(`Loading audio for ${itemId}...`, 'loading');
                     
-                    // Construct path: audio/{langCode}/{itemId}.mp3
-                    const path = `audio/${this.currentLangCode}/${itemId}.mp3`;
+                    // Play audio from levante-assets-draft bucket (where draft items are)
+                    // Path: audio/{langCode}/{itemId}.mp3 or audio/{langCode}/{itemId}_v###.mp3
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    let audioPath = null;
+                    
+                    // First, try to find the actual file in draft bucket
+                    try {
+                        const listParams = new URLSearchParams({
+                            bucket: 'levante-assets-draft',
+                            prefix: `audio/${this.currentLangCode}/${baseId}`
+                        });
+                        
+                        const listResponse = await fetch(`/api/list-draft-audio?${listParams.toString()}`);
+                        if (listResponse.ok) {
+                            const listData = await listResponse.json();
+                            if (listData.items && listData.items.length > 0) {
+                                // Get the most recent version
+                                const matchingFiles = listData.items.filter(item => {
+                                    const fileName = item.name.split('/').pop() || '';
+                                    return fileName.startsWith(baseId) && fileName.endsWith('.mp3');
+                                });
+                                
+                                if (matchingFiles.length > 0) {
+                                    matchingFiles.sort((a, b) => {
+                                        const dateA = new Date(a.updated || a.timeCreated || 0);
+                                        const dateB = new Date(b.updated || b.timeCreated || 0);
+                                        return dateB - dateA;
+                                    });
+                                    audioPath = matchingFiles[0].name;
+                                }
+                            }
+                        }
+                    } catch (listError) {
+                        console.warn('Could not list audio files for playback', listError);
+                    }
+                    
+                    // Fallback to default path if not found
+                    if (!audioPath) {
+                        audioPath = `audio/${this.currentLangCode}/${itemId}.mp3`;
+                    }
+                    
                     const params = new URLSearchParams({
                         bucket: 'levante-assets-draft',
-                        path: path
+                        path: audioPath
                     });
                     
                     const response = await fetch(`/api/get-draft-audio?${params.toString()}`);
                     
                     if (!response.ok) {
-                        throw new Error('Audio not found');
+                        throw new Error('Audio not found in levante-assets-draft bucket');
                     }
                     
                     const blob = await response.blob();
@@ -688,7 +1317,7 @@
                     this.setStatus(`Playing audio for ${itemId}...`, 'success');
                 } catch (error) {
                     console.error('Play audio error:', error);
-                    this.setStatus(`No audio found for ${itemId}. Generate audio first.`, 'error');
+                    this.setStatus(`No audio found for ${itemId} in levante-assets-dev. Generate audio first.`, 'error');
                 }
             }
 
@@ -746,14 +1375,34 @@
                 }
             }
 
+            getCredentials() {
+                // Get credentials from localStorage (same as main dashboard)
+                try {
+                    return JSON.parse(localStorage.getItem('levante_credentials') || '{}');
+                } catch (error) {
+                    return {};
+                }
+            }
+
             async getVoiceId(voiceName) {
                 // Try to load voices from API if available, otherwise use fallback mapping
                 try {
+                    // Try with credentials first (for users who have saved their key)
+                    const credentials = this.getCredentials();
+                    const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                    
+                    const headers = {
+                        'Content-Type': 'application/json'
+                    };
+                    
+                    // Add API key header if available (server will use env var as fallback)
+                    if (elevenKey) {
+                        headers['X-API-KEY'] = elevenKey;
+                    }
+                    
                     const response = await fetch('/api/elevenlabs-proxy', {
                         method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
+                        headers: headers
                     });
                     
                     if (response.ok) {
@@ -762,6 +1411,24 @@
                             const voice = data.voices.find(v => v.name === voiceName);
                             if (voice && voice.voice_id) {
                                 return voice.voice_id;
+                            }
+                        }
+                    } else if (response.status === 400) {
+                        // API key missing - server will use env var, so try without header
+                        const fallbackResponse = await fetch('/api/elevenlabs-proxy', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        if (fallbackResponse.ok) {
+                            const data = await fallbackResponse.json();
+                            if (data.voices && Array.isArray(data.voices)) {
+                                const voice = data.voices.find(v => v.name === voiceName);
+                                if (voice && voice.voice_id) {
+                                    return voice.voice_id;
+                                }
                             }
                         }
                     }
@@ -782,23 +1449,42 @@
             }
 
             async generateElevenLabsAudio(text, voiceId) {
-                // Note: This requires ELEVENLABS_API_KEY to be configured server-side as an environment variable
-                // The proxy will use the environment variable API key for public partner dashboard access
+                // Use same approach as main dashboard: try credentials first, server env var as fallback
+                const credentials = this.getCredentials();
+                const elevenKey = credentials.elevenlabs_api_key || credentials.elevenlabsApiKey;
+                
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                
+                // Add API key header if available (exactly like main dashboard)
+                // Server will use ELEVENLABS_API_KEY env var if header is not provided
+                if (elevenKey) {
+                    headers['X-API-KEY'] = elevenKey;
+                }
+                
+                const requestData = {
+                    text: text,
+                    model_id: 'eleven_multilingual_v2',
+                    output_format: 'mp3_22050_32'
+                };
+                
                 const response = await fetch(`/api/elevenlabs-proxy?voice_id=${voiceId}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        model_id: 'eleven_multilingual_v2',
-                        output_format: 'mp3_22050_32'
-                    })
+                    headers: headers,
+                    body: JSON.stringify(requestData)
                 });
                 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`);
+                    let errorMessage = `ElevenLabs API error: ${response.status}`;
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        errorMessage = errorJson.error || errorJson.message || errorJson.details || errorMessage;
+                    } catch (e) {
+                        errorMessage += ` - ${errorText}`;
+                    }
+                    throw new Error(errorMessage);
                 }
                 
                 return await response.blob();
@@ -816,6 +1502,102 @@
                 });
             }
 
+
+            async approveAudio(itemId) {
+                try {
+                    this.setStatus(`Approving audio for ${itemId}...`, 'loading');
+                    
+                    // Find the actual audio file path (may have version suffix)
+                    // Items shown in UI are from levante-assets-draft bucket
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    let audioPath = null;
+                    let sourceBucket = 'levante-assets-draft';
+                    
+                    // Look in levante-assets-draft bucket (where draft items are)
+                    try {
+                        const draftParams = new URLSearchParams({
+                            bucket: 'levante-assets-draft',
+                            prefix: `audio/${this.currentLangCode}/${baseId}`
+                        });
+                        
+                        const draftResponse = await fetch(`/api/list-draft-audio?${draftParams.toString()}`);
+                        if (draftResponse.ok) {
+                            const draftData = await draftResponse.json();
+                            if (draftData.items && draftData.items.length > 0) {
+                                // Get the most recent version
+                                const matchingFiles = draftData.items.filter(item => {
+                                    const fileName = item.name.split('/').pop() || '';
+                                    return fileName.startsWith(baseId) && fileName.endsWith('.mp3');
+                                });
+                                
+                                if (matchingFiles.length > 0) {
+                                    matchingFiles.sort((a, b) => {
+                                        const dateA = new Date(a.updated || a.timeCreated || 0);
+                                        const dateB = new Date(b.updated || b.timeCreated || 0);
+                                        return dateB - dateA;
+                                    });
+                                    audioPath = matchingFiles[0].name;
+                                }
+                            }
+                        }
+                    } catch (draftError) {
+                        console.warn('Could not list audio files in -draft', draftError);
+                    }
+                    
+                    // Fallback to default path
+                    if (!audioPath) {
+                        audioPath = `audio/${this.currentLangCode}/${itemId}.mp3`;
+                    }
+                    
+                    // Move the file directly to levante-assets-dev bucket (approved)
+                    const moveResponse = await fetch('/api/move-audio-to-dev', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            bucket: sourceBucket,
+                            path: audioPath
+                        })
+                    });
+                    
+                    if (!moveResponse.ok) {
+                        const errorText = await moveResponse.text();
+                        let errorMessage = 'Failed to approve and move audio';
+                        try {
+                            const errorJson = JSON.parse(errorText);
+                            errorMessage = errorJson.message || errorJson.error || errorMessage;
+                        } catch (e) {
+                            errorMessage = errorText || errorMessage;
+                        }
+                        
+                        // If file not found, provide helpful error
+                        if (errorMessage.includes('missing') || errorMessage.includes('not found') || errorMessage.includes('Source file')) {
+                            errorMessage = `Audio file not found for ${itemId}. Make sure the audio exists in levante-assets-draft bucket.`;
+                        }
+                        
+                        throw new Error(errorMessage);
+                    }
+                    
+                    const result = await moveResponse.json();
+                    this.approvedItems.add(baseId);
+                    
+                    // Refresh approval status and re-render (approved items will be hidden)
+                    await this.loadApprovalStatus();
+                    const filtered = this.data.filter(item => {
+                        const text = this.getTextForItem(item, this.currentLangCode);
+                        return text && text.trim();
+                    });
+                    const itemsWithAudio = await this.filterItemsWithAudio(filtered);
+                    this.renderItems(itemsWithAudio);
+                    
+                    this.setStatus(`Audio approved and moved to dev bucket for ${itemId}`, 'success');
+                } catch (error) {
+                    console.error('Approve audio error:', error);
+                    this.setStatus(`Error approving audio: ${error.message}`, 'error');
+                }
+            }
+
             async saveAudio(itemId) {
                 try {
                     if (!this.latestGeneratedAudio || 
@@ -824,7 +1606,7 @@
                         throw new Error('No generated audio to save. Please regenerate audio first.');
                     }
                     
-                    this.setStatus(`Saving audio for ${itemId}...`, 'loading');
+                    this.setStatus(`Saving and approving audio for ${itemId}...`, 'loading');
                     
                     const item = this.data.find(entry => entry.item_id === itemId);
                     const itemLabel = item?.labels || item?.task || itemId;
@@ -863,10 +1645,78 @@
                         throw new Error(error.message || 'Failed to save audio');
                     }
                     
+                    // After saving, move the file to levante-assets-dev (approved bucket)
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    this.approvedItems.add(baseId);
+                    
+                    // Find the saved file and move it to dev bucket
+                    try {
+                        // Find the most recent version of the saved file
+                        const listParams = new URLSearchParams({
+                            bucket: 'levante-assets-draft',
+                            prefix: `audio/${this.currentLangCode}/${baseId}`
+                        });
+                        
+                        const listResponse = await fetch(`/api/list-draft-audio?${listParams.toString()}`);
+                        if (listResponse.ok) {
+                            const listData = await listResponse.json();
+                            if (listData.items && listData.items.length > 0) {
+                                // Get the most recent file (should be the one we just saved)
+                                const matchingFiles = listData.items.filter(item => {
+                                    const fileName = item.name.split('/').pop() || '';
+                                    return fileName.startsWith(baseId) && fileName.endsWith('.mp3');
+                                });
+                                
+                                if (matchingFiles.length > 0) {
+                                    // Sort by updated date, get most recent
+                                    matchingFiles.sort((a, b) => {
+                                        const dateA = new Date(a.updated || a.timeCreated || 0);
+                                        const dateB = new Date(b.updated || b.timeCreated || 0);
+                                        return dateB - dateA;
+                                    });
+                                    
+                                    const savedFile = matchingFiles[0];
+                                    const audioPath = savedFile.name;
+                                    
+                                    // Move to dev bucket
+                                    const moveResponse = await fetch('/api/move-audio-to-dev', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            bucket: 'levante-assets-draft',
+                                            path: audioPath
+                                        })
+                                    });
+                                    
+                                    if (!moveResponse.ok) {
+                                        const errorText = await moveResponse.text();
+                                        throw new Error(errorText || 'Failed to move audio to dev bucket');
+                                    }
+                                }
+                            }
+                        }
+                    } catch (moveError) {
+                        console.warn('Could not move audio to dev bucket:', moveError);
+                        this.setStatus(`Audio saved but failed to move to approved bucket: ${moveError.message}`, 'error');
+                        // Continue - audio is saved, just not moved
+                    }
+                    
                     this.pendingSaveKey = null;
                     this.latestGeneratedAudio = null;
                     this.updateSaveButtonStates();
-                    this.setStatus(`Audio saved successfully for ${itemId}`, 'success');
+                    
+                    // Refresh approval status and re-render (approved items will be hidden)
+                    await this.loadApprovalStatus();
+                    const filtered = this.data.filter(item => {
+                        const text = this.getTextForItem(item, this.currentLangCode);
+                        return text && text.trim();
+                    });
+                    const itemsWithAudio = await this.filterItemsWithAudio(filtered);
+                    this.renderItems(itemsWithAudio);
+                    
+                    this.setStatus(`Audio saved, approved, and moved to dev bucket for ${itemId}`, 'success');
                 } catch (error) {
                     console.error('Save audio error:', error);
                     this.setStatus(`Error saving audio: ${error.message}`, 'error');
@@ -886,10 +1736,35 @@
             }
         }
 
+        // Initialize Firebase (you'll need to configure this)
+        let firebaseInitialized = false;
+        function initFirebase() {
+            if (firebaseInitialized || typeof firebase === 'undefined') return;
+            
+            // Firebase config should be set via environment or config
+            // For now, we'll check if it's already initialized
+            try {
+                if (!firebase.apps || firebase.apps.length === 0) {
+                    // Firebase not initialized - this is OK for development
+                    // Suppress console warning in production
+                    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                        // Only log in development
+                    }
+                }
+                firebaseInitialized = true;
+            } catch (error) {
+                // Suppress Firebase initialization errors if not configured
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    console.warn('Firebase not configured (development mode)');
+                }
+            }
+        }
+
         // Initialize dashboard when DOM is ready
         let dashboard;
         function initDashboard() {
             try {
+                initFirebase();
                 dashboard = new PartnerAudioDashboard();
             } catch (error) {
                 console.error('Failed to initialize dashboard:', error);

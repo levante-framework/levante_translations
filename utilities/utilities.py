@@ -13,6 +13,15 @@ from PlayHt import playHt_utilities
 from ELabs import elevenlabs_utilities
 import numpy as np
 
+# GCS imports for uploading to levante-assets-draft bucket
+try:
+    from google.cloud import storage
+    from google.oauth2 import service_account
+    GCS_AVAILABLE = True
+except ImportError:
+    GCS_AVAILABLE = False
+    print("Warning: google-cloud-storage not available. GCS upload will be skipped.")
+
 # Add mutagen for ID3v2 tag handling
 try:
     from mutagen.id3 import ID3, TIT2, TPE1, TALB, TDRC, TCON, COMM, TXXX, TCOP
@@ -487,6 +496,85 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
     masterData[master_lang_col] = \
         np.where(masterData["item_id"] == ourRow["item_id"], \
         text_for_master, masterData[master_lang_col])
+
+    # Upload to GCS levante-assets-draft bucket
+    if GCS_AVAILABLE:
+        try:
+            # Initialize GCS client
+            # Try to get credentials from environment variable (same as web dashboard)
+            import json
+            import os as os_module
+            
+            storage_client = None
+            credentials_json = os_module.environ.get('GOOGLE_APPLICATION_CREDENTIALS_JSON') or os_module.environ.get('GCP_SERVICE_ACCOUNT_JSON')
+            
+            if credentials_json:
+                try:
+                    credentials_dict = json.loads(credentials_json)
+                    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+                    storage_client = storage.Client(credentials=credentials, project=credentials_dict.get('project_id'))
+                except Exception as e:
+                    print(f"Warning: Could not parse GCS credentials: {e}")
+                    # Fall back to default credentials
+                    try:
+                        storage_client = storage.Client()
+                    except Exception:
+                        storage_client = None
+            else:
+                # Try default credentials
+                try:
+                    storage_client = storage.Client()
+                except Exception:
+                    storage_client = None
+            
+            if storage_client:
+                # Bucket name from environment or default
+                bucket_name = os_module.environ.get('ASSETS_DRAFT_BUCKET', 'levante-assets-draft')
+                bucket = storage_client.bucket(bucket_name)
+                
+                # GCS path: audio/{lang_code}/{item_id}.mp3
+                gcs_path = f"audio/{lang_code}/{ourRow['item_id']}.mp3"
+                blob = bucket.blob(gcs_path)
+                
+                # Upload the file (with ID3 tags already written)
+                blob.upload_from_filename(file_path, content_type='audio/mpeg')
+                
+                # Set metadata to match ID3 tags
+                metadata = {
+                    'service': service,
+                    'voice': voice,
+                    'lang_code': lang_code,
+                    'item_id': ourRow['item_id'],
+                    'task': ourRow.get('labels', ''),
+                }
+                
+                # Add text if available
+                text_value = ''
+                if lang_code in ourRow:
+                    text_value = ourRow[lang_code]
+                else:
+                    simplified_lang_codes = {
+                        'es-CO': 'es',
+                        'fr-CA': 'fr', 
+                        'nl-NL': 'nl'
+                    }
+                    simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+                    if simplified_code in ourRow:
+                        text_value = ourRow[simplified_code]
+                
+                if text_value:
+                    metadata['text'] = text_value[:500]  # Limit length for metadata
+                
+                blob.metadata = metadata
+                blob.patch()
+                
+                print(f"✅ Uploaded to GCS: gs://{bucket_name}/{gcs_path}")
+            else:
+                print(f"⚠️  Warning: Could not initialize GCS client. Skipping upload to levante-assets-draft.")
+        except Exception as e:
+            print(f"⚠️  Warning: Failed to upload to GCS: {e}. File saved locally.")
+    else:
+        print(f"⚠️  Warning: GCS not available. File saved locally only.")
 
     # write as we go, so erroring out doesn't lose progress
     # Translated, so we can save it to a master sheet
