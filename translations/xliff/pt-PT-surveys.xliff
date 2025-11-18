@@ -34,6 +34,25 @@
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body/>
+    <body>
+      <trans-unit id="150798" resname="tagboxDoneButtonCaption" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+tagboxDoneButtonCaption
+element-name: tagboxDoneButtonCaption</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150804" resname="ok" approved="yes">
+        <source>OK</source>
+        <target state="final">OK</target>
+        <context-group purpose="information">
+          <context context-type="source">https://app.unpkg.com/survey-core@2.3.7/files/i18n/english.js
+ok
+element-name: ok</context>
+        </context-group>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
