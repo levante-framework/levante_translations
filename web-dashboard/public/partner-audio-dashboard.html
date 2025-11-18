@@ -217,6 +217,88 @@
             opacity: 0.8;
         }
 
+        .tabs-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e4e4e7;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 600;
+            color: #71717a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            top: 2px;
+        }
+
+        .tab-button:hover {
+            color: #27272a;
+        }
+
+        .tab-button.active {
+            color: #da3d16;
+            border-bottom-color: #da3d16;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .item-card-compact {
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .item-card-compact:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-color: #d4d4d8;
+        }
+
+        .item-card-compact-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-card-compact-id {
+            font-weight: 600;
+            color: #27272a;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .item-card-compact-text {
+            font-size: 13px;
+            color: #71717a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-card-compact-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
         .auth-container {
             position: fixed;
             top: 0;
@@ -345,6 +427,54 @@
             letter-spacing: 0.5px;
         }
 
+        .item-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .item-grid-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .item-grid-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .item-source {
+            grid-column: 1;
+        }
+
+        .item-translated {
+            grid-column: 2;
+        }
+
+        .item-actions {
+            grid-column: 1;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .item-audio-enhanced {
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .item-audio-enhanced .audio-enhanced-input {
+            height: auto;
+            min-height: auto;
+            resize: vertical;
+        }
+
         .item-texts {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -382,6 +512,31 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
+        .audio-enhanced-input {
+            font-size: 15px;
+            color: #27272a;
+            line-height: 1.7;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 2px solid #e4e4e7;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .audio-enhanced-input:focus {
+            outline: none;
+            border-color: #da3d16;
+            box-shadow: 0 0 0 3px rgba(218, 61, 22, 0.1);
+        }
+
+        .audio-enhanced-input:hover {
+            border-color: #d4d4d8;
+        }
+
         .text-content.source {
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-color: #bfdbfe;
@@ -392,26 +547,21 @@
             border-color: #bbf7d0;
         }
 
-        .item-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
         .btn {
-            padding: 10px 20px;
+            padding: 8px 14px;
             border: 1px solid transparent;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.25s ease;
             text-decoration: none;
             font-family: inherit;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            white-space: nowrap;
         }
 
         .btn:disabled {
@@ -457,6 +607,19 @@
             border-color: #14532d;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(22, 101, 52, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            border-color: #f59e0b;
+        }
+
+        .btn-warning:hover:not(:disabled) {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            border-color: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
         }
 
         .btn-success {
@@ -594,11 +757,30 @@
             Select a language to begin
         </div>
 
-        <div class="items-list" id="itemsList">
-            <div class="empty-state">
-                <i class="fas fa-language"></i>
-                <h3>No language selected</h3>
-                <p>Please select a language from the dropdown above</p>
+        <div class="tabs-container">
+            <button class="tab-button active" id="tabPending" onclick="dashboard.switchTab('pending')">
+                To Be Approved
+            </button>
+            <button class="tab-button" id="tabApproved" onclick="dashboard.switchTab('approved')">
+                Approved
+            </button>
+        </div>
+        <div class="tab-content active" id="tabContentPending">
+            <div class="items-list" id="itemsList">
+                <div class="empty-state">
+                    <i class="fas fa-language"></i>
+                    <h3>No language selected</h3>
+                    <p>Please select a language from the dropdown above</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="tabContentApproved">
+            <div class="items-list" id="itemsListApproved">
+                <div class="empty-state">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>No approved items</h3>
+                    <p>Approved items will appear here</p>
+                </div>
             </div>
         </div>
     </div>
@@ -620,6 +802,7 @@
                 this.allowedLanguage = null; // Will be set based on user's site
                 this.approvedItems = new Set(); // Track approved item IDs
                 this.approvalStats = { total: 0, approved: 0, pending: 0 };
+                this.currentTab = 'pending'; // Current tab: 'pending' or 'approved'
                 
                 this.data = [];
                 this.currentLanguage = null;
@@ -719,20 +902,31 @@
                         console.log('User claims:', claims);
                         console.log('User email:', email);
                         
-                        // Check if user is superadmin or has override email
-                        // Superadmins and override emails get access to all languages
+                        // Check user permissions
+                        // Allow superadmins, admins, and override emails
                         const isSuperAdmin = claims.super_admin === true;
+                        const isAdmin = claims.admin === true || claims.admin === 'true';
                         const overrideEmails = ['david@example.com']; // Add override emails here
                         const isOverrideEmail = overrideEmails.some(overrideEmail => 
                             email.toLowerCase() === overrideEmail.toLowerCase()
                         );
                         
+                        // Check if user has admin or superadmin access
+                        if (!isSuperAdmin && !isAdmin && !isOverrideEmail) {
+                            // User doesn't have admin access
+                            console.error('User does not have admin access');
+                            auth.signOut();
+                            this.showAuthModal('Access denied: Admin privileges required');
+                            return;
+                        }
+                        
                         if (isSuperAdmin || isOverrideEmail) {
                             // Superadmins and override emails can access all languages
                             this.allowedLanguage = null; // null means no restriction
-                        } else {
-                            // Regular partners: restrict to their language
-                            // Check custom claim first
+                            console.log('Superadmin/override: Full language access');
+                        } else if (isAdmin) {
+                            // Regular admins: check site/locale permissions
+                            // Check custom claim for site_language
                             if (claims.site_language) {
                                 const langMap = {
                                     'es-CO': 'Spanish (Colombia)',
@@ -745,10 +939,32 @@
                                     'pt-PT': 'Portuguese'
                                 };
                                 this.allowedLanguage = langMap[claims.site_language] || null;
-                            } else if (email.includes('@colombia') || email.includes('.co.') || email.includes('colombia')) {
-                                this.allowedLanguage = 'Spanish (Colombia)';
-                            } else if (email.includes('@argentina') || email.includes('.ar.') || email.includes('argentina')) {
-                                this.allowedLanguage = 'Spanish (Argentina)';
+                                console.log(`Admin restricted to language: ${this.allowedLanguage} (from site_language claim)`);
+                            } else if (claims.locale) {
+                                // Try locale claim
+                                const langMap = {
+                                    'es-CO': 'Spanish (Colombia)',
+                                    'es-AR': 'Spanish (Argentina)',
+                                    'en': 'English',
+                                    'de': 'German',
+                                    'fr-CA': 'French',
+                                    'nl': 'Dutch',
+                                    'de-CH': 'German (Switzerland)',
+                                    'pt-PT': 'Portuguese'
+                                };
+                                this.allowedLanguage = langMap[claims.locale] || null;
+                                console.log(`Admin restricted to language: ${this.allowedLanguage} (from locale claim)`);
+                            } else {
+                                // Fallback: try to infer from email domain
+                                if (email.includes('@colombia') || email.includes('.co.') || email.includes('colombia')) {
+                                    this.allowedLanguage = 'Spanish (Colombia)';
+                                } else if (email.includes('@argentina') || email.includes('.ar.') || email.includes('argentina')) {
+                                    this.allowedLanguage = 'Spanish (Argentina)';
+                                } else {
+                                    // No language restriction found - allow all (or restrict based on your policy)
+                                    console.warn('Admin user has no site_language or locale claim - allowing all languages');
+                                    this.allowedLanguage = null;
+                                }
                             }
                         }
                     });
@@ -888,13 +1104,23 @@
 
             async loadApprovalStatus() {
                 try {
-                    const response = await fetch(`/api/list-draft-audio?prefix=deploy/${this.currentLangCode}/`);
+                    // Check dev bucket for approved items
+                    const params = new URLSearchParams({
+                        bucket: 'levante-assets-dev',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const response = await fetch(`/api/list-draft-audio?${params.toString()}`);
                     if (response.ok) {
                         const data = await response.json();
-                        if (data.items) {
+                        if (data.items && Array.isArray(data.items)) {
                             data.items.forEach(item => {
-                                if (item.approvedBySite) {
-                                    const baseId = item.itemId.replace(/_v\d{3}$/, '');
+                                const path = item.name || '';
+                                // Path format: audio/{langCode}/{itemId}.mp3 or audio/{langCode}/{itemId}_v###.mp3
+                                const match = path.match(/^audio\/[^\/]+\/([^\/]+)\.mp3$/i);
+                                if (match) {
+                                    const fileName = match[1];
+                                    const baseId = fileName.replace(/_v\d{3}$/i, '');
                                     this.approvedItems.add(baseId);
                                 }
                             });
@@ -905,78 +1131,111 @@
                 }
             }
 
-            updateApprovalStats(items) {
-                this.approvalStats.total = items.length;
-                this.approvalStats.approved = 0;
-                this.approvalStats.pending = 0;
+            async updateApprovalStats() {
+                // Calculate stats from all items with translations and audio
+                if (!this.currentLangCode) return;
                 
-                items.forEach(item => {
-                    const baseId = item.item_id.replace(/_v\d{3}$/, '');
+                // Get all items with translations
+                const withTranslations = this.data.filter(item => {
+                    const text = this.getTextForItem(item, this.currentLangCode);
+                    return text && text.trim();
+                });
+                
+                // Get items with audio (from draft bucket)
+                const itemsWithAudio = await this.filterItemsWithAudio(withTranslations);
+                
+                // Also get approved items from dev bucket
+                const approvedItemsFromDev = await this.getApprovedItemsFromDev(withTranslations);
+                
+                // Combine: items with audio in draft + approved items in dev
+                const allItemsSet = new Set();
+                itemsWithAudio.forEach(item => {
+                    const baseId = (item.item_id || '').replace(/_v\d{3}$/, '');
+                    allItemsSet.add(baseId);
+                });
+                approvedItemsFromDev.forEach(item => {
+                    const baseId = (item.item_id || '').replace(/_v\d{3}$/, '');
+                    allItemsSet.add(baseId);
+                });
+                
+                // Count approved vs pending
+                let total = allItemsSet.size;
+                let approved = 0;
+                let pending = 0;
+                
+                allItemsSet.forEach(baseId => {
                     if (this.approvedItems.has(baseId)) {
-                        this.approvalStats.approved++;
+                        approved++;
                     } else {
-                        this.approvalStats.pending++;
+                        pending++;
                     }
                 });
+                
+                this.approvalStats.total = total;
+                this.approvalStats.approved = approved;
+                this.approvalStats.pending = pending;
                 
                 const statsEl = document.getElementById('approvalStats');
                 if (statsEl) {
                     statsEl.style.display = 'flex';
-                    document.getElementById('statTotal').textContent = this.approvalStats.total;
-                    document.getElementById('statApproved').textContent = this.approvalStats.approved;
-                    document.getElementById('statPending').textContent = this.approvalStats.pending;
+                    const totalEl = document.getElementById('statTotal');
+                    const approvedEl = document.getElementById('statApproved');
+                    const pendingEl = document.getElementById('statPending');
+                    if (totalEl) totalEl.textContent = this.approvalStats.total;
+                    if (approvedEl) approvedEl.textContent = this.approvalStats.approved;
+                    if (pendingEl) pendingEl.textContent = this.approvalStats.pending;
                 }
             }
 
             async loadData() {
                 try {
                     // First, load all translation data from CSV
-                    const primaryUrl = 'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv';
+                    // Try multiple possible paths (original URL first, then fallbacks)
+                    const urls = [
+                        'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv',
+                        'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/translations/item-bank-translations.csv',
+                        'https://raw.githubusercontent.com/levante-framework/levante_translations/main/translations/item-bank-translations.csv'
+                    ];
                     
-                    const csvResponse = await fetch(primaryUrl);
-                    if (!csvResponse.ok) {
-                        throw new Error(`Failed to load CSV: ${csvResponse.status}`);
+                    let csvResponse = null;
+                    let lastError = null;
+                    let successfulUrl = null;
+                    
+                    for (const url of urls) {
+                        try {
+                            csvResponse = await fetch(url);
+                            if (csvResponse.ok) {
+                                successfulUrl = url;
+                                console.log(`Successfully loaded CSV from: ${url}`);
+                                break;
+                            } else {
+                                // If not ok, continue to next URL
+                                console.warn(`CSV not found at ${url} (status: ${csvResponse.status})`);
+                                csvResponse = null;
+                            }
+                        } catch (err) {
+                            console.warn(`Error fetching CSV from ${url}:`, err);
+                            lastError = err;
+                            csvResponse = null;
+                            continue;
+                        }
+                    }
+                    
+                    if (!csvResponse || !csvResponse.ok) {
+                        const errorMsg = lastError ? lastError.message : `Failed to load CSV from any URL (tried ${urls.length} locations)`;
+                        throw new Error(errorMsg);
                     }
                     
                     const csvText = await csvResponse.text();
+                    if (!csvText || csvText.trim().length === 0) {
+                        throw new Error('CSV file is empty');
+                    }
                     const allItems = this.parseCSV(csvText);
                     
-                    // Then, get list of items that have audio in levante-assets-draft bucket
-                    // This seeds the dashboard with items that have draft audio
-                    const params = new URLSearchParams({
-                        bucket: 'levante-assets-draft',
-                        prefix: 'audio/'
-                    });
+                    // Store all items - filtering by audio will happen when language is selected
+                    this.data = allItems;
                     
-                    const audioResponse = await fetch(`/api/list-draft-audio?${params.toString()}`);
-                    if (!audioResponse.ok) {
-                        throw new Error(`Failed to load audio files: ${audioResponse.status}`);
-                    }
-                    
-                    const audioData = await audioResponse.json();
-                    const itemsWithAudio = new Set();
-                    
-                    // Extract item IDs from audio file paths
-                    if (audioData.items && Array.isArray(audioData.items)) {
-                        audioData.items.forEach(item => {
-                            const path = item.name || '';
-                            // Path format: audio/{langCode}/{itemId}.mp3 or audio/{langCode}/{itemId}_v###.mp3
-                            const match = path.match(/^audio\/([^\/]+)\/([^\/]+)\.mp3$/i);
-                            if (match) {
-                                const fileName = match[2];
-                                const baseId = fileName.replace(/_v\d{3}$/i, '');
-                                itemsWithAudio.add(baseId);
-                            }
-                        });
-                    }
-                    
-                    // Filter CSV items to only those that have audio in draft bucket
-                    this.data = allItems.filter(item => {
-                        const itemId = item.item_id || item.identifier || item.id || item.ID || item.Item_ID || '';
-                        return itemsWithAudio.has(itemId);
-                    });
-                    
-                    console.log(`Loaded ${this.data.length} items with audio from levante-assets-draft bucket (out of ${allItems.length} total items)`);
+                    console.log(`Loaded ${this.data.length} items from CSV`);
                 } catch (error) {
                     console.error('Failed to load translation data:', error);
                     throw error;
@@ -1106,7 +1365,7 @@
                 if (!language || !this.languages[language]) {
                     this.currentLanguage = null;
                     this.currentLangCode = null;
-                    this.renderItems([]);
+                    await this.renderItems([]);
                     return;
                 }
                 
@@ -1117,14 +1376,22 @@
                 // First filter by translation availability
                 const withTranslations = this.data.filter(item => {
                     const text = this.getTextForItem(item, this.currentLangCode);
-                    return text && text.trim();
+                    const hasText = text && text.trim() && text.trim() !== '';
+                    if (!hasText) {
+                        console.debug(`Item ${item.item_id} has no translation for ${this.currentLangCode}`);
+                    }
+                    return hasText;
                 });
+                
+                console.log(`Found ${withTranslations.length} items with translations for ${this.currentLangCode} (out of ${this.data.length} total items)`);
                 
                 // Then check which items have audio files
                 this.setStatus(`Checking audio availability for ${withTranslations.length} items...`, 'loading');
                 const itemsWithAudio = await this.filterItemsWithAudio(withTranslations);
                 
-                this.renderItems(itemsWithAudio);
+                console.log(`Found ${itemsWithAudio.length} items with audio files for ${this.currentLangCode}`);
+                
+                await this.renderItems(itemsWithAudio);
                 this.setStatus(`Showing ${itemsWithAudio.length} items with audio for ${language}`, 'success');
             }
 
@@ -1194,20 +1461,158 @@
             }
 
             getTextForItem(item, langCode) {
+                // Try exact match first
                 let text = item[langCode];
-                if (!text && langCode.includes('-')) {
-                    const base = langCode.split('-')[0];
-                    text = item[base];
-                }
+                
+                // Try case-insensitive match
                 if (!text) {
                     const keys = Object.keys(item);
                     const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
-                    text = match ? item[match] : null;
+                    if (match) {
+                        text = item[match];
+                    }
                 }
-                return text || item.en || '';
+                
+                // Try base language if langCode has a hyphen (e.g., es-CO -> es)
+                if (!text && langCode.includes('-')) {
+                    const base = langCode.split('-')[0];
+                    text = item[base];
+                    // Also try case-insensitive base match
+                    if (!text) {
+                        const keys = Object.keys(item);
+                        const baseMatch = keys.find(k => k.toLowerCase() === base.toLowerCase());
+                        if (baseMatch) {
+                            text = item[baseMatch];
+                        }
+                    }
+                }
+                
+                // Try alternative column names (common variations)
+                if (!text) {
+                    const altNames = {
+                        'es-CO': ['es-co', 'es_CO', 'es_co', 'esco', 'Spanish (Colombia)'],
+                        'es-AR': ['es-ar', 'es_AR', 'es_ar', 'esar', 'Spanish (Argentina)'],
+                        'de-CH': ['de-ch', 'de_CH', 'de_ch', 'dech', 'German (Switzerland)'],
+                        'fr-CA': ['fr-ca', 'fr_CA', 'fr_ca', 'frca', 'French'],
+                        'pt-PT': ['pt-pt', 'pt_PT', 'pt_pt', 'ptpt', 'Portuguese']
+                    };
+                    
+                    if (altNames[langCode]) {
+                        for (const altName of altNames[langCode]) {
+                            if (item[altName]) {
+                                text = item[altName];
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                return text || item.en || item.english || '';
             }
 
-            renderItems(items) {
+            async switchTab(tab) {
+                this.currentTab = tab;
+                
+                // Update tab buttons
+                document.getElementById('tabPending').classList.toggle('active', tab === 'pending');
+                document.getElementById('tabApproved').classList.toggle('active', tab === 'approved');
+                
+                // Update tab content
+                document.getElementById('tabContentPending').classList.toggle('active', tab === 'pending');
+                document.getElementById('tabContentApproved').classList.toggle('active', tab === 'approved');
+                
+                // Re-render items for the selected tab
+                if (this.currentLanguage && this.currentLangCode) {
+                    await this.refreshItemsForCurrentTab();
+                }
+            }
+
+            async refreshItemsForCurrentTab() {
+                // Get all items with translations
+                const withTranslations = this.data.filter(item => {
+                    const text = this.getTextForItem(item, this.currentLangCode);
+                    return text && text.trim();
+                });
+                
+                if (this.currentTab === 'approved') {
+                    // For approved tab, get items from dev bucket
+                    const approvedItemsList = await this.getApprovedItemsFromDev(withTranslations);
+                    this.renderApprovedItems(approvedItemsList);
+                } else {
+                    // For pending tab, get items from draft bucket (excluding approved)
+                    const itemsWithAudio = await this.filterItemsWithAudio(withTranslations);
+                    await this.renderPendingItems(itemsWithAudio);
+                }
+                
+                // Update stats after rendering
+                await this.updateApprovalStats();
+            }
+
+            async getApprovedItemsFromDev(items) {
+                // Get approved items that exist in dev bucket AND are in approvedItems set
+                try {
+                    const devParams = new URLSearchParams({
+                        bucket: 'levante-assets-dev',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const devResponse = await fetch(`/api/list-draft-audio?${devParams.toString()}`);
+                    const approvedItemIds = new Set();
+                    
+                    if (devResponse.ok) {
+                        const devData = await devResponse.json();
+                        if (devData.items && Array.isArray(devData.items)) {
+                            devData.items.forEach(item => {
+                                const fileName = item.name.split('/').pop() || '';
+                                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                                if (baseId) {
+                                    approvedItemIds.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Filter items to only those that are:
+                    // 1. In dev bucket (approvedItemIds)
+                    // 2. In approvedItems set (user hasn't unapproved them)
+                    return items.filter(item => {
+                        const itemId = item.item_id || '';
+                        const baseId = itemId.replace(/_v\d{3}$/i, '');
+                        return approvedItemIds.has(baseId) && this.approvedItems.has(baseId);
+                    });
+                } catch (error) {
+                    console.error('Error getting approved items from dev:', error);
+                    return [];
+                }
+            }
+
+            async renderItems(items) {
+                // This is called from selectLanguage - filter items based on current tab
+                const filteredItems = items.filter(item => {
+                    const itemId = item.item_id || 'unknown';
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    const isApproved = this.approvedItems.has(baseId);
+                    
+                    if (this.currentTab === 'approved') {
+                        return isApproved;
+                    } else {
+                        return !isApproved;
+                    }
+                });
+                
+                if (this.currentTab === 'approved') {
+                    // For approved tab, get items from dev bucket
+                    const approvedItemsList = await this.getApprovedItemsFromDev(this.data.filter(item => {
+                        const text = this.getTextForItem(item, this.currentLangCode);
+                        return text && text.trim();
+                    }));
+                    this.renderApprovedItems(approvedItemsList);
+                } else {
+                    await this.renderPendingItems(filteredItems);
+                }
+            }
+
+            async renderPendingItems(items) {
                 const container = document.getElementById('itemsList');
                 
                 if (items.length === 0) {
@@ -1218,11 +1623,13 @@
                             <p>No translations available for the selected language</p>
                         </div>
                     `;
+                    // Still update stats even if no items
+                    await this.updateApprovalStats();
                     return;
                 }
                 
                 // Update approval stats
-                this.updateApprovalStats(items);
+                await this.updateApprovalStats();
                 
                 container.innerHTML = items.map(item => {
                     const itemId = item.item_id || 'unknown';
@@ -1250,29 +1657,37 @@
                             <div class="item-header">
                                 <div class="item-id">${escapedItemId}</div>
                             </div>
-                            <div class="item-texts">
-                                <div class="text-block">
-                                    <div class="text-label">Source (English)</div>
-                                    <div class="text-content source">${escapedSource}</div>
+                            <div class="item-content-wrapper">
+                                <div class="item-grid-top">
+                                    <div class="text-block item-source">
+                                        <div class="text-label">Source (English)</div>
+                                        <div class="text-content source">${escapedSource}</div>
+                                    </div>
+                                    <div class="text-block item-translated">
+                                        <div class="text-label">Translation (${this.currentLanguage})</div>
+                                        <div class="text-content translated">${escapedTranslated}</div>
+                                    </div>
                                 </div>
-                                <div class="text-block">
-                                    <div class="text-label">Translation (${this.currentLanguage})</div>
-                                    <div class="text-content translated">${escapedTranslated}</div>
+                                <div class="item-grid-bottom">
+                                    <div class="item-actions">
+                                        <button class="btn btn-secondary" onclick="dashboard.playAudio('${escapedItemId}')" title="Play existing audio">
+                                            <i class="fas fa-play"></i> Play
+                                        </button>
+                                        <button class="btn btn-approve" onclick="dashboard.approveAudio('${escapedItemId}')" title="Approve this audio for deployment">
+                                            <i class="fas fa-check-circle"></i> Approve
+                                        </button>
+                                        <button class="btn btn-primary" onclick="dashboard.regenerateAudio('${escapedItemId}')" title="Generate new audio">
+                                            <i class="fas fa-arrows-rotate"></i> Regenerate
+                                        </button>
+                                        <button class="btn btn-success save-btn" data-item-id="${escapedItemId}" onclick="dashboard.saveAudio('${escapedItemId}')" ${isPending ? '' : 'disabled'} title="${isPending ? 'Approve & save generated audio' : 'Generate audio before saving'}">
+                                            <i class="fas fa-check-circle"></i> Approve & Save
+                                        </button>
+                                    </div>
+                                    <div class="text-block item-audio-enhanced">
+                                        <div class="text-label">Audio-enhanced string</div>
+                                        <textarea class="audio-enhanced-input" id="audioEnhanced_${escapedItemId}" data-item-id="${escapedItemId}" rows="3" placeholder="Edit text for audio generation...">${escapedTranslated}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item-actions">
-                                <button class="btn btn-secondary" onclick="dashboard.playAudio('${escapedItemId}')" title="Play existing audio">
-                                    <i class="fas fa-play"></i> Play
-                                </button>
-                                <button class="btn btn-approve" onclick="dashboard.approveAudio('${escapedItemId}')" title="Approve this audio for deployment">
-                                    <i class="fas fa-check-circle"></i> Approve
-                                </button>
-                                <button class="btn btn-primary" onclick="dashboard.regenerateAudio('${escapedItemId}')" title="Generate new audio">
-                                    <i class="fas fa-arrows-rotate"></i> Regenerate
-                                </button>
-                                <button class="btn btn-success save-btn" data-item-id="${escapedItemId}" onclick="dashboard.saveAudio('${escapedItemId}')" ${isPending ? '' : 'disabled'} title="${isPending ? 'Approve & save generated audio' : 'Generate audio before saving'}">
-                                    <i class="fas fa-check-circle"></i> Approve & Save
-                                </button>
                             </div>
                         </div>
                     `;
@@ -1280,6 +1695,47 @@
                 
                 // Update save button states
                 this.updateSaveButtonStates();
+            }
+
+            renderApprovedItems(items) {
+                const container = document.getElementById('itemsListApproved');
+                
+                if (items.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>No approved items</h3>
+                            <p>Approved items will appear here</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = items.map(item => {
+                    const itemId = item.item_id || 'unknown';
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    const sourceText = item.en || item.english || '';
+                    const translatedText = this.getTextForItem(item, this.currentLangCode);
+                    const escapedItemId = this.escapeHtml(itemId);
+                    const escapedTranslated = this.escapeHtml(translatedText);
+                    
+                    return `
+                        <div class="item-card-compact" data-item-id="${escapedItemId}">
+                            <div class="item-card-compact-info">
+                                <div class="item-card-compact-id">${escapedItemId}</div>
+                                <div class="item-card-compact-text">${escapedTranslated}</div>
+                            </div>
+                            <div class="item-card-compact-actions">
+                                <button class="btn btn-secondary" onclick="dashboard.playAudio('${escapedItemId}')" title="Play audio">
+                                    <i class="fas fa-play"></i> Play
+                                </button>
+                                <button class="btn btn-warning" onclick="dashboard.unapproveAudio('${escapedItemId}')" title="Unapprove this item">
+                                    <i class="fas fa-undo"></i> Unapprove
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             }
 
             updateSaveButtonStates() {
@@ -1385,7 +1841,18 @@
                         throw new Error(`Item ${itemId} not found`);
                     }
                     
-                    const text = this.getTextForItem(item, this.currentLangCode);
+                    // Get audio-enhanced string from textarea, fallback to translated text
+                    const audioEnhancedInput = document.getElementById(`audioEnhanced_${itemId}`);
+                    let text = '';
+                    if (audioEnhancedInput && audioEnhancedInput.value) {
+                        text = audioEnhancedInput.value.trim();
+                    }
+                    
+                    // Fallback to translated text if audio-enhanced string is empty
+                    if (!text) {
+                        text = this.getTextForItem(item, this.currentLangCode);
+                    }
+                    
                     if (!text) {
                         throw new Error(`No translation text available for ${itemId}`);
                     }
@@ -1639,14 +2106,14 @@
                     const result = await moveResponse.json();
                     this.approvedItems.add(baseId);
                     
-                    // Refresh approval status and re-render (approved items will be hidden)
+                    // Refresh approval status
                     await this.loadApprovalStatus();
-                    const filtered = this.data.filter(item => {
-                        const text = this.getTextForItem(item, this.currentLangCode);
-                        return text && text.trim();
-                    });
-                    const itemsWithAudio = await this.filterItemsWithAudio(filtered);
-                    this.renderItems(itemsWithAudio);
+                    
+                    // Re-render items - need to get both draft and approved items
+                    await this.refreshItemsForCurrentTab();
+                    
+                    // Update stats after approval
+                    await this.updateApprovalStats();
                     
                     this.setStatus(`Audio approved and moved to dev bucket for ${itemId}`, 'success');
                 } catch (error) {
@@ -1764,19 +2231,82 @@
                     this.latestGeneratedAudio = null;
                     this.updateSaveButtonStates();
                     
-                    // Refresh approval status and re-render (approved items will be hidden)
+                    // Refresh approval status
                     await this.loadApprovalStatus();
-                    const filtered = this.data.filter(item => {
-                        const text = this.getTextForItem(item, this.currentLangCode);
-                        return text && text.trim();
-                    });
-                    const itemsWithAudio = await this.filterItemsWithAudio(filtered);
-                    this.renderItems(itemsWithAudio);
+                    
+                    // Re-render items - need to get both draft and approved items
+                    await this.refreshItemsForCurrentTab();
+                    
+                    // Update stats after approval
+                    await this.updateApprovalStats();
                     
                     this.setStatus(`Audio saved, approved, and moved to dev bucket for ${itemId}`, 'success');
                 } catch (error) {
                     console.error('Save audio error:', error);
                     this.setStatus(`Error saving audio: ${error.message}`, 'error');
+                }
+            }
+
+            async unapproveAudio(itemId) {
+                try {
+                    this.setStatus(`Unapproving audio for ${itemId}...`, 'loading');
+                    
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    
+                    // Find the file in dev bucket and move it back to draft bucket
+                    let audioPath = null;
+                    
+                    try {
+                        const devParams = new URLSearchParams({
+                            bucket: 'levante-assets-dev',
+                            prefix: `audio/${this.currentLangCode}/${baseId}`
+                        });
+                        
+                        const devResponse = await fetch(`/api/list-draft-audio?${devParams.toString()}`);
+                        if (devResponse.ok) {
+                            const devData = await devResponse.json();
+                            if (devData.items && devData.items.length > 0) {
+                                // Get the most recent version
+                                const matchingFiles = devData.items.filter(item => {
+                                    const fileName = item.name.split('/').pop() || '';
+                                    return fileName.startsWith(baseId) && fileName.endsWith('.mp3');
+                                });
+                                
+                                if (matchingFiles.length > 0) {
+                                    matchingFiles.sort((a, b) => {
+                                        const dateA = new Date(a.updated || a.timeCreated || 0);
+                                        const dateB = new Date(b.updated || b.timeCreated || 0);
+                                        return dateB - dateA;
+                                    });
+                                    audioPath = matchingFiles[0].name;
+                                }
+                            }
+                        }
+                    } catch (devError) {
+                        console.warn('Could not list audio files in -dev', devError);
+                    }
+                    
+                    // Note: The move-audio-to-dev API only moves TO dev bucket, not FROM dev bucket
+                    // For now, we'll just remove from approved set in the UI
+                    // The file will stay in dev bucket, but it won't show as approved in the UI
+                    // TODO: Create a reverse API endpoint if needed to actually move files back
+                    
+                    // Remove from approved items set
+                    this.approvedItems.delete(baseId);
+                    
+                    // Don't call loadApprovalStatus() here - it would re-add the item
+                    // The item is removed from the set, so it won't show as approved
+                    
+                    // Re-render items - need to get both draft and approved items
+                    await this.refreshItemsForCurrentTab();
+                    
+                    // Update stats after unapproval
+                    await this.updateApprovalStats();
+                    
+                    this.setStatus(`Audio unapproved for ${itemId}`, 'success');
+                } catch (error) {
+                    console.error('Unapprove audio error:', error);
+                    this.setStatus(`Error unapproving audio: ${error.message}`, 'error');
                 }
             }
 
