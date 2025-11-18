@@ -1,11 +1,11 @@
-identifier,labels,text,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH,isHidden
+identifier,labels,text,es-CO,de,fr-CA,nl,de-CH,es-AR,en-GH,pt-PT
 auth/consent.acceptButton,,Accept,Aceptar,Akzeptieren,,,,,,
 auth/consent.assentTitle,,Assent,Asentimiento,Zustimmung,,,,,,
 auth/consent.consentTitle,,Consent,Consentimiento,Zustimmung,,,,,,
 auth/consent.consentUpdatedStatus,,Consent status updated,Estado de consentimiento actualizado,Zustimmungsstatus aktualisiert,,,,,,
 auth/consent.header,,Consent,Consentimiento,Zustimmung,,,,,,
 auth/consent.rejectButton,,"No, sign me out","No, cerrar sesión","Nein, mich abmelden",,,,,,
-auth/consent.title,,,,,,,,,,1
+auth/consent.title,,,,,,,,,,
 auth/consent.toastHeader,,Confirmed,Confirmado,Bestätigt,,,,,,
 auth/signin.atLeastOneLowercase,,At least one lowercase,Al menos una minúscula,Mindestens ein Kleinbuchstabe,,,,,,
 auth/signin.atLeastOneNumber,,At least one number,Al menos un número,Mindestens eine Zahl,,,,,,
@@ -19,7 +19,7 @@ auth/signin.forgotPassword,,Forgot Password?,¿Olvidaste tu contraseña?,Passwor
 auth/signin.incorrectEmailOrPassword,,Incorrect username/email or password,Nombre de usuario/correo electrónico o contraseña incorrectos,Falscher Benutzername/E-Mail oder Passwort,,,,,,
 auth/signin.invalidEmailPlaceholder,,Error: invalid email,Error: correo electrónico inválido,Fehler: Ungültige E-Mail,,,,,,
 auth/signin.minimumCharacters,,Minimum 8 characters,Mínimo 8 caracteres,Mindestens 8 Zeichen,,,,,,
-auth/signin.pageTitle,,,,,,,,,,1
+auth/signin.pageTitle,,,,,,,,,,
 auth/signin.passwordId,,password,contraseña,Passwort,,,,,,
 auth/signin.passwordPlaceholder,,Password,Contraseña,Passwort,,,,,,
 auth/signin.pickPassword,,Pick a password,Elige una contraseña,Wählen Sie ein Passwort,,,,,,
@@ -29,7 +29,7 @@ auth/signin.signInWithEmailLinkInstead,,Sign-in using email link,Inicia sesión 
 auth/signin.signInWithEmailLinkPlaceHolder,,Press Go to sign-in with an email link.,Presiona ¡Vamos! para iniciar sesión con un enlace de correo electrónico.,"Drücken Sie „Los“, um sich mit einem E-Mail-Link anzumelden.",,,,,,
 auth/signin.signInWithPasswordInstead,,Sign-in using password,Inicia sesión usando la contraseña,Mit Passwort anmelden,,,,,,
 auth/signin.suggestions,,Suggestions,Sugerencias,Vorschläge,,,,,,
-pages/home-participant.consentUpdatedStatus,,,,,,,,,,1
+pages/home-participant.consentUpdatedStatus,,,,,,,,,,
 pages/home-participant.contactAdministrator,,Please contact your administrator to get added to an assignment.,"Por favor, contacta a tu administrador para que te agreguen a una asignación.","Bitte kontaktieren Sie Ihren Administrator, um zu einer Zuordnung hinzugefügt zu werden.",,,,,,
 pages/home-participant.loadingAssignments,,Loading Assignments,Cargando Asignaciones,Lade Zuordnungen,,,,,,
 pages/home-participant.noAssignments,,You have no assignments!,¡No tienes asignaciones!,Sie haben keine Zuordnungen!,,,,,,
