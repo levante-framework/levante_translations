@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Pre-Race Readiness Report</title>
+<title>Pre-Release Readiness Report</title>
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-C4+8J1mCiSkDGpiKFFitvolG/GpNZgbf+5Q5e0siJmq9hw3rroWAtxEvsC0BpvyEuk+qS0bkkCm1cWtiYpg+1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="./styles.css" rel="stylesheet"/>
@@ -53,6 +53,17 @@
     .modal .modal-header { border-bottom: 1px solid rgba(56, 189, 248, 0.25); }
     .modal .modal-title { color: #ffb347; }
     .modal .close { color: #f8fafc; }
+    .modal .modal-body { color: #f8fafc; }
+    .modal .modal-body h4 { color: #ffb347 !important; font-weight: 600; margin-top: 20px; margin-bottom: 12px; }
+    .modal .modal-body p { color: #e2e8f0 !important; line-height: 1.6; }
+    .modal .modal-body strong { color: #f8fafc !important; font-weight: 600; }
+    .modal .modal-body small { color: #cbd5e1 !important; }
+    .modal .modal-body .diff-value { color: #ffb347 !important; font-weight: 700; font-size: 1.2em; }
+    .modal .modal-body .diff-section { margin-bottom: 24px; }
+    .modal .modal-body .diff-comparison { display: flex; align-items: center; gap: 16px; margin: 12px 0; }
+    .modal .modal-body .diff-item { flex: 1; text-align: center; padding: 12px; background: rgba(7, 13, 24, 0.6); border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.2); }
+    .modal .modal-body .diff-item strong { color: #ffb347 !important; display: block; margin-bottom: 8px; }
+    .modal .modal-body .diff-arrow { color: #ffb347; font-size: 1.5em; font-weight: bold; }
     #p0IssuesList, #p1IssuesList { background: rgba(7, 13, 24, 0.92) !important; border: 1px solid rgba(56, 189, 248, 0.22) !important; color: #f8fafc !important; }
     #bucketInfoTable table { background: transparent !important; }
     #bucketInfoTable table thead th { background: linear-gradient(135deg, #ff6f00 0%, #ffb347 100%) !important; color: #03101f !important; }
@@ -72,7 +83,7 @@
         <a class="back-to-pitwall" href="./index.html"><i class="fas fa-arrow-left"></i> Back to Pitwall</a>
         <button id="refreshBtn" class="refresh-btn"><i class="fas fa-rotate"></i> Refresh</button>
       </div>
-      <h1><i class="fas fa-clipboard-list"></i> Pre-Race Readiness Report</h1>
+      <h1><i class="fas fa-clipboard-list"></i> Pre-Release Readiness Report</h1>
       <p>Monitor translation coverage, asset health, and configuration parity before every deployment lap.</p>
     </div>
   </div>
@@ -80,7 +91,7 @@
 <div class="section" id="translationsAuditSection">
 <h2 style="font-size:16px; margin:0 0 8px 0;">Translations Audit</h2>
 </div>
-<table aria-label="Pre-Race Readiness table" class="table" id="reportTable">
+<table aria-label="Pre-Release Readiness table" class="table" id="reportTable">
 <thead>
 <tr>
 <th rowspan="2">Language</th>
@@ -527,14 +538,14 @@
 							<span class="diff-value">${prodValue}</span>
 						</div>
 					</div>
-					<div style="margin-top: 12px; padding: 8px; background: #fef3c7; border-radius: 4px; border-left: 4px solid #f59e0b;">
-						<strong>Difference:</strong> ${Math.abs(devValue - prodValue)} ${devValue > prodValue ? '(Dev has more)' : '(Prod has more)'}
+					<div style="margin-top: 12px; padding: 8px; background: rgba(245, 158, 11, 0.15); border-radius: 4px; border-left: 4px solid #f59e0b; color: #fef3c7;">
+						<strong style="color: #fbbf24 !important;">Difference:</strong> <span style="color: #f59e0b !important; font-weight: 600;">${Math.abs(devValue - prodValue)}</span> ${devValue > prodValue ? '(Dev has more)' : '(Prod has more)'}
 					</div>
 				</div>
 				${detailedContent}
 				<div class="diff-section">
-					<h4>Recommendation</h4>
-					<p>${getRecommendation(buttonId, devValue, prodValue)}</p>
+					<h4 style="color: #ffb347 !important;">Recommendation</h4>
+					<p style="color: #e2e8f0 !important; line-height: 1.6;">${getRecommendation(buttonId, devValue, prodValue)}</p>
 				</div>
 			`;
 		}
@@ -561,25 +572,25 @@
 					<div class="diff-section">
 						<h4>Detailed Analysis</h4>
 						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
-								<strong>Dev Only</strong><br>
-								<span class="diff-value">${devOnly.length}</span> files<br>
-								<small>PNGs in dev that don't need conversion in prod</small>
+							<div style="padding: 12px; background: rgba(14, 165, 233, 0.15); border-radius: 6px; border-left: 4px solid #0ea5e9; color: #e0f2fe;">
+								<strong style="color: #7dd3fc !important;">Dev Only</strong><br>
+								<span class="diff-value" style="color: #0ea5e9 !important;">${devOnly.length}</span> files<br>
+								<small style="color: #bae6fd !important;">PNGs in dev that don't need conversion in prod</small>
 							</div>
-							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
-								<strong>Prod Only</strong><br>
-								<span class="diff-value">${prodOnly.length}</span> files<br>
-								<small>PNGs in prod that don't need conversion in dev</small>
+							<div style="padding: 12px; background: rgba(34, 197, 94, 0.15); border-radius: 6px; border-left: 4px solid #22c55e; color: #dcfce7;">
+								<strong style="color: #86efac !important;">Prod Only</strong><br>
+								<span class="diff-value" style="color: #22c55e !important;">${prodOnly.length}</span> files<br>
+								<small style="color: #bbf7d0 !important;">PNGs in prod that don't need conversion in dev</small>
 							</div>
 						</div>
-						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
-							<strong>Common Issues</strong><br>
-							<span class="diff-value">${common.length}</span> files need conversion in both environments
+						<div style="padding: 12px; background: rgba(245, 158, 11, 0.15); border-radius: 6px; border-left: 4px solid #f59e0b; color: #fef3c7;">
+							<strong style="color: #fbbf24 !important;">Common Issues</strong><br>
+							<span class="diff-value" style="color: #f59e0b !important;">${common.length}</span> files need conversion in both environments
 						</div>
 						${devOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>Files only needing conversion in Dev (first 10):</strong><br>
-								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">Files only needing conversion in Dev (first 10):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${devOnly.slice(0, 10).map(f => `• ${f}`).join('<br>')}
 									${devOnly.length > 10 ? `<br>... and ${devOnly.length - 10} more files` : ''}
 								</div>
@@ -587,8 +598,8 @@
 						` : ''}
 						${prodOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>Files only needing conversion in Prod (first 10):</strong><br>
-								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">Files only needing conversion in Prod (first 10):</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${prodOnly.slice(0, 10).map(f => `• ${f}`).join('<br>')}
 									${prodOnly.length > 10 ? `<br>... and ${prodOnly.length - 10} more files` : ''}
 								</div>
@@ -623,33 +634,33 @@
 					<div class="diff-section">
 						<h4>Language Analysis</h4>
 						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
-								<strong>Dev Only</strong><br>
-								<span class="diff-value">${devOnly.length}</span> languages<br>
-								<small>Available in dev but not in prod</small>
+							<div style="padding: 12px; background: rgba(14, 165, 233, 0.15); border-radius: 6px; border-left: 4px solid #0ea5e9; color: #e0f2fe;">
+								<strong style="color: #7dd3fc !important;">Dev Only</strong><br>
+								<span class="diff-value" style="color: #0ea5e9 !important;">${devOnly.length}</span> languages<br>
+								<small style="color: #bae6fd !important;">Available in dev but not in prod</small>
 							</div>
-							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
-								<strong>Prod Only</strong><br>
-								<span class="diff-value">${prodOnly.length}</span> languages<br>
-								<small>Available in prod but not in dev</small>
+							<div style="padding: 12px; background: rgba(34, 197, 94, 0.15); border-radius: 6px; border-left: 4px solid #22c55e; color: #dcfce7;">
+								<strong style="color: #86efac !important;">Prod Only</strong><br>
+								<span class="diff-value" style="color: #22c55e !important;">${prodOnly.length}</span> languages<br>
+								<small style="color: #bbf7d0 !important;">Available in prod but not in dev</small>
 							</div>
 						</div>
-						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
-							<strong>Common Languages</strong><br>
-							<span class="diff-value">${common.length}</span> languages available in both environments
+						<div style="padding: 12px; background: rgba(245, 158, 11, 0.15); border-radius: 6px; border-left: 4px solid #f59e0b; color: #fef3c7;">
+							<strong style="color: #fbbf24 !important;">Common Languages</strong><br>
+							<span class="diff-value" style="color: #f59e0b !important;">${common.length}</span> languages available in both environments
 						</div>
 						${devOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>Languages only in Dev:</strong><br>
-								<div style="background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">Languages only in Dev:</strong><br>
+								<div style="background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${devOnly.map(l => `• ${l}`).join('<br>')}
 								</div>
 							</div>
 						` : ''}
 						${prodOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>Languages only in Prod:</strong><br>
-								<div style="background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">Languages only in Prod:</strong><br>
+								<div style="background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${prodOnly.map(l => `• ${l}`).join('<br>')}
 								</div>
 							</div>
@@ -683,33 +694,33 @@
 					<div class="diff-section">
 						<h4>CSV File Analysis</h4>
 						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-							<div style="padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
-								<strong>Dev Only</strong><br>
-								<span class="diff-value">${devOnly.length}</span> CSV files<br>
-								<small>Present in dev but not in prod</small>
+							<div style="padding: 12px; background: rgba(14, 165, 233, 0.15); border-radius: 6px; border-left: 4px solid #0ea5e9; color: #e0f2fe;">
+								<strong style="color: #7dd3fc !important;">Dev Only</strong><br>
+								<span class="diff-value" style="color: #0ea5e9 !important;">${devOnly.length}</span> CSV files<br>
+								<small style="color: #bae6fd !important;">Present in dev but not in prod</small>
 							</div>
-							<div style="padding: 12px; background: #f0fdf4; border-radius: 6px; border-left: 4px solid #22c55e;">
-								<strong>Prod Only</strong><br>
-								<span class="diff-value">${prodOnly.length}</span> CSV files<br>
-								<small>Present in prod but not in dev</small>
+							<div style="padding: 12px; background: rgba(34, 197, 94, 0.15); border-radius: 6px; border-left: 4px solid #22c55e; color: #dcfce7;">
+								<strong style="color: #86efac !important;">Prod Only</strong><br>
+								<span class="diff-value" style="color: #22c55e !important;">${prodOnly.length}</span> CSV files<br>
+								<small style="color: #bbf7d0 !important;">Present in prod but not in dev</small>
 							</div>
 						</div>
-						<div style="padding: 12px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
-							<strong>Common Files</strong><br>
-							<span class="diff-value">${common.length}</span> CSV files present in both environments
+						<div style="padding: 12px; background: rgba(245, 158, 11, 0.15); border-radius: 6px; border-left: 4px solid #f59e0b; color: #fef3c7;">
+							<strong style="color: #fbbf24 !important;">Common Files</strong><br>
+							<span class="diff-value" style="color: #f59e0b !important;">${common.length}</span> CSV files present in both environments
 						</div>
 						${devOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>CSV files only in Dev:</strong><br>
-								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">CSV files only in Dev:</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${devOnly.map(f => `• ${f}`).join('<br>')}
 								</div>
 							</div>
 						` : ''}
 						${prodOnly.length > 0 ? `
 							<div style="margin-top: 12px;">
-								<strong>CSV files only in Prod:</strong><br>
-								<div style="max-height: 150px; overflow-y: auto; background: #f9fafb; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;">
+								<strong style="color: #ffb347 !important;">CSV files only in Prod:</strong><br>
+								<div style="max-height: 150px; overflow-y: auto; background: rgba(7, 13, 24, 0.6); padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(56, 189, 248, 0.2);">
 									${prodOnly.map(f => `• ${f}`).join('<br>')}
 								</div>
 							</div>
