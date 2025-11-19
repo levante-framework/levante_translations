@@ -914,6 +914,9 @@
             <button class="tab-button" id="tabApproved" onclick="dashboard.switchTab('approved')">
                 Approved
             </button>
+            <button class="tab-button" id="tabNoAudio" onclick="dashboard.switchTab('no-audio')">
+                No Audio
+            </button>
         </div>
         <div class="pending-approvals-banner" id="pendingApprovalsBanner" style="display: none;">
             <div class="pending-approvals-content">
@@ -955,6 +958,15 @@
                     <i class="fas fa-check-circle"></i>
                     <h3>No approved items</h3>
                     <p>Approved items will appear here</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="tabContentNoAudio">
+            <div class="items-list" id="itemsListNoAudio">
+                <div class="empty-state">
+                    <i class="fas fa-volume-mute"></i>
+                    <h3>No language selected</h3>
+                    <p>Please select a language from the dropdown above</p>
                 </div>
             </div>
         </div>
@@ -1425,19 +1437,43 @@
             }
 
             parseCSV(csvText) {
-                const lines = csvText.split('\n').filter(line => line.trim());
-                if (lines.length === 0) return [];
+                // Use a more robust CSV parser that handles embedded newlines
+                const rows = this.parseCSVWithEmbeddedNewlines(csvText);
+                if (rows.length === 0) return [];
                 
-                const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+                const headers = rows[0].map(h => h.trim().replace(/^"|"$/g, '').trim());
                 const data = [];
                 
-                for (let i = 1; i < lines.length; i++) {
-                    const values = this.parseCSVLine(lines[i]);
-                    if (values.length !== headers.length) continue;
+                // Debug: log headers to see what columns are available
+                if (!this._loggedHeaders) {
+                    console.log('CSV Headers found:', headers);
+                    console.log('Looking for English column. Headers:', headers.map((h, i) => `${i}: "${h}"`).join(', '));
+                    // Check if 'en' column exists
+                    const enIndex = headers.findIndex(h => h.toLowerCase() === 'en' || h.toLowerCase() === 'en-us');
+                    if (enIndex >= 0) {
+                        console.log(`✅ Found English column at index ${enIndex}: "${headers[enIndex]}"`);
+                    } else {
+                        console.warn('⚠️ No "en" column found. Available columns:', headers);
+                    }
+                    this._loggedHeaders = true;
+                }
+                
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i];
+                    if (values.length !== headers.length) {
+                        // Try to pad or truncate to match header count
+                        while (values.length < headers.length) {
+                            values.push('');
+                        }
+                        if (values.length > headers.length) {
+                            values.splice(headers.length);
+                        }
+                    }
                     
                     const item = {};
                     headers.forEach((header, index) => {
-                        item[header] = values[index] || '';
+                        const value = values[index] || '';
+                        item[header] = String(value).trim().replace(/^"|"$/g, '');
                     });
                     
                     const itemId = item.identifier || item.item_id || item.id || item.ID || item.Item_ID || null;
@@ -1447,7 +1483,69 @@
                     }
                 }
                 
+                console.log(`Parsed ${data.length} items from CSV`);
                 return data;
+            }
+
+            parseCSVWithEmbeddedNewlines(csvText) {
+                // Robust CSV parser that properly handles quoted fields with embedded newlines
+                const rows = [];
+                let currentRow = [];
+                let currentField = '';
+                let inQuotes = false;
+                let i = 0;
+                
+                while (i < csvText.length) {
+                    const char = csvText[i];
+                    const nextChar = i + 1 < csvText.length ? csvText[i + 1] : null;
+                    
+                    if (char === '"') {
+                        if (inQuotes && nextChar === '"') {
+                            // Escaped quote - add literal quote to field
+                            currentField += '"';
+                            i += 2; // Skip both quotes
+                        } else {
+                            // Toggle quote state
+                            inQuotes = !inQuotes;
+                            i++;
+                        }
+                    } else if (char === ',' && !inQuotes) {
+                        // Field separator outside quotes
+                        currentRow.push(currentField.trim());
+                        currentField = '';
+                        i++;
+                    } else if ((char === '\n' || (char === '\r' && nextChar !== '\n')) && !inQuotes) {
+                        // Row separator outside quotes
+                        if (currentField.trim() || currentRow.length > 0) {
+                            currentRow.push(currentField.trim());
+                            if (currentRow.some(field => field.length > 0)) {
+                                rows.push(currentRow);
+                            }
+                            currentRow = [];
+                            currentField = '';
+                        }
+                        // Skip \r\n combinations
+                        if (char === '\r' && nextChar === '\n') {
+                            i += 2;
+                        } else {
+                            i++;
+                        }
+                    } else {
+                        // Regular character or newline inside quotes
+                        currentField += char;
+                        i++;
+                    }
+                }
+                
+                // Handle final field/row
+                if (currentField.trim() || currentRow.length > 0) {
+                    currentRow.push(currentField.trim());
+                    if (currentRow.some(field => field.length > 0)) {
+                        rows.push(currentRow);
+                    }
+                }
+                
+                return rows;
             }
 
             parseCSVLine(line) {
@@ -1587,14 +1685,18 @@
                 if (this.currentTab === 'approved') {
                     // For approved tab, get items from dev bucket
                     itemsToShow = await this.getApprovedItemsFromDev(withTranslations);
+                    this.renderApprovedItems(itemsToShow);
+                } else if (this.currentTab === 'no-audio') {
+                    // For no-audio tab, get items without audio files
+                    itemsToShow = await this.getItemsWithoutAudio(withTranslations);
+                    this.renderNoAudioItems(itemsToShow);
                 } else {
                     // For pending tab, get items from draft bucket (excluding approved)
                     itemsToShow = await this.filterItemsWithAudio(withTranslations);
+                    await this.renderItems(itemsToShow);
                 }
                 
                 console.log(`Found ${allItemsWithAudio.length} total items with audio (${itemsToShow.length} shown in ${this.currentTab} tab)`);
-                
-                await this.renderItems(itemsToShow);
                 
                 // Update stats with all items
                 await this.updateApprovalStats();
@@ -1761,6 +1863,56 @@
                 }
             }
 
+            getSourceText(item) {
+                // Try multiple possible column names for English/source text
+                // Check common variations: en, en-US, en_US, english, English, source_text, source
+                const possibleKeys = ['en', 'en-US', 'en_US', 'en-us', 'english', 'English', 'source_text', 'source', 'eo'];
+                
+                // First try exact matches
+                for (const key of possibleKeys) {
+                    if (item[key] && item[key].trim()) {
+                        return item[key].trim();
+                    }
+                }
+                
+                // Then try case-insensitive match
+                const keys = Object.keys(item);
+                for (const key of keys) {
+                    const keyLower = key.toLowerCase();
+                    if ((keyLower === 'en' || keyLower === 'en-us' || keyLower === 'english' || keyLower === 'source') && item[key] && item[key].trim()) {
+                        return item[key].trim();
+                    }
+                }
+                
+                // Debug: log available keys if source not found
+                if (!this._debuggedSourceKeys && Object.keys(item).length > 0) {
+                    console.log('⚠️ Source text not found. Available CSV columns:', Object.keys(item));
+                    console.log('Sample item (first 100 chars of each field):', Object.keys(item).reduce((acc, k) => {
+                        const val = String(item[k] || '');
+                        acc[k] = val.length > 100 ? val.substring(0, 100) + '...' : val;
+                        return acc;
+                    }, {}));
+                    // Try to find what looks like English text
+                    const allKeys = Object.keys(item);
+                    console.log('Checking all columns for potential English text...');
+                    for (const key of allKeys) {
+                        const val = String(item[key] || '').trim();
+                        if (val && val.length > 5) {
+                            console.log(`  Column "${key}" (${val.length} chars): "${val.substring(0, 80)}${val.length > 80 ? '...' : ''}"`);
+                        }
+                    }
+                    // Check specifically for 'en' column
+                    if (item.hasOwnProperty('en')) {
+                        console.log('  ⚠️ Column "en" exists but is empty or whitespace:', JSON.stringify(item.en));
+                    } else {
+                        console.log('  ⚠️ Column "en" does not exist in item');
+                    }
+                    this._debuggedSourceKeys = true;
+                }
+                
+                return '';
+            }
+
             getTextForItem(item, langCode) {
                 // Debug: log available keys for first item
                 if (!this._debuggedKeys && Object.keys(item).length > 0) {
@@ -1859,10 +2011,12 @@
                 // Update tab buttons
                 document.getElementById('tabPending').classList.toggle('active', tab === 'pending');
                 document.getElementById('tabApproved').classList.toggle('active', tab === 'approved');
+                document.getElementById('tabNoAudio').classList.toggle('active', tab === 'no-audio');
                 
                 // Update tab content
                 document.getElementById('tabContentPending').classList.toggle('active', tab === 'pending');
                 document.getElementById('tabContentApproved').classList.toggle('active', tab === 'approved');
+                document.getElementById('tabContentNoAudio').classList.toggle('active', tab === 'no-audio');
                 
                 // Re-render items for the selected tab
                 if (this.currentLanguage && this.currentLangCode) {
@@ -1882,6 +2036,10 @@
                     // For approved tab, get items from dev bucket
                     const approvedItemsList = await this.getApprovedItemsFromDev(withTranslations);
                     this.renderApprovedItems(approvedItemsList);
+                } else if (this.currentTab === 'no-audio') {
+                    // For no-audio tab, get items without audio files
+                    const itemsWithoutAudio = await this.getItemsWithoutAudio(withTranslations);
+                    this.renderNoAudioItems(itemsWithoutAudio);
                 } else {
                     // For pending tab, get items from draft bucket (excluding approved)
                     const itemsWithAudio = await this.filterItemsWithAudio(withTranslations);
@@ -1995,7 +2153,7 @@
                 container.innerHTML = items.map(item => {
                     const itemId = item.item_id || 'unknown';
                     const baseId = itemId.replace(/_v\d{3}$/, '');
-                    const sourceText = item.en || item.english || '';
+                    const sourceText = this.getSourceText(item);
                     const translatedText = this.getTextForItem(item, this.currentLangCode);
                     
                     // Debug: Log if translation is empty or same as source
@@ -2029,7 +2187,7 @@
                                 <div class="item-grid-top">
                                     <div class="text-block item-source">
                                         <div class="text-label">Source (English)</div>
-                                        <div class="text-content source">${escapedSource}</div>
+                                        <div class="text-content source">${escapedSource || '<em style="color: #999;">No source text</em>'}</div>
                                     </div>
                                     <div class="text-block item-translated">
                                         <div class="text-label">Translation (${this.currentLanguage})</div>
@@ -2082,15 +2240,17 @@
                 container.innerHTML = items.map(item => {
                     const itemId = item.item_id || 'unknown';
                     const baseId = itemId.replace(/_v\d{3}$/, '');
-                    const sourceText = item.en || item.english || '';
+                    const sourceText = this.getSourceText(item);
                     const translatedText = this.getTextForItem(item, this.currentLangCode);
                     const escapedItemId = this.escapeHtml(itemId);
+                    const escapedSource = this.escapeHtml(sourceText);
                     const escapedTranslated = this.escapeHtml(translatedText);
                     
                     return `
                         <div class="item-card-compact" data-item-id="${escapedItemId}">
                             <div class="item-card-compact-info">
                                 <div class="item-card-compact-id">${escapedItemId}</div>
+                                <div class="item-card-compact-source" style="color: #666; font-size: 0.9em; margin-bottom: 4px;">${escapedSource || '<em>No source text</em>'}</div>
                                 <div class="item-card-compact-text">${escapedTranslated}</div>
                             </div>
                             <div class="item-card-compact-actions">
@@ -2100,6 +2260,125 @@
                                 <button class="btn btn-warning" onclick="dashboard.unapproveAudio('${escapedItemId}')" title="Unapprove this item">
                                     <i class="fas fa-undo"></i> Unapprove
                                 </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            async getItemsWithoutAudio(items) {
+                // Get items that don't have audio files in either draft or dev bucket
+                try {
+                    const draftParams = new URLSearchParams({
+                        bucket: 'levante-assets-draft',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const devParams = new URLSearchParams({
+                        bucket: 'levante-assets-dev',
+                        prefix: `audio/${this.currentLangCode}/`
+                    });
+                    
+                    const [draftResponse, devResponse] = await Promise.all([
+                        fetch(`/api/list-draft-audio?${draftParams.toString()}`),
+                        fetch(`/api/list-draft-audio?${devParams.toString()}`)
+                    ]);
+                    
+                    const itemsWithAudio = new Set();
+                    
+                    // Add draft items
+                    if (draftResponse.ok) {
+                        const draftData = await draftResponse.json();
+                        if (draftData.items && Array.isArray(draftData.items)) {
+                            draftData.items.forEach(item => {
+                                const fileName = item.name.split('/').pop() || '';
+                                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                                if (baseId) {
+                                    itemsWithAudio.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Add dev items
+                    if (devResponse.ok) {
+                        const devData = await devResponse.json();
+                        if (devData.items && Array.isArray(devData.items)) {
+                            devData.items.forEach(item => {
+                                const fileName = item.name.split('/').pop() || '';
+                                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                                if (baseId) {
+                                    itemsWithAudio.add(baseId);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Filter items to only those WITHOUT audio
+                    const itemsWithoutAudio = items.filter(item => {
+                        const itemId = item.item_id || '';
+                        const baseId = itemId.replace(/_v\d{3}$/i, '');
+                        return !itemsWithAudio.has(baseId);
+                    });
+                    
+                    console.log(`Found ${itemsWithoutAudio.length} items without audio (out of ${items.length} items with translations)`);
+                    return itemsWithoutAudio;
+                } catch (error) {
+                    console.error('Error getting items without audio:', error);
+                    return [];
+                }
+            }
+
+            renderNoAudioItems(items) {
+                const container = document.getElementById('itemsListNoAudio');
+                
+                if (items.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-volume-mute"></i>
+                            <h3>No items without audio</h3>
+                            <p>All items have audio files</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = items.map(item => {
+                    const itemId = item.item_id || 'unknown';
+                    const baseId = itemId.replace(/_v\d{3}$/, '');
+                    const sourceText = this.getSourceText(item);
+                    const translatedText = this.getTextForItem(item, this.currentLangCode);
+                    const escapedItemId = this.escapeHtml(itemId);
+                    const escapedSource = this.escapeHtml(sourceText);
+                    const escapedTranslated = this.escapeHtml(translatedText || '');
+                    
+                    return `
+                        <div class="item-card" data-item-id="${escapedItemId}">
+                            <div class="item-header">
+                                <div class="item-id">${escapedItemId}</div>
+                            </div>
+                            <div class="item-content-wrapper">
+                                <div class="item-grid-top">
+                                    <div class="text-block item-source">
+                                        <div class="text-label">Source (English)</div>
+                                        <div class="text-content source">${escapedSource || '<em style="color: #999;">No source text</em>'}</div>
+                                    </div>
+                                    <div class="text-block item-translated">
+                                        <div class="text-label">Translation (${this.currentLanguage})</div>
+                                        <div class="text-content translated">${escapedTranslated || '<em style="color: #999;">Translation not available</em>'}</div>
+                                    </div>
+                                </div>
+                                <div class="item-grid-bottom">
+                                    <div class="item-actions">
+                                        <button class="btn btn-primary" onclick="dashboard.regenerateAudio('${escapedItemId}')" title="Generate audio for this item">
+                                            <i class="fas fa-microphone"></i> Generate Audio
+                                        </button>
+                                    </div>
+                                    <div class="text-block item-audio-enhanced">
+                                        <div class="text-label">Audio-enhanced string</div>
+                                        <textarea class="audio-enhanced-input" id="audioEnhanced_${escapedItemId}" data-item-id="${escapedItemId}" rows="3" placeholder="Edit text for audio generation...">${escapedTranslated || ''}</textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -2724,9 +3003,14 @@
                 }
                 
                 const lowerQuery = query.toLowerCase();
-                const container = this.currentTab === 'approved' 
-                    ? document.getElementById('itemsListApproved')
-                    : document.getElementById('itemsList');
+                let container;
+                if (this.currentTab === 'approved') {
+                    container = document.getElementById('itemsListApproved');
+                } else if (this.currentTab === 'no-audio') {
+                    container = document.getElementById('itemsListNoAudio');
+                } else {
+                    container = document.getElementById('itemsList');
+                }
                 
                 if (!container) return;
                 
