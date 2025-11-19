@@ -30,7 +30,9 @@ Write-Host ""
 Write-Host "[2/3] Setting up aliases..." -ForegroundColor Yellow
 $aliases = @(
     "audio-dashboard-levante.vercel.app",
-    "levante-audio-dashboard.vercel.app"
+    "levante-audio-dashboard.vercel.app",
+    "levante-pitwall.vercel.app",
+    "levante-partner-tools.vercel.app"
 )
 
 foreach ($alias in $aliases) {

@@ -19,6 +19,7 @@ if [ -n "$DEPLOYMENT_URL" ]; then
     echo "🔗 Setting up production aliases..."
     vercel alias $DEPLOYMENT_URL levante-audio-dashboard.vercel.app
     vercel alias $DEPLOYMENT_URL audio-dashboard-levante.vercel.app
+    vercel alias $DEPLOYMENT_URL levante-partner-tools.vercel.app
     
     echo "🎉 Production URLs updated:"
     echo "   Main: https://levante-audio-dashboard.vercel.app/"
