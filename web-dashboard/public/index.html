@@ -97,6 +97,11 @@
   <button id="stat-coverage-refresh" class="status-pill-refresh" type="button">Refresh</button>
 </div>
 </div></a>
+<a class="status-link" href="./audio-approval.html"><div class="status-pill">
+<span class="label"><span>Audio Clips</span><span class="label-sub">Approval Status</span></span>
+<strong id="stat-audio-clips">--</strong>
+<em id="stat-audio-clips-detail">Loading audio clip status…</em>
+</div></a>
 <a class="status-link" href="./preflight-report.html#visualAuditsSection"><div class="status-pill">
 <span class="label">
        Visual assets
@@ -292,6 +297,8 @@
     const visualDetailEl = document.getElementById('stat-visual-detail');
     const issuesEl = document.getElementById('stat-issues');
     const issuesDetailEl = document.getElementById('stat-issues-detail');
+    const audioClipsEl = document.getElementById('stat-audio-clips');
+    const audioClipsDetailEl = document.getElementById('stat-audio-clips-detail');
 
     const setError = (el, detailEl, message) => {
       if (el) el.textContent = '—';
@@ -332,6 +339,58 @@
         coverageRefreshBtn.disabled = false;
         coverageRefreshBtn.textContent = 'Refresh';
       }
+
+      // Load audio clip status
+      async function loadAudioClipStatus() {
+        try {
+          const [draftRes, devRes] = await Promise.all([
+            fetch('/api/list-draft-audio?bucket=levante-assets-draft&prefix=audio/', { cache: 'no-cache' }),
+            fetch('/api/list-draft-audio?bucket=levante-assets-dev&prefix=audio/', { cache: 'no-cache' })
+          ]);
+          
+          let draftItems = new Set();
+          let devItems = new Set();
+          
+          if (draftRes.ok) {
+            const draftData = await draftRes.json();
+            if (draftData.items && Array.isArray(draftData.items)) {
+              draftData.items.forEach(item => {
+                const fileName = item.name.split('/').pop() || '';
+                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                if (baseId) draftItems.add(baseId);
+              });
+            }
+          }
+          
+          if (devRes.ok) {
+            const devData = await devRes.json();
+            if (devData.items && Array.isArray(devData.items)) {
+              devData.items.forEach(item => {
+                const fileName = item.name.split('/').pop() || '';
+                const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+                if (baseId) devItems.add(baseId);
+              });
+            }
+          }
+          
+          const toBeApproved = draftItems.size;
+          const approved = devItems.size;
+          const available = new Set([...draftItems, ...devItems]).size;
+          
+          if (audioClipsEl) {
+            audioClipsEl.textContent = available.toLocaleString();
+          }
+          if (audioClipsDetailEl) {
+            audioClipsDetailEl.textContent = `${approved.toLocaleString()} Approved • ${toBeApproved.toLocaleString()} To Be Approved`;
+          }
+        } catch (error) {
+          console.error('Error loading audio clip status:', error);
+          if (audioClipsEl) audioClipsEl.textContent = '--';
+          if (audioClipsDetailEl) audioClipsDetailEl.textContent = 'Unable to load audio clip status';
+        }
+      }
+      
+      await loadAudioClipStatus();
 
       const visual = data?.visualAssets || {};
       if (visual.message) {

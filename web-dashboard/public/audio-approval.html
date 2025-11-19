@@ -1372,10 +1372,10 @@
             async loadData() {
                 try {
                     // First, load all translation data from CSV
-                    // Try multiple possible paths (original URL first, then fallbacks)
+                    // Try multiple possible paths (translations subfolder first, then fallbacks)
                     const urls = [
-                        'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv',
                         'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/translations/item-bank-translations.csv',
+                        'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/item-bank-translations.csv',
                         'https://raw.githubusercontent.com/levante-framework/levante_translations/main/translations/item-bank-translations.csv'
                     ];
                     
@@ -1762,53 +1762,95 @@
             }
 
             getTextForItem(item, langCode) {
-                // Try exact match first
-                let text = item[langCode];
+                // Debug: log available keys for first item
+                if (!this._debuggedKeys && Object.keys(item).length > 0) {
+                    const ptKeys = Object.keys(item).filter(k => k.toLowerCase().includes('pt') || k.toLowerCase().includes('portuguese'));
+                    console.log('Available CSV columns with "pt":', ptKeys);
+                    console.log('Sample item keys:', Object.keys(item).slice(0, 10));
+                    this._debuggedKeys = true;
+                }
                 
-                // Try case-insensitive match
-                if (!text) {
-                    const keys = Object.keys(item);
-                    const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
-                    if (match) {
-                        text = item[match];
+                const keys = Object.keys(item);
+                
+                // For pt-PT, check multiple possible column names
+                if (langCode === 'pt-PT') {
+                    // Try exact match FIRST (pt-PT is the correct column name)
+                    if (item['pt-PT'] && item['pt-PT'].trim()) {
+                        return item['pt-PT'].trim();
+                    }
+                    // Try all other possible Portuguese column name variations
+                    const ptColumnNames = ['pt', 'pt-pt', 'pt_PT', 'pt_pt', 'ptpt'];
+                    for (const colName of ptColumnNames) {
+                        if (item[colName] && item[colName].trim()) {
+                            console.log(`Found Portuguese translation in '${colName}' column for item ${item.item_id || 'unknown'}`);
+                            return item[colName].trim();
+                        }
+                    }
+                    // Try case-insensitive match for 'pt'
+                    const ptMatch = keys.find(k => k.toLowerCase() === 'pt');
+                    if (ptMatch && item[ptMatch] && item[ptMatch].trim()) {
+                        console.log(`Found Portuguese translation in '${ptMatch}' column (case-insensitive)`);
+                        return item[ptMatch].trim();
                     }
                 }
                 
+                // Try exact match for other languages
+                let text = item[langCode];
+                if (text && text.trim()) {
+                    return text.trim();
+                }
+                
+                // Try case-insensitive match
+                const match = keys.find(k => k.toLowerCase() === langCode.toLowerCase());
+                if (match && item[match] && item[match].trim()) {
+                    return item[match].trim();
+                }
+                
                 // Try base language if langCode has a hyphen (e.g., es-CO -> es)
-                if (!text && langCode.includes('-')) {
+                if (langCode.includes('-')) {
                     const base = langCode.split('-')[0];
-                    text = item[base];
+                    if (item[base] && item[base].trim()) {
+                        return item[base].trim();
+                    }
                     // Also try case-insensitive base match
-                    if (!text) {
-                        const keys = Object.keys(item);
-                        const baseMatch = keys.find(k => k.toLowerCase() === base.toLowerCase());
-                        if (baseMatch) {
-                            text = item[baseMatch];
-                        }
+                    const baseMatch = keys.find(k => k.toLowerCase() === base.toLowerCase());
+                    if (baseMatch && item[baseMatch] && item[baseMatch].trim()) {
+                        return item[baseMatch].trim();
                     }
                 }
                 
                 // Try alternative column names (common variations)
-                if (!text) {
-                    const altNames = {
-                        'es-CO': ['es-co', 'es_CO', 'es_co', 'esco', 'Spanish (Colombia)'],
-                        'es-AR': ['es-ar', 'es_AR', 'es_ar', 'esar', 'Spanish (Argentina)'],
-                        'de-CH': ['de-ch', 'de_CH', 'de_ch', 'dech', 'German (Switzerland)'],
-                        'fr-CA': ['fr-ca', 'fr_CA', 'fr_ca', 'frca', 'French'],
-                        'pt-PT': ['pt-pt', 'pt_PT', 'pt_pt', 'ptpt', 'Portuguese']
-                    };
-                    
-                    if (altNames[langCode]) {
-                        for (const altName of altNames[langCode]) {
-                            if (item[altName]) {
-                                text = item[altName];
-                                break;
-                            }
+                // Note: We avoid generic language names like 'Portuguese' or 'Spanish' as they might match wrong columns
+                const altNames = {
+                    'es-CO': ['es-co', 'es_CO', 'es_co', 'esco'],
+                    'es-AR': ['es-ar', 'es_AR', 'es_ar', 'esar'],
+                    'de-CH': ['de-ch', 'de_CH', 'de_ch', 'dech'],
+                    'fr-CA': ['fr-ca', 'fr_CA', 'fr_ca', 'frca'],
+                    'pt-PT': ['pt-pt', 'pt_PT', 'pt_pt', 'ptpt'] // Note: 'pt' already checked above
+                };
+                
+                if (altNames[langCode]) {
+                    for (const altName of altNames[langCode]) {
+                        if (item[altName] && item[altName].trim()) {
+                            return item[altName].trim();
                         }
                     }
                 }
                 
-                return text || item.en || item.english || '';
+                // Try to find any column that contains the language code (for debugging)
+                const langMatch = keys.find(k => {
+                    const kLower = k.toLowerCase();
+                    const langLower = langCode.toLowerCase();
+                    return kLower.includes(langLower) || langLower.includes(kLower);
+                });
+                if (langMatch && item[langMatch] && item[langMatch].trim()) {
+                    console.log(`Found translation using fuzzy match: column '${langMatch}' for langCode '${langCode}'`);
+                    return item[langMatch].trim();
+                }
+                
+                // Return empty string - do NOT fall back to English
+                // This ensures we don't show English when Portuguese translation is missing
+                return '';
             }
 
             async switchTab(tab) {
@@ -1955,9 +1997,15 @@
                     const baseId = itemId.replace(/_v\d{3}$/, '');
                     const sourceText = item.en || item.english || '';
                     const translatedText = this.getTextForItem(item, this.currentLangCode);
+                    
+                    // Debug: Log if translation is empty or same as source
+                    if (!translatedText || translatedText === sourceText) {
+                        console.warn(`Item ${itemId}: Translation empty or matches source. LangCode: ${this.currentLangCode}, Available keys:`, Object.keys(item).filter(k => k.toLowerCase().includes('pt') || k.toLowerCase().includes(this.currentLangCode.toLowerCase())));
+                    }
+                    
                     const escapedItemId = this.escapeHtml(itemId);
                     const escapedSource = this.escapeHtml(sourceText);
-                    const escapedTranslated = this.escapeHtml(translatedText);
+                    const escapedTranslated = this.escapeHtml(translatedText || ''); // Ensure empty string if no translation
                     
                     const pendingKey = this.pendingSaveKey;
                     const key = `${this.currentLangCode}::${itemId}`;
@@ -1985,7 +2033,7 @@
                                     </div>
                                     <div class="text-block item-translated">
                                         <div class="text-label">Translation (${this.currentLanguage})</div>
-                                        <div class="text-content translated">${escapedTranslated}</div>
+                                        <div class="text-content translated">${escapedTranslated || '<em style="color: #999;">Translation not available</em>'}</div>
                                     </div>
                                 </div>
                                 <div class="item-grid-bottom">
@@ -2005,7 +2053,7 @@
                                     </div>
                                     <div class="text-block item-audio-enhanced">
                                         <div class="text-label">Audio-enhanced string</div>
-                                        <textarea class="audio-enhanced-input" id="audioEnhanced_${escapedItemId}" data-item-id="${escapedItemId}" rows="3" placeholder="Edit text for audio generation...">${escapedTranslated}</textarea>
+                                        <textarea class="audio-enhanced-input" id="audioEnhanced_${escapedItemId}" data-item-id="${escapedItemId}" rows="3" placeholder="Edit text for audio generation...">${escapedTranslated || ''}</textarea>
                                     </div>
                                 </div>
                             </div>

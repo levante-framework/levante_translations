@@ -1558,8 +1558,51 @@
 				document.getElementById('audioBucket').textContent = data.bucket || 'levante-assets-dev';
 				const languages = Array.isArray(data.languages) ? data.languages : [];
 				const totalLanguages = languages.length;
+				
+				// Get audio clip approval status
+				let approvalStatus = '';
+				try {
+					const [draftRes, devRes] = await Promise.all([
+						fetch('/api/list-draft-audio?bucket=levante-assets-draft&prefix=audio/', { cache: 'no-cache' }),
+						fetch('/api/list-draft-audio?bucket=levante-assets-dev&prefix=audio/', { cache: 'no-cache' })
+					]);
+					
+					let draftItems = new Set();
+					let devItems = new Set();
+					
+					if (draftRes.ok) {
+						const draftData = await draftRes.json();
+						if (draftData.items && Array.isArray(draftData.items)) {
+							draftData.items.forEach(item => {
+								const fileName = item.name.split('/').pop() || '';
+								const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+								if (baseId) draftItems.add(baseId);
+							});
+						}
+					}
+					
+					if (devRes.ok) {
+						const devData = await devRes.json();
+						if (devData.items && Array.isArray(devData.items)) {
+							devData.items.forEach(item => {
+								const fileName = item.name.split('/').pop() || '';
+								const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+								if (baseId) devItems.add(baseId);
+							});
+						}
+					}
+					
+					const toBeApproved = draftItems.size;
+					const approved = devItems.size;
+					const available = new Set([...draftItems, ...devItems]).size;
+					
+					approvalStatus = ` · Clips: <span class="code">${available.toLocaleString()}</span> Available (<span class="badge ok">${approved.toLocaleString()}</span> Approved, <span class="badge warn">${toBeApproved.toLocaleString()}</span> To Be Approved)`;
+				} catch (err) {
+					console.warn('Could not load audio clip approval status:', err);
+				}
+				
 				const summary = document.getElementById('audioSummary');
-				summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>`;
+				summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>${approvalStatus}`;
 				const detailsLink = document.getElementById('audioDetails');
 				const coverageBtn = document.getElementById('audioCoverageBtn');
 				if (totalLanguages > 0) {
@@ -1589,8 +1632,36 @@
 				const bucketEl = document.getElementById('audioBucketProd'); if (bucketEl) bucketEl.textContent = data.bucket || 'levante-assets-prod';
 				const languages = Array.isArray(data.languages) ? data.languages : [];
 				const totalLanguages = languages.length;
+				
+				// Get audio clip approval status for prod
+				let approvalStatus = '';
+				try {
+					const prodRes = await fetch('/api/list-draft-audio?bucket=levante-assets-prod&prefix=audio/', { cache: 'no-cache' });
+					
+					let prodItems = new Set();
+					
+					if (prodRes.ok) {
+						const prodData = await prodRes.json();
+						if (prodData.items && Array.isArray(prodData.items)) {
+							prodData.items.forEach(item => {
+								const fileName = item.name.split('/').pop() || '';
+								const baseId = fileName.replace(/\.mp3$/i, '').replace(/_v\d{3}$/i, '');
+								if (baseId) prodItems.add(baseId);
+							});
+						}
+					}
+					
+					const approved = prodItems.size;
+					
+					if (approved > 0) {
+						approvalStatus = ` · Clips: <span class="code">${approved.toLocaleString()}</span> Approved`;
+					}
+				} catch (err) {
+					console.warn('Could not load audio clip approval status for prod:', err);
+				}
+				
 				const summary = document.getElementById('audioSummaryProd');
-				if (summary) summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>`;
+				if (summary) summary.innerHTML = `Languages: <span class="code">${totalLanguages}</span> · Available: <span class="badge ${totalLanguages > 0 ? 'ok' : 'err'}">${totalLanguages}</span>${approvalStatus}`;
 				const detailsLink = document.getElementById('audioDetailsProd');
 				const coverageBtn = document.getElementById('audioCoverageBtnProd');
 				if (totalLanguages > 0) {
