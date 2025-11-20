@@ -1610,17 +1610,24 @@
                 
                 console.log(`Found ${allItemsWithAudio.length} total items with audio (${itemsToShow.length} shown in ${this.currentTab} tab)`);
                 
-                // Actually render items for the current tab
-                await this.refreshItemsForCurrentTab();
+                // Render items directly for the current tab (don't re-filter)
+                if (this.currentTab === 'approved') {
+                    this.renderApprovedItems(itemsToShow);
+                    this.setStatus(`Finished loading - ${itemsToShow.length} approved items`, 'success');
+                } else if (this.currentTab === 'noaudio') {
+                    this.renderNoAudioItems(itemsToShow);
+                    this.setStatus(`Finished loading - ${itemsToShow.length} items without audio`, 'success');
+                } else {
+                    await this.renderPendingItems(itemsToShow);
+                    this.setStatus(`Finished loading - ${itemsToShow.length} items in To Be Approved tab (${allItemsWithAudio.length} total with audio)`, 'success');
+                }
                 
                 // Update stats with all items
                 await this.updateApprovalStats();
                 
-                // Set final status
-                if (this.currentTab === 'noaudio') {
-                    this.setStatus(`Finished loading - ${itemsToShow.length} items without audio`, 'success');
-                } else {
-                    this.setStatus(`Finished loading - ${itemsToShow.length} items in ${this.currentTab === 'approved' ? 'Approved' : 'To Be Approved'} tab (${allItemsWithAudio.length} total with audio)`, 'success');
+                // Apply search filter if active
+                if (this.currentSearchQuery) {
+                    this.applySearchFilter(this.currentSearchQuery);
                 }
             }
 
