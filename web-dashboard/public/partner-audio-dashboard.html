@@ -914,6 +914,10 @@
                 <span class="stat-label">Pending</span>
                 <span class="stat-value stat-pending" id="statPending">0</span>
             </div>
+            <div class="stat-item">
+                <span class="stat-label">No Audio</span>
+                <span class="stat-value stat-noaudio" id="statNoAudio">0</span>
+            </div>
         </div>
         <div class="status" id="status">
             Select a language to begin
@@ -985,7 +989,7 @@
                 this.allowedLanguage = null; // Will be set based on user's site
                 this.approvedItems = new Set(); // Track approved item IDs (already moved to dev)
                 this.unapprovedItems = new Set(); // Track explicitly unapproved items (to prevent re-adding)
-                this.approvalStats = { total: 0, approved: 0, pending: 0 };
+                this.approvalStats = { total: 0, approved: 0, pending: 0, noAudio: 0 };
                 this.currentTab = 'pending'; // Current tab: 'pending' or 'approved'
                 
                 this.data = [];
@@ -1338,10 +1342,14 @@
                 // Get ALL items with audio (from both draft and dev buckets)
                 const allItemsWithAudio = await this.getAllItemsWithAudio(withTranslations);
                 
+                // Get items without audio
+                const itemsWithoutAudio = await this.getItemsWithoutAudio(withTranslations);
+                
                 // Count approved vs pending based on approvedItems set
-                let total = allItemsWithAudio.length;
+                let total = withTranslations.length; // Total items with translations
                 let approved = 0;
                 let pending = 0;
+                const noAudio = itemsWithoutAudio.length;
                 
                 allItemsWithAudio.forEach(item => {
                     const baseId = (item.item_id || '').replace(/_v\d{3}$/, '');
@@ -1355,15 +1363,18 @@
                 this.approvalStats.total = total;
                 this.approvalStats.approved = approved;
                 this.approvalStats.pending = pending;
+                this.approvalStats.noAudio = noAudio;
                 
                 // Update UI elements
                 const statTotal = document.getElementById('statTotal');
                 const statApproved = document.getElementById('statApproved');
                 const statPending = document.getElementById('statPending');
+                const statNoAudio = document.getElementById('statNoAudio');
                 
                 if (statTotal) statTotal.textContent = total;
                 if (statApproved) statApproved.textContent = approved;
                 if (statPending) statPending.textContent = pending;
+                if (statNoAudio) statNoAudio.textContent = noAudio;
                 
                 
                 // Show stats container
@@ -1609,6 +1620,11 @@
                 }
                 
                 console.log(`Found ${allItemsWithAudio.length} total items with audio (${itemsToShow.length} shown in ${this.currentTab} tab)`);
+                
+                // Ensure current tab content is visible
+                document.getElementById('tabContentPending').classList.toggle('active', this.currentTab === 'pending');
+                document.getElementById('tabContentApproved').classList.toggle('active', this.currentTab === 'approved');
+                document.getElementById('tabContentNoAudio').classList.toggle('active', this.currentTab === 'noaudio');
                 
                 // Render items directly for the current tab (don't re-filter)
                 if (this.currentTab === 'approved') {
@@ -2058,6 +2074,10 @@
 
             async renderPendingItems(items) {
                 const container = document.getElementById('itemsList');
+                if (!container) {
+                    console.error('itemsList container not found');
+                    return;
+                }
                 
                 if (items.length === 0) {
                     container.innerHTML = `
