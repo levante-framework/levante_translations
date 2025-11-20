@@ -7,8 +7,9 @@ This guide explains how research partners can review and approve audio translati
 The Partner Audio Approval Tool is a streamlined interface designed for research partners to:
 - Review audio translations for their specific language
 - Listen to existing audio clips
+- Generate audio for items without audio files
 - Regenerate audio with custom text if needed
-- Approve audio clips for deployment
+- Approve audio clips for deployment (immediate approval workflow)
 - Search and filter items for efficient review
 
 ## Access
@@ -37,10 +38,11 @@ The Partner Audio Approval Tool is available at:
 - If you have access to multiple languages, select your language from the dropdown
 - If you're restricted to a single language, it will be automatically selected
 - The dashboard will load all available audio items for your language
+- Items display immediately after language selection
 
 ### 2. Review Items
 
-The dashboard shows two tabs:
+The dashboard shows three tabs:
 
 #### **To Be Approved Tab**
 - Displays all audio items that need review
@@ -49,61 +51,70 @@ The dashboard shows two tabs:
   - **Source (English)**: The original English text
   - **Translation**: The translated text in your language
   - **Audio-enhanced string**: Editable text field for custom audio generation
-  - **Action buttons**: Play, Approve, Regenerate, Approve & Save
+  - **Action buttons**: Play, Approve, Regenerate, Save
 
 #### **Approved Tab**
 - Shows all items you've approved
 - Compact view with item ID, translated text, and Unapprove button
-- Items in this tab have been moved to the approved bucket
+- Items in this tab have been moved to the approved bucket (`levante-assets-dev`)
+- Unapproving moves items back to the draft bucket
+
+#### **No Audio Tab**
+- Displays items that don't have audio files yet
+- Compact card layout showing:
+  - Item ID
+  - Source text (English)
+  - Translated text
+  - **Generate Audio** button: Creates audio from the translated text
+  - **Save & Approve** button: Saves generated audio and immediately approves it
+- Items can be generated and approved in one workflow
 
 ### 3. Listen to Audio
 
 - Click the **Play** button to listen to the current audio clip
-- Audio is fetched from the draft bucket (`levante-assets-draft`)
-- If no audio exists, you'll need to regenerate it
+- Audio is fetched from the draft bucket (`levante-assets-draft`) for pending items
+- Audio is fetched from the dev bucket (`levante-assets-dev`) for approved items
+- If no audio exists, you'll need to generate it (use the "No Audio" tab)
 
-### 4. Regenerate Audio (Optional)
+### 4. Generate Audio (No Audio Tab)
+
+For items without audio files:
+
+1. Navigate to the **No Audio** tab
+2. Review the source text and translation
+3. Click **Generate Audio** to create audio from the translated text
+4. The audio will play automatically after generation
+5. Click **Save & Approve** to save the audio and immediately approve it
+6. The item will move to the "Approved" tab
+
+### 5. Regenerate Audio (Optional)
 
 If you want to customize the audio:
 
 1. Edit the **Audio-enhanced string** text field (pre-filled with translated text)
 2. Click **Regenerate** to generate new audio with your custom text
 3. The audio will play automatically after generation
-4. Click **Approve & Save** to save the regenerated audio and mark it for approval
+4. Click **Save** to save the regenerated audio
+5. Click **Approve** to immediately approve the audio
 
-### 5. Approve Items
+### 6. Approve Items
 
-You can approve items in two ways:
-
-#### **Quick Approve**
+**Immediate Approval Workflow:**
 - Click the **Approve** button on any item
-- The item is marked for approval (yellow border)
-- It will be included in the next batch approval
-
-#### **Approve & Save**
-- After regenerating audio, click **Approve & Save**
-- Saves the regenerated audio and marks it for approval
-- Combines saving and approval in one action
-
-### 6. Batch Approval
-
-When you've marked items for approval:
-
-1. A yellow banner appears at the top showing "X item(s) marked for approval"
-2. Review all marked items (they have yellow borders)
-3. Click **Confirm Approvals** to process all pending approvals
-4. The system will:
-   - Move all approved audio files from `levante-assets-draft` to `levante-assets-dev`
-   - Update the approval status
-   - Remove items from the "To Be Approved" tab
-   - Add them to the "Approved" tab
+- The audio file is immediately moved from `levante-assets-draft` to `levante-assets-dev`
+- The item disappears from the "To Be Approved" tab
+- The item appears in the "Approved" tab
+- Statistics update automatically
+- No batch confirmation needed
 
 ### 7. Unapprove Items (if needed)
 
 - Switch to the **Approved** tab
 - Click **Unapprove** on any item
-- The item will be removed from approved status
-- Note: The file remains in the approved bucket, but it won't show as approved in the UI
+- The audio file is immediately moved back from `levante-assets-dev` to `levante-assets-draft`
+- The item disappears from the "Approved" tab
+- The item appears back in the "To Be Approved" tab
+- Statistics update automatically
 
 ## Search Functionality
 
@@ -112,43 +123,56 @@ When you've marked items for approval:
   - Item ID (e.g., "vocab-item-119")
   - Any text content (source text, translated text, etc.)
 - Search works in real-time as you type
+- Search filters work across all tabs
 - Click the X button to clear the search
 
 ## Statistics
 
-The top of the dashboard shows:
-- **Total Items**: All items with audio files for your language
+The top of the dashboard shows four statistics:
+- **Total Items**: All items with translations for your language
 - **Approved**: Items that have been approved and moved to dev bucket
-- **Pending**: Items still awaiting approval
+- **Pending**: Items still awaiting approval in the draft bucket
+- **No Audio**: Items without audio files that need generation
+
+Statistics update automatically as you approve/unapprove items.
 
 ## Tips
 
-- **Batch Processing**: Mark multiple items for approval, then confirm all at once for efficiency
+- **Immediate Feedback**: All approval actions happen immediately - no need to confirm batches
+- **Audio Generation**: Use the "No Audio" tab to quickly generate audio for missing items
 - **Audio Enhancement**: Use the "Audio-enhanced string" field to customize pronunciation or add pauses
 - **Search**: Use search to quickly find specific items you need to review
-- **Tab Navigation**: Switch between "To Be Approved" and "Approved" tabs to track your progress
+- **Tab Navigation**: Switch between tabs to track your progress
+- **Save & Approve**: On the "No Audio" tab, use "Save & Approve" to generate and approve in one step
 
 ## Troubleshooting
 
 ### "No items found"
-- Ensure your language has audio files in the draft bucket
+- Ensure your language has translations in the CSV file
 - Check that translations exist for your language
 - Contact Levante support if items should be available
 
 ### "ElevenLabs API key missing"
-- Audio regeneration requires API credentials
+- Audio generation requires API credentials
 - These are configured server-side
-- Contact Levante support if regeneration fails
+- Contact Levante support if generation fails
 
 ### Items not appearing after approval
-- Approved items move to the "Approved" tab
+- Approved items move to the "Approved" tab immediately
 - Check the Approved tab to see your approved items
 - Statistics update automatically
+- Refresh the page if items don't appear
 
 ### Can't see my language
 - Your account may be restricted to a specific language
 - Contact Levante administrators to verify your language assignment
 - Superadmins can access all languages
+
+### Items not displaying after language selection
+- Items should display immediately after selecting a language
+- If items don't appear, try switching tabs
+- Check the browser console (F12 → Console) for errors
+- Contact Levante support if the issue persists
 
 ## Technical Details
 
@@ -161,11 +185,15 @@ The top of the dashboard shows:
 - Versioned files use format: `{item-id}_v###.mp3`
 
 ### Approval Process
-1. Items are marked for approval (stored in browser state)
-2. "Confirm Approvals" triggers batch processing
-3. Files are moved from draft to dev bucket
-4. Metadata is preserved during the move
-5. UI updates to reflect new approval status
+1. User clicks "Approve" → File immediately moves from draft to dev bucket
+2. UI updates to show item in "Approved" tab
+3. Statistics update automatically
+4. No batch confirmation needed
+
+### Unapproval Process
+1. User clicks "Unapprove" → File immediately moves from dev back to draft bucket
+2. UI updates to show item in "To Be Approved" tab
+3. Statistics update automatically
 
 ## Support
 
@@ -178,4 +206,3 @@ For issues or questions:
 
 - [README_PATCHING.md](./README_PATCHING.md) - Patch & Deploy Workflow for administrators
 - [README_WebDashboard.md](./README_WebDashboard.md) - Main dashboard documentation
-

@@ -196,8 +196,9 @@
             <ul>
                 <li>Review audio translations for their specific language</li>
                 <li>Listen to existing audio clips</li>
+                <li>Generate audio for items without audio files</li>
                 <li>Regenerate audio with custom text if needed</li>
-                <li>Approve audio clips for deployment</li>
+                <li>Approve audio clips for deployment (immediate approval workflow)</li>
                 <li>Search and filter items for efficient review</li>
             </ul>
         </div>
@@ -237,10 +238,11 @@
                 <li>If you have access to multiple languages, select your language from the dropdown</li>
                 <li>If you're restricted to a single language, it will be automatically selected</li>
                 <li>The dashboard will load all available audio items for your language</li>
+                <li>Items display immediately after language selection</li>
             </ul>
 
             <h3>2. Review Items</h3>
-            <p>The dashboard shows two tabs:</p>
+            <p>The dashboard shows three tabs:</p>
             
             <h4><strong>To Be Approved Tab</strong></h4>
             <ul>
@@ -260,64 +262,73 @@
             <ul>
                 <li>Shows all items you've approved</li>
                 <li>Compact view with item ID, translated text, and Unapprove button</li>
-                <li>Items in this tab have been moved to the approved bucket</li>
+                <li>Items in this tab have been moved to the approved bucket (<code>levante-assets-dev</code>)</li>
+                <li>Unapproving moves items back to the draft bucket</li>
+            </ul>
+
+            <h4><strong>No Audio Tab</strong></h4>
+            <ul>
+                <li>Displays items that don't have audio files yet</li>
+                <li>Compact card layout showing:
+                    <ul>
+                        <li>Item ID</li>
+                        <li>Source text (English)</li>
+                        <li>Translated text</li>
+                        <li><strong>Generate Audio</strong> button: Creates audio from the translated text</li>
+                        <li><strong>Save & Approve</strong> button: Saves generated audio and immediately approves it</li>
+                    </ul>
+                </li>
+                <li>Items can be generated and approved in one workflow</li>
             </ul>
 
             <h3>3. Listen to Audio</h3>
             <ul>
                 <li>Click the <strong>Play</strong> button to listen to the current audio clip</li>
-                <li>Audio is fetched from the draft bucket (<code>levante-assets-draft</code>)</li>
-                <li>If no audio exists, you'll need to regenerate it</li>
+                <li>Audio is fetched from the draft bucket (<code>levante-assets-draft</code>) for pending items</li>
+                <li>Audio is fetched from the dev bucket (<code>levante-assets-dev</code>) for approved items</li>
+                <li>If no audio exists, you'll need to generate it (use the "No Audio" tab)</li>
             </ul>
 
-            <h3>4. Regenerate Audio (Optional)</h3>
+            <h3>4. Generate Audio (No Audio Tab)</h3>
+            <p>For items without audio files:</p>
+            <ol>
+                <li>Navigate to the <strong>No Audio</strong> tab</li>
+                <li>Review the source text and translation</li>
+                <li>Click <strong>Generate Audio</strong> to create audio from the translated text</li>
+                <li>The audio will play automatically after generation</li>
+                <li>Click <strong>Save & Approve</strong> to save the audio and immediately approve it</li>
+                <li>The item will move to the "Approved" tab</li>
+            </ol>
+
+            <h3>5. Regenerate Audio (Optional)</h3>
             <p>If you want to customize the audio:</p>
             <ol>
                 <li>Edit the <strong>Audio-enhanced string</strong> text field (pre-filled with translated text)</li>
                 <li>Click <strong>Regenerate</strong> to generate new audio with your custom text</li>
                 <li>The audio will play automatically after generation</li>
-                <li>Click <strong>Approve & Save</strong> to save the regenerated audio and mark it for approval</li>
+                <li>Click <strong>Save</strong> to save the regenerated audio</li>
+                <li>Click <strong>Approve</strong> to immediately approve the audio</li>
             </ol>
 
-            <h3>5. Approve Items</h3>
-            <p>You can approve items in two ways:</p>
-
-            <h4><strong>Quick Approve</strong></h4>
+            <h3>6. Approve Items</h3>
+            <p><strong>Immediate Approval Workflow:</strong></p>
             <ul>
                 <li>Click the <strong>Approve</strong> button on any item</li>
-                <li>The item is marked for approval (yellow border)</li>
-                <li>It will be included in the next batch approval</li>
+                <li>The audio file is immediately moved from <code>levante-assets-draft</code> to <code>levante-assets-dev</code></li>
+                <li>The item disappears from the "To Be Approved" tab</li>
+                <li>The item appears in the "Approved" tab</li>
+                <li>Statistics update automatically</li>
+                <li>No batch confirmation needed</li>
             </ul>
-
-            <h4><strong>Approve & Save</strong></h4>
-            <ul>
-                <li>After regenerating audio, click <strong>Approve & Save</strong></li>
-                <li>Saves the regenerated audio and marks it for approval</li>
-                <li>Combines saving and approval in one action</li>
-            </ul>
-
-            <h3>6. Batch Approval</h3>
-            <p>When you've marked items for approval:</p>
-            <ol>
-                <li>A yellow banner appears at the top showing "X item(s) marked for approval"</li>
-                <li>Review all marked items (they have yellow borders)</li>
-                <li>Click <strong>Confirm Approvals</strong> to process all pending approvals</li>
-                <li>The system will:
-                    <ul>
-                        <li>Move all approved audio files from <code>levante-assets-draft</code> to <code>levante-assets-dev</code></li>
-                        <li>Update the approval status</li>
-                        <li>Remove items from the "To Be Approved" tab</li>
-                        <li>Add them to the "Approved" tab</li>
-                    </ul>
-                </li>
-            </ol>
 
             <h3>7. Unapprove Items (if needed)</h3>
             <ul>
                 <li>Switch to the <strong>Approved</strong> tab</li>
                 <li>Click <strong>Unapprove</strong> on any item</li>
-                <li>The item will be removed from approved status</li>
-                <li>Note: The file remains in the approved bucket, but it won't show as approved in the UI</li>
+                <li>The audio file is immediately moved back from <code>levante-assets-dev</code> to <code>levante-assets-draft</code></li>
+                <li>The item disappears from the "Approved" tab</li>
+                <li>The item appears back in the "To Be Approved" tab</li>
+                <li>Statistics update automatically</li>
             </ul>
         </div>
 
@@ -332,27 +343,32 @@
                     </ul>
                 </li>
                 <li>Search works in real-time as you type</li>
+                <li>Search filters work across all tabs</li>
                 <li>Click the X button to clear the search</li>
             </ul>
         </div>
 
         <div class="card">
             <h2>Statistics</h2>
-            <p>The top of the dashboard shows:</p>
+            <p>The top of the dashboard shows four statistics:</p>
             <ul>
-                <li><strong>Total Items</strong>: All items with audio files for your language</li>
+                <li><strong>Total Items</strong>: All items with translations for your language</li>
                 <li><strong>Approved</strong>: Items that have been approved and moved to dev bucket</li>
-                <li><strong>Pending</strong>: Items still awaiting approval</li>
+                <li><strong>Pending</strong>: Items still awaiting approval in the draft bucket</li>
+                <li><strong>No Audio</strong>: Items without audio files that need generation</li>
             </ul>
+            <p>Statistics update automatically as you approve/unapprove items.</p>
         </div>
 
         <div class="card">
             <h2>Tips</h2>
             <ul>
-                <li><strong>Batch Processing</strong>: Mark multiple items for approval, then confirm all at once for efficiency</li>
+                <li><strong>Immediate Feedback</strong>: All approval actions happen immediately - no need to confirm batches</li>
+                <li><strong>Audio Generation</strong>: Use the "No Audio" tab to quickly generate audio for missing items</li>
                 <li><strong>Audio Enhancement</strong>: Use the "Audio-enhanced string" field to customize pronunciation or add pauses</li>
                 <li><strong>Search</strong>: Use search to quickly find specific items you need to review</li>
-                <li><strong>Tab Navigation</strong>: Switch between "To Be Approved" and "Approved" tabs to track your progress</li>
+                <li><strong>Tab Navigation</strong>: Switch between tabs to track your progress</li>
+                <li><strong>Save & Approve</strong>: On the "No Audio" tab, use "Save & Approve" to generate and approve in one step</li>
             </ul>
         </div>
 
@@ -361,7 +377,7 @@
 
             <h3>"No items found"</h3>
             <ul>
-                <li>Ensure your language has audio files in the draft bucket</li>
+                <li>Ensure your language has translations in the CSV file</li>
                 <li>Check that translations exist for your language</li>
                 <li>Contact Levante support if items should be available</li>
             </ul>
@@ -375,9 +391,18 @@
 
             <h3>Items not appearing after approval</h3>
             <ul>
-                <li>Approved items move to the "Approved" tab</li>
+                <li>Approved items move to the "Approved" tab immediately</li>
                 <li>Check the Approved tab to see your approved items</li>
                 <li>Statistics update automatically</li>
+                <li>Refresh the page if items don't appear</li>
+            </ul>
+
+            <h3>Items not displaying after language selection</h3>
+            <ul>
+                <li>Items should display immediately after selecting a language</li>
+                <li>If items don't appear, try switching tabs</li>
+                <li>Check the browser console (F12 → Console) for errors</li>
+                <li>Contact Levante support if the issue persists</li>
             </ul>
 
             <h3>Can't see my language</h3>
@@ -405,11 +430,17 @@
 
             <h3>Approval Process</h3>
             <ol>
-                <li>Items are marked for approval (stored in browser state)</li>
-                <li>"Confirm Approvals" triggers batch processing</li>
-                <li>Files are moved from draft to dev bucket</li>
-                <li>Metadata is preserved during the move</li>
-                <li>UI updates to reflect new approval status</li>
+                <li>User clicks "Approve" → File immediately moves from draft to dev bucket</li>
+                <li>UI updates to show item in "Approved" tab</li>
+                <li>Statistics update automatically</li>
+                <li>No batch confirmation needed</li>
+            </ol>
+
+            <h3>Unapproval Process</h3>
+            <ol>
+                <li>User clicks "Unapprove" → File immediately moves from dev back to draft bucket</li>
+                <li>UI updates to show item in "To Be Approved" tab</li>
+                <li>Statistics update automatically</li>
             </ol>
         </div>
 
