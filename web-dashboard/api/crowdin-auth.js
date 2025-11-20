@@ -40,28 +40,37 @@ export default async function handler(req, res) {
             return;
         }
 
-        // First, check if user is the project owner
-        const projectResponse = await fetch(
-            `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                    'Content-Type': 'application/json'
+        // First, try to check if user is the project owner
+        // If this fails, we'll fall back to checking members list
+        let isProjectOwner = false;
+        try {
+            const projectResponse = await fetch(
+                `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (projectResponse.ok) {
+                const projectData = await projectResponse.json();
+                const projectOwner = projectData.data?.owner;
+                const ownerEmail = projectOwner?.email || projectOwner?.user?.email || projectOwner?.username || '';
+                
+                // Check if user is the project owner
+                if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
+                    isProjectOwner = true;
                 }
             }
-        );
-
-        if (!projectResponse.ok) {
-            const errorText = await projectResponse.text();
-            throw new Error(`Crowdin API error: ${projectResponse.status} ${projectResponse.statusText} - ${errorText}`);
+        } catch (ownerError) {
+            // If owner check fails, log but continue to members check
+            console.warn('Could not check project owner, falling back to members list:', ownerError.message);
         }
 
-        const projectData = await projectResponse.json();
-        const projectOwner = projectData.data?.owner;
-        const ownerEmail = projectOwner?.email || projectOwner?.user?.email || '';
-        
-        // Check if user is the project owner
-        if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
+        // If user is project owner, grant access immediately
+        if (isProjectOwner) {
             return res.status(200).json({
                 authenticated: true,
                 email: email,
