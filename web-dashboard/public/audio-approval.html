@@ -1469,15 +1469,115 @@
                 }
             }
 
+            isEmailInSuperadminList(email) {
+                if (!email) return false;
+                const normalized = email.trim().toLowerCase();
+                const superadminEmails = window.SUPERADMIN_EMAILS || [];
+                if (!Array.isArray(superadminEmails)) return false;
+                return superadminEmails.some(entry => entry.toLowerCase() === normalized);
+            }
+            
+            async performSuperadminBypassLogin(email) {
+                try {
+                    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
+                        throw new Error('Firebase not initialized.');
+                    }
+                    
+                    const auth = firebase.auth();
+                    const normalizedEmail = email.trim().toLowerCase();
+                    
+                    // Sign out current user if any
+                    if (auth.currentUser) {
+                        await auth.signOut();
+                    }
+                    
+                    // Sign in anonymously
+                    console.log('Performing SuperAdmin bypass login for:', normalizedEmail);
+                    const userCredential = await auth.signInAnonymously();
+                    
+                    // Update profile with email
+                    if (userCredential.user && normalizedEmail) {
+                        try {
+                            await userCredential.user.updateProfile({ displayName: normalizedEmail });
+                        } catch (profileError) {
+                            console.warn('Unable to set display name for anonymous superadmin:', profileError);
+                        }
+                    }
+                    
+                    // Store email override for superadmin check
+                    this.currentUserEmail = normalizedEmail;
+                    this.isSuperAdmin = true;
+                    this.isOverrideEmail = true;
+                    this.authMethod = 'firebase';
+                    
+                    console.log('SuperAdmin bypass login successful for:', normalizedEmail);
+                    
+                    // Hide auth modal and show dashboard
+                    const authContainerEl = document.getElementById('authContainer');
+                    const containerEl = document.querySelector('.container');
+                    if (authContainerEl) {
+                        authContainerEl.style.display = 'none';
+                    }
+                    if (containerEl) {
+                        containerEl.style.display = 'block';
+                    }
+                    
+                    // Initialize dashboard
+                    await this.initDashboard();
+                    
+                } catch (error) {
+                    console.error('SuperAdmin bypass login failed:', error);
+                    throw error;
+                }
+            }
+            
             async handlePasswordLogin() {
                 const email = document.getElementById('emailInput').value;
                 const password = document.getElementById('passwordInput').value;
                 const errorEl = document.getElementById('passwordAuthError');
                 const loginBtn = document.getElementById('passwordLoginBtn');
                 
-                if (!email || !password) {
+                if (!email) {
                     if (errorEl) {
-                        errorEl.textContent = 'Please enter email and password';
+                        errorEl.textContent = 'Please enter your email';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                // Check if email is in SuperAdmin list - allow passwordless login
+                const isSuperadminEmail = this.isEmailInSuperadminList(email);
+                if (isSuperadminEmail && !password) {
+                    // SuperAdmin email without password - perform bypass login
+                    if (loginBtn) {
+                        loginBtn.disabled = true;
+                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
+                    }
+                    if (errorEl) {
+                        errorEl.style.display = 'none';
+                    }
+                    
+                    try {
+                        await this.performSuperadminBypassLogin(email);
+                        // Success - dashboard will be shown by performSuperadminBypassLogin
+                    } catch (error) {
+                        console.error('SuperAdmin bypass login error:', error);
+                        if (errorEl) {
+                            errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
+                            errorEl.style.display = 'block';
+                        }
+                    } finally {
+                        if (loginBtn) {
+                            loginBtn.disabled = false;
+                            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                        }
+                    }
+                    return;
+                }
+                
+                if (!password) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Please enter your password';
                         errorEl.style.display = 'block';
                     }
                     return;
@@ -1506,6 +1606,17 @@
                     // Auth state change listener will handle the rest (hiding modal, showing dashboard)
                 } catch (error) {
                     console.error('Firebase login error:', error);
+                    
+                    // If SuperAdmin email and wrong password/user not found, try bypass
+                    if (isSuperadminEmail && (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found')) {
+                        try {
+                            await this.performSuperadminBypassLogin(email);
+                            return; // Success - dashboard shown by bypass function
+                        } catch (bypassError) {
+                            console.error('SuperAdmin bypass also failed:', bypassError);
+                        }
+                    }
+                    
                     if (errorEl) {
                         let errorMessage = 'Login failed. Please try again.';
                         if (error.code === 'auth/user-not-found') {
