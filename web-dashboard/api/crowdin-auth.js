@@ -40,6 +40,39 @@ export default async function handler(req, res) {
             return;
         }
 
+        // First, check if user is the project owner
+        const projectResponse = await fetch(
+            `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (!projectResponse.ok) {
+            const errorText = await projectResponse.text();
+            throw new Error(`Crowdin API error: ${projectResponse.status} ${projectResponse.statusText} - ${errorText}`);
+        }
+
+        const projectData = await projectResponse.json();
+        const projectOwner = projectData.data?.owner;
+        const ownerEmail = projectOwner?.email || projectOwner?.user?.email || '';
+        
+        // Check if user is the project owner
+        if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
+            return res.status(200).json({
+                authenticated: true,
+                email: email,
+                roles: ['owner'],
+                languagesAccess: [],
+                accessToAllWorkflowSteps: true,
+                hasAllLanguagesAccess: true,
+                isProjectOwner: true
+            });
+        }
+
         // Get all project members
         let allMembers = [];
         let offset = 0;

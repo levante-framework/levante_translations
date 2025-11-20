@@ -60,6 +60,35 @@ export default async function handler(req, res) {
 
         const crowdinLangId = langCodeToCrowdinId[langCode] || langCode;
 
+        // First, check if user is the project owner
+        const projectResponse = await fetch(
+            `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (projectResponse.ok) {
+            const projectData = await projectResponse.json();
+            const projectOwner = projectData.data?.owner;
+            const ownerEmail = projectOwner?.email || projectOwner?.user?.email || '';
+            
+            // If user is the project owner, grant access to all languages
+            if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
+                return res.status(200).json({
+                    hasAccess: true,
+                    reason: 'User is the project owner',
+                    email: email,
+                    langCode: langCode,
+                    roles: ['owner'],
+                    isProjectOwner: true
+                });
+            }
+        }
+
         // Get all project members
         let allMembers = [];
         let offset = 0;
