@@ -1002,7 +1002,54 @@
                 this.pendingSaveKey = null;
                 this.currentSearchQuery = ''; // Current search filter
                 
+                // User info for permission checks
+                this.currentUserEmail = null;
+                this.isSuperAdmin = false;
+                this.isOverrideEmail = false;
+                
                 this.init();
+            }
+            
+            async checkLanguageAccess(langCode) {
+                // Superadmins and override emails always have access
+                if (this.isSuperAdmin || this.isOverrideEmail) {
+                    return true;
+                }
+                
+                // If no user email, deny access
+                if (!this.currentUserEmail) {
+                    console.warn('No user email available for permission check');
+                    return false;
+                }
+                
+                try {
+                    // Check Crowdin permissions
+                    const response = await fetch('/api/crowdin-check-permissions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: this.currentUserEmail,
+                            langCode: langCode
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        console.error('Failed to check Crowdin permissions:', response.status);
+                        // On error, allow access (fail open) - you may want to change this
+                        return true;
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Crowdin permission check:', result);
+                    
+                    return result.hasAccess === true;
+                } catch (error) {
+                    console.error('Error checking Crowdin permissions:', error);
+                    // On error, allow access (fail open) - you may want to change this
+                    return true;
+                }
             }
 
             async init() {
@@ -1111,6 +1158,11 @@
                             this.showAuthModal('Access denied: Admin privileges required');
                             return;
                         }
+                        
+                        // Store user info for permission checks
+                        this.currentUserEmail = email;
+                        this.isSuperAdmin = isSuperAdmin;
+                        this.isOverrideEmail = isOverrideEmail;
                         
                         if (isSuperAdmin || isOverrideEmail) {
                             // Superadmins and override emails can access all languages
@@ -1569,8 +1621,17 @@
                     return;
                 }
                 
+                const langCode = this.languages[language].lang_code;
+                
+                // Check permissions: superadmin OR Crowdin editor access for this language
+                const hasAccess = await this.checkLanguageAccess(langCode);
+                if (!hasAccess) {
+                    this.setStatus(`Access denied: You do not have editor permissions for ${language} in Crowdin`, 'error');
+                    return;
+                }
+                
                 this.currentLanguage = language;
-                this.currentLangCode = this.languages[language].lang_code;
+                this.currentLangCode = langCode;
                 
                 // Clear unapproved items when switching languages
                 this.unapprovedItems.clear();
