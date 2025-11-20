@@ -1427,6 +1427,34 @@
                             e.preventDefault();
                             await this.handlePasswordLogin();
                         });
+                        
+                        // Auto-login SuperAdmin emails when email is entered
+                        const emailInput = document.getElementById('emailInput');
+                        if (emailInput) {
+                            // Check on Enter key in email field
+                            emailInput.addEventListener('keydown', async (e) => {
+                                if (e.key === 'Enter') {
+                                    const email = emailInput.value.trim();
+                                    const password = document.getElementById('passwordInput')?.value || '';
+                                    if (email && this.isEmailInSuperadminList(email) && !password) {
+                                        e.preventDefault();
+                                        await this.handlePasswordLogin();
+                                    }
+                                }
+                            });
+                            
+                            // Check on blur (when user leaves email field) if it's a SuperAdmin email
+                            emailInput.addEventListener('blur', async (e) => {
+                                const email = emailInput.value.trim();
+                                const password = document.getElementById('passwordInput')?.value || '';
+                                if (email && this.isEmailInSuperadminList(email) && !password) {
+                                    // Small delay to allow user to see the field, then auto-login
+                                    setTimeout(async () => {
+                                        await this.handlePasswordLogin();
+                                    }, 300);
+                                }
+                            });
+                        }
                     }
                     
                     if (crowdinForm) {
@@ -1450,6 +1478,34 @@
                             e.preventDefault();
                             await this.handlePasswordLogin();
                         });
+                        
+                        // Auto-login SuperAdmin emails when email is entered
+                        const emailInput = document.getElementById('emailInput');
+                        if (emailInput) {
+                            // Check on Enter key in email field
+                            emailInput.addEventListener('keydown', async (e) => {
+                                if (e.key === 'Enter') {
+                                    const email = emailInput.value.trim();
+                                    const password = document.getElementById('passwordInput')?.value || '';
+                                    if (email && this.isEmailInSuperadminList(email) && !password) {
+                                        e.preventDefault();
+                                        await this.handlePasswordLogin();
+                                    }
+                                }
+                            });
+                            
+                            // Check on blur (when user leaves email field) if it's a SuperAdmin email
+                            emailInput.addEventListener('blur', async (e) => {
+                                const email = emailInput.value.trim();
+                                const password = document.getElementById('passwordInput')?.value || '';
+                                if (email && this.isEmailInSuperadminList(email) && !password) {
+                                    // Small delay to allow user to see the field, then auto-login
+                                    setTimeout(async () => {
+                                        await this.handlePasswordLogin();
+                                    }, 300);
+                                }
+                            });
+                        }
                     }
                     
                     if (crowdinForm) {
