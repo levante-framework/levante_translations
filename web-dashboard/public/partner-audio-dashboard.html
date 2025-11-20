@@ -1579,9 +1579,14 @@
                 
                 // First filter by translation availability
                 const withTranslations = this.data.filter(item => {
-                    const text = this.getTextForItem(item, this.currentLangCode);
-                    const hasText = text && text.trim() && text.trim() !== '';
-                    return hasText;
+                    try {
+                        const text = this.getTextForItem(item, this.currentLangCode);
+                        const hasText = text && text.trim() && text.trim() !== '';
+                        return hasText;
+                    } catch (error) {
+                        console.warn(`Error getting text for item ${item.item_id || 'unknown'}:`, error);
+                        return false;
+                    }
                 });
                 
                 console.log(`Found ${withTranslations.length} items with translations for ${this.currentLangCode} (out of ${this.data.length} total items)`);
@@ -1593,7 +1598,7 @@
                     console.log('Sample item check:', {
                         itemId: sampleItem.item_id,
                         hasTranslation: !!sampleText,
-                        ptColumns: Object.keys(sampleItem).filter(k => 'pt' in k.toLowerCase()),
+                        ptColumns: Object.keys(sampleItem).filter(k => k.toLowerCase().includes('pt')),
                         allColumns: Object.keys(sampleItem).slice(0, 20),
                         samplePtValue: sampleItem['pt'] ? sampleItem['pt'].substring(0, 50) : '(no pt column)',
                         samplePtPTValue: sampleItem['pt-PT'] ? sampleItem['pt-PT'].substring(0, 50) : '(no pt-PT column)'
