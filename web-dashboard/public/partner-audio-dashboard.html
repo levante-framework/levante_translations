@@ -1842,15 +1842,45 @@
                 defaultOption.textContent = this.allowedLanguage ? `Language: ${this.allowedLanguage}` : 'Select a language...';
                 select.appendChild(defaultOption);
                 
+                // Map language codes to Crowdin language IDs
+                const langCodeToCrowdinId = {
+                    'pt-PT': 'pt',
+                    'pt': 'pt',
+                    'es-CO': 'es-CO',
+                    'es-AR': 'es-AR',
+                    'de': 'de',
+                    'de-CH': 'de-CH',
+                    'fr-CA': 'fr-CA',
+                    'nl': 'nl',
+                    'en': 'en'
+                };
+                
                 // Populate languages (filtered if restricted)
                 let languageKeys = Object.keys(this.languages);
+                
+                // Check if user is a Translator (not Owner/Manager) with language restrictions
+                let accessibleLanguages = null;
+                if (this.authMethod === 'crowdin' && this.crowdinAuthData) {
+                    const hasFullAccess = this.crowdinAuthData.isOwner || this.crowdinAuthData.isManager || 
+                                         this.crowdinAuthData.hasAllLanguagesAccess || this.crowdinAuthData.accessToAllWorkflowSteps;
+                    
+                    if (!hasFullAccess && this.crowdinAuthData.languagesAccess) {
+                        // Get accessible Crowdin language IDs
+                        accessibleLanguages = new Set(this.crowdinAuthData.languagesAccess.map(l => 
+                            typeof l === 'string' ? l : (l.languageId || l.id || l)
+                        ));
+                        
+                        console.log('Translator accessible languages:', Array.from(accessibleLanguages));
+                    }
+                }
+                
                 if (this.allowedLanguage) {
                     // User is restricted to one language
                     languageKeys = [this.allowedLanguage];
                     select.value = this.allowedLanguage;
                     select.disabled = true;
                 } else {
-                    // Superadmin or override email - show all languages, dropdown enabled
+                    // Superadmin, Owner, Manager, or override email - show all languages, dropdown enabled
                     select.disabled = false;
                 }
                 
@@ -1865,6 +1895,21 @@
                     const option = document.createElement('option');
                     option.value = lang;
                     option.textContent = lang;
+                    
+                    // If user is a Translator, disable languages they don't have access to
+                    if (accessibleLanguages !== null) {
+                        const langCode = this.languages[lang]?.lang_code || lang;
+                        const crowdinLangId = langCodeToCrowdinId[langCode] || langCode;
+                        const hasAccess = accessibleLanguages.has(crowdinLangId) || accessibleLanguages.has(langCode);
+                        
+                        if (!hasAccess) {
+                            option.disabled = true;
+                            option.style.color = '#999';
+                            option.style.fontStyle = 'italic';
+                            option.textContent = `${lang} (no access)`;
+                        }
+                    }
+                    
                     select.appendChild(option);
                 });
                 

@@ -19,7 +19,7 @@ The dashboard supports two authentication methods:
 | **Crowdin Owner** | Full Access | Project owner in Crowdin, can access all languages |
 | **Crowdin Manager** | Full Access | Manager role in Crowdin, can access all languages |
 | **Crowdin Editor** | Language-Specific | Can access languages they have editor permissions for |
-| **Crowdin Translator** | Language-Specific | Can access languages they have translator permissions for |
+| **Crowdin Translator** | Language-Specific | Can access languages they have translator permissions for. Other languages appear grayed out in dropdown |
 
 ### Full Access Definition
 
