@@ -1532,8 +1532,8 @@
             }
             
             async handlePasswordLogin() {
-                const email = document.getElementById('emailInput').value;
-                const password = document.getElementById('passwordInput').value;
+                const email = document.getElementById('emailInput')?.value?.trim() || '';
+                const password = document.getElementById('passwordInput')?.value?.trim() || '';
                 const errorEl = document.getElementById('passwordAuthError');
                 const loginBtn = document.getElementById('passwordLoginBtn');
                 
@@ -1545,9 +1545,11 @@
                     return;
                 }
                 
-                // Check if email is in SuperAdmin list - allow passwordless login
+                // Check if email is in SuperAdmin list FIRST - allow passwordless login immediately
                 const isSuperadminEmail = this.isEmailInSuperadminList(email);
-                if (isSuperadminEmail && !password) {
+                if (isSuperadminEmail) {
+                    // SuperAdmin email - login immediately without password
+                    if (!password) {
                     // SuperAdmin email without password - perform bypass login
                     if (loginBtn) {
                         loginBtn.disabled = true;
