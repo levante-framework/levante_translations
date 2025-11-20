@@ -909,7 +909,10 @@
             <!-- Password Login Form -->
             <form class="auth-form" id="passwordAuthForm" style="display: block;">
                 <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
-                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                <input type="password" id="passwordInput" class="auth-input" placeholder="Password (optional for SuperAdmin)" autocomplete="current-password">
+                <p class="auth-hint" style="font-size: 12px; color: #71717a; margin-top: -8px; margin-bottom: 12px;">
+                    SuperAdmin emails can sign in without a password
+                </p>
                 <button type="submit" class="auth-button" id="passwordLoginBtn">
                     <i class="fas fa-sign-in-alt"></i> Sign In with Password
                 </button>
