@@ -69,6 +69,33 @@
             gap: 12px;
         }
 
+        .logout-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #71717a;
+            background: transparent;
+            border: 1px solid #e4e4e7;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .logout-button:hover {
+            color: #da3d16;
+            background: #fafafa;
+            border-color: #da3d16;
+        }
+
+        .logout-button i {
+            font-size: 16px;
+        }
+
         .docs-link {
             display: inline-flex;
             align-items: center;
@@ -866,15 +893,37 @@
         <div class="auth-modal">
             <div class="auth-header">
                 <h2><i class="fas fa-shield-alt"></i> Partner Access Required</h2>
-                <p>Please sign in with your Levante partner account</p>
+                <p>Sign in with your Levante partner account</p>
             </div>
-            <form class="auth-form" id="authForm">
+            
+            <!-- Tabs for login methods -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="passwordTab" onclick="dashboard.switchAuthTab('password')">
+                    <i class="fas fa-key"></i> Password Login
+                </button>
+                <button class="auth-tab" id="crowdinTab" onclick="dashboard.switchAuthTab('crowdin')">
+                    <i class="fas fa-users"></i> Crowdin Email
+                </button>
+            </div>
+            
+            <!-- Password Login Form -->
+            <form class="auth-form" id="passwordAuthForm" style="display: block;">
                 <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
                 <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
-                <button type="submit" class="auth-button" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Sign In
+                <button type="submit" class="auth-button" id="passwordLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In with Password
                 </button>
-                <div id="authError" class="auth-error" style="display: none;"></div>
+                <div id="passwordAuthError" class="auth-error" style="display: none;"></div>
+            </form>
+            
+            <!-- Crowdin Email Login Form -->
+            <form class="auth-form" id="crowdinAuthForm" style="display: none;">
+                <input type="email" id="crowdinEmailInput" class="auth-input" placeholder="Your Crowdin email" required>
+                <button type="submit" class="auth-button" id="crowdinLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Email
+                </button>
+                <p class="auth-hint">No password needed. We'll verify your email with Crowdin.</p>
+                <div id="crowdinAuthError" class="auth-error" style="display: none;"></div>
             </form>
         </div>
     </div>
@@ -889,6 +938,9 @@
                 </div>
             </div>
             <div class="header-right">
+                <button class="logout-button" id="logoutBtn" onclick="dashboard.handleLogout()" title="Sign out">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
                 <a href="./docs/partner-audio-approval.html" class="docs-link" target="_blank" title="View documentation">
                     <i class="fas fa-book"></i> Documentation
                 </a>
@@ -1006,8 +1058,68 @@
                 this.currentUserEmail = null;
                 this.isSuperAdmin = false;
                 this.isOverrideEmail = false;
+                this.authMethod = null; // 'firebase' or 'crowdin'
+                this.crowdinAuthData = null; // Store Crowdin auth response
                 
                 this.init();
+            }
+            
+            switchAuthTab(tab) {
+                const passwordTab = document.getElementById('passwordTab');
+                const crowdinTab = document.getElementById('crowdinTab');
+                const passwordForm = document.getElementById('passwordAuthForm');
+                const crowdinForm = document.getElementById('crowdinAuthForm');
+                
+                if (tab === 'password') {
+                    passwordTab?.classList.add('active');
+                    crowdinTab?.classList.remove('active');
+                    passwordForm.style.display = 'block';
+                    crowdinForm.style.display = 'none';
+                } else {
+                    passwordTab?.classList.remove('active');
+                    crowdinTab?.classList.add('active');
+                    passwordForm.style.display = 'none';
+                    crowdinForm.style.display = 'block';
+                }
+            }
+            
+            async handleLogout() {
+                try {
+                    if (this.authMethod === 'crowdin') {
+                        // Clear Crowdin session
+                        sessionStorage.removeItem('crowdinAuth');
+                        this.authMethod = null;
+                        this.crowdinAuthData = null;
+                        this.currentUserEmail = null;
+                        this.isSuperAdmin = false;
+                        this.isOverrideEmail = false;
+                        this.allowedLanguage = null;
+                        
+                        // Clear dashboard state
+                        this.data = [];
+                        this.currentLanguage = null;
+                        this.currentLangCode = null;
+                        this.approvedItems.clear();
+                        this.unapprovedItems.clear();
+                        
+                        // Show auth modal
+                        this.showAuthModal();
+                    } else if (this.authMethod === 'firebase') {
+                        // Firebase logout
+                        if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
+                            const auth = firebase.auth();
+                            await auth.signOut();
+                            // Auth state change listener will handle showing the modal
+                        }
+                    } else {
+                        // Fallback: just show auth modal
+                        this.showAuthModal();
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    // Still show auth modal on error
+                    this.showAuthModal();
+                }
             }
             
             async checkLanguageAccess(langCode) {
@@ -1093,6 +1205,41 @@
             }
 
             async checkAuth() {
+                // Check if user is already authenticated via Crowdin (stored in sessionStorage)
+                const storedCrowdinAuth = sessionStorage.getItem('crowdinAuth');
+                if (storedCrowdinAuth) {
+                    try {
+                        const authData = JSON.parse(storedCrowdinAuth);
+                        this.authMethod = 'crowdin';
+                        this.crowdinAuthData = authData;
+                        this.currentUserEmail = authData.email;
+                        this.isSuperAdmin = false;
+                        this.isOverrideEmail = false;
+                        
+                        if (authData.hasAllLanguagesAccess || authData.accessToAllWorkflowSteps) {
+                            this.allowedLanguage = null;
+                        } else {
+                            this.allowedLanguage = null; // Check per language
+                        }
+                        
+                        // Hide auth modal and show dashboard
+                        const authContainer = document.getElementById('authContainer');
+                        const container = document.querySelector('.container');
+                        if (authContainer) {
+                            authContainer.style.display = 'none';
+                        }
+                        if (container) {
+                            container.style.display = 'block';
+                        }
+                        
+                        await this.initDashboard();
+                        return;
+                    } catch (error) {
+                        console.error('Error restoring Crowdin auth:', error);
+                        sessionStorage.removeItem('crowdinAuth');
+                    }
+                }
+                
                 // Check if Firebase is available
                 if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
                     // For development, allow access without auth
@@ -1115,14 +1262,28 @@
                     // Use default Firebase app (initialized with admin config)
                     const auth = firebase.auth();
                     
-                    // Listen for auth state changes
+                    // Listen for auth state changes (only for Firebase auth)
                     auth.onAuthStateChanged(async (user) => {
+                        // Skip if user is authenticated via Crowdin
+                        if (this.authMethod === 'crowdin') {
+                            return;
+                        }
+                        
                         console.log('Auth state changed, user:', user ? user.email : 'null');
                         
                         if (!user) {
                             this.showAuthModal();
                             return;
                         }
+                        
+                        // Mark as Firebase auth
+                        this.authMethod = 'firebase';
+                        
+                        // Mark as Firebase auth
+                        this.authMethod = 'firebase';
+                        
+                        // Mark as Firebase auth
+                        this.authMethod = 'firebase';
 
                         // Hide auth modal and show dashboard
                         const authContainerEl = document.getElementById('authContainer');
@@ -1252,33 +1413,49 @@
                     `;
                     document.body.appendChild(modal);
                     
-                    // Setup form handler
-                    document.getElementById('authForm').addEventListener('submit', async (e) => {
-                        e.preventDefault();
-                        await this.handleLogin();
-                    });
+                    // Setup form handlers for both authentication methods
+                    const passwordForm = document.getElementById('passwordAuthForm');
+                    const crowdinForm = document.getElementById('crowdinAuthForm');
+                    
+                    if (passwordForm) {
+                        passwordForm.addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            await this.handlePasswordLogin();
+                        });
+                    }
+                    
+                    if (crowdinForm) {
+                        crowdinForm.addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            await this.handleCrowdinLogin();
+                        });
+                    }
                 } else {
                     authContainer.style.display = 'flex';
                     if (container) {
                         container.style.display = 'none';
                     }
                     
-                    // Ensure form handler is attached (in case it wasn't before)
-                    const authForm = document.getElementById('authForm');
-                    if (authForm) {
-                        // Remove existing handler by cloning form
-                        const newForm = authForm.cloneNode(true);
-                        authForm.parentNode.replaceChild(newForm, authForm);
-                        
-                        // Attach handler to new form
-                        document.getElementById('authForm').addEventListener('submit', async (e) => {
+                    // Ensure form handlers are attached
+                    const passwordForm = document.getElementById('passwordAuthForm');
+                    const crowdinForm = document.getElementById('crowdinAuthForm');
+                    
+                    if (passwordForm) {
+                        passwordForm.addEventListener('submit', async (e) => {
                             e.preventDefault();
-                            await this.handleLogin();
+                            await this.handlePasswordLogin();
+                        });
+                    }
+                    
+                    if (crowdinForm) {
+                        crowdinForm.addEventListener('submit', async (e) => {
+                            e.preventDefault();
+                            await this.handleCrowdinLogin();
                         });
                     }
                     
                     if (errorMessage) {
-                        const errorEl = document.getElementById('authError');
+                        const errorEl = document.getElementById('passwordAuthError') || document.getElementById('crowdinAuthError');
                         if (errorEl) {
                             errorEl.textContent = errorMessage;
                             errorEl.style.display = 'block';
@@ -1287,11 +1464,11 @@
                 }
             }
 
-            async handleLogin() {
+            async handlePasswordLogin() {
                 const email = document.getElementById('emailInput').value;
                 const password = document.getElementById('passwordInput').value;
-                const errorEl = document.getElementById('authError');
-                const loginBtn = document.getElementById('loginBtn');
+                const errorEl = document.getElementById('passwordAuthError');
+                const loginBtn = document.getElementById('passwordLoginBtn');
                 
                 if (!email || !password) {
                     if (errorEl) {
@@ -1317,12 +1494,13 @@
                     
                     // Use default Firebase app (initialized with admin config)
                     const auth = firebase.auth();
-                    console.log('Attempting login with email:', email);
+                    console.log('Attempting Firebase login with email:', email);
                     const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                    console.log('Login successful:', userCredential.user.email);
+                    console.log('Firebase login successful:', userCredential.user.email);
+                    this.authMethod = 'firebase';
                     // Auth state change listener will handle the rest (hiding modal, showing dashboard)
                 } catch (error) {
-                    console.error('Login error:', error);
+                    console.error('Firebase login error:', error);
                     if (errorEl) {
                         let errorMessage = 'Login failed. Please try again.';
                         if (error.code === 'auth/user-not-found') {
@@ -1341,7 +1519,92 @@
                     // Restore button state
                     if (loginBtn) {
                         loginBtn.disabled = false;
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                    }
+                }
+            }
+            
+            async handleCrowdinLogin() {
+                const email = document.getElementById('crowdinEmailInput').value;
+                const errorEl = document.getElementById('crowdinAuthError');
+                const loginBtn = document.getElementById('crowdinLoginBtn');
+                
+                if (!email) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Please enter your Crowdin email';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                // Show loading state
+                if (loginBtn) {
+                    loginBtn.disabled = true;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+                }
+                if (errorEl) {
+                    errorEl.style.display = 'none';
+                }
+                
+                try {
+                    console.log('Attempting Crowdin authentication with email:', email);
+                    const response = await fetch('/api/crowdin-auth', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (!response.ok || !result.authenticated) {
+                        throw new Error(result.error || 'Authentication failed');
+                    }
+                    
+                    console.log('Crowdin authentication successful:', result);
+                    
+                    // Store authentication data
+                    this.authMethod = 'crowdin';
+                    this.crowdinAuthData = result;
+                    this.currentUserEmail = email;
+                    this.isSuperAdmin = false; // Crowdin users are not superadmins
+                    this.isOverrideEmail = false;
+                    
+                    // Store in sessionStorage for persistence
+                    sessionStorage.setItem('crowdinAuth', JSON.stringify(result));
+                    
+                    // Check if user has access to all languages
+                    if (result.hasAllLanguagesAccess || result.accessToAllWorkflowSteps) {
+                        this.allowedLanguage = null; // No restriction
+                    } else {
+                        // User has specific language access - will be checked when selecting language
+                        this.allowedLanguage = null; // Allow selection, but check per language
+                    }
+                    
+                    // Hide auth modal and show dashboard
+                    const authContainerEl = document.getElementById('authContainer');
+                    const containerEl = document.querySelector('.container');
+                    if (authContainerEl) {
+                        authContainerEl.style.display = 'none';
+                    }
+                    if (containerEl) {
+                        containerEl.style.display = 'block';
+                    }
+                    
+                    // Initialize dashboard
+                    await this.initDashboard();
+                    
+                } catch (error) {
+                    console.error('Crowdin authentication error:', error);
+                    if (errorEl) {
+                        errorEl.textContent = error.message || 'Authentication failed. Please verify your email is registered in Crowdin.';
+                        errorEl.style.display = 'block';
+                    }
+                } finally {
+                    if (loginBtn) {
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Email';
                     }
                 }
             }
