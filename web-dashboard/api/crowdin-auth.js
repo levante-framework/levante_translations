@@ -136,13 +136,29 @@ export default async function handler(req, res) {
         const languagesAccess = memberData.languagesAccess || [];
         const accessToAllWorkflowSteps = memberData.accessToAllWorkflowSteps || false;
 
-        // Check if user has manager, owner, editor, or translator role
-        const hasValidRole = roles.some(role => {
-            const roleName = (role.name || '').toLowerCase();
-            return ['manager', 'owner', 'editor', 'translator'].includes(roleName);
-        });
+        // Check role names (case-insensitive)
+        const roleNames = roles.map(role => (role.name || '').toLowerCase());
+        const isOwner = roleNames.includes('owner');
+        const isManager = roleNames.includes('manager');
+        const isEditor = roleNames.includes('editor');
+        const isTranslator = roleNames.includes('translator');
 
-        if (!hasValidRole && !accessToAllWorkflowSteps) {
+        // Owner and Manager get full access
+        if (isOwner || isManager) {
+            return res.status(200).json({
+                authenticated: true,
+                email: email,
+                roles: roles.map(r => r.name),
+                languagesAccess: [],
+                accessToAllWorkflowSteps: true,
+                hasAllLanguagesAccess: true,
+                isOwner: isOwner,
+                isManager: isManager
+            });
+        }
+
+        // Editor and Translator need language-specific access
+        if (!isEditor && !isTranslator && !accessToAllWorkflowSteps) {
             return res.status(403).json({
                 authenticated: false,
                 error: 'User does not have editor or translator permissions',

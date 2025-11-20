@@ -1574,12 +1574,17 @@
                     // Store in sessionStorage for persistence
                     sessionStorage.setItem('crowdinAuth', JSON.stringify(result));
                     
-                    // Check if user has access to all languages
-                    if (result.hasAllLanguagesAccess || result.accessToAllWorkflowSteps) {
-                        this.allowedLanguage = null; // No restriction
+                    // Check if user has full access (Owner, Manager, or all languages access)
+                    const hasFullAccess = result.isOwner || result.isManager || 
+                                         result.hasAllLanguagesAccess || result.accessToAllWorkflowSteps;
+                    
+                    if (hasFullAccess) {
+                        this.allowedLanguage = null; // No restriction - full access
+                        console.log('Crowdin user has full access (Owner/Manager)');
                     } else {
                         // User has specific language access - will be checked when selecting language
                         this.allowedLanguage = null; // Allow selection, but check per language
+                        console.log('Crowdin user has language-specific access');
                     }
                     
                     // Hide auth modal and show dashboard
