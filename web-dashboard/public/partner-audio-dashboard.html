@@ -1216,7 +1216,9 @@
                         this.isSuperAdmin = false;
                         this.isOverrideEmail = false;
                         
-                        if (authData.hasAllLanguagesAccess || authData.accessToAllWorkflowSteps) {
+                        const hasFullAccess = authData.isOwner || authData.isManager || 
+                                             authData.hasAllLanguagesAccess || authData.accessToAllWorkflowSteps;
+                        if (hasFullAccess) {
                             this.allowedLanguage = null;
                         } else {
                             this.allowedLanguage = null; // Check per language
