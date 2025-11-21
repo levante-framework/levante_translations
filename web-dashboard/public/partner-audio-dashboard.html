@@ -1552,11 +1552,11 @@
 
             isEmailInSuperadminList(email) {
                 if (!email) {
-                    console.log('🔍 SuperAdmin check: no email provided');
+                    console.log('SuperAdmin check: no email provided');
                     return false;
                 }
                 const normalized = email.trim().toLowerCase();
-                console.log('🔍 SuperAdmin check: checking', normalized);
+                console.log('SuperAdmin check: checking', normalized);
                 
                 // Always use hardcoded list as primary source (most reliable)
                 const hardcodedList = [
@@ -1575,26 +1575,26 @@
                 // Also check window.SUPERADMIN_EMAILS if available
                 let superadminEmails = hardcodedList.slice(); // Start with hardcoded list
                 if (window.SUPERADMIN_EMAILS && Array.isArray(window.SUPERADMIN_EMAILS) && window.SUPERADMIN_EMAILS.length > 0) {
-                    console.log('🔍 window.SUPERADMIN_EMAILS found, merging with hardcoded list');
+                    console.log('window.SUPERADMIN_EMAILS found, merging with hardcoded list');
                     // Merge both lists (avoid duplicates)
                     const windowList = window.SUPERADMIN_EMAILS.map(e => String(e).trim().toLowerCase());
                     superadminEmails = [...new Set([...hardcodedList.map(e => e.toLowerCase()), ...windowList])];
                 } else {
-                    console.log('🔍 window.SUPERADMIN_EMAILS not available or empty, using hardcoded list only');
+                    console.log('window.SUPERADMIN_EMAILS not available or empty, using hardcoded list only');
                 }
                 
-                console.log('🔍 Checking against SuperAdmin list:', superadminEmails);
+                console.log('Checking against SuperAdmin list (size:', superadminEmails.length, '):', superadminEmails);
                 
                 const isSuperAdmin = superadminEmails.some(entry => {
                     const entryNormalized = String(entry).trim().toLowerCase();
                     const matches = entryNormalized === normalized;
                     if (matches) {
-                        console.log('✅ Match found:', entryNormalized, '===', normalized);
+                        console.log('*** MATCH FOUND ***', entryNormalized, '===', normalized);
                     }
                     return matches;
                 });
                 
-                console.log('🔍 SuperAdmin check result:', normalized, '→', isSuperAdmin ? 'YES ✅' : 'NO ❌', '| List size:', superadminEmails.length);
+                console.log('SuperAdmin check result:', normalized, '->', isSuperAdmin ? 'YES (MATCH)' : 'NO (NO MATCH)', '| List size:', superadminEmails.length);
                 return isSuperAdmin;
             }
             
@@ -1634,7 +1634,8 @@
             }
             
             async handlePasswordLogin() {
-                console.log('🚀 handlePasswordLogin CALLED');
+                console.log('=== handlePasswordLogin CALLED ===');
+                console.log('VERSION: 2024-12-19-SuperAdmin-Fix-v2');
                 const emailInput = document.getElementById('emailInput');
                 const passwordInput = document.getElementById('passwordInput');
                 const email = emailInput?.value?.trim() || '';
@@ -1642,17 +1643,17 @@
                 const errorEl = document.getElementById('passwordAuthError');
                 const loginBtn = document.getElementById('passwordLoginBtn');
                 
-                console.log('📧 Email:', email, '| Password:', password ? 'provided' : 'empty');
+                console.log('Email:', email, '| Password:', password ? 'provided' : 'empty');
                 
                 // CRITICAL: Check SuperAdmin FIRST, before ANY other logic
                 // This prevents Firebase auth from being attempted for SuperAdmin emails
                 if (email) {
-                    console.log('🔍 Checking SuperAdmin for:', email);
+                    console.log('Checking SuperAdmin for:', email);
                     const isSuperadminEmail = this.isEmailInSuperadminList(email);
-                    console.log('🔐 SuperAdmin Check Result:', email, '→', isSuperadminEmail);
+                    console.log('SuperAdmin Check Result:', email, '->', isSuperadminEmail, '(should be true for sachino@stanford.edu)');
                     
                     if (isSuperadminEmail) {
-                        console.log('✅ SuperAdmin detected - bypassing Firebase auth');
+                        console.log('*** SuperAdmin detected - bypassing Firebase auth ***');
                         if (loginBtn) {
                             loginBtn.disabled = true;
                             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
@@ -1714,7 +1715,7 @@
                     }
                     
                     const auth = firebase.auth();
-                    console.log('🔑 Attempting Firebase login with email:', email);
+                    console.log('*** Attempting Firebase login with email:', email, '(should NOT happen for SuperAdmin) ***');
                     const userCredential = await auth.signInWithEmailAndPassword(email, password);
                     console.log('✅ Firebase login successful:', userCredential.user.email);
                     this.authMethod = 'firebase';
