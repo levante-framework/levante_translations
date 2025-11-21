@@ -1555,36 +1555,17 @@
             
             async performSuperadminBypassLogin(email) {
                 try {
-                    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
-                        throw new Error('Firebase not initialized.');
-                    }
-                    
-                    const auth = firebase.auth();
                     const normalizedEmail = email.trim().toLowerCase();
                     
-                    // Sign out current user if any
-                    if (auth.currentUser) {
-                        await auth.signOut();
-                    }
-                    
-                    // Sign in anonymously
                     console.log('Performing SuperAdmin bypass login for:', normalizedEmail);
-                    const userCredential = await auth.signInAnonymously();
                     
-                    // Update profile with email
-                    if (userCredential.user && normalizedEmail) {
-                        try {
-                            await userCredential.user.updateProfile({ displayName: normalizedEmail });
-                        } catch (profileError) {
-                            console.warn('Unable to set display name for anonymous superadmin:', profileError);
-                        }
-                    }
-                    
-                    // Store email override for superadmin check
+                    // Skip Firebase authentication entirely for SuperAdmin
+                    // Just set the user state manually
                     this.currentUserEmail = normalizedEmail;
                     this.isSuperAdmin = true;
                     this.isOverrideEmail = true;
-                    this.authMethod = 'firebase';
+                    this.authMethod = 'superadmin'; // Mark as superadmin bypass
+                    this.allowedLanguage = null; // Full access to all languages
                     
                     console.log('SuperAdmin bypass login successful for:', normalizedEmail);
                     
