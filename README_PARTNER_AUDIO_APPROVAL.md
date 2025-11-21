@@ -26,10 +26,46 @@ The Partner Audio Approval Tool is available at:
 
 ## Authentication
 
-1. Navigate to the Partner Audio Approval Tool
-2. Sign in with your admin email and password
-3. The system will automatically restrict you to your site's assigned language
-4. Superadmins and override users can access all languages
+The dashboard supports three authentication methods:
+
+### 1. Firebase Password Login
+- Enter your email address and password
+- Standard authentication for users with Firebase accounts
+- The system will automatically restrict you to your site's assigned language
+
+### 2. SuperAdmin Passwordless Login
+- **SuperAdmin emails can log in without a password**
+- Enter your SuperAdmin email address
+- Leave the password field empty (or don't fill it)
+- Click "Sign In with Password"
+- You will be automatically logged in
+- SuperAdmin users have full access to all languages
+
+**SuperAdmin Email List:**
+- `sachino@stanford.edu`
+- `david81@stanford.edu`
+- `cuskley@stanford.edu`
+- `aal@stanford.edu`
+- `zdwatson@stanford.edu`
+- `serlee@stanford.edu`
+- `mcfrank@stanford.edu`
+- `acardinal42@gmail.com`
+- `admin@levante.com`
+- `superadmin@levante.com`
+
+### 3. Crowdin Email Login
+- Click the "Crowdin Email" tab
+- Enter your Crowdin email address (no password needed)
+- Click "Sign In with Crowdin Email"
+- The system verifies your email with Crowdin and grants access based on your role:
+  - **Crowdin Owner/Manager**: Full access to all languages
+  - **Crowdin Editor**: Access to languages you have editor permissions for
+  - **Crowdin Translator**: Access to languages you have translator permissions for (other languages appear grayed out in dropdown)
+
+### Language Access
+- **Full Access Users** (SuperAdmin, Crowdin Owner/Manager): Can access all languages
+- **Language-Specific Users** (Crowdin Editor/Translator): Can only access languages they have permissions for
+- **Crowdin Translators**: See language dropdown with accessible languages enabled and others grayed out
 
 ## Workflow
 

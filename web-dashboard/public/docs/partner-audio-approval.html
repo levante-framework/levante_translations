@@ -222,12 +222,58 @@
 
         <div class="card">
             <h2>Authentication</h2>
-            <ol>
-                <li>Navigate to the Partner Audio Approval Tool</li>
-                <li>Sign in with your admin email and password</li>
+            <p>The dashboard supports three authentication methods:</p>
+            
+            <h3>1. Firebase Password Login</h3>
+            <ul>
+                <li>Enter your email address and password</li>
+                <li>Standard authentication for users with Firebase accounts</li>
                 <li>The system will automatically restrict you to your site's assigned language</li>
-                <li>Superadmins and override users can access all languages</li>
-            </ol>
+            </ul>
+            
+            <h3>2. SuperAdmin Passwordless Login</h3>
+            <ul>
+                <li><strong>SuperAdmin emails can log in without a password</strong></li>
+                <li>Enter your SuperAdmin email address</li>
+                <li>Leave the password field empty (or don't fill it)</li>
+                <li>Click "Sign In with Password"</li>
+                <li>You will be automatically logged in</li>
+                <li>SuperAdmin users have full access to all languages</li>
+            </ul>
+            <p><strong>SuperAdmin Email List:</strong></p>
+            <ul>
+                <li><code>sachino@stanford.edu</code></li>
+                <li><code>david81@stanford.edu</code></li>
+                <li><code>cuskley@stanford.edu</code></li>
+                <li><code>aal@stanford.edu</code></li>
+                <li><code>zdwatson@stanford.edu</code></li>
+                <li><code>serlee@stanford.edu</code></li>
+                <li><code>mcfrank@stanford.edu</code></li>
+                <li><code>acardinal42@gmail.com</code></li>
+                <li><code>admin@levante.com</code></li>
+                <li><code>superadmin@levante.com</code></li>
+            </ul>
+            
+            <h3>3. Crowdin Email Login</h3>
+            <ul>
+                <li>Click the "Crowdin Email" tab</li>
+                <li>Enter your Crowdin email address (no password needed)</li>
+                <li>Click "Sign In with Crowdin Email"</li>
+                <li>The system verifies your email with Crowdin and grants access based on your role:
+                    <ul>
+                        <li><strong>Crowdin Owner/Manager</strong>: Full access to all languages</li>
+                        <li><strong>Crowdin Editor</strong>: Access to languages you have editor permissions for</li>
+                        <li><strong>Crowdin Translator</strong>: Access to languages you have translator permissions for (other languages appear grayed out in dropdown)</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Language Access</h3>
+            <ul>
+                <li><strong>Full Access Users</strong> (SuperAdmin, Crowdin Owner/Manager): Can access all languages</li>
+                <li><strong>Language-Specific Users</strong> (Crowdin Editor/Translator): Can only access languages they have permissions for</li>
+                <li><strong>Crowdin Translators</strong>: See language dropdown with accessible languages enabled and others grayed out</li>
+            </ul>
         </div>
 
         <div class="card">

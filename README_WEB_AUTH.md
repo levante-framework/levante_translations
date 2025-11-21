@@ -4,22 +4,24 @@ This document describes the authentication and authorization system for the Leva
 
 ## Authentication Methods
 
-The dashboard supports two authentication methods:
+The dashboard supports three authentication methods:
 
 1. **Firebase Authentication** - Email and password login
-2. **Crowdin Email Authentication** - Email-only login (verifies email exists in Crowdin project)
+2. **SuperAdmin Passwordless Login** - Email-only login for SuperAdmin users (no password required)
+3. **Crowdin Email Authentication** - Email-only login (verifies email exists in Crowdin project)
 
 ## Authorization Levels
 
 ### Access Control Table
 
-| User Type | Access Level | Notes |
-|-----------|-------------|-------|
-| **Firebase SuperAdmin** | Full Access | Can access all languages and all features |
-| **Crowdin Owner** | Full Access | Project owner in Crowdin, can access all languages |
-| **Crowdin Manager** | Full Access | Manager role in Crowdin, can access all languages |
-| **Crowdin Editor** | Language-Specific | Can access languages they have editor permissions for |
-| **Crowdin Translator** | Language-Specific | Can access languages they have translator permissions for. Other languages appear grayed out in dropdown |
+| User Type | Access Level | Login Method | Notes |
+|-----------|-------------|-------------|-------|
+| **Firebase SuperAdmin** | Full Access | Email + Password | Can access all languages and all features |
+| **SuperAdmin Override** | Full Access | Email only (no password) | Hardcoded email list, passwordless login |
+| **Crowdin Owner** | Full Access | Email only (no password) | Project owner in Crowdin, can access all languages |
+| **Crowdin Manager** | Full Access | Email only (no password) | Manager role in Crowdin, can access all languages |
+| **Crowdin Editor** | Language-Specific | Email only (no password) | Can access languages they have editor permissions for |
+| **Crowdin Translator** | Language-Specific | Email only (no password) | Can access languages they have translator permissions for. Other languages appear grayed out in dropdown |
 
 ### Full Access Definition
 
@@ -42,6 +44,17 @@ Users with **Language-Specific Access** can:
 - Checked via Firebase custom claims (`super_admin: true`)
 - Set in Firebase Admin Console or via backend service
 - Grants immediate full access
+- Requires email and password login
+
+### SuperAdmin Override (Passwordless)
+
+- Hardcoded list of SuperAdmin emails in `firebase-config.js`
+- Emails include: `sachino@stanford.edu`, `david81@stanford.edu`, `cuskley@stanford.edu`, `aal@stanford.edu`, `zdwatson@stanford.edu`, `serlee@stanford.edu`, `mcfrank@stanford.edu`, `acardinal42@gmail.com`, `admin@levante.com`, `superadmin@levante.com`
+- **Passwordless login**: Users can log in by entering only their email (password field can be left empty)
+- Checked at the very start of `handlePasswordLogin()` function before any password validation
+- Completely bypasses Firebase authentication
+- Grants immediate full access to all languages
+- Login happens automatically when SuperAdmin email is detected
 
 ### Crowdin Owner/Manager
 
