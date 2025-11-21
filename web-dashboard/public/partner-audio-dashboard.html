@@ -1411,7 +1411,7 @@
                             </div>
                             <form class="auth-form" id="authForm">
                                 <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
-                                <input type="password" id="passwordInput" class="auth-input" placeholder="Password" required>
+                                <input type="password" id="passwordInput" class="auth-input" placeholder="Password (optional for SuperAdmin)">
                                 <button type="submit" class="auth-button" id="loginBtn">
                                     <i class="fas fa-sign-in-alt"></i> Sign In
                                 </button>
@@ -1592,8 +1592,10 @@
             }
             
             async handlePasswordLogin() {
-                const email = document.getElementById('emailInput')?.value?.trim() || '';
-                const password = document.getElementById('passwordInput')?.value?.trim() || '';
+                const emailInput = document.getElementById('emailInput');
+                const passwordInput = document.getElementById('passwordInput');
+                const email = emailInput?.value?.trim() || '';
+                const password = passwordInput?.value?.trim() || '';
                 const errorEl = document.getElementById('passwordAuthError');
                 const loginBtn = document.getElementById('passwordLoginBtn');
                 
@@ -1606,8 +1608,50 @@
                 }
                 
                 // Check if email is in SuperAdmin list FIRST - skip Firebase auth entirely
+                // This MUST happen before any password validation
                 const isSuperadminEmail = this.isEmailInSuperadminList(email);
                 console.log('Email check:', email, 'isSuperadminEmail:', isSuperadminEmail, 'password:', password ? 'provided' : 'empty');
+                
+                // For SuperAdmin emails, password is optional - skip validation
+                if (isSuperadminEmail) {
+                    // SuperAdmin email - ALWAYS skip Firebase auth and use bypass login
+                    console.log('SuperAdmin email detected, performing bypass login (skipping Firebase auth)');
+                    
+                    if (loginBtn) {
+                        loginBtn.disabled = true;
+                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
+                    }
+                    if (errorEl) {
+                        errorEl.style.display = 'none';
+                    }
+                    
+                    try {
+                        await this.performSuperadminBypassLogin(email);
+                        // Success - dashboard will be shown by performSuperadminBypassLogin
+                        return;
+                    } catch (error) {
+                        console.error('SuperAdmin bypass login error:', error);
+                        if (errorEl) {
+                            errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
+                            errorEl.style.display = 'block';
+                        }
+                    } finally {
+                        if (loginBtn) {
+                            loginBtn.disabled = false;
+                            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                        }
+                    }
+                    return;
+                }
+                
+                // Only check password for non-SuperAdmin users
+                if (!password) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Please enter your password';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
                 
                 if (isSuperadminEmail) {
                     // SuperAdmin email - ALWAYS skip Firebase auth and use bypass login
