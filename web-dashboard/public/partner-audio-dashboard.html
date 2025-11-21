@@ -1649,7 +1649,7 @@
                 }
                 
                 // Only check password for non-SuperAdmin users
-                if (!password) {
+                if (!isSuperadminEmail && !password) {
                     if (errorEl) {
                         errorEl.textContent = 'Please enter your password';
                         errorEl.style.display = 'block';
@@ -1658,6 +1658,7 @@
                 }
                 
                 // Regular password login (non-SuperAdmin only - SuperAdmin already handled above)
+                if (!isSuperadminEmail) {
                     // Show loading state for regular login
                     if (loginBtn) {
                         loginBtn.disabled = true;
