@@ -1528,9 +1528,29 @@
             isEmailInSuperadminList(email) {
                 if (!email) return false;
                 const normalized = email.trim().toLowerCase();
-                const superadminEmails = window.SUPERADMIN_EMAILS || [];
-                if (!Array.isArray(superadminEmails)) return false;
-                return superadminEmails.some(entry => entry.toLowerCase() === normalized);
+                
+                // Check window.SUPERADMIN_EMAILS first
+                let superadminEmails = window.SUPERADMIN_EMAILS || [];
+                
+                // Fallback: hardcoded list if not available
+                if (!Array.isArray(superadminEmails) || superadminEmails.length === 0) {
+                    superadminEmails = [
+                        "admin@levante.com",
+                        "superadmin@levante.com",
+                        "david81@stanford.edu",
+                        "cuskley@stanford.edu",
+                        "aal@stanford.edu",
+                        "zdwatson@stanford.edu",
+                        "serlee@stanford.edu",
+                        "sachino@stanford.edu",
+                        "mcfrank@stanford.edu",
+                        "acardinal42@gmail.com"
+                    ];
+                }
+                
+                const isSuperAdmin = superadminEmails.some(entry => entry.toLowerCase() === normalized);
+                console.log('SuperAdmin check:', normalized, 'in list:', isSuperAdmin, 'list:', superadminEmails);
+                return isSuperAdmin;
             }
             
             async performSuperadminBypassLogin(email) {
