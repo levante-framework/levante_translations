@@ -1529,14 +1529,20 @@
             }
 
             isEmailInSuperadminList(email) {
-                if (!email) return false;
+                if (!email) {
+                    console.log('🔍 SuperAdmin check: no email provided');
+                    return false;
+                }
                 const normalized = email.trim().toLowerCase();
+                console.log('🔍 SuperAdmin check: checking', normalized);
                 
                 // Check window.SUPERADMIN_EMAILS first
                 let superadminEmails = window.SUPERADMIN_EMAILS || [];
+                console.log('🔍 window.SUPERADMIN_EMAILS:', superadminEmails, 'type:', typeof superadminEmails, 'isArray:', Array.isArray(superadminEmails));
                 
                 // Fallback: hardcoded list if not available
                 if (!Array.isArray(superadminEmails) || superadminEmails.length === 0) {
+                    console.log('🔍 Using fallback SuperAdmin list');
                     superadminEmails = [
                         "admin@levante.com",
                         "superadmin@levante.com",
@@ -1551,8 +1557,16 @@
                     ];
                 }
                 
-                const isSuperAdmin = superadminEmails.some(entry => entry.toLowerCase() === normalized);
-                console.log('SuperAdmin check:', normalized, 'in list:', isSuperAdmin, 'list:', superadminEmails);
+                const isSuperAdmin = superadminEmails.some(entry => {
+                    const entryNormalized = String(entry).trim().toLowerCase();
+                    const matches = entryNormalized === normalized;
+                    if (matches) {
+                        console.log('✅ Match found:', entryNormalized, '===', normalized);
+                    }
+                    return matches;
+                });
+                
+                console.log('🔍 SuperAdmin check result:', normalized, '→', isSuperAdmin ? 'YES' : 'NO', '| List size:', superadminEmails.length);
                 return isSuperAdmin;
             }
             
@@ -1599,6 +1613,42 @@
                 const errorEl = document.getElementById('passwordAuthError');
                 const loginBtn = document.getElementById('passwordLoginBtn');
                 
+                // CRITICAL: Check SuperAdmin FIRST, before ANY other logic
+                // This prevents Firebase auth from being attempted for SuperAdmin emails
+                if (email) {
+                    const isSuperadminEmail = this.isEmailInSuperadminList(email);
+                    console.log('🔐 SuperAdmin Check:', email, '→', isSuperadminEmail);
+                    
+                    if (isSuperadminEmail) {
+                        console.log('✅ SuperAdmin detected - bypassing Firebase auth');
+                        if (loginBtn) {
+                            loginBtn.disabled = true;
+                            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
+                        }
+                        if (errorEl) {
+                            errorEl.style.display = 'none';
+                        }
+                        
+                        try {
+                            await this.performSuperadminBypassLogin(email);
+                            return; // Exit early - SuperAdmin login complete
+                        } catch (error) {
+                            console.error('❌ SuperAdmin bypass login error:', error);
+                            if (errorEl) {
+                                errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
+                                errorEl.style.display = 'block';
+                            }
+                        } finally {
+                            if (loginBtn) {
+                                loginBtn.disabled = false;
+                                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                            }
+                        }
+                        return; // Exit early - don't proceed to Firebase auth
+                    }
+                }
+                
+                // Regular login flow (non-SuperAdmin only)
                 if (!email) {
                     if (errorEl) {
                         errorEl.textContent = 'Please enter your email';
@@ -1607,49 +1657,9 @@
                     return;
                 }
                 
-                // Check if email is in SuperAdmin list FIRST - skip Firebase auth entirely
-                // This MUST happen before any password validation
-                console.log('=== Starting handlePasswordLogin ===');
-                console.log('Email:', email);
-                console.log('Password:', password ? 'provided' : 'empty');
-                const isSuperadminEmail = this.isEmailInSuperadminList(email);
-                console.log('Email check:', email, 'isSuperadminEmail:', isSuperadminEmail, 'password:', password ? 'provided' : 'empty');
-                console.log('isEmailInSuperadminList result:', isSuperadminEmail);
-                
-                // For SuperAdmin emails, password is optional - skip validation
-                if (isSuperadminEmail) {
-                    // SuperAdmin email - ALWAYS skip Firebase auth and use bypass login
-                    console.log('SuperAdmin email detected, performing bypass login (skipping Firebase auth)');
-                    
-                    if (loginBtn) {
-                        loginBtn.disabled = true;
-                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
-                    }
-                    if (errorEl) {
-                        errorEl.style.display = 'none';
-                    }
-                    
-                    try {
-                        await this.performSuperadminBypassLogin(email);
-                        // Success - dashboard will be shown by performSuperadminBypassLogin
-                        return;
-                    } catch (error) {
-                        console.error('SuperAdmin bypass login error:', error);
-                        if (errorEl) {
-                            errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
-                            errorEl.style.display = 'block';
-                        }
-                    } finally {
-                        if (loginBtn) {
-                            loginBtn.disabled = false;
-                            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
-                        }
-                    }
-                    return;
-                }
-                
-                // Only check password for non-SuperAdmin users
-                if (!isSuperadminEmail && !password) {
+                // Regular password login (non-SuperAdmin only - SuperAdmin already handled above)
+                // Require password for non-SuperAdmin users
+                if (!password) {
                     if (errorEl) {
                         errorEl.textContent = 'Please enter your password';
                         errorEl.style.display = 'block';
@@ -1657,40 +1667,38 @@
                     return;
                 }
                 
-                // Regular password login (non-SuperAdmin only - SuperAdmin already handled above)
-                if (!isSuperadminEmail) {
-                    // Show loading state for regular login
-                    if (loginBtn) {
-                        loginBtn.disabled = true;
-                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-                    }
-                    if (errorEl) {
-                        errorEl.style.display = 'none';
+                // Show loading state for regular login
+                if (loginBtn) {
+                    loginBtn.disabled = true;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+                }
+                if (errorEl) {
+                    errorEl.style.display = 'none';
+                }
+                
+                try {
+                    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
+                        throw new Error('Firebase not initialized. Please configure Firebase authentication.');
                     }
                     
-                    try {
-                        if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
-                            throw new Error('Firebase not initialized. Please configure Firebase authentication.');
-                        }
-                        
-                        const auth = firebase.auth();
-                        console.log('Attempting Firebase login with email:', email);
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        console.log('Firebase login successful:', userCredential.user.email);
-                        this.authMethod = 'firebase';
-                        // Auth state change listener will handle the rest
-                        return;
-                    } catch (error) {
-                        console.error('Firebase login error:', error);
-                        if (errorEl) {
-                            let errorMessage = 'Login failed. Please try again.';
-                            if (error.code === 'auth/user-not-found') {
-                                errorMessage = 'No account found with this email.';
-                            } else if (error.code === 'auth/wrong-password') {
-                                errorMessage = 'Incorrect password.';
-                            } else if (error.code === 'auth/invalid-email') {
-                                errorMessage = 'Invalid email address.';
-                            } else if (error.message) {
+                    const auth = firebase.auth();
+                    console.log('🔑 Attempting Firebase login with email:', email);
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    console.log('✅ Firebase login successful:', userCredential.user.email);
+                    this.authMethod = 'firebase';
+                    // Auth state change listener will handle the rest
+                    return;
+                } catch (error) {
+                    console.error('❌ Firebase login error:', error);
+                    if (errorEl) {
+                        let errorMessage = 'Login failed. Please try again.';
+                        if (error.code === 'auth/user-not-found') {
+                            errorMessage = 'No account found with this email.';
+                        } else if (error.code === 'auth/wrong-password') {
+                            errorMessage = 'Incorrect password.';
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorMessage = 'Invalid email address.';
+                        } else if (error.message) {
                                 errorMessage = error.message;
                             }
                             errorEl.textContent = errorMessage;
