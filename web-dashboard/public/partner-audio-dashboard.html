@@ -1736,26 +1736,32 @@
                         return;
                     }
                 }
-                    
-                    if (errorEl) {
-                        let errorMessage = 'Login failed. Please try again.';
-                        if (error.code === 'auth/user-not-found') {
-                            errorMessage = 'No account found with this email.';
-                        } else if (error.code === 'auth/wrong-password') {
-                            errorMessage = 'Incorrect password.';
-                        } else if (error.code === 'auth/invalid-email') {
-                            errorMessage = 'Invalid email address.';
-                        } else if (error.message) {
-                            errorMessage = error.message;
-                        }
-                        errorEl.textContent = errorMessage;
-                        errorEl.style.display = 'block';
-                    }
-                } finally {
-                    // Restore button state
+                
+                // If SuperAdmin with password failed, or SuperAdmin without password, perform bypass login
+                if (isSuperadminEmail) {
+                    // Show loading state
                     if (loginBtn) {
-                        loginBtn.disabled = false;
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                        loginBtn.disabled = true;
+                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
+                    }
+                    if (errorEl) {
+                        errorEl.style.display = 'none';
+                    }
+                    
+                    try {
+                        await this.performSuperadminBypassLogin(email);
+                        // Success - dashboard will be shown by performSuperadminBypassLogin
+                    } catch (error) {
+                        console.error('SuperAdmin bypass login error:', error);
+                        if (errorEl) {
+                            errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
+                            errorEl.style.display = 'block';
+                        }
+                    } finally {
+                        if (loginBtn) {
+                            loginBtn.disabled = false;
+                            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
+                        }
                     }
                 }
             }
