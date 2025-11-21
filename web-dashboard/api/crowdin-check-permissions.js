@@ -119,6 +119,11 @@ export default async function handler(req, res) {
 
             if (!membersResponse.ok) {
                 const errorText = await membersResponse.text();
+                console.error(`Crowdin API members error: ${membersResponse.status}`, errorText);
+                // If it's a 500 error, provide more helpful error message
+                if (membersResponse.status === 500) {
+                    throw new Error(`Crowdin API error (500): This usually means the API token is invalid, expired, or doesn't have the required permissions. Check CROWDIN_API_TOKEN in Vercel environment variables.`);
+                }
                 throw new Error(`Crowdin API error: ${membersResponse.status} ${membersResponse.statusText} - ${errorText}`);
             }
 
@@ -231,7 +236,12 @@ export default async function handler(req, res) {
         console.error('Error checking Crowdin permissions:', error);
         res.status(500).json({
             error: 'Failed to check Crowdin permissions',
-            message: error.message
+            message: error.message,
+            troubleshooting: {
+                checkToken: 'Verify CROWDIN_API_TOKEN is set in Vercel environment variables',
+                checkPermissions: 'Ensure the token has access to project 756721',
+                checkProjectId: 'Verify LEVANTE_TRANSLATIONS_PROJECT_ID is correct (default: 756721)'
+            }
         });
     }
 }
