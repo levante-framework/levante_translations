@@ -1034,11 +1034,15 @@
     </div>
 
     <script>
-        // VERSION CHECK - This helps verify new code is loaded
-        console.log('=== PARTNER AUDIO DASHBOARD LOADED ===');
-        console.log('VERSION: 2024-12-19-SuperAdmin-Fix-v2');
-        console.log('TIMESTAMP:', new Date().toISOString());
-        console.log('If you see old line numbers in errors, clear your browser cache!');
+        // IMMEDIATE VERSION CHECK - Runs before anything else
+        (function() {
+            console.log('%c=== PARTNER AUDIO DASHBOARD LOADED ===', 'color: green; font-size: 16px; font-weight: bold;');
+            console.log('%cVERSION: 2024-12-19-SuperAdmin-Fix-v2', 'color: blue; font-size: 14px; font-weight: bold;');
+            console.log('TIMESTAMP:', new Date().toISOString());
+            console.warn('If you see old line numbers in errors, clear your browser cache!');
+            window.DASHBOARD_VERSION = '2024-12-19-SuperAdmin-Fix-v2';
+            window.DASHBOARD_LOADED = true;
+        })();
         
         class PartnerAudioDashboard {
             constructor() {
