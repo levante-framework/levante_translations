@@ -1175,8 +1175,8 @@
                     
                     if (!response.ok) {
                         console.error('Failed to check Crowdin permissions:', response.status);
-                        // On error, allow access (fail open) - you may want to change this
-                        return true;
+                        // Fail closed: deny access on API error
+                        return false;
                     }
                     
                     const result = await response.json();
@@ -1185,8 +1185,8 @@
                     return result.hasAccess === true;
                 } catch (error) {
                     console.error('Error checking Crowdin permissions:', error);
-                    // On error, allow access (fail open) - you may want to change this
-                    return true;
+                    // Fail closed: deny access on error
+                    return false;
                 }
             }
 
