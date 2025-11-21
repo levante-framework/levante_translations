@@ -1605,14 +1605,14 @@
                     return;
                 }
                 
-                // Check if email is in SuperAdmin list FIRST - allow passwordless login immediately
+                // Check if email is in SuperAdmin list FIRST - skip Firebase auth entirely
                 const isSuperadminEmail = this.isEmailInSuperadminList(email);
                 console.log('Email check:', email, 'isSuperadminEmail:', isSuperadminEmail, 'password:', password ? 'provided' : 'empty');
                 
                 if (isSuperadminEmail) {
-                    // SuperAdmin email - login immediately without password (skip Firebase auth)
-                    console.log('SuperAdmin email detected, performing bypass login');
-                    // SuperAdmin email without password - perform bypass login
+                    // SuperAdmin email - ALWAYS skip Firebase auth and use bypass login
+                    console.log('SuperAdmin email detected, performing bypass login (skipping Firebase auth)');
+                    
                     if (loginBtn) {
                         loginBtn.disabled = true;
                         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
@@ -1624,6 +1624,7 @@
                     try {
                         await this.performSuperadminBypassLogin(email);
                         // Success - dashboard will be shown by performSuperadminBypassLogin
+                        return;
                     } catch (error) {
                         console.error('SuperAdmin bypass login error:', error);
                         if (errorEl) {
@@ -1640,42 +1641,12 @@
                 }
                 
                 // If not SuperAdmin, require password
-                if (!isSuperadminEmail && !password) {
+                if (!password) {
                     if (errorEl) {
                         errorEl.textContent = 'Please enter your password';
                         errorEl.style.display = 'block';
                     }
                     return;
-                }
-                
-                // If SuperAdmin with password provided, try password first, then bypass if it fails
-                // If SuperAdmin without password, skip directly to bypass
-                if (isSuperadminEmail && password) {
-                    // Try password login first, but fall back to bypass if it fails
-                    if (loginBtn) {
-                        loginBtn.disabled = true;
-                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-                    }
-                    if (errorEl) {
-                        errorEl.style.display = 'none';
-                    }
-                    
-                    try {
-                        if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
-                            throw new Error('Firebase not initialized.');
-                        }
-                        
-                        const auth = firebase.auth();
-                        console.log('Attempting Firebase login with password for SuperAdmin:', email);
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        console.log('Firebase login successful:', userCredential.user.email);
-                        this.authMethod = 'firebase';
-                        // Auth state change listener will handle the rest
-                        return;
-                    } catch (error) {
-                        console.log('Password login failed for SuperAdmin, trying bypass:', error.code);
-                        // Fall through to bypass login
-                    }
                 }
                 
                 // Regular password login (non-SuperAdmin) or SuperAdmin bypass
