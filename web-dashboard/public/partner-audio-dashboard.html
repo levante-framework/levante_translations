@@ -1653,48 +1653,7 @@
                     return;
                 }
                 
-                if (isSuperadminEmail) {
-                    // SuperAdmin email - ALWAYS skip Firebase auth and use bypass login
-                    console.log('SuperAdmin email detected, performing bypass login (skipping Firebase auth)');
-                    
-                    if (loginBtn) {
-                        loginBtn.disabled = true;
-                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in as SuperAdmin...';
-                    }
-                    if (errorEl) {
-                        errorEl.style.display = 'none';
-                    }
-                    
-                    try {
-                        await this.performSuperadminBypassLogin(email);
-                        // Success - dashboard will be shown by performSuperadminBypassLogin
-                        return;
-                    } catch (error) {
-                        console.error('SuperAdmin bypass login error:', error);
-                        if (errorEl) {
-                            errorEl.textContent = 'Unable to complete SuperAdmin login. Please try again.';
-                            errorEl.style.display = 'block';
-                        }
-                    } finally {
-                        if (loginBtn) {
-                            loginBtn.disabled = false;
-                            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Password';
-                        }
-                    }
-                    return;
-                }
-                
-                // If not SuperAdmin, require password
-                if (!password) {
-                    if (errorEl) {
-                        errorEl.textContent = 'Please enter your password';
-                        errorEl.style.display = 'block';
-                    }
-                    return;
-                }
-                
-                // Regular password login (non-SuperAdmin) or SuperAdmin bypass
-                if (!isSuperadminEmail) {
+                // Regular password login (non-SuperAdmin only - SuperAdmin already handled above)
                     // Show loading state for regular login
                     if (loginBtn) {
                         loginBtn.disabled = true;
