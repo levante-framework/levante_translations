@@ -1428,8 +1428,19 @@
                     if (passwordForm) {
                         passwordForm.addEventListener('submit', async (e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             await this.handlePasswordLogin();
                         });
+                        
+                        // Also handle button click directly (in case form submit doesn't fire)
+                        const passwordLoginBtn = document.getElementById('passwordLoginBtn');
+                        if (passwordLoginBtn) {
+                            passwordLoginBtn.addEventListener('click', async (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                await this.handlePasswordLogin();
+                            });
+                        }
                         
                         // Auto-login SuperAdmin emails when email is entered
                         const emailInput = document.getElementById('emailInput');
@@ -1479,8 +1490,19 @@
                     if (passwordForm) {
                         passwordForm.addEventListener('submit', async (e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             await this.handlePasswordLogin();
                         });
+                        
+                        // Also handle button click directly (in case form submit doesn't fire)
+                        const passwordLoginBtn = document.getElementById('passwordLoginBtn');
+                        if (passwordLoginBtn) {
+                            passwordLoginBtn.addEventListener('click', async (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                await this.handlePasswordLogin();
+                            });
+                        }
                         
                         // Auto-login SuperAdmin emails when email is entered
                         const emailInput = document.getElementById('emailInput');
@@ -1536,26 +1558,32 @@
                 const normalized = email.trim().toLowerCase();
                 console.log('🔍 SuperAdmin check: checking', normalized);
                 
-                // Check window.SUPERADMIN_EMAILS first
-                let superadminEmails = window.SUPERADMIN_EMAILS || [];
-                console.log('🔍 window.SUPERADMIN_EMAILS:', superadminEmails, 'type:', typeof superadminEmails, 'isArray:', Array.isArray(superadminEmails));
+                // Always use hardcoded list as primary source (most reliable)
+                const hardcodedList = [
+                    "admin@levante.com",
+                    "superadmin@levante.com",
+                    "david81@stanford.edu",
+                    "cuskley@stanford.edu",
+                    "aal@stanford.edu",
+                    "zdwatson@stanford.edu",
+                    "serlee@stanford.edu",
+                    "sachino@stanford.edu",
+                    "mcfrank@stanford.edu",
+                    "acardinal42@gmail.com"
+                ];
                 
-                // Fallback: hardcoded list if not available
-                if (!Array.isArray(superadminEmails) || superadminEmails.length === 0) {
-                    console.log('🔍 Using fallback SuperAdmin list');
-                    superadminEmails = [
-                        "admin@levante.com",
-                        "superadmin@levante.com",
-                        "david81@stanford.edu",
-                        "cuskley@stanford.edu",
-                        "aal@stanford.edu",
-                        "zdwatson@stanford.edu",
-                        "serlee@stanford.edu",
-                        "sachino@stanford.edu",
-                        "mcfrank@stanford.edu",
-                        "acardinal42@gmail.com"
-                    ];
+                // Also check window.SUPERADMIN_EMAILS if available
+                let superadminEmails = hardcodedList.slice(); // Start with hardcoded list
+                if (window.SUPERADMIN_EMAILS && Array.isArray(window.SUPERADMIN_EMAILS) && window.SUPERADMIN_EMAILS.length > 0) {
+                    console.log('🔍 window.SUPERADMIN_EMAILS found, merging with hardcoded list');
+                    // Merge both lists (avoid duplicates)
+                    const windowList = window.SUPERADMIN_EMAILS.map(e => String(e).trim().toLowerCase());
+                    superadminEmails = [...new Set([...hardcodedList.map(e => e.toLowerCase()), ...windowList])];
+                } else {
+                    console.log('🔍 window.SUPERADMIN_EMAILS not available or empty, using hardcoded list only');
                 }
+                
+                console.log('🔍 Checking against SuperAdmin list:', superadminEmails);
                 
                 const isSuperAdmin = superadminEmails.some(entry => {
                     const entryNormalized = String(entry).trim().toLowerCase();
@@ -1566,7 +1594,7 @@
                     return matches;
                 });
                 
-                console.log('🔍 SuperAdmin check result:', normalized, '→', isSuperAdmin ? 'YES' : 'NO', '| List size:', superadminEmails.length);
+                console.log('🔍 SuperAdmin check result:', normalized, '→', isSuperAdmin ? 'YES ✅' : 'NO ❌', '| List size:', superadminEmails.length);
                 return isSuperAdmin;
             }
             
