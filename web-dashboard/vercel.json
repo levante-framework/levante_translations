@@ -15,6 +15,8 @@
     "api/save-audio.js": { "maxDuration": 60 },
     "api/crowdin-stats.js": { "maxDuration": 30 },
     "api/crowdin-untranslated.js": { "maxDuration": 60 },
+    "api/crowdin-auth.js": { "maxDuration": 30 },
+    "api/crowdin-check-permissions.js": { "maxDuration": 30 },
     "api/deploy-bucket-docs.js": { "maxDuration": 60 },
     "api/task-assets.js": { "maxDuration": 60 }
   },
