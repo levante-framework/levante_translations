@@ -1269,15 +1269,18 @@
                     
                     // Listen for auth state changes (only for Firebase auth)
                     auth.onAuthStateChanged(async (user) => {
-                        // Skip if user is authenticated via Crowdin
-                        if (this.authMethod === 'crowdin') {
+                        // Skip if user is authenticated via Crowdin or SuperAdmin bypass
+                        if (this.authMethod === 'crowdin' || this.authMethod === 'superadmin') {
                             return;
                         }
                         
                         console.log('Auth state changed, user:', user ? user.email : 'null');
                         
                         if (!user) {
-                            this.showAuthModal();
+                            // Only show auth modal if not already authenticated via SuperAdmin bypass
+                            if (this.authMethod !== 'superadmin') {
+                                this.showAuthModal();
+                            }
                             return;
                         }
                         
