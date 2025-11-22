@@ -8,7 +8,7 @@ The dashboard supports three authentication methods:
 
 1. **Firebase Authentication** - Email and password login
 2. **SuperAdmin Passwordless Login** - Email-only login for SuperAdmin users (no password required)
-3. **Crowdin Email Authentication** - Email-only login (verifies email exists in Crowdin project)
+3. **Crowdin Username Authentication** - Username-only login (verifies username exists in Crowdin project)
 
 ## Authorization Levels
 
@@ -18,10 +18,10 @@ The dashboard supports three authentication methods:
 |-----------|-------------|-------------|-------|
 | **Firebase SuperAdmin** | Full Access | Email + Password | Can access all languages and all features |
 | **SuperAdmin Override** | Full Access | Email only (no password) | Hardcoded email list, passwordless login |
-| **Crowdin Owner** | Full Access | Email only (no password) | Project owner in Crowdin, can access all languages |
-| **Crowdin Manager** | Full Access | Email only (no password) | Manager role in Crowdin, can access all languages |
-| **Crowdin Editor** | Language-Specific | Email only (no password) | Can access languages they have editor permissions for |
-| **Crowdin Translator** | Language-Specific | Email only (no password) | Can access languages they have translator permissions for. Other languages appear grayed out in dropdown |
+| **Crowdin Owner** | Full Access | Crowdin username (no password) | Project owner in Crowdin, can access all languages |
+| **Crowdin Manager** | Full Access | Crowdin username (no password) | Manager role in Crowdin, can access all languages |
+| **Crowdin Editor** | Language-Specific | Crowdin username (no password) | Can access languages they have editor permissions for |
+| **Crowdin Translator** | Language-Specific | Crowdin username (no password) | Can access languages they have translator permissions for. Other languages appear grayed out in dropdown |
 
 ### Full Access Definition
 
@@ -58,28 +58,28 @@ Users with **Language-Specific Access** can:
 
 ### Crowdin Owner/Manager
 
-- Verified via Crowdin API `/projects/{id}/members` endpoint
+- Verified via Crowdin API `/projects/{id}/members` search endpoint
+- Users enter their **Crowdin username** (from the Crowdin profile menu)
 - Roles checked: `owner` or `manager` (case-insensitive)
-- Project owner also checked via `/projects/{id}` endpoint
 - Grants full access automatically
 
 ### Crowdin Editor/Translator
 
-- Verified via Crowdin API `/projects/{id}/members` endpoint
+- Verified via Crowdin API `/projects/{id}/members` search endpoint (username lookup)
 - Roles checked: `editor` or `translator` (case-insensitive)
-- Language access determined by `languagesAccess` array in member data
-- If `languagesAccess` is empty, user has access to all languages
+- Language access determined by Crowdin role permissions (per-language assignments)
+- If no language-specific restrictions are returned, user has access to all languages
 
 ## API Endpoints
 
 ### `/api/crowdin-auth`
 
-Authenticates a user via Crowdin email verification.
+Authenticates a user via Crowdin username verification.
 
 **Request:**
 ```json
 {
-  "email": "user@example.com",
+  "identifier": "david_cardinal",
   "projectId": "756721" // optional, defaults to env var
 }
 ```
@@ -88,7 +88,8 @@ Authenticates a user via Crowdin email verification.
 ```json
 {
   "authenticated": true,
-  "email": "user@example.com",
+  "username": "david_cardinal",
+  "identifier": "david_cardinal",
   "roles": ["owner"],
   "languagesAccess": [],
   "accessToAllWorkflowSteps": true,
@@ -103,7 +104,7 @@ Authenticates a user via Crowdin email verification.
 {
   "authenticated": false,
   "error": "User not found in Crowdin project",
-  "email": "user@example.com"
+  "identifier": "david_cardinal"
 }
 ```
 
@@ -114,7 +115,7 @@ Checks if a user has access to a specific language.
 **Request:**
 ```json
 {
-  "email": "user@example.com",
+  "identifier": "david_cardinal",
   "langCode": "pt-PT",
   "projectId": "756721" // optional
 }
@@ -125,7 +126,8 @@ Checks if a user has access to a specific language.
 {
   "hasAccess": true,
   "reason": "User is the project owner",
-  "email": "user@example.com",
+  "identifier": "david_cardinal",
+  "username": "david_cardinal",
   "langCode": "pt-PT",
   "roles": ["owner"],
   "isProjectOwner": true
@@ -147,8 +149,8 @@ Required environment variables for Crowdin authentication:
 
 ## Security Notes
 
-- Crowdin email authentication does NOT require a password
-- Email verification is done server-side via Crowdin API
+- Crowdin username authentication does NOT require a password
+- Username verification is done server-side via Crowdin API
 - No sensitive data is exposed to the client
 - All API endpoints use CORS headers appropriately
 

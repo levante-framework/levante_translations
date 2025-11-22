@@ -53,11 +53,11 @@ The dashboard supports three authentication methods:
 - `admin@levante.com`
 - `superadmin@levante.com`
 
-### 3. Crowdin Email Login
-- Click the "Crowdin Email" tab
-- Enter your Crowdin email address (no password needed)
-- Click "Sign In with Crowdin Email"
-- The system verifies your email with Crowdin and grants access based on your role:
+### 3. Crowdin Username Login
+- Click the "Crowdin Username" tab
+- Enter your Crowdin username (found in Crowdin → Profile, no password needed)
+- Click "Sign In with Crowdin Username"
+- The system verifies your username with Crowdin and grants access based on your role:
   - **Crowdin Owner/Manager**: Full access to all languages
   - **Crowdin Editor**: Access to languages you have editor permissions for
   - **Crowdin Translator**: Access to languages you have translator permissions for (other languages appear grayed out in dropdown)

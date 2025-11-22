@@ -441,6 +441,50 @@
             display: block;
         }
 
+        .refresh-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .refresh-status span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #52525b;
+        }
+
+        .refresh-button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #d4d4d8;
+            background: #f4f4f5;
+            color: #27272a;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .refresh-button i {
+            font-size: 12px;
+        }
+
+        .refresh-button:hover:not([disabled]) {
+            border-color: #da3d16;
+            color: #da3d16;
+            background: #fff7f4;
+        }
+
+        .refresh-button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .item-card-compact {
             background: #ffffff;
             border: 1px solid #e4e4e7;
@@ -915,7 +959,7 @@
                     <i class="fas fa-key"></i> Password Login
                 </button>
                 <button class="auth-tab" id="crowdinTab" onclick="dashboard.switchAuthTab('crowdin')">
-                    <i class="fas fa-users"></i> Crowdin Email
+                    <i class="fas fa-users"></i> Crowdin Username
                 </button>
             </div>
             
@@ -932,13 +976,13 @@
                 <div id="passwordAuthError" class="auth-error" style="display: none;"></div>
             </form>
             
-            <!-- Crowdin Email Login Form -->
+            <!-- Crowdin Username Login Form -->
             <form class="auth-form" id="crowdinAuthForm" style="display: none;">
-                <input type="email" id="crowdinEmailInput" class="auth-input" placeholder="Your Crowdin email" required>
+                <input type="text" id="crowdinEmailInput" class="auth-input" placeholder="Your Crowdin username (e.g. david_cardinal)" autocomplete="username" required>
                 <button type="submit" class="auth-button" id="crowdinLoginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Email
+                    <i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Username
                 </button>
-                <p class="auth-hint">No password needed. We'll verify your email with Crowdin.</p>
+                <p class="auth-hint">Crowdin now requires your username (not email). Find it in Crowdin → Profile.</p>
                 <div id="crowdinAuthError" class="auth-error" style="display: none;"></div>
             </form>
         </div>
@@ -970,6 +1014,12 @@
                     <option value="">Select a language...</option>
                 </select>
             </div>
+        </div>
+        <div class="refresh-status">
+            <span id="refreshTimestamp">Last refreshed: Not yet</span>
+            <button class="refresh-button" id="refreshDataBtn" disabled>
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
         </div>
 
         <div class="approval-stats" id="approvalStats" style="display: none;">
@@ -1079,6 +1129,8 @@
                 this.latestGeneratedAudio = null;
                 this.pendingSaveKey = null;
                 this.currentSearchQuery = ''; // Current search filter
+                this.lastRefreshTime = null;
+                this.refreshControlsInitialized = false;
                 
                 // User info for permission checks
                 this.currentUserEmail = null;
@@ -1086,6 +1138,12 @@
                 this.isOverrideEmail = false;
                 this.authMethod = null; // 'firebase' or 'crowdin'
                 this.crowdinAuthData = null; // Store Crowdin auth response
+
+                // Bind key instance methods that we call asynchronously so `this` always has the class context
+                this.initDashboard = this.initDashboard.bind(this);
+                this.performSuperadminBypassLogin = this.performSuperadminBypassLogin.bind(this);
+                this.handlePasswordLogin = this.handlePasswordLogin.bind(this);
+                this.handleCrowdinLogin = this.handleCrowdinLogin.bind(this);
                 
                 this.init();
             }
@@ -1106,6 +1164,120 @@
                     crowdinTab?.classList.add('active');
                     passwordForm.style.display = 'none';
                     crowdinForm.style.display = 'block';
+                }
+            }
+
+            async initDashboard(options = {}) {
+                const {
+                    forceReloadData = false,
+                    refreshCurrentLanguage = true
+                } = options || {};
+
+                try {
+                    if (document.readyState === 'loading') {
+                        await new Promise(resolve => {
+                            const handler = () => {
+                                document.removeEventListener('DOMContentLoaded', handler);
+                                resolve();
+                            };
+                            document.addEventListener('DOMContentLoaded', handler, { once: true });
+                        });
+                    }
+
+                    if (forceReloadData || !Array.isArray(this.data) || this.data.length === 0) {
+                        await this.loadData();
+                    }
+
+                    if (forceReloadData && this.currentLangCode) {
+                        await this.loadApprovalStatus();
+                    }
+
+                    this.setupRefreshControls();
+
+                    if (this.allowedLanguage) {
+                        this.currentLanguage = this.allowedLanguage;
+                        this.currentLangCode = this.languages[this.allowedLanguage]?.lang_code || null;
+                    }
+
+                    this.populateLanguageSelect();
+
+                    const shouldRefreshLanguage = (this.allowedLanguage && this.currentLanguage) ||
+                        (refreshCurrentLanguage && this.currentLanguage);
+
+                    if (shouldRefreshLanguage && this.currentLanguage) {
+                        await this.selectLanguage(this.currentLanguage);
+                    } else {
+                        this.setStatus('Ready - Select a language to begin', 'success');
+                    }
+
+                    this.updateRefreshIndicator();
+                    console.log('initDashboard() completed', {
+                        authMethod: this.authMethod,
+                        user: this.currentUserEmail,
+                        language: this.currentLanguage
+                    });
+                } catch (error) {
+                    console.error('initDashboard() error:', error);
+                    this.setStatus('Error initializing dashboard: ' + (error.message || error), 'error');
+                }
+            }
+
+            setupRefreshControls() {
+                const refreshBtn = document.getElementById('refreshDataBtn');
+                if (refreshBtn && !this.refreshControlsInitialized) {
+                    refreshBtn.addEventListener('click', () => this.handleManualRefresh());
+                    this.refreshControlsInitialized = true;
+                }
+                this.updateRefreshIndicator();
+            }
+
+            updateRefreshIndicator() {
+                const label = document.getElementById('refreshTimestamp');
+                const refreshBtn = document.getElementById('refreshDataBtn');
+
+                if (refreshBtn) {
+                    refreshBtn.disabled = !this.currentLanguage;
+                }
+
+                if (!label) {
+                    return;
+                }
+
+                if (!this.lastRefreshTime) {
+                    label.textContent = 'Last refreshed: Not yet';
+                    return;
+                }
+
+                const formatted = this.lastRefreshTime.toLocaleString();
+                label.textContent = `Last refreshed: ${formatted}`;
+            }
+
+            async handleManualRefresh() {
+                if (!this.currentLanguage) {
+                    this.setStatus('Select a language before refreshing.', 'error');
+                    return;
+                }
+
+                const refreshBtn = document.getElementById('refreshDataBtn');
+                const originalLabel = refreshBtn ? refreshBtn.innerHTML : '';
+
+                if (refreshBtn) {
+                    refreshBtn.disabled = true;
+                    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                }
+
+                try {
+                    this.setStatus(`Refreshing ${this.currentLanguage}...`, 'loading');
+                    await this.selectLanguage(this.currentLanguage);
+                } catch (error) {
+                    console.error('Manual refresh failed:', error);
+                    this.setStatus(`Refresh failed: ${error.message || 'Unknown error'}`, 'error');
+                } finally {
+                    if (refreshBtn) {
+                        refreshBtn.innerHTML = originalLabel || '<i class="fas fa-sync-alt"></i> Refresh Data';
+                        refreshBtn.disabled = !this.currentLanguage;
+                    }
+                    this.updateRefreshIndicator();
                 }
             }
             
@@ -1156,7 +1328,7 @@
                 
                 // If no user email, deny access
                 if (!this.currentUserEmail) {
-                    console.warn('No user email available for permission check');
+                    console.warn('No Crowdin username available for permission check');
                     return false;
                 }
                 
@@ -1168,6 +1340,7 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
+                            identifier: this.currentUserEmail,
                             email: this.currentUserEmail,
                             langCode: langCode
                         })
@@ -1207,6 +1380,8 @@
                 
                 // Small delay to ensure select element is rendered
                 await new Promise(resolve => setTimeout(resolve, 50));
+
+                this.setupRefreshControls();
                 
                 // If user has a restricted language, set it automatically
                 // (Superadmins/override emails will have allowedLanguage = null, so they can choose)
@@ -1221,8 +1396,12 @@
                 this.setStatus('Loading translation data...', 'loading');
                 
                 try {
-                    await this.loadData();
-                    await this.loadApprovalStatus();
+                    if (!Array.isArray(this.data) || this.data.length === 0) {
+                        await this.loadData();
+                    }
+                    if (this.currentLangCode) {
+                        await this.loadApprovalStatus();
+                    }
                     this.setStatus('Ready - Select a language to begin', 'success');
                 } catch (error) {
                     console.error('Dashboard initialization error:', error);
@@ -1238,7 +1417,7 @@
                         const authData = JSON.parse(storedCrowdinAuth);
                         this.authMethod = 'crowdin';
                         this.crowdinAuthData = authData;
-                        this.currentUserEmail = authData.email;
+                        this.currentUserEmail = authData.username || authData.identifier || authData.email;
                         this.isSuperAdmin = false;
                         this.isOverrideEmail = false;
                         
@@ -1769,13 +1948,22 @@
             }
             
             async handleCrowdinLogin() {
-                const email = document.getElementById('crowdinEmailInput').value;
+                const identifierInput = document.getElementById('crowdinEmailInput');
+                const identifier = identifierInput?.value?.trim() || '';
                 const errorEl = document.getElementById('crowdinAuthError');
                 const loginBtn = document.getElementById('crowdinLoginBtn');
                 
-                if (!email) {
+                if (!identifier) {
                     if (errorEl) {
-                        errorEl.textContent = 'Please enter your Crowdin email';
+                        errorEl.textContent = 'Please enter your Crowdin username (found in Crowdin → Profile).';
+                        errorEl.style.display = 'block';
+                    }
+                    return;
+                }
+                
+                if (identifier.includes('@')) {
+                    if (errorEl) {
+                        errorEl.textContent = 'Crowdin now requires your username (not email). Open Crowdin, click your avatar → Profile, and copy the username (e.g. david_cardinal).';
                         errorEl.style.display = 'block';
                     }
                     return;
@@ -1791,19 +1979,34 @@
                 }
                 
                 try {
-                    console.log('Attempting Crowdin authentication with email:', email);
+                    console.log('Attempting Crowdin authentication with identifier:', identifier);
                     const response = await fetch('/api/crowdin-auth', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ email })
+                        body: JSON.stringify({ identifier, email: identifier })
                     });
                     
-                    const result = await response.json();
+                    let result = {};
+                    try {
+                        result = await response.json();
+                    } catch (parseError) {
+                        console.error('Crowdin authentication response parse error:', parseError);
+                        throw new Error('Unexpected response from Crowdin auth API.');
+                    }
                     
                     if (!response.ok || !result.authenticated) {
-                        throw new Error(result.error || 'Authentication failed');
+                        const suggestions = Array.isArray(result?.suggestions) && result.suggestions.length
+                            ? ` Matching usernames: ${result.suggestions.join(', ')}`
+                            : '';
+                        const message = result?.message || result?.error || 'Authentication failed. Please verify your Crowdin username.';
+                        if (errorEl) {
+                            errorEl.textContent = message + suggestions;
+                            errorEl.style.display = 'block';
+                        }
+                        console.warn('Crowdin authentication failed:', result);
+                        return;
                     }
                     
                     console.log('Crowdin authentication successful:', result);
@@ -1811,7 +2014,7 @@
                     // Store authentication data
                     this.authMethod = 'crowdin';
                     this.crowdinAuthData = result;
-                    this.currentUserEmail = email;
+                    this.currentUserEmail = result.username || result.identifier || identifier;
                     this.isSuperAdmin = false; // Crowdin users are not superadmins
                     this.isOverrideEmail = false;
                     
@@ -1847,13 +2050,13 @@
                 } catch (error) {
                     console.error('Crowdin authentication error:', error);
                     if (errorEl) {
-                        errorEl.textContent = error.message || 'Authentication failed. Please verify your email is registered in Crowdin.';
+                        errorEl.textContent = error.message || 'Authentication failed. Please verify your Crowdin username.';
                         errorEl.style.display = 'block';
                     }
                 } finally {
                     if (loginBtn) {
                         loginBtn.disabled = false;
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Email';
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In with Crowdin Username';
                     }
                 }
             }
@@ -2067,12 +2270,6 @@
                     return;
                 }
                 
-                // Check if already populated
-                if (select.options.length > 1) {
-                    console.log('Languages already populated');
-                    return;
-                }
-                
                 // Clear existing options
                 while (select.firstChild) {
                     select.removeChild(select.firstChild);
@@ -2175,6 +2372,8 @@
                     this.currentLanguage = null;
                     this.currentLangCode = null;
                     await this.renderItems([]);
+                    this.lastRefreshTime = null;
+                    this.updateRefreshIndicator();
                     return;
                 }
                 
@@ -2271,6 +2470,9 @@
                 if (this.currentSearchQuery) {
                     this.applySearchFilter(this.currentSearchQuery);
                 }
+
+                this.lastRefreshTime = new Date();
+                this.updateRefreshIndicator();
             }
 
             async getAllItemsWithAudio(items) {

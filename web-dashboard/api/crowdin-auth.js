@@ -1,5 +1,5 @@
 /**
- * API endpoint for Crowdin email-only authentication
+ * API endpoint for Crowdin username-only authentication
  * Verifies user exists in Crowdin project and has editor permissions
  */
 
@@ -20,10 +20,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email, projectId = process.env.LEVANTE_TRANSLATIONS_PROJECT_ID || '756721' } = req.body;
+        const { email, identifier, projectId = process.env.LEVANTE_TRANSLATIONS_PROJECT_ID || '756721' } = req.body;
+        const loginIdentifier = (identifier || email || '').trim();
         
-        if (!email) {
-            res.status(400).json({ error: 'Email is required' });
+        if (!loginIdentifier) {
+            res.status(400).json({ error: 'Crowdin username or email is required' });
             return;
         }
 
@@ -40,147 +41,125 @@ export default async function handler(req, res) {
             return;
         }
 
-        // First, try to check if user is the project owner
-        // If this fails, we'll fall back to checking members list
-        let isProjectOwner = false;
-        try {
-            const projectResponse = await fetch(
-                `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (projectResponse.ok) {
-                const projectData = await projectResponse.json();
-                const projectOwner = projectData.data?.owner;
-                const ownerEmail = projectOwner?.email || projectOwner?.user?.email || projectOwner?.username || '';
-                
-                // Check if user is the project owner
-                if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
-                    isProjectOwner = true;
+        // Search for the member using Crowdin username (search parameter avoids API 500s)
+        const searchParam = encodeURIComponent(loginIdentifier);
+        const membersResponse = await fetch(
+            `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/members?limit=50&search=${searchParam}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                    'Content-Type': 'application/json'
                 }
             }
-        } catch (ownerError) {
-            // If owner check fails, log but continue to members check
-            console.warn('Could not check project owner, falling back to members list:', ownerError.message);
+        );
+
+        if (!membersResponse.ok) {
+            const errorText = await membersResponse.text();
+            console.error(`Crowdin API members error: ${membersResponse.status}`, errorText);
+            if (membersResponse.status === 500) {
+                throw new Error(`Crowdin API error (500): This usually means the API token is invalid, expired, or doesn't have the required permissions. Check CROWDIN_API_TOKEN in Vercel environment variables.`);
+            }
+            throw new Error(`Crowdin API error: ${membersResponse.status} ${membersResponse.statusText} - ${errorText}`);
         }
 
-        // If user is project owner, grant access immediately
-        if (isProjectOwner) {
-            return res.status(200).json({
-                authenticated: true,
-                email: email,
-                roles: ['owner'],
-                languagesAccess: [],
-                accessToAllWorkflowSteps: true,
-                hasAllLanguagesAccess: true,
-                isProjectOwner: true
+        const membersData = await membersResponse.json();
+        const memberEntries = (membersData.data || []).map(entry => entry.data || entry);
+
+        if (memberEntries.length === 0) {
+            return res.status(404).json({
+                authenticated: false,
+                error: 'Crowdin user not found',
+                message: 'We could not find a Crowdin account matching that username. Please enter the username shown in Crowdin (not an email).',
+                identifier: loginIdentifier
             });
         }
 
-        // Get all project members
-        let allMembers = [];
-        let offset = 0;
-        const limit = 500;
-        let hasMore = true;
-
-        while (hasMore) {
-            const membersResponse = await fetch(
-                `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/members?limit=${limit}&offset=${offset}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (!membersResponse.ok) {
-                const errorText = await membersResponse.text();
-                console.error(`Crowdin API members error: ${membersResponse.status}`, errorText);
-                // If it's a 500 error, provide more helpful error message
-                if (membersResponse.status === 500) {
-                    throw new Error(`Crowdin API error (500): This usually means the API token is invalid, expired, or doesn't have the required permissions. Check CROWDIN_API_TOKEN in Vercel environment variables.`);
-                }
-                throw new Error(`Crowdin API error: ${membersResponse.status} ${membersResponse.statusText} - ${errorText}`);
-            }
-
-            const membersData = await membersResponse.json();
-            const members = membersData.data || [];
-            allMembers = allMembers.concat(members);
-
-            // Check if there are more pages
-            const pagination = membersData.pagination;
-            if (pagination && pagination.offset + pagination.limit < pagination.total) {
-                offset += limit;
-            } else {
-                hasMore = false;
-            }
-        }
-
-        // Find member by email (case-insensitive)
-        const userMember = allMembers.find(member => {
-            const memberEmail = member.data?.user?.email || member.data?.email || '';
-            return memberEmail.toLowerCase() === email.toLowerCase();
+        const normalizedIdentifier = loginIdentifier.toLowerCase();
+        const directMatch = memberEntries.find(member => {
+            const username = (member.username || '').toLowerCase();
+            const fullName = (member.fullName || '').toLowerCase();
+            return username === normalizedIdentifier || (fullName && fullName === normalizedIdentifier);
         });
 
-        if (!userMember) {
-            return res.status(401).json({
+        const memberData = directMatch || (memberEntries.length === 1 ? memberEntries[0] : null);
+
+        if (!memberData) {
+            return res.status(409).json({
                 authenticated: false,
-                error: 'User not found in Crowdin project',
-                email: email
+                error: 'Crowdin username ambiguous',
+                message: 'Multiple Crowdin users matched that search. Please enter the exact Crowdin username.',
+                suggestions: memberEntries.map(m => m.username).filter(Boolean)
             });
         }
 
-        const memberData = userMember.data || {};
-        const roles = memberData.roles || [];
-        const languagesAccess = memberData.languagesAccess || [];
-        const accessToAllWorkflowSteps = memberData.accessToAllWorkflowSteps || false;
+        const roles = Array.isArray(memberData.roles) && memberData.roles.length > 0
+            ? memberData.roles
+            : (memberData.role ? [{ name: memberData.role }] : []);
 
-        // Check role names (case-insensitive)
         const roleNames = roles.map(role => (role.name || '').toLowerCase());
         const isOwner = roleNames.includes('owner');
         const isManager = roleNames.includes('manager');
         const isEditor = roleNames.includes('editor');
         const isTranslator = roleNames.includes('translator');
+        let hasAllLanguagesAccess = isOwner || isManager;
 
-        // Owner and Manager get full access
-        if (isOwner || isManager) {
-            return res.status(200).json({
-                authenticated: true,
-                email: email,
-                roles: roles.map(r => r.name),
-                languagesAccess: [],
-                accessToAllWorkflowSteps: true,
-                hasAllLanguagesAccess: true,
-                isOwner: isOwner,
-                isManager: isManager
+        const languageAccessSet = new Set();
+
+        if (!hasAllLanguagesAccess && Array.isArray(memberData.languagesAccess)) {
+            memberData.languagesAccess.forEach(lang => {
+                const langId = lang?.languageId || lang?.id || lang;
+                if (langId) {
+                    languageAccessSet.add(langId);
+                }
+            });
+            hasAllLanguagesAccess = languageAccessSet.size === 0;
+        }
+
+        if (!hasAllLanguagesAccess && Array.isArray(roles)) {
+            roles.forEach(role => {
+                if (role?.permissions?.allLanguages) {
+                    hasAllLanguagesAccess = true;
+                }
+                const languagesAccess = role?.permissions?.languagesAccess;
+                if (languagesAccess && typeof languagesAccess === 'object') {
+                    Object.keys(languagesAccess).forEach(langId => languageAccessSet.add(langId));
+                }
             });
         }
 
-        // Editor and Translator need language-specific access
-        if (!isEditor && !isTranslator && !accessToAllWorkflowSteps) {
+        if (!hasAllLanguagesAccess && memberData.permissions && typeof memberData.permissions === 'object') {
+            Object.entries(memberData.permissions).forEach(([langId, permission]) => {
+                if (permission && permission !== 'denied') {
+                    languageAccessSet.add(langId);
+                }
+            });
+        }
+
+        const languagesAccess = hasAllLanguagesAccess ? [] : Array.from(languageAccessSet);
+        const accessToAllWorkflowSteps = Boolean(memberData.accessToAllWorkflowSteps || hasAllLanguagesAccess);
+
+        if (!isOwner && !isManager && !isEditor && !isTranslator) {
             return res.status(403).json({
                 authenticated: false,
-                error: 'User does not have editor or translator permissions',
-                email: email,
-                roles: roles.map(r => r.name)
+                error: 'User does not have editor/translator permissions in Crowdin',
+                identifier: loginIdentifier,
+                username: memberData.username,
+                roles: roles.map(r => r.name).filter(Boolean)
             });
         }
 
         // User is authenticated and has valid permissions
-        // Return user info (without sensitive data)
         return res.status(200).json({
             authenticated: true,
-            email: email,
-            roles: roles.map(r => r.name),
-            languagesAccess: languagesAccess.map(l => l.languageId || l.id || l),
-            accessToAllWorkflowSteps: accessToAllWorkflowSteps,
-            hasAllLanguagesAccess: languagesAccess.length === 0
+            identifier: loginIdentifier,
+            username: memberData.username || loginIdentifier,
+            email: memberData?.user?.email || memberData?.email || loginIdentifier,
+            roles: roles.map(r => r.name).filter(Boolean),
+            languagesAccess,
+            accessToAllWorkflowSteps,
+            hasAllLanguagesAccess,
+            isOwner,
+            isManager
         });
 
     } catch (error) {

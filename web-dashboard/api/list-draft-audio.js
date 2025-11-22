@@ -78,11 +78,40 @@ export default async function handler(req, res) {
 
         const bucketName = (req.query.bucket && String(req.query.bucket)) || process.env.ASSETS_DRAFT_BUCKET || 'levante-assets-draft';
         const prefix = (req.query.prefix && String(req.query.prefix)) || 'audio/';
-        const limitRaw = req.query.limit ? Number(req.query.limit) : 500;
-        const maxResults = Number.isFinite(limitRaw) ? Math.min(Math.max(limitRaw, 1), 1000) : 500;
+        const limitRaw = req.query.limit ? Number(req.query.limit) : Infinity;
+        const requestedLimit = Number.isFinite(limitRaw) && limitRaw > 0 ? limitRaw : Infinity;
+        const pageSizeRaw = req.query.pageSize ? Number(req.query.pageSize) : 500;
+        const maxPerPage = Number.isFinite(pageSizeRaw) ? Math.min(Math.max(pageSizeRaw, 1), 1000) : 500;
 
         const bucket = storage.bucket(bucketName);
-        const [files] = await bucket.getFiles({ prefix, maxResults });
+
+        async function listAllFiles() {
+            const collected = [];
+            let pageToken;
+            let remaining = requestedLimit;
+            do {
+                const maxResults = Number.isFinite(remaining)
+                    ? Math.min(maxPerPage, Math.max(1, remaining))
+                    : maxPerPage;
+                const [files, , apiResponse] = await bucket.getFiles({
+                    prefix,
+                    maxResults,
+                    autoPaginate: false,
+                    pageToken
+                });
+                collected.push(...files);
+                if (Number.isFinite(remaining)) {
+                    remaining -= files.length;
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+                pageToken = apiResponse?.nextPageToken;
+            } while (pageToken);
+            return collected;
+        }
+
+        const files = await listAllFiles();
 
         const [deployFiles] = await bucket.getFiles({ prefix: 'deploy/', maxResults: 2000 });
         const deployInfo = new Map();

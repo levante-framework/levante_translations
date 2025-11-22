@@ -1,6 +1,6 @@
 /**
  * API endpoint to check if a user has editor permissions for a language in Crowdin
- * Checks if user is superadmin OR has editor access to the selected language
+ * Checks if user is superadmin OR has editor access to the selected language (via username lookup)
  */
 
 export default async function handler(req, res) {
@@ -20,10 +20,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email, langCode, projectId = process.env.LEVANTE_TRANSLATIONS_PROJECT_ID || '756721' } = req.body;
+        const { email, identifier, langCode, projectId = process.env.LEVANTE_TRANSLATIONS_PROJECT_ID || '756721' } = req.body;
+        const loginIdentifier = (identifier || email || '').trim();
         
-        if (!email) {
-            res.status(400).json({ error: 'Email is required' });
+        if (!loginIdentifier) {
+            res.status(400).json({ error: 'Crowdin username or email is required' });
             return;
         }
 
@@ -60,177 +61,162 @@ export default async function handler(req, res) {
 
         const crowdinLangId = langCodeToCrowdinId[langCode] || langCode;
 
-        // First, try to check if user is the project owner
-        // If this fails, we'll fall back to checking members list
-        let isProjectOwner = false;
-        try {
-            const projectResponse = await fetch(
-                `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (projectResponse.ok) {
-                const projectData = await projectResponse.json();
-                const projectOwner = projectData.data?.owner;
-                const ownerEmail = projectOwner?.email || projectOwner?.user?.email || projectOwner?.username || '';
-                
-                // If user is the project owner, grant access to all languages
-                if (ownerEmail && ownerEmail.toLowerCase() === email.toLowerCase()) {
-                    isProjectOwner = true;
+        const searchParam = encodeURIComponent(loginIdentifier);
+        const membersResponse = await fetch(
+            `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/members?limit=50&search=${searchParam}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${CROWDIN_TOKEN}`,
+                    'Content-Type': 'application/json'
                 }
             }
-        } catch (ownerError) {
-            // If owner check fails, log but continue to members check
-            console.warn('Could not check project owner, falling back to members list:', ownerError.message);
-        }
+        );
 
-        if (isProjectOwner) {
-            return res.status(200).json({
-                hasAccess: true,
-                reason: 'User is the project owner',
-                email: email,
-                langCode: langCode,
-                roles: ['owner'],
-                isProjectOwner: true
-            });
-        }
-
-        // Get all project members
-        let allMembers = [];
-        let offset = 0;
-        const limit = 500;
-        let hasMore = true;
-
-        while (hasMore) {
-            const membersResponse = await fetch(
-                `${CROWDIN_API_BASE}/projects/${CROWDIN_PROJECT_ID}/members?limit=${limit}&offset=${offset}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${CROWDIN_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            if (!membersResponse.ok) {
-                const errorText = await membersResponse.text();
-                console.error(`Crowdin API members error: ${membersResponse.status}`, errorText);
-                // If it's a 500 error, provide more helpful error message
-                if (membersResponse.status === 500) {
-                    throw new Error(`Crowdin API error (500): This usually means the API token is invalid, expired, or doesn't have the required permissions. Check CROWDIN_API_TOKEN in Vercel environment variables.`);
-                }
-                throw new Error(`Crowdin API error: ${membersResponse.status} ${membersResponse.statusText} - ${errorText}`);
+        if (!membersResponse.ok) {
+            const errorText = await membersResponse.text();
+            console.error(`Crowdin API members error: ${membersResponse.status}`, errorText);
+            if (membersResponse.status === 500) {
+                throw new Error(`Crowdin API error (500): This usually means the API token is invalid, expired, or doesn't have the required permissions. Check CROWDIN_API_TOKEN in Vercel environment variables.`);
             }
-
-            const membersData = await membersResponse.json();
-            const members = membersData.data || [];
-            allMembers = allMembers.concat(members);
-
-            // Check if there are more pages
-            const pagination = membersData.pagination;
-            if (pagination && pagination.offset + pagination.limit < pagination.total) {
-                offset += limit;
-            } else {
-                hasMore = false;
-            }
+            throw new Error(`Crowdin API error: ${membersResponse.status} ${membersResponse.statusText} - ${errorText}`);
         }
 
-        // Find member by email (case-insensitive)
-        const userMember = allMembers.find(member => {
-            const memberEmail = member.data?.user?.email || member.data?.email || '';
-            return memberEmail.toLowerCase() === email.toLowerCase();
-        });
+        const membersData = await membersResponse.json();
+        const memberEntries = (membersData.data || []).map(entry => entry.data || entry);
 
-        if (!userMember) {
-            // User not found in Crowdin project members
+        if (memberEntries.length === 0) {
             return res.status(200).json({
                 hasAccess: false,
-                reason: 'User not found in Crowdin project members',
-                email: email,
-                langCode: langCode
+                reason: 'Crowdin user not found',
+                message: 'No Crowdin member matched that username. Please enter the username shown in Crowdin (not email).',
+                identifier: loginIdentifier,
+                langCode
             });
         }
 
-        const memberData = userMember.data || {};
-        const roles = memberData.roles || [];
-        const languagesAccess = memberData.languagesAccess || [];
-        const accessToAllWorkflowSteps = memberData.accessToAllWorkflowSteps || false;
-
-        // Check if user has manager or owner role (these have full access)
-        const hasManagerRole = roles.some(role => {
-            const roleName = role.name || '';
-            return roleName.toLowerCase() === 'manager' || roleName.toLowerCase() === 'owner';
+        const normalizedIdentifier = loginIdentifier.toLowerCase();
+        const directMatch = memberEntries.find(member => {
+            const username = (member.username || '').toLowerCase();
+            const fullName = (member.fullName || '').toLowerCase();
+            return username === normalizedIdentifier || (fullName && fullName === normalizedIdentifier);
         });
 
-        if (hasManagerRole || accessToAllWorkflowSteps) {
+        const memberData = directMatch || (memberEntries.length === 1 ? memberEntries[0] : null);
+
+        if (!memberData) {
+            return res.status(200).json({
+                hasAccess: false,
+                reason: 'Crowdin username ambiguous',
+                message: 'Multiple Crowdin users matched that search. Please enter the exact Crowdin username.',
+                suggestions: memberEntries.map(m => m.username).filter(Boolean),
+                identifier: loginIdentifier,
+                langCode
+            });
+        }
+
+        const roles = Array.isArray(memberData.roles) && memberData.roles.length > 0
+            ? memberData.roles
+            : (memberData.role ? [{ name: memberData.role }] : []);
+
+        const roleNames = roles.map(role => (role.name || '').toLowerCase());
+        const isOwner = roleNames.includes('owner');
+        const isManager = roleNames.includes('manager');
+        const isEditor = roleNames.includes('editor');
+        const isTranslator = roleNames.includes('translator');
+        let hasAllLanguagesAccess = isOwner || isManager;
+
+        const languageAccessSet = new Set();
+
+        if (!hasAllLanguagesAccess && Array.isArray(memberData.languagesAccess)) {
+            memberData.languagesAccess.forEach(lang => {
+                const langId = lang?.languageId || lang?.id || lang;
+                if (langId) {
+                    languageAccessSet.add(langId);
+                }
+            });
+            hasAllLanguagesAccess = languageAccessSet.size === 0;
+        }
+
+        if (!hasAllLanguagesAccess && Array.isArray(roles)) {
+            roles.forEach(role => {
+                if (role?.permissions?.allLanguages) {
+                    hasAllLanguagesAccess = true;
+                }
+                const languagesAccess = role?.permissions?.languagesAccess;
+                if (languagesAccess && typeof languagesAccess === 'object') {
+                    Object.keys(languagesAccess).forEach(langId => languageAccessSet.add(langId));
+                }
+            });
+        }
+
+        if (!hasAllLanguagesAccess && memberData.permissions && typeof memberData.permissions === 'object') {
+            Object.entries(memberData.permissions).forEach(([langId, permission]) => {
+                if (permission && permission !== 'denied') {
+                    languageAccessSet.add(langId);
+                }
+            });
+        }
+
+        const languagesAccess = hasAllLanguagesAccess ? [] : Array.from(languageAccessSet);
+        const accessToAllWorkflowSteps = Boolean(memberData.accessToAllWorkflowSteps || hasAllLanguagesAccess);
+
+        if (isOwner || isManager || accessToAllWorkflowSteps) {
             return res.status(200).json({
                 hasAccess: true,
-                reason: 'User has manager/owner role or access to all workflow steps',
-                email: email,
-                langCode: langCode,
-                roles: roles.map(r => r.name)
+                reason: 'User has owner/manager role or all-language access',
+                identifier: loginIdentifier,
+                username: memberData.username,
+                langCode,
+                roles: roles.map(r => r.name).filter(Boolean)
             });
         }
 
-        // Check if user has editor role
-        const hasEditorRole = roles.some(role => {
-            const roleName = role.name || '';
-            return roleName.toLowerCase() === 'editor' || roleName.toLowerCase() === 'translator';
-        });
-
-        if (!hasEditorRole) {
+        if (!isEditor && !isTranslator) {
             return res.status(200).json({
                 hasAccess: false,
                 reason: 'User does not have editor or translator role',
-                email: email,
-                langCode: langCode,
-                roles: roles.map(r => r.name)
+                identifier: loginIdentifier,
+                username: memberData.username,
+                langCode,
+                roles: roles.map(r => r.name).filter(Boolean)
             });
         }
 
-        // Check language-specific access
-        // If languagesAccess is empty, user has access to all languages
-        if (languagesAccess.length === 0) {
+        if (hasAllLanguagesAccess || languagesAccess.length === 0) {
             return res.status(200).json({
                 hasAccess: true,
-                reason: 'User has editor role with access to all languages',
-                email: email,
-                langCode: langCode,
-                roles: roles.map(r => r.name)
+                reason: 'User has editor/translator role with access to all languages',
+                identifier: loginIdentifier,
+                username: memberData.username,
+                langCode,
+                roles: roles.map(r => r.name).filter(Boolean)
             });
         }
 
-        // Check if user has access to the specific language
-        const hasLanguageAccess = languagesAccess.some(lang => {
-            const langId = lang.languageId || lang.id || lang;
-            return langId === crowdinLangId || langId === langCode;
-        });
+        const hasLanguageAccess = languagesAccess.some(langId => langId === crowdinLangId || langId === langCode);
 
         if (hasLanguageAccess) {
             return res.status(200).json({
                 hasAccess: true,
-                reason: `User has editor role with access to language ${crowdinLangId}`,
-                email: email,
-                langCode: langCode,
-                crowdinLangId: crowdinLangId,
-                roles: roles.map(r => r.name)
-            });
-        } else {
-            return res.status(200).json({
-                hasAccess: false,
-                reason: `User has editor role but no access to language ${crowdinLangId}`,
-                email: email,
-                langCode: langCode,
-                crowdinLangId: crowdinLangId,
-                roles: roles.map(r => r.name),
-                accessibleLanguages: languagesAccess.map(l => l.languageId || l.id || l)
+                reason: `User has editor/translator access to ${crowdinLangId}`,
+                identifier: loginIdentifier,
+                username: memberData.username,
+                langCode,
+                crowdinLangId,
+                roles: roles.map(r => r.name).filter(Boolean)
             });
         }
+
+        return res.status(200).json({
+            hasAccess: false,
+            reason: `User does not have access to language ${crowdinLangId}`,
+            identifier: loginIdentifier,
+            username: memberData.username,
+            langCode,
+            crowdinLangId,
+            roles: roles.map(r => r.name).filter(Boolean),
+            accessibleLanguages: languagesAccess
+        });
 
     } catch (error) {
         console.error('Error checking Crowdin permissions:', error);
