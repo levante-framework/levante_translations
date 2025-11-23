@@ -93,7 +93,7 @@ export default async function handler(req, res) {
                 const maxResults = Number.isFinite(remaining)
                     ? Math.min(maxPerPage, Math.max(1, remaining))
                     : maxPerPage;
-                const [files, , apiResponse] = await bucket.getFiles({
+                const [files, nextQuery] = await bucket.getFiles({
                     prefix,
                     maxResults,
                     autoPaginate: false,
@@ -106,7 +106,9 @@ export default async function handler(req, res) {
                         break;
                     }
                 }
-                pageToken = apiResponse?.nextPageToken;
+                pageToken = nextQuery && typeof nextQuery.pageToken === 'string' && nextQuery.pageToken.length
+                    ? nextQuery.pageToken
+                    : null;
             } while (pageToken);
             return collected;
         }
