@@ -9452,6 +9452,36 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label-2">Memory </context>
         </context-group>
       </trans-unit>
+      <trans-unit id="150904" resname="matrix-reasoning-instruct4-downex" translate="no">
+        <source>Here is a new kind of puzzle. Look carefully at the pieces. Let's practice!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct4-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150906" resname="matrix-reasoning-instruct5-part1-downex" translate="no">
+        <source>These pieces make a pattern.</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct5-part1-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="150908" resname="matrix-reasoning-instruct5-part2-downex" translate="no">
+        <source>This piece should make a pattern too!</source>
+        <target/>
+        <context-group purpose="information">
+          <context context-type="source">matrix-reasoning-instruct5-part2-downex
+</context>
+          <context context-type="x-crowdin-label-1">matrix-reasoning</context>
+          <context context-type="x-crowdin-label-2">Pattern Matching</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
