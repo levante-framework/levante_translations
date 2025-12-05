@@ -2213,6 +2213,7 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label-1">trog</context>
           <context context-type="x-crowdin-label-2">Sentence Understanding</context>
         </context-group>
+        <note from="Feline van Aagten (Felinevanaagten)" priority="4">I think &quot;neither .. nor&quot; is a easier than the Dutch &quot;noch .. noch&quot;. Might want to change to &quot;niet .. en ook niet&quot;. This would change the order of the sentence.</note>
       </trans-unit>
       <trans-unit id="51603" resname="trog-item-74">
         <source>the pencil is neither long nor red</source>
@@ -2235,6 +2236,7 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label-1">trog</context>
           <context context-type="x-crowdin-label-2">Sentence Understanding</context>
         </context-group>
+        <note from="Feline van Aagten (Felinevanaagten)" priority="4">Same &quot;noch noch&quot; situation.</note>
       </trans-unit>
       <trans-unit id="51607" resname="trog-item-76">
         <source>the boy has neither hat nor shoes</source>
@@ -3726,6 +3728,7 @@ Some questions might be easy for you and some might be hard. That is okay! Pleas
           <context context-type="x-crowdin-label-1">theory-of-mind</context>
           <context context-type="x-crowdin-label-2">Stories</context>
         </context-group>
+        <note from="Feline van Aagten (Felinevanaagten)" priority="4">Changed &quot;gegooid&quot; to &quot;gestoten&quot; as the first implies an active action. The second leaves room for judgement. </note>
       </trans-unit>
       <trans-unit id="51861" resname="hostile-attribution-scene3-q1">
         <source>Do you think the boy knocked your papers onto the floor on purpose or by accident?</source>
