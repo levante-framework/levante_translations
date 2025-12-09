@@ -4,7 +4,37 @@
     <header>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
-    <body/>
+    <body>
+      <trans-unit id="147908" resname="introduction.q.caregiversurveyintroa.html" approved="yes">
+        <source>Thank you to you and your child for participating in this research project!&lt;/b&gt;&lt;br&gt;
+
+The following survey will take approximately 20-30 minutes to complete and will ask questions about your child. &lt;br&gt;&lt;br&gt;
+
+When answering the questions, please think about your child who is participating in this research project. If you have more than one child participating in the research project, you will complete this survey separately for each participating child. &lt;br&gt;&lt;br&gt;
+Some questions will note a specific timeframe to consider when answering. If no timeframe is indicated, you can think about how the answer applies to your child in general. 
+&lt;br&gt;&lt;br&gt;
+We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;
+When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;Thank you</source>
+        <target state="final">Dank u voor uw deelname en die van uw kind aan dit onderzoeksproject!
+&lt;br&gt;
+
+De volgende vragenlijst duurt ongeveer 20-30 minuten om in te vullen en bevat vragen over uw kind.
+&lt;br&gt;&lt;br&gt;
+
+Bij het beantwoorden van de vragen, denk dan aan uw kind dat deelneemt aan dit onderzoeksproject. Als u meer dan één kind heeft dat deelneemt aan het project, vult u deze vragenlijst afzonderlijk in voor elk deelnemend kind.
+&lt;br&gt;&lt;br&gt;
+Bij sommige vragen wordt een specifiek tijdsbestek aangegeven tijdens het antwoorden. Als er geen tijdsbestek wordt genoemd, kunt u nadenken over hoe het antwoord in het algemeen op uw kind van toepassing is.
+&lt;br&gt;&lt;br&gt;
+We stellen het op prijs als u de vragen zo volledig en nauwkeurig mogelijk beantwoordt met de informatie die u tot uw beschikking heeft. Als u vragen heeft over deze vragenlijst, neem dan contact op met de onderzoekscoördinator.&lt;br&gt;&lt;br&gt;
+Wanneer u klaar bent om te beginnen, klikt u op de knop “vragenlijst starten”.&lt;br&gt;&lt;br&gt;Dank u wel</target>
+        <context-group purpose="information">
+          <context context-type="source">parent_survey_child.json
+introduction.q.caregiversurveyintroa.html
+q.caregiversurveyintroa</context>
+          <context context-type="x-crowdin-label">parent_survey_child</context>
+        </context-group>
+      </trans-unit>
+    </body>
   </file>
   <file id="698" original="/main/surveys/parent_survey_family-source.xliff" source-language="en" target-language="nl" datatype="plaintext" project-id="756721" tool-id="crowdin">
     <header>
