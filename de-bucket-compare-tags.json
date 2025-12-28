@@ -1,0 +1,2039 @@
+{
+  "lang": "de",
+  "report": "/home/david/levante/levante_translations/fix-report-de-applied.json",
+  "buckets": [
+    "levante-assets-dev",
+    "levante-assets-prod"
+  ],
+  "downloadTags": true,
+  "results": [
+    {
+      "item_key": "child-survey-intro-no-responses",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/child-survey-intro-no-responses.mp3",
+        "mtime": "2025-12-27T18:04:57.368Z",
+        "created": "2025-12-27T18:04:57.382Z",
+        "id3": {
+          "title": "child-survey-intro-no-responses",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.382243",
+          "text": "In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst.",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/child-survey-intro-no-responses.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.343Z",
+          "timeCreated": "2025-12-27T18:38:17.343Z",
+          "createdTag": "2025-12-27T18:04:57.382Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "child-survey-intro-no-responses",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.382243",
+            "text": "In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst.",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": false
+        }
+      }
+    },
+    {
+      "item_key": "general-intro1",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/general-intro1.mp3",
+        "mtime": "2025-12-27T18:04:57.396Z",
+        "created": "2025-12-27T18:04:57.400Z",
+        "id3": {
+          "title": "general-intro1",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.400293",
+          "text": "Hallo! Wir freuen uns, dass du heute ein paar Spiele mit uns spielst!",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/general-intro1.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.390Z",
+          "timeCreated": "2025-12-27T18:38:17.390Z",
+          "createdTag": "2025-12-27T18:04:57.400Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "general-intro1",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.400293",
+            "text": "Hallo! Wir freuen uns, dass du heute ein paar Spiele mit uns spielst!",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/general-intro1.mp3",
+          "version": 0,
+          "updated": "2025-11-05T22:38:09.526Z",
+          "timeCreated": "2025-11-05T22:38:09.526Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-001",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-001.mp3",
+        "mtime": "2025-12-27T18:04:57.588Z",
+        "created": "2025-12-27T18:04:57.598Z",
+        "id3": {
+          "title": "vocab-item-001",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.598612",
+          "text": "die Eichel",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-001.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.419Z",
+          "timeCreated": "2025-12-27T18:38:17.419Z",
+          "createdTag": "2025-12-27T18:04:57.598Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-001",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.598612",
+            "text": "die Eichel",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-001.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:08.767Z",
+          "timeCreated": "2025-11-07T21:58:08.767Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-002",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-002.mp3",
+        "mtime": "2025-12-27T18:04:57.588Z",
+        "created": "2025-12-27T18:04:57.600Z",
+        "id3": {
+          "title": "vocab-item-002",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.600454",
+          "text": "die aloe vera",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-002.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.456Z",
+          "timeCreated": "2025-12-27T18:38:17.456Z",
+          "createdTag": "2025-12-27T18:04:57.600Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-002",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.600454",
+            "text": "die aloe vera",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-002.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:08.768Z",
+          "timeCreated": "2025-11-07T21:58:08.768Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-025",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-025.mp3",
+        "mtime": "2025-12-27T18:04:57.607Z",
+        "created": "2025-12-27T18:04:57.616Z",
+        "id3": {
+          "title": "vocab-item-025",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.616019",
+          "text": "Der Ellenbogen",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-025.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.507Z",
+          "timeCreated": "2025-12-27T18:38:17.507Z",
+          "createdTag": "2025-12-27T18:04:57.616Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-025",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.616019",
+            "text": "Der Ellenbogen",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-025.mp3",
+          "version": 0,
+          "updated": "2025-11-06T21:45:56.355Z",
+          "timeCreated": "2025-11-06T21:45:56.355Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-040",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-040.mp3",
+        "mtime": "2025-12-27T18:04:57.616Z",
+        "created": "2025-12-27T18:04:57.624Z",
+        "id3": {
+          "title": "vocab-item-040",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.624943",
+          "text": "das marshmallow",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-040.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.416Z",
+          "timeCreated": "2025-12-27T18:38:17.416Z",
+          "createdTag": "2025-12-27T18:04:57.624Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-040",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.624943",
+            "text": "das marshmallow",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-040.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:08.783Z",
+          "timeCreated": "2025-11-07T21:58:08.783Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-045",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-045.mp3",
+        "mtime": "2025-12-27T18:04:57.625Z",
+        "created": "2025-12-27T18:04:57.628Z",
+        "id3": {
+          "title": "vocab-item-045",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.628928",
+          "text": "die pistazie",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-045.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.420Z",
+          "timeCreated": "2025-12-27T18:38:17.420Z",
+          "createdTag": "2025-12-27T18:04:57.628Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-045",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.628928",
+            "text": "die pistazie",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-045.mp3",
+          "version": 0,
+          "updated": "2025-11-06T21:02:45.869Z",
+          "timeCreated": "2025-11-06T21:02:45.869Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-059",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-059.mp3",
+        "mtime": "2025-12-27T18:04:57.634Z",
+        "created": "2025-12-27T18:04:57.638Z",
+        "id3": {
+          "title": "vocab-item-059",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.638139",
+          "text": "das tafelsilber",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-059.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.435Z",
+          "timeCreated": "2025-12-27T18:38:17.435Z",
+          "createdTag": "2025-12-27T18:04:57.638Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-059",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.638139",
+            "text": "das tafelsilber",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-059.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.192Z",
+          "timeCreated": "2025-11-07T21:58:09.192Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-061",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-061.mp3",
+        "mtime": "2025-12-27T18:04:57.634Z",
+        "created": "2025-12-27T18:04:57.640Z",
+        "id3": {
+          "title": "vocab-item-061",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.640662",
+          "text": "Die ski",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-061.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.401Z",
+          "timeCreated": "2025-12-27T18:38:17.401Z",
+          "createdTag": "2025-12-27T18:04:57.640Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-061",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.640662",
+            "text": "Die ski",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-061.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.162Z",
+          "timeCreated": "2025-11-07T21:58:09.162Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-066",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-066.mp3",
+        "mtime": "2025-12-27T18:04:57.634Z",
+        "created": "2025-12-27T18:04:57.644Z",
+        "id3": {
+          "title": "vocab-item-066",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.644492",
+          "text": "der  sprinkler",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-066.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.418Z",
+          "timeCreated": "2025-12-27T18:38:17.418Z",
+          "createdTag": "2025-12-27T18:04:57.644Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-066",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.644492",
+            "text": "der  sprinkler",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-066.mp3",
+          "version": 0,
+          "updated": "2025-11-14T00:18:22.836Z",
+          "timeCreated": "2025-11-14T00:18:22.836Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-076",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-076.mp3",
+        "mtime": "2025-12-27T18:04:57.643Z",
+        "created": "2025-12-27T18:04:57.652Z",
+        "id3": {
+          "title": "vocab-item-076",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.652807",
+          "text": "das teleskop",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-076.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.439Z",
+          "timeCreated": "2025-12-27T18:38:17.439Z",
+          "createdTag": "2025-12-27T18:04:57.652Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-076",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.652807",
+            "text": "das teleskop",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-076.mp3",
+          "version": 0,
+          "updated": "2025-11-05T22:38:09.533Z",
+          "timeCreated": "2025-11-05T22:38:09.533Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-088",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-088.mp3",
+        "mtime": "2025-12-27T18:04:57.653Z",
+        "created": "2025-12-27T18:04:57.660Z",
+        "id3": {
+          "title": "vocab-item-088",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.660082",
+          "text": "die kugel",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-088.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:18.079Z",
+          "timeCreated": "2025-12-27T18:38:18.079Z",
+          "createdTag": "2025-12-27T18:04:57.660Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-088",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.660082",
+            "text": "die kugel",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-088.mp3",
+          "version": 0,
+          "updated": "2025-11-05T22:38:09.959Z",
+          "timeCreated": "2025-11-05T22:38:09.959Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-095",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-095.mp3",
+        "mtime": "2025-12-27T18:04:57.653Z",
+        "created": "2025-12-27T18:04:57.665Z",
+        "id3": {
+          "title": "vocab-item-095",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.665060",
+          "text": "die haut",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-095.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.508Z",
+          "timeCreated": "2025-12-27T18:38:17.508Z",
+          "createdTag": "2025-12-27T18:04:57.665Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-095",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.665060",
+            "text": "die haut",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-095.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.186Z",
+          "timeCreated": "2025-11-07T21:58:09.186Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-099",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-099.mp3",
+        "mtime": "2025-12-27T18:04:57.662Z",
+        "created": "2025-12-27T18:04:57.668Z",
+        "id3": {
+          "title": "vocab-item-099",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.668318",
+          "text": "jonglieren",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-099.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.514Z",
+          "timeCreated": "2025-12-27T18:38:17.514Z",
+          "createdTag": "2025-12-27T18:04:57.668Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-099",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.668318",
+            "text": "jonglieren",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-099.mp3",
+          "version": 0,
+          "updated": "2025-11-06T21:02:47.860Z",
+          "timeCreated": "2025-11-06T21:02:47.860Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-100",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-100.mp3",
+        "mtime": "2025-12-27T18:04:57.662Z",
+        "created": "2025-12-27T18:04:57.669Z",
+        "id3": {
+          "title": "vocab-item-100",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.669508",
+          "text": "das Dressing",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-100.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.499Z",
+          "timeCreated": "2025-12-27T18:38:17.499Z",
+          "createdTag": "2025-12-27T18:04:57.669Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-100",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.669508",
+            "text": "das Dressing",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-100.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.601Z",
+          "timeCreated": "2025-11-07T21:58:09.601Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-127",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-127.mp3",
+        "mtime": "2025-12-27T18:04:57.671Z",
+        "created": "2025-12-27T18:04:57.681Z",
+        "id3": {
+          "title": "vocab-item-127",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.681289",
+          "text": "turnen",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-127.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.525Z",
+          "timeCreated": "2025-12-27T18:38:17.525Z",
+          "createdTag": "2025-12-27T18:04:57.681Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-127",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.681289",
+            "text": "turnen",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-127.mp3",
+          "version": 0,
+          "updated": "2025-11-10T23:29:51.644Z",
+          "timeCreated": "2025-11-10T23:29:51.644Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-131",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-131.mp3",
+        "mtime": "2025-12-27T18:04:57.671Z",
+        "created": "2025-12-27T18:04:57.683Z",
+        "id3": {
+          "title": "vocab-item-131",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.683843",
+          "text": "degression",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-131.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.489Z",
+          "timeCreated": "2025-12-27T18:38:17.489Z",
+          "createdTag": "2025-12-27T18:04:57.683Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-131",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.683843",
+            "text": "degression",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-131.mp3",
+          "version": 0,
+          "updated": "2025-11-10T23:29:51.670Z",
+          "timeCreated": "2025-11-10T23:29:51.670Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-135",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-135.mp3",
+        "mtime": "2025-12-27T18:04:57.671Z",
+        "created": "2025-12-27T18:04:57.686Z",
+        "id3": {
+          "title": "vocab-item-135",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.686296",
+          "text": "die ästhetik",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-135.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.508Z",
+          "timeCreated": "2025-12-27T18:38:17.508Z",
+          "createdTag": "2025-12-27T18:04:57.686Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-135",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.686296",
+            "text": "die ästhetik",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-135.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.582Z",
+          "timeCreated": "2025-11-07T21:58:09.582Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-142",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-142.mp3",
+        "mtime": "2025-12-27T18:04:57.680Z",
+        "created": "2025-12-27T18:04:57.689Z",
+        "id3": {
+          "title": "vocab-item-142",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.689945",
+          "text": "Die Gewohnheit",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-142.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.525Z",
+          "timeCreated": "2025-12-27T18:38:17.525Z",
+          "createdTag": "2025-12-27T18:04:57.689Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-142",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.689945",
+            "text": "Die Gewohnheit",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-142.mp3",
+          "version": 0,
+          "updated": "2025-11-10T23:29:51.647Z",
+          "timeCreated": "2025-11-10T23:29:51.647Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-145",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-145.mp3",
+        "mtime": "2025-12-27T18:04:57.680Z",
+        "created": "2025-12-27T18:04:57.692Z",
+        "id3": {
+          "title": "vocab-item-145",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.692227",
+          "text": "das kazoo",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-145.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.509Z",
+          "timeCreated": "2025-12-27T18:38:17.509Z",
+          "createdTag": "2025-12-27T18:04:57.692Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-145",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.692227",
+            "text": "das kazoo",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-145.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.586Z",
+          "timeCreated": "2025-11-07T21:58:09.586Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-149",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-149.mp3",
+        "mtime": "2025-12-27T18:04:57.680Z",
+        "created": "2025-12-27T18:04:57.694Z",
+        "id3": {
+          "title": "vocab-item-149",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.694670",
+          "text": "das sonnensegel",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-149.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.501Z",
+          "timeCreated": "2025-12-27T18:38:17.501Z",
+          "createdTag": "2025-12-27T18:04:57.694Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-149",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.694670",
+            "text": "das sonnensegel",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-149.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.970Z",
+          "timeCreated": "2025-11-07T21:58:09.970Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-152",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-152.mp3",
+        "mtime": "2025-12-27T18:04:57.689Z",
+        "created": "2025-12-27T18:04:57.696Z",
+        "id3": {
+          "title": "vocab-item-152",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.696935",
+          "text": "paläontologe",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-152.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.525Z",
+          "timeCreated": "2025-12-27T18:38:17.525Z",
+          "createdTag": "2025-12-27T18:04:57.696Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-152",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.696935",
+            "text": "paläontologe",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-152.mp3",
+          "version": 0,
+          "updated": "2025-11-10T23:29:52.055Z",
+          "timeCreated": "2025-11-10T23:29:52.055Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-154",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-154.mp3",
+        "mtime": "2025-12-27T18:04:57.689Z",
+        "created": "2025-12-27T18:04:57.698Z",
+        "id3": {
+          "title": "vocab-item-154",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.698847",
+          "text": "hinten",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-154.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.500Z",
+          "timeCreated": "2025-12-27T18:38:17.500Z",
+          "createdTag": "2025-12-27T18:04:57.698Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-154",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.698847",
+            "text": "hinten",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-154.mp3",
+          "version": 0,
+          "updated": "2025-11-05T22:38:10.365Z",
+          "timeCreated": "2025-11-05T22:38:10.365Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-155",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-155.mp3",
+        "mtime": "2025-12-27T18:04:57.689Z",
+        "created": "2025-12-27T18:04:57.700Z",
+        "id3": {
+          "title": "vocab-item-155",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.700022",
+          "text": "bedenklich",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-155.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.491Z",
+          "timeCreated": "2025-12-27T18:38:17.491Z",
+          "createdTag": "2025-12-27T18:04:57.700Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-155",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.700022",
+            "text": "bedenklich",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-155.mp3",
+          "version": 0,
+          "updated": "2025-11-07T21:58:09.988Z",
+          "timeCreated": "2025-11-07T21:58:09.988Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-157",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-157.mp3",
+        "mtime": "2025-12-27T18:04:57.689Z",
+        "created": "2025-12-27T18:04:57.701Z",
+        "id3": {
+          "title": "vocab-item-157",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.701633",
+          "text": "die Reanimation",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-157.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:17.511Z",
+          "timeCreated": "2025-12-27T18:38:17.511Z",
+          "createdTag": "2025-12-27T18:04:57.701Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-157",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.701633",
+            "text": "die Reanimation",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-157.mp3",
+          "version": 0,
+          "updated": "2025-11-06T21:02:52.376Z",
+          "timeCreated": "2025-11-06T21:02:52.376Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    },
+    {
+      "item_key": "vocab-item-166",
+      "local": {
+        "path": "/home/david/levante/levante_translations/audio_files/de/vocab-item-166.mp3",
+        "mtime": "2025-12-27T18:04:57.689Z",
+        "created": "2025-12-27T18:04:57.706Z",
+        "id3": {
+          "title": "vocab-item-166",
+          "artist": "Levante Project",
+          "album": "German Audio",
+          "voice": "Julia",
+          "service": "",
+          "lang_code": "de",
+          "created": "2025-12-27T10:04:57.706273",
+          "text": "baggern",
+          "textLooksLikeKey": false
+        }
+      },
+      "buckets": {
+        "levante-assets-dev": {
+          "found": true,
+          "object": "audio/de/vocab-item-166.mp3",
+          "version": 0,
+          "updated": "2025-12-27T18:38:18.098Z",
+          "timeCreated": "2025-12-27T18:38:18.098Z",
+          "createdTag": "2025-12-27T18:04:57.706Z",
+          "compareByUpdated": "older",
+          "compareByCreatedTag": "same",
+          "id3": {
+            "title": "vocab-item-166",
+            "artist": "Levante Project",
+            "album": "German Audio",
+            "voice": "Julia",
+            "service": "",
+            "lang_code": "de",
+            "created": "2025-12-27T10:04:57.706273",
+            "text": "baggern",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "same",
+            "service": "missing_both",
+            "lang_code": "same",
+            "created": "same",
+            "text": "same",
+            "textLooksLikeKey_bucket": false
+          }
+        },
+        "levante-assets-prod": {
+          "found": true,
+          "object": "audio/de/vocab-item-166.mp3",
+          "version": 0,
+          "updated": "2025-11-10T23:29:52.030Z",
+          "timeCreated": "2025-11-10T23:29:52.030Z",
+          "createdTag": null,
+          "compareByUpdated": "newer",
+          "compareByCreatedTag": "unknown",
+          "id3": {
+            "title": "",
+            "artist": "",
+            "album": "",
+            "voice": "",
+            "service": "",
+            "lang_code": "",
+            "created": "",
+            "text": "",
+            "textLooksLikeKey": false
+          },
+          "id3Compare": {
+            "voice": "missing_bucket",
+            "service": "missing_both",
+            "lang_code": "missing_bucket",
+            "created": "missing_bucket",
+            "text": "missing_bucket",
+            "textLooksLikeKey_bucket": false
+          }
+        }
+      }
+    }
+  ]
+}

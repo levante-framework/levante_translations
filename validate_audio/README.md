@@ -186,6 +186,11 @@ web-dashboard/data/validation-{language}-{Month-Day-Year}.json
 
 Example: `web-dashboard/data/validation-en-Sep-08-2025.json`
 
+By default the CLI also syncs every generated report to the dashboard data bucket
+(`gs://$DASHBOARD_DATA_BUCKET/$VALIDATION_DATA_PREFIX`) via `gsutil rsync`, so
+Pitwall and the deployed dashboard can read the new file immediately. Disable
+this behavior with `--skip-publish` if you need to keep a local-only draft.
+
 ## Integration with Web Dashboard
 
 The validation results integrate seamlessly with the web dashboard:

@@ -65,7 +65,7 @@
     "seed:crowdin": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 seed_crowdin_language.py \"$@\"' --",
 
     "validate:audio:setup": "bash -lc 'python3 -m venv .venv-validate-audio && source .venv-validate-audio/bin/activate && python -m pip install --upgrade pip && pip install -r validate_audio/requirements.txt && pip install sentence-transformers && pip install torch==2.3.1+cpu --index-url https://download.pytorch.org/whl/cpu || true'",
-    "validate:audio:lang": "bash -lc 'source .venv-validate-audio/bin/activate 2>/dev/null || npm run validate:audio:setup && source .venv-validate-audio/bin/activate; L=${npm_config_lang:-}; if [ -z \"$L\" ]; then echo \"Usage: npm run validate:audio:lang --lang=<code> (e.g., es-CO)\"; exit 2; fi; BASE=${L%%-*}; python -m validate_audio.cli \"audio_files/${L}\" --language \"$BASE\" --web-dashboard'",
+    "validate:audio:lang": "bash scripts/run_validate_audio_lang.sh",
     "validate:audio:all": "bash -lc 'source .venv-validate-audio/bin/activate 2>/dev/null || npm run validate:audio:setup && source .venv-validate-audio/bin/activate; shopt -s nullglob; for d in audio_files/*; do [ -d \"$d\" ] || continue; LANG=$(basename \"$d\"); BASE=${LANG%%-*}; echo \"Validating $LANG (base=$BASE)\"; python -m validate_audio.cli \"$d\" --language \"$BASE\" --web-dashboard || true; done'"
   },
   "dependencies": {
