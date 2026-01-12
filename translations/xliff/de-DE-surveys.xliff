@@ -1056,6 +1056,23 @@ page1.q.teachercomm.q.teachercommstudents.choice.4.text</context>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
+      <trans-unit id="154456" resname="pages_0_elements_0_html" approved="yes">
+        <source>&lt;b&gt;Thank you to you and your child for participating in this research project!&lt;/b&gt;&lt;br&gt;
+
+The following survey will take approximately 20-30 minutes to complete and will ask questions about your child. &lt;br&gt;&lt;br&gt;
+
+When answering the questions, please think about your child who is participating in this research project. If you have more than one child participating in the research project, you will complete this survey separately for each participating child. &lt;br&gt;&lt;br&gt;
+Some questions will note a specific timeframe to consider when answering. If no timeframe is indicated, you can think about how the answer applies to your child in general. 
+&lt;br&gt;&lt;br&gt;
+We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;
+When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;Thank you!</source>
+        <target state="final">&lt;b&gt;Wir danken Ihnen und Ihrem Kind für die Teilnahme an diesem Forschungsprojekt! &lt;/b&gt;&lt;br&gt; Die folgende Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihrem Kind.&lt;br&gt;&lt;br&gt;Bitte denken Sie bei der Beantwortung der Fragen an Ihr Kind, das an diesem Forschungsprojekt teilnimmt. Wenn Sie mehr als ein Kind haben, das an dem Forschungsprojekt teilnimmt, füllen Sie diesen Fragebogen für jedes teilnehmende Kind separat aus.&lt;br&gt;&lt;br&gt;Bei einigen Fragen ist ein bestimmter Zeitrahmen angegeben, auf den Sie sich bei der Beantwortung der Frage beziehen sollen. Wenn kein Zeitrahmen angegeben ist, können Sie die Frage so beantworten, wie es am besten auf Sie oder Ihr Kind im Allgemeinen zutrifft.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva. mpg. de).&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf \\\&quot;Umfrage starten\\\&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;Vielen Dank&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_0_elements_0_html
+introduction.q.caregiversurveyintroa.html</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="154458" resname="pages_1_elements_0_title" approved="yes">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;This section asks general information questions and questions about your child's health.</source>
         <target state="final">In diesem Abschnitt werden allgemeine Informationsfragen und Fragen zur Gesundheit Ihres Kindes gestellt.</target>
@@ -5317,6 +5334,15 @@ pages_15_elements_0_elements_5_choices_4_text
 page16.q.homehomeb.q.homehome38.choice.0.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="155402" resname="pages_15_elements_0_elements_6_title" approved="yes">
+        <source>How often is your child expected to care for younger family members when you and other adults are not available?</source>
+        <target state="final">Wie oft wird von Ihrem Kind erwartet, dass es seine Zeit selbst einteilt (pünktlich aufstehen, Wie oft wird von Ihrem Kind erwartet</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_15_elements_0_elements_6_title
+HomeChildCareOthers</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="155404" resname="pages_15_elements_0_elements_6_choices_0_text" approved="yes">
         <source>Almost always</source>
         <target state="final">Fast immer</target>
@@ -6173,6 +6199,15 @@ pages_2_elements_0_elements_1_choices_2_text
 page2.q.homechaos.q.homechaos10.choice.2.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="155592" resname="pages_2_elements_0_elements_1_choices_3_text" approved="yes">
+        <source>Definitely True</source>
+        <target state="final">Definitiv wahr</target>
+        <context-group purpose="information">
+          <context context-type="source">parentfamilysurvey_SHORT.json
+pages_2_elements_0_elements_1_choices_3_text
+page2.q.homechaos.q.homechaos10.choice.3.text</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="155594" resname="pages_2_elements_0_elements_2_title" approved="yes">
         <source>The atmosphere in our home is calm.</source>
         <target state="final">Die Atmosphäre in unserem Haus ist ruhig.</target>
@@ -6423,6 +6458,15 @@ page3.q.selfsupport.row.selfsupport1.text</context>
           <context context-type="source">parentfamilysurvey_SHORT.json
 pages_3_elements_1_rows_1_text
 page3.q.selfsupport.row.selfsupport2.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="155650" resname="pages_3_elements_1_rows_2_text" approved="yes">
+        <source>I get the emotional help &amp;amp; support I need from my family.</source>
+        <target state="final">Ich bekomme die emotionale Hilfe und Unterstützung, die ich brauche, von meiner Familie.</target>
+        <context-group purpose="information">
+          <context context-type="source">parentfamilysurvey_SHORT.json
+pages_3_elements_1_rows_2_text
+page3.q.selfsupport.row.selfsupport4.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="155652" resname="pages_3_elements_1_rows_3_text" approved="yes">
