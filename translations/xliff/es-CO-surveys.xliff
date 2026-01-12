@@ -5336,6 +5336,15 @@ pages_15_elements_0_elements_5_choices_4_text
 page16.q.homehomeb.q.homehome38.choice.0.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="155402" resname="pages_15_elements_0_elements_6_title" approved="yes">
+        <source>How often is your child expected to care for younger family members when you and other adults are not available?</source>
+        <target state="final">¿Con qué frecuencia se espera que su niño(a) cuide a los miembros más pequeños de la familia cuando usted y otros adultos no están disponibles?</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_15_elements_0_elements_6_title
+HomeChildCareOthers</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="155404" resname="pages_15_elements_0_elements_6_choices_0_text" approved="yes">
         <source>Almost always</source>
         <target state="final">Casi siempre</target>
@@ -6199,6 +6208,15 @@ pages_2_elements_0_elements_1_choices_2_text
 page2.q.homechaos.q.homechaos10.choice.2.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="155592" resname="pages_2_elements_0_elements_1_choices_3_text" approved="yes">
+        <source>Definitely True</source>
+        <target state="final">Totalmente verdadero</target>
+        <context-group purpose="information">
+          <context context-type="source">parentfamilysurvey_SHORT.json
+pages_2_elements_0_elements_1_choices_3_text
+page2.q.homechaos.q.homechaos10.choice.3.text</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="155594" resname="pages_2_elements_0_elements_2_title" approved="yes">
         <source>The atmosphere in our home is calm.</source>
         <target state="final">El ambiente de nuestra casa es muy calmado.</target>
@@ -6449,6 +6467,15 @@ page3.q.selfsupport.row.selfsupport1.text</context>
           <context context-type="source">parentfamilysurvey_SHORT.json
 pages_3_elements_1_rows_1_text
 page3.q.selfsupport.row.selfsupport2.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="155650" resname="pages_3_elements_1_rows_2_text" approved="yes">
+        <source>I get the emotional help &amp;amp; support I need from my family.</source>
+        <target state="final">Recibo la ayuda y el apoyo emocional que necesito de mi familia.</target>
+        <context-group purpose="information">
+          <context context-type="source">parentfamilysurvey_SHORT.json
+pages_3_elements_1_rows_2_text
+page3.q.selfsupport.row.selfsupport4.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="155652" resname="pages_3_elements_1_rows_3_text" approved="yes">
