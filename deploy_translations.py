@@ -5,7 +5,7 @@ Comprehensive Translation Deployment Script
 This script handles the complete deployment of translation-related files:
 1. Deploys itembank_translations.csv to levante-dashboard buckets via rsync
 2. Mirrors CSV/ICU/XLIFF to levante-assets-* buckets via rsync
-3. Syncs audio files to levante-assets-* via rsync
+3. Syncs audio files to levante-assets-draft (dev staging) or levante-assets-prod via rsync
 """
 
 import sys
@@ -19,6 +19,9 @@ import tempfile
 # Configuration
 AUDIO_SOURCE_DIR = "audio_files"
 AUDIO_BUCKET_DIR = "audio"
+ASSETS_BUCKET_NAME_DEV = "levante-assets-dev"
+ASSETS_BUCKET_NAME_PROD = "levante-assets-prod"
+AUDIO_BUCKET_NAME_DRAFT = "levante-assets-draft"
 AUDIO_BUCKET_NAME_DEV = "levante-assets-dev"
 AUDIO_BUCKET_NAME_PROD = "levante-assets-prod"
 TRANSLATION_BUCKET_DIR = "translations"
@@ -35,8 +38,13 @@ def get_audio_bucket_name(environment: str) -> str:
     """Get the audio bucket name for the specified environment."""
     if environment.lower() == 'prod':
         return AUDIO_BUCKET_NAME_PROD
-    else:
-        return AUDIO_BUCKET_NAME_DEV
+    return AUDIO_BUCKET_NAME_DRAFT
+
+def get_assets_bucket_name(environment: str) -> str:
+    """Get the assets bucket name for the specified environment."""
+    if environment.lower() == 'prod':
+        return ASSETS_BUCKET_NAME_PROD
+    return ASSETS_BUCKET_NAME_DEV
 
 def get_dashboard_bucket_name(environment: str) -> str:
     return DASHBOARD_BUCKET_NAME_PROD if environment.lower() == 'prod' else DASHBOARD_BUCKET_NAME_DEV
@@ -244,7 +252,7 @@ def deploy_csv_to_assets(environment: str, dry_run: bool = False, force: bool = 
     if not os.path.exists(local_csv):
         print(f"❌ Local CSV not found: {local_csv}")
         return False
-    bucket = get_audio_bucket_name(environment)
+    bucket = get_assets_bucket_name(environment)
     target_prefix = f"gs://{bucket}/{TRANSLATION_BUCKET_DIR}/"
     # Prepare temp dir with desired filename
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -345,8 +353,8 @@ def promote_csv_from_dev_to_prod(dry_run=False):
     print_section("Promote CSV (DEV → PROD)")
     ok = True
     # Assets mirror (translations/)
-    src_assets = f"gs://{AUDIO_BUCKET_NAME_DEV}/{TRANSLATION_BUCKET_DIR}/"
-    dst_assets = f"gs://{AUDIO_BUCKET_NAME_PROD}/{TRANSLATION_BUCKET_DIR}/"
+    src_assets = f"gs://{ASSETS_BUCKET_NAME_DEV}/{TRANSLATION_BUCKET_DIR}/"
+    dst_assets = f"gs://{ASSETS_BUCKET_NAME_PROD}/{TRANSLATION_BUCKET_DIR}/"
     cmd_assets = ["gsutil", "-m", "rsync", "-c", "-r", src_assets, dst_assets]
     ok = run_command(cmd_assets, "Rsync translations mirror to prod", dry_run) and ok
 
@@ -363,8 +371,8 @@ def promote_icu_from_dev_to_prod(languages_csv, dry_run=False):
     """Promote ICU JSONs from dev to prod. If languages specified, copy only those; else rsync all."""
     print_section("Promote ICU JSON (DEV → PROD)")
     langs = _split_languages(languages_csv)
-    src_root = f"gs://{AUDIO_BUCKET_NAME_DEV}/{ICU_BUCKET_DIR}/"
-    dst_root = f"gs://{AUDIO_BUCKET_NAME_PROD}/{ICU_BUCKET_DIR}/"
+    src_root = f"gs://{ASSETS_BUCKET_NAME_DEV}/{ICU_BUCKET_DIR}/"
+    dst_root = f"gs://{ASSETS_BUCKET_NAME_PROD}/{ICU_BUCKET_DIR}/"
     if langs:
         ok = True
         for lang in langs:
@@ -384,8 +392,8 @@ def promote_xliff_from_dev_to_prod(languages_csv, dry_run=False):
     """
     print_section("Promote XLIFF (DEV → PROD)")
     langs = _split_languages(languages_csv)
-    src_root = f"gs://{AUDIO_BUCKET_NAME_DEV}/{XLIFF_BUCKET_DIR}/"
-    dst_root = f"gs://{AUDIO_BUCKET_NAME_PROD}/{XLIFF_BUCKET_DIR}/"
+    src_root = f"gs://{ASSETS_BUCKET_NAME_DEV}/{XLIFF_BUCKET_DIR}/"
+    dst_root = f"gs://{ASSETS_BUCKET_NAME_PROD}/{XLIFF_BUCKET_DIR}/"
     if langs:
         ok = True
         for lang in langs:
@@ -406,7 +414,7 @@ def deploy_icu_to_assets(environment: str, dry_run: bool = False, force: bool = 
     if not Path(ICU_SOURCE_DIR).exists():
         print(f"⚠️ ICU directory not found: {ICU_SOURCE_DIR}")
         return False
-    bucket_name = get_audio_bucket_name(environment)
+    bucket_name = get_assets_bucket_name(environment)
     source_path = f"{ICU_SOURCE_DIR}/"
     target_path = f"gs://{bucket_name}/{ICU_BUCKET_DIR}/"
     if force:
@@ -451,7 +459,7 @@ def deploy_xliff_to_assets_from_github(environment: str, dry_run: bool = False, 
     if not files:
         print("⚠️ No XLIFF files found in GitHub translations folder.")
         return False
-    bucket_name = get_audio_bucket_name(environment)
+    bucket_name = get_assets_bucket_name(environment)
     target_path = f"gs://{bucket_name}/{XLIFF_BUCKET_DIR}/"
     with tempfile.TemporaryDirectory() as tmpdir:
         for fi in files:
@@ -732,9 +740,9 @@ Examples:
             print(f"\n🌐 Resources deployed to {args.environment} environment:")
             if deploy_csv_flag:
                 print(f"   📊 CSV (dashboard): gs://{get_dashboard_bucket_name(args.environment)}/itembank_translations.csv")
-                print(f"   📊 CSV (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv")
-                print(f"   📄 ICU JSON (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{ICU_BUCKET_DIR}/")
-                print(f"   📦 XLIFF (assets mirror): gs://{get_audio_bucket_name(args.environment)}/{XLIFF_BUCKET_DIR}/")
+                print(f"   📊 CSV (assets mirror): gs://{get_assets_bucket_name(args.environment)}/{TRANSLATION_BUCKET_DIR}/item-bank-translations.csv")
+                print(f"   📄 ICU JSON (assets mirror): gs://{get_assets_bucket_name(args.environment)}/{ICU_BUCKET_DIR}/")
+                print(f"   📦 XLIFF (assets mirror): gs://{get_assets_bucket_name(args.environment)}/{XLIFF_BUCKET_DIR}/")
             if deploy_audio_flag:
                 print(f"   🎵 Audio: gs://{get_audio_bucket_name(args.environment)}/{AUDIO_BUCKET_DIR}/")
     else:

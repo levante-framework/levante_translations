@@ -31,7 +31,7 @@ except ImportError:  # pragma: no cover - optional dependency
     storage = None  # type: ignore
     GCS_AVAILABLE = False
 
-DEFAULT_BUCKET = "levante-assets-dev"
+DEFAULT_BUCKET = "levante-assets-draft"
 SOURCE_TAG_VALUE = "patch"
 MISSING_VOICE_VALUES = {"", "not available", "n/a", "unknown", "none"}
 

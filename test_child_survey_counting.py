@@ -54,9 +54,9 @@ def main():
     print("🎯 Child Survey Audio Counting Test")
     print("="*50)
     
-    # Test dev environment
-    print("\n🔧 Testing DEV environment...")
-    dev_total, dev_by_lang = count_child_survey_files('levante-assets-dev', 'dev')
+    # Test draft (dev staging) environment
+    print("\n🔧 Testing DRAFT environment...")
+    dev_total, dev_by_lang = count_child_survey_files('levante-assets-draft', 'draft')
     
     # Test prod environment  
     print("\n🔧 Testing PROD environment...")
@@ -64,7 +64,7 @@ def main():
     
     # Summary
     print("\n📊 Summary:")
-    print(f"   • Dev total: {dev_total} files")
+    print(f"   • Draft total: {dev_total} files")
     print(f"   • Prod total: {prod_total} files")
     
     # Check if es-CO has the expected 25 files
@@ -73,7 +73,7 @@ def main():
     prod_es_co = prod_by_lang.get('es-CO', 0)
     
     print(f"\n🎯 es-CO Survey Files:")
-    print(f"   • Dev: {dev_es_co} files (expected: {expected_es_co})")
+    print(f"   • Draft: {dev_es_co} files (expected: {expected_es_co})")
     print(f"   • Prod: {prod_es_co} files (expected: {expected_es_co})")
     
     if dev_es_co == expected_es_co and prod_es_co == expected_es_co:

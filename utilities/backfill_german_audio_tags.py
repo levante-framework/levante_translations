@@ -23,7 +23,7 @@ except ImportError:  # pragma: no cover - optional dependency
 VOICE_NAME = "Julia"
 SOURCE_TAG_VALUE = "patch"
 LICENSE_TEXT = audio_tags["copyright"]
-DEFAULT_BUCKET = "levante-assets-dev"
+DEFAULT_BUCKET = "levante-assets-draft"
 DEFAULT_PREFIX = "audio/de"
 TARGET_FILES: List[str] = [
     "child-survey-intro-no-responses.mp3",

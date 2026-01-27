@@ -503,7 +503,9 @@ npm run generate:english -- --force
     - CSV mirror → gs://levante-assets-<env>/translations/item-bank-translations.csv
     - ICU JSON   → gs://levante-assets-<env>/translations/icu/
     - XLIFF      → gs://levante-assets-<env>/translations/xliff/
-    - Audio      → gs://levante-assets-<env>/audio/
+    - Audio      → gs://levante-assets-draft/audio/ (dev staging) and gs://levante-assets-prod/audio/
+
+- Approved audio is promoted from `levante-assets-draft` to `levante-assets-dev` via the partner approval tool.
 
 - Commands:
 ```bash
