@@ -2,7 +2,7 @@
 """
 Deploy Survey Audio Files to GCS Buckets
 
-This script deploys the newly generated survey audio files to both dev and prod environments.
+This script deploys the newly generated survey audio files to the draft (dev staging) and prod environments.
 It uses rsync to efficiently sync only the survey audio files to the appropriate GCS buckets.
 """
 
@@ -16,6 +16,7 @@ from datetime import datetime
 # Configuration
 AUDIO_SOURCE_DIR = "audio_files"
 AUDIO_BUCKET_DIR = "audio"
+BUCKET_NAME_DRAFT = "levante-assets-draft"
 BUCKET_NAME_DEV = "levante-assets-dev"
 BUCKET_NAME_PROD = "levante-assets-prod"
 
@@ -140,10 +141,10 @@ def main():
     success = True
     
     if args.environment in ['dev', 'both']:
-        print(f"\n🔧 Deploying to DEV environment...")
-        if not deploy_survey_audio_to_bucket(BUCKET_NAME_DEV, 'dev', args.dry_run, args.force):
+        print(f"\n🔧 Deploying to DRAFT (dev) environment...")
+        if not deploy_survey_audio_to_bucket(BUCKET_NAME_DRAFT, 'draft', args.dry_run, args.force):
             success = False
-        if not verify_deployment(BUCKET_NAME_DEV, 'dev', args.dry_run):
+        if not verify_deployment(BUCKET_NAME_DRAFT, 'draft', args.dry_run):
             success = False
     
     if args.environment in ['prod', 'both']:
@@ -158,8 +159,8 @@ def main():
         print("✅ Survey audio deployment completed successfully!")
         print(f"📁 Files deployed to:")
         if args.environment in ['dev', 'both']:
-            print(f"   • Dev: gs://{BUCKET_NAME_DEV}/{AUDIO_BUCKET_DIR}/es-CO/")
-            print(f"   • Dev: gs://{BUCKET_NAME_DEV}/{AUDIO_BUCKET_DIR}/child-survey/es-CO/")
+            print(f"   • Draft: gs://{BUCKET_NAME_DRAFT}/{AUDIO_BUCKET_DIR}/es-CO/")
+            print(f"   • Draft: gs://{BUCKET_NAME_DRAFT}/{AUDIO_BUCKET_DIR}/child-survey/es-CO/")
         if args.environment in ['prod', 'both']:
             print(f"   • Prod: gs://{BUCKET_NAME_PROD}/{AUDIO_BUCKET_DIR}/es-CO/")
             print(f"   • Prod: gs://{BUCKET_NAME_PROD}/{AUDIO_BUCKET_DIR}/child-survey/es-CO/")

@@ -11,6 +11,7 @@ This guide explains how Levante Pitwall supports patching audio fixes --staring 
 - Share the **Review Alternative Audio Clips** link with research partners so they can approve or reject candidate versions.
 - Site approvals move the chosen clips into the `deploy/<lang>/` staging folder; the “To be Deployed” view shows exactly what is queued for downstream promotion.
 - DCC admins review a stoplight view of those deploy files, tag the clips that are **Okay to Push**, and downstream scripts promote the flagged set into the repo (`audio_files/…`) and `levante-assets-dev` bucket.
+- New audio deployments should target `levante-assets-draft`; partner approvals move selected clips into `levante-assets-dev`.
 
 ## Prerequisites
 - Named or Firebase superadmin access to the dashboard.

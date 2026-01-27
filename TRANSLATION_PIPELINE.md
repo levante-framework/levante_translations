@@ -164,13 +164,14 @@ Output: `xliff/translations-icu/<lang>.json`
 ## Deployment to GCS assets
 
 ### Buckets and prefixes
-- Dev: `gs://levante-assets-dev`
+- Draft (dev staging audio): `gs://levante-assets-draft`
+- Dev (approved assets): `gs://levante-assets-dev`
 - Prod: `gs://levante-assets-prod`
 - Prefixes:
   - `translations/xliff/` for XLIFF mirrors
   - `translations/icu/` for ICU JSON mirrors (future dashboard/surveys use)
   - `surveys/` for SurveyJS assets (if deployed)
-  - `audio/` for audio files
+  - `audio/` for audio files (draft uploads go to `levante-assets-draft`)
   - `audio/child-survey/` for child survey audio files
 
 ### Orchestration and commands
@@ -187,6 +188,7 @@ Run (dev):
 
 ```bash
 # CSV to dashboard bucket + mirror ICU JSON + XLIFF from GitHub to levante-assets-dev
+# Audio uploads go to levante-assets-draft (dev staging)
 python deploy_translations.py dev
 ```
 
@@ -330,7 +332,8 @@ python deploy_translations.py --promote --languages es-CO
   - We default to no-deletion rsync in this project to prevent accidental removals (`--no-delete` supported across deploy scripts)
 
 - Environments
-  - Dev: `levante-assets-dev`; Prod: `levante-assets-prod`
+  - Draft audio: `levante-assets-draft`
+  - Approved assets (dev): `levante-assets-dev`; Prod: `levante-assets-prod`
   - Promote from dev → prod rather than deploying straight to prod
 
 - Alignment of keys/ids

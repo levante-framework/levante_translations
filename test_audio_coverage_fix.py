@@ -43,8 +43,8 @@ def test_gcs_child_survey_files():
     print("\n🔍 Testing GCS child-survey files...")
     
     try:
-        # List child-survey files in dev bucket
-        cmd = ['gsutil', 'ls', '-r', 'gs://levante-assets-dev/audio/child-survey/**']
+        # List child-survey files in draft bucket
+        cmd = ['gsutil', 'ls', '-r', 'gs://levante-assets-draft/audio/child-survey/**']
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         
         files = result.stdout.strip().split('\n')
@@ -63,7 +63,7 @@ def test_gcs_child_survey_files():
                 by_language[lang] += 1
                 total += 1
         
-        print(f"✅ Found {total} child-survey files in GCS dev bucket")
+        print(f"✅ Found {total} child-survey files in GCS draft bucket")
         print(f"📊 By language:")
         for lang, count in sorted(by_language.items()):
             print(f"   • {lang}: {count} files")
