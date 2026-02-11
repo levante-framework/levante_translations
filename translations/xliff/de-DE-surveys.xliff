@@ -5469,6 +5469,15 @@ pages_16_elements_0_rows_2_text
 page17.q.selfparentstressncshh9.row.selfparentstressnschh9c.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="155432" resname="pages_16_elements_1_title" approved="yes">
+        <source>These statements describe ways different caregivers act toward their children. Please think about how well each statement describes the way you treat your child. Respond as to whether you do each item &quot;almost never&quot;, &quot;once a month&quot;, &quot;once a week&quot;, &quot;every day&quot;.</source>
+        <target state="final">Diese Aussagen beschreiben, wie sich verschiedene Betreuungspersonen gegenüber ihren Kindern verhalten. Bitte denken Sie darüber nach, wie gut jede Aussage die Art und Weise beschreibt, wie Sie Ihr Kind behandeln. Geben Sie an, ob Sie jeden Punkt „fast jeden Tag&quot;, „einmal pro Woche&quot;, „einmal im Monat&quot; oder „fast nie&quot; tun.</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_16_elements_1_title
+page18.q.selfparentrohner.title</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="155434" resname="pages_16_elements_1_columns_0_text" approved="yes">
         <source>Never or almost never</source>
         <target state="final">Nie oder fast nie</target>
@@ -5561,7 +5570,7 @@ page18.q.selfparentrohner.row.selfparentrohnerw23.text</context>
       </trans-unit>
       <trans-unit id="155454" resname="pages_16_elements_2_title" approved="yes">
         <source>All adults use certain ways to teach children the right behavior or to address a behavior problem. Please read the following methods that are used and select whether you or anyone else in your household has used this with your child in the &lt;b&gt;past month&lt;/b&gt;.</source>
-        <target state="final">Alle Erwachsenen verwenden bestimmte Methoden, um Kindern das richtige Verhalten beizubringen oder ein Verhaltensproblem anzugehen. Bitte lesen Sie die folgenden Methoden und wählen Sie aus,Alle Erwachsenen verwenden bestimmte Methoden</target>
+        <target state="final">Alle Erwachsenen verwenden bestimmte Methoden, um Kindern das richtige Verhalten beizubringen oder ein Verhaltensproblem anzugehen. Bitte lesen Sie die folgenden Methoden und wählen Sie aus, ob Sie oder eine andere Person in Ihrem Haushalt diese im &lt;b&gt;letzten Monat&lt;/b&gt; bei diesem Kind angewendet hat.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_16_elements_2_title
@@ -5651,7 +5660,7 @@ page19.q.selfparentmics.q.selfparentmics4.labelfalse</context>
       </trans-unit>
       <trans-unit id="155474" resname="pages_16_elements_2_elements_3_title" approved="yes">
         <source>Do you believe that in order to bring up (raise, educate) your child properly, you need to physically punish him/her?</source>
-        <target state="final">Glauben Sie, dass Sie Ihr Kind körperlich bestrafen müssen,Glauben Sie</target>
+        <target state="final">Glauben Sie, dass Sie Ihr Kind körperlich bestrafen müssen, um es richtig zu erziehen?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_16_elements_2_elements_3_title
@@ -5678,7 +5687,7 @@ page19.q.selfparentmics.q.selfparentmics12.labelfalse</context>
       </trans-unit>
       <trans-unit id="155480" resname="pages_16_elements_3_title" approved="yes">
         <source>Sometimes children get so angry at their parents that they say things like I hate you or swear in a temper tantrum. If your child said something like I hate you or swore at you, would you...</source>
-        <target state="final">Sometimes children get so angry at their parents that they say things like I hate you or swear in a temper tantrum. If your child said something like I hate you or swore at you, would you...</target>
+        <target state="final">Manchmal sind Kinder so wütend auf ihre Eltern, dass sie in einem Wutanfall Dinge sagen wie &quot;Ich hasse dich&quot; oder fluchen. Wenn Ihr Kind etwas wie &quot;Ich hasse dich&quot; sagen oder Sie beschimpfen würde, würden Sie...</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_16_elements_3_title
