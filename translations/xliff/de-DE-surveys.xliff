@@ -1876,7 +1876,7 @@ page3.q.childhealth2.q.childhealthother.q.childeyesight.labelfalse</context>
       </trans-unit>
       <trans-unit id="154636" resname="pages_4_elements_0_elements_0_title" approved="yes">
         <source>Has a doctor or other health care provider, or educator &lt;b&gt;EVER&lt;/b&gt; told you that your child has any of the following:</source>
-        <target state="final">Hat Ihnen ein Arzt, ein anderer Gesundheitsdienstleister oder ein Pädagoge &lt;b&gt;JEMALS&lt;/b&gt; gesagt,Hat Ihnen ein Arzt</target>
+        <target state="final">Hat Ihnen ein Arzt, ein anderer Gesundheitsdienstleister oder ein Pädagoge &lt;b&gt;JEMALS&lt;/b&gt; gesagt, dass Ihr Kind eines der folgenden Probleme hat:</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_title
@@ -2018,6 +2018,15 @@ pages_4_elements_0_elements_0_elements_3_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childdevdelay.choice.yes.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="154668" resname="pages_4_elements_0_elements_0_elements_3_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_3_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childdevdelay.choice.unknown.text</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="154670" resname="pages_4_elements_0_elements_0_elements_3_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2115,6 +2124,15 @@ page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.no.text</co
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_6_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.yes.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="154692" resname="pages_4_elements_0_elements_0_elements_6_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_6_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154694" resname="pages_4_elements_0_elements_0_elements_6_choices_3_text" approved="yes">
@@ -2216,6 +2234,15 @@ pages_4_elements_0_elements_0_elements_9_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childspeechlang.choice.yes.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="154716" resname="pages_4_elements_0_elements_0_elements_9_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_9_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childspeechlang.choice.unknown.text</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="154718" resname="pages_4_elements_0_elements_0_elements_9_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2313,6 +2340,15 @@ page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.no.text</con
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_12_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.yes.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="154740" resname="pages_4_elements_0_elements_0_elements_12_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_12_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154742" resname="pages_4_elements_0_elements_0_elements_12_choices_3_text" approved="yes">
