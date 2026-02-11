@@ -2450,6 +2450,15 @@ pages_4_elements_0_elements_0_elements_15_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childautism.choice.yes.text</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="154764" resname="pages_4_elements_0_elements_0_elements_15_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_15_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childautism.choice.unknown.text</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="154766" resname="pages_4_elements_0_elements_0_elements_15_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2547,6 +2556,15 @@ page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.no.text</context
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_18_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.yes.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="154788" resname="pages_4_elements_0_elements_0_elements_18_choices_2_text" approved="yes">
+        <source>Don't know</source>
+        <target state="final">Weiß nicht</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_4_elements_0_elements_0_elements_18_choices_2_text
+page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154790" resname="pages_4_elements_0_elements_0_elements_18_choices_3_text" approved="yes">
@@ -2956,7 +2974,7 @@ page6.q.childpubertyfemale.title</context>
       </trans-unit>
       <trans-unit id="154880" resname="pages_6_elements_1_elements_0_title" approved="yes">
         <source>Would you say that your child's growth in height (getting taller):</source>
-        <target state="final">Was würdem Sie über das Wachstum Ihres Kindes in der Höhe (größer werden) sagen:</target>
+        <target state="final">Was würden Sie über das Wachstum Ihres Kindes in der Höhe (größer werden) sagen:</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_elements_0_title
@@ -3073,7 +3091,7 @@ page6.q.childpubertyfemale.q.childpubertyskinfemale.choice.1.text</context>
       </trans-unit>
       <trans-unit id="154906" resname="pages_6_elements_1_elements_2_choices_2_text" approved="yes">
         <source>Skin changes have definitely started but are not finished</source>
-        <target state="final">Hautänderungen haben definitiv begonnen, sind aber noch nicht abgeschlossen</target>
+        <target state="final">Hautveränderungen haben definitiv begonnen, sind aber noch nicht abgeschlossen</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_elements_2_choices_2_text
@@ -3082,7 +3100,7 @@ page6.q.childpubertyfemale.q.childpubertyskinfemale.choice.2.text</context>
       </trans-unit>
       <trans-unit id="154908" resname="pages_6_elements_1_elements_2_choices_3_text" approved="yes">
         <source>Skin changes seem completed</source>
-        <target state="final">Hautänderungen scheinen abgeschlossen zu sein</target>
+        <target state="final">Hautveränderungen scheinen abgeschlossen zu sein</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_elements_2_choices_3_text
@@ -3190,7 +3208,7 @@ page6.q.childpubertymale.title</context>
       </trans-unit>
       <trans-unit id="154932" resname="pages_6_elements_2_elements_0_title" approved="yes">
         <source>Would you say that your child's growth in height (getting taller):</source>
-        <target state="final">Was würdem Sie über das Wachstum Ihres Kindes in der Höhe (größer werden) sagen:</target>
+        <target state="final">Was würden Sie über das Wachstum Ihres Kindes in der Höhe (größer werden) sagen:</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_2_elements_0_title
@@ -3303,24 +3321,6 @@ page6.q.childpubertymale.q.childpubertyskinmale.choice.0.text</context>
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_2_elements_2_choices_1_text
 page6.q.childpubertymale.q.childpubertyskinmale.choice.1.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="154958" resname="pages_6_elements_2_elements_2_choices_2_text" approved="yes">
-        <source>Skin changes have definitely started but are not finished</source>
-        <target state="final">Hautänderungen haben definitiv begonnen, sind aber noch nicht abgeschlossen</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_6_elements_2_elements_2_choices_2_text
-page6.q.childpubertymale.q.childpubertyskinmale.choice.2.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="154960" resname="pages_6_elements_2_elements_2_choices_3_text" approved="yes">
-        <source>Skin changes seem completed</source>
-        <target state="final">Hautänderungen scheinen abgeschlossen zu sein</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_6_elements_2_elements_2_choices_3_text
-page6.q.childpubertymale.q.childpubertyskinmale.choice.3.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154962" resname="pages_6_elements_2_elements_3_title" approved="yes">
