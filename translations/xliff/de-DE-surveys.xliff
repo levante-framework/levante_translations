@@ -1056,6 +1056,23 @@ page1.q.teachercomm.q.teachercommstudents.choice.4.text</context>
       <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
     </header>
     <body>
+      <trans-unit id="154456" resname="pages_0_elements_0_html" approved="yes">
+        <source>&lt;b&gt;Thank you to you and your child for participating in this research project!&lt;/b&gt;&lt;br&gt;
+
+The following survey will take approximately 20-30 minutes to complete and will ask questions about your child. &lt;br&gt;&lt;br&gt;
+
+When answering the questions, please think about your child who is participating in this research project. If you have more than one child participating in the research project, you will complete this survey separately for each participating child. &lt;br&gt;&lt;br&gt;
+Some questions will note a specific timeframe to consider when answering. If no timeframe is indicated, you can think about how the answer applies to your child in general. 
+&lt;br&gt;&lt;br&gt;
+We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;
+When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;Thank you!</source>
+        <target state="final">&lt;b&gt;Wir danken Ihnen und Ihrem Kind für die Teilnahme an diesem Forschungsprojekt! &lt;/b&gt;&lt;br&gt; Die folgende Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihrem Kind.&lt;br&gt;&lt;br&gt;Bitte denken Sie bei der Beantwortung der Fragen an Ihr Kind, das an diesem Forschungsprojekt teilnimmt. Wenn Sie mehr als ein Kind haben, das an dem Forschungsprojekt teilnimmt, füllen Sie diesen Fragebogen für jedes teilnehmende Kind separat aus.&lt;br&gt;&lt;br&gt;Bei einigen Fragen ist ein bestimmter Zeitrahmen angegeben, auf den Sie sich bei der Beantwortung der Frage beziehen sollen. Wenn kein Zeitrahmen angegeben ist, können Sie die Frage so beantworten, wie es am besten auf Sie oder Ihr Kind im Allgemeinen zutrifft.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva. mpg. de).&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf &quot;Umfrage starten&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;Vielen Dank!&lt;/b&gt;</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_0_elements_0_html
+introduction.q.caregiversurveyintroa.html</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="154458" resname="pages_1_elements_0_title" approved="yes">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;4&quot;&gt;This section asks general information questions and questions about your child's health.&lt;/b&gt;</source>
         <target state="final">In diesem Abschnitt werden allgemeine Informationsfragen und Fragen zur Gesundheit Ihres Kindes gestellt.</target>
@@ -1076,7 +1093,7 @@ page1.q.caregiversectionintro1.html</context>
       </trans-unit>
       <trans-unit id="154462" resname="pages_1_elements_1_title" approved="yes">
         <source>Please indicate your relationship to the child participating in this research project.</source>
-        <target state="final">Bitte geben Sie an, in welcher Beziehung Sie zu dem Kind stehen,Bitte geben Sie an</target>
+        <target state="final">Bitte geben Sie an, in welcher Beziehung Sie zu dem Kind stehen, das hier teilnimmt.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_1_elements_1_title
@@ -1337,7 +1354,7 @@ page1.q.childbornearly.choice.yes.text</context>
       </trans-unit>
       <trans-unit id="154520" resname="pages_1_elements_7_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_1_elements_7_choices_2_text
@@ -1553,7 +1570,7 @@ page2.q.childhealth1.q.childchronichealth.q.childbreathing.choice.yes.text</cont
       </trans-unit>
       <trans-unit id="154568" resname="pages_2_elements_0_elements_0_elements_0_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_2_elements_0_elements_0_elements_0_choices_2_text
@@ -1589,7 +1606,7 @@ page2.q.childhealth1.q.childchronichealth.q.childeating.choice.yes.text</context
       </trans-unit>
       <trans-unit id="154576" resname="pages_2_elements_0_elements_0_elements_1_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_2_elements_0_elements_0_elements_1_choices_2_text
@@ -1625,7 +1642,7 @@ page2.q.childhealth1.q.childchronichealth.q.childdigestion.choice.yes.text</cont
       </trans-unit>
       <trans-unit id="154584" resname="pages_2_elements_0_elements_0_elements_2_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_2_elements_0_elements_0_elements_2_choices_2_text
@@ -1661,7 +1678,7 @@ page2.q.childhealth1.q.childchronichealth.q.childpain.choice.yes.text</context>
       </trans-unit>
       <trans-unit id="154592" resname="pages_2_elements_0_elements_0_elements_3_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_2_elements_0_elements_0_elements_3_choices_2_text
@@ -1697,7 +1714,7 @@ page2.q.childhealth1.q.childchronichealth.q.childcavities.choice.yes.text</conte
       </trans-unit>
       <trans-unit id="154600" resname="pages_2_elements_0_elements_0_elements_4_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_2_elements_0_elements_0_elements_4_choices_2_text
@@ -1742,7 +1759,7 @@ page3.q.childhealth2.q.childhealthother.q.childconcentration.choice.yes.text</co
       </trans-unit>
       <trans-unit id="154610" resname="pages_3_elements_0_elements_0_elements_0_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_3_elements_0_elements_0_elements_0_choices_2_text
@@ -1895,7 +1912,7 @@ page4.q.childhealth3.q.childhealthconditions.q.childconduct.choice.yes.text</con
       </trans-unit>
       <trans-unit id="154644" resname="pages_4_elements_0_elements_0_elements_0_choices_2_text" approved="yes">
         <source>Don't know</source>
-        <target state="final">weiß nicht</target>
+        <target state="final">Weiß nicht</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_0_choices_2_text
@@ -2001,15 +2018,6 @@ pages_4_elements_0_elements_0_elements_3_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childdevdelay.choice.yes.text</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="154668" resname="pages_4_elements_0_elements_0_elements_3_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_3_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childdevdelay.choice.unknown.text</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="154670" resname="pages_4_elements_0_elements_0_elements_3_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2107,15 +2115,6 @@ page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.no.text</co
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_6_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.yes.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="154692" resname="pages_4_elements_0_elements_0_elements_6_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_6_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childintelldis.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154694" resname="pages_4_elements_0_elements_0_elements_6_choices_3_text" approved="yes">
@@ -2217,15 +2216,6 @@ pages_4_elements_0_elements_0_elements_9_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childspeechlang.choice.yes.text</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="154716" resname="pages_4_elements_0_elements_0_elements_9_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_9_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childspeechlang.choice.unknown.text</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="154718" resname="pages_4_elements_0_elements_0_elements_9_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2323,15 +2313,6 @@ page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.no.text</con
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_12_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.yes.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="154740" resname="pages_4_elements_0_elements_0_elements_12_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_12_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childlearndis.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154742" resname="pages_4_elements_0_elements_0_elements_12_choices_3_text" approved="yes">
@@ -2433,15 +2414,6 @@ pages_4_elements_0_elements_0_elements_15_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childautism.choice.yes.text</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="154764" resname="pages_4_elements_0_elements_0_elements_15_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_15_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childautism.choice.unknown.text</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="154766" resname="pages_4_elements_0_elements_0_elements_15_choices_3_text" approved="yes">
         <source>Prefer not to respond</source>
         <target state="final">Ich möchte nicht antworten</target>
@@ -2539,15 +2511,6 @@ page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.no.text</context
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_4_elements_0_elements_0_elements_18_choices_1_text
 page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.yes.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="154788" resname="pages_4_elements_0_elements_0_elements_18_choices_2_text" approved="yes">
-        <source>Don't know</source>
-        <target state="final">weiß nicht</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_4_elements_0_elements_0_elements_18_choices_2_text
-page4.q.childhealth3.q.childhealthconditions.q.childadhd.choice.unknown.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154790" resname="pages_4_elements_0_elements_0_elements_18_choices_3_text" approved="yes">
@@ -5778,8 +5741,8 @@ page15.q.homehomea.q.homehome24.q.homehome24j.title</context>
         <source>Thank you for participating in this research project!&lt;br&gt; 
 The following survey will take approximately 10 minutes to complete and will ask questions about your home and yourself. &lt;br&gt;&lt;br&gt; We appreciate you answering as completely and accurately as possible with the information you have available to you. If you have questions about this survey, please reach out to the research coordinator. &lt;br&gt;&lt;br&gt;When you are ready to begin, select the “start survey” button. &lt;br&gt;&lt;br&gt;
 Thank you&quot;</source>
-        <target state="final">Nochmals vielen Dank für die Teilnahme an diesem Forschungsprojekt! &lt;p&gt;&lt;br&gt;Dieser Teil der Umfrage dauert etwa 20-30 Minuten und enthält Fragen zu Ihnen selbst und zu Ihrem häuslichen Umfeld.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva. mpg. de).
-&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf \&quot;Umfrage starten\&quot;.&lt;br&gt;&lt;br&gt;Vielen Dank</target>
+        <target state="final">Vielen Dank für die Teilnahme an diesem Forschungsprojekt! &lt;br&gt;&lt;br&gt;Dieser Teil der Umfrage dauert etwa 10 Minuten und enthält Fragen zu Ihnen selbst und zu Ihrem häuslichen Umfeld.&lt;br&gt;&lt;br&gt;Wir bitten Sie, die Fragen so vollständig und genau wie möglich zu beantworten. Wenn Sie Fragen zu dieser Umfrage haben, wenden Sie sich bitte an die Forschungskoordinatorin (luise_hornoff@eva. mpg. de).
+&lt;br&gt;&lt;br&gt;Wenn Sie bereit sind zu beginnen, klicken Sie auf „Umfrage starten&quot;.&lt;br&gt;&lt;br&gt;Vielen Dank</target>
         <context-group purpose="information">
           <context context-type="source">parentfamilysurvey_SHORT.json
 pages_0_elements_0_html
@@ -6598,7 +6561,7 @@ page3.q.selfdiscrim.row.selfdiscrim5.text</context>
       </trans-unit>
       <trans-unit id="155684" resname="pages_4_elements_0_title" approved="yes">
         <source>Please select Yes or No to indicate whether each event has happened to you &lt;b&gt;in the past year&lt;/b&gt;.</source>
-        <target state="final">Bitte wählen Sie Ja oder Nein, um anzugeben, ob Ihnen das jeweilige Ereignis im vergangenen Jahr widerfahren ist.</target>
+        <target state="final">Bitte wählen Sie Ja oder Nein, um anzugeben, ob Ihnen das jeweilige Ereignis &lt;b&gt;im vergangenen Jahr&lt;/b&gt; widerfahren ist.</target>
         <context-group purpose="information">
           <context context-type="source">parentfamilysurvey_SHORT.json
 pages_4_elements_0_title
