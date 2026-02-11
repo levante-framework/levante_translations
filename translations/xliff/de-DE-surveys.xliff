@@ -2965,7 +2965,7 @@ page6.q.childpubertyyn.labelfalse</context>
       </trans-unit>
       <trans-unit id="154878" resname="pages_6_elements_1_title" approved="yes">
         <source>For each question, please select the answer that best describes what is happening to your child right now.</source>
-        <target state="final">Bitte wählen Sie für jede Frage die Antwort aus, die am besten beschreibt,Bitte wählen Sie für jede Frage die Antwort aus</target>
+        <target state="final">Bitte wählen Sie für jede Frage die Antwort aus, die am besten beschreibt, was Ihrem Kind im Moment passiert.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_title
@@ -3064,7 +3064,7 @@ page6.q.childpubertyfemale.q.childpubertyhairfemale.choice.3.text</context>
       </trans-unit>
       <trans-unit id="154900" resname="pages_6_elements_1_elements_2_title" approved="yes">
         <source>Have you noticed any skin changes, especially pimples?</source>
-        <target state="final">Haben Sie Hautveränderungen, insbesondere Pickel,Haben Sie Hautveränderungen</target>
+        <target state="final">Haben Sie Hautveränderungen, insbesondere Pickel, festgestellt?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_elements_2_title
@@ -3181,7 +3181,7 @@ page6.q.childpubertyfemale.q.childpubertymenstruate.labelfalse</context>
       </trans-unit>
       <trans-unit id="154926" resname="pages_6_elements_1_elements_5_title" approved="yes">
         <source>If yes, how old was your child when she first got her period?</source>
-        <target state="final">Hat bei Ihrem Kind die Menstruation bereits begonnen?</target>
+        <target state="final">Wenn ja, wie alt war Ihr Kind, als es seine erste Periode bekam?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_1_elements_5_title
@@ -3199,7 +3199,7 @@ page6.q.childpubertyfemale.q.childpubertymenstruateage.placeholder</context>
       </trans-unit>
       <trans-unit id="154930" resname="pages_6_elements_2_title" approved="yes">
         <source>For each question, please select the answer that best describes what is happening to your child right now.</source>
-        <target state="final">Bitte wählen Sie für jede Frage die Antwort aus, die am besten beschreibt,Bitte wählen Sie für jede Frage die Antwort aus</target>
+        <target state="final">Bitte wählen Sie für jede Frage die Antwort aus, die am besten beschreibt, was Ihrem Kind im Moment passiert.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_2_title
@@ -3298,7 +3298,7 @@ page6.q.childpubertymale.q.childpubertyhairmale.choice.3.text</context>
       </trans-unit>
       <trans-unit id="154952" resname="pages_6_elements_2_elements_2_title" approved="yes">
         <source>Have you noticed any skin changes, especially pimples?</source>
-        <target state="final">Haben Sie Hautveränderungen, insbesondere Pickel,Haben Sie Hautveränderungen</target>
+        <target state="final">Haben Sie Hautveränderungen, insbesondere Pickel, festgestellt?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_2_elements_2_title
@@ -3321,6 +3321,24 @@ page6.q.childpubertymale.q.childpubertyskinmale.choice.0.text</context>
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_6_elements_2_elements_2_choices_1_text
 page6.q.childpubertymale.q.childpubertyskinmale.choice.1.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="154958" resname="pages_6_elements_2_elements_2_choices_2_text" approved="yes">
+        <source>Skin changes have definitely started but are not finished</source>
+        <target state="final">Hautveränderungen haben definitiv begonnen, sind aber noch nicht abgeschlossen</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_6_elements_2_elements_2_choices_2_text
+page6.q.childpubertymale.q.childpubertyskinmale.choice.2.text</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="154960" resname="pages_6_elements_2_elements_2_choices_3_text" approved="yes">
+        <source>Skin changes seem completed</source>
+        <target state="final">Hautveränderungen scheinen abgeschlossen zu sein</target>
+        <context-group purpose="information">
+          <context context-type="source">parentchildsurvey_SHORT.json
+pages_6_elements_2_elements_2_choices_3_text
+page6.q.childpubertymale.q.childpubertyskinmale.choice.3.text</context>
         </context-group>
       </trans-unit>
       <trans-unit id="154962" resname="pages_6_elements_2_elements_3_title" approved="yes">
@@ -3559,7 +3577,7 @@ page7.q.childsleep.q.childsleephours.choice.7.text</context>
       </trans-unit>
       <trans-unit id="155014" resname="pages_8_elements_0_html" approved="yes">
         <source>&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks about your child's behavior and social interaction.</source>
-        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;This section asks about your child's behavior and social interaction.</target>
+        <target state="final">&lt;block&gt;&lt;b&gt;&lt;font face=Verdana size=4&gt;In diesem Abschnitt wird nach dem Verhalten und sozialen Interaktionen Ihres Kindes gefragt</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_8_elements_0_html
@@ -3568,7 +3586,7 @@ page8.q.caregiversectionintro2.html</context>
       </trans-unit>
       <trans-unit id="155016" resname="pages_8_elements_1_elements_0_title" approved="yes">
         <source>For each item, please mark &quot;Not at all&quot;, &quot;Not very well&quot;, &quot;Somewhat well&quot;, or &quot;Very well&quot; to indicate &lt;i&gt;how well&lt;/i&gt; the sentence applies to your child. Please answer all items as best you can even if you are not absolutely certain.</source>
-        <target state="final">Bitte markieren Sie zu jeder Aussage, wie gut diese auf Ihr Kind zutrifft: &quot;Trifft überhaupt nicht zu&quot;, &quot;Trifft eher nicht zu&quot;, &quot;Trifft eher zu&quot; oder &quot;Trifft voll und ganz zu&quot;. Beantworten Sie bitte alle Fragen so gut Sie können, selbst wenn Sie sich nicht ganz sicher sind.</target>
+        <target state="final">Bitte markieren Sie zu jeder Aussage, &lt;i&gt;wie gut&lt;/i&gt; diese auf Ihr Kind zutrifft: &quot;Trifft überhaupt nicht zu&quot;, &quot;Trifft eher nicht zu&quot;, &quot;Trifft eher zu&quot; oder &quot;Trifft voll und ganz zu&quot;. Beantworten Sie bitte alle Fragen so gut Sie können, selbst wenn Sie sich nicht ganz sicher sind.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_8_elements_1_elements_0_title
@@ -3703,7 +3721,7 @@ page8.q.childsdq.q.childsdqitems.row.childsdq22.text</context>
       </trans-unit>
       <trans-unit id="155046" resname="pages_9_elements_0_elements_0_title" approved="yes">
         <source>Please indicate &lt;i&gt;how well&lt;/i&gt; each statement describes your child.</source>
-        <target state="final">Bitte geben Sie an, &lt;b&gt;wie gut&lt;/b&gt; jede Aussage Ihr Kind beschreibt.</target>
+        <target state="final">Bitte geben Sie an, &lt;i&gt;wie gut&lt;/i&gt; jede Aussage Ihr Kind beschreibt.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_9_elements_0_elements_0_title
@@ -3811,7 +3829,7 @@ page10.q.childcbq.q.childcbqitems.row.childcbq4.text</context>
       </trans-unit>
       <trans-unit id="155070" resname="pages_10_elements_0_elements_0_title" approved="yes">
         <source>Please indicate &lt;i&gt;how well&lt;/i&gt; each statement describes your child.</source>
-        <target state="final">Bitte geben Sie an, &lt;b&gt;wie gut&lt;/b&gt; jede Aussage Ihr Kind beschreibt.</target>
+        <target state="final">Bitte geben Sie an, &lt;i&gt;wie gut&lt;/i&gt; jede Aussage Ihr Kind beschreibt.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_10_elements_0_elements_0_title
@@ -3910,7 +3928,7 @@ page11.q.childjukes.q.childjukesitems.row.childjukes12.text</context>
       </trans-unit>
       <trans-unit id="155092" resname="pages_10_elements_0_elements_0_rows_6_text" approved="yes">
         <source>If your child is told to do a chore, they do it.</source>
-        <target state="final">Wenn Ihr Kind aufgefordert wird, eine Aufgabe zu erledigen,Wenn Ihr Kind aufgefordert wird</target>
+        <target state="final">Wenn Ihr Kind aufgefordert wird, eine Aufgabe zu erledigen, tut es das auch.</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_10_elements_0_elements_0_rows_6_text
@@ -4056,7 +4074,7 @@ page12.q.childelsitems.row.childels10.text</context>
       </trans-unit>
       <trans-unit id="155124" resname="pages_11_elements_1_rows_10_text" approved="yes">
         <source>Play with number toys (e.g., blocks with numbers)</source>
-        <target state="final">mit Zahlenspielzeug spielen (z. B. Blöcke mit Zahlen)</target>
+        <target state="final">Mit Zahlenspielzeug spielen (z. B. Blöcke mit Zahlen)</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_11_elements_1_rows_10_text
@@ -4074,7 +4092,7 @@ page12.q.childelsitems.row.childels12.text</context>
       </trans-unit>
       <trans-unit id="155128" resname="pages_11_elements_1_rows_12_text" approved="yes">
         <source>Play games involving shapes (e.g., shape sorting toys, puzzles)</source>
-        <target state="final">Spiele spielen, die Formen beinhalten (z. B. Spielzeug zum Sortieren von Formen,Spiele spielen</target>
+        <target state="final">Spiele spielen, die Formen beinhalten (z. B. Spielzeug zum Sortieren von Formen, Puzzles)</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_11_elements_1_rows_12_text
@@ -4155,7 +4173,7 @@ page13.q.childattendeckinder.q.childattendec.labelfalse</context>
       </trans-unit>
       <trans-unit id="155146" resname="pages_12_elements_0_elements_1_title" approved="yes">
         <source>Did your child attend a pre-primary educational program for children &lt;b&gt;age 3 or older&lt;/b&gt;, &lt;i&gt;including kindergarten&lt;/i&gt;, before first grade?</source>
-        <target state="final">Hat Ihr Kind vor der ersten Klasse eine vorschulische Bildungseinrichtung für Kinder &lt;b&gt;ab 3 Jahren&lt;/b&gt;, &lt;i&gt;einschließlich Kindergarten&lt;/i&gt;,Hat Ihr Kind vor der ersten Klasse eine vorschulische Bildungseinrichtung für Kinder &lt;b&gt;ab 3 Jahren&lt;/b&gt;</target>
+        <target state="final">Hat Ihr Kind vor der ersten Klasse eine vorschulische Bildungseinrichtung für Kinder &lt;b&gt;ab 3 Jahren&lt;/b&gt;, &lt;i&gt;einschließlich Kindergarten&lt;/i&gt;, besucht?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_12_elements_0_elements_1_title
@@ -4443,7 +4461,7 @@ page13.q.childschool.q.childschoolitems.row.childnschg10d.text</context>
       </trans-unit>
       <trans-unit id="155210" resname="pages_12_elements_3_title" approved="yes">
         <source>&lt;b&gt;ON MOST WEEKDAYS&lt;/b&gt; (Monday-Friday), about how much time does your child spend in front of a TV, computer, cellphone, or other device watching programs, playing games, accessing the internet, or using social media? &lt;i&gt;Do not include time spent doing schoolwork.&lt;/i&gt;</source>
-        <target state="final">Wie viel Zeit hat Ihr Kind &lt;b&gt;AN DEN MEISTEN WOCHENTAGEN&lt;/b&gt; (Montag-Freitag) vor dem Fernseher, Computer, um sich Programme anzusehen, um sich Programme anzusehen, Spiele zu spielen, auf das Internet zuzugreifen oder Social Media zu nutzen? Berücksichtigen Sie nicht die Zeit, die sie mit Schularbeiten verbringen.</target>
+        <target state="final">Wie viel Zeit hat Ihr Kind &lt;b&gt;AN DEN MEISTEN WOCHENTAGEN&lt;/b&gt; (Montag-Freitag) vor dem Fernseher, Computer, um sich Programme anzusehen, um sich Programme anzusehen, Spiele zu spielen, auf das Internet zuzugreifen oder Social Media zu nutzen? &lt;i&gt;Berücksichtigen Sie nicht die Zeit, die sie mit Schularbeiten verbringen.&lt;/i&gt;</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_12_elements_3_title
@@ -4542,7 +4560,7 @@ page13.q.childphoneage.placeholder</context>
       </trans-unit>
       <trans-unit id="155232" resname="pages_12_elements_6_title" approved="yes">
         <source>Does your child have an account on any social media website such as Instagram, Tiktok, Meta, or others?</source>
-        <target state="final">Hat Ihr Kind ein Konto auf einer Social-Media-Website wie Instagram, Tiktok,Hat Ihr Kind ein Konto auf einer Social-Media-Website wie Instagram</target>
+        <target state="final">Hat Ihr Kind ein Konto auf einer Social-Media-Website wie Instagram, Tiktok, Meta oder anderen Seiten?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_12_elements_6_title
@@ -4634,7 +4652,7 @@ page14.q.childefq.q.childefq1.choice.1.text</context>
       </trans-unit>
       <trans-unit id="155250" resname="pages_13_elements_0_elements_2_title" approved="yes">
         <source>&lt;b&gt;Finishes an assigned task that is repetitive&lt;/b&gt; (e.g., picking up toys, putting away laundry).</source>
-        <target state="final">&lt;b&gt;Erledigt eine zugewiesene Aufgabe, die sich wiederholt&lt;/b&gt; (z. B. Spielzeug aufheben,&lt;b&gt;Erledigt eine zugewiesene Aufgabe</target>
+        <target state="final">&lt;b&gt;Erledigt eine zugewiesene Aufgabe, die sich wiederholt&lt;/b&gt; (z. B. Spielzeug aufheben, Wäsche weglegen).</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_13_elements_0_elements_2_title
@@ -4643,7 +4661,7 @@ page14.q.childefq.q.childefq2.title</context>
       </trans-unit>
       <trans-unit id="155252" resname="pages_13_elements_0_elements_3_title" approved="yes">
         <source>&lt;b&gt;Stops an undesirable behavior when asked&lt;/b&gt; (e.g., stops fighting with sibling when asked by parent, stops misbehaving in the household).</source>
-        <target state="final">&lt;b&gt;Beendet ein unerwünschtes Verhalten, wenn es dazu aufgefordert wird&lt;/b&gt; (hört z. B. auf, wenn es von den Eltern dazu aufgefordert wird, wenn es von den Eltern dazu aufgefordert wird, hört auf, sich im Haushalt schlecht zu benehmen).</target>
+        <target state="final">&lt;b&gt;Beendet ein unerwünschtes Verhalten, wenn es dazu aufgefordert wird&lt;/b&gt; (hört z. B. auf, sich mit einem Geschwisterkind zu streiten, wenn es von den Eltern dazu aufgefordert wird, hört auf, sich im Haushalt schlecht zu benehmen).</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_13_elements_0_elements_3_title
@@ -4652,7 +4670,7 @@ page14.q.childefq.q.childefq13.title</context>
       </trans-unit>
       <trans-unit id="155254" resname="pages_13_elements_0_elements_4_title" approved="yes">
         <source>&lt;b&gt;Regains focus/focuses again on an assigned task when interrupted&lt;/b&gt; (e.g., family member asks an unrelated question or needs brief assistance).</source>
-        <target state="final">&lt;b&gt;Fokussiert sich wieder auf eine zugewiesene Aufgabe, wenn es unterbrochen wird&lt;/b&gt; (z. B. wenn ein Familienmitglied eine Frage stellt,&lt;b&gt;Fokussiert sich wieder auf eine zugewiesene Aufgabe</target>
+        <target state="final">&lt;b&gt;Fokussiert sich wieder auf eine zugewiesene Aufgabe, wenn es unterbrochen wird&lt;/b&gt; (z. B. wenn ein Familienmitglied eine Frage stellt, die nichts mit der Aufgabe zu tun hat oder kurz Hilfe braucht).</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_13_elements_0_elements_4_title
@@ -4994,7 +5012,7 @@ page15.q.homehomea.q.homehome7.choice.0.text</context>
       </trans-unit>
       <trans-unit id="155330" resname="pages_14_elements_1_elements_7_title" approved="yes">
         <source>Does your child have access to a tablet or smartphone that they regularly use to watch videos or listen to music?</source>
-        <target state="final">Hat Ihr Kind ein Tablet oder Smartphone, das es regelmäßig benutzt,Hat Ihr Kind ein Tablet oder Smartphone</target>
+        <target state="final">Hat Ihr Kind ein Tablet oder Smartphone, das es regelmäßig benutzt, um Videos anzusehen oder Musik zu hören?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_14_elements_1_elements_7_title
@@ -5264,7 +5282,7 @@ page16.q.homehomeb.q.homehome36.choice.0.text</context>
       </trans-unit>
       <trans-unit id="155390" resname="pages_15_elements_0_elements_5_title" approved="yes">
         <source>How often is your child expected to help manage his/her own time (get up on time, be ready for school, etc.)?</source>
-        <target state="final">Wie oft wird von Ihrem Kind erwartet, dass es seine Zeit selbst einteilt (pünktlich aufstehen,Wie oft wird von Ihrem Kind erwartet</target>
+        <target state="final">Wie oft wird von Ihrem Kind erwartet, dass es seine Zeit selbst einteilt (pünktlich aufstehen, für die Schule bereit sein usw.)</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_15_elements_0_elements_5_title
@@ -5318,7 +5336,7 @@ page16.q.homehomeb.q.homehome38.choice.0.text</context>
       </trans-unit>
       <trans-unit id="155402" resname="pages_15_elements_0_elements_6_title" approved="yes">
         <source>How often is your child expected to care for younger family members when you and other adults are not available?</source>
-        <target state="final">Wie oft wird von Ihrem Kind erwartet, dass es seine Zeit selbst einteilt (pünktlich aufstehen, Wie oft wird von Ihrem Kind erwartet</target>
+        <target state="final">Wie oft wird von Ihrem Kind erwartet, dass es sich um jüngere Familienmitglieder kümmert, wenn Sie und andere Erwachsene nicht verfügbar sind?</target>
         <context-group purpose="information">
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_15_elements_0_elements_6_title
@@ -5449,15 +5467,6 @@ page17.q.selfparentstressncshh9.row.selfparentstressnschh9b.text</context>
           <context context-type="source">parentchildsurvey_SHORT.json
 pages_16_elements_0_rows_2_text
 page17.q.selfparentstressncshh9.row.selfparentstressnschh9c.text</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="155432" resname="pages_16_elements_1_title" approved="yes">
-        <source>These statements describe ways different caregivers act toward their children. Please think about how well each statement describes the way you treat your child. Respond as to whether you do each item &quot;almost never&quot;, &quot;once a month&quot;, &quot;once a week&quot;, &quot;every day&quot;.</source>
-        <target state="final">Diese Aussagen beschreiben, wie sich verschiedene Betreuungspersonen gegenüber ihren Kindern verhalten. Bitte denken Sie darüber nach, wie gut jede Aussage die Art und Weise beschreibt, wie Sie Ihr Kind behandeln. Geben Sie an, ob Sie jeden Punkt fast jeden Tag, einmal pro Woche, einmal im Monat oder fast nie tun.</target>
-        <context-group purpose="information">
-          <context context-type="source">parentchildsurvey_SHORT.json
-pages_16_elements_1_title
-page18.q.selfparentrohner.title</context>
         </context-group>
       </trans-unit>
       <trans-unit id="155434" resname="pages_16_elements_1_columns_0_text" approved="yes">
