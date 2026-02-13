@@ -1,0 +1,1830 @@
+{
+  "logoPosition": "right",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "html",
+          "name": "ChildSurveyIntro",
+          "html": {
+            "default": "<font face=Verdana size=4>These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. <b><font face=Verdana size=4>No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time.<br><br>The first two are for practice.",
+            "de": "In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst. Nein, nie; Ja, manchmal; Ja, meistens; Ja, immer. Die ersten beiden Fragen sind zum Üben.",
+            "fr": "<font face=Verdana size=4>Ces questions vous demandent comment vous vous sentez à l'école et certaines choses que vous faites à l'école. Il n'y a pas de bonnes ou de mauvaises réponses. Choisissez la réponse qui décrit le mieux ce que vous pensez. <b><font face=Verdana size=4>Non, jamais; Oui, quelquefois; Oui, la plupart du temps; Oui, tout le temps.<br><br>Les deux premiers sont pour la pratique.",
+            "nl": "Deze vragen gaan over hoe je je op school voelt en over een aantal dingen die je op school doet. Er zijn geen goede of foute antwoorden. Kies het antwoord dat het beste beschrijft wat je denkt. Nee, nooit; Ja, soms; Ja, meestal; Ja, altijd. De eerste twee zijn om te oefenen.",
+            "es-CO": "Estas preguntas se refieren a cómo te sientes en el colegio, y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. Las primeras dos preguntas son de práctica.",
+            "fr-CA": "Ces questions vous demandent comment vous vous sentez à l'école et certaines choses que vous faites à l'école. Il n'y a pas de bonnes ou de mauvaises réponses. Choisissez la réponse qui décrit le mieux ce que vous pensez. Non, jamais ; Oui, quelquefois ; Oui, la plupart du temps ; Oui, tout le temps. Les deux premiers sont pour la pratique.",
+            "de-CH": "In diesen Fragen geht es darum, wie du dich in der Schule fühlst und was du in der Schule machst. Es gibt keine richtigen oder falschen Antworten. Wähle die Antwort, die am besten beschreibt, was du denkst. Nein, nie; Ja, manchmal; Ja, meistens; Ja, immer. Die ersten beiden Fragen sind zum Üben.",
+            "es-AR": "Estas preguntas se refieren a cómo te sientes en el colegio, y a algunas de las cosas que haces en el colegio. No hay respuestas correctas ni incorrectas. Elige la respuesta que mejor diga lo que tú piensas. No, nunca; Sí, algunas veces; Sí, muchas veces; Sí, siempre. Las primeras dos preguntas son de práctica.",
+            "en-US": "<font face=Verdana size=4>These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. <b><font face=Verdana size=4>No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time.<br><br>The first two are for practice.",
+            "en-GH": "These questions ask you about how you feel at school and some of the things you do at school. There are no right or wrong answers. Choose the answer that best describes what you think. No, never; Yes, some of the time; Yes, most of the time; Yes, all of the time. The first two are for practice.",
+            "en": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "page2",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "ChildQuestions",
+          "showQuestionNumbers": "off",
+          "elements": [
+            {
+              "type": "radiogroup",
+              "name": "Example1Comic",
+              "title": {
+                "default": "Do you like to read comic books?",
+                "de": "Liest du gerne Comics?",
+                "fr": "Aimez-vous lire des bandes dessinées ?",
+                "nl": "Houd je van het lezen van stripboeken?",
+                "es-CO": "¿Te gusta leer historietas (comics)?",
+                "fr-CA": "Aimez-vous lire des bandes dessinées ?",
+                "de-CH": "Liest du gerne Comics?",
+                "es-AR": "¿Te gusta leer historietas (comics)?",
+                "en-GH": "Do you like to read comic books?",
+                "en-US": "Do you like to read comic books?",
+                "en": "Do you like to read comic books?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, quelquefois",
+                    "nl": "Ja, soms",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, quelquefois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, meestal",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "Example2Neat",
+              "title": {
+                "default": "Are you neat and tidy at school?",
+                "de": "Bist du in der Schule ordentlich?",
+                "fr": "Êtes-vous soigneux et ordonné à l'école ?",
+                "nl": "Ben je netjes en opgeruimd op school?",
+                "es-CO": "¿Eres limpio y ordenado en el colegio?",
+                "fr-CA": "Êtes-vous soigneux et ordonné à l'école ?",
+                "de-CH": "Bist du in der Schule ordentlich?",
+                "es-AR": "¿Eres limpio y ordenado en el colegio?",
+                "en-GH": "Are you neat and tidy at school?",
+                "en-US": "Are you neat and tidy at school?",
+                "en": "Are you neat and tidy at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "TeacherNice",
+              "title": {
+                "default": "Is your teacher nice to you?",
+                "de": "Ist dein Lehrer nett zu dir?",
+                "fr": "Votre enseignant est-il gentil avec vous ?",
+                "nl": "Is je leraar aardig voor je?",
+                "es-CO": "¿Tu profesor te trata bien?",
+                "fr-CA": "Votre enseignant est-il gentil avec vous ?",
+                "de-CH": "Ist dein Lehrer nett zu dir?",
+                "es-AR": "¿Tu profesor te trata bien?",
+                "en-GH": "Is your teacher nice to you?",
+                "en-US": "Is your teacher nice to you?",
+                "en": "Is your teacher nice to you?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "TeacherLike",
+              "title": {
+                "default": "Does your teacher like you?",
+                "de": "Mag dich dein Lehrer?",
+                "fr": "Votre enseignant vous aime-t-il ?",
+                "nl": "Vindt je leraar je leuk?",
+                "es-CO": "¿Le caes bien a tu profesor?",
+                "fr-CA": "Votre enseignant vous aime-t-il ?",
+                "de-CH": "Mag dich dein Lehrer?",
+                "es-AR": "¿Le caes bien a tu profesor?",
+                "en-GH": "Does your teacher like you?",
+                "en-US": "Does your teacher like you?",
+                "en": "Does your teacher like you?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "TeacherListen",
+              "title": {
+                "default": "Does your teacher listen to you?",
+                "de": "Hört dein Lehrer dir zu?",
+                "fr": "Votre enseignant vous écoute-t-il ?",
+                "nl": "Luistert je leraar naar je?",
+                "es-CO": "¿Tu profesor te escucha?",
+                "fr-CA": "Votre enseignant vous écoute-t-il ?",
+                "de-CH": "Hört dein Lehrer dir zu?",
+                "es-AR": "¿Tu profesor te escucha?",
+                "en-GH": "Does your teacher listen to you?",
+                "en-US": "Does your teacher listen to you?",
+                "en": "Does your teacher listen to you?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "SchoolFun",
+              "title": {
+                "default": "Is school fun?",
+                "de": "Macht die Schule Spaß?",
+                "fr": "L'école est-elle amusante ?",
+                "nl": "Is school leuk?",
+                "es-CO": "¿Es divertido ir al colegio?",
+                "fr-CA": "L'école est-elle amusante ?",
+                "de-CH": "Macht die Schule Spaß?",
+                "es-AR": "¿Es divertido ir al colegio?",
+                "en-GH": "Is school fun?",
+                "en-US": "Is school fun?",
+                "en": "Is school fun?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "SchoolEnjoy",
+              "title": {
+                "default": "Do you enjoy school?",
+                "de": "Magst du es, in die Schule zu gehen?",
+                "fr": "Aimez-vous l'école ?",
+                "nl": "Vind je school leuk?",
+                "es-CO": "¿Te gusta el colegio?",
+                "fr-CA": "Aimez-vous l'école ?",
+                "de-CH": "Magst du es, in die Schule zu gehen?",
+                "es-AR": "¿Te gusta el colegio?",
+                "en-GH": "Do you enjoy school?",
+                "en-US": "Do you enjoy school?",
+                "en": "Do you enjoy school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "SchoolHappy",
+              "title": {
+                "default": "Are you happy at school?",
+                "de": "Bist du glücklich in der Schule?",
+                "fr": "Êtes-vous heureux à l'école ?",
+                "nl": "Ben je blij op school?",
+                "es-CO": "¿Te sientes feliz en la escuela?",
+                "fr-CA": "Êtes-vous heureux à l'école ?",
+                "de-CH": "Bist du glücklich in der Schule?",
+                "es-AR": "¿Te sientes feliz en la escuela?",
+                "en-GH": "Are you happy at school?",
+                "en": "Are you happy at school?",
+                "en-US": "Are you happy at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "SchoolSafe",
+              "title": {
+                "default": "Do you feel safe at school?",
+                "de": "Fühlst du dich in der Schule sicher?",
+                "fr": "Vous sentez-vous en sécurité à l'école ?",
+                "nl": "Voel je je veilig op school?",
+                "es-CO": "¿Te sientes seguro o segura en el colegio?",
+                "fr-CA": "Vous sentez-vous en sécurité à l'école ?",
+                "de-CH": "Fühlst du dich in der Schule sicher?",
+                "es-AR": "¿Te sientes seguro o segura en el colegio?",
+                "en-GH": "Do you feel safe at school?",
+                "en-US": "Do you feel safe at school?",
+                "en": "Do you feel safe at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ClassFriends",
+              "title": {
+                "default": "Do you have friends in your class?",
+                "de": "Hast du Freunde in deiner Klasse?",
+                "fr": "Avez-vous des amis dans votre classe ?",
+                "nl": "Heb je vrienden in je klas?",
+                "es-CO": "¿Tienes amigos o amigas en tu salón?",
+                "fr-CA": "Avez-vous des amis dans votre classe ?",
+                "de-CH": "Hast du Freunde in deiner Klasse?",
+                "es-AR": "¿Tienes amigos o amigas en tu salón?",
+                "en-GH": "Do you have friends in your class?",
+                "en-US": "Do you have friends in your class?",
+                "en": "Do you have friends in your class?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ClassHelp",
+              "title": {
+                "default": "Do the kids in your class help you when you need it?",
+                "de": "Helfen dir die Kinder in deiner Klasse, wenn du Hilfe brauchst?",
+                "fr": "Les enfants de votre classe vous aident-ils quand vous en avez besoin ?",
+                "nl": "Helpen de kinderen in je klas je wanneer je het nodig hebt?",
+                "es-CO": "¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?",
+                "fr-CA": "Les enfants de votre classe vous aident-ils quand vous en avez besoin ?",
+                "de-CH": "Helfen dir die Kinder in deiner Klasse, wenn du Hilfe brauchst?",
+                "es-AR": "¿Te ayudan los niños y las niñas de tu salón cuando lo necesitas?",
+                "en-GH": "Do the kids in your class help you when you need it?",
+                "en-US": "Do the kids in your class help you when you need it?",
+                "en": "Do the kids in your class help you when you need it?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ClassPlay",
+              "title": {
+                "default": "Do the kids in your class play with you?",
+                "de": "Spielen die Kinder in deiner Klasse mit dir?",
+                "fr": "Les enfants de votre classe jouent-ils avec vous ?",
+                "nl": "Spelen de kinderen in je klas met je?",
+                "es-CO": "¿Los niños y las niñas de tu salón juegan contigo?",
+                "fr-CA": "Les enfants de votre classe jouent-ils avec vous ?",
+                "de-CH": "Spielen die Kinder in deiner Klasse mit dir?",
+                "es-AR": "¿Los niños y las niñas de tu salón juegan contigo?",
+                "en-GH": "Do the kids in your class play with you?",
+                "en-US": "Do the kids in your class play with you?",
+                "en": "Do the kids in your class play with you?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ClassNice",
+              "title": {
+                "default": "Are the kids in your class nice to you?",
+                "de": "Sind die Kinder in deiner Klasse nett zu dir?",
+                "fr": "Les enfants de votre classe sont-ils gentils avec vous ?",
+                "nl": "Zijn de kinderen in je klas aardig voor je?",
+                "es-CO": "¿Los niños y las niñas de tu salón son amables contigo?",
+                "fr-CA": "Les enfants de votre classe sont-ils gentils avec vous ?",
+                "de-CH": "Sind die Kinder in deiner Klasse nett zu dir?",
+                "es-AR": "¿Los niños y las niñas de tu salón son amables contigo?",
+                "en-GH": "Are the kids in your class nice to you?",
+                "en-US": "Are the kids in your class nice to you?",
+                "en": "Are the kids in your class nice to you?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "LonelySchool",
+              "title": {
+                "default": "Do you feel lonely at school?",
+                "de": "Fühlst du dich in der Schule einsam?",
+                "fr": "Vous sentez-vous seul à l'école ?",
+                "nl": "Voel je je eenzaam op school?",
+                "es-CO": "¿Te sientes solo o sola en el colegio?",
+                "fr-CA": "Vous sentez-vous seul à l'école ?",
+                "de-CH": "Fühlst du dich in der Schule einsam?",
+                "es-AR": "¿Te sientes solo o sola en el colegio?",
+                "en-GH": "Do you feel lonely at school?",
+                "en-US": "Do you feel lonely at school?",
+                "en": "Do you feel lonely at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "LearningGood",
+              "title": {
+                "default": "Are you good at learning things in school?",
+                "de": "Bist du gut darin, in der Schule etwas zu lernen?",
+                "fr": "Êtes-vous bon pour apprendre des choses à l'école ?",
+                "nl": "Ben je goed in het leren van dingen op school?",
+                "es-CO": "¿Te queda fácil aprender en el colegio?",
+                "fr-CA": "Êtes-vous bon pour apprendre des choses à l'école ?",
+                "de-CH": "Bist du gut darin, in der Schule etwas zu lernen?",
+                "es-AR": "¿Te queda fácil aprender en el colegio?",
+                "en-GH": "Are you good at learning things in school?",
+                "en-US": "Are you good at learning things in school?",
+                "en": "Are you good at learning things in school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "SchoolGiveUp",
+              "title": {
+                "default": "When schoolwork is hard, do you give up right away?",
+                "de": "Gibst du sofort auf, wenn dir die Schularbeit schwer fällt?",
+                "fr": "Abandonnez-vous tout de suite quand le travail scolaire est difficile ?",
+                "nl": "Wanneer schoolwerk moeilijk is, geef je dan meteen op?",
+                "es-CO": "Cuando las tareas del colegio son difíciles, ¿te rindes en seguida?",
+                "fr-CA": "Abandonnez-vous tout de suite quand le travail scolaire est difficile ?",
+                "de-CH": "Gibst du sofort auf, wenn dir die Schularbeit schwer fällt?",
+                "es-AR": "Cuando las tareas escolares son difíciles, ¿te rindes enseguida?",
+                "en-GH": "When schoolwork is hard, do you give up right away?",
+                "en-US": "When schoolwork is hard, do you give up right away?",
+                "en": "When schoolwork is hard, do you give up right away?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ReadingEnjoy",
+              "title": {
+                "default": "Do you enjoy doing reading activities at school?",
+                "de": "Macht es dir Spaß in der Schule zu lesen?",
+                "fr": "Aimez-vous faire des activités de lecture à l'école ?",
+                "nl": "Vind je het leuk om leesactiviteiten te doen op school?",
+                "es-CO": "¿Te gusta hacer actividades de lectura en el colegio?",
+                "fr-CA": "Aimez-vous faire des activités de lecture à l'école ?",
+                "de-CH": "Macht es dir Spaß in der Schule zu lesen?",
+                "es-AR": "¿Te gusta hacer actividades de lectura en el colegio?",
+                "en-GH": "Do you enjoy doing reading activities at school?",
+                "en-US": "Do you enjoy doing reading activities at school?",
+                "en": "Do you enjoy doing reading activities at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "MathEnjoy",
+              "title": {
+                "default": "Do you enjoy doing math activities at school?",
+                "de": "Hast du Spaß am Fach Mathe?",
+                "fr": "Aimez-vous faire des activités de mathématiques à l'école ?",
+                "nl": "Vind je het leuk om wiskundeactiviteiten te doen op school?",
+                "es-CO": "¿Te gusta hacer actividades de matemáticas en el colegio?",
+                "fr-CA": "Aimez-vous faire des activités de mathématiques à l'école ?",
+                "de-CH": "Hast du Spaß am Fach Mathe?",
+                "es-AR": "¿Te gusta hacer actividades de matemáticas en el colegio?",
+                "en-GH": "Do you enjoy doing math activities at school?",
+                "en-US": "Do you enjoy doing math activities at school?",
+                "en": "Do you enjoy doing math activities at school?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "ReadingGood",
+              "title": {
+                "default": "Are you good at reading?",
+                "de": "Bist du gut im Lesen?",
+                "fr": "Êtes-vous bon en lecture ?",
+                "nl": "Ben je goed in lezen?",
+                "es-CO": "¿Eres bueno o buena para la lectura?",
+                "fr-CA": "Êtes-vous bon en lecture ?",
+                "de-CH": "Bist du gut im Lesen?",
+                "es-AR": "¿Eres bueno o buena para la lectura?",
+                "en-GH": "Are you good at reading?",
+                "en-US": "Are you good at reading?",
+                "en": "Are you good at reading?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "MathGood",
+              "title": {
+                "default": "Are you good at math?",
+                "de": "Bist du gut in Mathe?",
+                "fr": "Êtes-vous bon en maths ?",
+                "nl": "Ben je goed in wiskunde?",
+                "es-CO": "¿Eres bueno o buena para las matemáticas?",
+                "fr-CA": "Êtes-vous bon en maths ?",
+                "de-CH": "Bist du gut in Mathe?",
+                "es-AR": "¿Eres bueno o buena para las matemáticas?",
+                "en-GH": "Are you good at math?",
+                "en-US": "Are you good at math?",
+                "en": "Are you good at math?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "GrowthMindSmart",
+              "title": {
+                "default": "Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?",
+                "de": "Manche Kinder glauben, dass sie schlauer werden können, wenn sie sich anstrengen. Bist du auch der Meinung, dass du schlauer werden kannst, wenn du dich anstrengst?",
+                "fr": "Certains enfants pensent qu'ils peuvent devenir plus intelligents s'ils travaillent très dur. Pensez-vous que vous pouvez devenir plus intelligent si vous travaillez très dur ?",
+                "nl": "Sommige kinderen denken dat ze slimmer kunnen worden als ze heel hard werken. Denk je dat je slimmer kunt worden als je heel hard werkt?",
+                "es-CO": "Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?",
+                "fr-CA": "Certains enfants pensent qu'ils peuvent devenir plus intelligents s'ils travaillent très dur. Pensez-vous que vous pouvez devenir plus intelligent si vous travaillez très dur ?",
+                "de-CH": "Manche Kinder glauben, dass sie schlauer werden können, wenn sie sich anstrengen. Bist du auch der Meinung, dass du schlauer werden kannst, wenn du dich anstrengst?",
+                "es-AR": "Algunos niños y niñas piensan que pueden ser más inteligentes si se esfuerzan mucho. ¿Crees que tú puedes ser más inteligente si te esfuerzas mucho?",
+                "en-GH": "Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?",
+                "en-US": "Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?",
+                "en": "Some kids think they can get smarter if they work really hard. Do you think that you can get smarter if you work really hard?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "GrowthMindRead",
+              "title": {
+                "default": "Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?",
+                "de": "Manche Kinder glauben, dass sie besser lesen können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass du besser lesen kannst, wenn du dich richtig anstrengst?",
+                "fr": "Certains enfants pensent qu'ils peuvent s'améliorer en lecture s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en lecture si vous travaillez très dur ?",
+                "nl": "Sommige kinderen denken dat ze beter kunnen worden in lezen als ze heel hard werken. Denk je dat je beter kunt worden in lezen als je heel hard werkt?",
+                "es-CO": "Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?",
+                "fr-CA": "Certains enfants pensent qu'ils peuvent s'améliorer en lecture s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en lecture si vous travaillez très dur ?",
+                "de-CH": "Manche Kinder glauben, dass sie besser lesen können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass du besser lesen kannst, wenn du dich richtig anstrengst?",
+                "es-AR": "Algunos niños y niñas creen que pueden mejorar en lectura si se esfuerzan mucho. ¿Crees que tú puedes mejorar en lectura si te esfuerzas mucho?",
+                "en-GH": "Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?",
+                "en-US": "Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?",
+                "en": "Some kids think they can get better at reading if they work really hard. Do you think that you can get better at reading if you work really hard?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "radiogroup",
+              "name": "GrowthMindMath",
+              "title": {
+                "default": "Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?",
+                "de": "Manche Kinder glauben, dass sie in Mathematik besser werden können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass man in Mathe besser wird, wenn man sich richtig anstrengt?",
+                "fr": "Certains enfants pensent qu'ils peuvent s'améliorer en maths s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en maths si vous travaillez très dur ?",
+                "nl": "Sommige kinderen denken dat ze beter kunnen worden in wiskunde als ze heel hard werken. Denk je dat je beter kunt worden in wiskunde als je heel hard werkt?",
+                "es-CO": "Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?",
+                "fr-CA": "Certains enfants pensent qu'ils peuvent s'améliorer en maths s'ils travaillent très dur. Pensez-vous que vous pouvez vous améliorer en maths si vous travaillez très dur ?",
+                "de-CH": "Manche Kinder glauben, dass sie in Mathematik besser werden können, wenn sie sich richtig anstrengen. Bist du auch der Meinung, dass man in Mathe besser wird, wenn man sich richtig anstrengt?",
+                "es-AR": "Algunos niños y niñas creen que pueden mejorar en matemáticas si se esfuerzan mucho. ¿Crees que tú puedes mejorar en matemáticas si te esfuerzas mucho?",
+                "en-GH": "Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?",
+                "en-US": "Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?",
+                "en": "Some kids think they can get better at math if they work really hard. Do you think that you can get better at math if you work really hard?"
+              },
+              "choices": [
+                {
+                  "value": "0",
+                  "text": {
+                    "default": "No, never",
+                    "de": "Nein, nie",
+                    "fr": "Non, jamais",
+                    "nl": "Nee, nooit",
+                    "es-CO": "No, nunca",
+                    "fr-CA": "Non, jamais",
+                    "de-CH": "Nein, nie",
+                    "es-AR": "No, nunca",
+                    "en-GH": "No, never"
+                  }
+                },
+                {
+                  "value": "1",
+                  "text": {
+                    "default": "Yes, some of the time",
+                    "de": "Ja, manchmal",
+                    "fr": "Oui, parfois",
+                    "nl": "Ja, een deel van de tijd",
+                    "es-CO": "Sí, algunas veces",
+                    "fr-CA": "Oui, parfois",
+                    "de-CH": "Ja, manchmal",
+                    "es-AR": "Sí, algunas veces",
+                    "en-GH": "Yes, some of the time"
+                  }
+                },
+                {
+                  "value": "2",
+                  "text": {
+                    "default": "Yes, most of the time",
+                    "de": "Ja, meistens",
+                    "fr": "Oui, la plupart du temps",
+                    "nl": "Ja, het grootste deel van de tijd",
+                    "es-CO": "Sí, muchas veces",
+                    "fr-CA": "Oui, la plupart du temps",
+                    "de-CH": "Ja, meistens",
+                    "es-AR": "Sí, muchas veces",
+                    "en-GH": "Yes, most of the time"
+                  }
+                },
+                {
+                  "value": "3",
+                  "text": {
+                    "default": "Yes, always",
+                    "de": "Ja, immer",
+                    "fr": "Oui, toujours",
+                    "nl": "Ja, altijd",
+                    "es-CO": "Sí, siempre",
+                    "fr-CA": "Oui, toujours",
+                    "de-CH": "Ja, immer",
+                    "es-AR": "Sí, siempre",
+                    "en-US": "Yes, always",
+                    "en-GH": "Yes, always"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "startSurveyText": {
+    "default": "Start Survey",
+    "de": "Weiter",
+    "es-CO": "Comenzar Encuesta",
+    "en-GH": "Start Survey",
+    "es-AR": "Comenzar Encuesta",
+    "de-CH": "Weiter",
+    "fr-CA": "Démarrer le sondage",
+    "nl": "Start enquête",
+    "de-DE": "Weiter"
+  },
+  "pagePrevText": {
+    "default": "Previous",
+    "de": "Zurück",
+    "es-CO": "Anterior",
+    "en-GH": "Previous",
+    "es-AR": "Anterior",
+    "de-CH": "Zurück",
+    "fr-CA": "Précédent",
+    "nl": "Vorige"
+  },
+  "pageNextText": {
+    "default": "Next",
+    "de": "Weiter",
+    "es-CO": "Siguiente",
+    "en-GH": "Next",
+    "es-AR": "Siguiente",
+    "de-CH": "Weiter",
+    "fr-CA": "Suivant",
+    "nl": "Volgende",
+    "de-DE": "Weiter"
+  },
+  "completeText": {
+    "default": "Finish",
+    "de": "Beenden",
+    "es-CO": "Terminar",
+    "en-GH": "Finish",
+    "es-AR": "Terminar",
+    "de-CH": "Beenden",
+    "fr-CA": "Terminer",
+    "nl": "Afsluiten"
+  },
+  "firstPageIsStartPage": true
+}

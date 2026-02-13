@@ -1,0 +1,512 @@
+answer,assessment_stage,audio_file,block_index,chance_level,difficulty,downex,item_uid,required_selections,response_alternatives,time_limit,trial_type
+10,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_2_8,,"9,11,12",5000,Addition
+1/4,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_34_12_14,,"2/2,2/4,2/6",5000,Fraction
+,instructions,math-intro1-heavy,3,,-1,False,,,,,instructions
+0.87,test_response,number-line-prompt1,0,0.25,0,False,math_line_087_1,,"0.71,0.67,0.96",5000,Number Line 4afc
+5,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_5_1000,,,5000,Number Line Slider
+0.56,test_response,number-line-prompt1,0,0.25,0,False,math_line_056_1,,"0.4,0.65,0.7",5000,Number Line 4afc
+22,test_response,number-identification-7,0,0.25,-2.5,False,math_identify_22,,"44,52,20",5000,Number Identification
+65,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_50_55_60_x,,"75,70,80",5000,Missing Number
+8,test_response,number-comparison-prompt2,3,0.5,3.006643,False,math_compare_7_5,,5,5000,Number Comparison
+13,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_6_7,,"15,11,12",5000,Addition
+0.45,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_045_1,,,5000,Number Line Slider
+200,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_x_300_400_500,,"100,150,600",5000,Missing Number
+4/21,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_13_17_421,,"6/21,1/4,1/7",5000,Fraction
+9,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_7_2,,"7,10,8",5000,Addition
+0,test_response,number-identification-4,0,0.25,-2.5,False,math_identify_0,,"1,9,10",5000,Number Identification
+435,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_390_435,,390,5000,Number Comparison
+16,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_9_7,,"18,14,15",5000,Addition
+26,test_response,number-identification-25,0,0.25,-2.5,False,math_identify_26,,"36,46,27",5000,Number Identification
+47,test_response,number-identification-28,0,0.25,-2.5,False,math_identify_47,,"74,37,17",5000,Number Identification
+126,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_126_1000,,"520,917,722",5000,Number Line 4afc
+676,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_676_1000,,"570,880,790",5000,Number Line 4afc
+1/2,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_16_13_12,,"2/9,2/3,5/6",5000,Fraction
+3/10,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_710_25_310,,"5/10,1/5,5/5",5000,Fraction
+18,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_3_6,,"20,14,9",5000,Multiplication
+5/14,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_37_114_514,,"2/14,2/7,4/7",5000,Fraction
+1,practice_response,number-identification-1,3,0.33,-1,False,,,"6,9,7",5000,Number Identification
+87,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_87_100,,"60,73,97",5000,Number Line 4afc
+214,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_214_1000,,,5000,Number Line Slider
+,instructions,math-instructions1,0,,,False,,,,,instructions
+4,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_10_6,,"3,2,5",5000,Subtraction
+67,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_65_67,,65,5000,Number Comparison
+3/4,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_12_14_34,,"2/6,1/6,3/8",5000,Fraction
+8,test_response,addition-prompt2,3,0.25,2.616851,False,math_add_6_2,,"9,7,12",5000,Addition
+540,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_54_10,,"520,104,580",5000,Multiplication
+4,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_18_14,,"6,5,3",5000,Subtraction
+12,practice_response,number-comparison-prompt1,0,0.5,,False,,,10,5000,Number Comparison
+,instructions,math-intro2,1,,,False,,,,,instructions
+24,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_4_6,,"22,32,12",5000,Multiplication
+11,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_14_3,,"9,12,10",5000,Subtraction
+9,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_15_6,,"11,7,8",5000,Subtraction
+12,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_7_5,,"14,13,11",5000,Addition
+30,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_30_100,,"50,15,45",5000,Number Line 4afc
+7,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_7_5,,5,5000,Number Comparison
+10,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_6_4,,"9,11,8",5000,Addition
+11,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_4_7,,"12,13,10",5000,Addition
+37,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_37_100,,,5000,Number Line Slider
+417,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_417_1000,,,5000,Number Line Slider
+30,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_30_100,,,5000,Number Line Slider
+711,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_711_1000,,,5000,Number Line Slider
+747,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_749_748_x_746,,"745,744,743",5000,Missing Number
+0.27,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_027_1,,,5000,Number Line Slider
+4,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_11_7,,"2,3,5",5000,Subtraction
+0.8,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_08_1,,,5000,Number Line Slider
+24,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_8_3,,"21,11,28",5000,Multiplication
+,instructions,math-instructions1,0,,,False,,,,,instructions
+5,test_response,addition-prompt2,3,0.25,3.231887,False,math_add_2_3,,"7,6,4",5000,Addition
+1,practice_response,number-identification-1,0,0.25,,False,,,"3,6,9",5000,Number Identification
+7,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_16_9,,"6,9,8",5000,Subtraction
+8,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_2_4_6_x,,"9,10,7",5000,Missing Number
+,instructions,math-intro2,0,,,False,,,,,instructions
+645,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_630_635_640_x,,"655,650,660",5000,Missing Number
+534,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_287_534,,287,5000,Number Comparison
+7/4,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_32_14_74,,"4/6,4/2,3/4",5000,Fraction
+1apple,practice_response,ns-number-identification-1,3,0.33,-1,False,,,5apples,5000,Non-symbolic Number Identification
+240,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_60_4,,"180,260,300",5000,Multiplication
+16,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_14_15_x_17,,"18,20,19",5000,Missing Number
+5,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_11_6,,"4,7,6",5000,Subtraction
+36,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_4_9,,"32,13,46",5000,Multiplication
+12,test_response,multiplication-prompt1,1,0.25,0.1,False,math_multiply_3_4,,"11,7,8",5000,Multiplication
+856,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_856_1000,,,5000,Number Line Slider
+131,test_response,number-identification-36,0,0.25,-2,False,math_identify_131,,"121,130,132",5000,Number Identification
+9,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_9_10,,,5000,Number Line Slider
+45,test_response,number-identification-8,0,0.25,-2.5,False,math_identify_45,,"65,54,40",5000,Number Identification
+0.8,test_response,number-line-prompt1,0,0.25,0,False,math_line_08_1,,"0.75,0.95,0.9",5000,Number Line 4afc
+,instructions,number-line-instruct1,2,,,False,,,,5000,instructions
+5apples,test_response,ns-number-identification-5,3,0.33,4.832628,False,math_ns_identify_5,,"2apples, 7apples",5000,Non-symbolic Number Identification
+8,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_3_5,,"9,6,10",5000,Addition
+59,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_59_100,,"81,44,76",5000,Number Line 4afc
+,instructions,math-intro2,0,,,False,,,,,instructions
+73,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_73_46,,46,5000,Number Comparison
+2,practice_response,number-line-prompt1,0,0.25,,False,,,"7,3,8",5000,Number Line 4afc
+13,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_10_3,,"14,15,12",5000,Addition
+874,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_874_1000,,,5000,Number Line Slider
+41,test_response,number-identification-27,0,0.25,-2.5,False,math_identify_41,,"31,51,39",5000,Number Identification
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_16_8,,"9,7,6",5000,Subtraction
+2,practice_response,addition-prompt1,1,0.25,,False,,,"0,1,3",5000,Addition
+,instructions,math-intro2,0,,,False,,,,,instructions
+104,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_13_8,,"94,101,124",5000,Multiplication
+591,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_591_1000,,"548,695,785",5000,Number Line 4afc
+,instructions,math-intro-fractions,1,,,False,,,,,instructions
+272,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_272_1000,,,5000,Number Line Slider
+72,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_8_9,,"63,92,84",5000,Multiplication
+4,test_response,addition-prompt1,3,0.25,3.214007,False,math_add_1_3,,"5,6,2",5000,Addition
+95,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_95_100,,,5000,Number Line Slider
+143,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_143_1000,,,5000,Number Line Slider
+125,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_25_5,,"100,150,175",5000,Multiplication
+5,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_5_10,,"6,4,3",5000,Number Line 4afc
+,instructions,math-intro2,2,,,False,,,,,instructions
+28,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_46_18,,"22,32,38",5000,Subtraction
+16,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_23_7,,"17,13,14",5000,Subtraction
+71,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_71_100,,,5000,Number Line Slider
+70,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_10_7,,"77,107,67",5000,Multiplication
+66,test_response,number-identification-31,0,0.25,-2.5,False,math_identify_66,,"99,76,36",5000,Number Identification
+,instructions,math-instructions1-heavy,3,,-1,False,,,,,instructions
+4,test_response,addition-prompt1,1,0.25,-1.5,False,math_add_1_3,,"5,6,2",5000,Addition
+64,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_8_8,,"48,72,16",5000,Multiplication
+4,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_13_9,,"6,3,5",5000,Subtraction
+64,test_response,addition-prompt2,1,0.25,-1,False,math_add_38_26,,"54,66,56",5000,Addition
+1404,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_351_4,,"1414,1384,1435",5000,Multiplication
+45,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_45_39,,39,5000,Number Comparison
+5,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_2_3,,"7,6,4",5000,Addition
+1,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_1_10,,"4,3,5",5000,Number Line 4afc
+84,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_21_4,,"86,64,25",5000,Multiplication
+7,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_7_10,,,5000,Number Line Slider
+,instructions,math-intro2-heavy,3,,-1,False,,,,5000,instructions
+2/5,practice_response,addition-prompt1,1,0.25,,False,,,"3/5,1/10,1/2",5000,Fraction
+9,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_9_100,,,5000,Number Line Slider
+1/3,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_23_13_13,,"3/3,1,2/3",5000,Fraction
+10cars,test_response,ns-number-comp-2,3,0.5,5.857157,False,math_ns_compare_10_8,,8cars,5000,Non-symbolic Number Comparison
+0.1,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_01_1,,,5000,Number Line Slider
+39,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_3_13,,"37,36,42",5000,Multiplication
+989,test_response,number-identification-21,0,0.25,-2,False,math_identify_989,,"982,89,980",5000,Number Identification
+2,practice_response,number-comparison-prompt2,3,0.5,-1,False,,,1,5000,Number Comparison
+62,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_62_100,,"50,70,88",5000,Number Line 4afc
+258,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_258_1000,,,5000,Number Line Slider
+143,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_143_1000,,"120,160,183",5000,Number Line 4afc
+87,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_87_100,,,5000,Number Line Slider
+,instructions,math-intro2-heavy,3,,-1,False,,,,5000,instructions
+941,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_941_1000,,"791,735,690",5000,Number Line 4afc
+24,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_11_24,,11,5000,Number Comparison
+5,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_5_10,,,5000,Number Line Slider
+74,test_response,number-identification-14,0,0.25,-2.5,False,math_identify_74,,"79,68,84",5000,Number Identification
+2,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_9_7,,"1,3,4",5000,Subtraction
+38,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_64_26,,"36,37,34",5000,Subtraction
+18,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_18_100,,"30,6,23",5000,Number Line 4afc
+79,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_79_100,,"95,59,63",5000,Number Line 4afc
+9,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_4_5,,"7,8,11",5000,Addition
+2,practice_response,subtraction-prompt1,1,0.25,,False,,,"0,3,6",5000,Subtraction
+6,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_13_7,,"7,8,9",5000,Subtraction
+1,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_13_23_1,,"3,2,2/3",5000,Fraction
+6,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_6_4,,4,5000,Number Comparison
+33,test_response,number-identification-13,0,0.25,-2.5,False,math_identify_33,,"30,43,23",5000,Number Identification
+7/8,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_178_54_78,,"12/4,7/4,12/8",5000,Fraction
+0.1,test_response,number-line-prompt1,0,0.25,0,False,math_line_01_1,,"0.25,0.3,0.4",5000,Number Line 4afc
+82,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_69_82,,69,5000,Number Comparison
+9apples,test_response,ns-number-comp-1,3,0.5,6.02551,False,math_ns_compare_9_6,,6apples,5000,Non-symbolic Number Comparison
+7,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_15_8,,"6,8,9",5000,Subtraction
+22,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_22_19,,19,5000,Number Comparison
+8,test_response,multiplication-prompt1,1,0.25,0.1,False,math_multiply_4_2,,"6,10,4",5000,Multiplication
+0.45,test_response,number-line-prompt1,0,0.25,0,False,math_line_045_1,,"0.6,0.25,0.3",5000,Number Line 4afc
+,instructions,math-intro2,2,,,False,,,,,instructions
+7,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_10_3,,"6,8,5",5000,Subtraction
+13,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_3_8_x_18,,"16,14,10",5000,Missing Number
+98,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_98_100,,,5000,Number Line Slider
+676,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_676_1000,,,5000,Number Line Slider
+12,test_response,number-identification-5,0,0.25,-2.5,False,math_identify_12,,"6,11,21",5000,Number Identification
+67,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_67_100,,"51,83,89",5000,Number Line 4afc
+2890,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_289_10,,"2860,2920,2940",5000,Multiplication
+2/3,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_39_13_23,,"4/12,5/9,7/9",5000,Fraction
+9,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_14_5,,"8,10,11",5000,Subtraction
+30,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_20_x_40_50,,"10,60,35",5000,Missing Number
+6,test_response,number-identification-22,0,0.25,-2.5,False,math_identify_6,,"9,15,5",5000,Number Identification
+42,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_14_3,,"39,48,24",5000,Multiplication
+0.2,test_response,number-line-prompt1,0,0.25,0,False,math_line_02_1,,"0.45,0.05,0.35",5000,Number Line 4afc
+7cars,test_response,ns-number-identification-7,3,0.33,4.497294,False,math_ns_identify_7,,"3cars, 9cars",5000,Non-symbolic Number Identification
+37,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_37_100,,"45,28,55",5000,Number Line 4afc
+40,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_30_35_x_45,,"50,25,55",5000,Missing Number
+9,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_12_3,,"8,7,10",5000,Subtraction
+18,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_24_6,,"17,16,19",5000,Subtraction
+644,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_644_1000,,"795,451,910",5000,Number Line 4afc
+632,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_623_632,,623,5000,Number Comparison
+67,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_65_67,,65,5000,Number Comparison
+507,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_507_1000,,"352,674,705",5000,Number Line 4afc
+99,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_9_11,,"89,91,96",5000,Multiplication
+5,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_5_1000,,,5000,Number Line Slider
+65,test_response,number-identification-16,0,0.25,-2.5,False,math_identify_65,,"60,55,56",5000,Number Identification
+2,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_2_10,,"0,4,5",5000,Number Line 4afc
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_9_1,,"7,9,10",5000,Subtraction
+20,practice_response,missing-number-prompt2,0,0.25,-2,False,,,"25,30,35",5000,Missing Number
+965,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_867_965,,867,5000,Number Comparison
+12,test_response,number-comparison-prompt2,3,0.5,4.47167,False,math_compare_10_12,,10,5000,Number Comparison
+11,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_3_8,,"12,10,9",5000,Addition
+0.34,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_034_1,,,5000,Number Line Slider
+738,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_738_1000,,"600,808,778",5000,Number Line 4afc
+,instructions,math-intro2,0,,,False,,,,,instructions
+0.34,test_response,number-line-prompt1,0,0.25,0,False,math_line_034_1,,"0.19,0.5,0.05",5000,Number Line 4afc
+600,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_6_100,,"106,500,900",5000,Multiplication
+3,practice_response,number-line-slider-prompt1,2,0.1,,False,,,,5000,Number Line Slider
+5/14,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_17_314_514,,"1/2,2/7,3/7",5000,Fraction
+984,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_984_1000,,"954,880,934",5000,Number Line 4afc
+62,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_62_100,,,5000,Number Line Slider
+7/12,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_512_16_712,,"1/3,6/12,2/3",5000,Fraction
+1/90,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_19_110_190,,"9/90,8/90,1/30",5000,Fraction
+4,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_9_5,,"6,5,3",5000,Subtraction
+0.9,test_response,number-line-prompt1,0,0.25,0,False,math_line_09_1,,"0.7,0.8,0.75",5000,Number Line 4afc
+350,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_348_349_x_351,,"347,346,352",5000,Missing Number
+1/4,practice_response,subtraction-prompt1,1,0.25,,False,,,"3/4,2/4,3/5",5000,Fraction
+700,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_7_100,,"107,800,7000",5000,Multiplication
+21,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_21_100,,,5000,Number Line Slider
+9,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_9_100,,"7,11,5",5000,Number Line 4afc
+6,test_response,multiplication-prompt1,1,0.25,0.1,False,math_multiply_2_3,,"5,9,8",5000,Multiplication
+14,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_14_100,,"43,29,36",5000,Number Line 4afc
+362,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_362_1000,,"280,267,472",5000,Number Line 4afc
+88,test_response,number-identification-33,0,0.25,-2.5,False,math_identify_88,,"98,78,87",5000,Number Identification
+,instructions,counting-intro,3,,-1,False,,,,5000,instructions
+92,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_92_100,,"72,80,69",5000,Number Line 4afc
+54,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_9_6,,"56,58,45",5000,Multiplication
+417,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_417_1000,,"256,592,202",5000,Number Line 4afc
+10,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_1_9,,"13,11,12",5000,Addition
+258,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_258_1000,,"112,473,413",5000,Number Line 4afc
+23,test_response,number-identification-10,0,0.25,-2.5,False,math_identify_23,,"32,21,43",5000,Number Identification
+22,test_response,number-identification-7,0,0.25,-2.5,False,math_identify_22,,"44,52,20",5000,Number Identification
+0.87,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_087_1,,,5000,Number Line Slider
+76,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_76_1000,,,5000,Number Line Slider
+35,test_response,number-identification-26,0,0.25,-2.5,False,math_identify_35,,"25,40,30",5000,Number Identification
+3,practice_response,number-line-prompt1,0,0.25,,False,,,"5,6,1",5000,Number Line 4afc
+12,practice_response,number-comparison-prompt1,0,0.5,-2.5,False,,,10,5000,Number Comparison
+,instructions,number-line-instruct1,2,,,False,,,,5000,instructions
+1,practice_response,subtraction-prompt1,1,0.25,,False,,,"3,5,2",5000,Subtraction
+Correct,test_response,counting-1,3,,5.058593,False,math_ns_count_7,,"Correct,Incorrect",5000,Counting
+4,practice_response,multiplication-prompt1,1,0.25,,False,,,"8,6,5",5000,Multiplication
+83,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_83_100,,"71,97,60",5000,Number Line 4afc
+831,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_831_1000,,,5000,Number Line Slider
+4,test_response,addition-prompt1,3,0.25,4.211188,False,math_add_2_2,,"5,2,0",5000,Addition
+1,test_response,subtraction-prompt1,1,0.25,-1.4,False,math_subtract_6_5,,"2,3,5",5000,Subtraction
+46,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_46_100,,,5000,Number Line Slider
+18,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_27_9,,"20,17,19",5000,Subtraction
+19,test_response,addition-prompt2,1,0.25,-1,False,math_add_13_6,,"18,17,20",5000,Addition
+78,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_26_3,,"68,76,88",5000,Multiplication
+405,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_45_9,,"365,409,393",5000,Multiplication
+8,practice_response,number-comparison-prompt1,0,0.5,,False,,,4,5000,Number Comparison
+13,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_6_7,,"15,11,12",5000,Addition
+0.71,test_response,number-line-prompt1,0,0.25,0,False,math_line_071_1,,"0.62,0.85,0.8",5000,Number Line 4afc
+24,test_response,number-comparison-prompt2,3,0.5,3.539683,False,math_compare_11_24,,11,5000,Number Comparison
+9,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_12_3,,"8,7,10",5000,Subtraction
+59,test_response,addition-prompt2,1,0.25,-1,False,math_add_22_37,,"69,51,49",5000,Addition
+42,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_42_100,,,5000,Number Line Slider
+900,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_45_20,,"800,950,850",5000,Multiplication
+8,practice_response,number-identification-42,0,0.25,,False,,,"2,5,9",5000,Number Identification
+186,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_186_1000,,"160,206,248",5000,Number Line 4afc
+39,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_39_23,,23,5000,Number Comparison
+8,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_8_10,,,5000,Number Line Slider
+21,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_21_100,,"15,37,49",5000,Number Line 4afc
+27,test_response,addition-prompt2,1,0.25,-1,False,math_add_13_14,,"26,29,25",5000,Addition
+2,test_response,,,,,False,math_identify_2,,"5,4,7",,Number Identification
+478,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_478_1000,,"375,580,428",5000,Number Line 4afc
+975,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_325_3,,"950,875,850",5000,Multiplication
+3/10,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_710_25_310,,"5/10,1/5,5/5",5000,Fraction
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_13_5,,"7,9,6",5000,Subtraction
+22,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_59_37,,"21,19,23",5000,Subtraction
+21,test_response,addition-prompt2,1,0.25,-1,False,math_add_14_7,,"19,23,22",5000,Addition
+362,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_362_1000,,,5000,Number Line Slider
+426,test_response,number-identification-35,0,0.25,-2,False,math_identify_426,,"146,420,462",5000,Number Identification
+8,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_8_1,,"9,16,1",5000,Multiplication
+15,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_7_8,,"13,17,19",5000,Addition
+79,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_79_100,,,5000,Number Line Slider
+385,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_385_1000,,"280,490,437",5000,Number Line 4afc
+6,test_response,number-comparison-prompt2,3,0.5,4.670475,False,math_compare_6_4,,4,5000,Number Comparison
+101,test_response,number-identification-34,0,0.25,-2,False,math_identify_101,,"111,100,110",5000,Number Identification
+7,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_19_12,,"6,9,8",5000,Subtraction
+83,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_83_100,,,5000,Number Line Slider
+26,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_28_x_24_22,,"27,20,29",5000,Missing Number
+41,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_41_1000,,,5000,Number Line Slider
+7,test_response,addition-prompt1,1,0.25,-1.5,False,math_add_5_2,,"8,9,6",5000,Addition
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_18_10,,"7,10,9",5000,Subtraction
+5/16,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_34_716_516,,"1/4,3/8,7/16",5000,Fraction
+21,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_7_3,,"11,20,19",5000,Multiplication
+461,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_461_1000,,,5000,Number Line Slider
+6,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_8_2,,"5,4,7",5000,Subtraction
+1,practice_response,subtraction-prompt1,1,0.25,,False,,,"3,5,2",5000,Subtraction
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_14_6,,"7,6,9",5000,Subtraction
+42,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_62_52_x_32_22,,"72,44,12",5000,Missing Number
+3,practice_response,number-line-slider-prompt1,2,0.1,,False,,,,5000,Number Line Slider
+310,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_310_1000,,"150,460,210",5000,Number Line 4afc
+12,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_10_2,,"14,13,11",5000,Addition
+20,test_response,addition-prompt2,1,0.25,-1,False,math_add_3_17,,"19,21,22",5000,Addition
+22,test_response,addition-prompt2,1,0.25,-1,False,math_add_8_14,,"20,23,21",5000,Addition
+50,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_50_100,,"40,60,30",5000,Number Line 4afc
+4,practice_response,addition-prompt1,1,0.25,,False,,,"5,2,0",5000,Addition
+11/15,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_13_25_1115,,"2/3,3/8,4/5",5000,Fraction
+25,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_78_53,,"26,36,35",5000,Subtraction
+8,test_response,counting-1,3,0.33,4.331149,False,math_count_8,,"3,7",5000,Counting AFC
+800,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_x_700_600_500,,"400,900,300",5000,Missing Number
+10apples,test_response,ns-number-identification-10,3,0.33,4.693606,False,math_ns_identify_10,,"9apples, 8apples",5000,Non-symbolic Number Identification
+13,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_21_8,,"14,11,12",5000,Subtraction
+,instructions,math-intro2-heavy,3,,-1,False,,,,5000,instructions
+3460,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_346_10,,"356,3640,3046",5000,Multiplication
+46,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_46_100,,"60,39,58",5000,Number Line 4afc
+8,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_6_2,,"9,7,12",5000,Addition
+478,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_478_1000,,,5000,Number Line Slider
+2,practice_response,number-line-slider-prompt1,2,0.1,,False,,,,5000,Number Line Slider
+4,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_8_4,,"6,5,2",5000,Subtraction
+98,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_98_100,,"68,83,71",5000,Number Line 4afc
+2,practice_response,addition-prompt1,1,0.25,-1.5,False,,,"0,1,3",5000,Addition
+738,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_738_1000,,,5000,Number Line Slider
+9,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_1,,"7,10,11",5000,Addition
+,instructions,math-intro-fractions,1,,,False,,,,,instructions
+20,practice_response,missing-number-prompt2,0,0.25,,False,,,"25,30,35",5000,Missing Number
+,instructions,math-intro1,0,,,False,,,,,instructions
+2,test_response,subtraction-prompt1,1,0.25,-1.4,False,math_subtract_5_3,,"3,4,5",5000,Subtraction
+58,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_58_49,,49,5000,Number Comparison
+12,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_18_6,,"10,13,11",5000,Subtraction
+,instructions,math-intro2,1,,,False,,,,,instructions
+6,practice_response,number-line-prompt1,0,0.25,,False,,,"7,3,8",5000,Number Line 4afc
+644,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_644_1000,,,5000,Number Line Slider
+742,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_742_673,,673,5000,Number Comparison
+861,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_823_861,,823,5000,Number Comparison
+91,test_response,number-identification-12,0,0.25,-2.5,False,math_identify_91,,"71,1,90",5000,Number Identification
+349,test_response,number-identification-38,0,0.25,-2,False,math_identify_349,,"379,319,394",5000,Number Identification
+83,test_response,addition-prompt2,1,0.25,-1,False,math_add_29_54,,"73,85,87",5000,Addition
+18,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_25_7,,"19,17,16",5000,Subtraction
+86,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_43_2,,"68,45,96",5000,Multiplication
+25,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_25_100,,,5000,Number Line Slider
+7,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_7_10,,"5,4,9",5000,Number Line 4afc
+256,test_response,number-identification-37,0,0.25,-2,False,math_identify_256,,"156,276,226",5000,Number Identification
+4,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_4_10,,"6,1,2",5000,Number Line 4afc
+33,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_33_100,,"22,44,11",5000,Number Line 4afc
+Correct,test_response,counting-1,3,,6.78901,False,math_ns_count_3,,"Correct,Incorrect",5000,Counting
+9,test_response,multiplication-prompt1,1,0.25,0.1,False,math_multiply_9_1,,"7,8,10",5000,Multiplication
+3/4,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_14_24_34,,"2/4,1,3/8",5000,Fraction
+16,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_8,,"14,18,17",5000,Addition
+542,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_542_1000,,,5000,Number Line Slider
+180,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_90_2,,"160,200,210",5000,Multiplication
+7,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_7_100,,"33,41,25",5000,Number Line 4afc
+78,test_response,addition-prompt2,1,0.25,-1,False,math_add_48_30,,"82,74,87",5000,Addition
+13,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_19_6,,"11,12,14",5000,Subtraction
+,instructions,math-intro2,1,,,False,,,,,instructions
+385,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_385_1000,,,5000,Number Line Slider
+0.9,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_09_1,,,5000,Number Line Slider
+507,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_507_1000,,,5000,Number Line Slider
+20,test_response,addition-prompt2,1,0.25,-1,False,math_add_16_4,,"19,22,23",5000,Addition
+,instructions,math-intro2-heavy,3,,-1,False,,,,5000,instructions
+461,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_461_1000,,"304,611,193",5000,Number Line 4afc
+2apples,practice_response,ns-number-comp-1,3,0.5,-1,False,,,1apple,5000,Non-symbolic Number Comparison
+14,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_6,,"13,15,12",5000,Addition
+3,practice_response,missing-number-prompt1,0,0.25,,False,,,"0,5,2",5000,Missing Number
+42,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_7_6,,"24,44,32",5000,Multiplication
+,instructions,math-intro2,1,,,False,,,,,instructions
+7,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_1_6,,"6,5,8",5000,Addition
+0.6,test_response,number-line-prompt1,0,0.25,0,False,math_line_06_1,,"0.65,0.55,0.7",5000,Number Line 4afc
+2,practice_response,addition-prompt1,3,0.25,-1,False,,,"0,1,3",5000,Addition
+8,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_11_3,,"9,7,6",5000,Subtraction
+6,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_6_10,,"3,4,8",5000,Number Line 4afc
+7/12,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_28_39_712,,"5/17,5/9,45/72",5000,Fraction
+26,test_response,addition-prompt2,1,0.25,-1,False,math_add_12_14,,"24,28,25",5000,Addition
+9,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_17_8,,"8,11,7",5000,Subtraction
+14,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_5_9,,"13,15,16",5000,Addition
+926,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_926_1000,,,5000,Number Line Slider
+10,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_12_2,,"9,11,8",5000,Subtraction
+2/5,practice_response,addition-prompt1,1,0.25,,False,,,"3/5,1/10,1/2",5000,Fraction
+84,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_21_4,,"86,64,25",5000,Multiplication
+2,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_10_8,,"3,4,5",5000,Subtraction
+8,practice_response,number-comparison-prompt1,0,0.5,-2.5,False,,,4,5000,Number Comparison
+108,test_response,number-identification-17,0,0.25,-2,False,math_identify_108,,"109,100,8",5000,Number Identification
+92,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_92_100,,,5000,Number Line Slider
+Correct,test_response,counting-1,3,,4.846012,False,math_ns_count_9,,"Correct,Incorrect",5000,Counting
+840,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_42_20,,"820,860,880",5000,Multiplication
+926,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_926_1000,,"970,816,968",5000,Number Line 4afc
+71,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_71_100,,"91,55,86",5000,Number Line 4afc
+1/4,practice_response,subtraction-prompt1,1,0.25,,False,,,"3/4,2/4,3/5",5000,Fraction
+4,practice_response,addition-prompt1,1,0.25,,False,,,"5,2,0",5000,Addition
+3,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_6_3,,"9,5,4",5000,Subtraction
+19,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_21_20_x_18,,"22,23,24",5000,Missing Number
+,instructions,math-intro2,0,,,False,,,,,instructions
+23,test_response,addition-prompt2,1,0.25,-1,False,math_add_17_6,,"25,22,21",5000,Addition
+874,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_874_1000,,"974,914,980",5000,Number Line 4afc
+711,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_711_1000,,"610,815,761",5000,Number Line 4afc
+32,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_4_8,,"34,28,40",5000,Multiplication
+0.75,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_075_1,,,5000,Number Line Slider
+Correct,test_response,counting-2,3,,,False,math_ns_count_10,,"Correct,Incorrect",5000,Counting
+0.4,test_response,number-line-prompt1,0,0.25,0,False,math_line_04_1,,"0.15,0.25,0.3",5000,Number Line 4afc
+0.12,test_response,number-line-prompt1,0,0.25,0,False,math_line_012_1,,"0.3,0.41,0.19",5000,Number Line 4afc
+984,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_984_1000,,,5000,Number Line Slider
+5/8,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_18_48_58,,"5/16,4/16,3/8",5000,Fraction
+12,test_response,number-identification-5,3,0.25,3.030762,False,math_identify_12,,"6,11,21",5000,Number Identification
+17,test_response,addition-prompt2,1,0.25,-1,False,math_add_5_12,,"16,18,19",5000,Addition
+3,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_12_9,,"4,2,5",5000,Subtraction
+5cars,test_response,ns-number-comp-2,3,0.5,5.911805,False,math_ns_compare_5_3,,3cars,5000,Non-symbolic Number Comparison
+8,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_8_10,,"10,6,5",5000,Number Line 4afc
+161,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_7_23,,"116,121,187",5000,Multiplication
+8,practice_response,number-identification-42,0,0.25,,False,,,"2,5,9",5000,Number Identification
+0.75,test_response,number-line-prompt1,0,0.25,0,False,math_line_075_1,,"0.6,0.55,0.9",5000,Number Line 4afc
+15,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_28_13,,"16,13,14",5000,Subtraction
+0.27,test_response,number-line-prompt1,0,0.25,0,False,math_line_027_1,,"0.15,0.38,0.41",5000,Number Line 4afc
+,instructions,math-intro2,1,,,False,,,,,instructions
+14,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_16_15_x_13,,"17,12,10",5000,Missing Number
+7apples,test_response,ns-number-comp-1,3,0.5,6.146,False,math_ns_compare_7_4,,4apples,5000,Non-symbolic Number Comparison
+0.6,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_06_1,,,5000,Number Line Slider
+3,practice_response,missing-number-prompt1,0,0.25,-2,False,,,"0,5,2",5000,Missing Number
+310,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_310_1000,,,5000,Number Line Slider
+840,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_20_42,,"820,860,880",5000,Multiplication
+1,test_response,counting-1,3,0.33,7.027498,False,math_count_1,,"4,6",5000,Counting AFC
+310,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_310_1000,,"150,460,210",5000,Number Line 4afc
+9,test_response,number-identification-3,3,0.25,4.017904,False,math_identify_9,,"0,8,3",5000,Number Identification
+9,test_response,number-identification-3,0,0.25,-2.5,False,math_identify_9,,"0,8,3",5000,Number Identification
+4,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_4_10,,,5000,Number Line Slider
+7,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_12_5,,"6,8,9",5000,Subtraction
+5,practice_response,multiplication-prompt1,1,0.25,,False,,,"6,3,10",5000,Multiplication
+7,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_7_100,,,5000,Number Line Slider
+272,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_272_1000,,"240,292,330",5000,Number Line 4afc
+3,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_1_x_5_7,,"0,2,4",5000,Missing Number
+28,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_2_14,,"24,26,16",5000,Multiplication
+35,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_5_7,,"30,45,55",5000,Multiplication
+39,test_response,number-identification-9,0,0.25,-2.5,False,math_identify_39,,"29,38,79",5000,Number Identification
+126,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_126_1000,,,5000,Number Line Slider
+307,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_307_198,,198,5000,Number Comparison
+14,test_response,number-identification-23,0,0.25,-2.5,False,math_identify_14,,"24,12,4",5000,Number Identification
+59,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_59_100,,,5000,Number Line Slider
+30,test_response,number-identification-6,0,0.25,-2.5,False,math_identify_30,,"20,60,13",5000,Number Identification
+36,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_27_36,,27,5000,Number Comparison
+30,test_response,addition-prompt2,1,0.25,-1,False,math_add_23_7,,"27,32,31",5000,Addition
+4380,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_219_20,,"2190,4830,4240",5000,Multiplication
+24,test_response,addition-prompt2,1,0.25,-1,False,math_add_5_19,,"26,23,21",5000,Addition
+6,test_response,counting-2,3,0.33,4.503934,False,math_count_6,,"5,9",5000,Counting AFC
+18,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_10,,"19,17,16",5000,Addition
+,instructions,math-intro2,0,,,False,,,,,instructions
+3,test_response,subtraction-prompt1,1,0.25,-1.4,False,math_subtract_7_4,,"2,5,4",5000,Subtraction
+214,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_214_1000,,"244,157,260",5000,Number Line 4afc
+0.12,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_012_1,,,5000,Number Line Slider
+6,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_3_3,,"4,7,8",5000,Addition
+,instructions,counting-intro-afc,3,,-1,False,,,,5000,instructions
+Correct,test_response,counting-2,3,,5.504285,False,math_ns_count_5,,"Correct,Incorrect",5000,Counting
+95,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_95_100,,"85,90,75",5000,Number Line 4afc
+2cars,test_response,ns-number-identification-2,3,0.33,6.867856,False,math_ns_identify_2,,"6cars, 4cars",5000,Non-symbolic Number Identification
+5,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_17_12,,"6,4,3",5000,Subtraction
+48,test_response,number-identification-11,0,0.25,-2.5,False,math_identify_48,,"58,40,84",5000,Number Identification
+4,practice_response,multiplication-prompt1,1,0.25,,False,,,"8,6,5",5000,Multiplication
+140,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_70_2,,"120,160,180",5000,Multiplication
+67,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_67_100,,,5000,Number Line Slider
+543,test_response,number-identification-39,0,0.25,-2,False,math_identify_543,,"513,593,523",5000,Number Identification
+0.71,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_071_1,,,5000,Number Line Slider
+25,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_25_100,,"10,45,5",5000,Number Line 4afc
+,instructions,math-intro2,0,,,False,,,,,instructions
+14,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_14_100,,,5000,Number Line Slider
+617,test_response,number-identification-40,0,0.25,-2,False,math_identify_617,,"627,619,671",5000,Number Identification
+4,test_response,counting-1,3,0.33,5.953466,False,math_count_4,,"1,2",5000,Counting AFC
+12,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_9_3,,"13,10,14",5000,Addition
+10,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_7_3,,"11,9,8",5000,Addition
+8,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_5_6_7_x,,"9,10,12",5000,Missing Number
+520,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_550_540_530_x,,"510,500,525",5000,Missing Number
+0.56,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_056_1,,,5000,Number Line Slider
+18,test_response,number-identification-24,0,0.25,-2.5,False,math_identify_18,,"9,17,16",5000,Number Identification
+25,test_response,addition-prompt2,1,0.25,-1,False,math_add_18_7,,"23,24,26",5000,Addition
+5,practice_response,multiplication-prompt1,1,0.25,,False,,,"6,3,10",5000,Multiplication
+,instructions,math-intro1,0,,,False,,,,,instructions
+941,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_941_1000,,,5000,Number Line Slider
+6,test_response,number-identification-22,3,0.25,4.80035,False,math_identify_6,,"9,15,5",5000,Number Identification
+186,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_186_1000,,,5000,Number Line Slider
+1,practice_response,number-identification-1,0,0.25,-2.5,False,,,"3,6,9",5000,Number Identification
+1/4,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_512_16_14,,"4/12,4/6,5/12",5000,Fraction
+15,test_response,addition-prompt2,1,0.25,-1,False,math_add_11_4,,"13,16,14",5000,Addition
+1,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_1_10,,,5000,Number Line Slider
+0.4,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_04_1,,,5000,Number Line Slider
+591,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_591_1000,,,5000,Number Line Slider
+782,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_782_1000,,"580,885,692",5000,Number Line 4afc
+12,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_26_14,,"13,11,15",5000,Subtraction
+6,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_6_10,,,5000,Number Line Slider
+639,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_639_1000,,,5000,Number Line Slider
+877,test_response,number-identification-41,0,0.25,-2,False,math_identify_877,,"707,787,747",5000,Number Identification
+30,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_6_5,,"35,25,11",5000,Multiplication
+153,test_response,number-comparison-prompt2,0,0.5,-2,False,math_compare_146_153,,146,5000,Number Comparison
+480,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_10_48,,"408,840,464",5000,Multiplication
+5,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_5_1000,,"155,205,275",5000,Number Line 4afc
+13,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_3_8_x_18,,"16,14,10",5000,Missing Number
+9,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_9_10,,"6,3,7",5000,Number Line 4afc
+1/2,test_response,addition-prompt2,1,0.25,0.5,False,math_fraction_16_13_12,,"2/9,2/3,5/6",5000,Fraction
+33,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_33_100,,,5000,Number Line Slider
+67,test_response,number-identification-32,0,0.25,-2.5,False,math_identify_67,,"63,27,23",5000,Number Identification
+17,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_9_8,,"19,15,16",5000,Addition
+496,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_62_8,,"472,596,622",5000,Multiplication
+3,practice_response,number-line-prompt1,0,0.25,,False,,,"5,6,1",5000,Number Line 4afc
+6,test_response,subtraction-prompt2,1,0.25,-1.4,False,math_subtract_9_3,,"7,4,5",5000,Subtraction
+87,test_response,number-identification-15,0,0.25,-2.5,False,math_identify_87,,"67,78,77",5000,Number Identification
+3,test_response,number-identification-45,3,0.33,5.864559,False,math_identify_3,,"6,2,11",5000,Number Identification
+2,practice_response,subtraction-prompt1,1,0.25,,False,,,"0,3,6",5000,Subtraction
+15,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_5_3,,"10,8,20",5000,Multiplication
+3/8,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_48_18_38,,"3,3/4,3/0",5000,Fraction
+94,test_response,number-comparison-prompt2,0,0.5,-2.5,False,math_compare_94_78,,78,5000,Number Comparison
+587,test_response,number-identification-19,0,0.25,-2,False,math_identify_587,,"687,87,507",5000,Number Identification
+831,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_831_1000,,"781,931,631",5000,Number Line 4afc
+120,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_x_110_100_90_80,,"130,140,150",5000,Missing Number
+50,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_50_100,,,5000,Number Line Slider
+2,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_2_10,,,5000,Number Line Slider
+639,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_639_1000,,"449,789,859",5000,Number Line 4afc
+12,test_response,subtraction-prompt2,1,0.25,-0.9,False,math_subtract_37_24,,"10,13,14",5000,Subtraction
+542,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_542_1000,,"392,732,273",5000,Number Line 4afc
+11,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_5_6,,"10,9,12",5000,Addition
+3160,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_158_20,,"3120,3220,3260",5000,Multiplication
+15,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_6_9,,"17,13,14",5000,Addition
+42,test_response,number-line-prompt1,0,0.25,-0.5,False,math_line_42_100,,"64,27,57",5000,Number Line 4afc
+56,test_response,multiplication-prompt2,1,0.25,0.2,False,math_multiply_7_8,,"57,65,54",5000,Multiplication
+731,test_response,number-identification-20,0,0.25,-2,False,math_identify_731,,"703,31,730",5000,Number Identification
+245,test_response,number-identification-18,0,0.25,-2,False,math_identify_245,,"250,205,240",5000,Number Identification
+5,test_response,missing-number-prompt2,0,0.25,-2,False,math_missing_9_7_x_3,,"6,4,1",5000,Missing Number
+18,test_response,number-line-slider-prompt1,2,0.1,-0.5,False,math_slider_18_100,,,5000,Number Line Slider
+13,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_5,,"15,11,16",5000,Addition
+12,test_response,multiplication-prompt2,1,0.25,0.1,False,math_multiply_6_2,,"8,13,10",5000,Multiplication
+76,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_76_1000,,"48,98,106",5000,Number Line 4afc
+55,test_response,number-identification-30,0,0.25,-2.5,False,math_identify_55,,"65,50,58",5000,Number Identification
+50,test_response,number-identification-29,0,0.25,-2.5,False,math_identify_50,,"60,45,57",5000,Number Identification
+1,test_response,subtraction-prompt1,1,0.25,-1.4,False,math_subtract_4_3,,"2,3,4",5000,Subtraction
+856,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_856_1000,,"785,806,970",5000,Number Line 4afc
+0.2,test_response,number-line-slider-prompt1,2,0.1,0,False,math_slider_02_1,,,5000,Number Line Slider
+6,practice_response,number-line-slider-prompt1,2,0.1,,False,,,,5000,Number Line Slider
+14,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_8_6,,"16,18,12",5000,Addition
+41,test_response,number-line-prompt1,0,0.25,-0.2,False,math_line_41_1000,,"35,25,58",5000,Number Line 4afc
+782,test_response,number-line-slider-prompt1,2,0.1,-0.2,False,math_slider_782_1000,,,5000,Number Line Slider
+2,practice_response,counting-2,3,0.33,-1,False,,,8,5000,Counting AFC
+1/6,test_response,subtraction-prompt2,1,0.25,0.6,False,math_fraction_12_13_16,,"2/6,1/3,3/6",5000,Fraction
+640,test_response,multiplication-prompt2,1,0.25,0.3,False,math_multiply_20_32,,"620,520,540",5000,Multiplication
+12,test_response,addition-prompt2,1,0.25,-1.5,False,math_add_3_9,,"11,13,14",5000,Addition
