@@ -1,0 +1,8 @@
+[console_scripts]
+build-corpus = change_check.platform_update.build_corpus:main
+build-survey = change_check.platform_update.update_survey:main
+check-newsource = change_check.source_update.check_source_strings:main
+crowdin-backup = change_check.transition_tools.crowdin_backup:main
+split-corpus = change_check.platform_update.split_corpus:main
+test-ci-edit = change_check.source_update.test_edit_string:main
+update-source-strings = change_check.source_update.update_source_strings:main

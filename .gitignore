@@ -62,3 +62,12 @@ l10n/
 .vercel
 *-key.json
 levante-dashboard-*-key.json
+
+.env
+.env.*
+*.env
+*.venv
+secrets/
+**/secrets/
+change_utils/archive/
+change_utils/build/
