@@ -32,7 +32,7 @@ jobs:
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
           CROWDIN_LEVANTE_PID: ${{ secrets.CROWDIN_LEVANTE_PID }}
-          GOOGLE_APPLICATION_CREDENTIALS_DEV: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV }}
+          GOOGLE_APPLICATION_CREDENTIALS_DEV: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}
 
       - name: Notify Slack
         if: success()
