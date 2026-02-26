@@ -1,4 +1,5 @@
 from crowdin_api import CrowdinClient
+from datetime import datetime
 import os
 import urllib.request
 import xml.etree.ElementTree as et
@@ -43,7 +44,7 @@ def main():
 	# Initialize GCS client
 	storage_client = utils.initialize_gcs()
 	
-	bucket_name = "levante-assets-dev"
+	bucket_name = "levante-assets-draft"
 	bucket = storage_client.bucket(bucket_name)
 	
 	for lang in langs:
@@ -58,7 +59,8 @@ def main():
 		urllib.request.urlretrieve(fileurl, tmp_path)
 		
 		# Upload to GCS bucket
-		gcs_path = f"translations/crowdin-backup/{lang}-backup-platform.xliff"
+		timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+		gcs_path = f"translations/crowdin-backup/{lang}-backup-platform-{timestamp}.xliff"
 		blob = bucket.blob(gcs_path)
 		blob.upload_from_filename(tmp_path, content_type="application/xml")
 		print(f"✅ Uploaded {lang} backup to gs://{bucket_name}/{gcs_path}")

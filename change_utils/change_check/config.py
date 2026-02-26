@@ -1,4 +1,5 @@
 import os
+import warnings
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,56 +18,32 @@ AT_IB_DIFFTABLE = os.getenv("AT_IB_DIFFTABLE")
 AT_SURVEY_DIFFTABLE =  os.getenv("AT_SURVEY_DIFFTABLE")
 AT_TRANSL_REVTABLE = os.getenv("AT_TRANSLATIONS_TABLE")
 
-CROWDIN_TEST = os.getenv("CROWDIN_TESTTOKEN")
-CROWDIN_TESTPID = os.getenv("CROWDIN_TESTPID")
-
-GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV")
 
 # Resolve the credentials path if it's relative
+GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV")
+
+# Local dev: use GOOGLE_APPLICATION_CREDENTIALS_DEV from .env (absolute path recommended).
+# CI/GHA can set GOOGLE_APPLICATION_CREDENTIALS or use secrets later.
+
 GOOGLE_APPLICATION_CREDENTIALS_DEV = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_DEV")
-if GOOGLE_APPLICATION_CREDENTIALS_DEV and not os.path.isabs(GOOGLE_APPLICATION_CREDENTIALS_DEV):
-	# Try resolving from different possible base directories
-	# config.py is in change_utils/change_check/, so:
-	# __file__.parent = change_utils/change_check/
-	# __file__.parent.parent = change_utils/
-	possible_bases = [
-		Path(__file__).parent.parent,  # change_utils/ (where secrets/ is located)
-		Path(__file__).parent.parent.parent,  # workspace root (one level up from change_utils)
-		Path.cwd(),  # Current working directory
-	]
-	
-	resolved_path = None
-	for base in possible_bases:
-		candidate = (base / GOOGLE_APPLICATION_CREDENTIALS_DEV).resolve()
-		if candidate.exists():
-			resolved_path = candidate
-			break
-	
-	if resolved_path:
-		os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(resolved_path)
-	else:
-		# If we can't resolve it, use the original path (might work from CWD)
-		os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_APPLICATION_CREDENTIALS_DEV
-else:
-	os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_APPLICATION_CREDENTIALS_DEV
-
-#Raise error if missing
-REQUIRED = {
-    "LEV_CI":LEV_CI, 
-    "LEV_CI_PID":LEV_CI_PID,
-    "LEV_AT_PAT":LEV_AT_PAT,
-    "LEV_AT_BASE":LEV_AT_BASE,
-    "LEV_AT_SSTABLE":LEV_AT_SSTABLE,
-    "LEV_AT_CORPUSTABLE":LEV_AT_CORPUSTABLE,
-    "AT_TRACKER":AT_TRACKER,
-    "AT_TRACKER_BASE":AT_TRACKER_BASE,
-    "AT_IB_DIFFTABLE":AT_IB_DIFFTABLE,
-    "AT_SURVEY_DIFFTABLE":AT_SURVEY_DIFFTABLE,
-    "AT_TRANSL_REVTABLE":AT_TRANSL_REVTABLE,
-    "CROWDIN_TEST":CROWDIN_TEST,
-    "CROWDIN_TESTPID":CROWDIN_TESTPID
+if GOOGLE_APPLICATION_CREDENTIALS_DEV:
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GOOGLE_APPLICATION_CREDENTIALS_DEV
+# Warn on missing env vars; callers that need a var will fail at use. Allows workflows to pass only the subset they need.
+_ENV_VARS = {
+    "CROWDIN_TOKEN": LEV_CI,
+    "CROWDIN_LEVANTE_PID": LEV_CI_PID,
+    "LEVANTE_AT_PAT": LEV_AT_PAT,
+    "LEVANTE_AT_BASEID": LEV_AT_BASE,
+    "LEVANTE_AT_STRINGSTABLE": LEV_AT_SSTABLE,
+    "LEVANTE_CORPUSTABLE": LEV_AT_CORPUSTABLE,
+    "AT_TRANSLATIONTRACKER": AT_TRACKER,
+    "AT_TRACKER_BASE": AT_TRACKER_BASE,
+    "AT_IB_DIFFTABLE": AT_IB_DIFFTABLE,
+    "AT_SURVEY_DIFFTABLE": AT_SURVEY_DIFFTABLE,
+    "AT_TRANSLATIONS_TABLE": AT_TRANSL_REVTABLE,
+    "GOOGLE_APPLICATION_CREDENTIALS": os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
+    "GOOGLE_APPLICATION_CREDENTIALS_DEV": GOOGLE_APPLICATION_CREDENTIALS_DEV,
 }
-
-for name, value in REQUIRED.items():
+for name, value in _ENV_VARS.items():
     if not value:
-        raise RuntimeError(f"Missing required environment variable: {name}")
+        warnings.warn(f"Missing environment variable: {name}. Some endpoints may fail.", UserWarning, stacklevel=0)
