@@ -28,7 +28,7 @@ jobs:
           pip install -e .
       - name: Set up GCP credentials
         run: |
-          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}' > "$RUNNER_TEMP/gcp-creds.json"
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON }}' > "$RUNNER_TEMP/gcp-creds.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS_DEV=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
   
       - name: Run crowdin-backup
