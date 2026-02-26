@@ -1,3 +1,4 @@
+ 
 name: Crowdin backup
 
 on:
@@ -25,7 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -e .
-
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}' > "$RUNNER_TEMP/gcp-creds.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS_DEV=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+  
       - name: Run crowdin-backup
         id: backup
         run: |
@@ -33,7 +38,6 @@ jobs:
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
           CROWDIN_LEVANTE_PID: ${{ secrets.CROWDIN_LEVANTE_PID }}
-          GOOGLE_APPLICATION_CREDENTIALS_DEV: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_DEV }}
 
       - name: Notify Slack
         if: success()
