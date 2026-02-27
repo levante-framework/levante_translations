@@ -12,6 +12,7 @@ This script:
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import os
 import sqlite3
@@ -32,6 +33,9 @@ from utilities.crowdin_xliff_manager import (
     list_project_languages,
     download_xliff_file,
 )
+import utilities.config as conf
+from utilities.audio_validation import read_audio_metadata
+from utilities.utilities import read_id3_tags, write_id3_tags
 
 def _load_env() -> None:
     try:
@@ -176,13 +180,15 @@ def ensure_db(conn: sqlite3.Connection) -> None:
     )
     conn.execute(
         """
-        CREATE TABLE IF NOT EXISTS items (
+        CREATE TABLE IF NOT EXISTS items_current (
             item_id TEXT NOT NULL,
             lang TEXT NOT NULL,
             task TEXT NOT NULL,
             source_text TEXT,
             target_text TEXT,
-            text_hash TEXT,
+            text_hash TEXT NOT NULL,
+            voice TEXT,
+            service TEXT,
             source_file TEXT,
             run_id INTEGER NOT NULL,
             updated_at TEXT NOT NULL,
@@ -190,12 +196,53 @@ def ensure_db(conn: sqlite3.Connection) -> None:
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS item_versions (
+            version_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            item_id TEXT NOT NULL,
+            lang TEXT NOT NULL,
+            task TEXT NOT NULL,
+            source_text TEXT,
+            target_text TEXT,
+            text_hash TEXT NOT NULL,
+            voice TEXT,
+            service TEXT,
+            source_file TEXT,
+            run_id INTEGER NOT NULL,
+            change_type TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )
+        """
+    )
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_key ON item_versions(item_id, lang, task)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_run ON item_versions(run_id)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_hash ON item_versions(text_hash)")
     conn.commit()
 
 
-def load_existing_hashes(conn: sqlite3.Connection) -> Dict[Tuple[str, str, str], str]:
-    rows = conn.execute("SELECT item_id, lang, task, text_hash FROM items").fetchall()
-    return {(r[0], r[1], r[2]): (r[3] or "") for r in rows}
+def drop_legacy_tables(conn: sqlite3.Connection) -> None:
+    # Legacy table from pre-versioned schema.
+    conn.execute("DROP TABLE IF EXISTS items")
+    conn.commit()
+
+
+def reset_versioned_tables(conn: sqlite3.Connection) -> None:
+    # Start clean while preserving schema definitions.
+    conn.execute("DELETE FROM item_versions")
+    conn.execute("DELETE FROM items_current")
+    conn.execute("DELETE FROM runs")
+    conn.commit()
+
+
+def load_existing_state(conn: sqlite3.Connection) -> Dict[Tuple[str, str, str], Dict[str, str]]:
+    rows = conn.execute(
+        "SELECT item_id, lang, task, text_hash, COALESCE(voice, ''), COALESCE(service, '') FROM items_current"
+    ).fetchall()
+    return {
+        (r[0], r[1], r[2]): {"text_hash": (r[3] or ""), "voice": (r[4] or ""), "service": (r[5] or "")}
+        for r in rows
+    }
 
 
 def seed_from_translation_master(
@@ -239,8 +286,24 @@ def seed_from_translation_master(
                 source_text="",
                 target_text=text,
                 text_hash=_sha256(text),
+                voice="",
+                service="",
                 source_file="translation_master.csv",
                 run_id=run_id,
+            )
+            append_item_version(
+                conn,
+                item_id=item_id,
+                lang=lang,
+                task="*",
+                source_text="",
+                target_text=text,
+                text_hash=_sha256(text),
+                voice="",
+                service="",
+                source_file="translation_master.csv",
+                run_id=run_id,
+                change_type="BASELINE_SEED",
             )
             seeded += 1
     conn.commit()
@@ -268,18 +331,22 @@ def upsert_item(
     source_text: str,
     target_text: str,
     text_hash: str,
+    voice: str,
+    service: str,
     source_file: str,
     run_id: int,
 ) -> None:
     conn.execute(
         """
-        INSERT INTO items (item_id, lang, task, source_text, target_text, text_hash, source_file, run_id, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO items_current (item_id, lang, task, source_text, target_text, text_hash, voice, service, source_file, run_id, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(item_id, lang, task)
         DO UPDATE SET
             source_text=excluded.source_text,
             target_text=excluded.target_text,
             text_hash=excluded.text_hash,
+            voice=excluded.voice,
+            service=excluded.service,
             source_file=excluded.source_file,
             run_id=excluded.run_id,
             updated_at=excluded.updated_at
@@ -291,11 +358,169 @@ def upsert_item(
             source_text,
             target_text,
             text_hash,
+            voice,
+            service,
             source_file,
             run_id,
             datetime.now(timezone.utc).isoformat(),
         ),
     )
+
+
+def append_item_version(
+    conn: sqlite3.Connection,
+    *,
+    item_id: str,
+    lang: str,
+    task: str,
+    source_text: str,
+    target_text: str,
+    text_hash: str,
+    voice: str,
+    service: str,
+    source_file: str,
+    run_id: int,
+    change_type: str,
+) -> None:
+    conn.execute(
+        """
+        INSERT INTO item_versions (
+            item_id, lang, task, source_text, target_text, text_hash,
+            voice, service, source_file, run_id, change_type, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            item_id,
+            lang,
+            task,
+            source_text,
+            target_text,
+            text_hash,
+            voice,
+            service,
+            source_file,
+            run_id,
+            change_type,
+            datetime.now(timezone.utc).isoformat(),
+        ),
+    )
+
+
+def resolve_voice_service(language_map: Dict[str, Dict[str, str]], lang_code: str) -> Tuple[str, str]:
+    for cfg in language_map.values():
+        if cfg.get("lang_code") == lang_code:
+            return cfg.get("voice", ""), cfg.get("service", "")
+
+    # Fallback to base-language match (e.g., es-AR -> es-CO)
+    base = (lang_code or "").split("-")[0]
+    for cfg in language_map.values():
+        cfg_code = cfg.get("lang_code", "")
+        if cfg_code.split("-")[0] == base:
+            return cfg.get("voice", ""), cfg.get("service", "")
+
+    return "", ""
+
+
+def load_item_task_map(csv_path: Path) -> Dict[str, str]:
+    mapping: Dict[str, str] = {}
+    if not csv_path.exists():
+        return mapping
+    try:
+        with csv_path.open("r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                item_id = str(row.get("item_id") or row.get("identifier") or "").strip()
+                task = str(row.get("labels") or row.get("task") or "").strip()
+                if item_id and task:
+                    mapping[item_id] = task
+    except Exception:
+        return {}
+    return mapping
+
+
+def seed_from_audio_directory(
+    conn: sqlite3.Connection,
+    *,
+    audio_base_dir: Path,
+    lang_code: str,
+    run_id: int,
+    item_task_map: Optional[Dict[str, str]] = None,
+    backfill_task_tag: bool = False,
+) -> Dict[str, int]:
+    audio_dir = audio_base_dir / lang_code
+    stats = {
+        "scanned": 0,
+        "seeded": 0,
+        "missing_metadata": 0,
+        "missing_text": 0,
+        "task_backfilled": 0,
+        "task_backfill_failed": 0,
+    }
+    if not audio_dir.exists():
+        return stats
+
+    for mp3 in sorted(audio_dir.glob("*.mp3")):
+        stats["scanned"] += 1
+        meta = read_audio_metadata(str(mp3))
+        if not meta:
+            stats["missing_metadata"] += 1
+            continue
+
+        item_id = str(meta.get("title") or mp3.stem).strip()
+        mapped_task = (item_task_map or {}).get(item_id, "")
+        task = str(meta.get("task") or meta.get("album") or mapped_task or "*").strip() or "*"
+        target_text = str(meta.get("text") or "").strip()
+        voice = str(meta.get("voice") or "").strip()
+        service = str(meta.get("service") or "").strip()
+        stored_lang = str(meta.get("lang_code") or "").strip()
+        # Prefer explicit target folder language when metadata is generic (e.g., "en")
+        # or missing region while requested lang_code is regional (e.g., "en-US").
+        if not stored_lang:
+            stored_lang = lang_code
+        elif "-" in lang_code and stored_lang.split("-")[0] == lang_code.split("-")[0]:
+            stored_lang = lang_code
+        if not target_text:
+            stats["missing_text"] += 1
+            continue
+        if backfill_task_tag and mapped_task and not str(meta.get("task") or "").strip():
+            tags = read_id3_tags(str(mp3))
+            tags["task"] = mapped_task
+            if write_id3_tags(str(mp3), tags):
+                stats["task_backfilled"] += 1
+            else:
+                stats["task_backfill_failed"] += 1
+
+        text_hash = _sha256(target_text)
+        upsert_item(
+            conn,
+            item_id=item_id,
+            lang=stored_lang,
+            task=task,
+            source_text="",
+            target_text=target_text,
+            text_hash=text_hash,
+            voice=voice,
+            service=service,
+            source_file=mp3.name,
+            run_id=run_id,
+        )
+        append_item_version(
+            conn,
+            item_id=item_id,
+            lang=stored_lang,
+            task=task,
+            source_text="",
+            target_text=target_text,
+            text_hash=text_hash,
+            voice=voice,
+            service=service,
+            source_file=mp3.name,
+            run_id=run_id,
+            change_type="AUDIO_BASELINE_SEED",
+        )
+        stats["seeded"] += 1
+    conn.commit()
+    return stats
 
 
 def expected_audio_path(audio_base_dir: str, lang: str, item_id: str) -> str:
@@ -319,6 +544,12 @@ def main() -> int:
     parser.add_argument("--gcs-sync", action="store_true", help="Sync SQLite baseline to GCS (download before run, upload after).")
     parser.add_argument("--gcs-bucket", default=os.getenv("GCS_BASELINE_BUCKET", "levante-assets-draft"))
     parser.add_argument("--gcs-path", default=os.getenv("GCS_BASELINE_PATH", "baselines/itembank_by_task_regen.sqlite"))
+    parser.add_argument("--reset-db", action="store_true", help="Delete current runs/snapshots and start clean with versioned tables.")
+    parser.add_argument("--seed-audio-lang", nargs="+", default=[], help="Seed baseline from local audio_files metadata for these language codes (e.g. en-US).")
+    parser.add_argument("--seed-audio-dir", default="audio_files", help="Base directory that contains per-language audio folders.")
+    parser.add_argument("--audio-seed-only", action="store_true", help="Only seed DB from local audio metadata; skip Crowdin download/parse.")
+    parser.add_argument("--task-map-csv", default=conf.item_bank_translations, help="CSV path used to map item_id -> task (labels) during audio seeding.")
+    parser.add_argument("--backfill-task-tag", action="store_true", help="When audio metadata lacks task, write ID3 task tag using --task-map-csv.")
     parser.add_argument("--verbose", action="store_true")
 
     args = parser.parse_args()
@@ -327,7 +558,7 @@ def main() -> int:
 
     if not args.project_id:
         args.project_id = os.getenv("CROWDIN_PROJECT_ID") or os.getenv("CROWDIN_LEVANTE_PID")
-    if not args.project_id:
+    if not args.project_id and not args.audio_seed_only:
         print("❌ Missing project id. Set --project-id or CROWDIN_PROJECT_ID/CROWDIN_LEVANTE_PID.")
         return 1
 
@@ -338,40 +569,47 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
     report_dir.mkdir(parents=True, exist_ok=True)
 
-    token = get_crowdin_token()
-    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+    matched: List[Dict[str, str]] = []
+    langs: List[str] = []
+    if not args.audio_seed_only:
+        token = get_crowdin_token()
+        headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
-    files = list_project_files(args.project_id, headers)
-    matched = []
-    for file_data in files:
-        data = file_data["data"]
-        path = data.get("path", "").lstrip("/")
-        if path.startswith(prefix):
-            matched.append(data)
+        files = list_project_files(args.project_id, headers)
+        for file_data in files:
+            data = file_data["data"]
+            path = data.get("path", "").lstrip("/")
+            if path.startswith(prefix):
+                matched.append(data)
 
-    if not matched:
-        print(f"❌ No Crowdin files found under '{prefix}'")
-        return 1
+        if not matched:
+            print(f"❌ No Crowdin files found under '{prefix}'")
+            return 1
 
-    langs = args.langs
-    if len(langs) == 1 and langs[0] == "all":
-        lang_rows = list_project_languages(args.project_id, headers)
-        langs = [row["data"]["id"] for row in lang_rows]
-    langs = [lang.strip() for lang in langs if lang.strip()]
+        langs = args.langs
+        if len(langs) == 1 and langs[0] == "all":
+            lang_rows = list_project_languages(args.project_id, headers)
+            langs = [row["data"]["id"] for row in lang_rows]
+        langs = [lang.strip() for lang in langs if lang.strip()]
 
-    if not langs:
-        print("❌ No languages selected.")
-        return 1
+        if not langs:
+            print("❌ No languages selected.")
+            return 1
 
-    if not args.skip_download:
-        for file_info in matched:
-            file_id = file_info["id"]
-            base_name = os.path.splitext(os.path.basename(file_info["path"]))[0]
-            for lang in langs:
-                out_path = output_dir / f"{base_name}-{lang}.xliff"
-                ok = download_xliff_file(args.project_id, headers, file_id, lang, str(out_path), format="xliff")
-                if not ok:
-                    print(f"⚠️  Failed download: {file_info['path']} ({lang})")
+        if not args.skip_download:
+            for file_info in matched:
+                file_id = file_info["id"]
+                base_name = os.path.splitext(os.path.basename(file_info["path"]))[0]
+                for lang in langs:
+                    out_path = output_dir / f"{base_name}-{lang}.xliff"
+                    ok = download_xliff_file(args.project_id, headers, file_id, lang, str(out_path), format="xliff")
+                    if not ok:
+                        print(f"⚠️  Failed download: {file_info['path']} ({lang})")
+    else:
+        langs = [lang.strip() for lang in args.seed_audio_lang if lang.strip()]
+        if not langs:
+            print("❌ --audio-seed-only requires at least one --seed-audio-lang value.")
+            return 1
 
     gcs_generation = None
     if args.gcs_sync:
@@ -383,11 +621,46 @@ def main() -> int:
 
     conn = sqlite3.connect(db_path)
     ensure_db(conn)
-    run_id = write_run(conn, args.project_id, prefix, langs)
+    drop_legacy_tables(conn)
+    if args.reset_db:
+        print("🧹 Resetting versioned SQLite tables (--reset-db)")
+        reset_versioned_tables(conn)
+    run_id = write_run(conn, args.project_id or "audio-seed", prefix or "audio-seed/", langs)
+    try:
+        language_dict = conf.get_languages()
+    except Exception:
+        language_dict = {}
     if args.baseline_from == "master":
         seeded = seed_from_translation_master(conn, Path(args.master_path), run_id)
         print(f"Seeded baseline rows from translation_master.csv: {seeded}")
-    existing_hashes = load_existing_hashes(conn)
+    if args.seed_audio_lang:
+        if args.no_update_db:
+            print("⚠️  --seed-audio-lang ignored because --no-update-db is set.")
+        else:
+            item_task_map = load_item_task_map(Path(args.task_map_csv))
+            if item_task_map:
+                print(f"Loaded task map entries: {len(item_task_map)} from {args.task_map_csv}")
+            for audio_lang in args.seed_audio_lang:
+                stats = seed_from_audio_directory(
+                    conn,
+                    audio_base_dir=Path(args.seed_audio_dir),
+                    lang_code=audio_lang,
+                    run_id=run_id,
+                    item_task_map=item_task_map,
+                    backfill_task_tag=args.backfill_task_tag,
+                )
+                print(
+                    f"Seeded audio metadata for {audio_lang}: "
+                    f"scanned={stats['scanned']}, seeded={stats['seeded']}, "
+                    f"missing_metadata={stats['missing_metadata']}, missing_text={stats['missing_text']}, "
+                    f"task_backfilled={stats['task_backfilled']}, task_backfill_failed={stats['task_backfill_failed']}"
+                )
+    if args.audio_seed_only:
+        conn.close()
+        print("✅ Audio metadata seeding complete.")
+        print(f"SQLite: {db_path}")
+        return 0
+    existing_state = load_existing_state(conn)
 
     report_rows: List[Dict[str, str]] = []
     change_counts: Dict[str, int] = {}
@@ -411,9 +684,13 @@ def main() -> int:
             source_text = row["source_text"]
             key = (item_id, lang, task)
             new_hash = _sha256(target_text or "")
-            old_hash = existing_hashes.get(key, "")
-            if not old_hash:
-                old_hash = existing_hashes.get((item_id, lang, "*"), "")
+            voice, service = resolve_voice_service(language_dict, lang)
+            old_state = existing_state.get(key)
+            if not old_state:
+                old_state = existing_state.get((item_id, lang, "*"))
+            old_hash = (old_state or {}).get("text_hash", "")
+            old_voice = (old_state or {}).get("voice", "")
+            old_service = (old_state or {}).get("service", "")
 
             reasons: List[str] = []
             if not target_text:
@@ -422,6 +699,10 @@ def main() -> int:
                 reasons.append("NEW_ITEM")
             elif new_hash != old_hash:
                 reasons.append("TEXT_CHANGED")
+            if old_hash and voice and old_voice and voice != old_voice:
+                reasons.append("VOICE_CHANGED")
+            if old_hash and service and old_service and service != old_service:
+                reasons.append("SERVICE_CHANGED")
 
             audio_path = expected_audio_path(args.audio_base_dir, lang, item_id)
             if not args.skip_audio_check and target_text and not os.path.exists(audio_path):
@@ -444,6 +725,7 @@ def main() -> int:
                 )
 
             if not args.no_update_db:
+                change_types = [r for r in reasons if r in {"NEW_ITEM", "TEXT_CHANGED", "VOICE_CHANGED", "SERVICE_CHANGED"}]
                 upsert_item(
                     conn,
                     item_id=item_id,
@@ -452,9 +734,27 @@ def main() -> int:
                     source_text=source_text,
                     target_text=target_text,
                     text_hash=new_hash,
+                    voice=voice,
+                    service=service,
                     source_file=xliff_path.name,
                     run_id=run_id,
                 )
+                existing_state[key] = {"text_hash": new_hash, "voice": voice, "service": service}
+                for change_type in change_types:
+                    append_item_version(
+                        conn,
+                        item_id=item_id,
+                        lang=lang,
+                        task=task,
+                        source_text=source_text,
+                        target_text=target_text,
+                        text_hash=new_hash,
+                        voice=voice,
+                        service=service,
+                        source_file=xliff_path.name,
+                        run_id=run_id,
+                        change_type=change_type,
+                    )
 
     if not args.no_update_db:
         conn.commit()
