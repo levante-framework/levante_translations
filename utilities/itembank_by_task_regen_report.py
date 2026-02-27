@@ -14,9 +14,11 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import os
 import sqlite3
 import sys
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
@@ -108,6 +110,98 @@ def _normalize_prefix(prefix: str) -> str:
     return prefix
 
 
+def normalize_crowdin_lang_code(lang: str) -> str:
+    mapping = {
+        "de": "de-DE",
+    }
+    return mapping.get(lang, lang)
+
+
+def _normalize_lang_candidates(lang: str) -> List[str]:
+    base = (lang or "").split("-")[0]
+    candidates = [lang]
+    if base and base != lang:
+        candidates.append(base)
+    if lang == "de-DE":
+        candidates.append("de")
+    if lang == "en-US":
+        candidates.append("en")
+    if lang == "es-CO":
+        candidates.append("es")
+    return candidates
+
+
+def _load_expected_voice_service_from_local_config() -> Dict[str, Dict[str, str]]:
+    expected: Dict[str, Dict[str, str]] = {}
+    try:
+        langs = conf.get_languages()
+    except Exception:
+        return expected
+    for lang_cfg in langs.values():
+        code = str(lang_cfg.get("lang_code") or "").strip()
+        if not code:
+            continue
+        expected[code] = {
+            "voice": str(lang_cfg.get("voice") or "").strip(),
+            "service": str(lang_cfg.get("service") or "").strip(),
+        }
+    return expected
+
+
+def _load_expected_voice_service_from_dashboard_api(api_url: str) -> Dict[str, Dict[str, str]]:
+    try:
+        with urllib.request.urlopen(api_url, timeout=20) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        return {}
+    raw = payload.get("languages") if isinstance(payload, dict) else None
+    if not isinstance(raw, dict):
+        return {}
+    expected: Dict[str, Dict[str, str]] = {}
+    for _name, data in raw.items():
+        if not isinstance(data, dict):
+            continue
+        code = str(data.get("lang_code") or "").strip()
+        if not code:
+            continue
+        expected[code] = {
+            "voice": str(data.get("voice") or "").strip(),
+            "service": str(data.get("service") or "").strip(),
+        }
+    return expected
+
+
+def _load_expected_voice_service_from_bucket_url(bucket_url: str) -> Dict[str, Dict[str, str]]:
+    try:
+        with urllib.request.urlopen(bucket_url, timeout=20) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        return {}
+    raw = payload.get("languages") if isinstance(payload, dict) else None
+    if not isinstance(raw, dict):
+        return {}
+    expected: Dict[str, Dict[str, str]] = {}
+    for _name, data in raw.items():
+        if not isinstance(data, dict):
+            continue
+        code = str(data.get("lang_code") or "").strip()
+        if not code:
+            continue
+        expected[code] = {
+            "voice": str(data.get("voice") or "").strip(),
+            "service": str(data.get("service") or "").strip(),
+        }
+    return expected
+
+
+def _expected_for_lang(expected_map: Dict[str, Dict[str, str]], lang: str) -> Tuple[str, str]:
+    for candidate in _normalize_lang_candidates(lang):
+        if candidate in expected_map:
+            cfg = expected_map[candidate]
+            return cfg.get("voice", ""), cfg.get("service", "")
+    return "", ""
+
+
 def _sha256(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -136,7 +230,7 @@ def _iter_trans_units(root: ET.Element) -> Iterable[ET.Element]:
             yield elem
 
 
-def parse_xliff_file(path: Path) -> List[Dict[str, str]]:
+def parse_xliff_file(path: Path, *, approved_only: bool = False) -> List[Dict[str, str]]:
     try:
         root = ET.parse(path).getroot()
     except Exception as exc:
@@ -147,6 +241,7 @@ def parse_xliff_file(path: Path) -> List[Dict[str, str]]:
         item_id = tu.attrib.get("resname") or tu.attrib.get("id") or ""
         if not item_id:
             continue
+        approved_attr = str(tu.attrib.get("approved", "")).strip().lower()
         source_el = None
         target_el = None
         for child in list(tu):
@@ -155,11 +250,17 @@ def parse_xliff_file(path: Path) -> List[Dict[str, str]]:
                 source_el = child
             elif tag == "target":
                 target_el = child
+        target_state = str((target_el.attrib.get("state") if target_el is not None else "") or "").strip().lower()
+        is_approved = approved_attr in {"yes", "true", "1"} or target_state in {"final", "signed-off", "approved"}
+        if approved_only and not is_approved:
+            continue
         rows.append(
             {
                 "item_id": item_id,
                 "source_text": _extract_text(source_el),
                 "target_text": _extract_text(target_el),
+                "approved": "1" if is_approved else "0",
+                "target_state": target_state,
             }
         )
     return rows
@@ -215,9 +316,28 @@ def ensure_db(conn: sqlite3.Connection) -> None:
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS items_staged (
+            item_id TEXT NOT NULL,
+            lang TEXT NOT NULL,
+            task TEXT NOT NULL,
+            source_text TEXT,
+            target_text TEXT,
+            text_hash TEXT NOT NULL,
+            approved INTEGER NOT NULL DEFAULT 0,
+            target_state TEXT,
+            source_file TEXT,
+            run_id INTEGER NOT NULL,
+            updated_at TEXT NOT NULL,
+            PRIMARY KEY (item_id, lang, task)
+        )
+        """
+    )
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_key ON item_versions(item_id, lang, task)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_run ON item_versions(run_id)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_hash ON item_versions(text_hash)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_items_staged_lang ON items_staged(lang)")
     conn.commit()
 
 
@@ -231,6 +351,7 @@ def reset_versioned_tables(conn: sqlite3.Connection) -> None:
     # Start clean while preserving schema definitions.
     conn.execute("DELETE FROM item_versions")
     conn.execute("DELETE FROM items_current")
+    conn.execute("DELETE FROM items_staged")
     conn.execute("DELETE FROM runs")
     conn.commit()
 
@@ -243,6 +364,27 @@ def load_existing_state(conn: sqlite3.Connection) -> Dict[Tuple[str, str, str], 
         (r[0], r[1], r[2]): {"text_hash": (r[3] or ""), "voice": (r[4] or ""), "service": (r[5] or "")}
         for r in rows
     }
+
+
+def load_existing_state_by_item_lang(conn: sqlite3.Connection) -> Dict[Tuple[str, str], Dict[str, str]]:
+    rows = conn.execute(
+        """
+        SELECT item_id, lang, task, text_hash, COALESCE(voice, ''), COALESCE(service, ''), updated_at
+        FROM items_current
+        ORDER BY updated_at DESC
+        """
+    ).fetchall()
+    merged: Dict[Tuple[str, str], Dict[str, str]] = {}
+    for item_id, lang, task, text_hash, voice, service, _updated_at in rows:
+        key = (item_id, lang)
+        row_state = {"text_hash": (text_hash or ""), "voice": (voice or ""), "service": (service or ""), "task": (task or "")}
+        if key not in merged:
+            merged[key] = row_state
+            continue
+        # Prefer non-wildcard task rows over wildcard rows.
+        if merged[key].get("task") == "*" and row_state.get("task") != "*":
+            merged[key] = row_state
+    return merged
 
 
 def seed_from_translation_master(
@@ -406,6 +548,87 @@ def append_item_version(
     )
 
 
+def upsert_staged_item(
+    conn: sqlite3.Connection,
+    *,
+    item_id: str,
+    lang: str,
+    task: str,
+    source_text: str,
+    target_text: str,
+    text_hash: str,
+    approved: bool,
+    target_state: str,
+    source_file: str,
+    run_id: int,
+) -> None:
+    conn.execute(
+        """
+        INSERT INTO items_staged (
+            item_id, lang, task, source_text, target_text, text_hash,
+            approved, target_state, source_file, run_id, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(item_id, lang, task)
+        DO UPDATE SET
+            source_text=excluded.source_text,
+            target_text=excluded.target_text,
+            text_hash=excluded.text_hash,
+            approved=excluded.approved,
+            target_state=excluded.target_state,
+            source_file=excluded.source_file,
+            run_id=excluded.run_id,
+            updated_at=excluded.updated_at
+        """,
+        (
+            item_id,
+            lang,
+            task,
+            source_text,
+            target_text,
+            text_hash,
+            1 if approved else 0,
+            target_state,
+            source_file,
+            run_id,
+            datetime.now(timezone.utc).isoformat(),
+        ),
+    )
+
+
+def compare_staged_vs_current(conn: sqlite3.Connection) -> Dict[str, int]:
+    rows = conn.execute(
+        """
+        SELECT s.item_id, s.lang, s.task, s.text_hash, c.text_hash
+        FROM items_staged s
+        LEFT JOIN items_current c
+          ON c.item_id = s.item_id AND c.lang = s.lang AND c.task = s.task
+        """
+    ).fetchall()
+    by_item_lang = load_existing_state_by_item_lang(conn)
+    stats = {
+        "staged_total": 0,
+        "missing_in_current": 0,
+        "missing_exact_task_but_found_by_item_lang": 0,
+        "text_changed_vs_current": 0,
+        "same_as_current": 0,
+    }
+    for item_id, lang, _task, staged_hash, current_hash in rows:
+        stats["staged_total"] += 1
+        effective_current_hash = current_hash
+        if effective_current_hash is None:
+            fallback = by_item_lang.get((item_id, lang))
+            if fallback:
+                effective_current_hash = fallback.get("text_hash")
+                stats["missing_exact_task_but_found_by_item_lang"] += 1
+        if effective_current_hash is None:
+            stats["missing_in_current"] += 1
+        elif (staged_hash or "") != (effective_current_hash or ""):
+            stats["text_changed_vs_current"] += 1
+        else:
+            stats["same_as_current"] += 1
+    return stats
+
+
 def resolve_voice_service(language_map: Dict[str, Dict[str, str]], lang_code: str) -> Tuple[str, str]:
     for cfg in language_map.values():
         if cfg.get("lang_code") == lang_code:
@@ -550,11 +773,24 @@ def main() -> int:
     parser.add_argument("--audio-seed-only", action="store_true", help="Only seed DB from local audio metadata; skip Crowdin download/parse.")
     parser.add_argument("--task-map-csv", default=conf.item_bank_translations, help="CSV path used to map item_id -> task (labels) during audio seeding.")
     parser.add_argument("--backfill-task-tag", action="store_true", help="When audio metadata lacks task, write ID3 task tag using --task-map-csv.")
+    parser.add_argument("--import-staged", action="store_true", help="Import parsed XLIFF rows into items_staged.")
+    parser.add_argument("--staged-only", action="store_true", help="Only import/compare staged rows; do not update items_current.")
+    parser.add_argument("--approved-only", action="store_true", help="Only include approved/final XLIFF units.")
+    parser.add_argument("--voice-config-source", choices=["local", "dashboard_api"], default="dashboard_api",
+                        help="Source for expected voice/service used in VOICE_CHANGED checks.")
+    parser.add_argument("--dashboard-api-url", default="https://levante-pitwall.vercel.app/api/language-config",
+                        help="Dashboard language-config API URL.")
+    parser.add_argument("--language-config-bucket-url",
+                        default=os.getenv("LANGUAGE_CONFIG_BUCKET_URL", "https://storage.googleapis.com/levante-audio-dev/language_config.json"),
+                        help="Public bucket URL for language_config.json fallback.")
     parser.add_argument("--verbose", action="store_true")
 
     args = parser.parse_args()
     _load_env()
     _strip_env_vars(["CROWDIN_API_TOKEN", "CROWDIN_PROJECT_ID", "CROWDIN_LEVANTE_PID"])
+    if args.staged_only and not args.import_staged:
+        print("❌ --staged-only requires --import-staged.")
+        return 1
 
     if not args.project_id:
         args.project_id = os.getenv("CROWDIN_PROJECT_ID") or os.getenv("CROWDIN_LEVANTE_PID")
@@ -626,10 +862,15 @@ def main() -> int:
         print("🧹 Resetting versioned SQLite tables (--reset-db)")
         reset_versioned_tables(conn)
     run_id = write_run(conn, args.project_id or "audio-seed", prefix or "audio-seed/", langs)
-    try:
-        language_dict = conf.get_languages()
-    except Exception:
-        language_dict = {}
+    expected_voice_map: Dict[str, Dict[str, str]] = {}
+    if args.voice_config_source == "dashboard_api":
+        expected_voice_map = _load_expected_voice_service_from_dashboard_api(args.dashboard_api_url)
+        if not expected_voice_map:
+            expected_voice_map = _load_expected_voice_service_from_bucket_url(args.language_config_bucket_url)
+        if not expected_voice_map:
+            expected_voice_map = _load_expected_voice_service_from_local_config()
+    else:
+        expected_voice_map = _load_expected_voice_service_from_local_config()
     if args.baseline_from == "master":
         seeded = seed_from_translation_master(conn, Path(args.master_path), run_id)
         print(f"Seeded baseline rows from translation_master.csv: {seeded}")
@@ -661,6 +902,7 @@ def main() -> int:
         print(f"SQLite: {db_path}")
         return 0
     existing_state = load_existing_state(conn)
+    existing_state_by_item_lang = load_existing_state_by_item_lang(conn)
 
     report_rows: List[Dict[str, str]] = []
     change_counts: Dict[str, int] = {}
@@ -669,12 +911,22 @@ def main() -> int:
         name = xliff_path.stem
         if "-" not in name:
             continue
-        base, lang = name.rsplit("-", 1)
+        base = ""
+        raw_lang = ""
+        for candidate in sorted(langs, key=len, reverse=True):
+            suffix = f"-{candidate}"
+            if name.endswith(suffix):
+                base = name[: -len(suffix)]
+                raw_lang = candidate
+                break
+        if not raw_lang:
+            base, raw_lang = name.rsplit("-", 1)
         task = base
-        if lang not in langs:
+        if raw_lang not in langs:
             continue
+        lang = normalize_crowdin_lang_code(raw_lang)
 
-        rows = parse_xliff_file(xliff_path)
+        rows = parse_xliff_file(xliff_path, approved_only=args.approved_only)
         if args.verbose:
             print(f"Parsed {len(rows)} items from {xliff_path.name}")
 
@@ -684,10 +936,28 @@ def main() -> int:
             source_text = row["source_text"]
             key = (item_id, lang, task)
             new_hash = _sha256(target_text or "")
-            voice, service = resolve_voice_service(language_dict, lang)
+            target_state = row.get("target_state", "")
+            approved = row.get("approved", "0") == "1"
+            if args.import_staged and not args.no_update_db:
+                upsert_staged_item(
+                    conn,
+                    item_id=item_id,
+                    lang=lang,
+                    task=task,
+                    source_text=source_text,
+                    target_text=target_text,
+                    text_hash=new_hash,
+                    approved=approved,
+                    target_state=target_state,
+                    source_file=xliff_path.name,
+                    run_id=run_id,
+                )
+            voice, service = _expected_for_lang(expected_voice_map, lang)
             old_state = existing_state.get(key)
             if not old_state:
                 old_state = existing_state.get((item_id, lang, "*"))
+            if not old_state:
+                old_state = existing_state_by_item_lang.get((item_id, lang))
             old_hash = (old_state or {}).get("text_hash", "")
             old_voice = (old_state or {}).get("voice", "")
             old_service = (old_state or {}).get("service", "")
@@ -724,7 +994,7 @@ def main() -> int:
                     }
                 )
 
-            if not args.no_update_db:
+            if not args.no_update_db and not args.staged_only:
                 change_types = [r for r in reasons if r in {"NEW_ITEM", "TEXT_CHANGED", "VOICE_CHANGED", "SERVICE_CHANGED"}]
                 upsert_item(
                     conn,
@@ -740,6 +1010,12 @@ def main() -> int:
                     run_id=run_id,
                 )
                 existing_state[key] = {"text_hash": new_hash, "voice": voice, "service": service}
+                existing_state_by_item_lang[(item_id, lang)] = {
+                    "text_hash": new_hash,
+                    "voice": voice,
+                    "service": service,
+                    "task": task,
+                }
                 for change_type in change_types:
                     append_item_version(
                         conn,
@@ -755,6 +1031,12 @@ def main() -> int:
                         run_id=run_id,
                         change_type=change_type,
                     )
+
+    if args.import_staged:
+        staged_stats = compare_staged_vs_current(conn)
+        print("📦 Staged import summary:")
+        for key, value in staged_stats.items():
+            print(f"  - {key}: {value}")
 
     if not args.no_update_db:
         conn.commit()
