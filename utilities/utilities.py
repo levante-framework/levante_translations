@@ -430,6 +430,7 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['lang_code'] = lang_code
         tags['service'] = service
         tags['voice'] = voice
+        tags['task'] = str(ourRow.get('labels', ''))  # Explicit task field for downstream SQLite/reporting
         # Handle column mapping for text field - check both original and simplified lang codes
         text_value = ''
         if lang_code in ourRow:

@@ -75,8 +75,18 @@ def list_project_files(project_id: str, headers: Dict[str, str]) -> List[Dict]:
 def list_project_languages(project_id: str, headers: Dict[str, str]) -> List[Dict]:
     """List all target languages in a Crowdin project."""
     url = f"{API_BASE}/projects/{project_id}/languages"
-    response = make_request("GET", url, headers)
-    return response.json().get("data", [])
+    try:
+        response = make_request("GET", url, headers)
+        return response.json().get("data", [])
+    except requests.exceptions.HTTPError as exc:
+        if exc.response is None or exc.response.status_code != 404:
+            raise
+        # Fallback for projects that don't expose /languages
+        project_url = f"{API_BASE}/projects/{project_id}"
+        project_resp = make_request("GET", project_url, headers)
+        project_data = project_resp.json().get("data", {})
+        target_langs = project_data.get("targetLanguageIds") or []
+        return [{"data": {"id": lang_id}} for lang_id in target_langs]
 
 def upload_xliff_file(project_id: str, headers: Dict[str, str], file_path: str, 
                      crowdin_path: str, update_existing: bool = True) -> Optional[Dict]:
@@ -117,8 +127,8 @@ def upload_xliff_file(project_id: str, headers: Dict[str, str], file_path: str,
         print(f"⚠️  File exists, skipping: {crowdin_path}")
         return existing_file
 
-def download_xliff_file(project_id: str, headers: Dict[str, str], file_id: str, 
-                       language_id: str, output_path: str, *, format: str = "xliff") -> bool:
+def download_xliff_file(project_id: str, headers: Dict[str, str], file_id: str,
+                       language_id: str, output_path: str, *, format: str | None = "xliff") -> bool:
     """Download a translated XLIFF file from Crowdin.
 
     Note: Some projects with non-XLIFF sources require an explicit format parameter.
@@ -126,10 +136,39 @@ def download_xliff_file(project_id: str, headers: Dict[str, str], file_id: str,
     
     # Build request (POST) to obtain a downloadable URL for this file/language
     build_url = f"{API_BASE}/projects/{project_id}/translations/builds/files/{file_id}"
-    payload = {"targetLanguageId": language_id, "format": format}
+    payload = {"targetLanguageId": language_id}
+    if format:
+        payload["format"] = format
     
     try:
-        build_resp = make_request("POST", build_url, headers, json=payload)
+        def post_build(req_payload: Dict[str, str]) -> requests.Response:
+            return requests.post(build_url, headers=headers, json=req_payload, timeout=30)
+
+        build_resp = post_build(payload)
+        if build_resp.status_code == 400 and "format" in payload:
+            try:
+                err = build_resp.json()
+                format_error = (
+                    err.get("errors", [{}])[0]
+                    .get("error", {})
+                    .get("key") == "format"
+                )
+            except Exception:
+                format_error = False
+            if format_error:
+                payload.pop("format", None)
+                build_resp = post_build(payload)
+
+        if not build_resp.ok:
+            try:
+                err = build_resp.json()
+                print(f"❌ API request failed: {build_resp.status_code} {build_resp.reason} for url: {build_url}")
+                print(f"   Error details: {err}")
+            except Exception:
+                print(f"❌ API request failed: {build_resp.status_code} {build_resp.reason} for url: {build_url}")
+                print(f"   Response: {build_resp.text[:200]}")
+            return False
+
         build_data = build_resp.json().get("data", {})
         download_url = build_data.get("url")
         if not download_url:

@@ -3,6 +3,7 @@ import os
 import numpy as np
 import sys
 import argparse
+import sqlite3
 import utilities.config as conf
 import utilities.utilities as u
 
@@ -12,7 +13,129 @@ import utilities.utilities as u
 # language_dict = conf.get_languages()
 
 
-def generate_audio(language, force_regenerate=False, hi_fi: bool = False, force_id: bool = False): 
+def _load_translation_data_from_csv(csv_path: str) -> pd.DataFrame:
+    print(f"Loading source translations from: {csv_path}")
+    try:
+        # Try with robust CSV parser first
+        from utilities.robust_csv_parser import parse_csv_robust
+        data_list = parse_csv_robust(csv_path)
+        translationData = pd.DataFrame(data_list)
+        print(f"SUCCESS: Loaded {len(translationData)} translation items with robust parser")
+    except Exception as robust_error:
+        print(f"Robust parser failed: {robust_error}")
+        print("Falling back to standard pandas parsing...")
+        try:
+            # Try with explicit UTF-8 encoding
+            translationData = pd.read_csv(csv_path, encoding='utf-8')
+            print(f"SUCCESS: Loaded {len(translationData)} translation items")
+        except UnicodeDecodeError:
+            print("UTF-8 encoding failed, trying latin1...")
+            # If UTF-8 fails, try with a more permissive encoding
+            translationData = pd.read_csv(csv_path, encoding='latin1')
+            print(f"SUCCESS: Loaded {len(translationData)} translation items with latin1 encoding")
+        except FileNotFoundError:
+            print(f"ERROR: Source translation file not found: {csv_path}")
+            print("Make sure the file exists in the correct location.")
+            raise
+        except Exception as e:
+            print(f"ERROR: Failed to load source translations: {str(e)}")
+            raise
+
+    # Handle mixed column formats in the CSV
+    translationData = translationData.rename(columns={'identifier': 'item_id'})
+    # If both 'identifier' and 'item_id' exist due to upstream processing, drop the extra
+    if 'identifier' in translationData.columns and 'item_id' in translationData.columns:
+        try:
+            translationData = translationData.drop(columns=['identifier'])
+            print("Dropped duplicate 'identifier' column after renaming to 'item_id'")
+        except Exception:
+            pass
+
+    # Handle duplicate language columns (keep the one that has more data)
+    if 'es-CO' in translationData.columns and 'es-co' in translationData.columns:
+        # Count non-null values in each column
+        es_co_count = translationData['es-co'].notna().sum()
+        es_CO_count = translationData['es-CO'].notna().sum()
+        print(f"Found both es-co ({es_co_count} entries) and es-CO ({es_CO_count} entries)")
+
+        # Keep the one with more data, drop the other
+        if es_CO_count > es_co_count:
+            print("Using es-CO column (has more data)")
+            translationData = translationData.drop(columns=['es-co'])
+            translationData = translationData.rename(columns={'es-CO': 'es-co'})
+        else:
+            print("Using es-co column (has more data)")
+            translationData = translationData.drop(columns=['es-CO'])
+
+    # Convert any language columns that use "_" to use "-" instead
+    # (e.g., "es_AR" -> "es-AR", "en_US" -> "en-US")
+    translationData = u.normalize_language_columns(translationData)
+
+    return translationData
+
+
+def _load_translation_data_from_sqlite(
+    db_path: str,
+    language_dict: dict
+) -> pd.DataFrame:
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"SQLite DB not found: {db_path}")
+
+    print(f"Loading source translations from SQLite: {db_path}")
+    conn = sqlite3.connect(db_path)
+    try:
+        table_exists = conn.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+            ("items_current",),
+        ).fetchone()
+        if not table_exists:
+            raise ValueError(
+                "SQLite DB is missing required table 'items_current'. "
+                "Run utilities/itembank_by_task_regen_report.py to initialize the versioned schema."
+            )
+        rows = conn.execute(
+            "SELECT item_id, task, lang, source_text, target_text FROM items_current"
+        ).fetchall()
+    finally:
+        conn.close()
+
+    if not rows:
+        raise ValueError(f"No rows found in SQLite translations table (items_current) of {db_path}")
+
+    items: dict = {}
+    for item_id, task, lang, source_text, target_text in rows:
+        if item_id is None or lang is None:
+            continue
+        item_id_str = str(item_id)
+        item = items.setdefault(item_id_str, {"item_id": item_id_str})
+        if task and not item.get("labels"):
+            item["labels"] = str(task)
+
+        text_val = target_text if target_text not in (None, "") else source_text
+        if text_val not in (None, ""):
+            item[str(lang)] = text_val
+
+    translationData = pd.DataFrame(items.values())
+    translationData = u.normalize_language_columns(translationData)
+
+    # Ensure language columns exist for configured languages
+    for lang_config in language_dict.values():
+        lang_code = lang_config["lang_code"]
+        if lang_code not in translationData.columns:
+            translationData[lang_code] = None
+
+    print(f"SUCCESS: Loaded {len(translationData)} translation items from SQLite")
+    return translationData
+
+
+def generate_audio(
+    language,
+    force_regenerate: bool = False,
+    hi_fi: bool = False,
+    force_id: bool = False,
+    translation_source: str = "sqlite",
+    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite"
+):
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
     print(f"Using simplified folder structure: audio_files/<language_code>/")
@@ -32,18 +155,19 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False, force_
         print(f"⚠️  Warning: Could not load latest language configuration: {e}")
         language_dict = {}
     
-    # Fetch the latest translations from l10n_pending branch
-    print("📥 Fetching latest translations from l10n_pending branch...")
-    try:
-        from utilities.fetch_latest_translations import fetch_translations
-        if not fetch_translations(force=True):
-            print("❌ Failed to fetch latest translations - continuing with local copy")
-        else:
-            print("✅ Successfully updated to latest translations")
-    except Exception as e:
-        print(f"⚠️  Warning: Could not fetch latest translations: {e}")
-        print("   Continuing with local copy...")
-    print("="*60)
+    if translation_source == "csv":
+        # Fetch the latest translations from l10n_pending branch
+        print("📥 Fetching latest translations from l10n_pending branch...")
+        try:
+            from utilities.fetch_latest_translations import fetch_translations
+            if not fetch_translations(force=True):
+                print("❌ Failed to fetch latest translations - continuing with local copy")
+            else:
+                print("✅ Successfully updated to latest translations")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not fetch latest translations: {e}")
+            print("   Continuing with local copy...")
+        print("="*60)
     
 # Retrieve translations.csv from the repo
 # NOTE: If special characters get munged, will need to
@@ -60,79 +184,32 @@ def generate_audio(language, force_regenerate=False, hi_fi: bool = False, force_
 # Right now this is our repo, but it might wind up somewhere else,
 # so use a webURL
 
-    # Turn into dataframe so we can do any needed edits
-    print(f"Loading source translations from: {conf.item_bank_translations}")
     try:
-        # Try with robust CSV parser first
-        from utilities.robust_csv_parser import parse_csv_robust
-        data_list = parse_csv_robust(conf.item_bank_translations)
-        translationData = pd.DataFrame(data_list)
-        print(f"SUCCESS: Loaded {len(translationData)} translation items with robust parser")
-    except Exception as robust_error:
-        print(f"Robust parser failed: {robust_error}")
-        print("Falling back to standard pandas parsing...")
-        try:
-            # Try with explicit UTF-8 encoding
-            translationData = pd.read_csv(conf.item_bank_translations, encoding='utf-8')
-            print(f"SUCCESS: Loaded {len(translationData)} translation items")
-        except UnicodeDecodeError:
-            print("UTF-8 encoding failed, trying latin1...")
-            # If UTF-8 fails, try with a more permissive encoding
-            translationData = pd.read_csv(conf.item_bank_translations, encoding='latin1')
-            print(f"SUCCESS: Loaded {len(translationData)} translation items with latin1 encoding")
-        except FileNotFoundError:
-            print(f"ERROR: Source translation file not found: {conf.item_bank_translations}")
-            print(f"Make sure the file exists in the correct location.")
-            return
-        except Exception as e:
-            print(f"ERROR: Failed to load source translations: {str(e)}")
+        if translation_source == "sqlite":
+            translationData = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
+        else:
+            translationData = _load_translation_data_from_csv(conf.item_bank_translations)
+    except Exception as e:
+        if translation_source == "sqlite":
+            print(f"⚠️  Warning: Failed to load from SQLite ({e}). Falling back to CSV.")
+            try:
+                translationData = _load_translation_data_from_csv(conf.item_bank_translations)
+            except Exception as csv_error:
+                print(f"ERROR: Failed to load source translations from CSV: {csv_error}")
+                return
+        else:
+            print(f"ERROR: Failed to load source translations: {e}")
             return
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
 
     # DEBUG: Show available columns
-    print(f"Available columns in CSV: {list(translationData.columns)}")
+    print(f"Available columns in translation data: {list(translationData.columns)}")
     
-    # Current export from Crowdin has columns of
-    # identifier -> item_id
-    # labels -> task
-    # Handle mixed column formats in the CSV
-    translationData = translationData.rename(columns={'identifier': 'item_id'})
-    # If both 'identifier' and 'item_id' exist due to upstream processing, drop the extra
-    if 'identifier' in translationData.columns and 'item_id' in translationData.columns:
-        try:
-            translationData = translationData.drop(columns=['identifier'])
-            print("Dropped duplicate 'identifier' column after renaming to 'item_id'")
-        except Exception as _:
-            pass
-    
-    # Handle duplicate language columns (keep the one that has more data)
-    if 'es-CO' in translationData.columns and 'es-co' in translationData.columns:
-        # Count non-null values in each column
-        es_co_count = translationData['es-co'].notna().sum()
-        es_CO_count = translationData['es-CO'].notna().sum()
-        print(f"Found both es-co ({es_co_count} entries) and es-CO ({es_CO_count} entries)")
-        
-        # Keep the one with more data, drop the other
-        if es_CO_count > es_co_count:
-            print("Using es-CO column (has more data)")
-            translationData = translationData.drop(columns=['es-co'])
-            translationData = translationData.rename(columns={'es-CO': 'es-co'})
-        else:
-            print("Using es-co column (has more data)")
-            translationData = translationData.drop(columns=['es-CO'])
-    
-    # Do not rename language columns implicitly (e.g., keep 'fr-CA' as-is)
-
-    #translationData = translationData.rename(columns={'labels': 'task'})
-    
-    # Convert any language columns that use "_" to use "-" instead
-    # (e.g., "es_AR" -> "es-AR", "en_US" -> "en-US")
-    translationData = u.normalize_language_columns(translationData)
-
     # All data that we need to make sure is or has been generated
-    translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
+    if translation_source == "csv":
+        translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
 
     # The "master file" of already generated strings
     # There is/may also be an existing .csv file (translation_master.csv)
@@ -482,7 +559,9 @@ def main(
     force_regenerate: bool = False,
     hi_fi: bool = False,
     validate_only: bool = False,
-    force_id: bool = False
+    force_id: bool = False,
+    translation_source: str = "sqlite",
+    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite"
 ):
     
     if validate_only:
@@ -492,7 +571,10 @@ def main(
         
         try:
             language_dict = conf.get_languages()
-            translation_data = pd.read_csv(conf.item_bank_translations)
+            if translation_source == "sqlite":
+                translation_data = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
+            else:
+                translation_data = _load_translation_data_from_csv(conf.item_bank_translations)
             audio_base_dir = "audio_files"
             
             items_to_regenerate = validate_audio_files_for_language(
@@ -510,19 +592,30 @@ def main(
             return
     else:
         # Normal audio generation
-        generate_audio(language=language, force_regenerate=force_regenerate, hi_fi=hi_fi, force_id=force_id)
+        generate_audio(
+            language=language,
+            force_regenerate=force_regenerate,
+            hi_fi=hi_fi,
+            force_id=force_id,
+            translation_source=translation_source,
+            sqlite_db_path=sqlite_db_path
+        )
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate speech audio for translations')
     parser.add_argument('language', help='Language to generate audio for (e.g., German, Spanish, French, Dutch, English)')
     parser.add_argument('--force', '-f', action='store_true', 
-                        help='Force regenerate: clears translation cache for the language and regenerates ALL audio items using the current voice from config')
+                        help='Force regenerate: regenerates ALL audio items using the current voice from config')
     parser.add_argument('--force-id', action='store_true', 
                         help='Force regenerate files without ID3 tags (by default, files without ID3 tags are skipped)')
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
     parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
     parser.add_argument('--validate-only', action='store_true', help='Only validate audio files without regenerating them')
+    parser.add_argument('--translation-source', choices=['sqlite', 'csv'], default='sqlite',
+                        help='Source for translations (default: sqlite)')
+    parser.add_argument('--sqlite-db', default='tmp/itembank_by_task_regen.sqlite',
+                        help='Path to SQLite DB from itembank_by_task regen report')
     
     args = parser.parse_args()
     
@@ -532,7 +625,9 @@ if __name__ == "__main__":
          force_regenerate=args.force,
          hi_fi=args.hi_fi,
          validate_only=args.validate_only,
-         force_id=args.force_id)
+         force_id=args.force_id,
+         translation_source=args.translation_source,
+         sqlite_db_path=args.sqlite_db)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 

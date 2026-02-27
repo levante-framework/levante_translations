@@ -1,7 +1,7 @@
 
 ### Levante Audio Tools
 
-[Help: Add a New Language Guide](https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md) · [Project README on GitHub](https://github.com/levante-framework/levante_translations#readme) · [📝 Changelog](CHANGELOG.md)
+[Help: Add a New Language Guide](https://github.com/levante-framework/levante_translations/blob/main/README_ADD_LANGUAGE.md) · [Itembank XLIFF + SQLite Regen Workflow](README_ITEMBANK_XLIFF_REGEN.md) · [Project README on GitHub](https://github.com/levante-framework/levante_translations#readme) · [📝 Changelog](CHANGELOG.md)
 
 Our audio tools include four main utilities:
 
