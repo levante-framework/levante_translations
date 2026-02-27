@@ -40,6 +40,18 @@ python utilities/itembank_by_task_regen_report.py \
   --crowdin-prefix "main/itembank_by_task"
 ```
 
+### Optional: sync the SQLite baseline to GCS
+GCS is not a database; use sync to download before the run and upload after.
+```bash
+python utilities/itembank_by_task_regen_report.py \
+  --project-id "$CROWDIN_PROJECT_ID" \
+  --langs all \
+  --skip-download \
+  --gcs-sync \
+  --gcs-bucket "levante-assets-draft" \
+  --gcs-path "baselines/itembank_by_task_regen.sqlite"
+```
+
 ### Skip download (use cached XLIFF)
 ```bash
 python utilities/itembank_by_task_regen_report.py --langs es-CO de --skip-download
@@ -55,6 +67,7 @@ The report is saved as both CSV and JSON:
 ```
 tmp/itembank_by_task_reports/regen_report_YYYYMMDD_HHMMSS.csv
 tmp/itembank_by_task_reports/regen_report_YYYYMMDD_HHMMSS.json
+tmp/itembank_by_task_reports/regen_report_YYYYMMDD_HHMMSS.md
 ```
 
 Use it as a confirmation step before running audio generation.
