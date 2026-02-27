@@ -384,6 +384,18 @@ def _expected_for_lang(expected_map: Dict[str, Dict[str, str]], lang: str) -> Di
     return {"voice": "", "service": ""}
 
 
+def _default_dashboard_config_path() -> str:
+    candidates = [
+        REPO_ROOT / "levante-web-dashboard" / "config.js",
+        REPO_ROOT / "web-dashboard" / "config.js",
+        REPO_ROOT.parent / "levante-web-dashboard" / "config.js",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
+    return str(candidates[0])
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate report of items requiring audio regeneration from items_staged.")
     parser.add_argument("--db-path", default="tmp/itembank_by_task_regen.sqlite")
@@ -392,7 +404,7 @@ def main() -> int:
     parser.add_argument("--langs", nargs="+", default=["all"], help='Language codes to include or "all".')
     parser.add_argument("--voice-config-source", choices=["local", "dashboard", "dashboard_api"], default="local",
                         help="Source of expected voice/service config for VOICE_CHANGED checks.")
-    parser.add_argument("--dashboard-config-path", default="/home/david/levante/levante-web-dashboard/config.js",
+    parser.add_argument("--dashboard-config-path", default=_default_dashboard_config_path(),
                         help="Path to sibling dashboard config.js when --voice-config-source=dashboard.")
     parser.add_argument("--dashboard-api-url", default="https://levante-pitwall.vercel.app/api/language-config",
                         help="Dashboard language-config API URL when --voice-config-source=dashboard_api.")
