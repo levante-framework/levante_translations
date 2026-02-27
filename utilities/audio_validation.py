@@ -162,15 +162,50 @@ def validate_audio_files_for_language(
     items_to_regenerate = []
     
     for index, row in translation_data.iterrows():
-        # Get the translation text
-        if lang_code not in row:
-            print(f"Warning: No translation found for {lang_code} in row {row['item_id']}")
+        # Resolve translation text from primary language column, then common aliases.
+        candidates = [lang_code]
+        base = (lang_code or "").split("-")[0]
+        if base and base != lang_code:
+            candidates.append(base)
+
+        reverse_regional = {
+            "en": "en-US",
+            "de": "de-DE",
+            "es": "es-CO",
+            "fr": "fr-CA",
+            "nl": "nl-NL",
+        }
+        reverse_cand = reverse_regional.get(lang_code)
+        if reverse_cand:
+            candidates.append(reverse_cand)
+
+        regional_fallbacks = {
+            "es-AR": "es-CO",
+            "es-MX": "es-CO",
+            "fr-FR": "fr-CA",
+            "de-CH": "de",
+        }
+        regional_cand = regional_fallbacks.get(lang_code)
+        if regional_cand:
+            candidates.append(regional_cand)
+
+        translation_text = None
+        used_col = None
+        for cand in dict.fromkeys(candidates):
+            if cand not in row:
+                continue
+            candidate_text = row[cand]
+            if pd.isna(candidate_text) or candidate_text == "":
+                continue
+            translation_text = candidate_text
+            used_col = cand
+            break
+
+        if translation_text is None:
+            print(f"Warning: No translation found for {lang_code} (or fallbacks) in row {row['item_id']}")
             continue
-        
-        translation_text = row[lang_code]
-        if pd.isna(translation_text) or translation_text == '':
-            print(f"Warning: Empty translation for {lang_code} in row {row['item_id']}")
-            continue
+        if used_col and used_col != lang_code:
+            print(f"Using fallback column '{used_col}' for {lang_code} in row {row['item_id']}")
         
         # Get expected audio file path
         task_name = str(row.get('labels', 'general'))

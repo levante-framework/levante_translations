@@ -16,8 +16,11 @@ import csv
 import hashlib
 import json
 import os
+import shutil
 import sqlite3
+import subprocess
 import sys
+import tempfile
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -452,13 +455,20 @@ def seed_from_translation_master(
     return seeded
 
 
-def write_run(conn: sqlite3.Connection, project_id: str, prefix: str, langs: List[str]) -> int:
+def write_run(
+    conn: sqlite3.Connection,
+    project_id: str,
+    prefix: str,
+    langs: List[str],
+    *,
+    source: str = "crowdin",
+) -> int:
     run_ts = datetime.now(timezone.utc).isoformat()
     langs_csv = ",".join(langs)
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO runs (run_ts, source, project_id, file_prefix, langs) VALUES (?, ?, ?, ?, ?)",
-        (run_ts, "crowdin", project_id, prefix, langs_csv),
+        (run_ts, source, project_id, prefix, langs_csv),
     )
     conn.commit()
     return int(cur.lastrowid)
@@ -629,6 +639,174 @@ def compare_staged_vs_current(conn: sqlite3.Connection) -> Dict[str, int]:
     return stats
 
 
+def promote_staged_to_current(
+    conn: sqlite3.Connection,
+    *,
+    run_id: int,
+    expected_voice_map: Dict[str, Dict[str, str]],
+    approved_only: bool = False,
+    require_audio_ready: bool = False,
+    audio_base_dir: str = "audio_files",
+) -> Dict[str, int]:
+    where = "WHERE approved = 1" if approved_only else ""
+    staged_rows = conn.execute(
+        f"""
+        SELECT item_id, lang, task, source_text, target_text, text_hash, approved, source_file
+        FROM items_staged
+        {where}
+        """
+    ).fetchall()
+
+    current_state = load_existing_state(conn)
+    stats = {
+        "staged_rows_seen": len(staged_rows),
+        "promoted_rows": 0,
+        "new_items": 0,
+        "text_changed": 0,
+        "voice_changed": 0,
+        "service_changed": 0,
+        "unchanged": 0,
+        "skipped_audio_not_ready": 0,
+        "skipped_missing_target_text": 0,
+    }
+
+    for item_id, lang, task, source_text, target_text, text_hash, _approved, source_file in staged_rows:
+        key = (item_id, lang, task)
+        old_state = current_state.get(key, {"text_hash": "", "voice": "", "service": ""})
+        old_hash = old_state.get("text_hash", "")
+        old_voice = old_state.get("voice", "")
+        old_service = old_state.get("service", "")
+
+        voice, service = _expected_for_lang(expected_voice_map, lang)
+        new_hash = text_hash or _sha256(target_text or "")
+
+        change_types: List[str] = []
+        if not old_hash:
+            change_types.append("NEW_ITEM")
+        elif new_hash != old_hash:
+            change_types.append("TEXT_CHANGED")
+
+        if old_hash and voice and old_voice and voice != old_voice:
+            change_types.append("VOICE_CHANGED")
+        if old_hash and service and old_service and service != old_service:
+            change_types.append("SERVICE_CHANGED")
+
+        if not change_types:
+            stats["unchanged"] += 1
+            continue
+
+        if require_audio_ready:
+            if not (target_text or "").strip():
+                stats["skipped_missing_target_text"] += 1
+                continue
+            from utilities.audio_validation import needs_regeneration  # Local import to avoid loading heavy deps at startup.
+            audio_path = expected_audio_path(audio_base_dir, lang, item_id)
+            needs_regen, _reason = needs_regeneration(
+                audio_path,
+                target_text or "",
+                voice,
+                service,
+                lang,
+                False,
+            )
+            if needs_regen:
+                stats["skipped_audio_not_ready"] += 1
+                continue
+
+        if "NEW_ITEM" in change_types:
+            stats["new_items"] += 1
+        if "TEXT_CHANGED" in change_types:
+            stats["text_changed"] += 1
+        if "VOICE_CHANGED" in change_types:
+            stats["voice_changed"] += 1
+        if "SERVICE_CHANGED" in change_types:
+            stats["service_changed"] += 1
+
+        upsert_item(
+            conn,
+            item_id=item_id,
+            lang=lang,
+            task=task,
+            source_text=source_text or "",
+            target_text=target_text or "",
+            text_hash=new_hash,
+            voice=voice,
+            service=service,
+            source_file=source_file or "",
+            run_id=run_id,
+        )
+
+        for change_type in change_types:
+            append_item_version(
+                conn,
+                item_id=item_id,
+                lang=lang,
+                task=task,
+                source_text=source_text or "",
+                target_text=target_text or "",
+                text_hash=new_hash,
+                voice=voice,
+                service=service,
+                source_file=source_file or "",
+                run_id=run_id,
+                change_type=change_type,
+            )
+
+        stats["promoted_rows"] += 1
+
+    return stats
+
+
+def _resolve_language_names_for_codes(lang_codes: List[str]) -> Tuple[List[str], List[str]]:
+    try:
+        language_map = conf.get_languages()
+    except Exception:
+        return [], list(lang_codes)
+
+    matched_names: List[str] = []
+    unresolved: List[str] = []
+    for code in lang_codes:
+        found_name = None
+        candidates = _normalize_lang_candidates(code)
+        for name, cfg in language_map.items():
+            cfg_code = str(cfg.get("lang_code") or "").strip()
+            if not cfg_code:
+                continue
+            if cfg_code in candidates or code in _normalize_lang_candidates(cfg_code):
+                found_name = name
+                break
+        if found_name:
+            matched_names.append(found_name)
+        else:
+            unresolved.append(code)
+    deduped_names = list(dict.fromkeys(matched_names))
+    return deduped_names, unresolved
+
+
+def _run_generate_audio_for_langs(db_path: Path, language_names: List[str]) -> Dict[str, List[str]]:
+    result = {"ok": [], "failed": []}
+    script_path = REPO_ROOT / "generate_speech.py"
+    for language_name in language_names:
+        cmd = [
+            sys.executable,
+            str(script_path),
+            language_name,
+            "--translation-source",
+            "sqlite",
+            "--sqlite-db",
+            str(db_path),
+        ]
+        run = subprocess.run(cmd, capture_output=True, text=True)
+        if run.returncode == 0:
+            result["ok"].append(language_name)
+        else:
+            result["failed"].append(language_name)
+            print(f"⚠️  Audio generation failed for {language_name} (exit {run.returncode})")
+            if run.stderr:
+                print(run.stderr[-1000:])
+    return result
+
+
 def resolve_voice_service(language_map: Dict[str, Dict[str, str]], lang_code: str) -> Tuple[str, str]:
     for cfg in language_map.values():
         if cfg.get("lang_code") == lang_code:
@@ -776,6 +954,8 @@ def main() -> int:
     parser.add_argument("--import-staged", action="store_true", help="Import parsed XLIFF rows into items_staged.")
     parser.add_argument("--staged-only", action="store_true", help="Only import/compare staged rows; do not update items_current.")
     parser.add_argument("--approved-only", action="store_true", help="Only include approved/final XLIFF units.")
+    parser.add_argument("--promote-staged", action="store_true", help="Promote rows from items_staged into items_current and record item_versions.")
+    parser.add_argument("--promote-approved-only", action="store_true", help="When promoting staged rows, include only approved=1 rows.")
     parser.add_argument("--voice-config-source", choices=["local", "dashboard_api"], default="dashboard_api",
                         help="Source for expected voice/service used in VOICE_CHANGED checks.")
     parser.add_argument("--dashboard-api-url", default="https://levante-pitwall.vercel.app/api/language-config",
@@ -791,10 +971,13 @@ def main() -> int:
     if args.staged_only and not args.import_staged:
         print("❌ --staged-only requires --import-staged.")
         return 1
+    if args.promote_staged and args.no_update_db:
+        print("❌ --promote-staged cannot be used with --no-update-db.")
+        return 1
 
     if not args.project_id:
         args.project_id = os.getenv("CROWDIN_PROJECT_ID") or os.getenv("CROWDIN_LEVANTE_PID")
-    if not args.project_id and not args.audio_seed_only:
+    if not args.project_id and not args.audio_seed_only and not args.promote_staged:
         print("❌ Missing project id. Set --project-id or CROWDIN_PROJECT_ID/CROWDIN_LEVANTE_PID.")
         return 1
 
@@ -807,7 +990,7 @@ def main() -> int:
 
     matched: List[Dict[str, str]] = []
     langs: List[str] = []
-    if not args.audio_seed_only:
+    if not args.audio_seed_only and not args.promote_staged:
         token = get_crowdin_token()
         headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
@@ -841,11 +1024,14 @@ def main() -> int:
                     ok = download_xliff_file(args.project_id, headers, file_id, lang, str(out_path), format="xliff")
                     if not ok:
                         print(f"⚠️  Failed download: {file_info['path']} ({lang})")
-    else:
+    elif args.audio_seed_only:
         langs = [lang.strip() for lang in args.seed_audio_lang if lang.strip()]
         if not langs:
             print("❌ --audio-seed-only requires at least one --seed-audio-lang value.")
             return 1
+    else:
+        # promote-only path doesn't require Crowdin fetch/download.
+        langs = []
 
     gcs_generation = None
     if args.gcs_sync:
@@ -861,7 +1047,6 @@ def main() -> int:
     if args.reset_db:
         print("🧹 Resetting versioned SQLite tables (--reset-db)")
         reset_versioned_tables(conn)
-    run_id = write_run(conn, args.project_id or "audio-seed", prefix or "audio-seed/", langs)
     expected_voice_map: Dict[str, Dict[str, str]] = {}
     if args.voice_config_source == "dashboard_api":
         expected_voice_map = _load_expected_voice_service_from_dashboard_api(args.dashboard_api_url)
@@ -871,6 +1056,85 @@ def main() -> int:
             expected_voice_map = _load_expected_voice_service_from_local_config()
     else:
         expected_voice_map = _load_expected_voice_service_from_local_config()
+
+    if args.promote_staged:
+        where = "WHERE approved = 1" if args.promote_approved_only else ""
+        staged_lang_rows = conn.execute(f"SELECT DISTINCT lang FROM items_staged {where} ORDER BY lang").fetchall()
+        promote_langs = [str(r[0]) for r in staged_lang_rows if r and r[0]]
+
+        # Step 1: Build a temporary promoted DB and generate audio against it.
+        # This guarantees that real promotion only happens for rows with audio ready.
+        tmp_fd, tmp_path_str = tempfile.mkstemp(prefix="itembank_promote_preview_", suffix=".sqlite")
+        os.close(tmp_fd)
+        tmp_db_path = Path(tmp_path_str)
+        try:
+            shutil.copy2(db_path, tmp_db_path)
+            tmp_conn = sqlite3.connect(tmp_db_path)
+            tmp_run_id = write_run(
+                tmp_conn,
+                args.project_id or "promote-staged-preview",
+                "items_staged/",
+                promote_langs,
+                source="promote_staged_preview",
+            )
+            _ = promote_staged_to_current(
+                tmp_conn,
+                run_id=tmp_run_id,
+                expected_voice_map=expected_voice_map,
+                approved_only=args.promote_approved_only,
+                require_audio_ready=False,
+                audio_base_dir=args.audio_base_dir,
+            )
+            tmp_conn.commit()
+            tmp_conn.close()
+
+            language_names, unresolved = _resolve_language_names_for_codes(promote_langs)
+            if unresolved:
+                print(f"⚠️  Unresolved staged language codes for generation: {', '.join(unresolved)}")
+            gen_result = _run_generate_audio_for_langs(tmp_db_path, language_names)
+            print("🎙️  Audio generation pass (from staged preview):")
+            print(f"  - attempted_languages: {len(language_names)}")
+            print(f"  - generated_ok: {len(gen_result['ok'])} ({', '.join(gen_result['ok']) if gen_result['ok'] else 'none'})")
+            print(f"  - generation_failed: {len(gen_result['failed'])} ({', '.join(gen_result['failed']) if gen_result['failed'] else 'none'})")
+        finally:
+            try:
+                tmp_db_path.unlink(missing_ok=True)  # type: ignore[arg-type]
+            except Exception:
+                pass
+
+        # Step 2: Promote only rows whose audio is now ready on disk.
+        run_id = write_run(
+            conn,
+            args.project_id or "promote-staged",
+            "items_staged/",
+            promote_langs,
+            source="promote_staged",
+        )
+        stats = promote_staged_to_current(
+            conn,
+            run_id=run_id,
+            expected_voice_map=expected_voice_map,
+            approved_only=args.promote_approved_only,
+            require_audio_ready=True,
+            audio_base_dir=args.audio_base_dir,
+        )
+        conn.commit()
+        conn.close()
+
+        if args.gcs_sync:
+            try:
+                _gcs_push_db(client, args.gcs_bucket, args.gcs_path, Path(args.db_path), generation=gcs_generation)
+                print(f"✅ GCS baseline synced: gs://{args.gcs_bucket}/{args.gcs_path}")
+            except Exception as exc:
+                print(f"⚠️  Failed to sync GCS baseline: {exc}")
+
+        print("✅ Promoted staged rows into items_current.")
+        for key, value in stats.items():
+            print(f"  - {key}: {value}")
+        print(f"SQLite: {db_path}")
+        return 0
+
+    run_id = write_run(conn, args.project_id or "audio-seed", prefix or "audio-seed/", langs)
     if args.baseline_from == "master":
         seeded = seed_from_translation_master(conn, Path(args.master_path), run_id)
         print(f"Seeded baseline rows from translation_master.csv: {seeded}")

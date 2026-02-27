@@ -327,50 +327,58 @@ def generate_audio(
     diffData = pd.DataFrame()
     
     for index, ourRow in translationData.iterrows():
-        # Check if the column exists for simplified language codes
-        if lang_code in ourRow:
-            translation_text = ourRow[lang_code]
-            # Check if the value is null/empty
-            if pd.isna(translation_text) or translation_text == '' or translation_text is None:
-                print(f"Warning: Empty translation for {lang_code} in row {ourRow['item_id']}")
-                continue
-        else:
-            # Attempt fallbacks when exact lang_code column is missing
-            candidates = []
-            # 1) Base language (e.g., es-AR -> es)
-            base = (lang_code or '').split('-')[0]
-            if base and base != lang_code:
-                candidates.append(base)
-            # 2) Close regional variants
-            regional_fallbacks = {
-                'es-AR': 'es-CO',
-                'es-MX': 'es-CO',
-                'fr-FR': 'fr-CA',
-                'de-CH': 'de',
-            }
-            cand = regional_fallbacks.get(lang_code)
-            if cand:
-                candidates.append(cand)
-            # 3) Simplified mapping from older data
-            simplified_lang_codes = {
-                'en-US': 'en', 'es-CO': 'es', 'de-DE': 'de', 'fr-CA': 'fr', 'nl-NL': 'nl'
-            }
-            simp = simplified_lang_codes.get(lang_code)
-            if simp:
-                candidates.append(simp)
+        # Resolve translation text from primary language column, then fallbacks.
+        # Important: fallbacks should also run when the primary column exists but is empty.
+        candidates = [lang_code]
+        base = (lang_code or '').split('-')[0]
+        if base and base != lang_code:
+            candidates.append(base)
 
-            translation_text = None
-            for cand in candidates:
-                if cand in ourRow:
-                    candidate_text = ourRow[cand]
-                    if not (pd.isna(candidate_text) or candidate_text == '' or candidate_text is None):
-                        translation_text = candidate_text
-                        print(f"Using fallback column '{cand}' for {lang_code} in row {ourRow['item_id']}")
-                        break
+        regional_fallbacks = {
+            'es-AR': 'es-CO',
+            'es-MX': 'es-CO',
+            'fr-FR': 'fr-CA',
+            'de-CH': 'de',
+        }
+        reverse_regional = {
+            'en': 'en-US',
+            'de': 'de-DE',
+            'es': 'es-CO',
+            'fr': 'fr-CA',
+            'nl': 'nl-NL',
+        }
+        cand = regional_fallbacks.get(lang_code)
+        if cand:
+            candidates.append(cand)
+        reverse_cand = reverse_regional.get(lang_code)
+        if reverse_cand:
+            candidates.append(reverse_cand)
 
-            if translation_text is None:
-                print(f"Warning: No translation found for {lang_code} (or fallbacks) in row {ourRow['item_id']}")
-                continue
+        simplified_lang_codes = {
+            'en-US': 'en', 'es-CO': 'es', 'de-DE': 'de', 'fr-CA': 'fr', 'nl-NL': 'nl'
+        }
+        simp = simplified_lang_codes.get(lang_code)
+        if simp:
+            candidates.append(simp)
+
+        # Deduplicate while preserving order.
+        candidates = list(dict.fromkeys(candidates))
+
+        translation_text = None
+        used_col = None
+        for cand in candidates:
+            if cand in ourRow:
+                candidate_text = ourRow[cand]
+                if not (pd.isna(candidate_text) or candidate_text == '' or candidate_text is None):
+                    translation_text = candidate_text
+                    used_col = cand
+                    break
+
+        if translation_text is None:
+            print(f"Warning: No translation found for {lang_code} (or fallbacks) in row {ourRow['item_id']}")
+            continue
+        if used_col and used_col != lang_code:
+            print(f"Using fallback column '{used_col}' for {lang_code} in row {ourRow['item_id']}")
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         
