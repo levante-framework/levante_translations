@@ -263,6 +263,50 @@ def verify_gsutil_auth(bucket_name: str) -> bool:
         print("⚠️ Ensure GOOGLE_APPLICATION_CREDENTIALS_JSON is set (or GOOGLE_APPLICATION_CREDENTIALS points to a valid key file) in CI.")
         return False
 
+def check_local_audio_drift_vs_dev(max_examples: int = 20) -> bool:
+    """Check whether approved dev audio is ahead of local audio_files/.
+
+    Returns:
+        True when local audio is aligned with dev (or no drift found).
+        False when dev has objects that would overwrite local on sync.
+    """
+    print_section("Audio Guardrail: Local vs DEV Drift")
+    src = f"gs://{AUDIO_BUCKET_NAME_DEV}/{AUDIO_BUCKET_DIR}/"
+    dst = f"{AUDIO_SOURCE_DIR}/"
+    cmd = ["gsutil", "-m", "rsync", "-n", "-c", "-r", src, dst]
+    print(f"🔎 Checking drift via dry-run checksum rsync")
+    print(f"   Source (approved): {src}")
+    print(f"   Destination (local): {dst}")
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+    except FileNotFoundError:
+        print("❌ gsutil not found. Cannot run drift guardrail.")
+        return False
+
+    output = "\n".join([result.stdout or "", result.stderr or ""])
+    would_copy_lines = []
+    for line in output.splitlines():
+        s = line.strip()
+        if s.startswith("Would copy gs://") and " to file://" in s:
+            would_copy_lines.append(s)
+
+    if not would_copy_lines:
+        print("✅ Local audio appears aligned with approved dev bucket.")
+        return True
+
+    print(f"❌ Drift detected: {len(would_copy_lines)} approved dev object(s) differ from local audio_files/")
+    print("   Example differences:")
+    for line in would_copy_lines[:max_examples]:
+        print(f"   - {line}")
+    if len(would_copy_lines) > max_examples:
+        print(f"   ... and {len(would_copy_lines) - max_examples} more")
+
+    print("\n🛠️ Recommended fix (sync approved audio back to local):")
+    print(f"   gsutil -m rsync -c -r {src} {dst}")
+    print("\nIf you intentionally want to continue anyway, rerun with:")
+    print("   --skip-dev-audio-drift-check")
+    return False
+
 def deploy_csv_to_assets(environment: str, dry_run: bool = False, force: bool = False) -> bool:
     """Rsync item-bank-translations.csv into levante-assets-* bucket under translations/."""
     print_section(f"CSV Mirror to Assets ({environment.upper()})")
@@ -616,6 +660,11 @@ Examples:
         action='store_true',
         help='Run core-tasks Cypress tests after deployment to validate everything works'
     )
+    parser.add_argument(
+        '--skip-dev-audio-drift-check',
+        action='store_true',
+        help='Skip guardrail that blocks dev audio deploy when local audio_files differs from approved levante-assets-dev'
+    )
     
     parser.add_argument(
         '--core-tasks-path',
@@ -696,6 +745,19 @@ Examples:
 
     # Ensure gsutil can authenticate if only JSON env is present
     setup_gsutil_auth()
+
+    # Guardrail: prevent pushing stale local audio to draft after partner approvals.
+    if (
+        deploy_audio_flag
+        and args.environment == 'dev'
+        and not args.promote
+        and not args.skip_dev_audio_drift_check
+    ):
+        drift_ok = check_local_audio_drift_vs_dev()
+        if not drift_ok:
+            print("\n❌ Audio deploy blocked by guardrail.")
+            print("   Sync approved dev audio to local first, then retry.")
+            return 1
 
     # Track success
     csv_success = True
