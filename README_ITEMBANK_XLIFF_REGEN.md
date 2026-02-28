@@ -9,6 +9,7 @@ emits a report for confirmation before any regen step.
 - The baseline now supports current state, append-only history, and staged imports:
   - `items_current`
   - `item_versions`
+  - `audio_versions` (audio artifact/version ledger linked to runs/item_versions)
   - `items_staged`
 - Regeneration checks now include:
   - `TEXT_CHANGED`
@@ -39,6 +40,10 @@ emits a report for confirmation before any regen step.
 - Optionally imports approved-only rows into `items_staged`.
 - Compares staged rows against current baseline to propose regeneration candidates.
 - Emits human-readable and machine-readable reports before generation.
+- During `--promote-staged`, archives promoted audio snapshots to history storage:
+  - Bucket: `levante-assets-history`
+  - Prefix: `audio/`
+  - Recorded in SQLite `audio_versions` with archive URI/status.
 
 ### Requirements
 - `CROWDIN_API_TOKEN` set in your environment or `~/.crowdin_api_token`.
@@ -101,6 +106,26 @@ python utilities/itembank_by_task_regen_report.py \
   --langs en-US es-CO de \
   --import-staged \
   --approved-only
+```
+
+### Optional: configure audio history archive during promotion
+By default, `--promote-staged` archives promoted audio to
+`gs://levante-assets-history/audio/...` and records snapshot metadata in
+`audio_versions`.
+
+```bash
+python utilities/itembank_by_task_regen_report.py \
+  --promote-staged \
+  --promote-approved-only \
+  --audio-history-bucket levante-assets-history \
+  --audio-history-prefix audio
+```
+
+Disable history upload (still writes `audio_versions` rows):
+```bash
+python utilities/itembank_by_task_regen_report.py \
+  --promote-staged \
+  --no-audio-history
 ```
 
 ### Optional: skip download (use cached XLIFF)

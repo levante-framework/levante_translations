@@ -16,6 +16,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import shutil
 import sqlite3
 import subprocess
@@ -337,10 +338,37 @@ def ensure_db(conn: sqlite3.Connection) -> None:
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS audio_versions (
+            audio_version_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            item_id TEXT NOT NULL,
+            lang TEXT NOT NULL,
+            task TEXT NOT NULL,
+            run_id INTEGER NOT NULL,
+            item_version_id INTEGER,
+            change_types TEXT NOT NULL,
+            text_hash TEXT NOT NULL,
+            voice TEXT,
+            service TEXT,
+            audio_path TEXT NOT NULL,
+            content_md5 TEXT,
+            size_bytes INTEGER,
+            history_bucket TEXT,
+            history_object TEXT,
+            history_uri TEXT,
+            archive_status TEXT NOT NULL,
+            archive_error TEXT,
+            created_at TEXT NOT NULL
+        )
+        """
+    )
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_key ON item_versions(item_id, lang, task)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_run ON item_versions(run_id)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_item_versions_hash ON item_versions(text_hash)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_items_staged_lang ON items_staged(lang)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_audio_versions_key ON audio_versions(item_id, lang, task)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_audio_versions_run ON audio_versions(run_id)")
     conn.commit()
 
 
@@ -534,7 +562,8 @@ def append_item_version(
     run_id: int,
     change_type: str,
 ) -> None:
-    conn.execute(
+    cur = conn.cursor()
+    cur.execute(
         """
         INSERT INTO item_versions (
             item_id, lang, task, source_text, target_text, text_hash,
@@ -553,6 +582,111 @@ def append_item_version(
             source_file,
             run_id,
             change_type,
+            datetime.now(timezone.utc).isoformat(),
+        ),
+    )
+    return int(cur.lastrowid)
+
+
+def _safe_path_component(value: str) -> str:
+    cleaned = re.sub(r"[^A-Za-z0-9._-]+", "_", (value or "").strip())
+    return cleaned or "_"
+
+
+def _file_md5_b64(path: Path) -> str:
+    h = hashlib.md5()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    import base64
+    return base64.b64encode(h.digest()).decode("ascii")
+
+
+def _archive_audio_to_history_bucket(
+    *,
+    audio_path: Path,
+    bucket: str,
+    prefix: str,
+    run_id: int,
+    item_id: str,
+    lang: str,
+    task: str,
+    content_md5: str,
+) -> Dict[str, str]:
+    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    object_path = "/".join(
+        [
+            prefix.strip("/"),
+            _safe_path_component(lang),
+            _safe_path_component(task),
+            f"{_safe_path_component(item_id)}_{ts}_run{run_id}_{(content_md5 or 'nomd5')[:12]}.mp3",
+        ]
+    )
+    uri = f"gs://{bucket}/{object_path}"
+    run = subprocess.run(["gsutil", "cp", str(audio_path), uri], capture_output=True, text=True)
+    if run.returncode == 0:
+        return {
+            "archive_status": "ARCHIVED",
+            "history_object": object_path,
+            "history_uri": uri,
+            "archive_error": "",
+        }
+    err = (run.stderr or run.stdout or "").strip()
+    return {
+        "archive_status": "ARCHIVE_FAILED",
+        "history_object": object_path,
+        "history_uri": uri,
+        "archive_error": err[:1000],
+    }
+
+
+def append_audio_version(
+    conn: sqlite3.Connection,
+    *,
+    item_id: str,
+    lang: str,
+    task: str,
+    run_id: int,
+    item_version_id: Optional[int],
+    change_types: List[str],
+    text_hash: str,
+    voice: str,
+    service: str,
+    audio_path: str,
+    content_md5: str,
+    size_bytes: int,
+    history_bucket: str,
+    history_object: str,
+    history_uri: str,
+    archive_status: str,
+    archive_error: str,
+) -> None:
+    conn.execute(
+        """
+        INSERT INTO audio_versions (
+            item_id, lang, task, run_id, item_version_id, change_types, text_hash,
+            voice, service, audio_path, content_md5, size_bytes,
+            history_bucket, history_object, history_uri, archive_status, archive_error, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            item_id,
+            lang,
+            task,
+            run_id,
+            item_version_id,
+            ",".join(change_types),
+            text_hash,
+            voice,
+            service,
+            audio_path,
+            content_md5,
+            size_bytes,
+            history_bucket,
+            history_object,
+            history_uri,
+            archive_status,
+            archive_error,
             datetime.now(timezone.utc).isoformat(),
         ),
     )
@@ -647,6 +781,9 @@ def promote_staged_to_current(
     approved_only: bool = False,
     require_audio_ready: bool = False,
     audio_base_dir: str = "audio_files",
+    audio_history_enabled: bool = True,
+    audio_history_bucket: str = "levante-assets-history",
+    audio_history_prefix: str = "audio",
 ) -> Dict[str, int]:
     where = "WHERE approved = 1" if approved_only else ""
     staged_rows = conn.execute(
@@ -668,6 +805,9 @@ def promote_staged_to_current(
         "unchanged": 0,
         "skipped_audio_not_ready": 0,
         "skipped_missing_target_text": 0,
+        "audio_versions_recorded": 0,
+        "audio_history_archived": 0,
+        "audio_history_failed": 0,
     }
 
     for item_id, lang, task, source_text, target_text, text_hash, _approved, source_file in staged_rows:
@@ -736,8 +876,9 @@ def promote_staged_to_current(
             run_id=run_id,
         )
 
+        last_item_version_id: Optional[int] = None
         for change_type in change_types:
-            append_item_version(
+            last_item_version_id = append_item_version(
                 conn,
                 item_id=item_id,
                 lang=lang,
@@ -751,6 +892,65 @@ def promote_staged_to_current(
                 run_id=run_id,
                 change_type=change_type,
             )
+
+        audio_path_str = expected_audio_path(audio_base_dir, lang, item_id)
+        audio_path = Path(audio_path_str)
+        archive_status = "NOT_ARCHIVED"
+        archive_error = ""
+        history_uri = ""
+        history_object = ""
+        content_md5 = ""
+        size_bytes = 0
+
+        if audio_path.exists():
+            content_md5 = _file_md5_b64(audio_path)
+            size_bytes = int(audio_path.stat().st_size)
+            if audio_history_enabled:
+                archive = _archive_audio_to_history_bucket(
+                    audio_path=audio_path,
+                    bucket=audio_history_bucket,
+                    prefix=audio_history_prefix,
+                    run_id=run_id,
+                    item_id=item_id,
+                    lang=lang,
+                    task=task,
+                    content_md5=content_md5,
+                )
+                archive_status = archive["archive_status"]
+                history_uri = archive.get("history_uri", "")
+                history_object = archive.get("history_object", "")
+                archive_error = archive.get("archive_error", "")
+            else:
+                archive_status = "SKIPPED"
+        else:
+            archive_status = "AUDIO_MISSING_LOCAL"
+            archive_error = f"Missing local audio path: {audio_path_str}"
+
+        append_audio_version(
+            conn,
+            item_id=item_id,
+            lang=lang,
+            task=task,
+            run_id=run_id,
+            item_version_id=last_item_version_id,
+            change_types=change_types,
+            text_hash=new_hash,
+            voice=voice,
+            service=service,
+            audio_path=audio_path_str,
+            content_md5=content_md5,
+            size_bytes=size_bytes,
+            history_bucket=audio_history_bucket if audio_history_enabled else "",
+            history_object=history_object,
+            history_uri=history_uri,
+            archive_status=archive_status,
+            archive_error=archive_error,
+        )
+        stats["audio_versions_recorded"] += 1
+        if archive_status == "ARCHIVED":
+            stats["audio_history_archived"] += 1
+        elif archive_status == "ARCHIVE_FAILED":
+            stats["audio_history_failed"] += 1
 
         stats["promoted_rows"] += 1
 
@@ -956,6 +1156,12 @@ def main() -> int:
     parser.add_argument("--approved-only", action="store_true", help="Only include approved/final XLIFF units.")
     parser.add_argument("--promote-staged", action="store_true", help="Promote rows from items_staged into items_current and record item_versions.")
     parser.add_argument("--promote-approved-only", action="store_true", help="When promoting staged rows, include only approved=1 rows.")
+    parser.add_argument("--audio-history-bucket", default=os.getenv("AUDIO_HISTORY_BUCKET", "levante-assets-history"),
+                        help="Bucket used for immutable audio history snapshots during promote-staged.")
+    parser.add_argument("--audio-history-prefix", default=os.getenv("AUDIO_HISTORY_PREFIX", "audio"),
+                        help="Object prefix inside --audio-history-bucket for archived audio snapshots.")
+    parser.add_argument("--no-audio-history", action="store_true",
+                        help="Disable uploading promoted audio snapshots to history bucket.")
     parser.add_argument("--voice-config-source", choices=["local", "dashboard_api"], default="dashboard_api",
                         help="Source for expected voice/service used in VOICE_CHANGED checks.")
     parser.add_argument("--dashboard-api-url", default="https://levante-pitwall.vercel.app/api/language-config",
@@ -1084,6 +1290,9 @@ def main() -> int:
                 approved_only=args.promote_approved_only,
                 require_audio_ready=False,
                 audio_base_dir=args.audio_base_dir,
+                audio_history_enabled=False,
+                audio_history_bucket=args.audio_history_bucket,
+                audio_history_prefix=args.audio_history_prefix,
             )
             tmp_conn.commit()
             tmp_conn.close()
@@ -1117,6 +1326,9 @@ def main() -> int:
             approved_only=args.promote_approved_only,
             require_audio_ready=True,
             audio_base_dir=args.audio_base_dir,
+            audio_history_enabled=not args.no_audio_history,
+            audio_history_bucket=args.audio_history_bucket,
+            audio_history_prefix=args.audio_history_prefix,
         )
         conn.commit()
         conn.close()
