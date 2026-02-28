@@ -171,10 +171,28 @@ def check_prerequisites(environment: str, deploy_audio: bool) -> bool:
         print(f"✅ Found credentials in {creds_env} environment variable")
     elif os.getenv(creds_file_env):
         print(f"✅ Found credentials file in {creds_file_env} environment variable")
+    elif Path.home().joinpath(".config/gcloud/application_default_credentials.json").exists():
+        print("✅ Found Application Default Credentials (ADC) file")
     else:
-        print(f"⚠️  No Google Cloud credentials found")
-        print(f"   Set either {creds_env} or {creds_file_env}")
-        print("   CSV deployment may fail without proper credentials")
+        # Final fallback: check active gcloud auth account (works for gsutil flows).
+        try:
+            auth_check = subprocess.run(
+                ["gcloud", "auth", "list", "--filter=status:ACTIVE", "--format=value(account)"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            active_account = (auth_check.stdout or "").strip()
+            if active_account:
+                print(f"✅ Found active gcloud account: {active_account}")
+            else:
+                print(f"⚠️  No Google Cloud credentials found")
+                print(f"   Set either {creds_env} or {creds_file_env}")
+                print("   CSV deployment may fail without proper credentials")
+        except Exception:
+            print(f"⚠️  No Google Cloud credentials found")
+            print(f"   Set either {creds_env} or {creds_file_env}")
+            print("   CSV deployment may fail without proper credentials")
     
     return all_good
 
