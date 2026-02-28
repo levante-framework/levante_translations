@@ -2412,6 +2412,56 @@
                 return normalized ? normalized.toLowerCase() : null;
             }
 
+            extractVersionNumber(pathOrId) {
+                if (!pathOrId) return null;
+                const fileName = String(pathOrId).split('/').pop() || '';
+                const match = fileName.match(/_v(\d{3})\.mp3$/i);
+                if (!match) return null;
+                const n = parseInt(match[1], 10);
+                return Number.isFinite(n) ? n : null;
+            }
+
+            extractUpdatedMs(audioItem) {
+                if (!audioItem) return null;
+                const raw = audioItem.updated || audioItem.timeCreated || null;
+                if (!raw) return null;
+                const ms = new Date(raw).getTime();
+                return Number.isFinite(ms) ? ms : null;
+            }
+
+            isCandidateNewerAudio(candidate, current) {
+                if (!candidate) return false;
+                if (!current) return true;
+
+                const candMs = this.extractUpdatedMs(candidate);
+                const curMs = this.extractUpdatedMs(current);
+                if (candMs !== null && curMs !== null) {
+                    return candMs > curMs;
+                }
+                if (candMs !== null && curMs === null) {
+                    return true;
+                }
+
+                // Fallback for older objects where timestamps are missing.
+                const candVersion = this.extractVersionNumber(candidate.name);
+                const curVersion = this.extractVersionNumber(current.name);
+                if (candVersion !== null && curVersion !== null) {
+                    return candVersion > curVersion;
+                }
+                if (candVersion !== null && curVersion === null) {
+                    return true;
+                }
+                return false;
+            }
+
+            isDraftNewerThanDev(baseId, draftInfo, devInfo) {
+                const draftLatest = draftInfo?.latest?.get(baseId);
+                const devLatest = devInfo?.latest?.get(baseId);
+                if (!draftLatest) return false;
+                if (!devLatest) return true;
+                return this.isCandidateNewerAudio(draftLatest, devLatest);
+            }
+
             invalidateAudioCache(bucketName, langCode, baseId = null) {
                 const listKey = `${bucketName}::${langCode}`;
                 this.audioListCache.delete(listKey);
@@ -2436,6 +2486,7 @@
                 const prefixes = this.getAudioPrefixes(langCode);
                 const ids = new Set();
                 const paths = new Map();
+                const latest = new Map();
 
                 await Promise.all(prefixes.map(async prefix => {
                     try {
@@ -2451,7 +2502,12 @@
                             const baseId = this.extractBaseId(name);
                             if (!baseId) return;
                             ids.add(baseId);
-                            if (!paths.has(baseId)) {
+                            const previous = latest.get(baseId);
+                            if (this.isCandidateNewerAudio(item, previous)) {
+                                latest.set(baseId, item);
+                                paths.set(baseId, name);
+                                this.audioPathCache.set(`${bucketName}::${langCode}::${baseId}`, name);
+                            } else if (!paths.has(baseId)) {
                                 paths.set(baseId, name);
                                 this.audioPathCache.set(`${bucketName}::${langCode}::${baseId}`, name);
                             }
@@ -2461,7 +2517,7 @@
                     }
                 }));
 
-                const result = { ids, paths };
+                const result = { ids, paths, latest };
                 this.audioListCache.set(cacheKey, result);
                 return result;
             }
@@ -2518,10 +2574,14 @@
                     if (!baseId || !combinedIds.has(baseId)) {
                         return;
                     }
-                    if (this.approvedItems.has(baseId)) {
-                        approved++;
-                    } else {
+
+                    const hasDraft = draftInfo.ids.has(baseId);
+                    const hasDev = devInfo.ids.has(baseId);
+                    const draftNewer = hasDraft && this.isDraftNewerThanDev(baseId, draftInfo, devInfo);
+                    if (this.unapprovedItems.has(baseId) || (hasDraft && (!hasDev || draftNewer))) {
                         pending++;
+                    } else {
+                        approved++;
                     }
                 });
                 
@@ -2911,7 +2971,7 @@
             async filterItemsWithAudio(items) {
                 // Filter items to:
                 // 1. Only show items that have audio in levante-assets-draft (pending approval)
-                // 2. Exclude items that are already in levante-assets-dev (approved and moved)
+                // 2. Exclude items already in dev UNLESS draft has a newer candidate.
                 try {
                     const [draftInfo, devInfo] = await Promise.all([
                         this.fetchAudioFileIds(this.audioBuckets.draft, this.currentLangCode),
@@ -2921,7 +2981,9 @@
                     return items.filter(item => {
                         const baseId = this.extractBaseId(item.item_id || '');
                         if (!baseId) return false;
-                        return draftInfo.ids.has(baseId) && !devInfo.ids.has(baseId);
+                        if (!draftInfo.ids.has(baseId)) return false;
+                        if (!devInfo.ids.has(baseId)) return true;
+                        return this.isDraftNewerThanDev(baseId, draftInfo, devInfo);
                     });
                 } catch (error) {
                     console.error('Error filtering items with audio:', error);
@@ -3133,11 +3195,15 @@
 
             async getApprovedItemsFromDev(items) {
                 // Get approved items that exist in dev bucket
-                // Respects unapprovedItems set to exclude explicitly unapproved items
+                // Respects unapprovedItems and excludes items where draft has a newer candidate.
                 try {
-                    const devInfo = await this.fetchAudioFileIds(this.audioBuckets.dev, this.currentLangCode);
+                    const [draftInfo, devInfo] = await Promise.all([
+                        this.fetchAudioFileIds(this.audioBuckets.draft, this.currentLangCode),
+                        this.fetchAudioFileIds(this.audioBuckets.dev, this.currentLangCode)
+                    ]);
                     const approvedItemIds = new Set();
                     let excludedCount = 0;
+                    let newerDraftCount = 0;
                     
                     if (devInfo && devInfo.ids instanceof Set) {
                         devInfo.ids.forEach(baseId => {
@@ -3146,6 +3212,10 @@
                             }
                             if (this.unapprovedItems.has(baseId)) {
                                 excludedCount++;
+                                return;
+                            }
+                            if (draftInfo.ids.has(baseId) && this.isDraftNewerThanDev(baseId, draftInfo, devInfo)) {
+                                newerDraftCount++;
                                 return;
                             }
                             approvedItemIds.add(baseId);
@@ -3158,7 +3228,7 @@
                         return baseId && approvedItemIds.has(baseId);
                     });
                     
-                    console.log(`Found ${approvedItemsList.length} approved items in dev bucket (${excludedCount} excluded as unapproved)`);
+                    console.log(`Found ${approvedItemsList.length} approved items in dev bucket (${excludedCount} excluded as unapproved, ${newerDraftCount} moved to pending due to newer draft)`);
                     return approvedItemsList;
                 } catch (error) {
                     console.error('Error getting approved items from dev:', error);
