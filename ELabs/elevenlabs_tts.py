@@ -71,7 +71,7 @@ def get_voice_id(voice_name, lang_code, client: ElevenLabs):
 # This is called to generate audio for the passed string
 def main(
         input_file_path: str,
-        master_file_path: str,
+        master_file_path: Optional[str],
         lang_code: str,
         voice: str,
         retry_seconds: float,
@@ -90,7 +90,7 @@ def main(
     # item_id,labels,en,es-CO,de,context
 
     inputData = pd.read_csv(input_file_path)
-    masterData = pd.read_csv(master_file_path)
+    masterData = pd.read_csv(master_file_path) if master_file_path else None
 
     # build API call
     # Initialize ElevenLabs client once per call
@@ -241,12 +241,13 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
             print(f'Generated audio for {ourRow["item_id"]}')
             
             # Still need to update master data for tracking
-            masterData[lang_code] = \
-                np.where(masterData["item_id"] == ourRow["item_id"], \
-                translation_text, masterData[lang_code])
-            
-            # write as we go, so erroring out doesn't lose progress
-            masterData.to_csv("translation_master.csv", index=False)
+            if masterData is not None:
+                masterData[lang_code] = \
+                    np.where(masterData["item_id"] == ourRow["item_id"], \
+                    translation_text, masterData[lang_code])
+
+                # write as we go, so erroring out doesn't lose progress
+                masterData.to_csv("translation_master.csv", index=False)
             return 'Success'
 
     except Exception as e:

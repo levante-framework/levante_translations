@@ -407,7 +407,7 @@ def write_id3_tags(file_path, tags):
         return False
 
 
-def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice=""):
+def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData=None, voice=""):
     file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)
     
     with open(file_path, "wb") as file:
@@ -456,47 +456,48 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
     except Exception as e:
         print(f"Warning: Could not add ID3 tags to {file_path}: {e}")
 
-    # Handle column format mismatch - masterData might have old column names
-    # Map simplified codes to old codes for backward compatibility
-    old_lang_codes = {
-        conf.LANGUAGE_CODES['English']: 'en-US',
-        'es': 'es-CO', 
-        conf.LANGUAGE_CODES['German']: 'de-DE',
-        'fr': 'fr-CA',
-        conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
-    }
-    
-    # Determine which column name to use in masterData
-    master_lang_col = lang_code
-    if lang_code not in masterData.columns:
-        # Try the old format
-        old_lang_code = old_lang_codes.get(lang_code, lang_code)
-        if old_lang_code in masterData.columns:
-            master_lang_col = old_lang_code
-        else:
-            # Add the new column if neither exists
-            masterData[lang_code] = None
-            master_lang_col = lang_code
-
-    # Update our "cache" of successful transcriptions                            
-    # Handle column mapping for masterData update - get the text value correctly
-    text_for_master = ''
-    if lang_code in ourRow:
-        text_for_master = ourRow[lang_code]
-    else:
-        # Try simplified version
-        simplified_lang_codes = {
-            'es-CO': 'es',
-            'fr-CA': 'fr', 
-            'nl-NL': 'nl'
+    if masterData is not None:
+        # Handle column format mismatch - masterData might have old column names
+        # Map simplified codes to old codes for backward compatibility
+        old_lang_codes = {
+            conf.LANGUAGE_CODES['English']: 'en-US',
+            'es': 'es-CO',
+            conf.LANGUAGE_CODES['German']: 'de-DE',
+            'fr': 'fr-CA',
+            conf.LANGUAGE_CODES['Dutch']: 'nl-NL'
         }
-        simplified_code = simplified_lang_codes.get(lang_code, lang_code)
-        if simplified_code in ourRow:
-            text_for_master = ourRow[simplified_code]
-    
-    masterData[master_lang_col] = \
-        np.where(masterData["item_id"] == ourRow["item_id"], \
-        text_for_master, masterData[master_lang_col])
+
+        # Determine which column name to use in masterData
+        master_lang_col = lang_code
+        if lang_code not in masterData.columns:
+            # Try the old format
+            old_lang_code = old_lang_codes.get(lang_code, lang_code)
+            if old_lang_code in masterData.columns:
+                master_lang_col = old_lang_code
+            else:
+                # Add the new column if neither exists
+                masterData[lang_code] = None
+                master_lang_col = lang_code
+
+        # Update our "cache" of successful transcriptions
+        # Handle column mapping for masterData update - get the text value correctly
+        text_for_master = ''
+        if lang_code in ourRow:
+            text_for_master = ourRow[lang_code]
+        else:
+            # Try simplified version
+            simplified_lang_codes = {
+                'es-CO': 'es',
+                'fr-CA': 'fr',
+                'nl-NL': 'nl'
+            }
+            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
+            if simplified_code in ourRow:
+                text_for_master = ourRow[simplified_code]
+
+        masterData[master_lang_col] = \
+            np.where(masterData["item_id"] == ourRow["item_id"], \
+            text_for_master, masterData[master_lang_col])
 
     # Upload to GCS levante-assets-draft bucket
     if GCS_AVAILABLE:
@@ -577,9 +578,10 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
     else:
         print(f"⚠️  Warning: GCS not available. File saved locally only.")
 
-    # write as we go, so erroring out doesn't lose progress
-    # Translated, so we can save it to a master sheet
-    masterData.to_csv("translation_master.csv", index=False)
+    if masterData is not None:
+        # write as we go, so erroring out doesn't lose progress
+        # Translated, so we can save it to a master sheet
+        masterData.to_csv("translation_master.csv", index=False)
     # finished with the if statement        
     return 'Success'    
 

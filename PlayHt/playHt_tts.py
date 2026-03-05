@@ -4,6 +4,7 @@ import os
 import sys
 import logging
 import time
+from typing import Optional
 
 def retry_with_backoff(func, max_retries=3, base_delay=1, max_delay=60, backoff_factor=2):
     """
@@ -241,7 +242,7 @@ Args:
 """
 def main(
         input_file_path: str,
-        master_file_path: str,
+        master_file_path: Optional[str],
         lang_code: str,
         voice: str,
         retry_seconds: float,
@@ -272,14 +273,15 @@ def main(
         raise ImportError("pandas is required for CSV processing. Install with: pip install pandas")
     
     inputData = pd.read_csv(input_file_path)
-    masterData = pd.read_csv(master_file_path)
+    masterData = pd.read_csv(master_file_path) if master_file_path else None
 
     # Rename columns to match lang_codes used in the script
-    masterData = masterData.rename(columns={'en': 'en-US',
-                                             'de': 'de-DE',
-                                             'es': 'es-CO',
-                                             'fr': 'fr-CA',
-                                             'nl': 'nl-NL'})
+    if masterData is not None:
+        masterData = masterData.rename(columns={'en': 'en-US',
+                                                 'de': 'de-DE',
+                                                 'es': 'es-CO',
+                                                 'fr': 'fr-CA',
+                                                 'nl': 'nl-NL'})
 
     # build API call for v2 API
     headers = {

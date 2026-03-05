@@ -177,13 +177,14 @@ def generate_audio(
     #input_file_name = "translated_fixed.csv"
     input_file_name = conf.item_bank_translations
     diff_file_name = "needed_item_bank_translations.csv"
-    master_file_path = "translation_master.csv"
+    master_file_path = None
 
 # Raw Github URL for translations uploaded from Crowdin
 # for debugging use the service branch, later change to main
 # Right now this is our repo, but it might wind up somewhere else,
 # so use a webURL
 
+    selected_translation_source = translation_source
     try:
         if translation_source == "sqlite":
             translationData = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
@@ -194,6 +195,7 @@ def generate_audio(
             print(f"⚠️  Warning: Failed to load from SQLite ({e}). Falling back to CSV.")
             try:
                 translationData = _load_translation_data_from_csv(conf.item_bank_translations)
+                selected_translation_source = "csv"
             except Exception as csv_error:
                 print(f"ERROR: Failed to load source translations from CSV: {csv_error}")
                 return
@@ -208,70 +210,74 @@ def generate_audio(
     print(f"Available columns in translation data: {list(translationData.columns)}")
     
     # All data that we need to make sure is or has been generated
-    if translation_source == "csv":
+    if selected_translation_source == "csv":
         translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
 
-    # The "master file" of already generated strings
-    # There is/may also be an existing .csv file (translation_master.csv)
-    if os.path.exists(master_file_path):
-        try:
-            print(f"Loading existing master file: {master_file_path}")
-            # Try robust parser first
+    masterData = None
+    if selected_translation_source == "csv":
+        master_file_path = "translation_master.csv"
+        # The "master file" of already generated strings
+        if os.path.exists(master_file_path):
             try:
-                from utilities.robust_csv_parser import parse_csv_robust
-                master_data_list = parse_csv_robust(master_file_path)
-                masterData = pd.DataFrame(master_data_list)
-                print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns using robust parser")
-            except Exception as robust_error:
-                print(f"Robust parser failed for master file: {robust_error}")
-                print("Falling back to standard pandas parsing...")
-                masterData = pd.read_csv(master_file_path)
-                print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns")
-            
-        except pd.errors.ParserError as e:
-            print(f"ERROR: The master CSV file '{master_file_path}' is corrupted or has formatting issues.")
-            print(f"Details: {str(e)}")
-            print(f"Solution: Use the robust CSV parser to fix it:")
-            print(f"  python utilities/robust_csv_parser.py {master_file_path} {master_file_path}_fixed")
-            print(f"Or delete '{master_file_path}' and run the script again to create a fresh one.")
-            return
-            
-        except Exception as e:
-            print(f"ERROR: Failed to read master file '{master_file_path}'")
-            print(f"Details: {str(e)}")
-            print(f"Solution: Check file permissions, try the robust parser, or delete the file to create a fresh one.")
-            return
-        
-        # Add any missing language columns that might be needed
-        for lang_config in language_dict.values():
-            lang_code_temp = lang_config['lang_code']
-            if lang_code_temp not in masterData.columns:
-                masterData[lang_code_temp] = None
-                print(f"Added missing column {lang_code_temp} to master data")
-                
-    else:
-        # Create a "null state" generation status file
-        # so that we know what needs to be generated
-        masterData = translationData.copy(deep = True)
-        
-        # Initialize all language columns from config
-        for lang_config in language_dict.values():
-            lang_code = lang_config['lang_code']
-            masterData[lang_code] = None
-        masterData.to_csv(master_file_path, index=False, encoding='utf-8', errors='replace')
-        # Create baseline masterData
+                print(f"Loading existing master file: {master_file_path}")
+                # Try robust parser first
+                try:
+                    from utilities.robust_csv_parser import parse_csv_robust
+                    master_data_list = parse_csv_robust(master_file_path)
+                    masterData = pd.DataFrame(master_data_list)
+                    print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns using robust parser")
+                except Exception as robust_error:
+                    print(f"Robust parser failed for master file: {robust_error}")
+                    print("Falling back to standard pandas parsing...")
+                    masterData = pd.read_csv(master_file_path)
+                    print(f"SUCCESS: Loaded {len(masterData)} rows with {len(masterData.columns)} columns")
 
-    # add blank rows in master data for any missing items that are in translation data
-    blank_row = [""] * (len(masterData.columns) - 1)
-    currently_tracked_ids = list(masterData["item_id"])
-    modified_master_data = False
-    for item in translationData["item_id"]:
-        if item not in currently_tracked_ids:
-          masterData.loc[len(masterData)] = [item, *blank_row]
-          modified_master_data = True
-    
-    if modified_master_data: 
-      masterData.to_csv(master_file_path, encoding='utf-8', errors='replace', index=False)
+            except pd.errors.ParserError as e:
+                print(f"ERROR: The master CSV file '{master_file_path}' is corrupted or has formatting issues.")
+                print(f"Details: {str(e)}")
+                print(f"Solution: Use the robust CSV parser to fix it:")
+                print(f"  python utilities/robust_csv_parser.py {master_file_path} {master_file_path}_fixed")
+                print(f"Or delete '{master_file_path}' and run the script again to create a fresh one.")
+                return
+
+            except Exception as e:
+                print(f"ERROR: Failed to read master file '{master_file_path}'")
+                print(f"Details: {str(e)}")
+                print(f"Solution: Check file permissions, try the robust parser, or delete the file to create a fresh one.")
+                return
+
+            # Add any missing language columns that might be needed
+            for lang_config in language_dict.values():
+                lang_code_temp = lang_config['lang_code']
+                if lang_code_temp not in masterData.columns:
+                    masterData[lang_code_temp] = None
+                    print(f"Added missing column {lang_code_temp} to master data")
+
+        else:
+            # Create a "null state" generation status file
+            # so that we know what needs to be generated
+            masterData = translationData.copy(deep=True)
+
+            # Initialize all language columns from config
+            for lang_config in language_dict.values():
+                lang_code = lang_config['lang_code']
+                masterData[lang_code] = None
+            masterData.to_csv(master_file_path, index=False, encoding='utf-8', errors='replace')
+            # Create baseline masterData
+
+        # add blank rows in master data for any missing items that are in translation data
+        blank_row = [""] * (len(masterData.columns) - 1)
+        currently_tracked_ids = list(masterData["item_id"])
+        modified_master_data = False
+        for item in translationData["item_id"]:
+            if item not in currently_tracked_ids:
+              masterData.loc[len(masterData)] = [item, *blank_row]
+              modified_master_data = True
+
+        if modified_master_data:
+          masterData.to_csv(master_file_path, encoding='utf-8', errors='replace', index=False)
+    else:
+        print("Using SQLite-backed generation state; skipping translation_master.csv cache.")
 
     # Now we have masterData & translationData
     # We want to compare the appropriate column to see if we need to generate
@@ -287,7 +293,7 @@ def generate_audio(
     voice = our_language['voice']
     
     # If force-regenerate is enabled, clear master cache for this language
-    if force_regenerate:
+    if force_regenerate and masterData is not None and master_file_path:
         try:
             if lang_code not in masterData.columns:
                 print(f"Master data missing column {lang_code}; creating it before clearing cache...")
@@ -299,6 +305,8 @@ def generate_audio(
             print(f"✅ Cleared master cache for {lang_code}")
         except Exception as e:
             print(f"⚠️  Warning: Failed to clear master cache for {lang_code}: {e}")
+    elif force_regenerate:
+        print("🔄 FORCE MODE: skipping translation_master.csv cache clear in SQLite mode.")
 
     # DEBUG: Show language column status
     print(f"Looking for language column: {lang_code}")
