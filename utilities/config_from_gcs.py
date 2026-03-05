@@ -24,13 +24,17 @@ except Exception:
     storage = None  # Optional dependency for offline/local use
 
 
-DEFAULT_BUCKET = os.environ.get('AUDIO_DEV_BUCKET', 'levante-audio-dev')
+DEFAULT_BUCKET = os.environ.get('AUDIO_DEV_BUCKET', 'levante-assets-dev')
 DEFAULT_OBJECT = os.environ.get('LANGUAGE_CONFIG_OBJECT', 'language_config.json')
 EXPLICIT_URL = os.environ.get('LANGUAGE_CONFIG_URL')
 DEFAULT_DASHBOARD_API = os.environ.get(
     'LANGUAGE_CONFIG_API_URL',
-    'https://levante-audio-dashboard.vercel.app/api/language-config'
+    'https://levante-pitwall.vercel.app/api/language-config'
 )
+FALLBACK_DASHBOARD_APIS = [
+    'https://levante-pitwall.vercel.app/api/language-config',
+    'https://levante-audio-dashboard.vercel.app/api/language-config',
+]
 
 
 def _load_json_from_url(url: str) -> Optional[Dict[str, Any]]:
@@ -40,6 +44,23 @@ def _load_json_from_url(url: str) -> Optional[Dict[str, Any]]:
         return json.loads(data)
     except (URLError, HTTPError, json.JSONDecodeError):
         return None
+
+
+def _extract_languages_map(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Normalize known config payload shapes into a languages map."""
+    if not isinstance(obj, dict):
+        return None
+    if isinstance(obj.get('languages'), dict):
+        return obj['languages']
+
+    # Some sources may return the language map at top level.
+    looks_like_map = all(
+        isinstance(v, dict) and {'lang_code', 'service', 'voice'} & set(v.keys())
+        for v in obj.values()
+    ) if obj else False
+    if looks_like_map:
+        return obj
+    return None
 
 
 def _load_from_public_gcs(bucket_name: str, object_name: str) -> Optional[Dict[str, Any]]:
@@ -78,11 +99,13 @@ def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_
     if isinstance(j_pub, dict):
         candidates.append(j_pub)
 
-    # 3) Dashboard API
-    j_api = _load_json_from_url(DEFAULT_DASHBOARD_API)
-    if isinstance(j_api, dict):
-        # Some responses include success flag; unwrap languages if present
-        candidates.append(j_api)
+    # 3) Dashboard API(s)
+    api_urls = [DEFAULT_DASHBOARD_API] + [u for u in FALLBACK_DASHBOARD_APIS if u != DEFAULT_DASHBOARD_API]
+    for api_url in api_urls:
+        j_api = _load_json_from_url(api_url)
+        # Only keep API responses that actually contain language mappings.
+        if isinstance(j_api, dict) and _extract_languages_map(j_api):
+            candidates.append(j_api)
 
     # 4) Authenticated GCS
     j_auth = None
@@ -121,17 +144,7 @@ def get_languages_config(fallback: Dict[str, Any]) -> Dict[str, Any]:
     """Return languages config, preferring remote GCS JSON, merging with fallback for missing entries."""
     remote = load_from_gcs()
     if isinstance(remote, dict):
-        # Accept either top-level mapping or nested under 'languages'
-        if 'languages' in remote and isinstance(remote['languages'], dict):
-            remote_map = remote['languages']
-        else:
-            # If the object itself looks like the languages map, use it
-            looks_like_map = all(
-                isinstance(v, dict) and {'lang_code', 'service', 'voice'} & set(v.keys())
-                for v in remote.values()
-            ) if remote else False
-            remote_map = remote if looks_like_map else None
-
+        remote_map = _extract_languages_map(remote)
         if isinstance(remote_map, dict):
             # Merge: remote entries take precedence; fallback fills missing languages
             merged = {**fallback, **remote_map}
