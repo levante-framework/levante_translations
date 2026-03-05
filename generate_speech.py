@@ -128,6 +128,13 @@ def _load_translation_data_from_sqlite(
     return translationData
 
 
+def _read_file_bytes(path: str):
+    if not os.path.exists(path):
+        return None
+    with open(path, "rb") as f:
+        return f.read()
+
+
 def generate_audio(
     language,
     force_regenerate: bool = False,
@@ -579,7 +586,15 @@ def main(
     translation_source: str = "sqlite",
     sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite"
 ):
-    
+    master_file_path = "translation_master.csv"
+    preserve_master_bytes = None
+    preserve_master_existed = False
+
+    # Guardrail: SQLite validation should never persist edits to translation_master.csv.
+    if validate_only and translation_source == "sqlite":
+        preserve_master_existed = os.path.exists(master_file_path)
+        preserve_master_bytes = _read_file_bytes(master_file_path)
+
     if validate_only:
         # Only validate audio files without regenerating
         from utilities.audio_validation import validate_audio_files_for_language
@@ -606,6 +621,24 @@ def main(
         except Exception as e:
             print(f"❌ Validation failed: {e}")
             return
+        finally:
+            if translation_source == "sqlite":
+                after_exists = os.path.exists(master_file_path)
+                after_bytes = _read_file_bytes(master_file_path)
+                master_changed = (
+                    after_exists != preserve_master_existed
+                    or after_bytes != preserve_master_bytes
+                )
+                if master_changed:
+                    if preserve_master_existed:
+                        with open(master_file_path, "wb") as f:
+                            f.write(preserve_master_bytes or b"")
+                    elif after_exists:
+                        os.remove(master_file_path)
+                    print(
+                        "⚠️  Restored translation_master.csv after SQLite validate-only run "
+                        "(guarding against legacy side effects)."
+                    )
     else:
         # Normal audio generation
         generate_audio(
