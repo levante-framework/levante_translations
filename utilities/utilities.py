@@ -408,6 +408,52 @@ def write_id3_tags(file_path, tags):
 
 
 def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData=None, voice=""):
+    def _resolve_text_from_row(row, target_lang_code):
+        candidates = [target_lang_code]
+        base = (target_lang_code or "").split("-")[0]
+        if base and base != target_lang_code:
+            candidates.append(base)
+
+        regional_fallbacks = {
+            "es-AR": "es-CO",
+            "es-MX": "es-CO",
+            "fr-FR": "fr-CA",
+            "de-CH": "de",
+        }
+        reverse_regional = {
+            "en": "en-US",
+            "de": "de-DE",
+            "es": "es-CO",
+            "fr": "fr-CA",
+            "nl": "nl-NL",
+        }
+        cand = regional_fallbacks.get(target_lang_code)
+        if cand:
+            candidates.append(cand)
+        reverse_cand = reverse_regional.get(target_lang_code)
+        if reverse_cand:
+            candidates.append(reverse_cand)
+
+        simplified_lang_codes = {
+            "en-US": "en",
+            "es-CO": "es",
+            "de-DE": "de",
+            "fr-CA": "fr",
+            "nl-NL": "nl",
+        }
+        simp = simplified_lang_codes.get(target_lang_code)
+        if simp:
+            candidates.append(simp)
+
+        for candidate in dict.fromkeys(candidates):
+            if candidate not in row:
+                continue
+            value = row[candidate]
+            if pd.isna(value) or value is None or value == "":
+                continue
+            return str(value)
+        return ""
+
     file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)
     
     with open(file_path, "wb") as file:
@@ -431,21 +477,7 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['service'] = service
         tags['voice'] = voice
         tags['task'] = str(ourRow.get('labels', ''))  # Explicit task field for downstream SQLite/reporting
-        # Handle column mapping for text field - check both original and simplified lang codes
-        text_value = ''
-        if lang_code in ourRow:
-            text_value = ourRow[lang_code]
-        else:
-            # Try simplified version
-            simplified_lang_codes = {
-                'es-CO': 'es',
-                'fr-CA': 'fr', 
-                'nl-NL': 'nl'
-            }
-            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
-            if simplified_code in ourRow:
-                text_value = ourRow[simplified_code]
-        
+        text_value = _resolve_text_from_row(ourRow, lang_code)
         tags['text'] = text_value
         tags['comment'] = f"Levante Project - {service} - {voice} - {lang_code}"
 
@@ -480,20 +512,7 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
                 master_lang_col = lang_code
 
         # Update our "cache" of successful transcriptions
-        # Handle column mapping for masterData update - get the text value correctly
-        text_for_master = ''
-        if lang_code in ourRow:
-            text_for_master = ourRow[lang_code]
-        else:
-            # Try simplified version
-            simplified_lang_codes = {
-                'es-CO': 'es',
-                'fr-CA': 'fr',
-                'nl-NL': 'nl'
-            }
-            simplified_code = simplified_lang_codes.get(lang_code, lang_code)
-            if simplified_code in ourRow:
-                text_for_master = ourRow[simplified_code]
+        text_for_master = _resolve_text_from_row(ourRow, lang_code)
 
         masterData[master_lang_col] = \
             np.where(masterData["item_id"] == ourRow["item_id"], \
@@ -551,18 +570,7 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
                 }
                 
                 # Add text if available
-                text_value = ''
-                if lang_code in ourRow:
-                    text_value = ourRow[lang_code]
-                else:
-                    simplified_lang_codes = {
-                        'es-CO': 'es',
-                        'fr-CA': 'fr', 
-                        'nl-NL': 'nl'
-                    }
-                    simplified_code = simplified_lang_codes.get(lang_code, lang_code)
-                    if simplified_code in ourRow:
-                        text_value = ourRow[simplified_code]
+                text_value = _resolve_text_from_row(ourRow, lang_code)
                 
                 if text_value:
                     metadata['text'] = text_value[:500]  # Limit length for metadata

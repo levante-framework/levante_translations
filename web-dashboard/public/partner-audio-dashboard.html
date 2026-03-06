@@ -1109,7 +1109,7 @@
             
             <!-- Password Login Form -->
             <form class="auth-form" id="passwordAuthForm" style="display: block;" novalidate>
-                <input type="email" id="emailInput" class="auth-input" placeholder="Email" required>
+                <input type="text" id="emailInput" class="auth-input" placeholder="User ID or email" required>
                 <input type="password" id="passwordInput" class="auth-input" placeholder="Password (optional for SuperAdmin)" autocomplete="current-password">
                 <p class="auth-hint" style="font-size: 12px; color: #71717a; margin-top: -8px; margin-bottom: 12px;">
                     SuperAdmin emails can sign in without a password
@@ -1290,8 +1290,9 @@
                 this.currentUserEmail = null;
                 this.isSuperAdmin = false;
                 this.isOverrideEmail = false;
-                this.authMethod = null; // 'firebase' or 'crowdin'
+                this.authMethod = null; // 'firebase', 'crowdin', or 'language_approver'
                 this.crowdinAuthData = null; // Store Crowdin auth response
+                this.languageCredentialsIndex = [];
                 
                 this.init();
             }
@@ -1313,6 +1314,130 @@
                     passwordForm.style.display = 'none';
                     crowdinForm.style.display = 'block';
                 }
+            }
+
+            _firstNonEmptyValue(obj, keys = []) {
+                if (!obj || typeof obj !== 'object') return '';
+                for (const key of keys) {
+                    const val = obj[key];
+                    if (typeof val === 'string' && val.trim()) return val.trim();
+                }
+                return '';
+            }
+
+            _buildLanguageCredentialsIndex(languagesMap) {
+                const index = [];
+                if (!languagesMap || typeof languagesMap !== 'object') return index;
+
+                for (const [languageName, config] of Object.entries(languagesMap)) {
+                    if (!config || typeof config !== 'object') continue;
+
+                    const approver1Obj = (config.approver1 && typeof config.approver1 === 'object') ? config.approver1 : {};
+                    const approver2Obj = (config.approver2 && typeof config.approver2 === 'object') ? config.approver2 : {};
+
+                    const approver1UserId = this._firstNonEmptyValue(config, [
+                        'approver1_userid', 'approver1UserId', 'approver_1_userid', 'approver1_user_id'
+                    ]) || this._firstNonEmptyValue(approver1Obj, ['userid', 'userId', 'username', 'email']);
+                    const approver1Password = this._firstNonEmptyValue(config, [
+                        'approver1_password', 'approver1Password', 'approver_1_password'
+                    ]) || this._firstNonEmptyValue(approver1Obj, ['password', 'pass']);
+
+                    const approver2UserId = this._firstNonEmptyValue(config, [
+                        'approver2_userid', 'approver2UserId', 'approver_2_userid', 'approver2_user_id'
+                    ]) || this._firstNonEmptyValue(approver2Obj, ['userid', 'userId', 'username', 'email']);
+                    const approver2Password = this._firstNonEmptyValue(config, [
+                        'approver2_password', 'approver2Password', 'approver_2_password'
+                    ]) || this._firstNonEmptyValue(approver2Obj, ['password', 'pass']);
+
+                    if (approver1UserId && approver1Password) {
+                        index.push({
+                            languageName,
+                            langCode: config.lang_code || null,
+                            slot: 'approver1',
+                            userId: approver1UserId,
+                            password: approver1Password
+                        });
+                    }
+                    if (approver2UserId && approver2Password) {
+                        index.push({
+                            languageName,
+                            langCode: config.lang_code || null,
+                            slot: 'approver2',
+                            userId: approver2UserId,
+                            password: approver2Password
+                        });
+                    }
+                }
+                return index;
+            }
+
+            async refreshLanguageConfig() {
+                try {
+                    const response = await fetch('/api/language-config', { cache: 'no-store' });
+                    if (!response.ok) return false;
+
+                    const payload = await response.json();
+                    const remoteLanguages = payload?.languages && typeof payload.languages === 'object'
+                        ? payload.languages
+                        : null;
+                    if (!remoteLanguages || Object.keys(remoteLanguages).length === 0) {
+                        return false;
+                    }
+
+                    this.languages = remoteLanguages;
+                    this.languageCredentialsIndex = this._buildLanguageCredentialsIndex(this.languages);
+                    return true;
+                } catch (error) {
+                    console.warn('Unable to refresh language config from API:', error);
+                    return false;
+                }
+            }
+
+            findLanguageApproverMatch(userId, password) {
+                const inputUser = (userId || '').trim().toLowerCase();
+                const inputPassword = String(password || '');
+                if (!inputUser || !inputPassword) return null;
+
+                const index = Array.isArray(this.languageCredentialsIndex)
+                    ? this.languageCredentialsIndex
+                    : [];
+                for (const entry of index) {
+                    const configuredUser = String(entry.userId || '').trim().toLowerCase();
+                    const configuredPassword = String(entry.password || '');
+                    if (configuredUser === inputUser && configuredPassword === inputPassword) {
+                        return entry;
+                    }
+                }
+                return null;
+            }
+
+            async tryLanguageApproverLogin(userId, password) {
+                await this.refreshLanguageConfig();
+                if (!this.languageCredentialsIndex || this.languageCredentialsIndex.length === 0) {
+                    this.languageCredentialsIndex = this._buildLanguageCredentialsIndex(this.languages);
+                }
+
+                const match = this.findLanguageApproverMatch(userId, password);
+                if (!match) {
+                    return false;
+                }
+
+                this.authMethod = 'language_approver';
+                this.currentUserEmail = (userId || '').trim();
+                this.isSuperAdmin = false;
+                this.isOverrideEmail = false;
+                this.allowedLanguage = match.languageName;
+                this.currentLanguage = match.languageName;
+                this.currentLangCode = this.languages[this.allowedLanguage]?.lang_code || match.langCode || null;
+
+                const authContainer = document.getElementById('authContainer');
+                const container = document.querySelector('.container');
+                if (authContainer) authContainer.style.display = 'none';
+                if (container) container.style.display = 'block';
+
+                await this.initDashboard();
+                this.setStatus(`Signed in as ${match.slot} for ${match.languageName}`, 'success');
+                return true;
             }
 
             async initDashboard(options = {}) {
@@ -1451,6 +1576,18 @@
                         
                         // Show auth modal
                         this.showAuthModal();
+                    } else if (this.authMethod === 'language_approver') {
+                        this.authMethod = null;
+                        this.currentUserEmail = null;
+                        this.isSuperAdmin = false;
+                        this.isOverrideEmail = false;
+                        this.allowedLanguage = null;
+                        this.data = [];
+                        this.currentLanguage = null;
+                        this.currentLangCode = null;
+                        this.approvedItems.clear();
+                        this.unapprovedItems.clear();
+                        this.showAuthModal();
                     } else if (this.authMethod === 'firebase') {
                         // Firebase logout
                         if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
@@ -1513,6 +1650,11 @@
             }
 
             async init() {
+                await this.refreshLanguageConfig();
+                if (!this.languageCredentialsIndex || this.languageCredentialsIndex.length === 0) {
+                    this.languageCredentialsIndex = this._buildLanguageCredentialsIndex(this.languages);
+                }
+
                 // Check authentication first
                 await this.checkAuth();
                 
@@ -1621,7 +1763,7 @@
                     // Listen for auth state changes (only for Firebase auth)
                     auth.onAuthStateChanged(async (user) => {
                         // Skip if user is authenticated via Crowdin or SuperAdmin bypass
-                        if (this.authMethod === 'crowdin' || this.authMethod === 'superadmin') {
+                        if (this.authMethod === 'crowdin' || this.authMethod === 'superadmin' || this.authMethod === 'language_approver') {
                             return;
                         }
                         
@@ -2035,7 +2177,7 @@
                 // Regular login flow (non-SuperAdmin only)
                 if (!email) {
                     if (errorEl) {
-                        errorEl.textContent = 'Please enter your email';
+                        errorEl.textContent = 'Please enter your user ID or email';
                         errorEl.style.display = 'block';
                     }
                     return;
@@ -2061,6 +2203,11 @@
                 }
                 
                 try {
+                    const languageApproverLoggedIn = await this.tryLanguageApproverLogin(email, password);
+                    if (languageApproverLoggedIn) {
+                        return;
+                    }
+
                     if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
                         throw new Error('Firebase not initialized. Please configure Firebase authentication.');
                     }
