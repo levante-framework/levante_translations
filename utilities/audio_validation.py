@@ -75,7 +75,8 @@ def needs_regeneration(
     current_voice: str, 
     current_service: str,
     current_lang_code: str,
-    force_id: bool = False
+    force_id: bool = False,
+    current_model_id: Optional[str] = None
 ) -> Tuple[bool, str]:
     """
     Check if an audio file needs regeneration based on text or voice changes.
@@ -87,6 +88,7 @@ def needs_regeneration(
         current_service (str): Current TTS service (ElevenLabs, PlayHT)
         current_lang_code (str): Current language code
         force_id (bool): If True, regenerate files without ID3 tags. If False, skip them.
+        current_model_id (Optional[str]): Expected model ID, when model-specific validation is needed.
         
     Returns:
         Tuple of (needs_regeneration: bool, reason: str)
@@ -122,6 +124,13 @@ def needs_regeneration(
     stored_lang = metadata.get('lang_code', '').strip()
     if stored_lang != current_lang_code:
         return True, f"Language code changed: '{stored_lang}' -> '{current_lang_code}'"
+
+    # Check model ID only when explicitly provided
+    if current_model_id is not None:
+        stored_model_id = metadata.get('model_id', '').strip()
+        expected_model_id = str(current_model_id).strip()
+        if stored_model_id != expected_model_id:
+            return True, f"Model changed: '{stored_model_id}' -> '{expected_model_id}'"
     
     return False, "Audio file is up to date"
 

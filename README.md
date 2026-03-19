@@ -145,6 +145,20 @@ npm run generate:spanish -- -f
 
 The `--force` (or `-f`) flag will regenerate all audio files using the current voice configuration, regardless of whether files already exist.
 
+#### Generate by Task Label
+
+You can limit processing to specific task labels from the `labels` column:
+
+```bash
+# Single task
+python generate_speech.py Spanish --tasks child-survey
+
+# Multiple tasks (comma-separated)
+python generate_speech.py Spanish --tasks child-survey,matrix-reasoning
+```
+
+Use `--tasks all` (or omit `--tasks`) to process every task.
+
 ### Command Scripts
 
 The `commands/` directory contains convenient shell and batch scripts for common operations:

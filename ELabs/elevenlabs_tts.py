@@ -75,6 +75,7 @@ def main(
         lang_code: str,
         voice: str,
         retry_seconds: float,
+        model_id: str = "eleven_multilingual_v2",
         user_id: str = None,
         api_key: str = None,
         output_file_path: str = None,
@@ -120,7 +121,7 @@ def main(
             
             result = processRow(index, ourRow, lang_code=lang_code, voice=voice, voice_id=voice_id, \
                                 audio_base_dir=audio_base_dir, masterData=masterData, \
-                                headers=None, output_format=output_format)
+                                headers=None, output_format=output_format, model_id=model_id)
             
             # replace with match once we are past python 3.10
             if result == 'Error':
@@ -162,7 +163,7 @@ def main(
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, voice_id, \
-               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56"):
+               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56", model_id: str = "eleven_multilingual_v2"):
 
     # reset local error count for new row
     errorCount = 0
@@ -231,7 +232,7 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
         audio = audio_client.text_to_speech.convert(
             text=translation_text,
             voice_id=voice_id,
-            model_id="eleven_multilingual_v2",
+            model_id=model_id,
             output_format=output_format
         )
 
@@ -266,7 +267,17 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
         # Use our unified save_audio function with ID3 tags
         service = 'ElevenLabs'
         if ourRow['labels'] != float('nan'):
-            result = u.save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData, voice)
+            result = u.save_audio(
+                ourRow,
+                lang_code,
+                service,
+                audioData,
+                audio_base_dir,
+                masterData,
+                voice=voice,
+                voice_id=voice_id,
+                model_id=model_id
+            )
             print(f"💾 Saved audio file for '{ourRow['item_id']}' with result: {result}")
             return result
         else:

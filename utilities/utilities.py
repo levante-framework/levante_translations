@@ -57,7 +57,9 @@ audio_tags = {
     'created': None,
     'lang_code': None,
     'service': None,
-    'voice': None
+    'voice': None,
+    'voice_id': None,
+    'model_id': None
 }
 
 # Standard ID3v2 tag fields (these use specific ID3 frames)
@@ -407,7 +409,17 @@ def write_id3_tags(file_path, tags):
         return False
 
 
-def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData=None, voice=""):
+def save_audio(
+    ourRow,
+    lang_code,
+    service,
+    audioData,
+    audio_base_dir,
+    masterData=None,
+    voice="",
+    voice_id="",
+    model_id=""
+):
     def _resolve_text_from_row(row, target_lang_code):
         candidates = [target_lang_code]
         base = (target_lang_code or "").split("-")[0]
@@ -476,6 +488,8 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
         tags['lang_code'] = lang_code
         tags['service'] = service
         tags['voice'] = voice
+        tags['voice_id'] = str(voice_id) if voice_id else ""
+        tags['model_id'] = str(model_id) if model_id else ""
         tags['task'] = str(ourRow.get('labels', ''))  # Explicit task field for downstream SQLite/reporting
         text_value = _resolve_text_from_row(ourRow, lang_code)
         tags['text'] = text_value
@@ -564,6 +578,8 @@ def save_audio(ourRow, lang_code, service, audioData, audio_base_dir, masterData
                 metadata = {
                     'service': service,
                     'voice': voice,
+                    'voice_id': str(voice_id) if voice_id else '',
+                    'model_id': str(model_id) if model_id else '',
                     'lang_code': lang_code,
                     'item_id': ourRow['item_id'],
                     'task': ourRow.get('labels', ''),

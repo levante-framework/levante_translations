@@ -256,6 +256,12 @@ python generate_speech.py <Language Name> --force
 ```
 This clears per-language cache in `translation_master.csv` and regenerates all items using the current voice.
 
+- Rebuild only specific tasks for a language
+```bash
+python generate_speech.py <Language Name> --tasks child-survey,matrix-reasoning
+```
+Use comma-separated `labels` values from the translation data. Use `--tasks all` (or omit `--tasks`) to process all tasks.
+
 ---
 
 ## Templates

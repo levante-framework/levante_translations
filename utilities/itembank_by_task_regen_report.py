@@ -387,6 +387,18 @@ def reset_versioned_tables(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def purge_langs_from_db(conn: sqlite3.Connection, lang_codes: List[str]) -> None:
+    """Remove all rows for the given normalized language codes from versioned tables."""
+    for raw in lang_codes:
+        lang = normalize_crowdin_lang_code((raw or "").strip())
+        if not lang:
+            continue
+        conn.execute("DELETE FROM items_current WHERE lang = ?", (lang,))
+        conn.execute("DELETE FROM item_versions WHERE lang = ?", (lang,))
+        conn.execute("DELETE FROM items_staged WHERE lang = ?", (lang,))
+    conn.commit()
+
+
 def load_existing_state(conn: sqlite3.Connection) -> Dict[Tuple[str, str, str], Dict[str, str]]:
     rows = conn.execute(
         "SELECT item_id, lang, task, text_hash, COALESCE(voice, ''), COALESCE(service, '') FROM items_current"
@@ -1154,6 +1166,13 @@ def main() -> int:
     parser.add_argument("--import-staged", action="store_true", help="Import parsed XLIFF rows into items_staged.")
     parser.add_argument("--staged-only", action="store_true", help="Only import/compare staged rows; do not update items_current.")
     parser.add_argument("--approved-only", action="store_true", help="Only include approved/final XLIFF units.")
+    parser.add_argument(
+        "--purge-lang",
+        nargs="+",
+        default=[],
+        help="Before import, delete SQLite rows for these language codes (e.g. es-AR). "
+        "Use when rebuilding a locale so stale rows not present in --approved-only XLIFF are removed.",
+    )
     parser.add_argument("--promote-staged", action="store_true", help="Promote rows from items_staged into items_current and record item_versions.")
     parser.add_argument("--promote-approved-only", action="store_true", help="When promoting staged rows, include only approved=1 rows.")
     parser.add_argument("--audio-history-bucket", default=os.getenv("AUDIO_HISTORY_BUCKET", "levante-assets-history"),
@@ -1253,6 +1272,9 @@ def main() -> int:
     if args.reset_db:
         print("🧹 Resetting versioned SQLite tables (--reset-db)")
         reset_versioned_tables(conn)
+    if args.purge_lang and not args.audio_seed_only:
+        purge_langs_from_db(conn, args.purge_lang)
+        print(f"🧹 Purged SQLite rows for languages: {', '.join(args.purge_lang)}")
     expected_voice_map: Dict[str, Dict[str, str]] = {}
     if args.voice_config_source == "dashboard_api":
         expected_voice_map = _load_expected_voice_service_from_dashboard_api(args.dashboard_api_url)

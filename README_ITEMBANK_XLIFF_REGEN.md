@@ -170,8 +170,60 @@ python generate_speech.py Spanish \
   --force
 ```
 
+Generate only specific tasks:
+```bash
+python generate_speech.py Spanish \
+  --translation-source sqlite \
+  --sqlite-db tmp/itembank_by_task_regen.sqlite \
+  --tasks child-survey,matrix-reasoning
+```
+
 ### Notes
 - The SQLite baseline enables stable diffs across runs and keeps version history in `item_versions`.
 - `item_id` is taken from XLIFF `trans-unit` `resname` or `id`.
 - Task name is inferred from the XLIFF filename in `itembank_by_task/`.
 - Crowdin `de` is normalized to `de-DE` for parity with audio path conventions.
+
+### Example: wipe `es-AR` audio (local + draft bucket), then regen approved-only + fully-approved tasks
+
+**1) Remove local MP3s**
+
+```bash
+rm -rf audio_files/es-AR
+```
+
+**2) Remove draft-bucket audio** (`gs://levante-assets-draft/audio/<lang>/`)
+
+```bash
+gsutil -m rm -r gs://levante-assets-draft/audio/es-AR
+```
+
+**3) Refresh SQLite for `es-AR`, approved XLIFF units only, and drop stale rows for that locale**
+
+`--purge-lang es-AR` avoids leaving old `items_current` rows that no longer appear when using `--approved-only`.
+
+```bash
+python utilities/itembank_by_task_regen_report.py \
+  --langs es-AR \
+  --approved-only \
+  --purge-lang es-AR \
+  --db-path tmp/itembank_by_task_regen.sqlite
+```
+
+**4) List tasks where every non-empty target in XLIFF is approved** (requires XLIFF cache, e.g. from step 3)
+
+```bash
+python utilities/list_fully_approved_itembank_tasks.py --lang es-AR --format comma
+```
+
+**5) Generate audio only for those tasks** (language display name must match `utilities.config` / dashboard config, e.g. `Spanish (Argentina)`)
+
+```bash
+TASKS=$(python utilities/list_fully_approved_itembank_tasks.py --lang es-AR --format comma)
+python generate_speech.py "Spanish (Argentina)" \
+  --translation-source sqlite \
+  --sqlite-db tmp/itembank_by_task_regen.sqlite \
+  --tasks "$TASKS"
+```
+
+If `TASKS` is empty, no task reaches 100% approved targets in the downloaded XLIFF; fix translations in Crowdin or pass an explicit `--tasks` list.

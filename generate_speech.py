@@ -6,6 +6,7 @@ import argparse
 import sqlite3
 import utilities.config as conf
 import utilities.utilities as u
+from typing import Optional, Set
 
 # TTS imports are now conditional - moved to where they're actually used
 
@@ -135,13 +136,39 @@ def _read_file_bytes(path: str):
         return f.read()
 
 
+def _parse_task_filter(tasks_arg: Optional[str]) -> Optional[Set[str]]:
+    if not tasks_arg:
+        return None
+    parsed = {part.strip() for part in tasks_arg.split(",") if part.strip()}
+    if not parsed:
+        return None
+    if "all" in {p.lower() for p in parsed}:
+        return None
+    return parsed
+
+
+def _filter_rows_by_tasks(translation_data: pd.DataFrame, tasks_filter: Optional[Set[str]]) -> pd.DataFrame:
+    if not tasks_filter:
+        return translation_data
+    if "labels" not in translation_data.columns:
+        print("⚠️  No 'labels' column found; task filtering cannot be applied.")
+        return translation_data
+
+    task_series = translation_data["labels"].fillna("").astype(str).str.strip()
+    filtered = translation_data[task_series.isin(tasks_filter)].copy()
+    print(f"🎯 Task filter active ({', '.join(sorted(tasks_filter))}): {len(filtered)}/{len(translation_data)} items matched")
+    return filtered
+
+
 def generate_audio(
     language,
     force_regenerate: bool = False,
     hi_fi: bool = False,
     force_id: bool = False,
     translation_source: str = "sqlite",
-    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite"
+    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
+    model_id: str = "eleven_multilingual_v2",
+    tasks_filter: Optional[Set[str]] = None
 ):
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
@@ -209,6 +236,11 @@ def generate_audio(
         else:
             print(f"ERROR: Failed to load source translations: {e}")
             return
+
+    translationData = _filter_rows_by_tasks(translationData, tasks_filter)
+    if translationData.empty:
+        print("No items matched the provided task filter; nothing to generate.")
+        return
 
     # Trying to get save files co-erced into our desired path
     audio_base_dir = "audio_files"
@@ -419,13 +451,15 @@ def generate_audio(
         
         if not force_regenerate:
             # Use validation system to check if regeneration is needed
+            expected_model_id = model_id if service == 'ElevenLabs' else None
             needs_regen, reason = needs_regeneration(
                 expected_audio_path,
                 translation_text,
                 voice,
                 service,
                 lang_code,
-                force_id
+                force_id,
+                current_model_id=expected_model_id
             )
             
             if not needs_regen:
@@ -504,6 +538,7 @@ def generate_audio(
                 master_file_path=master_file_path, 
                 voice=voice, 
                 audio_base_dir = audio_base_dir,
+                model_id=model_id,
                 output_format = ("mp3_44100_64" if hi_fi else "mp3_22050_32")
             )
         
@@ -584,7 +619,9 @@ def main(
     validate_only: bool = False,
     force_id: bool = False,
     translation_source: str = "sqlite",
-    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite"
+    sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
+    model_id: str = "eleven_multilingual_v2",
+    tasks: str = None
 ):
     master_file_path = "translation_master.csv"
     preserve_master_bytes = None
@@ -606,6 +643,11 @@ def main(
                 translation_data = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
             else:
                 translation_data = _load_translation_data_from_csv(conf.item_bank_translations)
+            tasks_filter = _parse_task_filter(tasks)
+            translation_data = _filter_rows_by_tasks(translation_data, tasks_filter)
+            if translation_data.empty:
+                print("No items matched the provided task filter; nothing to validate.")
+                return
             audio_base_dir = "audio_files"
             
             items_to_regenerate = validate_audio_files_for_language(
@@ -647,7 +689,9 @@ def main(
             hi_fi=hi_fi,
             force_id=force_id,
             translation_source=translation_source,
-            sqlite_db_path=sqlite_db_path
+            sqlite_db_path=sqlite_db_path,
+            model_id=model_id,
+            tasks_filter=_parse_task_filter(tasks)
         )
         
 if __name__ == "__main__":
@@ -665,6 +709,10 @@ if __name__ == "__main__":
                         help='Source for translations (default: sqlite)')
     parser.add_argument('--sqlite-db', default='tmp/itembank_by_task_regen.sqlite',
                         help='Path to SQLite DB from itembank_by_task regen report')
+    parser.add_argument('--model-id', default='eleven_multilingual_v2',
+                        help='ElevenLabs model_id to use when service is ElevenLabs (default: eleven_multilingual_v2)')
+    parser.add_argument('--tasks', default=None,
+                        help='Comma-separated task labels to process (matches CSV labels column). Use "all" or omit to process all tasks.')
     
     args = parser.parse_args()
     
@@ -676,7 +724,9 @@ if __name__ == "__main__":
          validate_only=args.validate_only,
          force_id=args.force_id,
          translation_source=args.translation_source,
-         sqlite_db_path=args.sqlite_db)
+         sqlite_db_path=args.sqlite_db,
+         model_id=args.model_id,
+         tasks=args.tasks)
 
 # IF we're happy with the output then
 # gsutil rsync -d -r <src> gs://<bucket> 
