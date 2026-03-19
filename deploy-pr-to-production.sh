@@ -23,7 +23,7 @@ fi
 # Deploy to production
 echo ""
 echo "📦 Deploying to Vercel production..."
-cd web-dashboard
+cd levante-web-dashboard
 DEPLOY_OUTPUT=$(vercel --prod --yes 2>&1)
 echo "$DEPLOY_OUTPUT"
 

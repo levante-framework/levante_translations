@@ -19,9 +19,9 @@
         // ULTRA-EARLY VERSION CHECK - Runs before ANY other scripts
         console.log('%c========================================', 'color: green; font-size: 20px; font-weight: bold;');
         console.log('%c  DASHBOARD VERSION CHECK', 'color: green; font-size: 18px; font-weight: bold;');
-        console.log('%c  VERSION: 2024-12-19-SuperAdmin-Fix-v2', 'color: blue; font-size: 16px; font-weight: bold;');
+        console.log('%c  VERSION: 2026-03-19-Pending-Includes-Unlisted-Draft', 'color: blue; font-size: 16px; font-weight: bold;');
         console.log('%c========================================', 'color: green; font-size: 20px; font-weight: bold;');
-        window.DASHBOARD_VERSION = '2024-12-19-SuperAdmin-Fix-v2';
+        window.DASHBOARD_VERSION = '2026-03-19-Pending-Includes-Unlisted-Draft';
         window.DASHBOARD_LOADED_AT = new Date().toISOString();
         console.log('Check window.DASHBOARD_VERSION in console:', window.DASHBOARD_VERSION);
     </script>
@@ -288,6 +288,14 @@
 
         .stat-value.stat-pending {
             color: #da3d16;
+        }
+
+        .stat-sublabel {
+            font-size: 11px;
+            font-weight: 500;
+            color: #71717a;
+            max-width: 220px;
+            line-height: 1.3;
         }
 
         .item-card.approved {
@@ -1175,9 +1183,10 @@
                 <span class="stat-label">Approved</span>
                 <span class="stat-value stat-approved" id="statApproved">0</span>
             </div>
-            <div class="stat-item">
+            <div class="stat-item" id="statPendingItem">
                 <span class="stat-label">Pending</span>
                 <span class="stat-value stat-pending" id="statPending">0</span>
+                <span class="stat-sublabel" id="statPendingBreakdown" style="display: none;"></span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">No Audio</span>
@@ -1242,10 +1251,10 @@
         // IMMEDIATE VERSION CHECK - Runs before anything else
         (function() {
             console.log('%c=== PARTNER AUDIO DASHBOARD LOADED ===', 'color: green; font-size: 16px; font-weight: bold;');
-            console.log('%cVERSION: 2024-12-19-SuperAdmin-Fix-v2', 'color: blue; font-size: 14px; font-weight: bold;');
+            console.log('%cVERSION: 2026-03-19-Pending-Includes-Unlisted-Draft', 'color: blue; font-size: 14px; font-weight: bold;');
             console.log('TIMESTAMP:', new Date().toISOString());
             console.warn('If you see old line numbers in errors, clear your browser cache!');
-            window.DASHBOARD_VERSION = '2024-12-19-SuperAdmin-Fix-v2';
+            window.DASHBOARD_VERSION = '2026-03-19-Pending-Includes-Unlisted-Draft';
             window.DASHBOARD_LOADED = true;
         })();
         
@@ -1265,7 +1274,7 @@
                 this.allowedLanguage = null; // Will be set based on user's site
                 this.approvedItems = new Set(); // Track approved item IDs (already moved to dev)
                 this.unapprovedItems = new Set(); // Track explicitly unapproved items (to prevent re-adding)
-                this.approvalStats = { total: 0, approved: 0, pending: 0, noAudio: 0 };
+                this.approvalStats = { total: 0, approved: 0, pending: 0, noAudio: 0, pendingCatalog: 0, unlistedDraftPending: 0 };
                 this.currentTab = 'pending'; // Current tab: 'pending' or 'approved'
                 
                 this.data = [];
@@ -2714,7 +2723,13 @@
                 const total = withTranslations.length;
                 const noAudio = itemsWithoutAudio.length;
                 let approved = 0;
-                let pending = 0;
+                let pendingCatalog = 0;
+
+                const catalogBaseIds = new Set();
+                withTranslations.forEach(item => {
+                    const bid = this.extractBaseId(item.item_id || '');
+                    if (bid) catalogBaseIds.add(bid);
+                });
                 
                 withTranslations.forEach(item => {
                     const baseId = this.extractBaseId(item.item_id || '');
@@ -2726,15 +2741,31 @@
                     const hasDev = devInfo.ids.has(baseId);
                     const draftNewer = hasDraft && this.isDraftNewerThanDev(baseId, draftInfo, devInfo);
                     if (this.unapprovedItems.has(baseId) || (hasDraft && (!hasDev || draftNewer))) {
-                        pending++;
+                        pendingCatalog++;
                     } else {
                         approved++;
                     }
                 });
+
+                let unlistedDraftPending = 0;
+                draftInfo.ids.forEach(baseId => {
+                    if (catalogBaseIds.has(baseId)) return;
+                    const hasDraft = draftInfo.ids.has(baseId);
+                    const hasDev = devInfo.ids.has(baseId);
+                    const draftNewer = hasDraft && this.isDraftNewerThanDev(baseId, draftInfo, devInfo);
+                    if (!hasDraft) return;
+                    if (this.unapprovedItems.has(baseId) || !hasDev || draftNewer) {
+                        unlistedDraftPending++;
+                    }
+                });
+
+                const pending = pendingCatalog + unlistedDraftPending;
                 
                 this.approvalStats.total = total;
                 this.approvalStats.approved = approved;
                 this.approvalStats.pending = pending;
+                this.approvalStats.pendingCatalog = pendingCatalog;
+                this.approvalStats.unlistedDraftPending = unlistedDraftPending;
                 this.approvalStats.noAudio = noAudio;
                 
                 // Update UI elements
@@ -2742,11 +2773,29 @@
                 const statApproved = document.getElementById('statApproved');
                 const statPending = document.getElementById('statPending');
                 const statNoAudio = document.getElementById('statNoAudio');
+                const statPendingBreakdown = document.getElementById('statPendingBreakdown');
+                const statPendingItem = document.getElementById('statPendingItem');
                 
                 if (statTotal) statTotal.textContent = total;
                 if (statApproved) statApproved.textContent = approved;
                 if (statPending) statPending.textContent = pending;
                 if (statNoAudio) statNoAudio.textContent = noAudio;
+                if (statPendingBreakdown) {
+                    if (unlistedDraftPending > 0) {
+                        statPendingBreakdown.style.display = 'block';
+                        statPendingBreakdown.textContent =
+                            `${pendingCatalog} in catalog · ${unlistedDraftPending} draft-only (no catalog row)`;
+                    } else {
+                        statPendingBreakdown.style.display = 'none';
+                        statPendingBreakdown.textContent = '';
+                    }
+                }
+                if (statPendingItem) {
+                    statPendingItem.title =
+                        unlistedDraftPending > 0
+                            ? `Pending = rows in the loaded catalog that need review (${pendingCatalog}) plus MP3s in draft that have no matching item row (${unlistedDraftPending}).`
+                            : 'Pending = translation rows that have draft audio awaiting approval, or draft newer than dev.';
+                }
                 
                 
                 // Show stats container
@@ -2758,7 +2807,29 @@
 
             async loadData() {
                 try {
-                    // First, load all translation data from CSV
+                    // Preferred: GCS JSON from itembank XLIFF → SQLite export (POST /utilities pipeline).
+                    try {
+                        const apiRes = await fetch('/api/partner-itembank');
+                        if (apiRes.ok) {
+                            const apiData = await apiRes.json();
+                            if (apiData.success && Array.isArray(apiData.items) && apiData.items.length > 0) {
+                                this.data = apiData.items;
+                                console.log(
+                                    `Loaded ${this.data.length} items from XLIFF/SQLite snapshot (/api/partner-itembank; generated_at=${apiData.generated_at || 'n/a'})`
+                                );
+                                return;
+                            }
+                            if (apiRes.status === 404) {
+                                console.warn(
+                                    'Partner itembank JSON not in GCS yet — run itembank_by_task_regen_report.py with --gcs-sync or utilities/partner_itembank_export.py --upload-gcs. Falling back to GitHub CSV.'
+                                );
+                            }
+                        }
+                    } catch (apiErr) {
+                        console.warn('Partner itembank API failed, using CSV fallback:', apiErr);
+                    }
+
+                    // Fallback: GitHub item-bank CSV
                     // Try multiple possible paths (translations subfolder first, then fallbacks)
                     const urls = [
                         'https://raw.githubusercontent.com/levante-framework/levante_translations/l10n_pending/translations/item-bank-translations.csv',

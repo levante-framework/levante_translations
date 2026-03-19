@@ -105,6 +105,20 @@ The dashboard shows three tabs:
   - **Save & Approve** button: Saves generated audio and immediately approves it
 - Items can be generated and approved in one workflow
 
+#### **Pending count (stats bar)**
+- **Pending** = translation rows in the loaded catalog that still need approval **plus** any **draft** MP3s whose filename (base id) does **not** appear in that catalog but still need promotion (e.g. pipeline-only strings).
+- When the second group is non-zero, the dashboard shows a subtitle like `657 in catalog · 53 draft-only (no catalog row)` under **Pending** so totals match “everything in draft that needs review,” not only rows in the snapshot.
+- **To Be Approved** list view remains **catalog-only**; unlisted draft clips are counted in **Pending** for visibility—add the string to itembank / rerun export so it appears in the snapshot.
+
+#### **Catalog source: XLIFF / SQLite (preferred)**
+- The partner UI tries **`GET /api/partner-itembank`** first, which reads  
+  **`gs://<draft-bucket>/translations/partner-itembank-audio-dashboard.json`**  
+  (from the itembank XLIFF → `items_current` pipeline).
+- That file is written by:
+  - `python utilities/partner_itembank_export.py` (optional `--upload-gcs`), or
+  - `itembank_by_task_regen_report.py` after each run (local `tmp/partner_itembank_audio_dashboard.json`, and uploaded when you pass **`--gcs-sync`**).
+- If the JSON is missing, the dashboard **falls back** to the GitHub **`item-bank-translations.csv`** URLs (legacy).
+
 ### 3. Listen to Audio
 
 - Click the **Play** button to listen to the current audio clip

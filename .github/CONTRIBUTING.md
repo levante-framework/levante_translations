@@ -54,7 +54,7 @@ npm run help
 levante_translations/
 ├── deploy_levante.py           # Levante dashboard deployment
 ├── generate_speech.py          # Main audio generation script
-├── web-dashboard/             # Web dashboard application
+├── levante-web-dashboard/      # Web dashboard application
 ├── utilities/                 # Utility scripts
 │   ├── deploy_dashboard.py    # Advanced deployment
 │   ├── crowdin_to_gcs.py     # Crowdin integration
@@ -73,7 +73,7 @@ levante_translations/
 - Test with multiple languages
 
 ### Web Dashboard
-- Deployed via Vercel (`web-dashboard/`)
+- Deployed via Vercel (`levante-web-dashboard/`)
 - Use `npm run deploy:web` for deployment
 - Test locally with `npm run start:web`
 
@@ -116,7 +116,7 @@ levante_translations/
 ### Deployment Testing
 - Always test deployments with dry-run flags first
 - Verify bucket permissions for new GCS features
-- Test Vercel deployments in the web-dashboard directory
+- Test Vercel deployments in the `levante-web-dashboard` directory
 
 ## Commit Messages
 

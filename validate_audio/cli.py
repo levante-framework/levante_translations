@@ -109,7 +109,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--model-size", default="base", help="Whisper model size (tiny, base, small, medium, large)")
     parser.add_argument("--no-quality", action="store_true", help="Skip audio quality assessment.")
     parser.add_argument("--output", help="Path to write results as JSON (list) or JSONL if ends with .jsonl")
-    parser.add_argument("--web-dashboard", action="store_true", help="Save results to web-dashboard/data/ for UI viewing")
+    parser.add_argument(
+        "--web-dashboard",
+        action="store_true",
+        help="Save results to levante-web-dashboard/public/data/ for UI viewing (flag name kept for compatibility)",
+    )
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON to stdout")
     parser.add_argument("--progress", action="store_true", help="Print progress while validating many files")
     parser.add_argument(
@@ -155,11 +159,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     out_path: Optional[Path] = None
 
     if args.web_dashboard:
-        # Save to web-dashboard/public/data/ with easy-to-read date (served by dashboard)
+        # Save to levante-web-dashboard/public/data/ with easy-to-read date (served by dashboard)
         date_str = datetime.now().strftime("%b-%d-%Y")  # e.g., Oct-07-2025
         lang = (args.language or "unknown").strip() or "unknown"
         out_name = f"validation-{lang}-{date_str}.json"
-        out_path = Path("web-dashboard/public/data") / out_name
+        out_path = Path("levante-web-dashboard/public/data") / out_name
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(results if len(audio_paths) > 1 else results[0], f, ensure_ascii=False, indent=2)

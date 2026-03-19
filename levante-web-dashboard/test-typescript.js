@@ -425,9 +425,9 @@ async function runAllTests() {
     const results = new TestResults();
     
     try {
-        // Change to web-dashboard directory if needed
+        // Change to levante-web-dashboard directory if needed
         if (process.cwd().endsWith('levante_translations')) {
-            process.chdir('web-dashboard');
+            process.chdir('levante-web-dashboard');
         }
         
         // Run all test suites

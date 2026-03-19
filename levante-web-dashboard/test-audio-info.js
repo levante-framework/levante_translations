@@ -18,7 +18,7 @@ function testAudioInfoAPI() {
         { itemId: 'nonexistent-item', langCode: 'en' }
     ];
     
-    console.log('✅ API endpoint exists: web-dashboard/api/read-tags.js');
+    console.log('✅ API endpoint exists: levante-web-dashboard/api/read-tags.js');
     console.log('✅ CORS headers configured for cross-origin requests');
     console.log('✅ Supports both GET and POST methods');
     console.log('✅ Includes fallback logic for es-CO -> es');

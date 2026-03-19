@@ -198,6 +198,18 @@ If voices aren't updating:
 - **Lazy Loading**: Voices loaded only when needed
 - **Debounced Search**: Search input is debounced for performance
 
+## Partner audio catalog (from this repo)
+
+When `levante-web-dashboard` lives inside **`levante_translations`**, you can export the partner item-bank JSON (used by `public/partner-audio-dashboard.html` via `GET /api/partner-itembank`) without `cd`-ing to the parent:
+
+```bash
+npm run export:partner-itembank         # → ../tmp/partner_itembank_audio_dashboard.json
+npm run export:partner-itembank:upload  # same + GCS upload (needs GCP credentials / env)
+npm run deploy                          # Vercel deploy for this dashboard
+```
+
+Source DB: **`../tmp/itembank_by_task_regen.sqlite`** (itembank XLIFF pipeline in the parent repo). See **`README_ITEMBANK_XLIFF_REGEN.md`** at the translations repo root.
+
 ## Limitations
 
 - **Browser-Based**: Requires modern web browser

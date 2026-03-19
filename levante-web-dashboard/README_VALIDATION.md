@@ -264,7 +264,7 @@ python -m validate_audio "audio_files/de/*.mp3" \
 
 **Expected Output Location:**
 ```
-web-dashboard/data/validation-{language}-{Month-Day-Year}.json
+levante-web-dashboard/public/data/validation-{language}-{Month-Day-Year}.json
 ```
 
 ### Troubleshooting

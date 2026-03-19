@@ -5,6 +5,8 @@
   "main": "index.html",
   "homepage": "https://audio-dashboard-levante.vercel.app",
   "scripts": {
+    "export:partner-itembank": "bash -lc 'cd .. && source .venv/bin/activate 2>/dev/null || true; python3 utilities/partner_itembank_export.py --db-path tmp/itembank_by_task_regen.sqlite --output tmp/partner_itembank_audio_dashboard.json'",
+    "export:partner-itembank:upload": "bash -lc 'cd .. && source .venv/bin/activate 2>/dev/null || true; python3 utilities/partner_itembank_export.py --db-path tmp/itembank_by_task_regen.sqlite --output tmp/partner_itembank_audio_dashboard.json --upload-gcs'",
     "start": "serve .",
     "build": "echo 'No build step needed'",
     "build:ts": "tsc",

@@ -55,6 +55,11 @@ emits a report for confirmation before any regen step.
 - Reports: `tmp/itembank_by_task_reports/`
 - Crowdin prefix: `itembank_by_task/`
 - Audio base dir: `audio_files/`
+- Partner dashboard catalog JSON: `tmp/partner_itembank_audio_dashboard.json`  
+  - Pulled from `items_current` (same pivot as `generate_speech.py` SQLite mode).  
+  - Uploaded to **`translations/partner-itembank-audio-dashboard.json`** on the **same bucket** as `--gcs-bucket` when you use **`--gcs-sync`**.  
+  - Or run: `python utilities/partner_itembank_export.py --upload-gcs`  
+  - The partner audio UI calls **`GET /api/partner-itembank`** (Vercel) to read that object, then falls back to GitHub CSV if missing.
 
 ### 1) Build/update baseline report (current state)
 ```bash

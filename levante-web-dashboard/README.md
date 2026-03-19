@@ -1,34 +1,29 @@
-<!--
-  Temporary README for the extracted web dashboard code.
-  Feel free to replace/expand once this folder is promoted to its own repo.
--->
+# Levante Web Dashboard
 
-# Levante Web Dashboard (extracted copy)
+Web-based tools for audio generation, validation, and partner approval. Deployed on **Vercel**.
 
-This directory is a straight copy of the existing `web-dashboard/` tree so it can
-be promoted to a standalone repository (e.g. `levante-framework/levante-web-dashboard`)
-without touching the original code that still lives in this monorepo.
+## Layout
 
-## Contents
+- `public/` – HTML (e.g. `partner-audio-dashboard.html`, `audio-approval.html`), JS/CSS, `public/data/` for validation JSON exports.
+- `api/` – Vercel serverless routes (`partner-itembank.js`, proxies, etc.).
+- `scripts/`, `package.json`, `vercel.json`, `.vercel/project.json` – deploy and tooling.
 
-- `public/` – `audio-approval.html`, `partner-audio-dashboard.html`, Pitwall HTML, assets.
-- `api/` – Vercel serverless functions (Crowdin auth, audio listing, etc.).
-- `scripts/`, `package.json`, `vercel.json`, `.vercel/project.json`, etc.
+## When checked out inside `levante_translations`
 
-Everything is identical to the source `web-dashboard/` directory, including the
-Vercel project configuration. When you are ready to publish a dedicated repo:
+From this directory:
 
-1. `cd levante-web-dashboard`
-2. `git init && git add . && git commit -m "Initial import of web dashboard"`
-3. `git remote add origin git@github.com:levante-framework/levante-web-dashboard.git`
-4. `git push -u origin main` (or whichever branch you prefer)
+```bash
+npm install
+npm run deploy          # production (see scripts/deploy-and-alias.js)
+npm run deploy-dev      # preview
+npm start               # local static serve
+```
 
-After pushing, you can point the existing Vercel project to the new repo (or keep
-using `vercel --prod` from this directory—the `.vercel/project.json` already
-references the current project).
+To refresh the partner catalog JSON (reads parent SQLite, optional GCS upload):
 
-> **Note:** The original `web-dashboard/` folder remains untouched in this repo
-> “just in case,” per the request.
+```bash
+npm run export:partner-itembank
+npm run export:partner-itembank:upload
+```
 
-
-
+Standalone clone: run the Python export from the `levante_translations` repo; paths in those scripts assume the parent folder layout.

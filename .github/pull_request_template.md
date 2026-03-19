@@ -12,7 +12,7 @@ Brief description of what this PR does.
 
 ## Component(s) affected
 - [ ] Audio generation (`generate_speech.py`, voice utilities)
-- [ ] Web dashboard (`web-dashboard/`)
+- [ ] Web dashboard (`levante-web-dashboard/`)
 - [ ] Levante dashboard deployment (`deploy_levante.py`)
 - [ ] Crowdin integration (`utilities/crowdin_to_gcs.py`)
 - [ ] Voice export tools (`utilities/export_*.py`)

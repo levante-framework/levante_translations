@@ -235,7 +235,7 @@ The web dashboard is a modern web application for audio generation and translati
 - Real-time audio generation and playback
 - Translation validation with similarity scoring
 
-The web dashboard is located in the `web-dashboard/` directory and deployed via Vercel. See the deployment section below for instructions.
+The web dashboard is in the `levante-web-dashboard/` directory and deployed via Vercel (`npm run deploy` from that folder, or `npm run deploy:web` from the repo root). See the deployment section below for instructions.
 
 ## Utility Scripts
 

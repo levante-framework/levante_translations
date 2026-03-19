@@ -105,6 +105,28 @@ def _gcs_push_db(client, bucket_name: str, blob_path: str, local_path: Path, *, 
         )
 
 
+def _export_partner_dashboard_json(db_path: Path, args, gcs_client=None) -> None:
+    """Write partner-audio-dashboard JSON from items_current; optional GCS upload with --gcs-sync."""
+    if getattr(args, "no_partner_json_export", False):
+        return
+    try:
+        from utilities.partner_itembank_export import build_payload, upload_to_gcs, write_json
+    except Exception as exc:
+        print(f"⚠️ Partner JSON export skipped (import): {exc}")
+        return
+    try:
+        payload = build_payload(db_path, language_dict=None)
+        out = Path(args.partner_json_output)
+        write_json(payload, out)
+        print(f"✅ Partner dashboard JSON: {out.resolve()} ({payload['item_count']} items)")
+        if gcs_client is not None and getattr(args, "gcs_sync", False):
+            bucket = args.gcs_bucket or os.getenv("GCS_BASELINE_BUCKET", "levante-assets-draft")
+            upload_to_gcs(out, bucket, args.partner_json_gcs_object)
+            print(f"✅ Partner JSON uploaded: gs://{bucket}/{args.partner_json_gcs_object}")
+    except Exception as exc:
+        print(f"⚠️ Partner JSON export failed: {exc}")
+
+
 def _normalize_prefix(prefix: str) -> str:
     prefix = prefix.strip()
     if prefix.startswith("/"):
@@ -1189,6 +1211,21 @@ def main() -> int:
                         default=os.getenv("LANGUAGE_CONFIG_BUCKET_URL", "https://storage.googleapis.com/levante-audio-dev/language_config.json"),
                         help="Public bucket URL for language_config.json fallback.")
     parser.add_argument("--verbose", action="store_true")
+    parser.add_argument(
+        "--no-partner-json-export",
+        action="store_true",
+        help="Skip writing translations/partner-itembank-audio-dashboard.json from items_current.",
+    )
+    parser.add_argument(
+        "--partner-json-output",
+        default="tmp/partner_itembank_audio_dashboard.json",
+        help="Local path for partner dashboard JSON snapshot.",
+    )
+    parser.add_argument(
+        "--partner-json-gcs-object",
+        default="translations/partner-itembank-audio-dashboard.json",
+        help="GCS object path for partner JSON (used when --gcs-sync is set).",
+    )
 
     args = parser.parse_args()
     _load_env()
@@ -1259,12 +1296,13 @@ def main() -> int:
         langs = []
 
     gcs_generation = None
+    gcs_client = None
     if args.gcs_sync:
-        client = _init_gcs_client()
-        if client is None:
+        gcs_client = _init_gcs_client()
+        if gcs_client is None:
             print("❌ google-cloud-storage not available or credentials missing; cannot use --gcs-sync.")
             return 1
-        gcs_generation = _gcs_pull_db(client, args.gcs_bucket, args.gcs_path, Path(args.db_path))
+        gcs_generation = _gcs_pull_db(gcs_client, args.gcs_bucket, args.gcs_path, Path(args.db_path))
 
     conn = sqlite3.connect(db_path)
     ensure_db(conn)
@@ -1357,10 +1395,12 @@ def main() -> int:
 
         if args.gcs_sync:
             try:
-                _gcs_push_db(client, args.gcs_bucket, args.gcs_path, Path(args.db_path), generation=gcs_generation)
+                _gcs_push_db(gcs_client, args.gcs_bucket, args.gcs_path, Path(args.db_path), generation=gcs_generation)
                 print(f"✅ GCS baseline synced: gs://{args.gcs_bucket}/{args.gcs_path}")
             except Exception as exc:
                 print(f"⚠️  Failed to sync GCS baseline: {exc}")
+
+        _export_partner_dashboard_json(db_path, args, gcs_client)
 
         print("✅ Promoted staged rows into items_current.")
         for key, value in stats.items():
@@ -1542,10 +1582,12 @@ def main() -> int:
 
     if args.gcs_sync:
         try:
-            _gcs_push_db(client, args.gcs_bucket, args.gcs_path, Path(args.db_path), generation=gcs_generation)
+            _gcs_push_db(gcs_client, args.gcs_bucket, args.gcs_path, Path(args.db_path), generation=gcs_generation)
             print(f"✅ GCS baseline synced: gs://{args.gcs_bucket}/{args.gcs_path}")
         except Exception as exc:
             print(f"⚠️  Failed to sync GCS baseline: {exc}")
+
+    _export_partner_dashboard_json(db_path, args, gcs_client)
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     report_csv = report_dir / f"regen_report_{timestamp}.csv"
