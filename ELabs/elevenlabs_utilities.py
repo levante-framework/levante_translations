@@ -93,7 +93,9 @@ def play_audio(text, desired_voice):
 """
 
     client = get_client()
-    audio_iterator = client.generate(text=text, voice=desired_voice, model="eleven_multilingual_v2")
+    from utilities.elevenlabs_model import DEFAULT_ELEVENLABS_MODEL_ID
+
+    audio_iterator = client.generate(text=text, voice=desired_voice, model=DEFAULT_ELEVENLABS_MODEL_ID)
 
     # Collect all audio chunks into a single bytes object
     audio_data = b"".join(audio_iterator)

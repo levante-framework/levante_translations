@@ -6,6 +6,7 @@ import argparse
 import sqlite3
 import utilities.config as conf
 import utilities.utilities as u
+from utilities.elevenlabs_model import DEFAULT_ELEVENLABS_MODEL_ID
 from typing import Optional, Set
 
 # TTS imports are now conditional - moved to where they're actually used
@@ -167,7 +168,7 @@ def generate_audio(
     force_id: bool = False,
     translation_source: str = "sqlite",
     sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
-    model_id: str = "eleven_multilingual_v2",
+    model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
     tasks_filter: Optional[Set[str]] = None
 ):
     print("=== Starting Audio Generation for Levante Translations ===")
@@ -620,7 +621,7 @@ def main(
     force_id: bool = False,
     translation_source: str = "sqlite",
     sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
-    model_id: str = "eleven_multilingual_v2",
+    model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
     tasks: str = None
 ):
     master_file_path = "translation_master.csv"
@@ -709,8 +710,11 @@ if __name__ == "__main__":
                         help='Source for translations (default: sqlite)')
     parser.add_argument('--sqlite-db', default='tmp/itembank_by_task_regen.sqlite',
                         help='Path to SQLite DB from itembank_by_task regen report')
-    parser.add_argument('--model-id', default='eleven_multilingual_v2',
-                        help='ElevenLabs model_id to use when service is ElevenLabs (default: eleven_multilingual_v2)')
+    parser.add_argument(
+        '--model-id',
+        default=DEFAULT_ELEVENLABS_MODEL_ID,
+        help=f'ElevenLabs model_id when service is ElevenLabs (default: {DEFAULT_ELEVENLABS_MODEL_ID})',
+    )
     parser.add_argument('--tasks', default=None,
                         help='Comma-separated task labels to process (matches CSV labels column). Use "all" or omit to process all tasks.')
     

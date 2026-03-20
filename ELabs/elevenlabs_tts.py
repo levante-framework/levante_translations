@@ -6,6 +6,7 @@ from elevenlabs import play, save
 from elevenlabs.client import ElevenLabs
 import utilities.utilities as u
 import utilities.config as conf
+from utilities.elevenlabs_model import DEFAULT_ELEVENLABS_MODEL_ID
 from ELabs import elevenlabs_utilities
 import time
 import sys
@@ -75,7 +76,7 @@ def main(
         lang_code: str,
         voice: str,
         retry_seconds: float,
-        model_id: str = "eleven_multilingual_v2",
+        model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
         user_id: str = None,
         api_key: str = None,
         output_file_path: str = None,
@@ -163,7 +164,7 @@ def main(
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, voice_id, \
-               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56", model_id: str = "eleven_multilingual_v2"):
+               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56", model_id: str = DEFAULT_ELEVENLABS_MODEL_ID):
 
     # reset local error count for new row
     errorCount = 0

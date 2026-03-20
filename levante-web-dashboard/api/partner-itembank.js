@@ -3,11 +3,19 @@ import { Storage } from '@google-cloud/storage';
 let storageClient = null;
 function getStorage() {
     if (storageClient) return storageClient;
+    const json = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || process.env.GCP_SERVICE_ACCOUNT_JSON;
+    if (json) {
+        try {
+            const credentials = JSON.parse(json);
+            storageClient = new Storage({ credentials, projectId: credentials.project_id });
+            return storageClient;
+        } catch (e) {
+            console.warn('GCS service-account JSON parse failed', e);
+        }
+    }
     try {
-        const json = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON || process.env.GCP_SERVICE_ACCOUNT_JSON;
-        if (!json) throw new Error('Missing GOOGLE_APPLICATION_CREDENTIALS_JSON');
-        const credentials = JSON.parse(json);
-        storageClient = new Storage({ credentials, projectId: credentials.project_id });
+        // Vercel / GCP ADC or GOOGLE_APPLICATION_CREDENTIALS pointing at a key file (local)
+        storageClient = new Storage();
         return storageClient;
     } catch (error) {
         console.warn('GCS init failed', error);
@@ -32,7 +40,8 @@ export default async function handler(req, res) {
         return res.status(500).json({
             success: false,
             error: 'gcs_unavailable',
-            message: 'Could not initialize Google Cloud Storage client.',
+            message:
+                'Could not initialize Google Cloud Storage. Set GOOGLE_APPLICATION_CREDENTIALS_JSON (or GCP_SERVICE_ACCOUNT_JSON) on Vercel, or use default credentials locally.',
         });
     }
 

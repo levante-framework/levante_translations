@@ -13,7 +13,7 @@ voice_list = client.voices.get_all()
 audio = client.generate(
     text="Hallo! Wie geht es Ihnen? Ich bin eine deutsche KI-Stimme.",
     voice="v3V1d2rk6528UrLKRuy8",  # A German voice
-    model="eleven_multilingual_v2"
+    model="eleven_v3"
 )
 
 # Play the generated audio

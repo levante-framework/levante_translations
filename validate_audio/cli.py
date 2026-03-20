@@ -10,6 +10,10 @@ from typing import List, Optional
 
 from .validator import validate_audio_file, validate_many
 
+# Repo root (parent of validate_audio/), so --web-dashboard works from any cwd
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_DASHBOARD_VALIDATION_DIR = _REPO_ROOT / "levante-web-dashboard" / "public" / "data"
+
 
 def _expand_inputs(paths_or_globs: List[str]) -> List[str]:
     paths: List[str] = []
@@ -163,7 +167,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         date_str = datetime.now().strftime("%b-%d-%Y")  # e.g., Oct-07-2025
         lang = (args.language or "unknown").strip() or "unknown"
         out_name = f"validation-{lang}-{date_str}.json"
-        out_path = Path("levante-web-dashboard/public/data") / out_name
+        out_path = _DASHBOARD_VALIDATION_DIR / out_name
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(results if len(audio_paths) > 1 else results[0], f, ensure_ascii=False, indent=2)

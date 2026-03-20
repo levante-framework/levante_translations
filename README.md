@@ -159,6 +159,16 @@ python generate_speech.py Spanish --tasks child-survey,matrix-reasoning
 
 Use `--tasks all` (or omit `--tasks`) to process every task.
 
+#### ElevenLabs model (v3 default)
+
+`generate_speech.py` defaults to **Eleven v3** (`model_id`: `eleven_v3`). Existing MP3s whose ID3 `model_id` is already `eleven_v3` are **skipped** unless text/voice changed or you pass `--force`.
+
+To use legacy Multilingual v2 instead:
+
+```bash
+python generate_speech.py "Spanish (Argentina)" --model-id eleven_multilingual_v2
+```
+
 ### Command Scripts
 
 The `commands/` directory contains convenient shell and batch scripts for common operations:
@@ -371,20 +381,25 @@ npm run deploy:levante-prod-dry
 > ⚠️ **Important**: The `levante-dashboard` buckets contain **ONLY translation CSV files**. Never upload code files (HTML, JS, CSS) to these buckets.
 
 ### Web Dashboard Deployment
-The web dashboard is deployed through Vercel:
+The app in **`levante-web-dashboard/`** is deployed through Vercel (config and serverless routes live in that folder; do not run `vercel` from the monorepo root unless that project is linked there).
 
 ```bash
-# Deploy web dashboard to production
+# Deploy to production (includes aliases — see scripts/deploy-and-alias.js)
 npm run deploy:web
 
-# Start local development server
+# Start local static server from levante-web-dashboard
 npm run start:web
 ```
 
 **Target**: Vercel hosting with automatic aliasing  
-**URLs**: 
-- Primary: https://audio-dashboard-levante.vercel.app
-- Secondary: https://levante-audio-dashboard.vercel.app  
+**URLs** (typical):
+- https://audio-dashboard-levante.vercel.app
+- https://levante-audio-dashboard.vercel.app
+- https://levante-pitwall.vercel.app
+- https://levante-partner-tools.vercel.app  
+
+**Partner catalog API** (`/api/partner-itembank`) needs GCS env vars on Vercel — see **`levante-web-dashboard/README.md`**.
+
 **Files deployed**: HTML, CSS, JavaScript, API functions, web assets
 
 ## NPM Scripts Reference
