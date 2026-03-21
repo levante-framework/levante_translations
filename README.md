@@ -245,7 +245,7 @@ The web dashboard is a modern web application for audio generation and translati
 - Real-time audio generation and playback
 - Translation validation with similarity scoring
 
-The web dashboard is in the `levante-web-dashboard/` directory and deployed via Vercel (`npm run deploy` from that folder, or `npm run deploy:web` from the repo root). See the deployment section below for instructions.
+The web dashboard is maintained in the sibling repo `../levante-web-dashboard` and deployed via Vercel from that repo.
 
 ## Utility Scripts
 
@@ -285,8 +285,8 @@ python seed_crowdin_language.py es-CO es-MX # Spanish (Colombia) to Spanish (Mex
 # Deploy Levante dashboard (itembank_translations.csv only)
 npm run deploy:levante-dev
 
-# Deploy web dashboard (via Vercel)
-npm run deploy:web
+# Deploy web dashboard (via Vercel, from sibling repo)
+cd ../levante-web-dashboard && npm run deploy
 
 # Download from Crowdin to GCS
 npm run deploy:crowdin-dev
@@ -381,14 +381,17 @@ npm run deploy:levante-prod-dry
 > ⚠️ **Important**: The `levante-dashboard` buckets contain **ONLY translation CSV files**. Never upload code files (HTML, JS, CSS) to these buckets.
 
 ### Web Dashboard Deployment
-The app in **`levante-web-dashboard/`** is deployed through Vercel (config and serverless routes live in that folder; do not run `vercel` from the monorepo root unless that project is linked there).
+Web dashboard deployment is managed from the sibling repository:
+**`../levante-web-dashboard`**.
 
 ```bash
-# Deploy to production (includes aliases — see scripts/deploy-and-alias.js)
-npm run deploy:web
+cd ../levante-web-dashboard
 
-# Start local static server from levante-web-dashboard
-npm run start:web
+# Deploy to production (includes aliases — see scripts/deploy-and-alias.js)
+npm run deploy
+
+# Start local static server
+npm start
 ```
 
 **Target**: Vercel hosting with automatic aliasing  
@@ -398,7 +401,7 @@ npm run start:web
 - https://levante-pitwall.vercel.app
 - https://levante-partner-tools.vercel.app  
 
-**Partner catalog API** (`/api/partner-itembank`) needs GCS env vars on Vercel — see **`levante-web-dashboard/README.md`**.
+**Partner catalog API** (`/api/partner-itembank`) needs GCS env vars on Vercel — see **`../levante-web-dashboard/README.md`**.
 
 **Files deployed**: HTML, CSS, JavaScript, API functions, web assets
 
@@ -422,9 +425,10 @@ npm run deploy:levante-prod         # Deploy to prod
 npm run deploy:levante-dev-dry      # Test dev deployment
 npm run deploy:levante-prod-dry     # Test prod deployment
 
-# Web Dashboard
-npm run deploy:web                  # Deploy web dashboard
-npm run start:web                   # Local development server
+# Web Dashboard (sibling repo)
+cd ../levante-web-dashboard
+npm run deploy                      # Deploy web dashboard
+npm start                           # Local development server
 
 # Crowdin Integration
 npm run deploy:crowdin-dev          # Download from Crowdin to GCS

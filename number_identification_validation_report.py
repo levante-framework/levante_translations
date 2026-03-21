@@ -74,7 +74,7 @@ def load_current_translations():
 def load_validation_data():
     """Load existing validation data if available."""
     validation_files = [
-        "levante-web-dashboard/public/data/validation-es-Sep-11-2025.json",
+        "../levante-web-dashboard/public/data/validation-es-Sep-11-2025.json",
     ]
     
     for file_path in validation_files:

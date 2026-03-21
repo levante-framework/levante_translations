@@ -23,7 +23,11 @@ fi
 # Deploy to production
 echo ""
 echo "📦 Deploying to Vercel production..."
-cd levante-web-dashboard
+if [ ! -d "../levante-web-dashboard" ]; then
+    echo "❌ Sibling repo not found: ../levante-web-dashboard"
+    exit 1
+fi
+cd ../levante-web-dashboard
 DEPLOY_OUTPUT=$(vercel --prod --yes 2>&1)
 echo "$DEPLOY_OUTPUT"
 

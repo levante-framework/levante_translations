@@ -386,7 +386,6 @@ def _expected_for_lang(expected_map: Dict[str, Dict[str, str]], lang: str) -> Di
 
 def _default_dashboard_config_path() -> str:
     candidates = [
-        REPO_ROOT / "levante-web-dashboard" / "config.js",
         REPO_ROOT.parent / "levante-web-dashboard" / "config.js",
     ]
     for candidate in candidates:

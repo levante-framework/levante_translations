@@ -166,10 +166,10 @@ class DashboardDeployer:
             else:
                 print(f"⚠️  File not found: {local_path}")
         
-        # Also check for any additional dashboard public files (legacy GCS key prefix web-dashboard/)
-        web_dashboard_dir = base_dir / "levante-web-dashboard" / "public"
+        # Also check for additional dashboard public files from sibling repo
+        web_dashboard_dir = base_dir.parent / "levante-web-dashboard" / "public"
         if web_dashboard_dir.exists():
-            print(f"📁 Found levante-web-dashboard/public directory, including additional files...")
+            print(f"📁 Found ../levante-web-dashboard/public directory, including additional files...")
             for file_path in web_dashboard_dir.rglob("*"):
                 if file_path.is_file():
                     rel_path = file_path.relative_to(web_dashboard_dir)

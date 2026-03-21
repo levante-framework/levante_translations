@@ -87,4 +87,4 @@ python -m validate_audio "$AUDIO_DIR/*.mp3" \
 
 echo ""
 echo "✅ Audio validation completed for language: $LANGUAGE"
-echo "📄 Results saved to: levante-web-dashboard/public/data/validation-$WHISPER_LANGUAGE-$(date +%b-%d-%Y).json"
+echo "📄 Results saved to: ../levante-web-dashboard/public/data/validation-$WHISPER_LANGUAGE-$(date +%b-%d-%Y).json"

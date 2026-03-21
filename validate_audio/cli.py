@@ -10,9 +10,10 @@ from typing import List, Optional
 
 from .validator import validate_audio_file, validate_many
 
-# Repo root (parent of validate_audio/), so --web-dashboard works from any cwd
+# Repo root (parent of validate_audio/)
 _REPO_ROOT = Path(__file__).resolve().parent.parent
-_DASHBOARD_VALIDATION_DIR = _REPO_ROOT / "levante-web-dashboard" / "public" / "data"
+# Web dashboard now lives in sibling repo: ../levante-web-dashboard
+_DASHBOARD_VALIDATION_DIR = _REPO_ROOT.parent / "levante-web-dashboard" / "public" / "data"
 
 
 def _expand_inputs(paths_or_globs: List[str]) -> List[str]:
@@ -116,7 +117,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument(
         "--web-dashboard",
         action="store_true",
-        help="Save results to levante-web-dashboard/public/data/ for UI viewing (flag name kept for compatibility)",
+        help="Save results to ../levante-web-dashboard/public/data/ for UI viewing (flag name kept for compatibility)",
     )
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON to stdout")
     parser.add_argument("--progress", action="store_true", help="Print progress while validating many files")
@@ -163,7 +164,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     out_path: Optional[Path] = None
 
     if args.web_dashboard:
-        # Save to levante-web-dashboard/public/data/ with easy-to-read date (served by dashboard)
+        # Save to sibling repo ../levante-web-dashboard/public/data/
         date_str = datetime.now().strftime("%b-%d-%Y")  # e.g., Oct-07-2025
         lang = (args.language or "unknown").strip() or "unknown"
         out_name = f"validation-{lang}-{date_str}.json"

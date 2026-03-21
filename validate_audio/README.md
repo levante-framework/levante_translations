@@ -123,7 +123,7 @@ Use the convenient shell script for automated validation:
 This script automatically:
 - Maps language codes for Whisper compatibility
 - Activates the appropriate virtual environment
-- Saves results to `levante-web-dashboard/public/data/` with proper naming
+- Saves results to `../levante-web-dashboard/public/data/` with proper naming
 - Handles error cases gracefully
 
 ### Command Line Options
@@ -181,10 +181,10 @@ This script automatically:
 ### Web Dashboard Export
 When using `--web-dashboard`, results are saved to:
 ```
-levante-web-dashboard/public/data/validation-{language}-{Month-Day-Year}.json
+../levante-web-dashboard/public/data/validation-{language}-{Month-Day-Year}.json
 ```
 
-Example: `levante-web-dashboard/public/data/validation-en-Sep-08-2025.json`
+Example: `../levante-web-dashboard/public/data/validation-en-Sep-08-2025.json`
 
 By default the CLI also syncs every generated report to the dashboard data bucket
 (`gs://$DASHBOARD_DATA_BUCKET/$VALIDATION_DATA_PREFIX`) via `gsutil rsync`, so

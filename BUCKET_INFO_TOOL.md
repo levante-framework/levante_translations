@@ -72,9 +72,9 @@ Full license text based on the selected license type (Creative Commons or ROAR).
 ## Technical Details
 
 ### Files Created
-- **Frontend**: `/levante-web-dashboard/public/bucket-info.html`
-- **API Endpoint**: `/levante-web-dashboard/api/deploy-bucket-docs.js`
-- **Menu Integration**: Updated `/levante-web-dashboard/public/index.html`
+- **Frontend**: `../levante-web-dashboard/public/bucket-info.html`
+- **API Endpoint**: `../levante-web-dashboard/api/deploy-bucket-docs.js`
+- **Menu Integration**: Updated `../levante-web-dashboard/public/index.html`
 
 ### Buckets Managed
 
