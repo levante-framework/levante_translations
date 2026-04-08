@@ -559,6 +559,21 @@ Notes
 - XLIFF files are fetched directly from GitHub and mirrored; ICU JSONs are synced from xliff/translations-icu.
 - All uploads use rsync with checksums to minimize transfer time.
 
+Crowdin-first refresh (recommended when CSV handoff is stale/missing):
+```bash
+# 1) Refresh SQLite baseline from Crowdin XLIFF + rebuild translation_text/item_bank_translations.csv
+npm run refresh:translations-from-crowdin
+
+# 2) Optional: refresh from Crowdin and immediately publish CSV to dev buckets
+npm run refresh:translations-from-crowdin:deploy-dev
+```
+
+Notes:
+- These commands use `itembank_by_task_regen_report.py` as the source-of-truth path.
+- Override defaults with env vars when needed:
+  - `CROWDIN_PROJECT_ID` (or `CROWDIN_LEVANTE_PID`)
+  - `CROWDIN_PREFIX` (default: `main/itembank_by_task`)
+
 4) Survey translations (levante-surveys)
 
 - The `levante-surveys` repository contains survey/UI JSON translations.
