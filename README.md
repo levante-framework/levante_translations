@@ -574,6 +574,24 @@ Notes:
   - `CROWDIN_PROJECT_ID` (or `CROWDIN_LEVANTE_PID`)
   - `CROWDIN_PREFIX` (default: `main/itembank_by_task`)
 
+### Audio Source-of-Truth (after partner approvals)
+
+When partner approvals have moved clips into `levante-assets-dev/audio`, treat **dev bucket audio as source-of-truth**.
+
+Before any local audio deploy, sync approved dev audio back into the repo:
+
+```bash
+gsutil -m rsync -c -r gs://levante-assets-dev/audio/ audio_files/
+```
+
+Why:
+- Prevents older local files from overwriting approved clips.
+- Keeps `audio_files/` aligned with what research partners have already approved.
+
+Guardrail:
+- `deploy_translations.py` includes a drift check that blocks dev audio deploys when local `audio_files/` differs from approved `levante-assets-dev/audio`.
+- You can bypass with `--skip-dev-audio-drift-check`, but this should only be used for intentional exceptions.
+
 4) Survey translations (levante-surveys)
 
 - The `levante-surveys` repository contains survey/UI JSON translations.
