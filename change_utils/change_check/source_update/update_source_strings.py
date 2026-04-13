@@ -32,27 +32,6 @@ def main():
 		exit()
 
 
-def buildTaskFileMap():
-	"""Build a map of taskManual to split_itembank_fileid from source string airtable."""
-	airtableLevante = Api(config.LEV_AT_PAT)
-	ss_table = airtableLevante.table(config.LEV_AT_BASE, config.LEV_AT_SSTABLE)
-	
-	taskFileMap = {}
-	
-	for record in ss_table.all():
-		fields = record.get("fields", {})
-		taskManual = fields.get("taskManual")
-		splitFileId = fields.get("split_itembank_fileid")
-		
-		# Only add if both values exist and taskManual is not empty
-		if taskManual and splitFileId:
-			# If taskManual already exists, keep the first one (or we could validate they're the same)
-			if taskManual not in taskFileMap:
-				taskFileMap[taskManual] = splitFileId
-	
-	return taskFileMap
-
-
 def updateSourceStringWithTranslations(levanteMain, stringId, newText, pilot, rowId=None, diffTable=None):
 	"""
 	Update a source string in Crowdin and manage its translations based on pilot status.
@@ -211,7 +190,7 @@ def updateTasks(pilot):
 	
 	# Build task file map
 	print("Building task file map from source string airtable...")
-	taskFileMap = buildTaskFileMap()
+	taskFileMap = utils.build_task_file_map()
 	print(f"Found {len(taskFileMap)} unique taskManual to fileId mappings")
 	
 	# Get rows from AT_IB_DIFFTABLE where updated is false or empty

@@ -10,7 +10,8 @@ setup(
         "python-dotenv>=1.1.0",
         "argparse>=1.4.0",
         "flatten-json>=0.1.14",
-        "requests>=2.32.5"
+        "requests>=2.32.5",
+        "google-cloud-storage>=2.14.0",
     ],
     entry_points={
         "console_scripts": [
@@ -26,7 +27,8 @@ setup(
             # Platform update
             "build-survey=change_check.platform_update.update_survey:main",
             "build-corpus=change_check.platform_update.build_corpus:main",
-            "split-corpus=change_check.platform_update.split_corpus:main"
+            "split-corpus=change_check.platform_update.split_corpus:main",
+            "build-itembank-translations=change_check.platform_update.build_itembank_translations:main",
             #"review-translations=app.platform_update.fetch_translations:main",
             #"update-translations=app.platform_update.fetch_translations:main"
         ]

@@ -1,15 +1,63 @@
+from typing import Any, Dict, Optional
+
 from crowdin_api import CrowdinClient
 from crowdin_api.sorting import Sorting, SortingOrder, SortingRule
 from crowdin_api.api_resources.string_translations.enums import ListStringTranslationsOrderBy
 from flatten_json import flatten, unflatten_list
+from pyairtable import Api
 from change_check import config
 import warnings
 from google.cloud import storage
+
+
+def build_task_file_map() -> Dict[str, Any]:
+	"""
+	Map Airtable ``taskManual`` → Crowdin split itembank file id from the source-strings table
+	(``split_itembank_fileId``).
+	"""
+	airtable_levante = Api(config.LEV_AT_PAT)
+	ss_table = airtable_levante.table(config.LEV_AT_BASE, config.LEV_AT_SSTABLE)
+	task_file_map: Dict[str, Any] = {}
+	for record in ss_table.all():
+		fields = record.get("fields", {})
+		task_manual = fields.get("taskManual")
+		split_file_id = fields.get("split_itembank_fileId")
+		if task_manual and split_file_id:
+			if task_manual not in task_file_map:
+				task_file_map[task_manual] = split_file_id
+	return task_file_map
+
 
 def getSourceString(stringId):
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 	source_string=levanteMain.source_strings.get_string(stringId=stringId)
 	return source_string["data"]
+
+def get_approved_translation_text(
+	client: CrowdinClient,
+	string_id: int,
+	language_id: str,
+) -> Optional[str]:
+	"""Return text of an **approved** translation for ``language_id``, or ``None`` if none."""
+	sorting = Sorting([SortingRule(ListStringTranslationsOrderBy.CREATED_AT, SortingOrder.DESC)])
+	try:
+		translation = client.string_translations.list_string_translations(
+			stringId=string_id,
+			languageId=language_id,
+			orderBy=sorting,
+		)
+		for t in translation.get("data") or []:
+			approval = client.string_translations.list_translation_approvals(
+				orderBy=sorting,
+				translationId=t["data"]["id"],
+				limit=1,
+			)
+			if len(approval.get("data") or []) > 0:
+				return t["data"]["text"]
+	except Exception:
+		return None
+	return None
+
 
 def getTranslation(stringId,fileId,lcode,translationFilter):
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
