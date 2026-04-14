@@ -1,8 +1,6 @@
 from crowdin_api import CrowdinClient
-from crowdin_api.sorting import Sorting, SortingOrder, SortingRule
-from crowdin_api.api_resources.string_translations.enums import ListStringTranslationsOrderBy
-from pyairtable import Api, formulas
-from change_check import config
+from pyairtable import Api
+from change_check import config, utils
 import json
 
 
@@ -11,13 +9,7 @@ def main():
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 	api = Api(config.LEV_AT_PAT)
 	stringtable=api.table(config.LEV_AT_BASE,config.LEV_AT_SSTABLE)
-	translationTracker=Api(config.AT_TRACKER)
-	stringIds=[]
-	records=stringtable.all(fields=["audio_file","split_itembank_fileId"], formula="{split_itembank_fileId} != BLANK()")
-	fileIds=[]
-	for record in records:
-		fileIds.append(record['fields']["split_itembank_fileId"])
-	fileIds=list(set(fileIds))
+	fileIds=sorted(set(utils.ITEMBANK_TASK_FILE_MAP.values()))
 	taskDict={}
 	for f in fileIds:
 		source_strings=levanteMain.source_strings.list_strings(
@@ -30,11 +22,19 @@ def main():
 	with open("newStringIds.json", "w",encoding="utf8") as outfile:
 		json.dump(taskDict, outfile, indent=4, default=str)
 	##start here if successfuly wrote to file
+	records=stringtable.all(
+		fields=["audio_file", "taskManual"],
+		formula="AND({audio_file} != BLANK(), {taskManual} != BLANK())",
+	)
 	for record in records:
-		myfile=record["fields"]["split_itembank_fileId"]
+		fields = record.get("fields", {})
+		task_key = utils.normalize_task_manual_key(fields.get("taskManual"))
+		myfile = utils.ITEMBANK_TASK_FILE_MAP.get(task_key) if task_key else None
+		if myfile is None:
+			continue
 		rowid=record["id"]
 		for item in taskDict[myfile]:
-			if record["fields"]["audio_file"]==item["identifier"]:
+			if fields.get("audio_file")==item["identifier"]:
 				stringtable.update(rowid,{"split_stringId":item["id"]})	
 				break
 if __name__ == "__main__":

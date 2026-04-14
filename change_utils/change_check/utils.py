@@ -4,10 +4,34 @@ from crowdin_api import CrowdinClient
 from crowdin_api.sorting import Sorting, SortingOrder, SortingRule
 from crowdin_api.api_resources.string_translations.enums import ListStringTranslationsOrderBy
 from flatten_json import flatten, unflatten_list
-from pyairtable import Api
 from change_check import config
 import warnings
 from google.cloud import storage
+
+
+# Crowdin split itembank file id per task slug (source of truth; not read from Airtable).
+ITEMBANK_TASK_FILE_MAP: Dict[str, int] = {
+	"child-survey": 750,
+	"general": 772,
+	"hearts-and-flowers": 754,
+	"hostile-attribution": 760,
+	"math": 766,
+	"matrix-reasoning": 770,
+	"memory": 756,
+	"mental-rotation": 768,
+	"same-different-selection": 758,
+	"theory-of-mind": 762,
+	"trog": 764,
+	"vocab": 752,
+}
+
+# Adult survey Crowdin file ids (survey slug → file id).
+SURVEY_CROWDIN_FILE_MAP: Dict[str, int] = {
+	"caregiver-child": 776,
+	"caregiver-family": 778,
+	"teacher-general": 774,
+	"teacher-classroom": 782,
+}
 
 
 def normalize_task_manual_key(task_manual: Any) -> Optional[str]:
@@ -24,32 +48,14 @@ def normalize_task_manual_key(task_manual: Any) -> Optional[str]:
 	if s.upper() == "DELETE":
 		return None
 	if s.lower().endswith("-dx"):
-		s = s[:-4]
+		s = s[: -len("-dx")]
 	s = s.lower()
 	return s if s else None
 
 
 def build_task_file_map() -> Dict[str, Any]:
-	"""
-	Map Airtable ``taskManual`` → Crowdin split itembank file id from the source-strings table
-	(``split_itembank_fileId``). Rows whose ``taskManual`` is ``DELETE`` (case-insensitive) are skipped.
-	Keys use :func:`normalize_task_manual_key` (``…-dx`` stripped, then lowercased).
-	"""
-	airtable_levante = Api(config.LEV_AT_PAT)
-	ss_table = airtable_levante.table(config.LEV_AT_BASE, config.LEV_AT_SSTABLE)
-	task_file_map: Dict[str, Any] = {}
-	for record in ss_table.all():
-		fields = record.get("fields", {})
-		task_manual = fields.get("taskManual")
-		split_file_id = fields.get("split_itembank_fileId")
-		if not task_manual or not split_file_id:
-			continue
-		key = normalize_task_manual_key(task_manual)
-		if not key:
-			continue
-		if key not in task_file_map:
-			task_file_map[key] = split_file_id
-	return task_file_map
+	"""Return the hardcoded task slug → Crowdin split itembank file id map (:data:`ITEMBANK_TASK_FILE_MAP`)."""
+	return dict(ITEMBANK_TASK_FILE_MAP)
 
 
 def getSourceString(stringId):

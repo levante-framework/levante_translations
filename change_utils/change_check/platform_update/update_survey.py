@@ -11,20 +11,15 @@ import warnings
 from flatten_json import flatten, unflatten_list
 from change_check import utils
 from change_check import config
-#pulls prod deployed surveys to determine structure.
-urlMap={
-	"caregiver-child":"https://storage.googleapis.com/levante-assets-prod/surveys/parent_survey_child.json",
-	"caregiver-family":"https://storage.googleapis.com/levante-assets-prod/surveys/parent_survey_family.json",
-	"teacher-general":"https://storage.googleapis.com/levante-assets-prod/surveys/teacher_survey_general.json",
-	"teacher-classroom":"https://storage.googleapis.com/levante-assets-prod/surveys/teacher_survey_classroom.json"
-	}
 
-fileMap= {
-	"caregiver-child":776,
-	"caregiver-family":778,
-	"teacher-general":774,
-	"teacher-classroom":782,
+# Prod GCS SurveyJS JSON URLs (same keys as utils.SURVEY_CROWDIN_FILE_MAP). Kept here until survey tooling is reorganized.
+SURVEY_PROD_JSON_URL_MAP = {
+	"caregiver-child": "https://storage.googleapis.com/levante-assets-prod/surveys/parent_survey_child.json",
+	"caregiver-family": "https://storage.googleapis.com/levante-assets-prod/surveys/parent_survey_family.json",
+	"teacher-general": "https://storage.googleapis.com/levante-assets-prod/surveys/teacher_survey_general.json",
+	"teacher-classroom": "https://storage.googleapis.com/levante-assets-prod/surveys/teacher_survey_classroom.json",
 }
+
 
 def main():
 	CLI=argparse.ArgumentParser()
@@ -47,7 +42,7 @@ def main():
 	project=levanteMain.projects.get_project(projectId=config.LEV_CI_PID)
 	allLangs=project["data"]["targetLanguageIds"]
 	print(allLangs)
-	validSurveys=["caregiver-child","caregiver-family","teacher-general","teacher-classroom"]
+	validSurveys = list(utils.SURVEY_CROWDIN_FILE_MAP.keys())
 	langs=args.whitelist
 	surveys=args.types
 	#fix this error to make more informative
@@ -61,20 +56,20 @@ def main():
 	if surveys==["all"] or set(surveys).issubset(validSurveys):
 		print("Building new versions of all adult surveys...")
 		if surveys==["all"]:
-			surveys=[*fileMap]
+			surveys=[*utils.SURVEY_CROWDIN_FILE_MAP]
 	else:
 		raise ValueError(surveyErr)
 	if langs == ["approved"]:
 		approvalTracker={}
 		for s in surveys:
-			approvalTracker[fileMap[s]]=[]
-		fileIds=list(fileMap.values())
-		fileCodes=[*fileMap]
+			approvalTracker[utils.SURVEY_CROWDIN_FILE_MAP[s]]=[]
+		fileIds=list(utils.SURVEY_CROWDIN_FILE_MAP.values())
+		fileCodes=[*utils.SURVEY_CROWDIN_FILE_MAP]
 		for s in surveys:
-			approvalRate=levanteMain.translation_status.get_file_progress(fileId=fileMap[s])
+			approvalRate=levanteMain.translation_status.get_file_progress(fileId=utils.SURVEY_CROWDIN_FILE_MAP[s])
 			for item in approvalRate["data"]:
 				if item["data"]["approvalProgress"]==100:
-					approvalTracker[fileMap[s]].append(item["data"]["languageId"])
+					approvalTracker[utils.SURVEY_CROWDIN_FILE_MAP[s]].append(item["data"]["languageId"])
 
 		#	for f in approvalRate["data"]:
 		#		print(f["data"]["fileId"], lang, f["data"]["approvalProgress"],"\n_________________________")
@@ -93,11 +88,11 @@ def main():
 				updateSurvey(f,approvalTracker[f],scode,"approved")
 	else:
 		for s in surveys:
-			updateSurvey(fileMap[s],langs,s,'latest')
+			updateSurvey(utils.SURVEY_CROWDIN_FILE_MAP[s],langs,s,'latest')
 
 #loads a survey in flattened format
 def loadFlatSurvey(fkey):
-	response=requests.get(urlMap[fkey])
+	response=requests.get(SURVEY_PROD_JSON_URL_MAP[fkey])
 	data = response.json()#json.load(response.json(), object_pairs_hook=OrderedDict)
 	flatData=utils.flatten_custom(data)
 	return flatData

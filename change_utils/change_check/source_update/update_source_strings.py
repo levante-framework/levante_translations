@@ -191,7 +191,7 @@ def updateTasks(pilot):
 	# Build task file map
 	print("Building task file map from source string airtable...")
 	taskFileMap = utils.build_task_file_map()
-	print(f"Found {len(taskFileMap)} unique taskManual to fileId mappings")
+	print(f"Using {len(taskFileMap)} task → fileId mappings (ITEMBANK_TASK_FILE_MAP)")
 	
 	# Get rows from AT_IB_DIFFTABLE where updated is false or empty
 	translationTracker = Api(config.AT_TRACKER)

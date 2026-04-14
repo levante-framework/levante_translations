@@ -4,7 +4,7 @@ Build per-task, per-language flat JSON maps from Crowdin (approved translations 
 Unless ``--languages`` lists explicit locale codes, reads locale keys from
 ``languageoptions.json`` on the dev assets bucket. Maps them to
 Crowdin language ids (``de-DE`` → ``de`` is the only special case), pulls strings from
-item-bank files using ``change_check.utils.build_task_file_map``, and writes
+the hardcoded task → file id map (:data:`~change_check.utils.ITEMBANK_TASK_FILE_MAP`), and writes
 ``item-bank-translations.json`` for each (task, language) pair under ``gs://levante-assets-dev/``
 by default (override with ``--output-bucket``).
 """
@@ -83,8 +83,8 @@ def resolve_task_file_map(task_map: dict[str, Any], selected_tasks: list[str]) -
 			at_key = _airtable_task_key(name, task_map)
 		except KeyError:
 			raise SystemExit(
-				f"No Crowdin file id in Airtable for task {name!r}. "
-				f"Available taskManual keys: {sorted(task_map.keys())}"
+				f"No file id configured for task {name!r}. "
+				f"Available task slugs: {sorted(task_map.keys())}"
 			)
 		out[at_key] = int(task_map[at_key])
 	return out
@@ -147,8 +147,8 @@ def main() -> None:
 		metavar="TASK",
 		required=True,
 		help=(
-			"'all' or one or more taskManual values from Airtable (see build_task_file_map); "
-			"matching is case-insensitive."
+			"'all' or one or more task slugs (see change_check.utils.ITEMBANK_TASK_FILE_MAP); "
+			"matching is case-insensitive; …-dx suffixes map to the base name."
 		),
 	)
 	p.add_argument(
@@ -209,7 +209,7 @@ def main() -> None:
 				bad.append(t)
 		if bad:
 			p.error(
-				f"Unknown task(s): {bad!r}. Use 'all' or any valid task name from the taskManual field in Airtable: {available}"
+				f"Unknown task(s): {bad!r}. Use 'all' or any configured task slug: {available}"
 			)
 		selected = names
 

@@ -108,14 +108,14 @@ def main():
 	parser.add_argument(
 		"--file-id",
 		type=int,
-		default=782,
-		help="Crowdin fileId to inspect (default: 782)",
+		default=utils.SURVEY_CROWDIN_FILE_MAP["teacher-classroom"],
+		help="Crowdin fileId to inspect (default: teacher-classroom from utils.SURVEY_CROWDIN_FILE_MAP)",
 	)
 	parser.add_argument(
 		"--from-prod",
 		nargs="+",
 		help=(
-			"Optional survey keys (as in update_survey.urlMap) whose prod JSON flattened keys "
+			"Optional survey keys (update_survey.SURVEY_PROD_JSON_URL_MAP) whose prod JSON flattened keys "
 			"will be used as additional identifiers to debug."
 		),
 	)
@@ -134,11 +134,11 @@ def main():
 	# Optionally extend with flattened keys from prod JSON for given surveys
 	if args.from_prod:
 		for survey_key in args.from_prod:
-			if survey_key not in update_survey.urlMap:
-				print(f"⚠️  Skipping unknown survey key '{survey_key}' (not in update_survey.urlMap).")
+			if survey_key not in update_survey.SURVEY_PROD_JSON_URL_MAP:
+				print(f"⚠️  Skipping unknown survey key '{survey_key}' (not in update_survey.SURVEY_PROD_JSON_URL_MAP).")
 				continue
 			print(f"Fetching and flattening prod JSON for survey '{survey_key}'...")
-			url = update_survey.urlMap[survey_key]
+			url = update_survey.SURVEY_PROD_JSON_URL_MAP[survey_key]
 			resp = requests.get(url)
 			resp.raise_for_status()
 			data = resp.json()

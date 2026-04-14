@@ -3,6 +3,9 @@ import os
 import urllib.request
 import xml.etree.ElementTree as et
 from pyairtable import Api, formulas
+
+from change_check import utils
+
 import config
 
 
@@ -15,17 +18,11 @@ def crowdinCurrent():
 
 def crowdinCurrentSplit():
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
-	api = Api(config.LEV_AT_PAT)
-	table=api.table(config.LEV_AT_BASE,config.LEV_AT_SSTABLE)
-	records=table.all(fields=["audio_file","split_itembank_fileId"])
-	fileIds=[]
-	for record in records:
-		fileIds.append(record['fields']["split_itembank_fileId"])
-	fileIds=list(set(fileIds))
+	fileIds=sorted(set(utils.ITEMBANK_TASK_FILE_MAP.values()))
+	os.makedirs("sync_tmp/", exist_ok=True)
 	for f in fileIds:
 		fileurl=levanteMain.translations.export_project_translation("en-US",fileId=f,format="xliff",skipUntranslatedStrings=False,exportApprovedOnly=False)["data"]["url"]
-	os.makedirs("sync_tmp/", exist_ok=True)
-	urllib.request.urlretrieve(fileurl, "sync_tmp/en-US-source-"+str(f)+".xliff")
+		urllib.request.urlretrieve(fileurl, f"sync_tmp/en-US-source-{f}.xliff")
 	return fileIds
 
 def getItembankItems():
@@ -63,7 +60,6 @@ def syncAirtable_split():
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 	api = Api(config.LEV_AT_PAT)
 	table=api.table(config.LEV_AT_BASE,config.LEV_AT_SSTABLE)
-	records=table.all(fields=["audio_file","split_itembank_fileId","split_stringId","source_string_of_truth"])
 	for item in itembank:
 		crowdin_stringID = int(item.attrib["id"])
 		resname=item.attrib["resname"]
