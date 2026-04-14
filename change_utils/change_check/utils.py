@@ -10,10 +10,30 @@ import warnings
 from google.cloud import storage
 
 
+def normalize_task_manual_key(task_manual: Any) -> Optional[str]:
+	"""
+	Canonical task slug: trim, drop ``DELETE`` (case-insensitive), strip a trailing ``-dx`` suffix
+	(case-insensitive), then lowercase (e.g. ``TROG`` / ``matrix-reasoning-dx`` → ``trog`` /
+	``matrix-reasoning``). Returns ``None`` if the value should be ignored.
+	"""
+	if task_manual is None:
+		return None
+	s = str(task_manual).strip()
+	if not s:
+		return None
+	if s.upper() == "DELETE":
+		return None
+	if s.lower().endswith("-dx"):
+		s = s[:-4]
+	s = s.lower()
+	return s if s else None
+
+
 def build_task_file_map() -> Dict[str, Any]:
 	"""
 	Map Airtable ``taskManual`` → Crowdin split itembank file id from the source-strings table
-	(``split_itembank_fileId``).
+	(``split_itembank_fileId``). Rows whose ``taskManual`` is ``DELETE`` (case-insensitive) are skipped.
+	Keys use :func:`normalize_task_manual_key` (``…-dx`` stripped, then lowercased).
 	"""
 	airtable_levante = Api(config.LEV_AT_PAT)
 	ss_table = airtable_levante.table(config.LEV_AT_BASE, config.LEV_AT_SSTABLE)
@@ -22,9 +42,13 @@ def build_task_file_map() -> Dict[str, Any]:
 		fields = record.get("fields", {})
 		task_manual = fields.get("taskManual")
 		split_file_id = fields.get("split_itembank_fileId")
-		if task_manual and split_file_id:
-			if task_manual not in task_file_map:
-				task_file_map[task_manual] = split_file_id
+		if not task_manual or not split_file_id:
+			continue
+		key = normalize_task_manual_key(task_manual)
+		if not key:
+			continue
+		if key not in task_file_map:
+			task_file_map[key] = split_file_id
 	return task_file_map
 
 

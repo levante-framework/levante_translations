@@ -276,15 +276,16 @@ def updateTasks(pilot):
 		ssFields = ssRecord.get("fields", {})
 		taskManual = ssFields.get("taskManual")
 		
-		if not taskManual:
-			print(f"❌ Source string record for {atAudiokey} has no taskManual")
+		task_key = utils.normalize_task_manual_key(taskManual)
+		if not task_key:
+			print(f"❌ Source string record for {atAudiokey} has no usable taskManual")
 			continue
 		
 		# Find fileId in taskFileMap
-		fileId = taskFileMap.get(taskManual)
+		fileId = taskFileMap.get(task_key)
 		
 		if not fileId:
-			print(f"❌ Could not find fileId for taskManual: {taskManual}")
+			print(f"❌ Could not find fileId for taskManual: {taskManual} (key: {task_key})")
 			continue
 		
 		# Get the source string text from at_string

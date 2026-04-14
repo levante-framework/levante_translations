@@ -21,22 +21,6 @@ from crowdin_api import CrowdinClient
 
 from change_check import config, utils
 
-# Allowed CLI names; Airtable ``taskManual`` is matched case-insensitively if needed (e.g. trog ↔ TROG).
-ITEMBANK_TASK_NAMES = (
-	"general",
-	"hearts-and-flowers",
-	"hostile-attribution",
-	"math",
-	"memory-game",
-	"matrix-reasoning",
-	"same-and-different",
-	"trog",
-	"mental-rotation",
-	"theory-of-mind",
-	"child-survey",
-	"vocab",
-)
-
 NO_APPROVED = "NO APPROVED TRANSLATION"
 
 # Dashboard / languageoptions locale → Crowdin target id (only exception today).
@@ -75,29 +59,34 @@ def fetch_languageoptions_json(*, bucket: str, blob_path: str) -> Any:
 
 
 def _airtable_task_key(cli_name: str, task_map: dict) -> str:
-	"""Resolve ``taskManual`` key: exact match, else case-insensitive (e.g. ``trog`` → ``TROG``)."""
+	"""Resolve ``taskManual`` key: exact match, else case-insensitive; ``…-dx`` suffixes match the base name."""
 	if cli_name in task_map:
 		return cli_name
 	for k in task_map:
 		if k.lower() == cli_name.lower():
 			return k
+	norm = utils.normalize_task_manual_key(cli_name)
+	if norm and norm != cli_name:
+		if norm in task_map:
+			return norm
+		for k in task_map:
+			if k.lower() == norm.lower():
+				return k
 	raise KeyError(cli_name)
 
 
-def resolve_task_file_map(selected_tasks: list[str]) -> dict[str, int]:
-	"""CLI task name → Crowdin ``fileId`` (keys stay canonical CLI names for output paths)."""
-	full = utils.build_task_file_map()
+def resolve_task_file_map(task_map: dict[str, Any], selected_tasks: list[str]) -> dict[str, int]:
+	"""CLI task token → Crowdin ``fileId`` (dict keys are canonical task slugs from ``normalize_task_manual_key``)."""
 	out: dict[str, int] = {}
 	for name in selected_tasks:
 		try:
-			at_key = _airtable_task_key(name, full)
+			at_key = _airtable_task_key(name, task_map)
 		except KeyError:
 			raise SystemExit(
 				f"No Crowdin file id in Airtable for task {name!r}. "
-				f"Available taskManual keys: {sorted(full.keys())}"
+				f"Available taskManual keys: {sorted(task_map.keys())}"
 			)
-		# ``split_itembank_fileId`` is a number in Airtable; pyairtable returns int.
-		out[name] = int(full[at_key])
+		out[at_key] = int(task_map[at_key])
 	return out
 
 
@@ -157,7 +146,10 @@ def main() -> None:
 		nargs="+",
 		metavar="TASK",
 		required=True,
-		help="'all' or one or more of: " + ", ".join(ITEMBANK_TASK_NAMES),
+		help=(
+			"'all' or one or more taskManual values from Airtable (see build_task_file_map); "
+			"matching is case-insensitive."
+		),
 	)
 	p.add_argument(
 		"--local",
@@ -198,17 +190,27 @@ def main() -> None:
 	)
 	args = p.parse_args()
 
+	task_map = utils.build_task_file_map()
+	available = sorted(task_map.keys())
+
 	names = [t.strip() for t in args.tasks]
 	if not names or any(not t for t in names):
 		p.error("--tasks: each value must be non-empty.")
 	if names == ["all"]:
-		selected = list(ITEMBANK_TASK_NAMES)
+		selected = list(available)
 	else:
-		bad = [t for t in names if t not in ITEMBANK_TASK_NAMES]
-		if bad:
-			p.error(f"Unknown task(s): {bad}. Expected 'all' or any of {list(ITEMBANK_TASK_NAMES)}")
 		if "all" in names:
 			p.error("Use 'all' alone, not mixed with other task names.")
+		bad: list[str] = []
+		for t in names:
+			try:
+				_airtable_task_key(t, task_map)
+			except KeyError:
+				bad.append(t)
+		if bad:
+			p.error(
+				f"Unknown task(s): {bad!r}. Use 'all' or any valid task name from the taskManual field in Airtable: {available}"
+			)
 		selected = names
 
 	lang_spec = [x.strip() for x in args.languages]
@@ -236,7 +238,7 @@ def main() -> None:
 		locale_keys = lang_spec
 		print(f"Locales (explicit): {len(locale_keys)} — {', '.join(locale_keys)}")
 
-	task_files = resolve_task_file_map(selected)
+	task_files = resolve_task_file_map(task_map, selected)
 	print(f"Tasks → fileId: {task_files}")
 
 	client = CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
