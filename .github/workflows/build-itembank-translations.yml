@@ -1,0 +1,92 @@
+
+name: Build itembank translations
+
+# Writes per-task, per-locale JSON to gs://levante-assets-draft/translations/itembank/...
+# (see change_utils/change_check/platform_update/build_itembank_translations.py).
+# Required repo secrets: CROWDIN_TOKEN, CROWDIN_LEVANTE_PID, GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON,
+# LEVANTE_AT_PAT, LEVANTE_AT_BASEID, LEVANTE_AT_STRINGSTABLE, SLACK_WEBHOOK_URL (optional for notify).
+
+on:
+  workflow_dispatch:
+    inputs:
+      tasks:
+        description: 'Tasks — "all" or space-separated slugs (e.g. general math trog)'
+        required: true
+        default: 'all'
+      languages:
+        description: 'Locales — "options-file" (from languageoptions.json on dev) or space-separated codes (e.g. es-AR en-US)'
+        required: true
+        default: 'options-file'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install change_check and dependencies
+        working-directory: change_utils
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON }}' > "$RUNNER_TEMP/gcp-creds.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS_DEV=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+
+      - name: Run build-itembank-translations
+        id: build
+        working-directory: change_utils
+        run: |
+          build-itembank-translations --tasks ${{ github.event.inputs.tasks }} --languages ${{ github.event.inputs.languages }}
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
+          CROWDIN_LEVANTE_PID: ${{ secrets.CROWDIN_LEVANTE_PID }}
+          LEVANTE_AT_PAT: ${{ secrets.LEVANTE_AT_PAT }}
+          LEVANTE_AT_BASEID: ${{ secrets.LEVANTE_AT_BASEID }}
+          LEVANTE_AT_STRINGSTABLE: ${{ secrets.LEVANTE_AT_STRINGSTABLE }}
+
+      - name: Notify Slack
+        if: success()
+        run: |
+          ITEMBANK_URL="https://console.cloud.google.com/storage/browser/levante-assets-draft/translations/itembank"
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "Itembank translation JSON build completed",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Itembank translations uploaded*"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {"type": "mrkdwn", "text": "*Triggered by:*\n${{ github.actor }}"},
+                  {"type": "mrkdwn", "text": "*Workflow:*\n${{ github.workflow }}"},
+                  {"type": "mrkdwn", "text": "*Tasks:*\n${{ github.event.inputs.tasks }}"},
+                  {"type": "mrkdwn", "text": "*Languages:*\n${{ github.event.inputs.languages }}"},
+                  {"type": "mrkdwn", "text": "*Run:*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"}
+                ]
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Output prefix:* <${ITEMBANK_URL}|levante-assets-draft/translations/itembank/>"
+                }
+              }
+            ]
+          }
+          EOF
+          )
+          curl -s -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "${{ secrets.SLACK_WEBHOOK_URL }}"

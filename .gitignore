@@ -59,6 +59,8 @@ dist/**
 *.xlf
 package.nls.*.json
 l10n/
+# Local output from build-itembank-translations --local, etc.
+translations/
 .vercel
 *-key.json
 levante-dashboard-*-key.json

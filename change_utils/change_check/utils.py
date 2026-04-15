@@ -1,3 +1,5 @@
+from typing import Any, Dict, Optional
+
 from crowdin_api import CrowdinClient
 from crowdin_api.sorting import Sorting, SortingOrder, SortingRule
 from crowdin_api.api_resources.string_translations.enums import ListStringTranslationsOrderBy
@@ -6,10 +8,86 @@ from change_check import config
 import warnings
 from google.cloud import storage
 
+
+# Crowdin split itembank file id per task slug (source of truth; not read from Airtable).
+ITEMBANK_TASK_FILE_MAP: Dict[str, int] = {
+	"child-survey": 750,
+	"general": 772,
+	"hearts-and-flowers": 754,
+	"hostile-attribution": 760,
+	"math": 766,
+	"matrix-reasoning": 770,
+	"memory": 756,
+	"mental-rotation": 768,
+	"same-different-selection": 758,
+	"theory-of-mind": 762,
+	"trog": 764,
+	"vocab": 752,
+}
+
+# Adult survey Crowdin file ids (survey slug → file id).
+SURVEY_CROWDIN_FILE_MAP: Dict[str, int] = {
+	"caregiver-child": 776,
+	"caregiver-family": 778,
+	"teacher-general": 774,
+	"teacher-classroom": 782,
+}
+
+
+def normalize_task_manual_key(task_manual: Any) -> Optional[str]:
+	"""
+	Canonical task slug: trim, drop ``DELETE`` (case-insensitive), strip a trailing ``-dx`` suffix
+	(case-insensitive), then lowercase (e.g. ``TROG`` / ``matrix-reasoning-dx`` → ``trog`` /
+	``matrix-reasoning``). Returns ``None`` if the value should be ignored.
+	"""
+	if task_manual is None:
+		return None
+	s = str(task_manual).strip()
+	if not s:
+		return None
+	if s.upper() == "DELETE":
+		return None
+	if s.lower().endswith("-dx"):
+		s = s[: -len("-dx")]
+	s = s.lower()
+	return s if s else None
+
+
+def build_task_file_map() -> Dict[str, Any]:
+	"""Return the hardcoded task slug → Crowdin split itembank file id map (:data:`ITEMBANK_TASK_FILE_MAP`)."""
+	return dict(ITEMBANK_TASK_FILE_MAP)
+
+
 def getSourceString(stringId):
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 	source_string=levanteMain.source_strings.get_string(stringId=stringId)
 	return source_string["data"]
+
+def get_approved_translation_text(
+	client: CrowdinClient,
+	string_id: int,
+	language_id: str,
+) -> Optional[str]:
+	"""Return text of an **approved** translation for ``language_id``, or ``None`` if none."""
+	sorting = Sorting([SortingRule(ListStringTranslationsOrderBy.CREATED_AT, SortingOrder.DESC)])
+	try:
+		translation = client.string_translations.list_string_translations(
+			stringId=string_id,
+			languageId=language_id,
+			orderBy=sorting,
+		)
+		for t in translation.get("data") or []:
+			approval = client.string_translations.list_translation_approvals(
+				orderBy=sorting,
+				translationId=t["data"]["id"],
+				limit=1,
+			)
+			if len(approval.get("data") or []) > 0:
+				return t["data"]["text"]
+	except Exception:
+		return None
+	return None
+
 
 def getTranslation(stringId,fileId,lcode,translationFilter):
 	levanteMain=CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
