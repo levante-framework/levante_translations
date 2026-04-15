@@ -1,7 +1,7 @@
 
 name: Build itembank translations
 
-# Writes per-task, per-locale JSON to gs://levante-assets-dev/translations/itembank/...
+# Writes per-task, per-locale JSON to gs://levante-assets-draft/translations/itembank/...
 # (see change_utils/change_check/platform_update/build_itembank_translations.py).
 # Required repo secrets: CROWDIN_TOKEN, CROWDIN_LEVANTE_PID, GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON,
 # LEVANTE_AT_PAT, LEVANTE_AT_BASEID, LEVANTE_AT_STRINGSTABLE, SLACK_WEBHOOK_URL (optional for notify).
@@ -56,7 +56,7 @@ jobs:
       - name: Notify Slack
         if: success()
         run: |
-          ITEMBANK_URL="https://console.cloud.google.com/storage/browser/levante-assets-dev/translations/itembank"
+          ITEMBANK_URL="https://console.cloud.google.com/storage/browser/levante-assets-draft/translations/itembank"
           PAYLOAD=$(cat <<EOF
           {
             "text": "Itembank translation JSON build completed",
@@ -82,7 +82,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Output prefix:* <${ITEMBANK_URL}|levante-assets-dev/translations/itembank/>"
+                  "text": "*Output prefix:* <${ITEMBANK_URL}|levante-assets-draft/translations/itembank/>"
                 }
               }
             ]

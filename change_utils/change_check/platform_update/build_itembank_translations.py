@@ -2,10 +2,10 @@
 Build per-task, per-language flat JSON maps from Crowdin (approved translations only).
 
 Unless ``--languages`` lists explicit locale codes, reads locale keys from
-``languageoptions.json`` on the dev assets bucket. Maps them to
+``languageoptions.json`` (default: dev assets bucket). Maps them to
 Crowdin language ids (``de-DE`` → ``de`` is the only special case), pulls strings from
 the hardcoded task → file id map (:data:`~change_check.utils.ITEMBANK_TASK_FILE_MAP`), and writes
-``item-bank-translations.json`` for each (task, language) pair under ``gs://levante-assets-dev/``
+``item-bank-translations.json`` for each (task, language) pair under ``gs://levante-assets-draft/``
 by default (override with ``--output-bucket``).
 """
 
@@ -23,14 +23,17 @@ from change_check import config, utils
 
 NO_APPROVED = "NO APPROVED TRANSLATION"
 
-# Dashboard / languageoptions locale → Crowdin target id (only exception today).
+# Dashboard / languageoptions locale → Crowdin target id (de and nl only exceptions).
 DASHBOARD_LANG_TO_CROWDIN: dict[str, str] = {
 	"de-DE": "de",
 	"nl-NL": "nl"
 }
 
-DEFAULT_DEV_BUCKET = "levante-assets-dev"
+# Default bucket for reading languageoptions.json (dev consolidated dashboard assets).
+DEFAULT_LANGUAGEOPTIONS_BUCKET = "levante-assets-dev"
 DEFAULT_LANGUAGEOPTIONS_BLOB = "translations/dashboard-consolidated-flat/languageoptions.json"
+# Default bucket for uploaded itembank JSON (dev GCP project; draft staging bucket).
+DEFAULT_OUTPUT_BUCKET = "levante-assets-draft"
 
 
 def object_path(task: str, locale_key: str) -> str:
@@ -158,8 +161,8 @@ def main() -> None:
 	)
 	p.add_argument(
 		"--language-options-bucket",
-		default=DEFAULT_DEV_BUCKET,
-		help=f"Bucket containing languageoptions.json (default: {DEFAULT_DEV_BUCKET}).",
+		default=DEFAULT_LANGUAGEOPTIONS_BUCKET,
+		help=f"Bucket containing languageoptions.json (default: {DEFAULT_LANGUAGEOPTIONS_BUCKET}).",
 	)
 	p.add_argument(
 		"--language-options-blob",
@@ -179,8 +182,8 @@ def main() -> None:
 	)
 	p.add_argument(
 		"--output-bucket",
-		default=DEFAULT_DEV_BUCKET,
-		help=f"Destination bucket when not --local (default: {DEFAULT_DEV_BUCKET}).",
+		default=DEFAULT_OUTPUT_BUCKET,
+		help=f"Destination bucket when not --local (default: {DEFAULT_OUTPUT_BUCKET}).",
 	)
 	p.add_argument(
 		"--local-root",
