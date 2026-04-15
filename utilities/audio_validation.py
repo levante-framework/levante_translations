@@ -104,11 +104,7 @@ def needs_regeneration(
             return False, "Skipping file without ID3 tags (use --force-id to regenerate)"
     
     # Check text content
-    # Prefer the explicit original translation tag when present.
-    # Fall back to legacy "text" for older files that predate dual-text tagging.
-    stored_text = metadata.get('original_translation_text', '').strip()
-    if not stored_text:
-        stored_text = metadata.get('text', '').strip()
+    stored_text = metadata.get('text', '').strip()
     current_text_clean = current_text.strip()
     
     if stored_text != current_text_clean:

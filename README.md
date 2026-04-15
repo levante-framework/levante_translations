@@ -559,20 +559,28 @@ Notes
 - XLIFF files are fetched directly from GitHub and mirrored; ICU JSONs are synced from xliff/translations-icu.
 - All uploads use rsync with checksums to minimize transfer time.
 
-Crowdin-first refresh (recommended when CSV handoff is stale/missing):
+Draft-bucket-first refresh (recommended):
 ```bash
-# 1) Refresh SQLite baseline from Crowdin XLIFF + rebuild translation_text/item_bank_translations.csv
-npm run refresh:translations-from-crowdin
+# 1) Rebuild translation_text/item_bank_translations.csv from:
+#    gs://levante-assets-draft/translations/itembank/<task>/<locale>/item-bank-translations.json
+npm run refresh:translations-from-draft
 
-# 2) Optional: refresh from Crowdin and immediately publish CSV to dev buckets
-npm run refresh:translations-from-crowdin:deploy-dev
+# 2) Optional: rebuild from draft bucket and immediately publish CSV to dev buckets
+npm run refresh:translations-from-draft:deploy-dev
 ```
 
 Notes:
-- These commands use `itembank_by_task_regen_report.py` as the source-of-truth path.
+- These commands now read per-task JSON from the draft assets bucket as source-of-truth for CSV rebuilds.
 - Override defaults with env vars when needed:
-  - `CROWDIN_PROJECT_ID` (or `CROWDIN_LEVANTE_PID`)
-  - `CROWDIN_PREFIX` (default: `main/itembank_by_task`)
+  - `TRANSLATIONS_DRAFT_BUCKET` (default: `levante-assets-draft`)
+  - `ITEMBANK_PREFIX` (default: `translations/itembank/`)
+- Direct exporter:
+```bash
+npm run export:itembank-csv-from-draft
+```
+- Compatibility aliases still exist:
+  - `refresh:translations-from-crowdin`
+  - `refresh:translations-from-crowdin:deploy-dev`
 
 ### Audio Source-of-Truth (after partner approvals)
 
