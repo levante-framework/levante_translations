@@ -5,6 +5,7 @@ import subprocess
 import pandas as pd
 import re
 import tempfile
+from pathlib import Path
 import playsound
 import tkinter as tk
 from tkinter import font as tkfont
@@ -64,6 +65,9 @@ audio_tags = {
 
 # Standard ID3v2 tag fields (these use specific ID3 frames)
 STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment', 'copyright'}
+
+# Avoid re-uploading the same CSV repeatedly during a single generation run.
+_DRAFT_CSV_SYNCED_BUCKETS = set()
 
 
 def create_directory(path):
@@ -420,6 +424,22 @@ def save_audio(
     voice_id="",
     model_id=""
 ):
+    def _upload_itembank_csv_if_needed(storage_client, bucket_name):
+        # Upload translation_text/item_bank_translations.csv once per bucket/run
+        # to keep draft bucket audio context aligned with the generated clips.
+        if bucket_name in _DRAFT_CSV_SYNCED_BUCKETS:
+            return
+
+        csv_path = Path(__file__).resolve().parents[1] / "translation_text" / "item_bank_translations.csv"
+        if not csv_path.is_file():
+            print(f"⚠️  Warning: item bank CSV not found at {csv_path}; skipping draft CSV upload.")
+            return
+
+        csv_blob = storage_client.bucket(bucket_name).blob("audio/item_bank_translations.csv")
+        csv_blob.upload_from_filename(str(csv_path), content_type="text/csv")
+        _DRAFT_CSV_SYNCED_BUCKETS.add(bucket_name)
+        print(f"✅ Uploaded to GCS: gs://{bucket_name}/audio/item_bank_translations.csv")
+
     def _resolve_text_from_row(row, target_lang_code):
         candidates = [target_lang_code]
         base = (target_lang_code or "").split("-")[0]
@@ -595,6 +615,9 @@ def save_audio(
                 blob.patch()
                 
                 print(f"✅ Uploaded to GCS: gs://{bucket_name}/{gcs_path}")
+
+                # Also publish the current item bank CSV into the draft audio folder.
+                _upload_itembank_csv_if_needed(storage_client, bucket_name)
             else:
                 print(f"⚠️  Warning: Could not initialize GCS client. Skipping upload to levante-assets-draft.")
         except Exception as e:

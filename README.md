@@ -558,6 +558,7 @@ Notes
 - The deploy commands automatically fetch and normalize the CSV before uploading.
 - XLIFF files are fetched directly from GitHub and mirrored; ICU JSONs are synced from xliff/translations-icu.
 - All uploads use rsync with checksums to minimize transfer time.
+- During draft-audio generation uploads, `translation_text/item_bank_translations.csv` is also uploaded to `gs://levante-assets-draft/audio/item_bank_translations.csv` so the audio bucket keeps a matching string snapshot.
 
 Draft-bucket-first refresh (recommended):
 ```bash
@@ -599,6 +600,9 @@ Why:
 Guardrail:
 - `deploy_translations.py` includes a drift check that blocks dev audio deploys when local `audio_files/` differs from approved `levante-assets-dev/audio`.
 - You can bypass with `--skip-dev-audio-drift-check`, but this should only be used for intentional exceptions.
+
+Related draft-audio artifact:
+- The generator upload path also writes `gs://levante-assets-draft/audio/item_bank_translations.csv` from local `translation_text/item_bank_translations.csv`.
 
 4) Survey translations (levante-surveys)
 
