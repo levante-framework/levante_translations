@@ -3,6 +3,7 @@ name: Build itembank translations
 
 # Writes per-task, per-locale JSON to gs://levante-assets-draft/translations/itembank/...
 # (see change_utils/change_check/platform_update/build_itembank_translations.py).
+# Reads gs://levante-assets-prod for --preserve-from (ensure the workflow GCP SA can read prod).
 # Required repo secrets: CROWDIN_TOKEN, CROWDIN_LEVANTE_PID, GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON,
 # LEVANTE_AT_PAT, LEVANTE_AT_BASEID, LEVANTE_AT_STRINGSTABLE, SLACK_WEBHOOK_URL (optional for notify).
 
@@ -14,13 +15,17 @@ on:
         required: true
         default: 'all'
       languages:
-        description: 'Locales — "options-file" (from languageoptions.json on dev) or space-separated codes (e.g. es-AR en-US)'
+        description: 'Locales — "options-file" or "all" (same: every key from languageoptions.json on dev) or space-separated codes (e.g. es-AR en-US)'
         required: true
         default: 'options-file'
       ignore_hidden_strings:
         description: 'Omit Crowdin source strings marked hidden (isHidden) from JSON — true or false'
         required: true
         default: 'false'
+      preserve_from:
+        description: 'Fill gaps where Crowdin has no approval — itembanktranslations-csv (prod flat CSV) or itembank-json (prod per-task JSON); JSON requires those objects to exist in prod'
+        required: true
+        default: 'itembanktranslations-csv'
 
 jobs:
   build:
@@ -49,7 +54,7 @@ jobs:
         id: build
         working-directory: change_utils
         run: |
-          build-itembank-translations --tasks ${{ github.event.inputs.tasks }} --languages ${{ github.event.inputs.languages }} --ignore-hidden-strings ${{ github.event.inputs.ignore_hidden_strings }}
+          build-itembank-translations --tasks ${{ github.event.inputs.tasks }} --languages ${{ github.event.inputs.languages }} --ignore-hidden-strings ${{ github.event.inputs.ignore_hidden_strings }} --preserve-from ${{ github.event.inputs.preserve_from }}
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
           CROWDIN_LEVANTE_PID: ${{ secrets.CROWDIN_LEVANTE_PID }}
@@ -59,39 +64,47 @@ jobs:
 
       - name: Notify Slack
         if: success()
+        env:
+          STATS_JSON: ${{ github.workspace }}/change_utils/itembank_build_summary.json
         run: |
           ITEMBANK_URL="https://console.cloud.google.com/storage/browser/levante-assets-draft/translations/itembank"
-          PAYLOAD=$(cat <<EOF
-          {
-            "text": "Itembank translation JSON build completed",
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Itembank translations uploaded*"
-                }
-              },
-              {
-                "type": "section",
-                "fields": [
-                  {"type": "mrkdwn", "text": "*Triggered by:*\n${{ github.actor }}"},
-                  {"type": "mrkdwn", "text": "*Workflow:*\n${{ github.workflow }}"},
-                  {"type": "mrkdwn", "text": "*Tasks:*\n${{ github.event.inputs.tasks }}"},
-                  {"type": "mrkdwn", "text": "*Languages:*\n${{ github.event.inputs.languages }}"},
-                  {"type": "mrkdwn", "text": "*Ignore hidden strings:*\n${{ github.event.inputs.ignore_hidden_strings }}"},
-                  {"type": "mrkdwn", "text": "*Run:*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"}
-                ]
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Output prefix:* <${ITEMBANK_URL}|levante-assets-draft/translations/itembank/>"
-                }
-              }
-            ]
-          }
-          EOF
-          )
+          if [ -f "$STATS_JSON" ]; then
+            STATS_BLOCK=$(jq -r '.slack_mrkdwn' "$STATS_JSON")
+          else
+            STATS_BLOCK="_No \`itembank_build_summary.json\` found — statistics unavailable._"
+          fi
+          PAYLOAD=$(jq -n \
+            --arg actor "${{ github.actor }}" \
+            --arg wf "${{ github.workflow }}" \
+            --arg tasks "${{ github.event.inputs.tasks }}" \
+            --arg langs "${{ github.event.inputs.languages }}" \
+            --arg preserve "${{ github.event.inputs.preserve_from }}" \
+            --arg run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --arg itembank_url "$ITEMBANK_URL" \
+            --arg stats "$STATS_BLOCK" \
+            '{
+              text: "Itembank translation JSON build completed",
+              blocks: [
+                { type: "section", text: { type: "mrkdwn", text: "*Itembank translations uploaded*" } },
+                {
+                  type: "section",
+                  fields: [
+                    { type: "mrkdwn", text: ("*Triggered by:*\n" + $actor) },
+                    { type: "mrkdwn", text: ("*Workflow:*\n" + $wf) },
+                    { type: "mrkdwn", text: ("*Tasks:*\n" + $tasks) },
+                    { type: "mrkdwn", text: ("*Languages:*\n" + $langs) },
+                    { type: "mrkdwn", text: ("*Preserve from:*\n" + $preserve) },
+                    { type: "mrkdwn", text: ("*Run:*\n<" + $run_url + "|View run>") }
+                  ]
+                },
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: ("*Output prefix:* <" + $itembank_url + "|levante-assets-draft/translations/itembank/>")
+                  }
+                },
+                { type: "section", text: { type: "mrkdwn", text: $stats } }
+              ]
+            }')
           curl -s -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "${{ secrets.SLACK_WEBHOOK_URL }}"

@@ -15,7 +15,7 @@ The Partner Audio Approval Tool is a streamlined interface designed for research
 ## Access
 
 The Partner Audio Approval Tool is available at:
-- **Production**: https://levante-partner-tools.vercel.app/audio-approval.html
+- **Production**: https://levante-partner-tools.vercel.app/partner-audio-dashboard.html
 - **Development**: https://levante-pitwall.vercel.app/partner-audio-dashboard.html
 
 ## Prerequisites

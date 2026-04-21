@@ -45,14 +45,15 @@ echo ""
 echo "✅ Deployment successful: $DEPLOYMENT_URL"
 echo ""
 
-# Update production alias
-echo "🔗 Updating production alias..."
+# Update production aliases
+echo "🔗 Updating production aliases..."
 vercel alias set "$DEPLOYMENT_URL" levante-partner-tools.vercel.app
+vercel alias set "$DEPLOYMENT_URL" levante-pitwall.vercel.app
 
 echo ""
 echo "🎉 Production deployment complete!"
 echo ""
-echo "🌐 Production URL: https://levante-partner-tools.vercel.app/audio-approval.html"
+echo "🌐 Production URL: https://levante-partner-tools.vercel.app/partner-audio-dashboard.html"
 echo "📦 Deployment URL: $DEPLOYMENT_URL"
 echo ""
 echo "✨ All latest changes from PR #65 are now live in production!"

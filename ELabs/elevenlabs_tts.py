@@ -174,56 +174,15 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
         print(f"Item {ourRow['item_id']} doesn't have task assigned")
         return 'NoTask'
 
-    # Resolve translation text from primary language column, then fallbacks.
-    candidates = [lang_code]
-    base = (lang_code or "").split("-")[0]
-    if base and base != lang_code:
-        candidates.append(base)
-
-    regional_fallbacks = {
-        "es-AR": "es-CO",
-        "es-MX": "es-CO",
-        "fr-FR": "fr-CA",
-        "de-CH": "de",
-    }
-    reverse_regional = {
-        "en": "en-US",
-        "de": "de-DE",
-        "es": "es-CO",
-        "fr": "fr-CA",
-        "nl": "nl-NL",
-    }
-    cand = regional_fallbacks.get(lang_code)
-    if cand:
-        candidates.append(cand)
-    reverse_cand = reverse_regional.get(lang_code)
-    if reverse_cand:
-        candidates.append(reverse_cand)
-
-    simplified_lang_codes = {
-        "en-US": "en",
-        "es-CO": "es",
-        "de-DE": "de",
-        "fr-CA": "fr",
-        "nl-NL": "nl",
-    }
-    simp = simplified_lang_codes.get(lang_code)
-    if simp:
-        candidates.append(simp)
-
-    candidates = list(dict.fromkeys(candidates))
+    # Strict locale behavior: only use the exact target language column.
     translation_text = None
-    for cand in candidates:
-        if cand not in ourRow:
-            continue
-        candidate_text = ourRow[cand]
-        if pd.isna(candidate_text) or candidate_text is None or candidate_text == "":
-            continue
-        translation_text = str(candidate_text)
-        break
+    if lang_code in ourRow:
+        candidate_text = ourRow[lang_code]
+        if not (pd.isna(candidate_text) or candidate_text is None or candidate_text == ""):
+            translation_text = str(candidate_text)
 
     if translation_text is None:
-        print(f"Warning: No translation found for {lang_code} in row {ourRow['item_id']}")
+        print(f"Warning: No translation found for exact locale {lang_code} in row {ourRow['item_id']}")
         return 'Error'
 
     # Show what we're about to generate
