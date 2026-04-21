@@ -191,18 +191,9 @@ def generate_audio(
         language_dict = {}
     
     if translation_source == "csv":
-        # Fetch the latest translations from l10n_pending branch
-        print("📥 Fetching latest translations from l10n_pending branch...")
-        try:
-            from utilities.fetch_latest_translations import fetch_translations
-            if not fetch_translations(force=True):
-                print("❌ Failed to fetch latest translations - continuing with local copy")
-            else:
-                print("✅ Successfully updated to latest translations")
-        except Exception as e:
-            print(f"⚠️  Warning: Could not fetch latest translations: {e}")
-            print("   Continuing with local copy...")
-        print("="*60)
+        print(f"Using local CSV source: {conf.item_bank_translations}")
+        print("Tip: run `npm run refresh:translations-from-draft` before generation to pull latest draft-bucket strings.")
+        print("=" * 60)
     
 # Retrieve translations.csv from the repo
 # NOTE: If special characters get munged, will need to
@@ -251,7 +242,12 @@ def generate_audio(
     
     # All data that we need to make sure is or has been generated
     if selected_translation_source == "csv":
-        translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
+        # Never overwrite the source CSV with a task-filtered subset.
+        # The partner dashboard reads this file from GCS, so truncating it would hide items.
+        if tasks_filter is None:
+            translationData.to_csv(input_file_name, encoding='utf-8', errors='replace')
+        else:
+            print("Skipping source CSV writeback because --tasks filter is active.")
 
     masterData = None
     if selected_translation_source == "csv":
