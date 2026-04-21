@@ -7,13 +7,15 @@ Crowdin language ids (``de-DE`` → ``de`` is the only special case), pulls stri
 the hardcoded task → file id map (:data:`~change_check.utils.ITEMBANK_TASK_FILE_MAP`), and writes
 ``item-bank-translations.json`` for each (task, language) pair under ``gs://levante-assets-draft/``
 by default (override with ``--output-bucket``).
+
+With ``--ignore-hidden-strings true``, source strings whose Crowdin payload has ``isHidden`` are
+omitted from generated JSON (they do not appear as keys).
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -105,15 +107,29 @@ def iter_strings_for_file(client: CrowdinClient, file_id: int, *, page_size: int
 		offset += page_size
 
 
+def _crowdin_string_is_hidden(data: dict) -> bool:
+	"""Whether Crowdin marks this source string hidden (editor / visibility flag)."""
+	v = data.get("isHidden")
+	if v is True:
+		return True
+	if isinstance(v, str) and v.strip().lower() in ("true", "1", "yes"):
+		return True
+	return False
+
+
 def build_translation_map_for_file_language(
 	client: CrowdinClient,
 	file_id: int,
 	crowdin_lang: str,
+	*,
+	ignore_hidden_strings: bool = False,
 ) -> dict[str, str]:
 	"""identifier → approved translation text or ``NO_APPROVED`` placeholder."""
 	out: dict[str, str] = {}
 	for item in iter_strings_for_file(client, file_id):
 		data = item.get("data") or {}
+		if ignore_hidden_strings and _crowdin_string_is_hidden(data):
+			continue
 		ident = data.get("identifier")
 		if ident is None or ident == "":
 			continue
@@ -191,7 +207,14 @@ def main() -> None:
 		default=Path("translations"),
 		help="Directory that will contain itembank/... when using --local (default: ./translations).",
 	)
+	p.add_argument(
+		"--ignore-hidden-strings",
+		required=True,
+		choices=("true", "false"),
+		help="If true, skip Crowdin source strings with isHidden when writing JSON (omit their keys).",
+	)
 	args = p.parse_args()
+	ignore_hidden_strings = args.ignore_hidden_strings == "true"
 
 	task_map = utils.build_task_file_map()
 	available = sorted(task_map.keys())
@@ -246,11 +269,19 @@ def main() -> None:
 
 	client = CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 
+	if ignore_hidden_strings:
+		print("Mode: omitting Crowdin strings with isHidden=true from output JSON.")
+
 	for task, file_id in task_files.items():
 		for loc in locale_keys:
 			crowdin_lang = dashboard_locale_to_crowdin(loc)
 			print(f"Building {task} / {loc} (Crowdin {crowdin_lang}) fileId={file_id} …")
-			payload = build_translation_map_for_file_language(client, file_id, crowdin_lang)
+			payload = build_translation_map_for_file_language(
+				client,
+				file_id,
+				crowdin_lang,
+				ignore_hidden_strings=ignore_hidden_strings,
+			)
 			rel = object_path(task, loc)
 			if args.local:
 				dest = args.local_root / "itembank" / task / loc / "item-bank-translations.json"
