@@ -441,49 +441,10 @@ def save_audio(
         print(f"✅ Uploaded to GCS: gs://{bucket_name}/audio/item_bank_translations.csv")
 
     def _resolve_text_from_row(row, target_lang_code):
-        candidates = [target_lang_code]
-        base = (target_lang_code or "").split("-")[0]
-        if base and base != target_lang_code:
-            candidates.append(base)
-
-        regional_fallbacks = {
-            "es-AR": "es-CO",
-            "es-MX": "es-CO",
-            "fr-FR": "fr-CA",
-            "de-CH": "de",
-        }
-        reverse_regional = {
-            "en": "en-US",
-            "de": "de-DE",
-            "es": "es-CO",
-            "fr": "fr-CA",
-            "nl": "nl-NL",
-        }
-        cand = regional_fallbacks.get(target_lang_code)
-        if cand:
-            candidates.append(cand)
-        reverse_cand = reverse_regional.get(target_lang_code)
-        if reverse_cand:
-            candidates.append(reverse_cand)
-
-        simplified_lang_codes = {
-            "en-US": "en",
-            "es-CO": "es",
-            "de-DE": "de",
-            "fr-CA": "fr",
-            "nl-NL": "nl",
-        }
-        simp = simplified_lang_codes.get(target_lang_code)
-        if simp:
-            candidates.append(simp)
-
-        for candidate in dict.fromkeys(candidates):
-            if candidate not in row:
-                continue
-            value = row[candidate]
-            if pd.isna(value) or value is None or value == "":
-                continue
-            return str(value)
+        if target_lang_code in row:
+            value = row[target_lang_code]
+            if not (pd.isna(value) or value is None or value == ""):
+                return str(value)
         return ""
 
     file_path = audio_file_path(ourRow["labels"], ourRow["item_id"], audio_base_dir, lang_code)

@@ -354,8 +354,7 @@ def generate_audio(
         non_null_count = translationData[lang_code].notna().sum()
         print(f"Found {lang_code} column with {non_null_count} non-null entries out of {len(translationData)}")
     else:
-        # Column not present; we will attempt fallbacks per-row (base code and close variants)
-        print(f"Column {lang_code} not found in CSV; will attempt fallbacks during row processing")
+        print(f"Column {lang_code} not found in source data; rows without this exact locale will be skipped")
 
     # Now that we have the current language, handle column renaming carefully
     # Don't rename the column we're currently working with to avoid cache issues
@@ -375,58 +374,15 @@ def generate_audio(
     diffData = pd.DataFrame()
     
     for index, ourRow in translationData.iterrows():
-        # Resolve translation text from primary language column, then fallbacks.
-        # Important: fallbacks should also run when the primary column exists but is empty.
-        candidates = [lang_code]
-        base = (lang_code or '').split('-')[0]
-        if base and base != lang_code:
-            candidates.append(base)
-
-        regional_fallbacks = {
-            'es-AR': 'es-CO',
-            'es-MX': 'es-CO',
-            'fr-FR': 'fr-CA',
-            'de-CH': 'de',
-        }
-        reverse_regional = {
-            'en': 'en-US',
-            'de': 'de-DE',
-            'es': 'es-CO',
-            'fr': 'fr-CA',
-            'nl': 'nl-NL',
-        }
-        cand = regional_fallbacks.get(lang_code)
-        if cand:
-            candidates.append(cand)
-        reverse_cand = reverse_regional.get(lang_code)
-        if reverse_cand:
-            candidates.append(reverse_cand)
-
-        simplified_lang_codes = {
-            'en-US': 'en', 'es-CO': 'es', 'de-DE': 'de', 'fr-CA': 'fr', 'nl-NL': 'nl'
-        }
-        simp = simplified_lang_codes.get(lang_code)
-        if simp:
-            candidates.append(simp)
-
-        # Deduplicate while preserving order.
-        candidates = list(dict.fromkeys(candidates))
-
         translation_text = None
-        used_col = None
-        for cand in candidates:
-            if cand in ourRow:
-                candidate_text = ourRow[cand]
-                if not (pd.isna(candidate_text) or candidate_text == '' or candidate_text is None):
-                    translation_text = candidate_text
-                    used_col = cand
-                    break
+        if lang_code in ourRow:
+            candidate_text = ourRow[lang_code]
+            if not (pd.isna(candidate_text) or candidate_text == '' or candidate_text is None):
+                translation_text = candidate_text
 
         if translation_text is None:
-            print(f"Warning: No translation found for {lang_code} (or fallbacks) in row {ourRow['item_id']}")
+            print(f"Warning: No translation found for exact locale {lang_code} in row {ourRow['item_id']}")
             continue
-        if used_col and used_col != lang_code:
-            print(f"Using fallback column '{used_col}' for {lang_code} in row {ourRow['item_id']}")
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         

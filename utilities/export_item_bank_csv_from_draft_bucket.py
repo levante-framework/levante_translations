@@ -66,6 +66,20 @@ def iter_translation_blobs(
         yield task, locale, blob
 
 
+def _load_json_payload(blob: storage.Blob) -> dict | None:
+    payload_raw = blob.download_as_bytes().decode("utf-8")
+    try:
+        payload = json.loads(payload_raw)
+    except json.JSONDecodeError:
+        # Tolerate a common authoring issue in hand-edited JSON blobs:
+        # a trailing comma before a closing object/array bracket.
+        sanitized = re.sub(r",(\s*[}\]])", r"\1", payload_raw)
+        payload = json.loads(sanitized)
+    if not isinstance(payload, dict):
+        return None
+    return payload
+
+
 def build_rows(
     *, bucket: str, prefix: str, object_name: str, locale_filter: set[str] | None
 ) -> Tuple[List[Dict[str, str]], List[str]]:
@@ -83,9 +97,12 @@ def build_rows(
         locale_key = locale
         discovered_locales.add(locale_key)
 
-        payload_raw = blob.download_as_bytes().decode("utf-8")
-        payload = json.loads(payload_raw)
-        if not isinstance(payload, dict):
+        try:
+            payload = _load_json_payload(blob)
+        except json.JSONDecodeError as exc:
+            print(f"⚠️  Skipping malformed JSON blob: {blob.name} ({exc})")
+            continue
+        if payload is None:
             continue
 
         for item_id, text in payload.items():
