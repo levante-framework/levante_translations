@@ -7,7 +7,10 @@ Unless ``--languages`` lists explicit locale codes, use ``--languages options-fi
 Crowdin language ids (``de-DE`` → ``de`` is the only special case), pulls strings from
 the hardcoded task → file id map (:data:`~change_check.utils.ITEMBANK_TASK_FILE_MAP`), and writes
 ``item-bank-translations.json`` for each (task, language) pair under ``gs://levante-assets-draft/``
-by default (override with ``--output-bucket``). Output folders use app-facing names
+by default (override with ``--output-bucket``).
+
+With ``--ignore-hidden-strings true``, source strings whose Crowdin payload has ``isHidden`` are
+omitted from generated JSON (they do not appear as keys). Output folders use app-facing names
 (``egma-math``, ``memory-game``) where they differ from Crowdin task slugs ``math`` / ``memory``.
 
 With ``--preserve-from``, when Crowdin has no **approved** translation for a string, the build can
@@ -283,11 +286,22 @@ def iter_strings_for_file(client: CrowdinClient, file_id: int, *, page_size: int
 		offset += page_size
 
 
+def _crowdin_string_is_hidden(data: dict) -> bool:
+	"""Whether Crowdin marks this source string hidden (editor / visibility flag)."""
+	v = data.get("isHidden")
+	if v is True:
+		return True
+	if isinstance(v, str) and v.strip().lower() in ("true", "1", "yes"):
+		return True
+	return False
+
+
 def build_translation_map_for_file_language(
 	client: CrowdinClient,
 	file_id: int,
 	crowdin_lang: str,
 	*,
+	ignore_hidden_strings: bool = False,
 	legacy_by_identifier: Optional[dict[str, str]] = None,
 ) -> tuple[dict[str, str], FileLanguageBuildStats]:
 	"""identifier → final JSON value; stats count placeholder vs preserved legacy rows."""
@@ -297,6 +311,8 @@ def build_translation_map_for_file_language(
 	preserved = 0
 	for item in iter_strings_for_file(client, file_id):
 		data = item.get("data") or {}
+		if ignore_hidden_strings and _crowdin_string_is_hidden(data):
+			continue
 		ident = data.get("identifier")
 		if ident is None or ident == "":
 			continue
@@ -430,6 +446,12 @@ def main() -> None:
 		help="Directory that will contain itembank/... when using --local (default: ./translations).",
 	)
 	p.add_argument(
+		"--ignore-hidden-strings",
+		required=True,
+		choices=("true", "false"),
+		help="If true, skip Crowdin source strings with isHidden when writing JSON (omit their keys).",
+	)
+	p.add_argument(
 		"--preserve-from",
 		choices=list(PRESERVE_FROM_CHOICES),
 		default=None,
@@ -460,6 +482,7 @@ def main() -> None:
 		),
 	)
 	args = p.parse_args()
+	ignore_hidden_strings = args.ignore_hidden_strings == "true"
 
 	task_map = utils.build_task_file_map()
 	available = sorted(task_map.keys())
@@ -518,6 +541,8 @@ def main() -> None:
 
 	client = CrowdinClient(token=config.LEV_CI, project_id=config.LEV_CI_PID)
 
+	if ignore_hidden_strings:
+		print("Mode: omitting Crowdin strings with isHidden=true from output JSON.")
 	legacy_csv_maps: dict[str, dict[str, str]] | None = None
 	legacy_json_cache: dict[tuple[str, str], dict[str, str]] = {}
 
@@ -569,6 +594,7 @@ def main() -> None:
 				client,
 				file_id,
 				crowdin_lang,
+				ignore_hidden_strings=ignore_hidden_strings,
 				legacy_by_identifier=legacy_by_id,
 			)
 			per_language[loc]["no_approved"] += st.no_approved
