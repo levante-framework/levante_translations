@@ -79,6 +79,7 @@ jobs:
             --arg tasks "${{ github.event.inputs.tasks }}" \
             --arg langs "${{ github.event.inputs.languages }}" \
             --arg preserve "${{ github.event.inputs.preserve_from }}" \
+            --arg ignore_hidden "${{ github.event.inputs.ignore_hidden_strings }}" \
             --arg run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --arg itembank_url "$ITEMBANK_URL" \
             --arg stats "$STATS_BLOCK" \
@@ -94,6 +95,7 @@ jobs:
                     { type: "mrkdwn", text: ("*Tasks:*\n" + $tasks) },
                     { type: "mrkdwn", text: ("*Languages:*\n" + $langs) },
                     { type: "mrkdwn", text: ("*Preserve from:*\n" + $preserve) },
+                    { type: "mrkdwn", text: ("*Ignore hidden strings:*\n" + $ignore_hidden) },
                     { type: "mrkdwn", text: ("*Run:*\n<" + $run_url + "|View run>") }
                   ]
                 },

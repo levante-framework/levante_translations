@@ -10,8 +10,7 @@ the hardcoded task → file id map (:data:`~change_check.utils.ITEMBANK_TASK_FIL
 by default (override with ``--output-bucket``).
 
 With ``--ignore-hidden-strings true``, source strings whose Crowdin payload has ``isHidden`` are
-omitted from generated JSON (they do not appear as keys).
-by default (override with ``--output-bucket``). Output folders use app-facing names
+omitted from generated JSON (they do not appear as keys). Output folders use app-facing names
 (``egma-math``, ``memory-game``) where they differ from Crowdin task slugs ``math`` / ``memory``.
 
 With ``--preserve-from``, when Crowdin has no **approved** translation for a string, the build can
@@ -303,8 +302,6 @@ def build_translation_map_for_file_language(
 	crowdin_lang: str,
 	*,
 	ignore_hidden_strings: bool = False,
-) -> dict[str, str]:
-	"""identifier → approved translation text or ``NO_APPROVED`` placeholder."""
 	legacy_by_identifier: Optional[dict[str, str]] = None,
 ) -> tuple[dict[str, str], FileLanguageBuildStats]:
 	"""identifier → final JSON value; stats count placeholder vs preserved legacy rows."""
@@ -453,6 +450,8 @@ def main() -> None:
 		required=True,
 		choices=("true", "false"),
 		help="If true, skip Crowdin source strings with isHidden when writing JSON (omit their keys).",
+	)
+	p.add_argument(
 		"--preserve-from",
 		choices=list(PRESERVE_FROM_CHOICES),
 		default=None,
@@ -591,7 +590,7 @@ def main() -> None:
 				legacy_by_id = legacy_json_cache[cache_key]
 
 			print(f"Building {task} / {loc} (Crowdin {crowdin_lang}) fileId={file_id} …")
-			payload = build_translation_map_for_file_language(
+			payload, st = build_translation_map_for_file_language(
 				client,
 				file_id,
 				crowdin_lang,
