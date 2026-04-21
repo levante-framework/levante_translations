@@ -18,6 +18,10 @@ on:
         description: 'Locales — "options-file" or "all" (same: every key from languageoptions.json on dev) or space-separated codes (e.g. es-AR en-US)'
         required: true
         default: 'options-file'
+      ignore_hidden_strings:
+        description: 'Omit Crowdin source strings marked hidden (isHidden) from JSON — true or false'
+        required: true
+        default: 'false'
       preserve_from:
         description: 'Fill gaps where Crowdin has no approval — itembanktranslations-csv (prod flat CSV) or itembank-json (prod per-task JSON); JSON requires those objects to exist in prod'
         required: true
@@ -50,7 +54,7 @@ jobs:
         id: build
         working-directory: change_utils
         run: |
-          build-itembank-translations --tasks ${{ github.event.inputs.tasks }} --languages ${{ github.event.inputs.languages }} --preserve-from ${{ github.event.inputs.preserve_from }}
+          build-itembank-translations --tasks ${{ github.event.inputs.tasks }} --languages ${{ github.event.inputs.languages }} --ignore-hidden-strings ${{ github.event.inputs.ignore_hidden_strings }} --preserve-from ${{ github.event.inputs.preserve_from }}
         env:
           CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
           CROWDIN_LEVANTE_PID: ${{ secrets.CROWDIN_LEVANTE_PID }}
@@ -75,6 +79,7 @@ jobs:
             --arg tasks "${{ github.event.inputs.tasks }}" \
             --arg langs "${{ github.event.inputs.languages }}" \
             --arg preserve "${{ github.event.inputs.preserve_from }}" \
+            --arg ignore_hidden "${{ github.event.inputs.ignore_hidden_strings }}" \
             --arg run_url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --arg itembank_url "$ITEMBANK_URL" \
             --arg stats "$STATS_BLOCK" \
@@ -90,6 +95,7 @@ jobs:
                     { type: "mrkdwn", text: ("*Tasks:*\n" + $tasks) },
                     { type: "mrkdwn", text: ("*Languages:*\n" + $langs) },
                     { type: "mrkdwn", text: ("*Preserve from:*\n" + $preserve) },
+                    { type: "mrkdwn", text: ("*Ignore hidden strings:*\n" + $ignore_hidden) },
                     { type: "mrkdwn", text: ("*Run:*\n<" + $run_url + "|View run>") }
                   ]
                 },
