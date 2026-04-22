@@ -99,10 +99,13 @@ def regenerate_survey_audio(language='Spanish', force_regenerate=True):
     lang_code = lang_config.get('lang_code', 'es-CO')
     service = lang_config.get('service', 'ElevenLabs')
     voice = lang_config.get('voice', 'Malena Tango')
+    voice_id = str(lang_config.get('voice_id', '') or '').strip()
     
     print(f"🌍 Language: {language} ({lang_code})")
     print(f"🎤 Service: {service}")
-    print(f"🗣️  Voice: {voice}")
+    print(f"🗣️  Voice (display): {voice}")
+    if service == 'ElevenLabs':
+        print(f"🆔 Voice ID: {voice_id or '(missing)'}")
     print("="*60)
     
     # Setup directories
@@ -117,12 +120,19 @@ def regenerate_survey_audio(language='Spanish', force_regenerate=True):
     try:
         if service == 'ElevenLabs':
             from ELabs import elevenlabs_tts
+            if not voice_id:
+                print(
+                    f"❌ Missing voice_id for {language} ({lang_code}). "
+                    "ElevenLabs generation is voice-id-first."
+                )
+                return False
             
             result = elevenlabs_tts.main(
                 input_file_path=survey_csv_path,
                 master_file_path="translation_master.csv",
                 lang_code=lang_code,
                 voice=voice,
+                voice_id=voice_id,
                 retry_seconds=1,
                 audio_base_dir="audio_files",
                 output_format="mp3_22050_32"

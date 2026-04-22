@@ -50,17 +50,12 @@ def get_voice_id(voice_name, lang_code, client: ElevenLabs):
             print(f"✓ Found voice '{voice_name}' with ID: {voice_id}")
             return voice_id
 
-        # Fallback: search across all accessible voices by name (case-insensitive)
-        try:
-            all_voices = client.voices.get_all().voices
-            for v in all_voices:
-                if (v.name or '').strip().lower() == voice_name.strip().lower():
-                    print(
-                        f"✓ Found voice by global search '{voice_name}' with ID: {v.voice_id} (label language: {v.labels.get('language')})"
-                    )
-                    return v.voice_id
-        except Exception:
-            pass
+        # Case-insensitive exact match in filtered list
+        requested = (voice_name or '').strip().lower()
+        for available_name, available_id in voice_dict.items():
+            if (available_name or '').strip().lower() == requested:
+                print(f"✓ Found voice '{voice_name}' by case-insensitive match: '{available_name}' ({available_id})")
+                return available_id
 
         print(f"❌ Voice '{voice_name}' not found for {lang_code}")
         print(f"Available (filtered) voices: {list(voice_dict.keys())}")
@@ -76,6 +71,7 @@ def main(
         lang_code: str,
         voice: str,
         retry_seconds: float,
+        voice_id: Optional[str] = None,
         model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
         user_id: str = None,
         api_key: str = None,
@@ -103,17 +99,16 @@ def main(
     
     stats = {'Errors': 0, 'Processed' : 0, 'NoTask': 0}
     
-    # Look up voice ID once at the beginning to avoid repeated API calls
-    print(f"Looking up voice '{voice}' for language '{lang_code}'...")
-    # Try exact lang_code first; if missing, try base language
-    voice_id = get_voice_id(voice, lang_code, client=audio_client)
-    if voice_id is None and '-' in lang_code:
-        base = lang_code.split('-')[0]
-        print(f"Voice not found for {lang_code}, trying base language '{base}'...")
-        voice_id = get_voice_id(voice, base, client=audio_client)
-    if voice_id is None:
-        print(f"❌ Cannot proceed: voice '{voice}' not found for {lang_code}")
+    # Voice-id-first behavior: voice names are display-only.
+    configured_voice_id = str(voice_id or "").strip()
+    if not configured_voice_id:
+        print(
+            f"❌ Cannot proceed: missing voice_id for language {lang_code}. "
+            f"Display voice is '{voice}'. Configure language config with voice_id."
+        )
         return {'Errors': len(inputData), 'Processed': 0, 'NoTask': 0, 'Voice': voice}
+    voice_id = configured_voice_id
+    print(f"Using configured voice_id '{voice_id}' for language '{lang_code}' (display voice: '{voice}')")
 
     total_items = len(inputData)
     for idx, (index, ourRow) in enumerate(inputData.iterrows(), 1):

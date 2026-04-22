@@ -430,7 +430,20 @@ def save_audio(
         if bucket_name in _DRAFT_CSV_SYNCED_BUCKETS:
             return
 
-        csv_path = Path(__file__).resolve().parents[1] / "translation_text" / "item_bank_translations.csv"
+        # Prefer explicit runtime CSV source (draft-bucket runtime export) when available.
+        # Fall back to the canonical local CSV path for legacy flows.
+        runtime_csv_path = str(os.environ.get("ITEMBANK_CSV_UPLOAD_PATH") or "").strip()
+        if runtime_csv_path:
+            csv_path = Path(runtime_csv_path)
+            if not csv_path.is_file():
+                print(
+                    f"⚠️  Warning: ITEMBANK_CSV_UPLOAD_PATH points to missing file: {csv_path}. "
+                    "Falling back to translation_text/item_bank_translations.csv."
+                )
+                csv_path = Path(__file__).resolve().parents[1] / "translation_text" / "item_bank_translations.csv"
+        else:
+            csv_path = Path(__file__).resolve().parents[1] / "translation_text" / "item_bank_translations.csv"
+
         if not csv_path.is_file():
             print(f"⚠️  Warning: item bank CSV not found at {csv_path}; skipping draft CSV upload.")
             return
@@ -438,7 +451,7 @@ def save_audio(
         csv_blob = storage_client.bucket(bucket_name).blob("audio/item_bank_translations.csv")
         csv_blob.upload_from_filename(str(csv_path), content_type="text/csv")
         _DRAFT_CSV_SYNCED_BUCKETS.add(bucket_name)
-        print(f"✅ Uploaded to GCS: gs://{bucket_name}/audio/item_bank_translations.csv")
+        print(f"✅ Uploaded to GCS: gs://{bucket_name}/audio/item_bank_translations.csv (source: {csv_path})")
 
     def _resolve_text_from_row(row, target_lang_code):
         if target_lang_code in row:

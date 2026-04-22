@@ -4,6 +4,7 @@ import numpy as np
 import sys
 import argparse
 import sqlite3
+from pathlib import Path
 import utilities.config as conf
 import utilities.utilities as u
 from utilities.elevenlabs_model import DEFAULT_ELEVENLABS_MODEL_ID
@@ -130,6 +131,35 @@ def _load_translation_data_from_sqlite(
     return translationData
 
 
+def _load_translation_data_from_draft_bucket() -> pd.DataFrame:
+    bucket = os.environ.get("TRANSLATIONS_DRAFT_BUCKET", "levante-assets-draft")
+    prefix = os.environ.get("ITEMBANK_PREFIX", "translations/itembank/")
+    object_name = os.environ.get("ITEMBANK_OBJECT_NAME", "item-bank-translations.json")
+    runtime_csv_path = os.environ.get(
+        "ITEMBANK_RUNTIME_CSV_PATH",
+        "tmp/item_bank_translations.from_draft.runtime.csv",
+    )
+
+    print(
+        "Loading source translations from draft bucket JSON: "
+        f"gs://{bucket}/{prefix}<task>/<locale>/{object_name}"
+    )
+    from utilities.export_item_bank_csv_from_draft_bucket import build_rows, write_csv
+
+    rows, columns = build_rows(
+        bucket=bucket,
+        prefix=prefix,
+        object_name=object_name,
+        locale_filter=None,
+    )
+    output_path = Path(runtime_csv_path)
+    write_csv(output_path, rows, columns)
+    # Ensure draft-audio CSV publish uses the same runtime source-of-truth file.
+    os.environ["ITEMBANK_CSV_UPLOAD_PATH"] = str(output_path)
+    print(f"✅ Generated runtime CSV from draft bucket: {output_path}")
+    return _load_translation_data_from_csv(str(output_path))
+
+
 def _read_file_bytes(path: str):
     if not os.path.exists(path):
         return None
@@ -166,7 +196,7 @@ def generate_audio(
     force_regenerate: bool = False,
     hi_fi: bool = False,
     force_id: bool = False,
-    translation_source: str = "sqlite",
+    translation_source: str = "draft",
     sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
     model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
     tasks_filter: Optional[Set[str]] = None
@@ -190,7 +220,17 @@ def generate_audio(
         print(f"⚠️  Warning: Could not load latest language configuration: {e}")
         language_dict = {}
     
-    if translation_source == "csv":
+    if translation_source == "draft":
+        print("Using runtime draft-bucket source (generated at run time)")
+        print(
+            "Source path pattern: "
+            "gs://{bucket}/{prefix}<task>/<locale>/item-bank-translations.json".format(
+                bucket=os.environ.get("TRANSLATIONS_DRAFT_BUCKET", "levante-assets-draft"),
+                prefix=os.environ.get("ITEMBANK_PREFIX", "translations/itembank/"),
+            )
+        )
+        print("=" * 60)
+    elif translation_source == "csv":
         print(f"Using local CSV source: {conf.item_bank_translations}")
         print("Tip: run `npm run refresh:translations-from-draft` before generation to pull latest draft-bucket strings.")
         print("=" * 60)
@@ -212,7 +252,9 @@ def generate_audio(
 
     selected_translation_source = translation_source
     try:
-        if translation_source == "sqlite":
+        if translation_source == "draft":
+            translationData = _load_translation_data_from_draft_bucket()
+        elif translation_source == "sqlite":
             translationData = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
         else:
             translationData = _load_translation_data_from_csv(conf.item_bank_translations)
@@ -327,6 +369,16 @@ def generate_audio(
     # We need to support different services for different languages
     service = our_language['service']
     voice = our_language['voice']
+    voice_id = str(our_language.get('voice_id') or '').strip()
+
+    if service == 'ElevenLabs' and not voice_id:
+        print(
+            f"❌ Missing voice_id for '{language}' ({lang_code}). "
+            "ElevenLabs generation is now voice-id-first; "
+            "configure language_config with voice_id. "
+            f"Current display voice: '{voice}'."
+        )
+        return
     
     # If force-regenerate is enabled, clear master cache for this language
     if force_regenerate and masterData is not None and master_file_path:
@@ -490,6 +542,7 @@ def generate_audio(
                 retry_seconds= retry_seconds,
                 master_file_path=master_file_path, 
                 voice=voice, 
+                voice_id=voice_id,
                 audio_base_dir = audio_base_dir,
                 model_id=model_id,
                 output_format = ("mp3_44100_64" if hi_fi else "mp3_22050_32")
@@ -506,7 +559,9 @@ def generate_audio(
     print(f"   Language: {language}")
     print(f"   Language Code: {lang_code}")
     print(f"   Service: {service}")
-    print(f"   Voice: {voice[:50]}..." if len(voice) > 50 else f"   Voice: {voice}")
+    print(f"   Voice (display): {voice[:50]}..." if len(voice) > 50 else f"   Voice (display): {voice}")
+    if service == 'ElevenLabs':
+        print(f"   Voice ID: {voice_id}")
     
     # Show actual processing results if available
     if result and hasattr(result, '__getitem__') and result:
@@ -571,7 +626,7 @@ def main(
     hi_fi: bool = False,
     validate_only: bool = False,
     force_id: bool = False,
-    translation_source: str = "sqlite",
+    translation_source: str = "draft",
     sqlite_db_path: str = "tmp/itembank_by_task_regen.sqlite",
     model_id: str = DEFAULT_ELEVENLABS_MODEL_ID,
     tasks: str = None
@@ -592,7 +647,9 @@ def main(
         
         try:
             language_dict = conf.get_languages()
-            if translation_source == "sqlite":
+            if translation_source == "draft":
+                translation_data = _load_translation_data_from_draft_bucket()
+            elif translation_source == "sqlite":
                 translation_data = _load_translation_data_from_sqlite(sqlite_db_path, language_dict)
             else:
                 translation_data = _load_translation_data_from_csv(conf.item_bank_translations)
@@ -658,8 +715,12 @@ if __name__ == "__main__":
     parser.add_argument('--api-key', help='API key (optional)')
     parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
     parser.add_argument('--validate-only', action='store_true', help='Only validate audio files without regenerating them')
-    parser.add_argument('--translation-source', choices=['sqlite', 'csv'], default='sqlite',
-                        help='Source for translations (default: sqlite)')
+    parser.add_argument(
+        '--translation-source',
+        choices=['draft', 'sqlite', 'csv'],
+        default='draft',
+        help='Source for translations (default: draft bucket runtime JSON export)',
+    )
     parser.add_argument('--sqlite-db', default='tmp/itembank_by_task_regen.sqlite',
                         help='Path to SQLite DB from itembank_by_task regen report')
     parser.add_argument(

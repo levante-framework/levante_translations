@@ -146,8 +146,25 @@ def get_languages_config(fallback: Dict[str, Any]) -> Dict[str, Any]:
     if isinstance(remote, dict):
         remote_map = _extract_languages_map(remote)
         if isinstance(remote_map, dict):
-            # Merge: remote entries take precedence; fallback fills missing languages
-            merged = {**fallback, **remote_map}
+            merged: Dict[str, Any] = {}
+            language_names = set(fallback.keys()) | set(remote_map.keys())
+            for language_name in language_names:
+                fallback_entry = fallback.get(language_name)
+                remote_entry = remote_map.get(language_name)
+                if isinstance(fallback_entry, dict) and isinstance(remote_entry, dict):
+                    combined = {**fallback_entry, **remote_entry}
+                    # Keep fallback voice_id only when voice names still match.
+                    # This lets us preserve stable IDs when remote config omits voice_id.
+                    if "voice_id" not in remote_entry:
+                        fallback_voice = str(fallback_entry.get("voice", "")).strip().lower()
+                        remote_voice = str(remote_entry.get("voice", "")).strip().lower()
+                        if fallback_voice and remote_voice and fallback_voice != remote_voice:
+                            combined.pop("voice_id", None)
+                    merged[language_name] = combined
+                elif isinstance(remote_entry, dict):
+                    merged[language_name] = remote_entry
+                elif isinstance(fallback_entry, dict):
+                    merged[language_name] = fallback_entry
             return merged  # type: ignore[return-value]
     return fallback
 
