@@ -108,6 +108,15 @@ def needs_regeneration(
     current_text_clean = current_text.strip()
     
     if stored_text != current_text_clean:
+        # Partner dashboard may intentionally save audio using "enhanced" text while
+        # retaining the original translation in a dedicated metadata field.
+        # In that case, we should not force regeneration unless the original
+        # translation itself has changed.
+        original_translation_text = metadata.get('original_translation_text', '').strip()
+        if original_translation_text and original_translation_text == current_text_clean:
+            return False, (
+                "Audio uses partner enhanced text, but original translation is unchanged"
+            )
         return True, f"Text changed: '{stored_text[:50]}...' -> '{current_text_clean[:50]}...'"
     
     # Check voice

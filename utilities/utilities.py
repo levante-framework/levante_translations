@@ -60,7 +60,8 @@ audio_tags = {
     'service': None,
     'voice': None,
     'voice_id': None,
-    'model_id': None
+    'model_id': None,
+    'original_translation_text': None
 }
 
 # Standard ID3v2 tag fields (these use specific ID3 frames)
@@ -500,6 +501,7 @@ def save_audio(
         tags['task'] = str(ourRow.get('labels', ''))  # Explicit task field for downstream SQLite/reporting
         text_value = _resolve_text_from_row(ourRow, lang_code)
         tags['text'] = text_value
+        tags['original_translation_text'] = text_value
         tags['comment'] = f"Levante Project - {service} - {voice} - {lang_code}"
 
 
