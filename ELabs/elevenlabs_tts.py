@@ -179,6 +179,12 @@ def processRow(index, ourRow, lang_code, voice, voice_id, \
     if translation_text is None:
         print(f"Warning: No translation found for exact locale {lang_code} in row {ourRow['item_id']}")
         return 'Error'
+    if u.is_placeholder_translation(translation_text):
+        print(
+            f"Skipping placeholder translation for exact locale {lang_code} in row {ourRow['item_id']}: "
+            f"{translation_text}"
+        )
+        return 'NoTask'
 
     # Show what we're about to generate
     print(f"🎵 Generating audio for '{ourRow['item_id']}': {translation_text[:100]}{'...' if len(translation_text) > 100 else ''}")

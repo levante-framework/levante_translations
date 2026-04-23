@@ -431,6 +431,12 @@ def generate_audio(
         if translation_text is None:
             print(f"Warning: No translation found for exact locale {lang_code} in row {ourRow['item_id']}")
             continue
+        if u.is_placeholder_translation(translation_text):
+            print(
+                f"Skipping placeholder translation for exact locale {lang_code} in row {ourRow['item_id']}: "
+                f"{translation_text}"
+            )
+            continue
             
         print(f'Our lang: {lang_code} our row lang: {translation_text[:50]}...')
         
@@ -581,7 +587,7 @@ def generate_audio(
     empty_translation_count = 0
     for index, row in translationData.iterrows():
         translation = row.get(lang_code, '')
-        if pd.isna(translation) or translation == '' or translation is None:
+        if pd.isna(translation) or translation == '' or translation is None or u.is_placeholder_translation(translation):
             empty_translation_count += 1
         else:
             valid_translation_count += 1

@@ -9,7 +9,7 @@ based on text content changes or voice changes.
 import os
 import pandas as pd
 from typing import Optional, Dict, Any, Tuple
-from utilities.utilities import audio_file_path
+from utilities.utilities import audio_file_path, is_placeholder_translation
 
 # Import ID3 tag reading utilities
 try:
@@ -180,6 +180,12 @@ def validate_audio_files_for_language(
 
         if translation_text is None:
             print(f"Warning: No translation found for exact locale {lang_code} in row {row['item_id']}")
+            continue
+        if is_placeholder_translation(translation_text):
+            print(
+                f"Skipping placeholder translation for exact locale {lang_code} in row {row['item_id']}: "
+                f"{translation_text}"
+            )
             continue
         
         # Get expected audio file path

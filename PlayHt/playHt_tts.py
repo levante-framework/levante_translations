@@ -92,6 +92,12 @@ def processRow(index, ourRow, lang_code, voice, \
     if translation_text is None:
         print(f"Warning: No translation found for exact locale {lang_code} in row {ourRow['item_id']}")
         return 'Error'
+    if u.is_placeholder_translation(translation_text):
+        print(
+            f"Skipping placeholder translation for exact locale {lang_code} in row {ourRow['item_id']}: "
+            f"{translation_text}"
+        )
+        return 'NoTask'
 
     # Assemble data packet for PlayHT API v2
     # see https://docs.play.ht/reference/api-generate-tts-audio-stream

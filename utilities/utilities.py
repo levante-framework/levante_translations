@@ -68,6 +68,19 @@ STANDARD_ID3_FIELDS = {'title', 'artist', 'album', 'date', 'genre', 'comment', '
 
 # Avoid re-uploading the same CSV repeatedly during a single generation run.
 _DRAFT_CSV_SYNCED_BUCKETS = set()
+_PLACEHOLDER_TRANSLATIONS = {
+    "NO APPROVED TRANSLATION",
+}
+
+
+def is_placeholder_translation(text) -> bool:
+    """
+    Return True when a string is a non-translatable placeholder marker.
+    """
+    if text is None:
+        return False
+    normalized = str(text).strip().upper()
+    return normalized in _PLACEHOLDER_TRANSLATIONS
 
 
 def create_directory(path):
