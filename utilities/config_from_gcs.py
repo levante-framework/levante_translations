@@ -142,6 +142,23 @@ def load_from_gcs(bucket_name: str = DEFAULT_BUCKET, object_name: str = DEFAULT_
 
 def get_languages_config(fallback: Dict[str, Any]) -> Dict[str, Any]:
     """Return languages config, preferring remote GCS JSON, merging with fallback for missing entries."""
+    def _prefer_fallback_regional_lang_code(
+        fallback_lang_code: str,
+        remote_lang_code: str,
+    ) -> bool:
+        fallback_code = str(fallback_lang_code or "").strip()
+        remote_code = str(remote_lang_code or "").strip()
+        if not fallback_code or not remote_code:
+            return False
+        # If remote is generic ("en") and fallback is regional ("en-US"),
+        # keep the fallback regional code for strict locale flows.
+        if "-" not in fallback_code and "_" not in fallback_code:
+            return False
+        if "-" in remote_code or "_" in remote_code:
+            return False
+        fallback_base = fallback_code.replace("_", "-").split("-", 1)[0].lower()
+        return fallback_base == remote_code.lower()
+
     remote = load_from_gcs()
     if isinstance(remote, dict):
         remote_map = _extract_languages_map(remote)
@@ -153,6 +170,10 @@ def get_languages_config(fallback: Dict[str, Any]) -> Dict[str, Any]:
                 remote_entry = remote_map.get(language_name)
                 if isinstance(fallback_entry, dict) and isinstance(remote_entry, dict):
                     combined = {**fallback_entry, **remote_entry}
+                    fallback_lang_code = fallback_entry.get("lang_code")
+                    remote_lang_code = remote_entry.get("lang_code")
+                    if _prefer_fallback_regional_lang_code(fallback_lang_code, remote_lang_code):
+                        combined["lang_code"] = fallback_lang_code
                     # Keep fallback voice_id only when voice names still match.
                     # This lets us preserve stable IDs when remote config omits voice_id.
                     if "voice_id" not in remote_entry:
