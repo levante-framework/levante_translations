@@ -78,7 +78,7 @@ def main(
         output_file_path: str = None,
         item_id_column: str = 'item_id',
         audio_base_dir: str = None,
-        output_format: str = "mp3_22050_32"
+        output_format: str = "mp3_44100_128"
         ):
         
     # basically we want to iterate through rows,
@@ -159,7 +159,7 @@ def main(
 
 # Called to process each row of the input csv (now dataframe)
 def processRow(index, ourRow, lang_code, voice, voice_id, \
-               masterData, audio_base_dir, headers, output_format: str = "mp3_22050_56", model_id: str = DEFAULT_ELEVENLABS_MODEL_ID):
+               masterData, audio_base_dir, headers, output_format: str = "mp3_44100_128", model_id: str = DEFAULT_ELEVENLABS_MODEL_ID):
 
     # reset local error count for new row
     errorCount = 0

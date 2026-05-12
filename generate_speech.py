@@ -204,7 +204,7 @@ def generate_audio(
     print("=== Starting Audio Generation for Levante Translations ===")
     print(f"Target Language: {language}")
     print(f"Using simplified folder structure: audio_files/<language_code>/")
-    print("Audio quality: " + ("High-fidelity (mp3_44100_64)" if hi_fi else "Compressed default (mp3_22050_32)"))
+    print("Audio quality: mp3_44100_128 (dashboard-aligned default)")
     if force_regenerate:
         print("🔄 FORCE MODE: Will regenerate all audio files, even if they exist")
     if force_id:
@@ -551,7 +551,7 @@ def generate_audio(
                 voice_id=voice_id,
                 audio_base_dir = audio_base_dir,
                 model_id=model_id,
-                output_format = ("mp3_44100_64" if hi_fi else "mp3_22050_32")
+                output_format = "mp3_44100_128"
             )
         
         print(f"Audio generation completed for {language}")
@@ -719,7 +719,7 @@ if __name__ == "__main__":
                         help='Force regenerate files without ID3 tags (by default, files without ID3 tags are skipped)')
     parser.add_argument('--user-id', help='User ID (optional)')
     parser.add_argument('--api-key', help='API key (optional)')
-    parser.add_argument('--hi-fi', action='store_true', help='Use high-fidelity MP3 (mp3_44100_64) instead of compressed default')
+    parser.add_argument('--hi-fi', action='store_true', help='Deprecated: ElevenLabs generation now defaults to mp3_44100_128')
     parser.add_argument('--validate-only', action='store_true', help='Only validate audio files without regenerating them')
     parser.add_argument(
         '--translation-source',

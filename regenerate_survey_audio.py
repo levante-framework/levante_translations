@@ -135,7 +135,7 @@ def regenerate_survey_audio(language='Spanish', force_regenerate=True):
                 voice_id=voice_id,
                 retry_seconds=1,
                 audio_base_dir="audio_files",
-                output_format="mp3_22050_32"
+                output_format="mp3_44100_128"
             )
             
         elif service == 'PlayHt':
