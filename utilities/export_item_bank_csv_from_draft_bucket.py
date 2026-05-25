@@ -84,6 +84,9 @@ def build_rows(
     *, bucket: str, prefix: str, object_name: str, locale_filter: set[str] | None
 ) -> Tuple[List[Dict[str, str]], List[str]]:
     rows_by_item: Dict[str, Dict[str, str]] = {}
+    # Track which blob timestamp produced each locale value so duplicate item_ids
+    # across task folders resolve to the newest export deterministically.
+    updated_by_item_locale: Dict[str, Dict[str, str]] = {}
     discovered_locales: set[str] = set()
 
     blob_count = 0
@@ -111,10 +114,19 @@ def build_rows(
                 continue
             text_value = "" if text is None else str(text).strip()
             row = rows_by_item.setdefault(item_id, {"item_id": item_id, "task": task})
+            locale_updated = str(blob.updated or "")
+            locale_updated_map = updated_by_item_locale.setdefault(item_id, {})
             if not row.get("task"):
                 row["task"] = task
             if text_value:
-                row[locale_key] = text_value
+                previous_updated = locale_updated_map.get(locale_key, "")
+                should_replace = locale_key not in row or locale_updated >= previous_updated
+                if should_replace:
+                    row[locale_key] = text_value
+                    locale_updated_map[locale_key] = locale_updated
+                    # Keep task aligned to whichever source currently owns en-US.
+                    if locale_key == "en-US":
+                        row["task"] = task
 
     print(f"✅ Parsed {blob_count} translation JSON blobs from gs://{bucket}/{prefix}")
 
