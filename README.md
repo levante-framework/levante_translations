@@ -121,13 +121,28 @@ python dashboard.py
 
 ### Generating Audio Files
 
-1. Create/Update item_bank_translations.csv with the translations you'd like to use
+`generate_speech.py` now uses draft-bucket JSON as the default translation source.
 
-2. Depending on your desired language, run:
-    commands/generate_english.[sh|bat]
-    commands/generate_spanish.[sh|bat]
-    commands/generate_german.[sh|bat]
-    etc.
+Source-of-truth path:
+
+`gs://levante-assets-draft/translations/itembank/<task>/<locale>/item-bank-translations.json`
+
+At runtime, the script builds a temporary CSV from those JSON files and generates audio from that data.
+
+Use either the helper scripts in `commands/` or run directly:
+
+```bash
+# Default behavior (draft JSON source)
+python generate_speech.py "English (United States)" --translation-source draft
+python generate_speech.py "Spanish (Colombia)" --translation-source draft
+python generate_speech.py "German" --translation-source draft
+```
+
+Dry-run / audit only (no generation):
+
+```bash
+python generate_speech.py "English (United States)" --validate-only --translation-source draft
+```
 
 #### Force Regeneration
 
@@ -558,7 +573,7 @@ Notes
 - The deploy commands automatically fetch and normalize the CSV before uploading.
 - XLIFF files are fetched directly from GitHub and mirrored; ICU JSONs are synced from xliff/translations-icu.
 - All uploads use rsync with checksums to minimize transfer time.
-- During draft-audio generation uploads, `translation_text/item_bank_translations.csv` is also uploaded to `gs://levante-assets-draft/audio/item_bank_translations.csv` so the audio bucket keeps a matching string snapshot.
+- During draft-audio generation uploads, the runtime CSV built from draft JSON is uploaded to `gs://levante-assets-draft/audio/item_bank_translations.csv` so the audio bucket keeps a matching string snapshot.
 
 Draft-bucket-first refresh (recommended):
 ```bash
@@ -602,7 +617,7 @@ Guardrail:
 - You can bypass with `--skip-dev-audio-drift-check`, but this should only be used for intentional exceptions.
 
 Related draft-audio artifact:
-- The generator upload path also writes `gs://levante-assets-draft/audio/item_bank_translations.csv` from local `translation_text/item_bank_translations.csv`.
+- The generator upload path writes `gs://levante-assets-draft/audio/item_bank_translations.csv`, preferring the runtime draft-JSON export and falling back to local `translation_text/item_bank_translations.csv` for legacy flows.
 
 4) Survey translations (levante-surveys)
 

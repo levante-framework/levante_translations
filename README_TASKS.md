@@ -90,5 +90,32 @@ This document summarizes what code and data you must add to introduce a new task
 
 ---
 
+#### 11) Regenerating task audio (levante_translations)
+
+When generating audio in this repo, `generate_speech.py` defaults to `--translation-source draft`.
+
+That means translations are read from draft-bucket JSON files:
+
+`gs://levante-assets-draft/translations/itembank/<task>/<locale>/item-bank-translations.json`
+
+Examples:
+
+```bash
+# Dry run (what would regenerate) for a single task
+python generate_speech.py "English (United States)" --validate-only --translation-source draft --tasks hearts-and-flowers
+
+# Generate only one task from draft JSON source
+python generate_speech.py "Spanish (Argentina)" --translation-source draft --tasks egma-math
+
+# Force-regenerate a task (ignores up-to-date checks)
+python generate_speech.py "English (United States)" --translation-source draft --tasks matrix-reasoning --force
+```
+
+Notes:
+- `--tasks` matches values from the `labels` column (comma-separated for multiple tasks).
+- During generation, the runtime draft export is also uploaded to `gs://levante-assets-draft/audio/item_bank_translations.csv` for dashboard consistency.
+
+---
+
 For implementation specifics, see files in `core-tasks/task-launcher/src/tasks/shared/helpers/` (e.g., `getCorpus.ts`, `getMediaAssets.ts`, `getTranslations.ts`).
 

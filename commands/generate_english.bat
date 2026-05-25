@@ -1,1 +1,1 @@
-python ..\generate_speech.py "English" "en-US-AriaNeural"
+python ..\generate_speech.py "English (United States)" --translation-source draft %*
