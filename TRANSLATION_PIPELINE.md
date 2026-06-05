@@ -30,6 +30,41 @@ flowchart TD
   G --> H[Consumers<br/>- levante-dashboard JSON<br/>- SurveyJS runtime<br/>- Audio Gen & Validation]
 ```
 
+## Translation grading and review triage
+
+In addition to back-translation and the existing `xcomet/` workflows, this repo now includes a tiered translation grading pipeline:
+
+- `translation_grading/pipeline.py`
+- `translation_grading/README.md`
+
+The pipeline is intended to score the same Crowdin-approved translation sources used by localization and dashboard review tools. It combines:
+
+1. Cross-lingual consistency outlier detection with LaBSE or multilingual-e5.
+2. Optional reference-free COMET/xCOMET/COMET-Kiwi scoring.
+3. Optional Gemini direct assessment on flagged rows.
+4. CSV, JSON, and Markdown review reports.
+
+Quick start:
+
+```bash
+npm run grading:setup
+npm run grading:crowdin --langs=de,es-CO,fr-CA,nl --llm_max_calls=200
+```
+
+Direct Python usage:
+
+```bash
+python translation_grading/pipeline.py \
+  --input-mode crowdin-api \
+  --crowdin-project-id 756721 \
+  --source-col en \
+  --target-cols "de,es-CO,fr-CA,nl" \
+  --run-llm-judge \
+  --llm-only-flagged
+```
+
+Outputs default to `translation_grading/output/`.
+
 ## Repos and roles
 
 - levante_translations (this repo)

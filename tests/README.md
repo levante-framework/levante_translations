@@ -76,6 +76,47 @@ python tests/test_complete_audio_workflow.py
 - `mutagen` library: `pip install mutagen`
 - At least one MP3 file in the `audio_files` directory (or the script will create a minimal one)
 
+### `test_translation_grading_pipeline.py`
+
+Smoke test for the new translation grading pipeline in `translation_grading/pipeline.py`.
+
+**What it does:**
+1. Creates a tiny synthetic translation CSV fixture (2 items, 2 target languages)
+2. Runs `materialize_pairs()` to verify source-target pairing behavior
+3. Simulates consistency scores (without downloading embedding models)
+4. Verifies review-flag logic and summary counts
+5. Writes output CSV/JSON/Markdown and validates expected report content
+
+**Usage:**
+```bash
+python tests/test_translation_grading_pipeline.py
+```
+
+**Why this test is lightweight:**
+- No external API calls
+- No Crowdin token needed
+- No model download required
+
+### `test_translation_grading_gemini.py`
+
+Live smoke test for the Gemini judge stage in `translation_grading/pipeline.py`.
+
+**What it does:**
+1. Loads `GEMINI_API_KEY` from environment (or `.env` fallback)
+2. Creates a tiny in-memory fixture with one pre-flagged row
+3. Runs `run_llm_judge_stage()` with `--llm-only-flagged` behavior
+4. Verifies one row is judged and that Gemini JSON fields are captured
+5. Prints score/severity for quick sanity-checking
+
+**Usage:**
+```bash
+python tests/test_translation_grading_gemini.py
+```
+
+**Notes:**
+- Uses a real Gemini API call (1 call max)
+- Requires valid `GEMINI_API_KEY`
+
 **Sample Output:**
 ```
 🎯 Test suite completed successfully!
