@@ -80,7 +80,7 @@ def test_load_items_and_write_results() -> bool:
         ]
         evaluator.write_results(output_path, rows)
         output_text = output_path.read_text(encoding="utf-8")
-        assert "identifier,language,score,errors_json,notes,template_used,human_review" in output_text
+        assert "identifier,language,score,errors_json,notes,template_used,human_review,screenshot_names" in output_text
         assert "yes" in output_text
     return True
 
@@ -114,11 +114,42 @@ def test_prompt_updates_include_construct_context() -> bool:
     return True
 
 
+def test_screenshot_prompt_and_image_part() -> bool:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        image_path = Path(tmpdir) / "item.png"
+        image_path.write_bytes(b"not-a-real-png-but-encoded-for-request-shape")
+        item = evaluator.EvaluationItem(
+            identifier="vocab-item-001",
+            labels="vocab",
+            source="the apple",
+            target_lang="nl",
+            hypothesis="de appel",
+            template_key=evaluator.select_template("vocab", "vocab-item-001"),
+            screenshots=[
+                evaluator.ScreenshotAttachment(
+                    path=image_path,
+                    screenshot_id=123,
+                    name="vocab-item-001.png",
+                    position={"x": 1, "y": 2, "width": 3, "height": 4},
+                )
+            ],
+        )
+        prompt = evaluator.build_prompt(item)
+        assert "Crowdin screenshot context is attached as image input" in prompt
+        row = evaluator.result_row(item, {"score": 5, "errors": [], "notes": "ok"})
+        assert row["screenshot_names"] == "vocab-item-001.png"
+        part = evaluator.image_part(image_path)
+        assert part["inlineData"]["mimeType"] == "image/png"
+        assert part["inlineData"]["data"]
+    return True
+
+
 def main() -> int:
     try:
         test_template_selection()
         test_load_items_and_write_results()
         test_prompt_updates_include_construct_context()
+        test_screenshot_prompt_and_image_part()
     except AssertionError as exc:
         print(f"FAIL: {exc}")
         return 1

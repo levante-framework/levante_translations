@@ -160,6 +160,23 @@ The evaluator checks `es-CO`, `de`, `fr-CA`, and `nl` by default, uses
 `OBJECT_NAMING` items up to 20 per request, and writes a `human_review` flag
 for scores `<= 3` or any critical error.
 
+To include Crowdin screenshots as Gemini image inputs for visual-context-heavy
+tasks, opt in with:
+
+```bash
+python translation_grading/gemini_quality_evaluator.py \
+  --input-csv complete_translations.csv \
+  --output-csv translation_quality_results.csv \
+  --use-crowdin-screenshots
+```
+
+Screenshot mode joins Crowdin source string identifiers to tagged screenshots,
+caches matched images under `translation_grading/output/crowdin_screenshots`,
+and attaches at most one screenshot per item by default. It only applies to
+`vocab`, `theory-of-mind`, `hostile-attribution`, `matrix-reasoning`,
+`mental-rotation`, and `same-different-selection`; strings without screenshots
+fall back to text-only evaluation.
+
 Human review escalation priority is theory-of-mind first, then vocab, then
 trog, then all other tasks, matching the pilot invariance and translation-risk
 patterns described in the task-design paper.

@@ -4,15 +4,19 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
+import hashlib
 import json
+import mimetypes
 import os
 import re
 import statistics
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence, Tuple
 
@@ -22,6 +26,16 @@ DEFAULT_TARGET_LANGS = ["es-CO", "de", "fr-CA", "nl"]
 DEFAULT_MODEL = "gemini-2.0-flash"
 FALLBACK_MODEL = "gemini-1.5-pro"
 BATCH_SIZE = 20
+CROWDIN_API_BASE = "https://api.crowdin.com/api/v2"
+DEFAULT_CROWDIN_PROJECT_ID = "756721"
+DEFAULT_SCREENSHOT_TASK_LABELS = [
+    "vocab",
+    "theory-of-mind",
+    "hostile-attribution",
+    "matrix-reasoning",
+    "mental-rotation",
+    "same-different-selection",
+]
 
 
 SYSTEM_PROMPT = """You are an expert translation evaluator for the LEVANTE project (Learning Variability Network Exchange), a multi-site international study measuring cognitive development in children ages 5–12 across language, mathematics, reasoning, executive function, and social cognition. You are evaluating human translations of task strings originally developed in English and professionally translated via: AI pre-translation → professional translator review → native-speaker researcher review. Your role is to catch residual construct-critical errors that earlier review steps may have missed — not to re-do basic QA.
@@ -236,6 +250,14 @@ STATE_LABELS = {
 
 
 @dataclass
+class ScreenshotAttachment:
+    path: Path
+    screenshot_id: int
+    name: str
+    position: dict | None = None
+
+
+@dataclass
 class EvaluationItem:
     identifier: str
     labels: str
@@ -243,6 +265,7 @@ class EvaluationItem:
     target_lang: str
     hypothesis: str
     template_key: str
+    screenshots: List[ScreenshotAttachment] = field(default_factory=list)
 
 
 def parse_args() -> argparse.Namespace:
@@ -256,6 +279,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fallback-model", default=FALLBACK_MODEL)
     parser.add_argument("--limit", type=int, default=0, help="Limit evaluated source rows, for smoke runs.")
     parser.add_argument("--sleep-seconds", type=float, default=0.0, help="Optional delay between Gemini calls.")
+    parser.add_argument("--use-crowdin-screenshots", action="store_true", help="Attach tagged Crowdin screenshots for visual-context tasks.")
+    parser.add_argument("--crowdin-project-id", default=DEFAULT_CROWDIN_PROJECT_ID)
+    parser.add_argument("--crowdin-api-key-env", default="CROWDIN_API_TOKEN")
+    parser.add_argument("--screenshot-cache-dir", default="translation_grading/output/crowdin_screenshots")
+    parser.add_argument(
+        "--screenshot-task-labels",
+        default=",".join(DEFAULT_SCREENSHOT_TASK_LABELS),
+        help="Comma-separated task labels eligible for screenshot attachment.",
+    )
+    parser.add_argument("--max-screenshots-per-item", type=int, default=1)
     return parser.parse_args()
 
 
@@ -339,6 +372,11 @@ def build_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
         source=item.source,
         hypothesis=item.hypothesis,
     )
+    if item.screenshots:
+        task_prompt += (
+            "\n\nCrowdin screenshot context is attached as image input. Use it only to disambiguate the visual object, "
+            "scene, or UI context for this exact string; do not penalize the translation for visual details that are not relevant to the string."
+        )
     suffix = "\n\nOutput ONLY valid JSON, no other text." if json_only else ""
     return f"{SYSTEM_PROMPT}\n\n{task_prompt}{suffix}"
 
@@ -429,10 +467,19 @@ def parse_batch_evaluations(raw: str, expected_count: int) -> List[dict]:
     return [by_index[idx] for idx in range(1, expected_count + 1)]
 
 
-def call_gemini_text(prompt: str, model: str, api_key: str) -> str:
+def image_part(path: Path) -> dict:
+    mime_type = mimetypes.guess_type(str(path))[0] or "image/png"
+    data = base64.b64encode(path.read_bytes()).decode("ascii")
+    return {"inlineData": {"mimeType": mime_type, "data": data}}
+
+
+def call_gemini_text(prompt: str, model: str, api_key: str, image_paths: Sequence[Path] | None = None) -> str:
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    parts = [{"text": prompt}]
+    for path in image_paths or []:
+        parts.append(image_part(path))
     payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
+        "contents": [{"parts": parts}],
         "generationConfig": {"temperature": 0, "responseMimeType": "application/json"},
     }
     req = urllib.request.Request(
@@ -452,21 +499,22 @@ def should_fallback(exc: Exception) -> bool:
     return exc.code in {400, 404, 429, 503}
 
 
-def call_gemini(prompt: str, api_key: str, model: str, fallback_model: str) -> str:
+def call_gemini(prompt: str, api_key: str, model: str, fallback_model: str, image_paths: Sequence[Path] | None = None) -> str:
     try:
-        return call_gemini_text(prompt, model, api_key)
+        return call_gemini_text(prompt, model, api_key, image_paths)
     except Exception as exc:
         if fallback_model and fallback_model != model and should_fallback(exc):
-            return call_gemini_text(prompt, fallback_model, api_key)
+            return call_gemini_text(prompt, fallback_model, api_key, image_paths)
         raise
 
 
 def evaluate_single(item: EvaluationItem, api_key: str, model: str, fallback_model: str) -> dict:
-    raw = call_gemini(build_prompt(item), api_key, model, fallback_model)
+    image_paths = [attachment.path for attachment in item.screenshots]
+    raw = call_gemini(build_prompt(item), api_key, model, fallback_model, image_paths)
     try:
         return parse_evaluation(raw)
     except Exception:
-        retry_raw = call_gemini(build_prompt(item, json_only=True), api_key, model, fallback_model)
+        retry_raw = call_gemini(build_prompt(item, json_only=True), api_key, model, fallback_model, image_paths)
         return parse_evaluation(retry_raw)
 
 
@@ -513,6 +561,145 @@ def load_items(input_csv: Path, source_col: str, target_cols: Sequence[str], lim
     return items
 
 
+def get_crowdin_token(api_key_env: str) -> str:
+    token = os.environ.get(api_key_env, "").strip() or os.environ.get("CROWDIN_TOKEN", "").strip()
+    if token:
+        return token
+    token_path = Path.home() / ".crowdin_api_token"
+    if token_path.exists():
+        return token_path.read_text(encoding="utf-8").strip()
+    raise RuntimeError(f"Crowdin token not found. Set {api_key_env}, CROWDIN_TOKEN, or create ~/.crowdin_api_token.")
+
+
+def fetch_crowdin_json(path: str, token: str, params: Dict[str, object] | None = None) -> dict:
+    query = ""
+    if params:
+        query = "?" + urllib.parse.urlencode({k: str(v) for k, v in params.items()})
+    req = urllib.request.Request(
+        f"{CROWDIN_API_BASE}{path}{query}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        details = exc.read().decode("utf-8", errors="ignore")
+        raise RuntimeError(f"Crowdin HTTP {exc.code} for {path}: {details}") from exc
+
+
+def iter_crowdin_pages(path: str, token: str, *, limit: int = 500) -> Iterable[dict]:
+    offset = 0
+    while True:
+        payload = fetch_crowdin_json(path, token, {"limit": limit, "offset": offset})
+        items = payload.get("data", [])
+        for item in items:
+            yield item.get("data", item)
+        if len(items) < limit:
+            break
+        offset += limit
+
+
+def crowdin_identifier_for(item: EvaluationItem) -> str:
+    return str(item.identifier or "").split("::", 1)[-1]
+
+
+def safe_cache_name(screenshot_id: int, name: str, url: str) -> str:
+    suffix = Path(str(name or "")).suffix.lower() or ".png"
+    if suffix not in {".png", ".jpg", ".jpeg", ".webp"}:
+        suffix = ".png"
+    digest = hashlib.sha1(url.encode("utf-8")).hexdigest()[:10]
+    stem = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(str(name or f'screenshot-{screenshot_id}')).stem).strip("_")
+    return f"{screenshot_id}_{stem}_{digest}{suffix}"
+
+
+def download_screenshot(url: str, cache_dir: Path, screenshot_id: int, name: str) -> Path:
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    out_path = cache_dir / safe_cache_name(screenshot_id, name, url)
+    if out_path.exists() and out_path.stat().st_size > 0:
+        return out_path
+    with urllib.request.urlopen(url, timeout=90) as resp:
+        out_path.write_bytes(resp.read())
+    return out_path
+
+
+def attach_crowdin_screenshots(
+    items: Sequence[EvaluationItem],
+    *,
+    project_id: str,
+    api_key_env: str,
+    cache_dir: Path,
+    eligible_labels: Sequence[str],
+    max_screenshots_per_item: int = 1,
+) -> Dict[str, int]:
+    eligible = {normalize_label(label) for label in eligible_labels if normalize_label(label)}
+    wanted_items = [item for item in items if normalize_label(item.labels) in eligible]
+    wanted_identifiers = {crowdin_identifier_for(item) for item in wanted_items}
+    if not wanted_identifiers:
+        return {"eligible_items": 0, "items_with_screenshots": 0, "screenshots_downloaded": 0}
+
+    token = get_crowdin_token(api_key_env)
+    strings_by_identifier: Dict[str, List[int]] = {identifier: [] for identifier in wanted_identifiers}
+    for string_data in iter_crowdin_pages(f"/projects/{project_id}/strings", token):
+        identifier = str(string_data.get("identifier") or "")
+        if identifier in strings_by_identifier:
+            strings_by_identifier[identifier].append(int(string_data["id"]))
+    identifier_by_string_id = {
+        string_id: identifier
+        for identifier, string_ids in strings_by_identifier.items()
+        for string_id in string_ids
+    }
+
+    screenshots_by_identifier: Dict[str, List[dict]] = {identifier: [] for identifier in wanted_identifiers}
+    for screenshot in iter_crowdin_pages(f"/projects/{project_id}/screenshots", token):
+        screenshot_id = int(screenshot.get("id") or 0)
+        url = str(screenshot.get("url") or "").strip()
+        name = str(screenshot.get("name") or f"screenshot-{screenshot_id}")
+        if not screenshot_id or not url:
+            continue
+        seen_in_screenshot = set()
+        for tag in screenshot.get("tags") or []:
+            identifier = identifier_by_string_id.get(tag.get("stringId"))
+            if not identifier or identifier in seen_in_screenshot:
+                continue
+            seen_in_screenshot.add(identifier)
+            screenshots_by_identifier[identifier].append(
+                {
+                    "screenshot_id": screenshot_id,
+                    "name": name,
+                    "url": url,
+                    "position": tag.get("position"),
+                }
+            )
+
+    screenshots_downloaded = 0
+    items_with_screenshots = 0
+    for item in wanted_items:
+        identifier = crowdin_identifier_for(item)
+        candidates = screenshots_by_identifier.get(identifier, [])
+        candidates.sort(key=lambda shot: (crowdin_identifier_for(item).lower() not in str(shot["name"]).lower(), int(shot["screenshot_id"])))
+        attachments: List[ScreenshotAttachment] = []
+        for shot in candidates[: max(0, max_screenshots_per_item)]:
+            path = download_screenshot(str(shot["url"]), cache_dir, int(shot["screenshot_id"]), str(shot["name"]))
+            screenshots_downloaded += 1
+            attachments.append(
+                ScreenshotAttachment(
+                    path=path,
+                    screenshot_id=int(shot["screenshot_id"]),
+                    name=str(shot["name"]),
+                    position=shot.get("position"),
+                )
+            )
+        item.screenshots = attachments
+        if attachments:
+            items_with_screenshots += 1
+    return {
+        "eligible_items": len(wanted_items),
+        "items_with_screenshots": items_with_screenshots,
+        "screenshots_downloaded": screenshots_downloaded,
+        "matched_identifiers": sum(1 for ids in strings_by_identifier.values() if ids),
+    }
+
+
 def has_critical_error(evaluation: dict) -> bool:
     return any(error.get("severity") == "critical" for error in evaluation.get("errors", []))
 
@@ -527,12 +714,13 @@ def result_row(item: EvaluationItem, evaluation: dict) -> dict:
         "notes": evaluation["notes"],
         "template_used": item.template_key,
         "human_review": "yes" if human_review else "no",
+        "screenshot_names": "|".join(attachment.name for attachment in item.screenshots),
     }
 
 
 def write_results(path: Path, rows: Sequence[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    fields = ["identifier", "language", "score", "errors_json", "notes", "template_used", "human_review"]
+    fields = ["identifier", "language", "score", "errors_json", "notes", "template_used", "human_review", "screenshot_names"]
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
@@ -546,7 +734,7 @@ def chunks(items: Sequence[EvaluationItem], size: int) -> Iterable[Sequence[Eval
 
 def evaluate_items(items: Sequence[EvaluationItem], api_key: str, model: str, fallback_model: str, sleep_seconds: float) -> List[dict]:
     results: List[dict] = []
-    object_items = [item for item in items if item.template_key == "OBJECT_NAMING"]
+    object_items = [item for item in items if item.template_key == "OBJECT_NAMING" and not item.screenshots]
     object_ids = {id(item) for item in object_items}
 
     object_items_by_group: Dict[Tuple[str, str], List[EvaluationItem]] = {}
@@ -599,6 +787,22 @@ def main() -> int:
         raise RuntimeError(f"{args.api_key_env} is not set.")
 
     items = load_items(Path(args.input_csv), args.source_col, csv_list(args.target_cols), args.limit)
+    if args.use_crowdin_screenshots:
+        screenshot_stats = attach_crowdin_screenshots(
+            items,
+            project_id=args.crowdin_project_id,
+            api_key_env=args.crowdin_api_key_env,
+            cache_dir=Path(args.screenshot_cache_dir),
+            eligible_labels=csv_list(args.screenshot_task_labels),
+            max_screenshots_per_item=args.max_screenshots_per_item,
+        )
+        print(
+            "[screenshots] "
+            f"eligible={screenshot_stats['eligible_items']} "
+            f"with_screenshots={screenshot_stats['items_with_screenshots']} "
+            f"matched_identifiers={screenshot_stats.get('matched_identifiers', 0)} "
+            f"downloaded={screenshot_stats['screenshots_downloaded']}"
+        )
     rows = evaluate_items(items, api_key, args.model, args.fallback_model, args.sleep_seconds)
     write_results(Path(args.output_csv), rows)
     print(f"Wrote {len(rows)} evaluations to {args.output_csv}")
