@@ -19,7 +19,7 @@ stats_file_path = 'stats.csv'
 
 # define language codes as a constant here``
 LANGUAGE_CODES = {
-  'English': 'en', 
+  'English': 'en-US', 
   'English (UK)': 'en-GB', 
   'Spanish': 'es-CO', 
   'German': 'de', 
@@ -34,7 +34,13 @@ def get_languages():
     """Return language configuration, preferring shared GCS JSON when available."""
     # Local fallback
     local_languages = {
-        'English': {'lang_code': 'en', 'service': 'ElevenLabs', 'voice': 'Clara - Children\'s Storyteller'},
+        # Keep "English" as an alias of US English so default generation uses en-US foldering.
+        'English': {
+            'lang_code': 'en-US',
+            'service': 'ElevenLabs',
+            'voice': 'Lily Wolff',
+            'voice_id': 'qBDvhofpxp92JgXJxDjB',
+        },
         'English (United States)': {
             'lang_code': 'en-US',
             'service': 'ElevenLabs',
