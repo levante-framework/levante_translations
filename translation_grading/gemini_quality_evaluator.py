@@ -1,0 +1,555 @@
+#!/usr/bin/env python3
+"""Task-aware Gemini translation quality evaluator for LEVANTE prompts."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import re
+import statistics
+import time
+import urllib.error
+import urllib.request
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Iterable, List, Sequence
+
+
+SOURCE_LANG = "English"
+DEFAULT_TARGET_LANGS = ["es-CO", "de", "fr-CA", "nl"]
+DEFAULT_MODEL = "gemini-2.0-flash"
+FALLBACK_MODEL = "gemini-1.5-pro"
+BATCH_SIZE = 20
+
+
+SYSTEM_PROMPT = """You are an expert translation evaluator for a child language and cognition research project.
+You are evaluating HUMAN translations of short prompts that are read aloud to children aged 4-12.
+
+General rules:
+- These strings contain NO technical terminology. Evaluate for natural, child-appropriate spoken language only.
+- Proper names (people, characters, places) may be translated, transliterated, or kept as-is - all are acceptable.
+- Strings are intentionally short and simple because they are spoken, not read by children.
+- Do NOT penalize a translation for being natural and idiomatic rather than word-for-word literal.
+- Do NOT penalize a translation for minor structural differences from the source if the meaning is preserved.
+- Always use informal/familiar address forms (tu, du, jij/je) - never formal forms (vous, Sie, u).
+- Output your evaluation as JSON: {"score": <1-5>, "errors": [{"severity": "minor|major|critical", "description": "..."}], "notes": "..."}
+
+Scoring rubric:
+5 - Excellent: accurate, natural, age-appropriate, preserves all intended properties
+4 - Good: minor wording issues that do not affect child comprehension
+3 - Acceptable: noticeable issues but core meaning is preserved
+2 - Poor: meaning is partially lost or phrasing is unnatural enough to confuse a child
+1 - Unacceptable: critical errors, meaning changed, or ambiguity incorrectly resolved"""
+
+
+TEMPLATES: Dict[str, str] = {
+    "FEEDBACK_TRANSITION": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a short motivational or transitional phrase spoken to a child between tasks.
+Evaluate:
+1. Does it convey the same emotional tone (encouraging, neutral, celebratory)?
+2. Is it age-appropriate and warm in {target_lang}?
+3. Is it approximately the same length? (These are timed presentations - very long expansions are a minor error.)
+Very minor wording differences are acceptable if tone and meaning are preserved.
+Think step by step before giving your score.""",
+    "INSTRUCTION_GENERAL": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a task instruction or setup string read aloud to a child.
+Evaluate:
+1. Is the intended action or concept clearly conveyed?
+2. Does it sound natural when spoken aloud to a child in {target_lang}?
+3. Are there any omissions or additions that change what the child is being asked to do?
+Think step by step before giving your score.""",
+    "INSTRUCTION_SPATIAL_EXACT": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a task instruction where directional and spatial terms (left, right, same side) are critical - the child's motor response depends on them being unambiguous.
+Evaluate:
+1. Are all directional/spatial terms (left, right, same side, opposite) preserved exactly and unambiguously?
+2. Does it sound natural when spoken aloud to a child in {target_lang}?
+3. Any directional error or ambiguity is a CRITICAL error.
+Think step by step before giving your score.""",
+    "SPATIAL_RELATIONAL": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This prompt asks a child to judge a spatial or relational property (position, size, quantity, color, pattern, orientation).
+Spatial and relational vocabulary varies across languages - evaluate whether the translation uses the most natural and precise term in {target_lang} for the concept expressed, not necessarily the most literal word.
+Evaluate:
+1. Is the spatial/relational concept correctly and unambiguously conveyed?
+2. Is it clear WHICH dimension (size, color, count, pattern) the child is being asked to attend to?
+3. Is the phrasing natural for a young child?
+Think step by step before giving your score.""",
+    "SPATIAL_RELATIONAL_ROTATION": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This prompt is part of a mental rotation task. The phrase "goes with" means "matches by rotation" - i.e., is the same shape seen from a different angle.
+Evaluate:
+1. Does the translated phrase convey matching/fitting by rotation, not merely adjacency, similarity, or belonging together in another sense?
+2. If the translated phrase could be misread as a different spatial relationship (e.g., next to, similar to), flag this as a major error.
+3. Is the phrasing natural for a young child?
+Think step by step before giving your score.""",
+    "MEMORY_RECALL": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This prompt asks a child to remember or recall a sequence they just saw.
+Evaluate:
+1. Is it clear what the child is being asked to recall?
+2. Is sequence language ("same order", "in order") unambiguous in {target_lang}? Any ambiguity here is a major error.
+3. Is tense and phrasing natural in {target_lang} for a spoken prompt?
+4. Does it preserve the same level of specificity as the source?
+Think step by step before giving your score.""",
+    "OBJECT_NAMING": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a short label for an object, image, or concept shown to a child.
+Evaluate:
+1. Is this the most natural, everyday word a {target_lang}-speaking child would know for this object?
+2. Prefer common child-vocabulary terms over formal, scientific, or adult equivalents.
+3. Proper names and animal names that vary by region should use the most broadly understood variant.
+Think step by step before giving your score.""",
+    "OBJECT_NAMING_GRAMMAR": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This string is a TROG (Test for Reception of Grammar) item. It tests grammatical comprehension - the exact syntactic structure (modifier placement, relative clauses, plurals, prepositions) is what is being assessed and MUST be preserved.
+Evaluate:
+1. Is the syntactic structure (e.g., "the big dog chasing the cat" vs. "the dog chasing the big cat") faithfully preserved?
+2. Do NOT accept simplifications or restructuring even if they sound more natural - grammatical fidelity is critical here.
+3. Is the vocabulary child-appropriate?
+Any syntactic simplification or restructuring is a CRITICAL error.
+Think step by step before giving your score.""",
+    "AMBIGUOUS_COMPREHENSION": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+IMPORTANT: This string is intentionally ambiguous - it is designed to be interpretable in more than one way by a native speaker. This is deliberate and is the core purpose of the item.
+
+Evaluate:
+1. AMBIGUITY PRESERVATION (critical): Does the translation remain genuinely ambiguous in the same way for a native {target_lang} speaker? If the translation resolves the ambiguity or nudges toward one interpretation, this is a CRITICAL error.
+2. NATURALNESS: Does it sound like something a {target_lang}-speaking adult would say to a child?
+3. ACCURACY: Are the core words and grammar correct?
+
+Do NOT penalize the translation for being ambiguous or "unclear" - that is intentional.
+Think step by step before giving your score.""",
+    "INSTRUCTION_NARRATIVE_AMBIGUOUS": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a scene-setting narrative for a social cognition task that measures how children interpret ambiguous social situations.
+Evaluate:
+1. Does the narrative preserve the ambiguity of the actor's intent - i.e., it should be equally plausible that the action was on purpose OR accidental? Any translation that makes the intent seem more deliberate or more accidental than in the English source is a MAJOR error.
+2. Is the vocabulary and tone appropriate for a child listener (ages 8-12)?
+3. Are the events described accurately and completely?
+Think step by step before giving your score.""",
+    "SURVEY": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a first-person survey question asked directly to a child about their own experience or feelings at school.
+Evaluate:
+1. Is the informal/familiar "you" form used throughout (tu, du, jij/je - never vous, Sie, u)?
+2. Does it have a warm, conversational tone appropriate for a child self-report?
+3. Is the meaning accurate and complete?
+Using formal address (vous, Sie, u) is a CRITICAL error.
+Think step by step before giving your score.""",
+}
+
+
+LABEL_TEMPLATES = {
+    "general": "FEEDBACK_TRANSITION",
+    "hearts-and-flowers": "INSTRUCTION_SPATIAL_EXACT",
+    "math": "INSTRUCTION_GENERAL",
+    "matrix-reasoning": "SPATIAL_RELATIONAL",
+    "memory-game": "MEMORY_RECALL",
+    "mental-rotation": "SPATIAL_RELATIONAL_ROTATION",
+    "vocab": "OBJECT_NAMING",
+    "survey": "SURVEY",
+}
+
+
+STATE_LABELS = {
+    "afraid",
+    "angry",
+    "bored",
+    "calm",
+    "confused",
+    "disappointed",
+    "disgusted",
+    "embarrassed",
+    "excited",
+    "frustrated",
+    "happy",
+    "lonely",
+    "mad",
+    "neutral",
+    "proud",
+    "sad",
+    "scared",
+    "surprised",
+    "tired",
+    "upset",
+    "worried",
+}
+
+
+@dataclass
+class EvaluationItem:
+    identifier: str
+    labels: str
+    source: str
+    target_lang: str
+    hypothesis: str
+    template_key: str
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Evaluate LEVANTE translations with task-aware Gemini prompts.")
+    parser.add_argument("--input-csv", default="complete_translations.csv")
+    parser.add_argument("--output-csv", default="translation_quality_results.csv")
+    parser.add_argument("--source-col", default="en")
+    parser.add_argument("--target-cols", default=",".join(DEFAULT_TARGET_LANGS))
+    parser.add_argument("--api-key-env", default="GEMINI_API_KEY")
+    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--fallback-model", default=FALLBACK_MODEL)
+    parser.add_argument("--limit", type=int, default=0, help="Limit evaluated source rows, for smoke runs.")
+    parser.add_argument("--sleep-seconds", type=float, default=0.0, help="Optional delay between Gemini calls.")
+    return parser.parse_args()
+
+
+def csv_list(raw: str) -> List[str]:
+    return [part.strip() for part in str(raw or "").split(",") if part.strip()]
+
+
+def normalize_label(labels: str) -> str:
+    return str(labels or "").strip().lower()
+
+
+def identifier_tokens(identifier: str) -> List[str]:
+    return [token for token in re.split(r"[^a-zA-Z]+", str(identifier or "").lower()) if token]
+
+
+def is_short_state_label(identifier: str) -> bool:
+    tokens = identifier_tokens(identifier)
+    if not tokens:
+        return False
+    if len(tokens) == 1 and tokens[0] in STATE_LABELS:
+        return True
+    return len(tokens) <= 3 and tokens[-1] in STATE_LABELS
+
+
+def select_template(labels: str, identifier: str) -> str:
+    label = normalize_label(labels)
+    ident = str(identifier or "").strip().lower()
+    if label == "same-different-selection":
+        return "INSTRUCTION_GENERAL" if "instruct" in ident else "SPATIAL_RELATIONAL"
+    if label == "trog":
+        return "INSTRUCTION_GENERAL" if ("instruct" in ident or "prompt" in ident) else "OBJECT_NAMING_GRAMMAR"
+    if label == "theory-of-mind":
+        if is_short_state_label(ident):
+            return "OBJECT_NAMING"
+        if "intro" in ident or "transition" in ident:
+            return "INSTRUCTION_GENERAL"
+        return "AMBIGUOUS_COMPREHENSION"
+    if label == "hostile-attribution":
+        if ident.endswith("instruct1") or ident.endswith("instruct2"):
+            return "INSTRUCTION_NARRATIVE_AMBIGUOUS"
+        if ident.endswith("q1"):
+            return "AMBIGUOUS_COMPREHENSION"
+        return "INSTRUCTION_GENERAL"
+    return LABEL_TEMPLATES.get(label, "INSTRUCTION_GENERAL")
+
+
+def build_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
+    task_prompt = TEMPLATES[item.template_key].format(
+        source_lang=SOURCE_LANG,
+        target_lang=item.target_lang,
+        source=item.source,
+        hypothesis=item.hypothesis,
+    )
+    suffix = "\n\nOutput ONLY valid JSON, no other text." if json_only else ""
+    return f"{SYSTEM_PROMPT}\n\n{task_prompt}{suffix}"
+
+
+def build_batch_object_prompt(items: Sequence[EvaluationItem], *, json_only: bool = False) -> str:
+    if not items:
+        raise ValueError("Cannot build an empty batch prompt.")
+    target_lang = items[0].target_lang
+    numbered = []
+    for idx, item in enumerate(items, start=1):
+        numbered.extend(
+            [
+                f"{idx}. Source text: \"{item.source}\"",
+                f"   Translation: \"{item.hypothesis}\"",
+            ]
+        )
+    suffix = "\nOutput ONLY valid JSON, no other text." if json_only else ""
+    return (
+        f"{SYSTEM_PROMPT}\n\n"
+        f"Source language: {SOURCE_LANG}\n"
+        f"Target language: {target_lang}\n\n"
+        "These are short labels for objects, images, or concepts shown to children.\n"
+        "Evaluate each numbered item independently using the OBJECT_NAMING criteria:\n"
+        "1. Is this the most natural, everyday word a child would know?\n"
+        "2. Prefer common child-vocabulary terms over formal, scientific, or adult equivalents.\n"
+        "3. Proper names and animal names that vary by region should use the most broadly understood variant.\n\n"
+        + "\n".join(numbered)
+        + "\n\nReturn JSON as: {\"items\": [{\"index\": 1, \"score\": <1-5>, "
+        "\"errors\": [{\"severity\": \"minor|major|critical\", \"description\": \"...\"}], "
+        "\"notes\": \"...\"}]}."
+        + suffix
+    )
+
+
+def extract_json_text(raw: str) -> str:
+    text = str(raw or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.IGNORECASE)
+        text = re.sub(r"\s*```$", "", text)
+    return text.strip()
+
+
+def parse_evaluation(raw: str) -> dict:
+    payload = json.loads(extract_json_text(raw))
+    if not isinstance(payload, dict):
+        raise ValueError("Gemini response was not a JSON object.")
+    return normalize_evaluation(payload)
+
+
+def normalize_evaluation(payload: dict) -> dict:
+    score = int(payload.get("score", 0) or 0)
+    if score < 1 or score > 5:
+        raise ValueError(f"Invalid score from Gemini: {score}")
+    errors = payload.get("errors", [])
+    if not isinstance(errors, list):
+        errors = []
+    clean_errors = []
+    for error in errors:
+        if not isinstance(error, dict):
+            continue
+        severity = str(error.get("severity", "") or "").strip().lower()
+        if severity not in {"minor", "major", "critical"}:
+            severity = "minor"
+        description = str(error.get("description", "") or "").strip()
+        clean_errors.append({"severity": severity, "description": description})
+    return {"score": score, "errors": clean_errors, "notes": str(payload.get("notes", "") or "").strip()}
+
+
+def parse_batch_evaluations(raw: str, expected_count: int) -> List[dict]:
+    payload = json.loads(extract_json_text(raw))
+    items = payload.get("items") if isinstance(payload, dict) else payload
+    if not isinstance(items, list):
+        raise ValueError("Gemini batch response missing items list.")
+    by_index = {}
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        idx = int(item.get("index", 0) or 0)
+        if 1 <= idx <= expected_count:
+            by_index[idx] = normalize_evaluation(item)
+    missing = [idx for idx in range(1, expected_count + 1) if idx not in by_index]
+    if missing:
+        raise ValueError(f"Gemini batch response missing item indexes: {missing}")
+    return [by_index[idx] for idx in range(1, expected_count + 1)]
+
+
+def call_gemini_text(prompt: str, model: str, api_key: str) -> str:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0, "responseMimeType": "application/json"},
+    }
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=90) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+    return data["candidates"][0]["content"]["parts"][0]["text"]
+
+
+def should_fallback(exc: Exception) -> bool:
+    if not isinstance(exc, urllib.error.HTTPError):
+        return False
+    return exc.code in {400, 404, 429, 503}
+
+
+def call_gemini(prompt: str, api_key: str, model: str, fallback_model: str) -> str:
+    try:
+        return call_gemini_text(prompt, model, api_key)
+    except Exception as exc:
+        if fallback_model and fallback_model != model and should_fallback(exc):
+            return call_gemini_text(prompt, fallback_model, api_key)
+        raise
+
+
+def evaluate_single(item: EvaluationItem, api_key: str, model: str, fallback_model: str) -> dict:
+    raw = call_gemini(build_prompt(item), api_key, model, fallback_model)
+    try:
+        return parse_evaluation(raw)
+    except Exception:
+        retry_raw = call_gemini(build_prompt(item, json_only=True), api_key, model, fallback_model)
+        return parse_evaluation(retry_raw)
+
+
+def evaluate_object_batch(items: Sequence[EvaluationItem], api_key: str, model: str, fallback_model: str) -> List[dict]:
+    raw = call_gemini(build_batch_object_prompt(items), api_key, model, fallback_model)
+    try:
+        return parse_batch_evaluations(raw, len(items))
+    except Exception:
+        retry_raw = call_gemini(build_batch_object_prompt(items, json_only=True), api_key, model, fallback_model)
+        return parse_batch_evaluations(retry_raw, len(items))
+
+
+def load_items(input_csv: Path, source_col: str, target_cols: Sequence[str], limit: int = 0) -> List[EvaluationItem]:
+    items: List[EvaluationItem] = []
+    with input_csv.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {"identifier", "labels", source_col, *target_cols}
+        missing = sorted(col for col in required if col not in (reader.fieldnames or []))
+        if missing:
+            raise ValueError(f"Input CSV missing required columns: {', '.join(missing)}")
+        for row_index, row in enumerate(reader, start=1):
+            if limit > 0 and row_index > limit:
+                break
+            source = str(row.get(source_col, "") or "").strip()
+            if not source:
+                continue
+            identifier = str(row.get("identifier", "") or "").strip()
+            labels = str(row.get("labels", "") or "").strip()
+            template_key = select_template(labels, identifier)
+            for target_lang in target_cols:
+                hypothesis = str(row.get(target_lang, "") or "").strip()
+                if not hypothesis:
+                    continue
+                items.append(
+                    EvaluationItem(
+                        identifier=identifier,
+                        labels=labels,
+                        source=source,
+                        target_lang=target_lang,
+                        hypothesis=hypothesis,
+                        template_key=template_key,
+                    )
+                )
+    return items
+
+
+def has_critical_error(evaluation: dict) -> bool:
+    return any(error.get("severity") == "critical" for error in evaluation.get("errors", []))
+
+
+def result_row(item: EvaluationItem, evaluation: dict) -> dict:
+    human_review = evaluation["score"] <= 3 or has_critical_error(evaluation)
+    return {
+        "identifier": item.identifier,
+        "language": item.target_lang,
+        "score": evaluation["score"],
+        "errors_json": json.dumps(evaluation["errors"], ensure_ascii=False),
+        "notes": evaluation["notes"],
+        "template_used": item.template_key,
+        "human_review": "yes" if human_review else "no",
+    }
+
+
+def write_results(path: Path, rows: Sequence[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = ["identifier", "language", "score", "errors_json", "notes", "template_used", "human_review"]
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def chunks(items: Sequence[EvaluationItem], size: int) -> Iterable[Sequence[EvaluationItem]]:
+    for start in range(0, len(items), size):
+        yield items[start : start + size]
+
+
+def evaluate_items(items: Sequence[EvaluationItem], api_key: str, model: str, fallback_model: str, sleep_seconds: float) -> List[dict]:
+    results: List[dict] = []
+    object_items = [item for item in items if item.template_key == "OBJECT_NAMING"]
+    object_ids = {id(item) for item in object_items}
+
+    object_items_by_language: Dict[str, List[EvaluationItem]] = {}
+    for item in object_items:
+        object_items_by_language.setdefault(item.target_lang, []).append(item)
+
+    for language in sorted(object_items_by_language):
+        for batch in chunks(object_items_by_language[language], BATCH_SIZE):
+            evaluations = evaluate_object_batch(batch, api_key, model, fallback_model)
+            results.extend(result_row(item, evaluation) for item, evaluation in zip(batch, evaluations))
+            if sleep_seconds:
+                time.sleep(sleep_seconds)
+
+    for item in items:
+        if id(item) in object_ids:
+            continue
+        evaluation = evaluate_single(item, api_key, model, fallback_model)
+        results.append(result_row(item, evaluation))
+        if sleep_seconds:
+            time.sleep(sleep_seconds)
+    return results
+
+
+def mean_score(rows: Sequence[dict]) -> float:
+    scores = [float(row["score"]) for row in rows if row.get("score") not in {"", None}]
+    return statistics.mean(scores) if scores else 0.0
+
+
+def print_summary(rows: Sequence[dict]) -> None:
+    print("\nPer-task mean scores")
+    print("template_used,count,mean_score")
+    for template in sorted({row["template_used"] for row in rows}):
+        bucket = [row for row in rows if row["template_used"] == template]
+        print(f"{template},{len(bucket)},{mean_score(bucket):.2f}")
+
+    print("\nPer-language mean scores")
+    print("language,count,mean_score")
+    for language in sorted({row["language"] for row in rows}):
+        bucket = [row for row in rows if row["language"] == language]
+        print(f"{language},{len(bucket)},{mean_score(bucket):.2f}")
+
+    review_count = sum(1 for row in rows if row.get("human_review") == "yes")
+    print(f"\nHuman review flags: {review_count} / {len(rows)}")
+
+
+def main() -> int:
+    args = parse_args()
+    api_key = os.environ.get(args.api_key_env, "").strip()
+    if not api_key:
+        raise RuntimeError(f"{args.api_key_env} is not set.")
+
+    items = load_items(Path(args.input_csv), args.source_col, csv_list(args.target_cols), args.limit)
+    rows = evaluate_items(items, api_key, args.model, args.fallback_model, args.sleep_seconds)
+    write_results(Path(args.output_csv), rows)
+    print(f"Wrote {len(rows)} evaluations to {args.output_csv}")
+    print_summary(rows)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

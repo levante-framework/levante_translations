@@ -22,6 +22,7 @@ import json
 import os
 import re
 import statistics
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -31,6 +32,10 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
+try:
+    from translation_grading import embedding_baseline as eb
+except ModuleNotFoundError:
+    import embedding_baseline as eb
 
 
 CROWDIN_API_BASE = "https://api.crowdin.com/api/v2"
@@ -59,13 +64,29 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run tiered translation grading.")
     parser.add_argument(
         "--input-mode",
-        default="csv",
+        default="crowdin-api",
         choices=["csv", "crowdin-api", "crowdin-zip", "dashboard-endpoint"],
         help="Translation source mode.",
     )
     parser.add_argument("--input-csv", default="", help="CSV path for --input-mode csv.")
     parser.add_argument("--crowdin-zip", default="", help="Crowdin export ZIP for --input-mode crowdin-zip.")
     parser.add_argument("--crowdin-project-id", default=DEFAULT_CROWDIN_PROJECT_ID)
+    parser.add_argument(
+        "--crowdin-cache-zip",
+        default="translation_grading/output/.crowdin-approved-cache.zip",
+        help="Cache file for approved Crowdin export ZIP when using crowdin-api.",
+    )
+    parser.add_argument(
+        "--refresh-crowdin-cache",
+        action="store_true",
+        help="Force refresh of Crowdin API cache ZIP before grading.",
+    )
+    parser.add_argument(
+        "--crowdin-cache-max-age-minutes",
+        type=int,
+        default=120,
+        help="If cached file is older than this, refresh from Crowdin API (0 = always refresh).",
+    )
     parser.add_argument("--dashboard-base-url", default="https://levante-cockpit.vercel.app")
     parser.add_argument("--item-id-col", default="item_id")
     parser.add_argument("--source-col", default="en")
@@ -89,12 +110,34 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--gemini-api-key-env", default="GEMINI_API_KEY")
     parser.add_argument("--gemini-model", default="gemini-2.5-pro")
     parser.add_argument("--gemini-threshold", type=float, default=75.0)
+    parser.add_argument(
+        "--llm-prompt-mode",
+        default="task-aware",
+        choices=["task-aware", "generic"],
+        help="Gemini prompt strategy: task-aware templates or generic prompt.",
+    )
+    parser.add_argument(
+        "--llm-default-label",
+        default="",
+        help="Fallback label for task-aware template selection when labels/task are missing.",
+    )
     parser.add_argument("--llm-only-flagged", action="store_true")
     parser.add_argument("--llm-max-calls", type=int, default=0)
 
     parser.add_argument("--output-csv", default="translation_grading/output/translation-grading-report.csv")
     parser.add_argument("--summary-json", default="translation_grading/output/translation-grading-summary.json")
     parser.add_argument("--report-md", default="translation_grading/output/translation-grading-flag-report.md")
+    parser.add_argument("--embedding-baseline", default="", help="Path to persistent embedding baseline (.npz).")
+    parser.add_argument("--build-embedding-baseline", action="store_true", help="Build baseline from current input rows.")
+    parser.add_argument("--detect-embedding-outliers", action="store_true", help="Compare current rows against baseline.")
+    parser.add_argument("--baseline-item-centroid-threshold", type=float, default=0.78)
+    parser.add_argument("--baseline-item-lang-threshold", type=float, default=0.82)
+    parser.add_argument(
+        "--baseline-lang-centroid-threshold",
+        type=float,
+        default=0.0,
+        help="Set >0 to enable language centroid checks.",
+    )
     return parser.parse_args()
 
 
@@ -290,7 +333,26 @@ def load_source_rows(args: argparse.Namespace) -> List[dict]:
             raise ValueError("--crowdin-zip is required for --input-mode crowdin-zip")
         return merge_crowdin_zip(Path(args.crowdin_zip).expanduser().read_bytes())
     if args.input_mode == "crowdin-api":
-        return merge_crowdin_zip(fetch_crowdin_project_zip(args.crowdin_project_id))
+        cache_path = Path(args.crowdin_cache_zip).expanduser()
+        should_use_cache = False
+        if cache_path.exists() and not args.refresh_crowdin_cache:
+            max_age_minutes = int(args.crowdin_cache_max_age_minutes)
+            if max_age_minutes > 0:
+                age_minutes = (time.time() - cache_path.stat().st_mtime) / 60.0
+                if age_minutes <= max_age_minutes:
+                    should_use_cache = True
+                    print(f"[crowdin] using cached approved export ({age_minutes:.1f} min old): {cache_path}")
+                else:
+                    print(f"[crowdin] cache stale ({age_minutes:.1f} min old), refreshing: {cache_path}")
+            else:
+                print(f"[crowdin] cache refresh required by max-age=0: {cache_path}")
+        if should_use_cache:
+            return merge_crowdin_zip(cache_path.read_bytes())
+        zip_bytes = fetch_crowdin_project_zip(args.crowdin_project_id)
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        cache_path.write_bytes(zip_bytes)
+        print(f"[crowdin] cached approved export: {cache_path}")
+        return merge_crowdin_zip(zip_bytes)
     if args.input_mode == "dashboard-endpoint":
         return merge_crowdin_zip(fetch_dashboard_crowdin_zip(args.dashboard_base_url))
     raise ValueError(f"Unsupported input mode: {args.input_mode}")
@@ -323,7 +385,20 @@ def materialize_pairs(args: argparse.Namespace) -> Tuple[List[RowTranslation], L
             target = normalize_text(row.get(lang, ""), strip_html=args.strip_html)
             if not target:
                 continue
-            pairs.append(RowTranslation(item_id=item_id, row_index=idx, source_text=source, target_lang=lang, target_text=target, source_path=source_path, ambiguity_note=ambiguity))
+            labels_value = normalize_text(row.get("labels", ""), strip_html=False) or normalize_text(row.get("task", ""), strip_html=False)
+            identifier_value = normalize_text(row.get("identifier", ""), strip_html=False) or item_id
+            pairs.append(
+                RowTranslation(
+                    item_id=item_id,
+                    row_index=idx,
+                    source_text=source,
+                    target_lang=lang,
+                    target_text=target,
+                    source_path=source_path,
+                    ambiguity_note=ambiguity,
+                    metadata={"labels": labels_value, "identifier": identifier_value},
+                )
+            )
             if args.max_pairs > 0 and len(pairs) >= args.max_pairs:
                 return pairs, target_cols
     return pairs, target_cols
@@ -401,7 +476,33 @@ def run_comet_stage(rows: List[RowTranslation], args: argparse.Namespace) -> Non
             row.review_reasons.append(f"comet<{args.comet_threshold:.2f}")
 
 
-def build_llm_prompt(row: RowTranslation) -> str:
+def build_llm_prompt(row: RowTranslation, args: argparse.Namespace) -> str:
+    if args.llm_prompt_mode == "task-aware":
+        try:
+            from translation_grading import gemini_quality_evaluator as gqe
+        except ModuleNotFoundError:
+            import gemini_quality_evaluator as gqe  # type: ignore
+
+        labels = str(row.metadata.get("labels", "") or args.llm_default_label or "").strip()
+        identifier = str(row.metadata.get("identifier", "") or row.item_id).strip()
+        template_key = gqe.select_template(labels, identifier)
+        row.metadata["llm_template"] = template_key
+
+        task_prompt = gqe.TEMPLATES[template_key].format(
+            source_lang=gqe.SOURCE_LANG,
+            target_lang=row.target_lang,
+            source=row.source_text,
+            hypothesis=row.target_text,
+        )
+        return (
+            "You are an expert translation quality assessor for child-facing spoken prompts.\n"
+            "Follow the task-specific guidance below and return strict JSON only.\n\n"
+            f"{task_prompt}\n\n"
+            "Return JSON with keys: adequacy, fluency, naturalness, ambiguity_preservation, "
+            "final_score, severity, issues, rationale_short. "
+            "Severity must be critical, major, minor, or none."
+        )
+
     context = row.ambiguity_note or "Preserve the intended meaning, pragmatic force, and naturalness for Levante benchmark content."
     return (
         "You are an expert translation quality assessor using MQM-style severity.\n"
@@ -440,7 +541,7 @@ def run_llm_judge_stage(rows: List[RowTranslation], args: argparse.Namespace) ->
         if args.llm_max_calls > 0 and calls >= args.llm_max_calls:
             break
         try:
-            judged = call_gemini(build_llm_prompt(row), args.gemini_model, api_key)
+            judged = call_gemini(build_llm_prompt(row, args), args.gemini_model, api_key)
         except Exception as exc:
             row.notes.append(f"llm_error:{exc}")
             continue
@@ -455,6 +556,96 @@ def run_llm_judge_stage(rows: List[RowTranslation], args: argparse.Namespace) ->
         if severity in {"critical", "major"}:
             row.needs_review = True
             row.review_reasons.append(f"llm_severity:{severity}")
+
+
+def run_embedding_baseline_stage(rows: List[RowTranslation], args: argparse.Namespace) -> None:
+    if not rows:
+        return
+    baseline_path = str(args.embedding_baseline or "").strip()
+    if not baseline_path:
+        return
+
+    model = eb.load_model(args.embedding_model, args.embedding_device)
+    embeddings = eb.encode_texts(
+        model=model,
+        model_name=args.embedding_model,
+        texts=[r.target_text for r in rows],
+        batch_size=args.embedding_batch_size,
+        prefix="passage",
+    )
+
+    if args.build_embedding_baseline:
+        baseline_pairs = [
+            eb.Pair(
+                item_id=r.item_id,
+                source_text=r.source_text,
+                target_lang=r.target_lang,
+                target_text=r.target_text,
+                source_path=r.source_path,
+            )
+            for r in rows
+        ]
+        out_path = Path(baseline_path)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        eb.save_baseline(out_path, args.embedding_model, args.input_csv, baseline_pairs, embeddings)
+        print(f"[baseline] built baseline: {out_path} ({len(rows)} rows)")
+
+    if not args.detect_embedding_outliers:
+        return
+
+    baseline = eb.load_baseline(Path(baseline_path))
+    base_emb = baseline["embeddings"]
+    base_item_id = baseline["item_id"].astype(str)
+    base_lang = baseline["target_lang"].astype(str)
+    by_item = eb.build_index(base_item_id)
+    by_item_lang = eb.build_index([f"{iid}|{lang}" for iid, lang in zip(base_item_id, base_lang)])
+    by_lang = eb.build_index(base_lang)
+
+    flagged = 0
+    for idx, row in enumerate(rows):
+        vec = embeddings[idx]
+        item_idx = by_item.get(row.item_id, [])
+        item_lang_idx = by_item_lang.get(f"{row.item_id}|{row.target_lang}", [])
+        lang_idx = by_lang.get(row.target_lang, [])
+
+        sim_item_centroid = None
+        sim_item_lang_max = None
+        sim_lang_centroid = None
+        if item_idx:
+            sim_item_centroid = eb.cosine(vec, np.mean(base_emb[item_idx], axis=0))
+            row.scores["baseline_item_centroid"] = sim_item_centroid
+        if item_lang_idx:
+            sim_item_lang_max = max(eb.cosine(vec, base_emb[j]) for j in item_lang_idx)
+            row.scores["baseline_item_lang_max"] = sim_item_lang_max
+        if lang_idx:
+            sim_lang_centroid = eb.cosine(vec, np.mean(base_emb[lang_idx], axis=0))
+            row.scores["baseline_lang_centroid"] = sim_lang_centroid
+
+        reasons: List[str] = []
+        if (
+            args.baseline_item_centroid_threshold > 0
+            and sim_item_centroid is not None
+            and sim_item_centroid < args.baseline_item_centroid_threshold
+        ):
+            reasons.append(f"baseline_item_centroid<{args.baseline_item_centroid_threshold:.2f}")
+        if (
+            args.baseline_item_lang_threshold > 0
+            and sim_item_lang_max is not None
+            and sim_item_lang_max < args.baseline_item_lang_threshold
+        ):
+            reasons.append(f"baseline_item_lang<{args.baseline_item_lang_threshold:.2f}")
+        if (
+            args.baseline_lang_centroid_threshold > 0
+            and sim_lang_centroid is not None
+            and sim_lang_centroid < args.baseline_lang_centroid_threshold
+        ):
+            reasons.append(f"baseline_lang_centroid<{args.baseline_lang_centroid_threshold:.2f}")
+
+        if reasons:
+            row.needs_review = True
+            row.review_reasons.extend(reasons)
+            flagged += 1
+    print(f"[baseline] outliers flagged: {flagged} / {len(rows)}")
 
 
 def metric_summary(values: Sequence[float]) -> Dict[str, object]:
@@ -487,6 +678,9 @@ def summarize(rows: List[RowTranslation]) -> Dict[str, object]:
         "consistency": metric_summary([r.scores["consistency"] for r in rows if "consistency" in r.scores]),
         "comet": metric_summary([r.scores["comet"] for r in rows if "comet" in r.scores]),
         "llm_final": metric_summary([r.scores["llm_final"] for r in rows if "llm_final" in r.scores]),
+        "baseline_item_centroid": metric_summary([r.scores["baseline_item_centroid"] for r in rows if "baseline_item_centroid" in r.scores]),
+        "baseline_item_lang_max": metric_summary([r.scores["baseline_item_lang_max"] for r in rows if "baseline_item_lang_max" in r.scores]),
+        "baseline_lang_centroid": metric_summary([r.scores["baseline_lang_centroid"] for r in rows if "baseline_lang_centroid" in r.scores]),
         "by_language": by_language,
     }
 
@@ -506,6 +700,9 @@ def write_outputs(rows: List[RowTranslation], args: argparse.Namespace) -> None:
         "consistency_score",
         "comet_score",
         "llm_final_score",
+        "baseline_item_centroid_score",
+        "baseline_item_lang_max_score",
+        "baseline_lang_centroid_score",
         "llm_severity",
         "llm_issues",
         "llm_rationale_short",
@@ -538,6 +735,9 @@ def write_outputs(rows: List[RowTranslation], args: argparse.Namespace) -> None:
                 "consistency_score": row.scores.get("consistency", ""),
                 "comet_score": row.scores.get("comet", ""),
                 "llm_final_score": row.scores.get("llm_final", ""),
+                "baseline_item_centroid_score": row.scores.get("baseline_item_centroid", ""),
+                "baseline_item_lang_max_score": row.scores.get("baseline_item_lang_max", ""),
+                "baseline_lang_centroid_score": row.scores.get("baseline_lang_centroid", ""),
                 "llm_severity": llm_severity,
                 "llm_issues": llm_issues,
                 "llm_rationale_short": llm_rationale_short,
@@ -639,6 +839,7 @@ def main() -> int:
     print(f"Loaded {len(rows)} source-target pairs across {len(target_cols)} target columns.")
     run_consistency_stage(rows, args)
     run_comet_stage(rows, args)
+    run_embedding_baseline_stage(rows, args)
     run_llm_judge_stage(rows, args)
     write_outputs(rows, args)
     summary = summarize(rows)
