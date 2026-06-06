@@ -85,10 +85,40 @@ def test_load_items_and_write_results() -> bool:
     return True
 
 
+def test_prompt_updates_include_construct_context() -> bool:
+    math_item = evaluator.EvaluationItem(
+        identifier="math_instruct",
+        labels="math",
+        source="What is 1.5 plus 2?",
+        target_lang="fr-CA",
+        hypothesis="Combien font 1,5 plus 2?",
+        template_key=evaluator.select_template("math", "math_instruct"),
+    )
+    math_prompt = evaluator.build_prompt(math_item)
+    assert "LEVANTE project (Learning Variability Network Exchange)" in math_prompt
+    assert "RESIDUAL issues" in math_prompt
+    assert "ages 5–12 (or 2–4 for downward extension items)" in math_prompt
+    assert "standard notation for the target locale" in math_prompt
+
+    same_different_item = evaluator.EvaluationItem(
+        identifier="same_trial_1",
+        labels="same-different-selection",
+        source="Find one that is the same in a different way.",
+        target_lang="nl",
+        hypothesis="Vind er een die op een andere manier hetzelfde is.",
+        template_key=evaluator.select_template("same-different-selection", "same_trial_1"),
+    )
+    same_different_prompt = evaluator.build_prompt(same_different_item)
+    assert "same in a different way" in same_different_prompt
+    assert "single-dimension match" in same_different_prompt
+    return True
+
+
 def main() -> int:
     try:
         test_template_selection()
         test_load_items_and_write_results()
+        test_prompt_updates_include_construct_context()
     except AssertionError as exc:
         print(f"FAIL: {exc}")
         return 1

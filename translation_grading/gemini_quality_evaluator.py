@@ -14,7 +14,7 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Sequence
+from typing import Dict, Iterable, List, Sequence, Tuple
 
 
 SOURCE_LANG = "English"
@@ -24,17 +24,20 @@ FALLBACK_MODEL = "gemini-1.5-pro"
 BATCH_SIZE = 20
 
 
-SYSTEM_PROMPT = """You are an expert translation evaluator for a child language and cognition research project.
-You are evaluating HUMAN translations of short prompts that are read aloud to children aged 4-12.
+SYSTEM_PROMPT = """You are an expert translation evaluator for the LEVANTE project (Learning Variability Network Exchange), a multi-site international study measuring cognitive development in children ages 5–12 across language, mathematics, reasoning, executive function, and social cognition. You are evaluating human translations of task strings originally developed in English and professionally translated via: AI pre-translation → professional translator review → native-speaker researcher review. Your role is to catch residual construct-critical errors that earlier review steps may have missed — not to re-do basic QA.
 
 General rules:
 - These strings contain NO technical terminology. Evaluate for natural, child-appropriate spoken language only.
 - Proper names (people, characters, places) may be translated, transliterated, or kept as-is - all are acceptable.
 - Strings are intentionally short and simple because they are spoken, not read by children.
+- These prompts are read aloud to children ages 5–12 (or 2–4 for downward extension items).
+- For school-age children (5–12), natural sentence complexity and some multi-clause instructions are acceptable.
 - Do NOT penalize a translation for being natural and idiomatic rather than word-for-word literal.
 - Do NOT penalize a translation for minor structural differences from the source if the meaning is preserved.
 - Always use informal/familiar address forms (tu, du, jij/je) - never formal forms (vous, Sie, u).
 - Output your evaluation as JSON: {"score": <1-5>, "errors": [{"severity": "minor|major|critical", "description": "..."}], "notes": "..."}
+
+These translations have already been reviewed by a professional translator and a native-speaker researcher. Your role is to catch RESIDUAL issues: subtle meaning shifts, ambiguity collapse, register problems, dialect-specific choices that may not generalize, and construct-critical errors that a general reviewer might miss without task-specific knowledge. Do not flag trivial or obvious issues — focus on errors that could affect child responses or psychometric validity.
 
 Scoring rubric:
 5 - Excellent: accurate, natural, age-appropriate, preserves all intended properties
@@ -177,6 +180,24 @@ Think step by step before giving your score.""",
 }
 
 
+CONSTRUCT_CONTEXTS: Dict[str, str] = {
+    "INSTRUCTION_SPATIAL_EXACT": "This task measures inhibitory control and cognitive flexibility. The critical rule is that hearts require a response on the SAME side, flowers require a response on the OPPOSITE side. Correct directional mapping is the entire construct being measured.",
+    "MEMORY_RECALL": "This task measures visuospatial working memory (Corsi Block task). Sequence language — same order vs. backwards order — is the core distinction between the two task blocks and must be preserved exactly.",
+    "SPATIAL_RELATIONAL_ROTATION": "This task measures spatial rotation ability. The correct item 'matches when rotated' — not 'looks similar' or 'goes with' in a generic sense. The concept of rotational matching must be unambiguous.",
+    "OBJECT_NAMING_GRAMMAR": "This task measures receptive grammatical comprehension. Each sentence targets a specific grammatical structure (e.g., passive voice, relative clauses, negation, coordination). The grammatical structure is the item — syntactic simplification is a critical error even if the meaning is technically preserved.",
+    "INSTRUCTION_NARRATIVE_AMBIGUOUS": "This task measures hostile attribution bias. Scenarios are constructed so that a social harm is genuinely ambiguous — equally plausible as accidental or intentional. Any translation that makes the scenario feel more intentional or more accidental than the English source introduces systematic measurement bias.",
+}
+
+LABEL_CONSTRUCT_CONTEXTS: Dict[str, str] = {
+    "math": "Mathematical symbols and operations must use the standard notation for the target locale (e.g., comma vs. period as decimal separator; local names for arithmetic operations).",
+    "matrix-reasoning": "This task measures general reasoning ability. The word 'pattern' must be translated as a visual/logical regularity, not a decorative pattern.",
+    "same-different-selection": "This task measures cognitive flexibility. Children identify cards that are 'the same in some way' across dimensions like shape, color, size, and number. The multi-dimensional framing ('same in a different way') is critical — translations must not collapse this to a single-dimension match.",
+    "vocab": "This task is a receptive picture vocabulary task. Children hear a target word and must identify the matching picture among semantically close distractors (e.g., 'acorn' with distractor 'coconut'). A more specific or formal translation could make a correct answer appear wrong — always prefer the most common child-vocabulary term.",
+    "theory-of-mind": "This task measures theory of mind: true beliefs, false beliefs, deception, and moral reasoning. Questions often hinge on the distinction between what a character knows vs. what is actually true. Any translation that blurs a character's epistemic state (what they know/think/believe) is a critical error.",
+    "hostile-attribution": "This task measures hostile attribution bias. Scenarios are constructed so that a social harm is genuinely ambiguous — equally plausible as accidental or intentional. Any translation that makes the scenario feel more intentional or more accidental than the English source introduces systematic measurement bias.",
+}
+
+
 LABEL_TEMPLATES = {
     "general": "FEEDBACK_TRANSITION",
     "hearts-and-flowers": "INSTRUCTION_SPATIAL_EXACT",
@@ -281,8 +302,38 @@ def select_template(labels: str, identifier: str) -> str:
     return LABEL_TEMPLATES.get(label, "INSTRUCTION_GENERAL")
 
 
+def construct_context_for(labels: str, template_key: str) -> str:
+    label = normalize_label(labels)
+    if label in LABEL_CONSTRUCT_CONTEXTS:
+        return LABEL_CONSTRUCT_CONTEXTS[label]
+    return CONSTRUCT_CONTEXTS.get(template_key, "")
+
+
+def build_task_prompt(
+    *,
+    template_key: str,
+    labels: str,
+    source_lang: str,
+    target_lang: str,
+    source: str,
+    hypothesis: str,
+) -> str:
+    task_prompt = TEMPLATES[template_key].format(
+        source_lang=source_lang,
+        target_lang=target_lang,
+        source=source,
+        hypothesis=hypothesis,
+    )
+    construct_context = construct_context_for(labels, template_key)
+    if construct_context:
+        return f"{construct_context}\n\n{task_prompt}"
+    return task_prompt
+
+
 def build_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
-    task_prompt = TEMPLATES[item.template_key].format(
+    task_prompt = build_task_prompt(
+        template_key=item.template_key,
+        labels=item.labels,
         source_lang=SOURCE_LANG,
         target_lang=item.target_lang,
         source=item.source,
@@ -296,6 +347,9 @@ def build_batch_object_prompt(items: Sequence[EvaluationItem], *, json_only: boo
     if not items:
         raise ValueError("Cannot build an empty batch prompt.")
     target_lang = items[0].target_lang
+    labels = items[0].labels
+    construct_context = construct_context_for(labels, "OBJECT_NAMING")
+    construct_block = f"{construct_context}\n\n" if construct_context else ""
     numbered = []
     for idx, item in enumerate(items, start=1):
         numbered.extend(
@@ -309,6 +363,7 @@ def build_batch_object_prompt(items: Sequence[EvaluationItem], *, json_only: boo
         f"{SYSTEM_PROMPT}\n\n"
         f"Source language: {SOURCE_LANG}\n"
         f"Target language: {target_lang}\n\n"
+        f"{construct_block}"
         "These are short labels for objects, images, or concepts shown to children.\n"
         "Evaluate each numbered item independently using the OBJECT_NAMING criteria:\n"
         "1. Is this the most natural, everyday word a child would know?\n"
@@ -494,12 +549,12 @@ def evaluate_items(items: Sequence[EvaluationItem], api_key: str, model: str, fa
     object_items = [item for item in items if item.template_key == "OBJECT_NAMING"]
     object_ids = {id(item) for item in object_items}
 
-    object_items_by_language: Dict[str, List[EvaluationItem]] = {}
+    object_items_by_group: Dict[Tuple[str, str], List[EvaluationItem]] = {}
     for item in object_items:
-        object_items_by_language.setdefault(item.target_lang, []).append(item)
+        object_items_by_group.setdefault((item.target_lang, construct_context_for(item.labels, item.template_key)), []).append(item)
 
-    for language in sorted(object_items_by_language):
-        for batch in chunks(object_items_by_language[language], BATCH_SIZE):
+    for group in sorted(object_items_by_group):
+        for batch in chunks(object_items_by_group[group], BATCH_SIZE):
             evaluations = evaluate_object_batch(batch, api_key, model, fallback_model)
             results.extend(result_row(item, evaluation) for item, evaluation in zip(batch, evaluations))
             if sleep_seconds:

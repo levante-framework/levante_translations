@@ -160,6 +160,10 @@ The evaluator checks `es-CO`, `de`, `fr-CA`, and `nl` by default, uses
 `OBJECT_NAMING` items up to 20 per request, and writes a `human_review` flag
 for scores `<= 3` or any critical error.
 
+Human review escalation priority is theory-of-mind first, then vocab, then
+trog, then all other tasks, matching the pilot invariance and translation-risk
+patterns described in the task-design paper.
+
 ## Outputs
 
 Defaults:

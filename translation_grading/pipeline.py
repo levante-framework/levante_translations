@@ -477,18 +477,20 @@ def run_comet_stage(rows: List[RowTranslation], args: argparse.Namespace) -> Non
 
 
 def build_llm_prompt(row: RowTranslation, args: argparse.Namespace) -> str:
-    if args.llm_prompt_mode == "task-aware":
+    if getattr(args, "llm_prompt_mode", "task-aware") == "task-aware":
         try:
             from translation_grading import gemini_quality_evaluator as gqe
         except ModuleNotFoundError:
             import gemini_quality_evaluator as gqe  # type: ignore
 
-        labels = str(row.metadata.get("labels", "") or args.llm_default_label or "").strip()
+        labels = str(row.metadata.get("labels", "") or getattr(args, "llm_default_label", "") or "").strip()
         identifier = str(row.metadata.get("identifier", "") or row.item_id).strip()
         template_key = gqe.select_template(labels, identifier)
         row.metadata["llm_template"] = template_key
 
-        task_prompt = gqe.TEMPLATES[template_key].format(
+        task_prompt = gqe.build_task_prompt(
+            template_key=template_key,
+            labels=labels,
             source_lang=gqe.SOURCE_LANG,
             target_lang=row.target_lang,
             source=row.source_text,

@@ -1,7 +1,7 @@
 Implement a Gemini-based translation quality evaluator for the LEVANTE project.
 
 ## Context
-- Strings are short prompts/instructions read aloud to children aged 4–12
+- Strings are short prompts/instructions read aloud to children aged 5–12 (or 2–4 for downward extension items)
 - No technical terminology — evaluate for natural, child-appropriate spoken language only
 - Proper names may be translated, transliterated, or kept as-is — all are acceptable
 - Do NOT penalize idiomatic/natural translations for not being word-for-word literal
@@ -36,17 +36,20 @@ Multi-template label rules:
 
 ## System Prompt (prepend to ALL task prompts)
 
-You are an expert translation evaluator for a child language and cognition research project.
-You are evaluating HUMAN translations of short prompts that are read aloud to children aged 4–12.
+You are an expert translation evaluator for the LEVANTE project (Learning Variability Network Exchange), a multi-site international study measuring cognitive development in children ages 5–12 across language, mathematics, reasoning, executive function, and social cognition. You are evaluating human translations of task strings originally developed in English and professionally translated via: AI pre-translation → professional translator review → native-speaker researcher review. Your role is to catch residual construct-critical errors that earlier review steps may have missed — not to re-do basic QA.
 
 General rules:
 - These strings contain NO technical terminology. Evaluate for natural, child-appropriate spoken language only.
 - Proper names (people, characters, places) may be translated, transliterated, or kept as-is — all are acceptable.
 - Strings are intentionally short and simple because they are spoken, not read by children.
+- These prompts are read aloud to children ages 5–12 (or 2–4 for downward extension items).
+- For school-age children (5–12), natural sentence complexity and some multi-clause instructions are acceptable.
 - Do NOT penalize a translation for being natural and idiomatic rather than word-for-word literal.
 - Do NOT penalize a translation for minor structural differences from the source if the meaning is preserved.
 - Always use informal/familiar address forms (tu, du, jij/je) — never formal forms (vous, Sie, u).
 - Output your evaluation as JSON: {"score": <1-5>, "errors": [{"severity": "minor|major|critical", "description": "..."}], "notes": "..."}
+
+These translations have already been reviewed by a professional translator and a native-speaker researcher. Your role is to catch RESIDUAL issues: subtle meaning shifts, ambiguity collapse, register problems, dialect-specific choices that may not generalize, and construct-critical errors that a general reviewer might miss without task-specific knowledge. Do not flag trivial or obvious issues — focus on errors that could affect child responses or psychometric validity.
 
 Scoring rubric:
 5 — Excellent: accurate, natural, age-appropriate, preserves all intended properties
@@ -78,6 +81,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This is a task instruction or setup string read aloud to a child.
+For math items: Mathematical symbols and operations must use the standard notation for the target locale (e.g., comma vs. period as decimal separator; local names for arithmetic operations).
 Evaluate:
 1. Is the intended action or concept clearly conveyed?
 2. Does it sound natural when spoken aloud to a child in {target_lang}?
@@ -91,6 +95,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This is a task instruction where directional and spatial terms (left, right, same side) are critical — the child's motor response depends on them being unambiguous.
+This task measures inhibitory control and cognitive flexibility. The critical rule is that hearts require a response on the SAME side, flowers require a response on the OPPOSITE side. Correct directional mapping is the entire construct being measured.
 Evaluate:
 1. Are all directional/spatial terms (left, right, same side, opposite) preserved exactly and unambiguously?
 2. Does it sound natural when spoken aloud to a child in {target_lang}?
@@ -104,6 +109,8 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This prompt asks a child to judge a spatial or relational property (position, size, quantity, color, pattern, orientation).
+For same-different-selection items: This task measures cognitive flexibility. Children identify cards that are 'the same in some way' across dimensions like shape, color, size, and number. The multi-dimensional framing ('same in a different way') is critical — translations must not collapse this to a single-dimension match.
+For matrix-reasoning items: This task measures general reasoning ability. The word 'pattern' must be translated as a visual/logical regularity, not a decorative pattern.
 Spatial and relational vocabulary varies across languages — evaluate whether the translation uses the most natural and precise term in {target_lang} for the concept expressed, not necessarily the most literal word.
 Evaluate:
 1. Is the spatial/relational concept correctly and unambiguously conveyed?
@@ -118,6 +125,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This prompt is part of a mental rotation task. The phrase "goes with" means "matches by rotation" — i.e., is the same shape seen from a different angle.
+This task measures spatial rotation ability. The correct item 'matches when rotated' — not 'looks similar' or 'goes with' in a generic sense. The concept of rotational matching must be unambiguous.
 Evaluate:
 1. Does the translated phrase convey matching/fitting by rotation, not merely adjacency, similarity, or belonging together in another sense?
 2. If the translated phrase could be misread as a different spatial relationship (e.g., next to, similar to), flag this as a major error.
@@ -131,6 +139,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This prompt asks a child to remember or recall a sequence they just saw.
+This task measures visuospatial working memory (Corsi Block task). Sequence language — same order vs. backwards order — is the core distinction between the two task blocks and must be preserved exactly.
 Evaluate:
 1. Is it clear what the child is being asked to recall?
 2. Is sequence language ("same order", "in order") unambiguous in {target_lang}? Any ambiguity here is a major error.
@@ -145,6 +154,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This is a short label for an object, image, or concept shown to a child.
+For vocab items: This task is a receptive picture vocabulary task. Children hear a target word and must identify the matching picture among semantically close distractors (e.g., 'acorn' with distractor 'coconut'). A more specific or formal translation could make a correct answer appear wrong — always prefer the most common child-vocabulary term.
 Evaluate:
 1. Is this the most natural, everyday word a {target_lang}-speaking child would know for this object?
 2. Prefer common child-vocabulary terms over formal, scientific, or adult equivalents.
@@ -158,6 +168,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This string is a TROG (Test for Reception of Grammar) item. It tests grammatical comprehension — the exact syntactic structure (modifier placement, relative clauses, plurals, prepositions) is what is being assessed and MUST be preserved.
+This task measures receptive grammatical comprehension. Each sentence targets a specific grammatical structure (e.g., passive voice, relative clauses, negation, coordination). The grammatical structure is the item — syntactic simplification is a critical error even if the meaning is technically preserved.
 Evaluate:
 1. Is the syntactic structure (e.g., "the big dog chasing the cat" vs. "the dog chasing the big cat") faithfully preserved?
 2. Do NOT accept simplifications or restructuring even if they sound more natural — grammatical fidelity is critical here.
@@ -172,6 +183,9 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 IMPORTANT: This string is intentionally ambiguous — it is designed to be interpretable in more than one way by a native speaker. This is deliberate and is the core purpose of the item.
+
+For theory-of-mind items: This task measures theory of mind: true beliefs, false beliefs, deception, and moral reasoning. Questions often hinge on the distinction between what a character knows vs. what is actually true. Any translation that blurs a character's epistemic state (what they know/think/believe) is a critical error.
+For hostile-attribution items: This task measures hostile attribution bias. Scenarios are constructed so that a social harm is genuinely ambiguous — equally plausible as accidental or intentional. Any translation that makes the scenario feel more intentional or more accidental than the English source introduces systematic measurement bias.
 
 Evaluate:
 1. AMBIGUITY PRESERVATION (critical): Does the translation remain genuinely ambiguous in the same way for a native {target_lang} speaker? If the translation resolves the ambiguity or nudges toward one interpretation, this is a CRITICAL error.
@@ -188,6 +202,7 @@ Source text: "{source}"
 Translation: "{hypothesis}"
 
 This is a scene-setting narrative for a social cognition task that measures how children interpret ambiguous social situations.
+This task measures hostile attribution bias. Scenarios are constructed so that a social harm is genuinely ambiguous — equally plausible as accidental or intentional. Any translation that makes the scenario feel more intentional or more accidental than the English source introduces systematic measurement bias.
 Evaluate:
 1. Does the narrative preserve the ambiguity of the actor's intent — i.e., it should be equally plausible that the action was on purpose OR accidental? Any translation that makes the intent seem more deliberate or more accidental than in the English source is a MAJOR error.
 2. Is the vocabulary and tone appropriate for a child listener (ages 8–12)?
@@ -217,4 +232,9 @@ Think step by step before giving your score.
 - Parse the JSON response; if parsing fails, retry once with "Output ONLY valid JSON, no other text."
 - Write results to translation_quality_results.csv with columns: identifier, language, score, errors_json, notes, template_used
 - Flag for human review: any string with score ≤ 3, or any string with at least one "critical" error
+- Priority order for human review escalation:
+  1. theory-of-mind — psychometric pilot data shows only configural invariance across sites, suggesting cross-site translation differences are already affecting scores
+  2. vocab — configural invariance only; semantic closeness of distractors makes word choice critical
+  3. trog — some items were excluded during piloting due to suspected translation issues; flag any low-scoring trog items as high priority
+  4. All other tasks — scalar invariance achieved in pilot data; lower priority for human review
 - After scoring, compute per-task and per-language mean scores and print a summary table
