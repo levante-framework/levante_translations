@@ -179,17 +179,19 @@ Evaluate:
 2. Is the vocabulary and tone appropriate for a child listener (ages 8-12)?
 3. Are the events described accurately and completely?
 Think step by step before giving your score.""",
-    "SURVEY": """Source language: {source_lang}
+    "SURVEY": """{survey_audience}
+
+Source language: {source_lang}
 Target language: {target_lang}
 Source text: "{source}"
 Translation: "{hypothesis}"
 
-This is a first-person survey question asked directly to a child about their own experience or feelings at school.
+This is a survey question answered by an ADULT respondent.
 Evaluate:
-1. Is the informal/familiar "you" form used throughout (tu, du, jij/je - never vous, Sie, u)?
-2. Does it have a warm, conversational tone appropriate for a child self-report?
-3. Is the meaning accurate and complete?
-Using formal address (vous, Sie, u) is a CRITICAL error.
+1. Is the meaning accurate and complete, including who is being referred to (the child participant, caregiver, or teacher/classroom context)?
+2. Does it sound natural and respectful for an adult survey respondent in {target_lang}?
+3. If the source is teacher-facing, preserve teacher/classroom framing; if caregiver-facing, preserve parent/caregiver framing.
+4. Avoid child-directed wording that would sound unnatural for an adult respondent.
 Think step by step before giving your score.""",
 }
 
@@ -342,10 +344,31 @@ def construct_context_for(labels: str, template_key: str) -> str:
     return CONSTRUCT_CONTEXTS.get(template_key, "")
 
 
+def survey_audience_for(identifier: str, labels: str) -> str:
+    if normalize_label(labels) != "survey":
+        return ""
+    ident = str(identifier or "").lower()
+    if any(token in ident for token in ["teacher_survey", "teacher", "classroom"]):
+        return (
+            "Audience context: This item is from a TEACHER survey for a teacher who has a participating child in their classroom. "
+            "Use natural adult-professional register and preserve classroom/teacher framing."
+        )
+    if any(token in ident for token in ["parent_survey", "caregiver", "parent", "family"]):
+        return (
+            "Audience context: This item is from a CAREGIVER survey for a parent or other caregiver of a participating child. "
+            "Use natural adult-caregiver register and preserve caregiver/child framing."
+        )
+    return (
+        "Audience context: This item is from an ADULT survey completed by either a caregiver or a teacher of a participating child. "
+        "Use natural adult register and preserve respondent framing."
+    )
+
+
 def build_task_prompt(
     *,
     template_key: str,
     labels: str,
+    identifier: str = "",
     source_lang: str,
     target_lang: str,
     source: str,
@@ -356,6 +379,7 @@ def build_task_prompt(
         target_lang=target_lang,
         source=source,
         hypothesis=hypothesis,
+        survey_audience=survey_audience_for(identifier, labels),
     )
     construct_context = construct_context_for(labels, template_key)
     if construct_context:
@@ -367,6 +391,7 @@ def build_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
     task_prompt = build_task_prompt(
         template_key=item.template_key,
         labels=item.labels,
+        identifier=item.identifier,
         source_lang=SOURCE_LANG,
         target_lang=item.target_lang,
         source=item.source,
@@ -379,6 +404,29 @@ def build_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
         )
     suffix = "\n\nOutput ONLY valid JSON, no other text." if json_only else ""
     return f"{SYSTEM_PROMPT}\n\n{task_prompt}{suffix}"
+
+
+def build_backtranslation_prompt(item: EvaluationItem, *, json_only: bool = False) -> str:
+    prompt = (
+        "You are checking whether a Dutch translation preserves task-relevant meaning for a child-facing cognitive assessment.\n\n"
+        f"Source English: \"{item.source}\"\n"
+        f"Dutch translation: \"{item.hypothesis}\"\n"
+        f"Task label: {item.labels}\n\n"
+        "First, backtranslate the Dutch into English as literally as possible. Then judge whether the backtranslation preserves "
+        "the task-relevant meaning and ambiguity profile of the source.\n\n"
+        "Return JSON with keys: backtranslation, score, severity, notes.\n"
+        "Allowed severity values: none, minor, major, critical.\n"
+        "Scoring: 5=fully preserved, 4=minor drift, 3=noticeable drift but likely usable, "
+        "2=major meaning shift, 1=critical mismatch or unrelated text."
+    )
+    if item.screenshots:
+        prompt += (
+            "\n\nCrowdin screenshot context is attached as image input. Use it only to disambiguate the pictured object, "
+            "scene, or UI context for this exact string."
+        )
+    if json_only:
+        prompt += "\n\nOutput ONLY valid JSON, no other text."
+    return prompt
 
 
 def build_batch_object_prompt(items: Sequence[EvaluationItem], *, json_only: bool = False) -> str:
@@ -467,6 +515,24 @@ def parse_batch_evaluations(raw: str, expected_count: int) -> List[dict]:
     return [by_index[idx] for idx in range(1, expected_count + 1)]
 
 
+def parse_backtranslation_evaluation(raw: str) -> dict:
+    payload = json.loads(extract_json_text(raw))
+    if not isinstance(payload, dict):
+        raise ValueError("Backtranslation response was not a JSON object.")
+    score = int(payload.get("score", 0) or 0)
+    if score < 1 or score > 5:
+        raise ValueError(f"Invalid backtranslation score from Gemini: {score}")
+    severity = str(payload.get("severity", "none") or "none").strip().lower()
+    if severity not in {"none", "minor", "major", "critical"}:
+        severity = "minor"
+    return {
+        "backtranslation": str(payload.get("backtranslation", "") or "").strip(),
+        "score": score,
+        "severity": severity,
+        "notes": str(payload.get("notes", "") or "").strip(),
+    }
+
+
 def image_part(path: Path) -> dict:
     mime_type = mimetypes.guess_type(str(path))[0] or "image/png"
     data = base64.b64encode(path.read_bytes()).decode("ascii")
@@ -525,6 +591,16 @@ def evaluate_object_batch(items: Sequence[EvaluationItem], api_key: str, model: 
     except Exception:
         retry_raw = call_gemini(build_batch_object_prompt(items, json_only=True), api_key, model, fallback_model)
         return parse_batch_evaluations(retry_raw, len(items))
+
+
+def evaluate_backtranslation(item: EvaluationItem, api_key: str, model: str, fallback_model: str) -> dict:
+    image_paths = [attachment.path for attachment in item.screenshots]
+    raw = call_gemini(build_backtranslation_prompt(item), api_key, model, fallback_model, image_paths)
+    try:
+        return parse_backtranslation_evaluation(raw)
+    except Exception:
+        retry_raw = call_gemini(build_backtranslation_prompt(item, json_only=True), api_key, model, fallback_model, image_paths)
+        return parse_backtranslation_evaluation(retry_raw)
 
 
 def load_items(input_csv: Path, source_col: str, target_cols: Sequence[str], limit: int = 0) -> List[EvaluationItem]:

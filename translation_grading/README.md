@@ -181,6 +181,76 @@ Human review escalation priority is theory-of-mind first, then vocab, then
 trog, then all other tasks, matching the pilot invariance and translation-risk
 patterns described in the task-design paper.
 
+## Current End-to-End Workflow (NL, all tasks including surveys)
+
+This is the current practical workflow used for Dutch (`nl`) review triage.
+It runs on Crowdin-approved exports, then narrows to a human-review queue.
+
+### Stage 0: Input scope
+
+- Source: Crowdin approved export (`project_id=756721`)
+- Scope: all task content plus caregiver/teacher survey files
+- Excludes legacy/UI-only strings (e.g., `surveyjs`, `Z_LEGACY_DO_NOT_TRANSLATE`)
+
+### Stage 1: Embedding gate
+
+- Build complete multilingual rows (`en`, `es-CO`, `de`, `fr-CA`, `nl`)
+- Compute LaBSE centroid distance per language row
+- Candidate rules:
+  - `high`: `nl_delta > 0.15`
+  - `medium_high_risk`: high-risk task (`theory-of-mind`, `vocab`, `trog`, `hostile-attribution`) and `nl_delta > 0.08`
+  - `medium`: all other tasks and `nl_delta > 0.08`
+
+Only candidate rows continue to Gemini/backtranslation.
+
+### Stage 2: Task-aware Gemini + screenshot-aware backtranslation
+
+- Attach Crowdin screenshots for eligible labels (`vocab`, `theory-of-mind`, etc.)
+- Run task-aware grading prompt (`evaluate_single`)
+- Run screenshot-aware backtranslation prompt (`evaluate_backtranslation`)
+
+The survey prompt is now audience-aware:
+- caregiver survey: parent/other caregiver respondent context
+- teacher survey: teacher/classroom respondent context
+
+### Stage 3: Human-review escalation rules
+
+Rows are escalated if any of the following triggers fire:
+
+- Gemini severity `critical`
+- Backtranslation severity `critical`
+- Gemini score `<= 3`
+- Backtranslation score `<= 3`
+- `nl_delta > 0.15` and Gemini score `<= 4`
+- `nl_delta > 0.08` and backtranslation score `<= 3`
+- High-risk task + low model score
+- Survey + low model score
+
+### Outputs used in current runs
+
+For the baseline all-task run:
+
+- `translation_grading/output/nl_all_tasks_auto_review_results.csv`
+- `translation_grading/output/nl_all_tasks_auto_review_results.json`
+- `translation_grading/output/nl_all_tasks_human_review_summary.md`
+- `translation_grading/output/nl_all_tasks_human_review_summary_embedded.html`
+
+For the survey prompt update rerun:
+
+- `translation_grading/output/nl_all_tasks_auto_review_results_prompt_update.csv`
+- `translation_grading/output/nl_all_tasks_auto_review_results_prompt_update.json`
+- `translation_grading/output/nl_all_tasks_human_review_summary_prompt_update.md`
+- `translation_grading/output/nl_all_tasks_human_review_summary_embedded_prompt_update.html`
+- `translation_grading/output/nl_all_tasks_human_review_full_printout_prompt_update.md`
+- `translation_grading/output/nl_all_tasks_human_review_full_printout_prompt_update_embedded.html`
+
+### Important note
+
+There is not yet a single committed CLI entrypoint that executes this full
+three-stage NL workflow in one command. The process is reproducible with the
+documented stages above and existing modules in `pipeline.py` and
+`gemini_quality_evaluator.py`.
+
 ## Outputs
 
 Defaults:

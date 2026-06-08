@@ -491,6 +491,7 @@ def build_llm_prompt(row: RowTranslation, args: argparse.Namespace) -> str:
         task_prompt = gqe.build_task_prompt(
             template_key=template_key,
             labels=labels,
+                    identifier=identifier,
             source_lang=gqe.SOURCE_LANG,
             target_lang=row.target_lang,
             source=row.source_text,

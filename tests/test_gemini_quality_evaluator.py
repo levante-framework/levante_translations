@@ -144,12 +144,72 @@ def test_screenshot_prompt_and_image_part() -> bool:
     return True
 
 
+def test_backtranslation_with_screenshot_support() -> bool:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        image_path = Path(tmpdir) / "item.png"
+        image_path.write_bytes(b"fake-image")
+        item = evaluator.EvaluationItem(
+            identifier="vocab-item-002",
+            labels="vocab",
+            source="the sink",
+            target_lang="nl",
+            hypothesis="de gootsteen",
+            template_key=evaluator.select_template("vocab", "vocab-item-002"),
+            screenshots=[
+                evaluator.ScreenshotAttachment(
+                    path=image_path,
+                    screenshot_id=55,
+                    name="vocab-item-002.png",
+                    position=None,
+                )
+            ],
+        )
+        prompt = evaluator.build_backtranslation_prompt(item)
+        assert "Crowdin screenshot context is attached as image input" in prompt
+
+        parsed = evaluator.parse_backtranslation_evaluation(
+            '{"backtranslation":"the kitchen sink","score":2,"severity":"major","notes":"context mismatch"}'
+        )
+        assert parsed["backtranslation"] == "the kitchen sink"
+        assert parsed["score"] == 2
+        assert parsed["severity"] == "major"
+    return True
+
+
+def test_survey_prompt_audience_context() -> bool:
+    caregiver_item = evaluator.EvaluationItem(
+        identifier="main/xliff-out/parent_survey_family/file.xliff::q1",
+        labels="survey",
+        source="How often do you read with your child?",
+        target_lang="nl",
+        hypothesis="Hoe vaak leest u met uw kind?",
+        template_key=evaluator.select_template("survey", "q1"),
+    )
+    caregiver_prompt = evaluator.build_prompt(caregiver_item)
+    assert "CAREGIVER survey" in caregiver_prompt
+    assert "ADULT respondent" in caregiver_prompt
+
+    teacher_item = evaluator.EvaluationItem(
+        identifier="main/xliff-out/teacher_survey_classroom/file.xliff::q2",
+        labels="survey",
+        source="How often does this child participate in class discussions?",
+        target_lang="nl",
+        hypothesis="Hoe vaak neemt dit kind deel aan klassikale discussies?",
+        template_key=evaluator.select_template("survey", "q2"),
+    )
+    teacher_prompt = evaluator.build_prompt(teacher_item)
+    assert "TEACHER survey" in teacher_prompt
+    return True
+
+
 def main() -> int:
     try:
         test_template_selection()
         test_load_items_and_write_results()
         test_prompt_updates_include_construct_context()
         test_screenshot_prompt_and_image_part()
+        test_backtranslation_with_screenshot_support()
+        test_survey_prompt_audience_context()
     except AssertionError as exc:
         print(f"FAIL: {exc}")
         return 1

@@ -1,0 +1,308 @@
+{
+  "rows": 1768,
+  "distance_summary": {
+    "en": {
+      "mean": 0.0963,
+      "median": 0.0787,
+      "p90": 0.1818,
+      "p95": 0.2276,
+      "max": 0.516
+    },
+    "es-CO": {
+      "mean": 0.109,
+      "median": 0.0781,
+      "p90": 0.2406,
+      "p95": 0.3155,
+      "max": 0.5813
+    },
+    "de": {
+      "mean": 0.1148,
+      "median": 0.0862,
+      "p90": 0.2639,
+      "p95": 0.3181,
+      "max": 0.539
+    },
+    "fr-CA": {
+      "mean": 0.0963,
+      "median": 0.0728,
+      "p90": 0.2121,
+      "p95": 0.268,
+      "max": 0.4972
+    },
+    "nl": {
+      "mean": 0.1026,
+      "median": 0.0755,
+      "p90": 0.2106,
+      "p95": 0.3143,
+      "max": 0.5499
+    }
+  },
+  "farthest_counts": {
+    "en": 408,
+    "es-CO": 394,
+    "de": 567,
+    "fr-CA": 178,
+    "nl": 221
+  },
+  "z_summary": {
+    "en": {
+      "mean_z": 0.0445,
+      "p90_z": 1.7806,
+      "share_z_gt_1": 0.2376,
+      "share_farthest": 0.2308
+    },
+    "es-CO": {
+      "mean_z": 0.0856,
+      "p90_z": 1.7211,
+      "share_z_gt_1": 0.2376,
+      "share_farthest": 0.2229
+    },
+    "de": {
+      "mean_z": 0.2765,
+      "p90_z": 1.8322,
+      "share_z_gt_1": 0.3298,
+      "share_farthest": 0.3207
+    },
+    "fr-CA": {
+      "mean_z": -0.3447,
+      "p90_z": 1.0879,
+      "share_z_gt_1": 0.1029,
+      "share_farthest": 0.1007
+    },
+    "nl": {
+      "mean_z": -0.0618,
+      "p90_z": 1.2865,
+      "share_z_gt_1": 0.1765,
+      "share_farthest": 0.125
+    }
+  },
+  "nl_vs_approved_targets": {
+    "mean_delta": -0.0041,
+    "median_delta": -0.0029,
+    "p90_delta": 0.0266,
+    "share_nl_farther_than_approved_mean": 0.418,
+    "share_nl_farther_by_0_05": 0.0633
+  },
+  "top_nl_farther_examples": [
+    {
+      "item_id": "main/dashboard/dashboard-consolidated-source-full.xliff::components.game-tabs.egmaMathName",
+      "nl_minus_approved_mean": 0.3405,
+      "nl_dist": 0.5499,
+      "approved_mean_dist": 0.2094,
+      "en": "Math",
+      "nl": "Rekenen",
+      "es-CO": "Matemáticas",
+      "de": "Mathe",
+      "fr-CA": "Mathématiques"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_general_source_NewKeys.xliff::pages_1_elements_2_elements_1_columns_1_text",
+      "nl_minus_approved_mean": 0.2845,
+      "nl_dist": 0.5214,
+      "approved_mean_dist": 0.2369,
+      "en": "Disagree",
+      "nl": "Oneens",
+      "es-CO": "En desacuerdo",
+      "de": "Nicht einverstanden",
+      "fr-CA": "En désaccord"
+    },
+    {
+      "item_id": "main/itembank_by_task/vocab.xliff::vocab-item-142",
+      "nl_minus_approved_mean": 0.2649,
+      "nl_dist": 0.443,
+      "approved_mean_dist": 0.1781,
+      "en": "the habit",
+      "nl": "de pij",
+      "es-CO": "el hábito",
+      "de": "Die Gewohnheit",
+      "fr-CA": "l’habit"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_general_source_NewKeys.xliff::pages_1_elements_2_elements_1_columns_2_text",
+      "nl_minus_approved_mean": 0.2385,
+      "nl_dist": 0.4846,
+      "approved_mean_dist": 0.2461,
+      "en": "Agree",
+      "nl": "Eens",
+      "es-CO": "De acuerdo",
+      "de": "Einverstanden",
+      "fr-CA": "D’accord"
+    },
+    {
+      "item_id": "main/itembank_by_task/vocab.xliff::vocab-item-148",
+      "nl_minus_approved_mean": 0.227,
+      "nl_dist": 0.3294,
+      "approved_mean_dist": 0.1024,
+      "en": "preserve",
+      "nl": "inmaken",
+      "es-CO": "conservar",
+      "de": "aufbewahren",
+      "fr-CA": "préserver"
+    },
+    {
+      "item_id": "main/itembank_by_task/stories.xliff::ToM-scene-10-q1-emotion_reasoning",
+      "nl_minus_approved_mean": 0.2259,
+      "nl_dist": 0.4191,
+      "approved_mean_dist": 0.1932,
+      "en": "How does Megan feel about being the only child without a storybook?",
+      "nl": "Nu zijn er nog twee verhalenboeken over, en Bram en Marije zijn de laatste twee kinderen zonder verhalenboeken. Maar als Bram zijn verhalenboek gaat h",
+      "es-CO": "¿Cómo se siente Megan al ser la única niña sin libro de cuentos?",
+      "de": "Wie fühlt sich Tina, weil sie das einzige Kind ohne ein Märchenbuch ist?",
+      "fr-CA": "Comment est-ce que Megan se sent d’être la seule sans livre?"
+    },
+    {
+      "item_id": "main/surveys/caregiverchildsurvey_SHORT.xliff::pages_15_elements_0_elements_1_choices_0_text",
+      "nl_minus_approved_mean": 0.2172,
+      "nl_dist": 0.326,
+      "approved_mean_dist": 0.1089,
+      "en": "Every day",
+      "nl": "Ledere dag",
+      "es-CO": "Todos los días",
+      "de": "Täglich",
+      "fr-CA": "Tous les jours"
+    },
+    {
+      "item_id": "main/itembank_by_task/vocab.xliff::vocab-item-120",
+      "nl_minus_approved_mean": 0.2169,
+      "nl_dist": 0.4121,
+      "approved_mean_dist": 0.1953,
+      "en": "the arcade",
+      "nl": "de zuilenhal",
+      "es-CO": "la arcada",
+      "de": "die arkade",
+      "fr-CA": "l’arcade"
+    },
+    {
+      "item_id": "main/itembank_by_task/vocab.xliff::vocab-item-118",
+      "nl_minus_approved_mean": 0.2138,
+      "nl_dist": 0.3564,
+      "approved_mean_dist": 0.1426,
+      "en": "the cormorant",
+      "nl": "de aalscholver",
+      "es-CO": "el cormorán",
+      "de": "der kormoran",
+      "fr-CA": "le cormoran"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_classroom_source_NewKeys.xliff::pages_1_elements_6_choices_4_text",
+      "nl_minus_approved_mean": 0.2081,
+      "nl_dist": 0.4245,
+      "approved_mean_dist": 0.2164,
+      "en": "2nd Grade",
+      "nl": "Groep 4",
+      "es-CO": "Segundo grado",
+      "de": "2. Klasse",
+      "fr-CA": "2ème année"
+    },
+    {
+      "item_id": "main/itembank_by_task/stories.xliff::drawer",
+      "nl_minus_approved_mean": 0.2064,
+      "nl_dist": 0.3946,
+      "approved_mean_dist": 0.1882,
+      "en": "In the drawer",
+      "nl": "In de la",
+      "es-CO": "En el cajón",
+      "de": "In der Schublade",
+      "fr-CA": "Dans le tiroir"
+    },
+    {
+      "item_id": "main/dashboard/dashboard-consolidated-source-full.xliff::components.game-tabs.surveyProgressGeneralTeacher",
+      "nl_minus_approved_mean": 0.1991,
+      "nl_dist": 0.3708,
+      "approved_mean_dist": 0.1716,
+      "en": "Teacher",
+      "nl": "Leerkracht",
+      "es-CO": "Profesor",
+      "de": "Lehrer",
+      "fr-CA": "Enseignant(e)"
+    },
+    {
+      "item_id": "main/itembank_by_task/vocab.xliff::vocab-item-138",
+      "nl_minus_approved_mean": 0.1958,
+      "nl_dist": 0.3923,
+      "approved_mean_dist": 0.1965,
+      "en": "gourmet",
+      "nl": "culinair",
+      "es-CO": "gourmet",
+      "de": "feinschmecker",
+      "fr-CA": "gourmet"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_classroom_source_NewKeys.xliff::pages_1_elements_6_choices_3_text",
+      "nl_minus_approved_mean": 0.1931,
+      "nl_dist": 0.41,
+      "approved_mean_dist": 0.2169,
+      "en": "1st Grade",
+      "nl": "Groep 3",
+      "es-CO": "Primer grado",
+      "de": "1. Klasse",
+      "fr-CA": "1ère année"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_classroom_source_NewKeys.xliff::pages_1_elements_6_choices_5_text",
+      "nl_minus_approved_mean": 0.1898,
+      "nl_dist": 0.3891,
+      "approved_mean_dist": 0.1993,
+      "en": "3rd Grade",
+      "nl": "Groep 5",
+      "es-CO": "Tercer grado",
+      "de": "3. Klasse",
+      "fr-CA": "3ème année"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_classroom_source_NewKeys.xliff::pages_1_elements_3_items_3_title",
+      "nl_minus_approved_mean": 0.1826,
+      "nl_dist": 0.2864,
+      "approved_mean_dist": 0.1038,
+      "en": "Other",
+      "nl": "Anders",
+      "es-CO": "Otro",
+      "de": "Andere",
+      "fr-CA": "Autre"
+    },
+    {
+      "item_id": "main/dashboard/dashboard-consolidated-source-full.xliff::auth.signin.buttonLabel",
+      "nl_minus_approved_mean": 0.182,
+      "nl_dist": 0.4468,
+      "approved_mean_dist": 0.2648,
+      "en": "Go!",
+      "nl": "Verzend link!",
+      "es-CO": "¡Vamos!",
+      "de": "Los!",
+      "fr-CA": "Allons-y!"
+    },
+    {
+      "item_id": "main/surveys/caregiverfamilysurvey_SHORT.xliff::pages_2_elements_0_elements_1_choices_3_text",
+      "nl_minus_approved_mean": 0.182,
+      "nl_dist": 0.3243,
+      "approved_mean_dist": 0.1423,
+      "en": "Definitely true",
+      "nl": "Enigszins onwaar",
+      "es-CO": "Totalmente verdadero",
+      "de": "Definitiv wahr",
+      "fr-CA": "Totalement vrai"
+    },
+    {
+      "item_id": "main/itembank_by_task/stories.xliff::scared",
+      "nl_minus_approved_mean": 0.1814,
+      "nl_dist": 0.3558,
+      "approved_mean_dist": 0.1744,
+      "en": "scared",
+      "nl": "bang",
+      "es-CO": "asustado",
+      "de": "ängstlich",
+      "fr-CA": "effrayé"
+    },
+    {
+      "item_id": "main/surveys/teacher_survey_classroom_source_NewKeys.xliff::pages_1_elements_6_choices_9_text",
+      "nl_minus_approved_mean": 0.1808,
+      "nl_dist": 0.4186,
+      "approved_mean_dist": 0.2377,
+      "en": "7th Grade",
+      "nl": "Brugklas",
+      "es-CO": "Séptimo grado",
+      "de": "7. Klasse",
+      "fr-CA": "7ème année"
+    }
+  ]
+}
