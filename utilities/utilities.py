@@ -497,6 +497,7 @@ def save_audio(
         tags['service'] = service
         tags['voice'] = voice
         tags['voice_id'] = str(voice_id) if voice_id else ""
+        tags['voiceId'] = str(voice_id) if voice_id else ""
         tags['model_id'] = str(model_id) if model_id else ""
         tags['task'] = str(ourRow.get('labels', ''))  # Explicit task field for downstream SQLite/reporting
         text_value = _resolve_text_from_row(ourRow, lang_code)
@@ -588,6 +589,7 @@ def save_audio(
                     'service': service,
                     'voice': voice,
                     'voice_id': str(voice_id) if voice_id else '',
+                    'voiceId': str(voice_id) if voice_id else '',
                     'model_id': str(model_id) if model_id else '',
                     'lang_code': lang_code,
                     'item_id': ourRow['item_id'],

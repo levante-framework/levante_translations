@@ -177,6 +177,30 @@ and attaches at most one screenshot per item by default. It only applies to
 `mental-rotation`, and `same-different-selection`; strings without screenshots
 fall back to text-only evaluation.
 
+### Vocab VLM Benchmark Storage
+
+`vocab_vlm_language_benchmark.py` always stores runs locally in SQLite under
+`translation_grading/output/vocab_vlm_language_runs.sqlite`. To also shadow
+write run metadata and per-trial records to the named Firestore database
+`levante-tools-data` in `hs-levante-admin-dev`, opt in with:
+
+```bash
+python translation_grading/vocab_vlm_language_benchmark.py \
+  --run --analyze \
+  --languages nl \
+  --firestore-shadow
+```
+
+This uses Application Default Credentials and targets the collection
+`vocabVlmLanguageRuns` by default. Existing SQLite runs can be backfilled without
+rerunning Cypress:
+
+```bash
+python translation_grading/vocab_vlm_language_benchmark.py \
+  --backfill-firestore \
+  --firestore-shadow
+```
+
 Human review escalation priority is theory-of-mind first, then vocab, then
 trog, then all other tasks, matching the pilot invariance and translation-risk
 patterns described in the task-design paper.
