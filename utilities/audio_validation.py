@@ -7,6 +7,7 @@ based on text content changes or voice changes.
 """
 
 import os
+import re
 import pandas as pd
 from typing import Optional, Dict, Any, Tuple
 from utilities.utilities import audio_file_path, is_placeholder_translation
@@ -103,21 +104,31 @@ def needs_regeneration(
         else:
             return False, "Skipping file without ID3 tags (use --force-id to regenerate)"
     
+    def _normalize_whitespace(value: str) -> str:
+        # Treat spacing-only differences as equivalent for regeneration checks.
+        # <br>/<p> tags are layout markup (mapped from newlines on import) and are
+        # spoken as pauses, so they must not by themselves trigger regeneration.
+        text = value or ""
+        text = re.sub(r"<\s*/?\s*(br|p)\s*/?\s*>", " ", text, flags=re.IGNORECASE)
+        return re.sub(r"\s+", " ", text).strip()
+
     # Check text content
-    stored_text = metadata.get('text', '').strip()
-    original_translation_text = metadata.get('original_translation_text', '').strip()
-    current_text_clean = current_text.strip()
+    stored_text = (metadata.get('text') or '').strip()
+    original_translation_text = (metadata.get('original_translation_text') or '').strip()
+    current_text_clean = _normalize_whitespace(current_text)
+    stored_text_norm = _normalize_whitespace(stored_text)
+    original_text_norm = _normalize_whitespace(original_translation_text)
 
     # Translation freshness should be anchored to original_translation_text when
     # available (JSON/source translation comparison), while keeping a safe
     # fallback to text for older files without the original field.
     if original_translation_text:
-        if original_translation_text != current_text_clean:
+        if original_text_norm != current_text_clean:
             return True, (
-                f"Text changed: '{original_translation_text[:50]}...' -> '{current_text_clean[:50]}...'"
+                f"Text changed: '{original_translation_text[:50]}...' -> '{current_text.strip()[:50]}...'"
             )
-    elif stored_text != current_text_clean:
-        return True, f"Text changed: '{stored_text[:50]}...' -> '{current_text_clean[:50]}...'"
+    elif stored_text_norm != current_text_clean:
+        return True, f"Text changed: '{stored_text[:50]}...' -> '{current_text.strip()[:50]}...'"
     
     # Check voice
     stored_voice = metadata.get('voice', '').strip()
