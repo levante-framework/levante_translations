@@ -23,8 +23,8 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 SOURCE_LANG = "English"
 DEFAULT_TARGET_LANGS = ["es-CO", "de", "fr-CA", "nl"]
-DEFAULT_MODEL = "gemini-2.0-flash"
-FALLBACK_MODEL = "gemini-1.5-pro"
+DEFAULT_MODEL = "gemini-2.5-flash"
+FALLBACK_MODEL = "gemini-flash-latest"
 BATCH_SIZE = 20
 CROWDIN_API_BASE = "https://api.crowdin.com/api/v2"
 DEFAULT_CROWDIN_PROJECT_ID = "756721"
@@ -179,6 +179,18 @@ Evaluate:
 2. Is the vocabulary and tone appropriate for a child listener (ages 8-12)?
 3. Are the events described accurately and completely?
 Think step by step before giving your score.""",
+    "CHILD_SURVEY": """Source language: {source_lang}
+Target language: {target_lang}
+Source text: "{source}"
+Translation: "{hypothesis}"
+
+This is a survey question (or a response option) answered BY THE CHILD participant (ages 5-12) about themselves - their feelings, their friends, school, family, or class. The child is BOTH the respondent and the subject: "you" refers to the child. Do NOT assume an adult respondent and do NOT treat "you" as referring to a caregiver or teacher.
+Evaluate:
+1. Is the meaning accurate and complete for a child answering about their own experience?
+2. Does it sound natural and age-appropriate when read to/by a child in {target_lang}, using informal/familiar address (tu, du, jij/je, vos)?
+3. For response options (e.g. "Definitely true", "Somewhat false"), is the option's polarity and degree preserved exactly?
+A literal, child-directed translation of "you/your" is CORRECT here - do not flag it as a subject shift.
+Think step by step before giving your score.""",
     "SURVEY": """{survey_audience}
 
 Source language: {source_lang}
@@ -205,7 +217,7 @@ CONSTRUCT_CONTEXTS: Dict[str, str] = {
 }
 
 LABEL_CONSTRUCT_CONTEXTS: Dict[str, str] = {
-    "math": "Mathematical symbols and operations must use the standard notation for the target locale (e.g., comma vs. period as decimal separator; local names for arithmetic operations).",
+    "math": "This is a math task with an objective numeric answer; judge whether the translated instruction conveys the same number and operation. Mathematical symbols and operations must use the standard notation for the target locale (e.g., comma vs. period as decimal separator; local names for arithmetic operations). Numbers may legitimately be written out in words, and in some locales (notably es-CO) a comma is placed BETWEEN number words as an intentional spoken-pronunciation aid (e.g. 'doscientos, cuarenta y cinco' for 245) — do NOT penalize commas that fall between number words. Only flag punctuation that actually breaks the sentence or changes the number, such as commas after a verb or article ('Escoge, el, 66') or doubled/stray commas.",
     "matrix-reasoning": "This task measures general reasoning ability. The word 'pattern' must be translated as a visual/logical regularity, not a decorative pattern.",
     "same-different-selection": "This task measures cognitive flexibility. Children identify cards that are 'the same in some way' across dimensions like shape, color, size, and number. The multi-dimensional framing ('same in a different way') is critical — translations must not collapse this to a single-dimension match.",
     "vocab": "This task is a receptive picture vocabulary task. Children hear a target word and must identify the matching picture among semantically close distractors (e.g., 'acorn' with distractor 'coconut'). A more specific or formal translation could make a correct answer appear wrong — always prefer the most common child-vocabulary term.",
@@ -318,6 +330,8 @@ def is_short_state_label(identifier: str) -> bool:
 def select_template(labels: str, identifier: str) -> str:
     label = normalize_label(labels)
     ident = str(identifier or "").strip().lower()
+    if label == "child-survey":
+        return "CHILD_SURVEY"
     if label == "same-different-selection":
         return "INSTRUCTION_GENERAL" if "instruct" in ident else "SPATIAL_RELATIONAL"
     if label == "trog":
@@ -546,7 +560,13 @@ def call_gemini_text(prompt: str, model: str, api_key: str, image_paths: Sequenc
         parts.append(image_part(path))
     payload = {
         "contents": [{"parts": parts}],
-        "generationConfig": {"temperature": 0, "responseMimeType": "application/json"},
+        "generationConfig": {
+            "temperature": 0,
+            "responseMimeType": "application/json",
+            # Disable "thinking" on 2.5+ flash models: ~3-5x faster and cheaper
+            # for this short structured-judgement task (ignored by older models).
+            "thinkingConfig": {"thinkingBudget": 0},
+        },
     }
     req = urllib.request.Request(
         url,

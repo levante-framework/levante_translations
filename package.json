@@ -72,6 +72,10 @@
     "grading:setup": "bash -lc 'python3 -m venv .venv-translation-grading && source .venv-translation-grading/bin/activate && python -m pip install --upgrade pip && pip install -r translation_grading/requirements.txt'",
     "grading:crowdin": "bash -lc 'source .venv-translation-grading/bin/activate && python translation_grading/pipeline.py --input-mode crowdin-api --target-cols \"${npm_config_langs:-de,es-CO,fr-CA,nl}\" --run-llm-judge --llm-only-flagged --llm-max-calls \"${npm_config_llm_max_calls:-200}\"'",
     "grading:csv": "bash -lc 'source .venv-translation-grading/bin/activate && python translation_grading/pipeline.py --input-mode csv --input-csv \"${npm_config_csv:-translation_master.csv}\" --target-cols \"${npm_config_langs:-de,es-CO,fr-CA,nl}\"'",
+    "grading:composite": "bash -lc 'source .venv-translation-grading/bin/activate 2>/dev/null || true; python3 translation_grading/composite_metrics.py \"$@\"' --",
+    "grading:export-translations": "bash -lc 'set -a; [ -f .env ] && . ./.env; set +a; python3 translation_grading/export_translations_csv.py \"$@\"' --",
+    "grading:gemini-all": "bash -lc 'set -a; [ -f .env ] && . ./.env; set +a; python3 translation_grading/run_gemini_all.py \"$@\"' --",
+    "grading:explain-flagged": "bash -lc 'set -a; [ -f .env ] && . ./.env; set +a; python3 translation_grading/explain_flagged.py \"$@\"' --",
     "seed:crowdin": "bash -lc 'source .venv/bin/activate 2>/dev/null || true; python3 seed_crowdin_language.py \"$@\"' --",
 
     "validate:audio:setup": "bash -lc 'python3 -m venv .venv-validate-audio && source .venv-validate-audio/bin/activate && python -m pip install --upgrade pip && pip install -r validate_audio/requirements.txt && pip install sentence-transformers && pip install torch==2.3.1+cpu --index-url https://download.pytorch.org/whl/cpu || true'",
