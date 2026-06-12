@@ -1,0 +1,294 @@
+name: Regenerate Draft Audio
+
+# Regenerates only updated/missing audio (based on ID3-vs-text diff) from
+# draft itembank JSON and uploads resulting MP3s to the draft bucket.
+#
+# Required repo secrets:
+# - GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON
+# - ELEVEN_API_KEY (or ELEVENLABS_API_KEY)
+# - SLACK_WEBHOOK_URL
+
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Language display name from utilities/config.py (e.g. "Spanish (Argentina)")'
+        required: true
+        default: 'Spanish (Argentina)'
+      tasks:
+        description: 'Task filter: "all" or comma-separated slugs (e.g. memory-game,matrix-reasoning)'
+        required: true
+        default: 'all'
+      model_id:
+        description: 'ElevenLabs model id'
+        required: true
+        default: 'eleven_v3'
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy requests google-cloud-storage pyht elevenlabs mutagen
+
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON }}' > "$RUNNER_TEMP/gcp-creds.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+          echo "GOOGLE_APPLICATION_CREDENTIALS_DEV=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+
+      - name: Validate before generation (draft source)
+        id: validate_before
+        env:
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY }}
+          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
+          ASSETS_DRAFT_BUCKET: levante-assets-draft
+        run: |
+          set -euo pipefail
+          rm -f needed_item_bank_translations.csv needed_before.csv
+          TASKS='${{ github.event.inputs.tasks }}'
+          EXTRA_ARGS=()
+          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
+            EXTRA_ARGS+=(--tasks "$TASKS")
+          fi
+          python generate_speech.py '${{ github.event.inputs.language }}' \
+            --translation-source draft \
+            --validate-only \
+            "${EXTRA_ARGS[@]}" | tee validate_before.log
+
+          if [ -f needed_item_bank_translations.csv ]; then
+            cp needed_item_bank_translations.csv needed_before.csv
+          fi
+
+          NEED_BEFORE=$(python - <<'PY'
+          import csv, os
+          p = "needed_before.csv"
+          if not os.path.exists(p):
+              print(0)
+          else:
+              with open(p, "r", encoding="utf-8-sig", newline="") as f:
+                  print(sum(1 for _ in csv.DictReader(f)))
+          PY
+          )
+          echo "need_before=${NEED_BEFORE}" >> "$GITHUB_OUTPUT"
+          echo "Need regeneration before run: ${NEED_BEFORE}"
+
+      - name: Generate updated/missing audio and upload to draft
+        if: steps.validate_before.outputs.need_before != '0'
+        env:
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY }}
+          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
+          ASSETS_DRAFT_BUCKET: levante-assets-draft
+        run: |
+          set -euo pipefail
+          TASKS='${{ github.event.inputs.tasks }}'
+          EXTRA_ARGS=()
+          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
+            EXTRA_ARGS+=(--tasks "$TASKS")
+          fi
+          python generate_speech.py '${{ github.event.inputs.language }}' \
+            --translation-source draft \
+            --model-id '${{ github.event.inputs.model_id }}' \
+            "${EXTRA_ARGS[@]}" | tee generate.log
+
+      - name: Validate after generation (draft source)
+        id: validate_after
+        if: always()
+        env:
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY }}
+          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
+          ASSETS_DRAFT_BUCKET: levante-assets-draft
+        run: |
+          set -euo pipefail
+          rm -f needed_item_bank_translations.csv needed_after.csv
+          TASKS='${{ github.event.inputs.tasks }}'
+          EXTRA_ARGS=()
+          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
+            EXTRA_ARGS+=(--tasks "$TASKS")
+          fi
+          python generate_speech.py '${{ github.event.inputs.language }}' \
+            --translation-source draft \
+            --validate-only \
+            "${EXTRA_ARGS[@]}" | tee validate_after.log
+
+          if [ -f needed_item_bank_translations.csv ]; then
+            cp needed_item_bank_translations.csv needed_after.csv
+          fi
+
+          NEED_AFTER=$(python - <<'PY'
+          import csv, os
+          p = "needed_after.csv"
+          if not os.path.exists(p):
+              print(0)
+          else:
+              with open(p, "r", encoding="utf-8-sig", newline="") as f:
+                  print(sum(1 for _ in csv.DictReader(f)))
+          PY
+          )
+          echo "need_after=${NEED_AFTER}" >> "$GITHUB_OUTPUT"
+          echo "Need regeneration after run: ${NEED_AFTER}"
+
+      - name: Build run summary
+        id: summary
+        if: always()
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json, os
+
+          def read_items(path):
+              if not os.path.exists(path):
+                  return []
+              out = []
+              with open(path, "r", encoding="utf-8-sig", newline="") as f:
+                  for row in csv.DictReader(f):
+                      out.append(str(row.get("item_id") or "").strip())
+              return [x for x in out if x]
+
+          before = read_items("needed_before.csv")
+          after = read_items("needed_after.csv")
+          before_set = set(before)
+          after_set = set(after)
+
+          generated = max(0, len(before_set) - len(after_set))
+          still_pending = sorted(after_set)
+          resolved = sorted(before_set - after_set)
+
+          summary = {
+              "before_count": len(before_set),
+              "after_count": len(after_set),
+              "generated_count": generated,
+              "resolved_count": len(resolved),
+              "resolved_preview": resolved[:12],
+              "pending_preview": still_pending[:12],
+          }
+          with open("audio_regen_summary.json", "w", encoding="utf-8") as f:
+              json.dump(summary, f, ensure_ascii=False, indent=2)
+          print(json.dumps(summary))
+          PY
+
+          BEFORE=$(python - <<'PY'
+          import json
+          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["before_count"])
+          PY
+          )
+          AFTER=$(python - <<'PY'
+          import json
+          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["after_count"])
+          PY
+          )
+          GENERATED=$(python - <<'PY'
+          import json
+          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["generated_count"])
+          PY
+          )
+          echo "before=${BEFORE}" >> "$GITHUB_OUTPUT"
+          echo "after=${AFTER}" >> "$GITHUB_OUTPUT"
+          echo "generated=${GENERATED}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audio-regeneration-${{ github.run_id }}
+          path: |
+            validate_before.log
+            generate.log
+            validate_after.log
+            needed_before.csv
+            needed_after.csv
+            audio_regen_summary.json
+          if-no-files-found: ignore
+
+      - name: Notify Slack (levante-crowdin)
+        if: always() && secrets.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          run_url = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          language = "${{ github.event.inputs.language }}"
+          tasks = "${{ github.event.inputs.tasks }}"
+          model = "${{ github.event.inputs.model_id }}"
+          actor = "${{ github.actor }}"
+          status = "${{ job.status }}"
+
+          summary = {}
+          if os.path.exists("audio_regen_summary.json"):
+              with open("audio_regen_summary.json", "r", encoding="utf-8") as f:
+                  summary = json.load(f)
+
+          before = int(summary.get("before_count", 0))
+          after = int(summary.get("after_count", 0))
+          generated = int(summary.get("generated_count", 0))
+          resolved_preview = summary.get("resolved_preview", [])
+          pending_preview = summary.get("pending_preview", [])
+
+          if status == "success":
+              title = "*Draft audio regeneration completed*"
+              emoji = ":white_check_mark:"
+          else:
+              title = "*Draft audio regeneration failed*"
+              emoji = ":x:"
+
+          resolved_text = "\\n".join(f"• `{x}`" for x in resolved_preview) or "_None_"
+          pending_text = "\\n".join(f"• `{x}`" for x in pending_preview) or "_None_"
+
+          payload = {
+              "channel": "#levante-crowdin",
+              "text": f"{emoji} Draft audio regeneration: {language}",
+              "blocks": [
+                  {"type": "section", "text": {"type": "mrkdwn", "text": f"{emoji} {title}"}},
+                  {
+                      "type": "section",
+                      "fields": [
+                          {"type": "mrkdwn", "text": f"*Triggered by:*\n{actor}"},
+                          {"type": "mrkdwn", "text": f"*Status:*\n{status}"},
+                          {"type": "mrkdwn", "text": f"*Language:*\n{language}"},
+                          {"type": "mrkdwn", "text": f"*Tasks:*\n{tasks}"},
+                          {"type": "mrkdwn", "text": f"*Model:*\n{model}"},
+                          {"type": "mrkdwn", "text": f"*Run:*\n<{run_url}|View run>"},
+                      ],
+                  },
+                  {
+                      "type": "section",
+                      "fields": [
+                          {"type": "mrkdwn", "text": f"*Need regeneration (before):*\n{before}"},
+                          {"type": "mrkdwn", "text": f"*Generated this run:*\n{generated}"},
+                          {"type": "mrkdwn", "text": f"*Still pending (after):*\n{after}"},
+                          {"type": "mrkdwn", "text": "*Bucket:*\n`gs://levante-assets-draft/audio/`"},
+                      ],
+                  },
+                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Resolved items (sample):*\n{resolved_text}"}},
+                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Still pending items (sample):*\n{pending_text}"}},
+              ],
+          }
+
+          req = urllib.request.Request(
+              os.environ["SLACK_WEBHOOK_URL"],
+              data=json.dumps(payload).encode("utf-8"),
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=20) as resp:
+              _ = resp.read()
+          print("Slack notification sent.")
+          PY
