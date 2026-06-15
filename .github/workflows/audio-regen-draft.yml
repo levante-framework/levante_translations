@@ -476,14 +476,14 @@ jobs:
               if len(stats.get("resolved_items", [])) > 8:
                   resolved_text += f", … (+{len(stats.get('resolved_items', [])) - 8} more)"
               per_lang_lines.append(
-                  f"*{lang}* — before: *{b}*, generated: *{g}*, pending: *{a}*\\n"
-                  f"• Need generation/regeneration: {pending_text}\\n"
+                  f"*{lang}* — before: *{b}*, generated: *{g}*, pending: *{a}*\n"
+                  f"• Need generation/regeneration: {pending_text}\n"
                   f"• Resolved this run: {resolved_text}"
               )
 
-          per_lang_block = "\\n\\n".join(per_lang_lines) if per_lang_lines else "_No language details available_"
+          per_lang_block = "\n\n".join(per_lang_lines) if per_lang_lines else "_No language details available_"
           if len(per_lang_block) > 2600:
-              per_lang_block = per_lang_block[:2600] + "\\n… _(truncated; see attached report files)_"
+              per_lang_block = per_lang_block[:2600] + "\n… _(truncated; see attached report files)_"
           uploaded_reports = report_links.get("uploaded", []) if isinstance(report_links, dict) else []
           if uploaded_reports:
               lines = []
@@ -491,7 +491,7 @@ jobs:
                   lines.append(f"• <{r.get('console_url')}|{r.get('file')}>")
               if len(uploaded_reports) > 10:
                   lines.append(f"• … (+{len(uploaded_reports) - 10} more)")
-              reports_block = "\\n".join(lines)
+              reports_block = "\n".join(lines)
               reports_header = (
                   f"*Report files:* <{report_links.get('console_prefix_url')}|open folder> "
                   f"(`gs://{report_links.get('bucket')}/{report_links.get('prefix')}`)"
