@@ -82,7 +82,26 @@ jobs:
           lowered = {t.lower() for t in tokens}
           if "all" in lowered:
               from utilities import config as conf
-              langs = list(conf.get_languages().keys())
+              language_map = conf.get_languages()
+              # Canonicalize aliases: one profile per lang_code. Prefer explicit
+              # locale names like "Spanish (Colombia)" over legacy aliases like
+              # "Spanish" so "all" doesn't double-count/regenerate the same locale.
+              picked = {}
+              for name, cfg in language_map.items():
+                  code = str((cfg or {}).get("lang_code") or "").strip()
+                  if not code:
+                      continue
+                  prev = picked.get(code)
+                  if prev is None:
+                      picked[code] = name
+                      continue
+                  prev_has_locale = "(" in prev and ")" in prev
+                  cur_has_locale = "(" in name and ")" in name
+                  if cur_has_locale and not prev_has_locale:
+                      picked[code] = name
+                  elif cur_has_locale == prev_has_locale and len(name) > len(prev):
+                      picked[code] = name
+              langs = list(picked.values())
           else:
               langs = tokens
           if not langs:
@@ -207,7 +226,25 @@ jobs:
           lowered = {t.lower() for t in tokens}
           if "all" in lowered:
               from utilities import config as conf
-              langs = list(conf.get_languages().keys())
+              language_map = conf.get_languages()
+              # Keep "all" consistent with the validate-before step by selecting
+              # one canonical profile per locale code.
+              picked = {}
+              for name, cfg in language_map.items():
+                  code = str((cfg or {}).get("lang_code") or "").strip()
+                  if not code:
+                      continue
+                  prev = picked.get(code)
+                  if prev is None:
+                      picked[code] = name
+                      continue
+                  prev_has_locale = "(" in prev and ")" in prev
+                  cur_has_locale = "(" in name and ")" in name
+                  if cur_has_locale and not prev_has_locale:
+                      picked[code] = name
+                  elif cur_has_locale == prev_has_locale and len(name) > len(prev):
+                      picked[code] = name
+              langs = list(picked.values())
           else:
               langs = tokens
           if not langs:
