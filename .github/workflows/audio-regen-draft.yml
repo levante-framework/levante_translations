@@ -497,9 +497,17 @@ jobs:
               emoji = ":x:"
 
           per_lang_lines = []
-          for idx, (lang, stats) in enumerate(languages.items()):
+          ordered_lang_stats = sorted(
+              languages.items(),
+              key=lambda kv: (
+                  int((kv[1] or {}).get("need_before", 0)) == 0,   # non-zero first
+                  -int((kv[1] or {}).get("need_before", 0)),       # highest need first
+                  kv[0],                                            # stable tie-break
+              ),
+          )
+          for idx, (lang, stats) in enumerate(ordered_lang_stats):
               if idx >= 8:
-                  per_lang_lines.append(f"_… (+{len(languages) - 8} more languages)_")
+                  per_lang_lines.append(f"_… (+{len(ordered_lang_stats) - 8} more languages)_")
                   break
               b = int(stats.get("need_before", 0))
               g = int(stats.get("generated_count", 0))
