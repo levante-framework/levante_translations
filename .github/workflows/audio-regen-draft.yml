@@ -427,6 +427,7 @@ jobs:
           python - <<'PY'
           import json
           import os
+          import urllib.error
           import urllib.request
 
           run_url = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
@@ -459,18 +460,21 @@ jobs:
               emoji = ":x:"
 
           per_lang_lines = []
-          for lang, stats in languages.items():
+          for idx, (lang, stats) in enumerate(languages.items()):
+              if idx >= 8:
+                  per_lang_lines.append(f"_… (+{len(languages) - 8} more languages)_")
+                  break
               b = int(stats.get("need_before", 0))
               g = int(stats.get("generated_count", 0))
               a = int(stats.get("need_after", 0))
-              pending = stats.get("pending_preview", []) or []
-              resolved = stats.get("resolved_preview", []) or []
+              pending = (stats.get("pending_preview", []) or [])[:8]
+              resolved = (stats.get("resolved_preview", []) or [])[:8]
               pending_text = ", ".join(f"`{x}`" for x in pending) if pending else "_None_"
               resolved_text = ", ".join(f"`{x}`" for x in resolved) if resolved else "_None_"
-              if len(pending) == 25 and len(stats.get("pending_items", [])) > 25:
-                  pending_text += f", … (+{len(stats.get('pending_items', [])) - 25} more)"
-              if len(resolved) == 25 and len(stats.get("resolved_items", [])) > 25:
-                  resolved_text += f", … (+{len(stats.get('resolved_items', [])) - 25} more)"
+              if len(stats.get("pending_items", [])) > 8:
+                  pending_text += f", … (+{len(stats.get('pending_items', [])) - 8} more)"
+              if len(stats.get("resolved_items", [])) > 8:
+                  resolved_text += f", … (+{len(stats.get('resolved_items', [])) - 8} more)"
               per_lang_lines.append(
                   f"*{lang}* — before: *{b}*, generated: *{g}*, pending: *{a}*\\n"
                   f"• Need generation/regeneration: {pending_text}\\n"
@@ -478,13 +482,15 @@ jobs:
               )
 
           per_lang_block = "\\n\\n".join(per_lang_lines) if per_lang_lines else "_No language details available_"
+          if len(per_lang_block) > 2600:
+              per_lang_block = per_lang_block[:2600] + "\\n… _(truncated; see attached report files)_"
           uploaded_reports = report_links.get("uploaded", []) if isinstance(report_links, dict) else []
           if uploaded_reports:
               lines = []
-              for r in uploaded_reports[:20]:
+              for r in uploaded_reports[:10]:
                   lines.append(f"• <{r.get('console_url')}|{r.get('file')}>")
-              if len(uploaded_reports) > 20:
-                  lines.append(f"• … (+{len(uploaded_reports) - 20} more)")
+              if len(uploaded_reports) > 10:
+                  lines.append(f"• … (+{len(uploaded_reports) - 10} more)")
               reports_block = "\\n".join(lines)
               reports_header = (
                   f"*Report files:* <{report_links.get('console_prefix_url')}|open folder> "
@@ -495,7 +501,6 @@ jobs:
               reports_block = "_None_"
 
           payload = {
-              "channel": "#levante-crowdin",
               "text": f"{emoji} Draft audio regeneration: {language}",
               "blocks": [
                   {"type": "section", "text": {"type": "mrkdwn", "text": f"{emoji} {title}"}},
@@ -531,7 +536,19 @@ jobs:
               headers={"Content-Type": "application/json"},
               method="POST",
           )
-          with urllib.request.urlopen(req, timeout=20) as resp:
-              _ = resp.read()
-          print("Slack notification sent.")
+          try:
+              with urllib.request.urlopen(req, timeout=20) as resp:
+                  _ = resp.read()
+              print("Slack notification sent.")
+          except urllib.error.HTTPError as e:
+              body = ""
+              try:
+                  body = e.read().decode("utf-8", errors="ignore")
+              except Exception:
+                  pass
+              print(f"Warning: Slack webhook rejected payload (HTTP {e.code}): {body[:500]}")
+              print("Continuing without failing workflow.")
+          except Exception as e:
+              print(f"Warning: Slack notification failed: {e}")
+              print("Continuing without failing workflow.")
           PY
