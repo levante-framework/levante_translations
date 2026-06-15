@@ -23,6 +23,10 @@ on:
         description: 'ElevenLabs model id'
         required: true
         default: 'eleven_v3'
+      dry_run:
+        description: 'If true, only validate/report; do not generate or upload audio'
+        required: true
+        default: 'false'
 
 jobs:
   regenerate:
@@ -87,7 +91,7 @@ jobs:
           echo "Need regeneration before run: ${NEED_BEFORE}"
 
       - name: Generate updated/missing audio and upload to draft
-        if: steps.validate_before.outputs.need_before != '0'
+        if: steps.validate_before.outputs.need_before != '0' && github.event.inputs.dry_run != 'true'
         env:
           ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY }}
@@ -197,9 +201,11 @@ jobs:
           print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["generated_count"])
           PY
           )
+          DRY_RUN='${{ github.event.inputs.dry_run }}'
           echo "before=${BEFORE}" >> "$GITHUB_OUTPUT"
           echo "after=${AFTER}" >> "$GITHUB_OUTPUT"
           echo "generated=${GENERATED}" >> "$GITHUB_OUTPUT"
+          echo "dry_run=${DRY_RUN}" >> "$GITHUB_OUTPUT"
 
       - name: Upload run artifacts
         if: always()
@@ -228,6 +234,7 @@ jobs:
           language = "${{ github.event.inputs.language }}"
           tasks = "${{ github.event.inputs.tasks }}"
           model = "${{ github.event.inputs.model_id }}"
+          dry_run = "${{ github.event.inputs.dry_run }}"
           actor = "${{ github.actor }}"
           status = "${{ job.status }}"
 
@@ -265,6 +272,7 @@ jobs:
                           {"type": "mrkdwn", "text": f"*Language:*\n{language}"},
                           {"type": "mrkdwn", "text": f"*Tasks:*\n{tasks}"},
                           {"type": "mrkdwn", "text": f"*Model:*\n{model}"},
+                          {"type": "mrkdwn", "text": f"*Dry run:*\n{dry_run}"},
                           {"type": "mrkdwn", "text": f"*Run:*\n<{run_url}|View run>"},
                       ],
                   },
