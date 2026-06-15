@@ -12,14 +12,34 @@ from . import voice_mapping
 API_URL = "https://api.play.ht/api/v2/tts/stream"
 VOICES_URL = "https://api.play.ht/api/v2/voices"
 
-headers = {
-    "AUTHORIZATION": os.environ["PLAY_DOT_HT_API_KEY"],  # Changed from Authorization
-    "X-USER-ID": os.environ["PLAY_DOT_HT_USER_ID"],
-    'Accept': 'audio/mpeg',  # Changed from application/json
-    "Content-Type": "application/json"
-}
+_PLAYHT_MISSING_WARNED = False
+
+
+def _playht_headers():
+    """Return PlayHT auth headers, or None when credentials are missing.
+
+    Keep this lazy so importing the module does not hard-fail in environments
+    that only use ElevenLabs (e.g. GitHub Actions audio regen workflow)."""
+    global _PLAYHT_MISSING_WARNED
+    api_key = os.environ.get("PLAY_DOT_HT_API_KEY", "").strip()
+    user_id = os.environ.get("PLAY_DOT_HT_USER_ID", "").strip()
+    if not api_key or not user_id:
+        if not _PLAYHT_MISSING_WARNED:
+            print("Warning: PlayHT credentials missing; skipping PlayHT operations "
+                  "(set PLAY_DOT_HT_API_KEY and PLAY_DOT_HT_USER_ID to enable).")
+            _PLAYHT_MISSING_WARNED = True
+        return None
+    return {
+        "AUTHORIZATION": api_key,  # Changed from Authorization
+        "X-USER-ID": user_id,
+        "Accept": "audio/mpeg",  # Changed from application/json
+        "Content-Type": "application/json",
+    }
 
 def list_voices(lang_code):
+    headers = _playht_headers()
+    if headers is None:
+        return []
     # Set up the API request for v2 API
     url = VOICES_URL
 
@@ -69,6 +89,10 @@ def list_voices(lang_code):
 
 # Updated for PlayHt API v2 - Direct streaming response
 def get_audio(text, voice):
+    headers = _playht_headers()
+    if headers is None:
+        return b''
+
     """
     Get audio using PlayHt API v2 streaming endpoint
     Returns audio content directly (no more polling)
