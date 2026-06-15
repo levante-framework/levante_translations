@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       language:
-        description: 'Language display name from utilities/config.py (e.g. "Spanish (Argentina)")'
+        description: 'Language display name(s) from utilities/config.py; comma-separated allowed (e.g. "Spanish (Argentina),Dutch")'
         required: true
         default: 'Spanish (Argentina)'
       tasks:
@@ -62,35 +62,75 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
           TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
           ASSETS_DRAFT_BUCKET: levante-assets-draft
+          LANG_INPUT: ${{ github.event.inputs.language }}
+          TASKS_INPUT: ${{ github.event.inputs.tasks }}
         run: |
           set -euo pipefail
-          rm -f needed_item_bank_translations.csv needed_before.csv
-          TASKS='${{ github.event.inputs.tasks }}'
-          EXTRA_ARGS=()
-          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
-            EXTRA_ARGS+=(--tasks "$TASKS")
-          fi
-          python generate_speech.py '${{ github.event.inputs.language }}' \
-            --translation-source draft \
-            --validate-only \
-            "${EXTRA_ARGS[@]}" | tee validate_before.log
+          rm -f needed_item_bank_translations.csv before_summary.json needed_before_*.csv validate_before_*.log
+          python - <<'PY'
+          import csv
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
 
-          if [ -f needed_item_bank_translations.csv ]; then
-            cp needed_item_bank_translations.csv needed_before.csv
-          fi
+          langs = [x.strip() for x in os.environ.get("LANG_INPUT", "").split(",") if x.strip()]
+          if not langs:
+              raise SystemExit("No language provided")
+          tasks = os.environ.get("TASKS_INPUT", "").strip()
+          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
+          out = {}
+          failures = []
+          total_before = 0
 
-          NEED_BEFORE=$(python - <<'PY'
-          import csv, os
-          p = "needed_before.csv"
-          if not os.path.exists(p):
-              print(0)
-          else:
-              with open(p, "r", encoding="utf-8-sig", newline="") as f:
-                  print(sum(1 for _ in csv.DictReader(f)))
+          def safe_name(s: str) -> str:
+              n = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
+              return n or "lang"
+
+          for lang in langs:
+              safe = safe_name(lang)
+              Path("needed_item_bank_translations.csv").unlink(missing_ok=True)
+              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--validate-only", *task_args]
+              proc = subprocess.run(cmd, capture_output=True, text=True)
+              Path(f"validate_before_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
+
+              items = []
+              src = Path("needed_item_bank_translations.csv")
+              dst = Path(f"needed_before_{safe}.csv")
+              if src.exists():
+                  src.replace(dst)
+                  with dst.open("r", encoding="utf-8-sig", newline="") as f:
+                      for row in csv.DictReader(f):
+                          item = str(row.get("item_id") or "").strip()
+                          if item:
+                              items.append(item)
+              else:
+                  dst.write_text("item_id\n", encoding="utf-8")
+
+              total_before += len(items)
+              out[lang] = {
+                  "safe": safe,
+                  "need_before": len(items),
+                  "items_before": items,
+                  "returncode": int(proc.returncode),
+              }
+              if proc.returncode != 0:
+                  failures.append(lang)
+
+          Path("before_summary.json").write_text(json.dumps({"languages": out, "total_before": total_before}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+          gh_out = os.environ.get("GITHUB_OUTPUT")
+          if gh_out:
+              with open(gh_out, "a", encoding="utf-8") as f:
+                  f.write(f"need_before={total_before}\n")
+
+          if failures:
+              print("Validation failed for:", ", ".join(failures))
+              sys.exit(1)
+          print(f"Need regeneration before run (all languages): {total_before}")
           PY
-          )
-          echo "need_before=${NEED_BEFORE}" >> "$GITHUB_OUTPUT"
-          echo "Need regeneration before run: ${NEED_BEFORE}"
 
       - name: Generate updated/missing audio and upload to draft
         if: steps.validate_before.outputs.need_before != '0' && !inputs.dry_run
@@ -99,17 +139,38 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
           TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
           ASSETS_DRAFT_BUCKET: levante-assets-draft
+          TASKS_INPUT: ${{ github.event.inputs.tasks }}
+          MODEL_ID_INPUT: ${{ github.event.inputs.model_id }}
         run: |
           set -euo pipefail
-          TASKS='${{ github.event.inputs.tasks }}'
-          EXTRA_ARGS=()
-          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
-            EXTRA_ARGS+=(--tasks "$TASKS")
-          fi
-          python generate_speech.py '${{ github.event.inputs.language }}' \
-            --translation-source draft \
-            --model-id '${{ github.event.inputs.model_id }}' \
-            "${EXTRA_ARGS[@]}" | tee generate.log
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          meta = json.loads(Path("before_summary.json").read_text(encoding="utf-8"))
+          tasks = os.environ.get("TASKS_INPUT", "").strip()
+          model = os.environ.get("MODEL_ID_INPUT", "").strip() or "eleven_v3"
+          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
+          failures = []
+
+          for lang, info in meta.get("languages", {}).items():
+              if int(info.get("need_before", 0)) == 0:
+                  continue
+              safe = info.get("safe") or lang.replace(" ", "_")
+              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--model-id", model, *task_args]
+              proc = subprocess.run(cmd, capture_output=True, text=True)
+              Path(f"generate_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
+              if proc.returncode != 0:
+                  failures.append(lang)
+
+          if failures:
+              print("Generation failed for:", ", ".join(failures))
+              sys.exit(1)
+          print("Generation finished for all requested languages.")
+          PY
 
       - name: Validate after generation (draft source)
         id: validate_after
@@ -119,35 +180,75 @@ jobs:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
           TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
           ASSETS_DRAFT_BUCKET: levante-assets-draft
+          LANG_INPUT: ${{ github.event.inputs.language }}
+          TASKS_INPUT: ${{ github.event.inputs.tasks }}
         run: |
           set -euo pipefail
-          rm -f needed_item_bank_translations.csv needed_after.csv
-          TASKS='${{ github.event.inputs.tasks }}'
-          EXTRA_ARGS=()
-          if [ -n "$TASKS" ] && [ "$TASKS" != "all" ]; then
-            EXTRA_ARGS+=(--tasks "$TASKS")
-          fi
-          python generate_speech.py '${{ github.event.inputs.language }}' \
-            --translation-source draft \
-            --validate-only \
-            "${EXTRA_ARGS[@]}" | tee validate_after.log
+          rm -f needed_item_bank_translations.csv after_summary.json needed_after_*.csv validate_after_*.log
+          python - <<'PY'
+          import csv
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
 
-          if [ -f needed_item_bank_translations.csv ]; then
-            cp needed_item_bank_translations.csv needed_after.csv
-          fi
+          langs = [x.strip() for x in os.environ.get("LANG_INPUT", "").split(",") if x.strip()]
+          if not langs:
+              raise SystemExit("No language provided")
+          tasks = os.environ.get("TASKS_INPUT", "").strip()
+          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
+          out = {}
+          failures = []
+          total_after = 0
 
-          NEED_AFTER=$(python - <<'PY'
-          import csv, os
-          p = "needed_after.csv"
-          if not os.path.exists(p):
-              print(0)
-          else:
-              with open(p, "r", encoding="utf-8-sig", newline="") as f:
-                  print(sum(1 for _ in csv.DictReader(f)))
+          def safe_name(s: str) -> str:
+              n = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
+              return n or "lang"
+
+          for lang in langs:
+              safe = safe_name(lang)
+              Path("needed_item_bank_translations.csv").unlink(missing_ok=True)
+              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--validate-only", *task_args]
+              proc = subprocess.run(cmd, capture_output=True, text=True)
+              Path(f"validate_after_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
+
+              items = []
+              src = Path("needed_item_bank_translations.csv")
+              dst = Path(f"needed_after_{safe}.csv")
+              if src.exists():
+                  src.replace(dst)
+                  with dst.open("r", encoding="utf-8-sig", newline="") as f:
+                      for row in csv.DictReader(f):
+                          item = str(row.get("item_id") or "").strip()
+                          if item:
+                              items.append(item)
+              else:
+                  dst.write_text("item_id\n", encoding="utf-8")
+
+              total_after += len(items)
+              out[lang] = {
+                  "safe": safe,
+                  "need_after": len(items),
+                  "items_after": items,
+                  "returncode": int(proc.returncode),
+              }
+              if proc.returncode != 0:
+                  failures.append(lang)
+
+          Path("after_summary.json").write_text(json.dumps({"languages": out, "total_after": total_after}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+          gh_out = os.environ.get("GITHUB_OUTPUT")
+          if gh_out:
+              with open(gh_out, "a", encoding="utf-8") as f:
+                  f.write(f"need_after={total_after}\n")
+
+          if failures:
+              print("Post-generation validation failed for:", ", ".join(failures))
+              sys.exit(1)
+          print(f"Need regeneration after run (all languages): {total_after}")
           PY
-          )
-          echo "need_after=${NEED_AFTER}" >> "$GITHUB_OUTPUT"
-          echo "Need regeneration after run: ${NEED_AFTER}"
 
       - name: Build run summary
         id: summary
@@ -155,33 +256,54 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
-          import csv, json, os
+          import json
+          import os
 
-          def read_items(path):
-              if not os.path.exists(path):
-                  return []
-              out = []
-              with open(path, "r", encoding="utf-8-sig", newline="") as f:
-                  for row in csv.DictReader(f):
-                      out.append(str(row.get("item_id") or "").strip())
-              return [x for x in out if x]
+          before_data = {}
+          after_data = {}
+          if os.path.exists("before_summary.json"):
+              before_data = json.load(open("before_summary.json", "r", encoding="utf-8"))
+          if os.path.exists("after_summary.json"):
+              after_data = json.load(open("after_summary.json", "r", encoding="utf-8"))
 
-          before = read_items("needed_before.csv")
-          after = read_items("needed_after.csv")
-          before_set = set(before)
-          after_set = set(after)
+          languages = sorted(set((before_data.get("languages") or {}).keys()) | set((after_data.get("languages") or {}).keys()))
 
-          generated = max(0, len(before_set) - len(after_set))
-          still_pending = sorted(after_set)
-          resolved = sorted(before_set - after_set)
+          per_lang = {}
+          total_before = 0
+          total_after = 0
+          total_generated = 0
+          total_resolved = 0
+
+          for lang in languages:
+              b = (before_data.get("languages") or {}).get(lang, {})
+              a = (after_data.get("languages") or {}).get(lang, {})
+              before_items = set(b.get("items_before") or [])
+              after_items = set(a.get("items_after") or [])
+              resolved = sorted(before_items - after_items)
+              pending = sorted(after_items)
+              generated = max(0, len(before_items) - len(after_items))
+
+              per_lang[lang] = {
+                  "need_before": len(before_items),
+                  "need_after": len(after_items),
+                  "generated_count": generated,
+                  "resolved_count": len(resolved),
+                  "resolved_items": resolved,
+                  "pending_items": pending,
+                  "resolved_preview": resolved[:25],
+                  "pending_preview": pending[:25],
+              }
+              total_before += len(before_items)
+              total_after += len(after_items)
+              total_generated += generated
+              total_resolved += len(resolved)
 
           summary = {
-              "before_count": len(before_set),
-              "after_count": len(after_set),
-              "generated_count": generated,
-              "resolved_count": len(resolved),
-              "resolved_preview": resolved[:12],
-              "pending_preview": still_pending[:12],
+              "before_count": total_before,
+              "after_count": total_after,
+              "generated_count": total_generated,
+              "resolved_count": total_resolved,
+              "languages": per_lang,
           }
           with open("audio_regen_summary.json", "w", encoding="utf-8") as f:
               json.dump(summary, f, ensure_ascii=False, indent=2)
@@ -215,11 +337,13 @@ jobs:
         with:
           name: audio-regeneration-${{ github.run_id }}
           path: |
-            validate_before.log
-            generate.log
-            validate_after.log
-            needed_before.csv
-            needed_after.csv
+            validate_before_*.log
+            generate_*.log
+            validate_after_*.log
+            needed_before_*.csv
+            needed_after_*.csv
+            before_summary.json
+            after_summary.json
             audio_regen_summary.json
           if-no-files-found: ignore
 
@@ -248,8 +372,7 @@ jobs:
           before = int(summary.get("before_count", 0))
           after = int(summary.get("after_count", 0))
           generated = int(summary.get("generated_count", 0))
-          resolved_preview = summary.get("resolved_preview", [])
-          pending_preview = summary.get("pending_preview", [])
+          languages = summary.get("languages", {}) or {}
 
           if status == "success":
               title = "*Draft audio regeneration completed*"
@@ -258,8 +381,26 @@ jobs:
               title = "*Draft audio regeneration failed*"
               emoji = ":x:"
 
-          resolved_text = "\\n".join(f"• `{x}`" for x in resolved_preview) or "_None_"
-          pending_text = "\\n".join(f"• `{x}`" for x in pending_preview) or "_None_"
+          per_lang_lines = []
+          for lang, stats in languages.items():
+              b = int(stats.get("need_before", 0))
+              g = int(stats.get("generated_count", 0))
+              a = int(stats.get("need_after", 0))
+              pending = stats.get("pending_preview", []) or []
+              resolved = stats.get("resolved_preview", []) or []
+              pending_text = ", ".join(f"`{x}`" for x in pending) if pending else "_None_"
+              resolved_text = ", ".join(f"`{x}`" for x in resolved) if resolved else "_None_"
+              if len(pending) == 25 and len(stats.get("pending_items", [])) > 25:
+                  pending_text += f", … (+{len(stats.get('pending_items', [])) - 25} more)"
+              if len(resolved) == 25 and len(stats.get("resolved_items", [])) > 25:
+                  resolved_text += f", … (+{len(stats.get('resolved_items', [])) - 25} more)"
+              per_lang_lines.append(
+                  f"*{lang}* — before: *{b}*, generated: *{g}*, pending: *{a}*\\n"
+                  f"• Need generation/regeneration: {pending_text}\\n"
+                  f"• Resolved this run: {resolved_text}"
+              )
+
+          per_lang_block = "\\n\\n".join(per_lang_lines) if per_lang_lines else "_No language details available_"
 
           payload = {
               "channel": "#levante-crowdin",
@@ -287,8 +428,7 @@ jobs:
                           {"type": "mrkdwn", "text": "*Bucket:*\n`gs://levante-assets-draft/audio/`"},
                       ],
                   },
-                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Resolved items (sample):*\n{resolved_text}"}},
-                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Still pending items (sample):*\n{pending_text}"}},
+                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Per-language items needing generation/regeneration:*\n\n{per_lang_block}"}},
               ],
           }
 
