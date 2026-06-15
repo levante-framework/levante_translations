@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       language:
-        description: 'Language display name(s) from utilities/config.py; comma-separated allowed (e.g. "Spanish (Argentina),Dutch")'
+        description: 'Language display name(s) from utilities/config.py; comma-separated allowed or use "all" (e.g. "Spanish (Argentina),Dutch" or "all")'
         required: true
         default: 'Spanish (Argentina)'
       tasks:
@@ -77,7 +77,14 @@ jobs:
           import sys
           from pathlib import Path
 
-          langs = [x.strip() for x in os.environ.get("LANG_INPUT", "").split(",") if x.strip()]
+          raw_lang = os.environ.get("LANG_INPUT", "")
+          tokens = [x.strip() for x in raw_lang.split(",") if x.strip()]
+          lowered = {t.lower() for t in tokens}
+          if "all" in lowered:
+              from utilities import config as conf
+              langs = list(conf.get_languages().keys())
+          else:
+              langs = tokens
           if not langs:
               raise SystemExit("No language provided")
           tasks = os.environ.get("TASKS_INPUT", "").strip()
@@ -195,7 +202,14 @@ jobs:
           import sys
           from pathlib import Path
 
-          langs = [x.strip() for x in os.environ.get("LANG_INPUT", "").split(",") if x.strip()]
+          raw_lang = os.environ.get("LANG_INPUT", "")
+          tokens = [x.strip() for x in raw_lang.split(",") if x.strip()]
+          lowered = {t.lower() for t in tokens}
+          if "all" in lowered:
+              from utilities import config as conf
+              langs = list(conf.get_languages().keys())
+          else:
+              langs = tokens
           if not langs:
               raise SystemExit("No language provided")
           tasks = os.environ.get("TASKS_INPUT", "").strip()
