@@ -1,0 +1,6 @@
+# Dependencies for generate_itembank_audio.py and audio-regen-draft workflow
+google-cloud-storage>=2.10.0
+elevenlabs>=1.0.0
+mutagen>=1.47.0
+requests>=2.32.0
+python-dotenv>=1.0.0

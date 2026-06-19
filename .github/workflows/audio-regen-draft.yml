@@ -1,31 +1,58 @@
 name: Regenerate Draft Audio
 
-# Regenerates only updated/missing audio (based on ID3-vs-text diff) from
-# draft itembank JSON and uploads resulting MP3s to the draft bucket.
+# Generates audio for new or changed strings from draft-bucket itembank JSON.
+# Checks dev bucket for approved audio, then draft bucket for audio which may be awaiting approval. Where no audio is found with a matching string, regenerates audio and sends to draft bucket to await approval.
+#
+# Decision logic (per item):
+#   1. Placeholder "NO APPROVED TRANSLATION" -> skip (always, no flag overrides).
+#   2. --force-regenerate -> regenerate all strings that are not placeholders to draft.
+#   3. Config mismatch (voice/model/service/lang changed in any existing clip)?
+#      -> fail fast unless --config-change flag is set.
+#   4. Approved clip text current?  -> skip.  Draft clip text current? -> skip.
+#   5. Otherwise (text changed, or no clip) -> generate to draft.
 #
 # Required repo secrets:
-# - GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON
-# - ELEVEN_API_KEY (or ELEVENLABS_API_KEY)
-# - SLACK_WEBHOOK_URL
+#   GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON
+#   ELEVEN_API_KEY  (or ELEVENLABS_API_KEY)
+#   SLACK_WEBHOOK_URL
 
 on:
   workflow_dispatch:
     inputs:
-      language:
-        description: 'Language display name(s) from utilities/config.py; comma-separated allowed or use "all" (e.g. "Spanish (Argentina),Dutch" or "all")'
-        required: true
-        default: 'Spanish (Argentina)'
-      tasks:
-        description: 'Task filter: "all" or comma-separated slugs (e.g. memory-game,matrix-reasoning)'
+      languages:
+        description: >
+          BCP-47 locale codes, comma- or space-separated, or "all"
+          (e.g. "es-AR,de-DE" or "all"). Uses languageoptions.json from
+          the approved bucket; locales absent from that file are rejected.
         required: true
         default: 'all'
-      model_id:
-        description: 'ElevenLabs model id'
+      tasks:
+        description: >
+          "all" for every itembank task folder, or comma-separated names
+          (e.g. "general,trog,child-survey"). Valid folders: child-survey,
+          general, hearts-and-flowers, hostile-attribution, egma-math,
+          matrix-reasoning, memory-game, mental-rotation, same-different-selection,
+          theory-of-mind, trog, vocab.
         required: true
-        default: 'eleven_v3'
+        default: 'all'
       dry_run:
         type: boolean
-        description: 'If true, only validate/report; do not generate or upload audio'
+        description: 'If true, plan and report only — no synthesis or upload.'
+        required: true
+        default: false
+      config_change:
+        type: boolean
+        description: >
+          If true, permit regeneration when voice/model/service/lang config
+          has changed vs existing audio (text unchanged). Without this flag
+          such mismatches cause a hard fail before any generation.
+        required: true
+        default: false
+      force_regenerate:
+        type: boolean
+        description: >
+          If true, regenerate every non-placeholder string unconditionally,
+          ignoring existing clips in both buckets.
         required: true
         default: false
 
@@ -35,6 +62,8 @@ jobs:
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+      ASSETS_DRAFT_BUCKET: levante-assets-draft
+      ASSETS_DEV_BUCKET: levante-assets-dev
       REPORT_BUCKET: levante-assets-draft
 
     steps:
@@ -48,340 +77,30 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy requests google-cloud-storage pyht elevenlabs mutagen playsound==1.2.2
+          pip install -r requirements_itembank_audio.txt
 
       - name: Set up GCP credentials
         run: |
           echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON }}' > "$RUNNER_TEMP/gcp-creds.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
-          echo "GOOGLE_APPLICATION_CREDENTIALS_DEV=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
 
-      - name: Validate before generation (draft source)
-        id: validate_before
+      - name: Generate draft audio
+        id: generate
         env:
           ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
-          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
-          ASSETS_DRAFT_BUCKET: levante-assets-draft
-          LANG_INPUT: ${{ github.event.inputs.language }}
-          TASKS_INPUT: ${{ github.event.inputs.tasks }}
         run: |
           set -euo pipefail
-          rm -f needed_item_bank_translations.csv before_summary.json needed_before_*.csv validate_before_*.log
-          python - <<'PY'
-          import csv
-          import json
-          import os
-          import re
-          import subprocess
-          import sys
-          from pathlib import Path
 
-          raw_lang = os.environ.get("LANG_INPUT", "")
-          tokens = [x.strip() for x in raw_lang.split(",") if x.strip()]
-          lowered = {t.lower() for t in tokens}
-          if "all" in lowered:
-              from utilities import config as conf
-              language_map = conf.get_languages()
-              # Canonicalize aliases: one profile per lang_code. Prefer explicit
-              # locale names like "Spanish (Colombia)" over legacy aliases like
-              # "Spanish" so "all" doesn't double-count/regenerate the same locale.
-              picked = {}
-              for name, cfg in language_map.items():
-                  code = str((cfg or {}).get("lang_code") or "").strip()
-                  if not code:
-                      continue
-                  prev = picked.get(code)
-                  if prev is None:
-                      picked[code] = name
-                      continue
-                  prev_has_locale = "(" in prev and ")" in prev
-                  cur_has_locale = "(" in name and ")" in name
-                  if cur_has_locale and not prev_has_locale:
-                      picked[code] = name
-                  elif cur_has_locale == prev_has_locale and len(name) > len(prev):
-                      picked[code] = name
-              langs = list(picked.values())
-          else:
-              langs = tokens
-          if not langs:
-              raise SystemExit("No language provided")
-          tasks = os.environ.get("TASKS_INPUT", "").strip()
-          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
-          out = {}
-          failures = []
-          total_before = 0
+          FLAGS=""
+          [ "${{ inputs.config_change }}"    = "true" ] && FLAGS="$FLAGS --config-change"
+          [ "${{ inputs.force_regenerate }}" = "true" ] && FLAGS="$FLAGS --force-regenerate"
+          [ "${{ inputs.dry_run }}"          = "true" ] && FLAGS="$FLAGS --dry-run"
 
-          def safe_name(s: str) -> str:
-              n = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
-              return n or "lang"
-
-          for lang in langs:
-              safe = safe_name(lang)
-              Path("needed_item_bank_translations.csv").unlink(missing_ok=True)
-              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--validate-only", *task_args]
-              proc = subprocess.run(cmd, capture_output=True, text=True)
-              Path(f"validate_before_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
-
-              items = []
-              src = Path("needed_item_bank_translations.csv")
-              dst = Path(f"needed_before_{safe}.csv")
-              if src.exists():
-                  src.replace(dst)
-                  with dst.open("r", encoding="utf-8-sig", newline="") as f:
-                      for row in csv.DictReader(f):
-                          item = str(row.get("item_id") or "").strip()
-                          if item:
-                              items.append(item)
-              else:
-                  dst.write_text("item_id\n", encoding="utf-8")
-
-              total_before += len(items)
-              out[lang] = {
-                  "safe": safe,
-                  "need_before": len(items),
-                  "items_before": items,
-                  "returncode": int(proc.returncode),
-              }
-              if proc.returncode != 0:
-                  failures.append(lang)
-
-          Path("before_summary.json").write_text(json.dumps({"languages": out, "total_before": total_before}, ensure_ascii=False, indent=2), encoding="utf-8")
-
-          gh_out = os.environ.get("GITHUB_OUTPUT")
-          if gh_out:
-              with open(gh_out, "a", encoding="utf-8") as f:
-                  f.write(f"need_before={total_before}\n")
-
-          if failures:
-              print("Validation failed for:", ", ".join(failures))
-              sys.exit(1)
-          print(f"Need regeneration before run (all languages): {total_before}")
-          PY
-
-      - name: Generate updated/missing audio and upload to draft
-        if: steps.validate_before.outputs.need_before != '0' && !inputs.dry_run
-        env:
-          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
-          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
-          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
-          ASSETS_DRAFT_BUCKET: levante-assets-draft
-          TASKS_INPUT: ${{ github.event.inputs.tasks }}
-          MODEL_ID_INPUT: ${{ github.event.inputs.model_id }}
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json
-          import os
-          import subprocess
-          import sys
-          from pathlib import Path
-
-          meta = json.loads(Path("before_summary.json").read_text(encoding="utf-8"))
-          tasks = os.environ.get("TASKS_INPUT", "").strip()
-          model = os.environ.get("MODEL_ID_INPUT", "").strip() or "eleven_v3"
-          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
-          failures = []
-
-          for lang, info in meta.get("languages", {}).items():
-              if int(info.get("need_before", 0)) == 0:
-                  continue
-              safe = info.get("safe") or lang.replace(" ", "_")
-              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--model-id", model, *task_args]
-              proc = subprocess.run(cmd, capture_output=True, text=True)
-              Path(f"generate_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
-              if proc.returncode != 0:
-                  failures.append(lang)
-
-          if failures:
-              print("Generation failed for:", ", ".join(failures))
-              sys.exit(1)
-          print("Generation finished for all requested languages.")
-          PY
-
-      - name: Validate after generation (draft source)
-        id: validate_after
-        if: always()
-        env:
-          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY || secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
-          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY || secrets.ELEVEN_API_KEY || secrets.ELEVEN_LABS_API_KEY }}
-          TRANSLATIONS_DRAFT_BUCKET: levante-assets-draft
-          ASSETS_DRAFT_BUCKET: levante-assets-draft
-          LANG_INPUT: ${{ github.event.inputs.language }}
-          TASKS_INPUT: ${{ github.event.inputs.tasks }}
-        run: |
-          set -euo pipefail
-          rm -f needed_item_bank_translations.csv after_summary.json needed_after_*.csv validate_after_*.log
-          python - <<'PY'
-          import csv
-          import json
-          import os
-          import re
-          import subprocess
-          import sys
-          from pathlib import Path
-
-          raw_lang = os.environ.get("LANG_INPUT", "")
-          tokens = [x.strip() for x in raw_lang.split(",") if x.strip()]
-          lowered = {t.lower() for t in tokens}
-          if "all" in lowered:
-              from utilities import config as conf
-              language_map = conf.get_languages()
-              # Keep "all" consistent with the validate-before step by selecting
-              # one canonical profile per locale code.
-              picked = {}
-              for name, cfg in language_map.items():
-                  code = str((cfg or {}).get("lang_code") or "").strip()
-                  if not code:
-                      continue
-                  prev = picked.get(code)
-                  if prev is None:
-                      picked[code] = name
-                      continue
-                  prev_has_locale = "(" in prev and ")" in prev
-                  cur_has_locale = "(" in name and ")" in name
-                  if cur_has_locale and not prev_has_locale:
-                      picked[code] = name
-                  elif cur_has_locale == prev_has_locale and len(name) > len(prev):
-                      picked[code] = name
-              langs = list(picked.values())
-          else:
-              langs = tokens
-          if not langs:
-              raise SystemExit("No language provided")
-          tasks = os.environ.get("TASKS_INPUT", "").strip()
-          task_args = ["--tasks", tasks] if tasks and tasks != "all" else []
-          out = {}
-          failures = []
-          total_after = 0
-
-          def safe_name(s: str) -> str:
-              n = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
-              return n or "lang"
-
-          for lang in langs:
-              safe = safe_name(lang)
-              Path("needed_item_bank_translations.csv").unlink(missing_ok=True)
-              cmd = ["python", "generate_speech.py", lang, "--translation-source", "draft", "--validate-only", *task_args]
-              proc = subprocess.run(cmd, capture_output=True, text=True)
-              Path(f"validate_after_{safe}.log").write_text((proc.stdout or "") + (proc.stderr or ""), encoding="utf-8")
-
-              items = []
-              src = Path("needed_item_bank_translations.csv")
-              dst = Path(f"needed_after_{safe}.csv")
-              if src.exists():
-                  src.replace(dst)
-                  with dst.open("r", encoding="utf-8-sig", newline="") as f:
-                      for row in csv.DictReader(f):
-                          item = str(row.get("item_id") or "").strip()
-                          if item:
-                              items.append(item)
-              else:
-                  dst.write_text("item_id\n", encoding="utf-8")
-
-              total_after += len(items)
-              out[lang] = {
-                  "safe": safe,
-                  "need_after": len(items),
-                  "items_after": items,
-                  "returncode": int(proc.returncode),
-              }
-              if proc.returncode != 0:
-                  failures.append(lang)
-
-          Path("after_summary.json").write_text(json.dumps({"languages": out, "total_after": total_after}, ensure_ascii=False, indent=2), encoding="utf-8")
-
-          gh_out = os.environ.get("GITHUB_OUTPUT")
-          if gh_out:
-              with open(gh_out, "a", encoding="utf-8") as f:
-                  f.write(f"need_after={total_after}\n")
-
-          if failures:
-              print("Post-generation validation failed for:", ", ".join(failures))
-              sys.exit(1)
-          print(f"Need regeneration after run (all languages): {total_after}")
-          PY
-
-      - name: Build run summary
-        id: summary
-        if: always()
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json
-          import os
-
-          before_data = {}
-          after_data = {}
-          if os.path.exists("before_summary.json"):
-              before_data = json.load(open("before_summary.json", "r", encoding="utf-8"))
-          if os.path.exists("after_summary.json"):
-              after_data = json.load(open("after_summary.json", "r", encoding="utf-8"))
-
-          languages = sorted(set((before_data.get("languages") or {}).keys()) | set((after_data.get("languages") or {}).keys()))
-
-          per_lang = {}
-          total_before = 0
-          total_after = 0
-          total_generated = 0
-          total_resolved = 0
-
-          for lang in languages:
-              b = (before_data.get("languages") or {}).get(lang, {})
-              a = (after_data.get("languages") or {}).get(lang, {})
-              before_items = set(b.get("items_before") or [])
-              after_items = set(a.get("items_after") or [])
-              resolved = sorted(before_items - after_items)
-              pending = sorted(after_items)
-              generated = max(0, len(before_items) - len(after_items))
-
-              per_lang[lang] = {
-                  "need_before": len(before_items),
-                  "need_after": len(after_items),
-                  "generated_count": generated,
-                  "resolved_count": len(resolved),
-                  "resolved_items": resolved,
-                  "pending_items": pending,
-                  "resolved_preview": resolved[:25],
-                  "pending_preview": pending[:25],
-              }
-              total_before += len(before_items)
-              total_after += len(after_items)
-              total_generated += generated
-              total_resolved += len(resolved)
-
-          summary = {
-              "before_count": total_before,
-              "after_count": total_after,
-              "generated_count": total_generated,
-              "resolved_count": total_resolved,
-              "languages": per_lang,
-          }
-          with open("audio_regen_summary.json", "w", encoding="utf-8") as f:
-              json.dump(summary, f, ensure_ascii=False, indent=2)
-          print(json.dumps(summary))
-          PY
-
-          BEFORE=$(python - <<'PY'
-          import json
-          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["before_count"])
-          PY
-          )
-          AFTER=$(python - <<'PY'
-          import json
-          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["after_count"])
-          PY
-          )
-          GENERATED=$(python - <<'PY'
-          import json
-          print(json.load(open("audio_regen_summary.json", "r", encoding="utf-8"))["generated_count"])
-          PY
-          )
-          DRY_RUN='${{ inputs.dry_run }}'
-          echo "before=${BEFORE}" >> "$GITHUB_OUTPUT"
-          echo "after=${AFTER}" >> "$GITHUB_OUTPUT"
-          echo "generated=${GENERATED}" >> "$GITHUB_OUTPUT"
-          echo "dry_run=${DRY_RUN}" >> "$GITHUB_OUTPUT"
+          python generate_itembank_audio.py \
+            --languages ${{ github.event.inputs.languages }} \
+            --tasks    ${{ github.event.inputs.tasks }} \
+            $FLAGS
 
       - name: Upload run artifacts
         if: always()
@@ -389,15 +108,8 @@ jobs:
         with:
           name: audio-regeneration-${{ github.run_id }}
           path: |
-            validate_before_*.log
-            generate_*.log
-            validate_after_*.log
-            needed_before_*.csv
-            needed_after_*.csv
-            before_summary.json
-            after_summary.json
-            report_links.json
             audio_regen_summary.json
+            report_links.json
           if-no-files-found: ignore
 
       - name: Upload report files to GCS
@@ -413,21 +125,12 @@ jobs:
           from pathlib import Path
           from google.cloud import storage
 
-          bucket_name = os.environ.get("REPORT_BUCKET", "levante-assets-draft").strip() or "levante-assets-draft"
+          bucket_name = os.environ.get("REPORT_BUCKET", "levante-assets-draft").strip()
           prefix = os.environ.get("REPORT_PREFIX", "").strip().strip("/")
-          patterns = [
-              "needed_before_*.csv",
-              "needed_after_*.csv",
-              "audio_regen_summary.json",
-              "before_summary.json",
-              "after_summary.json",
-          ]
-          files = []
-          for pat in patterns:
-              files.extend(glob.glob(pat))
-          files = [f for f in sorted(set(files)) if Path(f).is_file()]
 
+          files = [f for f in sorted(set(glob.glob("audio_regen_summary.json"))) if Path(f).is_file()]
           uploaded = []
+
           if files:
               client = storage.Client()
               bucket = client.bucket(bucket_name)
@@ -438,7 +141,10 @@ jobs:
                   uploaded.append({
                       "file": name,
                       "gs_uri": f"gs://{bucket_name}/{obj}",
-                      "console_url": f"https://console.cloud.google.com/storage/browser/_details/{bucket_name}/{obj}",
+                      "console_url": (
+                          f"https://console.cloud.google.com/storage/browser/_details/"
+                          f"{bucket_name}/{obj}"
+                      ),
                   })
 
           Path("report_links.json").write_text(
@@ -447,17 +153,21 @@ jobs:
                       "bucket": bucket_name,
                       "prefix": prefix,
                       "uploaded": uploaded,
-                      "console_prefix_url": f"https://console.cloud.google.com/storage/browser/{bucket_name}/{prefix}" if prefix else f"https://console.cloud.google.com/storage/browser/{bucket_name}",
+                      "console_prefix_url": (
+                          f"https://console.cloud.google.com/storage/browser/{bucket_name}/{prefix}"
+                          if prefix
+                          else f"https://console.cloud.google.com/storage/browser/{bucket_name}"
+                      ),
                   },
                   ensure_ascii=False,
                   indent=2,
               ),
               encoding="utf-8",
           )
-          print(f"Uploaded report files: {len(uploaded)}")
+          print(f"Uploaded {len(uploaded)} report file(s).")
           PY
 
-      - name: Notify Slack (levante-crowdin)
+      - name: Notify Slack
         if: always() && env.SLACK_WEBHOOK_URL != ''
         run: |
           set -euo pipefail
@@ -468,75 +178,107 @@ jobs:
           import urllib.request
 
           run_url = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          language = "${{ github.event.inputs.language }}"
-          tasks = "${{ github.event.inputs.tasks }}"
-          model = "${{ github.event.inputs.model_id }}"
-          dry_run = "${{ inputs.dry_run }}"
-          actor = "${{ github.actor }}"
-          status = "${{ job.status }}"
+          languages_input = "${{ github.event.inputs.languages }}"
+          tasks_input     = "${{ github.event.inputs.tasks }}"
+          dry_run         = "${{ inputs.dry_run }}"
+          config_change   = "${{ inputs.config_change }}"
+          force_regen     = "${{ inputs.force_regenerate }}"
+          actor           = "${{ github.actor }}"
+          job_status      = "${{ job.status }}"
 
           summary = {}
           if os.path.exists("audio_regen_summary.json"):
               with open("audio_regen_summary.json", "r", encoding="utf-8") as f:
                   summary = json.load(f)
 
-          before = int(summary.get("before_count", 0))
-          after = int(summary.get("after_count", 0))
-          generated = int(summary.get("generated_count", 0))
-          languages = summary.get("languages", {}) or {}
+          generated       = int(summary.get("generated", 0))
+          blocked         = int(summary.get("blocked", 0))
+          skipped_dev     = int(summary.get("skipped_dev", 0))
+          skipped_draft   = int(summary.get("skipped_draft", 0))
+          errors_count    = int(summary.get("errors", 0))
+          placeholders    = int(summary.get("placeholders", 0))
+          missing_json    = int(summary.get("missing_translation_blob", 0))
+          languages       = summary.get("languages", {}) or {}
+
           report_links = {}
           if os.path.exists("report_links.json"):
               with open("report_links.json", "r", encoding="utf-8") as f:
                   report_links = json.load(f)
 
-          if status == "success":
-              title = "*Draft audio regeneration completed*"
+          # Determine overall status
+          is_blocked = blocked > 0 and config_change != "true"
+          if job_status == "success" and not is_blocked:
               emoji = ":white_check_mark:"
-          else:
-              title = "*Draft audio regeneration failed*"
+              title = "*Draft audio regeneration completed*"
+          elif is_blocked or job_status == "failure":
               emoji = ":x:"
+              title = "*Draft audio regeneration FAILED*"
+          else:
+              emoji = ":warning:"
+              title = "*Draft audio regeneration completed with warnings*"
 
+          # Per-language detail block
           per_lang_lines = []
-          ordered_lang_stats = sorted(
+          ordered = sorted(
               languages.items(),
               key=lambda kv: (
-                  int((kv[1] or {}).get("need_before", 0)) == 0,   # non-zero first
-                  -int((kv[1] or {}).get("need_before", 0)),       # highest need first
-                  kv[0],                                            # stable tie-break
+                  int((kv[1] or {}).get("generated", 0)) == 0,
+                  -int((kv[1] or {}).get("generated", 0)),
+                  kv[0],
               ),
           )
-          for idx, (lang, stats) in enumerate(ordered_lang_stats):
+          for idx, (lang, stats) in enumerate(ordered):
               if idx >= 8:
-                  per_lang_lines.append(f"_… (+{len(ordered_lang_stats) - 8} more languages)_")
+                  per_lang_lines.append(f"_… (+{len(ordered) - 8} more languages)_")
                   break
-              b = int(stats.get("need_before", 0))
-              g = int(stats.get("generated_count", 0))
-              a = int(stats.get("need_after", 0))
-              pending = (stats.get("pending_preview", []) or [])[:8]
-              resolved = (stats.get("resolved_preview", []) or [])[:8]
-              pending_text = ", ".join(f"`{x}`" for x in pending) if pending else "_None_"
-              resolved_text = ", ".join(f"`{x}`" for x in resolved) if resolved else "_None_"
-              if len(stats.get("pending_items", [])) > 8:
-                  pending_text += f", … (+{len(stats.get('pending_items', [])) - 8} more)"
-              if len(stats.get("resolved_items", [])) > 8:
-                  resolved_text += f", … (+{len(stats.get('resolved_items', [])) - 8} more)"
-              per_lang_lines.append(
-                  f"*{lang}* — before: *{b}*, generated: *{g}*, pending: *{a}*\n"
-                  f"• Need generation/regeneration: {pending_text}\n"
-                  f"• Resolved this run: {resolved_text}"
+              gen    = int(stats.get("generated", 0))
+              blk    = int(stats.get("blocked_count", 0))
+              sk_dev = int(stats.get("skipped_dev", 0))
+              sk_drf = int(stats.get("skipped_draft", 0))
+              errs   = int(stats.get("error_count", 0))
+
+              gen_items = stats.get("generated_items_preview", []) or []
+              blk_items = stats.get("blocked_items", []) or []
+              gen_text  = ", ".join(f"`{x}`" for x in gen_items[:6]) if gen_items else "_None_"
+              blk_text  = ", ".join(f"`{x}`" for x in blk_items[:6]) if blk_items else "_None_"
+              if len(gen_items) > 6:
+                  gen_text += f", … (+{len(gen_items) - 6} more)"
+              if len(blk_items) > 6:
+                  blk_text += f", … (+{len(blk_items) - 6} more)"
+
+              line = (
+                  f"*{lang}* — generated: *{gen}*, "
+                  f"skipped dev: {sk_dev}, skipped draft: {sk_drf}, "
+                  f"blocked: {blk}, errors: {errs}\n"
+                  f"• Generated: {gen_text}"
+              )
+              if blk > 0:
+                  line += f"\n• Blocked (need --config-change): {blk_text}"
+              per_lang_lines.append(line)
+
+          per_lang_block = "\n\n".join(per_lang_lines) if per_lang_lines else "_No language details_"
+          if len(per_lang_block) > 2600:
+              per_lang_block = per_lang_block[:2600] + "\n…_(truncated; see report files)_"
+
+          # Config-mismatch warning block
+          blocked_warning = ""
+          if is_blocked:
+              blocked_warning = (
+                  f":rotating_light: *{blocked} item(s) blocked by config mismatch.*\n"
+                  "Existing audio text matches current JSON but voice/model/service/lang has changed.\n"
+                  "Re-run the workflow with *config_change = true* to permit regeneration."
               )
 
-          per_lang_block = "\n\n".join(per_lang_lines) if per_lang_lines else "_No language details available_"
-          if len(per_lang_block) > 2600:
-              per_lang_block = per_lang_block[:2600] + "\n… _(truncated; see attached report files)_"
+          # Report links
           uploaded_reports = report_links.get("uploaded", []) if isinstance(report_links, dict) else []
           if uploaded_reports:
-              lines = []
-              for r in uploaded_reports[:10]:
-                  lines.append(f"• <{r.get('console_url')}|{r.get('file')}>")
+              report_lines = [
+                  f"• <{r.get('console_url')}|{r.get('file')}>"
+                  for r in uploaded_reports[:10]
+              ]
               if len(uploaded_reports) > 10:
-                  lines.append(f"• … (+{len(uploaded_reports) - 10} more)")
-              reports_block = "\n".join(lines)
+                  report_lines.append(f"• … (+{len(uploaded_reports) - 10} more)")
+              reports_block = "\n".join(report_lines)
               reports_header = (
                   f"*Report files:* <{report_links.get('console_prefix_url')}|open folder> "
                   f"(`gs://{report_links.get('bucket')}/{report_links.get('prefix')}`)"
@@ -545,34 +287,54 @@ jobs:
               reports_header = "*Report files:* _No files uploaded_"
               reports_block = "_None_"
 
+          blocks = [
+              {"type": "section", "text": {"type": "mrkdwn", "text": f"{emoji} {title}"}},
+              {
+                  "type": "section",
+                  "fields": [
+                      {"type": "mrkdwn", "text": f"*Triggered by:*\n{actor}"},
+                      {"type": "mrkdwn", "text": f"*Status:*\n{job_status}"},
+                      {"type": "mrkdwn", "text": f"*Languages:*\n{languages_input}"},
+                      {"type": "mrkdwn", "text": f"*Tasks:*\n{tasks_input}"},
+                      {"type": "mrkdwn", "text": f"*Dry run:*\n{dry_run}"},
+                      {"type": "mrkdwn", "text": f"*Config change:*\n{config_change}"},
+                      {"type": "mrkdwn", "text": f"*Force regen:*\n{force_regen}"},
+                      {"type": "mrkdwn", "text": f"*Run:*\n<{run_url}|View run>"},
+                  ],
+              },
+              {
+                  "type": "section",
+                  "fields": [
+                      {"type": "mrkdwn", "text": f"*Generated to draft:*\n{generated}"},
+                      {"type": "mrkdwn", "text": f"*Skipped (approved):*\n{skipped_dev}"},
+                      {"type": "mrkdwn", "text": f"*Skipped (pending):*\n{skipped_draft}"},
+                      {"type": "mrkdwn", "text": f"*Blocked (config):*\n{blocked}"},
+                      {"type": "mrkdwn", "text": f"*Errors:*\n{errors_count}"},
+                      {"type": "mrkdwn", "text": f"*Placeholders skipped:*\n{placeholders}"},
+                      {"type": "mrkdwn", "text": f"*Missing JSON blobs:*\n{missing_json}"},
+                      {"type": "mrkdwn", "text": f"*Output bucket:*\n`gs://levante-assets-draft/audio/`"},
+                  ],
+              },
+              {
+                  "type": "section",
+                  "text": {"type": "mrkdwn", "text": f"*Per-language detail:*\n\n{per_lang_block}"},
+              },
+          ]
+
+          if blocked_warning:
+              blocks.append({
+                  "type": "section",
+                  "text": {"type": "mrkdwn", "text": blocked_warning},
+              })
+
+          blocks.append({
+              "type": "section",
+              "text": {"type": "mrkdwn", "text": f"{reports_header}\n{reports_block}"},
+          })
+
           payload = {
-              "text": f"{emoji} Draft audio regeneration: {language}",
-              "blocks": [
-                  {"type": "section", "text": {"type": "mrkdwn", "text": f"{emoji} {title}"}},
-                  {
-                      "type": "section",
-                      "fields": [
-                          {"type": "mrkdwn", "text": f"*Triggered by:*\n{actor}"},
-                          {"type": "mrkdwn", "text": f"*Status:*\n{status}"},
-                          {"type": "mrkdwn", "text": f"*Language:*\n{language}"},
-                          {"type": "mrkdwn", "text": f"*Tasks:*\n{tasks}"},
-                          {"type": "mrkdwn", "text": f"*Model:*\n{model}"},
-                          {"type": "mrkdwn", "text": f"*Dry run:*\n{dry_run}"},
-                          {"type": "mrkdwn", "text": f"*Run:*\n<{run_url}|View run>"},
-                      ],
-                  },
-                  {
-                      "type": "section",
-                      "fields": [
-                          {"type": "mrkdwn", "text": f"*Need regeneration (before):*\n{before}"},
-                          {"type": "mrkdwn", "text": f"*Generated this run:*\n{generated}"},
-                          {"type": "mrkdwn", "text": f"*Still pending (after):*\n{after}"},
-                          {"type": "mrkdwn", "text": "*Bucket:*\n`gs://levante-assets-draft/audio/`"},
-                      ],
-                  },
-                  {"type": "section", "text": {"type": "mrkdwn", "text": f"*Per-language items needing generation/regeneration:*\n\n{per_lang_block}"}},
-                  {"type": "section", "text": {"type": "mrkdwn", "text": f"{reports_header}\n{reports_block}"}},
-              ],
+              "text": f"{emoji} Draft audio regeneration: {languages_input}",
+              "blocks": blocks,
           }
 
           req = urllib.request.Request(
