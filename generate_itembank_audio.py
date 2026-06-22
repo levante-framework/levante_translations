@@ -526,14 +526,25 @@ def _build_lang_profiles(requested: List[str]) -> Dict[str, LanguageProfile]:
         code = str(cfg.get("lang_code") or "").strip()
         if not code:
             continue
-        # Last write wins if the same lang_code appears under multiple display names
-        by_code[code] = VoiceConfigEntry(
+        entry = VoiceConfigEntry(
             config_lang_code=code,
             display_name=display_name,
             service=str(cfg.get("service") or "").strip(),
             voice=str(cfg.get("voice") or "").strip(),
             voice_id=str(cfg.get("voice_id") or "").strip(),
         )
+        existing = by_code.get(code)
+        if existing is None:
+            by_code[code] = entry
+            continue
+        # Same lang_code under multiple display names (e.g. "German" + "German (Germany)").
+        # Prefer the entry that has voice_id; remote dashboard names usually win over
+        # legacy local fallback aliases.
+        if entry.voice_id and not existing.voice_id:
+            by_code[code] = entry
+        elif entry.voice_id or not existing.voice_id:
+            if "(" in display_name and "(" not in existing.display_name:
+                by_code[code] = entry
 
     profiles: Dict[str, LanguageProfile] = {}
     config_errors: List[str] = []
