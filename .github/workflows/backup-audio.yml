@@ -1,0 +1,86 @@
+name: Backup audio
+
+# Durable, independent backup of the approved audio source-of-truth.
+# Syncs gs://levante-assets-dev/audio -> gs://hs-levante-admin-dev-backups/audio
+# (append-only; the backup bucket is versioned so overwrites/deletes are
+# recoverable). Replaces relying on the committed audio_files/ folder.
+#
+# Required repo secrets:
+# - GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON
+# - SLACK_WEBHOOK_URL (optional, for notifications)
+
+on:
+  schedule:
+    # Daily at 08:00 UTC
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        description: 'If true, only report what would be copied; do not write.'
+        required: true
+        default: false
+
+concurrency:
+  group: backup-audio
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DEV_JSON }}' > "$RUNNER_TEMP/gcp-creds.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-creds.json" >> "$GITHUB_ENV"
+
+      - name: Run audio backup
+        id: backup
+        run: |
+          python utilities/backup_audio.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+      - name: Notify Slack (success)
+        if: success() && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          BACKUP_URL="https://console.cloud.google.com/storage/browser/hs-levante-admin-dev-backups/audio"
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "Audio backup completed",
+            "blocks": [
+              {"type": "section", "text": {"type": "mrkdwn", "text": "*Audio backup completed* :floppy_disk:"}},
+              {"type": "section", "fields": [
+                {"type": "mrkdwn", "text": "*Source:*\ngs://levante-assets-dev/audio"},
+                {"type": "mrkdwn", "text": "*Backup:*\n<${BACKUP_URL}|hs-levante-admin-dev-backups/audio>"},
+                {"type": "mrkdwn", "text": "*Run:*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"}
+              ]}
+            ]
+          }
+          EOF
+          )
+          curl -s -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
+
+      - name: Notify Slack (failure)
+        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          PAYLOAD=$(cat <<EOF
+          {
+            "text": "Audio backup FAILED",
+            "blocks": [
+              {"type": "section", "text": {"type": "mrkdwn", "text": ":x: *Audio backup failed*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"}}
+            ]
+          }
+          EOF
+          )
+          curl -s -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"

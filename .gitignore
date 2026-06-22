@@ -77,3 +77,8 @@ change_utils/build/
 *.egg-info/
 .eggs/
 translation_grading/output/
+
+# Audio assets are NOT a git backup. The source-of-truth is gs://levante-assets-dev/audio,
+# backed up to gs://hs-levante-admin-dev-backups/audio (see utilities/backup_audio.py).
+# Sync a local copy with: gsutil -m rsync -c -r gs://levante-assets-dev/audio/ audio_files/
+audio_files/
