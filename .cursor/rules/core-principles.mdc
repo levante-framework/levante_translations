@@ -1,0 +1,12 @@
+---
+description: Core engineering principles (KISS, YAGNI, minimal scope)
+alwaysApply: true
+---
+
+## Core principles
+
+Do only what the task requires — nothing more. Favor **KISS** and
+**YAGNI**. Prefer the smallest change that
+solves the problem, reuse what already exists, and don't add abstraction, options, or
+scope the user didn't ask for. If broader changes seem warranted, propose them first
+rather than implementing them unprompted.
