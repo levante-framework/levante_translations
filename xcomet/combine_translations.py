@@ -46,7 +46,7 @@ def main():
     p.add_argument('--output_dir', type=Path, default=Path('xcomet/output'), help='Base output directory containing language subfolders (default: xcomet/output)')
     p.add_argument('--out_csv', type=Path, default=Path('xcomet/output/combined_translations.csv'), help='Path to write combined CSV')
     p.add_argument('--langs', help='Comma-separated list of language codes to include (default: autodetect from output_dir)')
-    p.add_argument('--base_csv', type=Path, default=Path('translation_master.csv'), help='Optional root CSV to source English text when missing')
+    p.add_argument('--base_csv', type=Path, default=Path('translation_text/item_bank_translations.csv'), help='Optional root CSV to source English text when missing')
     args = p.parse_args()
 
     langs = args.langs.split(',') if args.langs else find_language_dirs(args.output_dir)

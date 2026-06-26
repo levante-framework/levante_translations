@@ -20,7 +20,7 @@ class Inputs:
     item_ids: List[str]
 
 
-def load_csv_rows(csv_path: str, lang: str) -> Tuple[List[str], List[str], List[str]]:
+def load_csv_rows(csv_path: str, lang: str, source_col: str = 'en') -> Tuple[List[str], List[str], List[str]]:
     # Sanitize and support URL or local path
     if isinstance(csv_path, str):
         csv_path = csv_path.strip()
@@ -40,13 +40,20 @@ def load_csv_rows(csv_path: str, lang: str) -> Tuple[List[str], List[str], List[
             raise ValueError('CSV must include an item_id-like column')
         df = df.rename(columns={candidates[0]: 'item_id'})
     
-    if 'en' not in df.columns:
-        raise ValueError('CSV must include source column "en"')
+    # Resolve the source column, falling back to common English header variants
+    # so both legacy (`en`) and canonical item-bank (`en-US`) CSVs work.
+    resolved_source = None
+    for candidate in (source_col, 'en', 'en-US'):
+        if candidate and candidate in df.columns:
+            resolved_source = candidate
+            break
+    if resolved_source is None:
+        raise ValueError(f'CSV must include source column "{source_col}" (or "en"/"en-US")')
     if lang not in df.columns:
         raise ValueError(f'CSV must include target column "{lang}"')
 
     item_ids = df['item_id'].astype(str).tolist()
-    src = df['en'].astype(str).fillna('').tolist()
+    src = df[resolved_source].astype(str).fillna('').tolist()
     hyp = df[lang].astype(str).fillna('').tolist()
     return item_ids, src, hyp
 
@@ -252,6 +259,7 @@ def main():
     p = argparse.ArgumentParser(description='Run XCOMET-XL on Levante translations and produce a report.')
     p.add_argument('--csv', type=Path, required=True, help='Path to Levante CSV (e.g., translation_master.csv)')
     p.add_argument('--lang', required=True, help='Target lang code column in CSV (e.g., es-CO)')
+    p.add_argument('--source_col', default='en', help='Source-text column (default: en; falls back to en/en-US)')
     p.add_argument('--out_dir', type=Path, required=True, help='Output directory')
     p.add_argument('--model', default='Unbabel/XCOMET-XL', help='Model name (default: Unbabel/XCOMET-XL)')
     g = p.add_mutually_exclusive_group(required=True)
@@ -276,7 +284,7 @@ def main():
         except Exception as e:
             print(f"Warning: could not set matmul precision: {e}")
 
-    item_ids, src, hyp = load_csv_rows(args.csv, args.lang)
+    item_ids, src, hyp = load_csv_rows(args.csv, args.lang, source_col=args.source_col)
 
     ref: Optional[List[str]] = None
     if args.ref_txt and args.ref_txt.exists():
