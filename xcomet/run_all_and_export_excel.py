@@ -12,7 +12,8 @@ from openpyxl.styles import PatternFill, Font, Alignment
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description='Run XCOMET/COMETKiwi for all languages and export a multi-sheet Excel with a Summary tab.')
-    p.add_argument('--csv', required=True, help='Path or URL to Levante master CSV (e.g., translation_master.csv or https://...)')
+    p.add_argument('--csv', required=True, help='Path or URL to Levante CSV (e.g., translation_text/item_bank_translations.csv or https://...)')
+    p.add_argument('--source_col', default='en', help='Source-text column (default: en; use en-US for the item-bank CSV)')
     p.add_argument('--out_dir', type=Path, default=Path('xcomet/output'), help='Base output directory (default: xcomet/output)')
     p.add_argument('--langs', help='Comma-separated language codes to process (defaults to all language-like columns except en)')
     p.add_argument('--use_api', action='store_true', help='Use Python API (default).')
@@ -42,7 +43,7 @@ def fetch_remote_to_local(csv_loc: str, out_dir: Path) -> Path:
         raise SystemExit(f"Failed to download remote CSV: {e}")
 
 
-def infer_languages(csv_loc: str) -> List[str]:
+def infer_languages(csv_loc: str, source_col: str = 'en') -> List[str]:
     # Read only headers row from URL or local path
     if '://' in csv_loc:
         df = pd.read_csv(csv_loc, nrows=1)
@@ -50,20 +51,21 @@ def infer_languages(csv_loc: str) -> List[str]:
         df = pd.read_csv(Path(csv_loc), nrows=1)
     langs = []
     for col in df.columns:
-        if col == 'en':
+        if col in (source_col, 'en'):
             continue
         if is_language_code(col):
             langs.append(col)
     return langs
 
 
-def run_single_language(lang: str, csv_loc: str, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: Optional[str]) -> Tuple[Path, Path]:
+def run_single_language(lang: str, csv_loc: str, out_dir: Path, use_api: bool, gpu: bool, use_cli: bool, matmul: Optional[str], source_col: str = 'en') -> Tuple[Path, Path]:
     lang_dir = out_dir / lang
     lang_dir.mkdir(parents=True, exist_ok=True)
 
     # Build command to run the per-language analysis
     cmd = ['python', str(Path(__file__).parent / 'run_xcomet.py'),
            '--lang', lang,
+           '--source_col', source_col,
            '--csv', csv_loc,
            '--out_dir', str(out_dir)]
 
@@ -203,14 +205,14 @@ def main():
     if '://' in csv_loc:
         csv_loc = str(fetch_remote_to_local(csv_loc, args.out_dir))
 
-    langs = args.langs.split(',') if args.langs else infer_languages(csv_loc)
+    langs = args.langs.split(',') if args.langs else infer_languages(csv_loc, args.source_col)
     if not langs:
         raise SystemExit('No language columns detected. Use --langs to specify, e.g., es-CO,de,fr-CA')
 
     # Collect per-language DataFrames and summary stats
     per_lang = []
     for lang in langs:
-        csv_path, _ = run_single_language(lang, csv_loc, args.out_dir, use_api=args.use_api or not args.use_cli, gpu=args.gpu, use_cli=args.use_cli, matmul=args.matmul)
+        csv_path, _ = run_single_language(lang, csv_loc, args.out_dir, use_api=args.use_api or not args.use_cli, gpu=args.gpu, use_cli=args.use_cli, matmul=args.matmul, source_col=args.source_col)
         df = pd.read_csv(csv_path)
         # Rename columns
         rename_map = {}
