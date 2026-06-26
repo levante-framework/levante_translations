@@ -22,9 +22,9 @@ LANGUAGE_CODES = {
   'English': 'en-US', 
   'English (UK)': 'en-GB', 
   'Spanish': 'es-CO', 
-  'German': 'de', 
+  'German': 'de-DE', 
   'French': 'fr-CA', 
-  'Dutch': 'nl',
+  'Dutch': 'nl-NL',
   'German (Switzerland)': 'de-CH',  # NEW
   'Spanish (Argentina)': 'es-AR',  # NEW
   'Portuguese': 'pt-BR',  # NEW
@@ -60,9 +60,9 @@ def get_languages():
             'voice': 'Valeria',
             'voice_id': '22VndfJPBU7AZORAZZTT',
         },
-        'German': {'lang_code': 'de', 'service': 'ElevenLabs', 'voice': 'Julia'},
+        'German': {'lang_code': 'de-DE', 'service': 'ElevenLabs', 'voice': 'Julia'},
         'French': {'lang_code': 'fr-CA', 'service': 'ElevenLabs', 'voice': 'Caroline - Top France - Narrative, warm, sweet'},
-        'Dutch': {'lang_code': 'nl', 'service': 'ElevenLabs', 'voice': 'Emma - Natural conversations in Dutch'},
+        'Dutch': {'lang_code': 'nl-NL', 'service': 'ElevenLabs', 'voice': 'Emma - Natural conversations in Dutch'},
         'German (Switzerland)': {'lang_code': 'de-CH', 'service': 'ElevenLabs', 'voice': 'Heidi factual (Standard German - with Swiss Accent)'},
         # Use an ElevenLabs Spanish voice available in the account (e.g., 'Sophia')
         'Spanish (Argentina)': {
