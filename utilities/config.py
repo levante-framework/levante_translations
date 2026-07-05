@@ -57,7 +57,7 @@ def get_languages():
         'Spanish (Colombia)': {
             'lang_code': 'es-CO',
             'service': 'ElevenLabs',
-            'voice': 'Valeria',
+            'voice': 'Valeria - Energetic & Engaging',
             'voice_id': '22VndfJPBU7AZORAZZTT',
         },
         'German': {'lang_code': 'de-DE', 'service': 'ElevenLabs', 'voice': 'Julia'},
