@@ -94,6 +94,7 @@ Default ElevenLabs model is `eleven_v3`.
 ## Pointers
 
 - `README.md` — full setup, deployment, and workflow reference.
+- `README_ID3_TAGS.md` — ID3 schema, regeneration checks, dashboard usage, ROAR notes.
 - `.cursor/rules/context-mode.mdc` — context-mode tooling rules.
 - `translation_grading/README.md` — composite quality metrics details.
 - `validate_audio/README.md` — audio validation system.

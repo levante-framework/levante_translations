@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: Levante-Audio-Tools
 Version: 0.1.0
 Summary: Scripts to help generate accurate audio
@@ -32,3 +32,8 @@ Requires-Dist: tzdata==2024.2
 Requires-Dist: urllib3==2.3.0
 Requires-Dist: wheel==0.45.1
 Requires-Dist: yarg==0.1.10
+Dynamic: author
+Dynamic: author-email
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
