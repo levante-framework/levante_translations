@@ -139,7 +139,9 @@ def replace_original_if_changed(path: Path, data: bytes) -> str:
 
 
 def _is_border_pixel(r: int, g: int, b: int) -> bool:
-    return b > 140 and b > r + 60 and b > g + 40 and r < 140
+    blue = b > 140 and b > r + 60 and b > g + 40 and r < 140
+    gray = abs(r - g) <= 8 and abs(g - b) <= 8 and 175 <= r <= 200
+    return blue or gray
 
 
 def _is_blue_tint(r: int, g: int, b: int) -> bool:
